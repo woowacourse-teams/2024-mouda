@@ -1,0 +1,28 @@
+{
+  "endOfLine": "auto",
+  "singleQuote": true,
+  "semi": true,
+  "useTabs": false,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "printWidth": 80,
+  "bracketSpacing": true,
+  "arrowParens": "always",
+
+  "importOrder": [
+    "@/hooks/(.*)$",
+    "@/@types",
+    "@/recoil/(atoms|selectors)",
+    "@/styles/(.*)$",
+    "@/(components/@common/|components/|pages/)(.*)$",
+    "@/constants",
+    "@/utils",
+    "@/domains",
+    "@/(api|mocks)/(.*)$",
+    "react-icons",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrderCaseInsensitive": true
+}
