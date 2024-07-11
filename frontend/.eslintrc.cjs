@@ -18,13 +18,14 @@ module.exports = {
     'webpack.prod.js',
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh', '@emotion'],
+  plugins: ['react-refresh', '@emotion', "compat"],
   settings: {
     react: {
       version: 'detect',
     },
   },
   rules: {
+    "compat/compat": "warn",
     'react/react-in-jsx-scope': 'off',
     'react-refresh/only-export-components': [
       'warn',
