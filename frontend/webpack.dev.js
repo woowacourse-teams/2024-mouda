@@ -14,7 +14,15 @@ module.exports = merge(common, {
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        use: ['ts-loader'],
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              plugins: ['react-refresh/babel'],
+            },
+          },
+          'ts-loader',
+        ],
       },
     ],
   },
