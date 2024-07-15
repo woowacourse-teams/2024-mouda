@@ -4,5 +4,5 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class ApiResponse<T> {
-    private T data;
+	private T data;
 }
