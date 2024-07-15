@@ -1,14 +1,13 @@
 import { css } from '@emotion/react';
 
 export const containerStyle = css`
-  padding: 0px 22px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 `;
 
 export const headerStyle = css`
-  padding: 14px 0;
+  padding: 14px 22px;
 `;
 
 export const logoStyle = css`
@@ -17,6 +16,7 @@ export const logoStyle = css`
 `;
 
 export const mainStyle = css`
+  padding: 0px 22px;
   display: flex;
   flex-direction: column;
   gap: 38px;
