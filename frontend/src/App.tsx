@@ -5,8 +5,6 @@ import Button from './components/Button/Button';
 import reset from './reset';
 import MoimCardList from './components/MoimCardList/MoimCardList';
 
-import MoimRegister from './layouts/MoimRegister/MoimRegister';
-
 import Plus from './common/assets/tabler_plus.svg';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
@@ -41,11 +39,9 @@ export default function App() {
         <img src={Plus}></img>
       </Button>
       <Button shape="bar">등록하기</Button>
-      <MoimRegister />
       <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+        <RouterProvider router={router} />
       </QueryClientProvider>
     </>
-
   );
 }
