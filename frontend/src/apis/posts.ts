@@ -1,7 +1,9 @@
 import { Moim, PostMoim } from '../types/requests';
 
+import ENV from './env';
+
 export const postMoim = async (moim: Moim): Promise<number> => {
-  const url = `${'/v1/moim'}/${'v1/moim'}`;
+  const url = `${ENV.baseUrl}/${'v1/moim'}`;
 
   const options = {
     method: 'POST',
