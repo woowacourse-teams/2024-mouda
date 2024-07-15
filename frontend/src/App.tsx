@@ -1,9 +1,14 @@
-import { container } from './button.styles';
+import { Global } from '@emotion/react';
+import reset from './common/reset.style';
+// import MoimList from './layouts/MoimList/MoimList';
+import MoimRegister from './layouts/MoimRegister/MoimRegister';
 
 export default function App() {
   return (
     <>
-      <div css={container}>sdfsd</div>
+      <Global styles={reset} />
+      {/* <MoimList /> */}
+      <MoimRegister />
     </>
   );
 }
