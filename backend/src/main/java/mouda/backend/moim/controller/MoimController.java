@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController("/v1/moim")
 @RequiredArgsConstructor
 public class MoimController {
+
     private final MoimService moimService;
 
     @PostMapping
