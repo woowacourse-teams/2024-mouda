@@ -1,4 +1,4 @@
-export interface Moim {
+export interface MoimInfo {
   title: string;
   date: string;
   time: string;
@@ -9,7 +9,7 @@ export interface Moim {
 }
 
 export interface GetMoim {
-  data: Moim[];
+  data: MoimInfo[];
 }
 
 export interface PostMoim {
