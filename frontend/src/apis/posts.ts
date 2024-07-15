@@ -1,0 +1,22 @@
+import { Moim, PostMoim } from '../types/requests';
+
+export const postMoim = async (moim: Moim): Promise<number> => {
+  const url = `${'/v1/moim'}/${'v1/moim'}`;
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      body: JSON.stringify(moim),
+    },
+  };
+
+  const response = await fetch(url, options);
+
+  const statusHead = Math.floor(response.status / 100);
+  if (statusHead === 4 || statusHead === 5)
+    throw new Error('모임을 업데이트하지 못했습니다.');
+
+  const json = (await response.json()) as PostMoim;
+  return json.id;
+};
