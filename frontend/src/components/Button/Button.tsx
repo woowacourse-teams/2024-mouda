@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import type ButtonProps from './Button.type';
 import { shapes } from './Button.style';
 

@@ -4,11 +4,10 @@ import { Global } from '@emotion/react';
 import Button from './components/Button/Button';
 import reset from './reset';
 import MoimCardList from './components/MoimCardList/MoimCardList';
-import { PLUS } from './common/assets';
-import { Global } from '@emotion/react';
-import reset from './common/reset.style';
-import MoimList from './layouts/MoimList/MoimList';
+
 import MoimRegister from './layouts/MoimRegister/MoimRegister';
+
+import Plus from './common/assets/tabler_plus.svg';
 export default function App() {
   const mockdata = [
     {
@@ -45,7 +44,10 @@ export default function App() {
       <Global styles={reset} />
       <MoimInput data={Input_Info_List['title']} />
       <MoimCardList data={mockdata} />
-      <Button shape="bar">{PLUS}</Button>
+      <Button shape="circle">
+        <img src={Plus}></img>
+      </Button>
+      <Button shape="bar">등록하기</Button>
       <MoimRegister />
     </>
   );
