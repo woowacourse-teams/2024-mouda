@@ -5,7 +5,10 @@ import Button from './components/Button/Button';
 import reset from './reset';
 import MoimCardList from './components/MoimCardList/MoimCardList';
 import { PLUS } from './common/assets';
-
+import { Global } from '@emotion/react';
+import reset from './common/reset.style';
+import MoimList from './layouts/MoimList/MoimList';
+import MoimRegister from './layouts/MoimRegister/MoimRegister';
 export default function App() {
   const mockdata = [
     {
@@ -43,6 +46,7 @@ export default function App() {
       <MoimInput data={Input_Info_List['title']} />
       <MoimCardList data={mockdata} />
       <Button shape="bar">{PLUS}</Button>
+      <MoimRegister />
     </>
   );
 }
