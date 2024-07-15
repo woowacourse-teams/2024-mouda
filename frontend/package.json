@@ -67,8 +67,8 @@
   "dependencies": {
     "@emotion/eslint-plugin": "^11.11.0",
     "@emotion/react": "^11.11.4",
-    "build": "^0.1.4",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.24.1"
   }
 }
