@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
 
 export const bottomFixedStyle = css`
+  // TODO: 바텀 버튼 UI에 대한 기획 논의 필요
   position: fixed;
   bottom: 26px;
   padding: 0 16px;
-
-  width: calc(100% - 32px); // 전체 너비에서 양쪽 패딩(16px * 2)을 뺀 값
+  width: 100%;
 `;

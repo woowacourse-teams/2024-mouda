@@ -8,9 +8,10 @@ export const postMoim = async (moim: MoimInfo): Promise<number> => {
   const options = {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      body: JSON.stringify(moim),
+      // 'Content-Type': 'application/json',
+      // 'Access-Control-Allow-Headers': '*',
     },
+    body: JSON.stringify(moim),
   };
 
   const response = await fetch(url, options);
