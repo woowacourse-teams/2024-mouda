@@ -7,9 +7,11 @@ import jakarta.persistence.Id;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Moim {
