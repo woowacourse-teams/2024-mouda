@@ -13,7 +13,7 @@ export const title = css`
 export const input = css`
   width: 100%;
   font-size: 1rem;
-  height: 3rem;
+  height: 2.5rem;
   flex-shrink: 0;
   border-radius: 0.5rem;
   border: 1px solid #b3b3b3;
