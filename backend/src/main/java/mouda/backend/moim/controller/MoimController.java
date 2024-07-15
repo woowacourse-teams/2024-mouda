@@ -1,6 +1,7 @@
 package mouda.backend.moim.controller;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.common.ApiResponse;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
 import mouda.backend.moim.dto.response.MoimFindAllResponses;
@@ -18,13 +19,13 @@ public class MoimController {
     private final MoimService moimService;
 
     @PostMapping
-    public ResponseEntity<Long> createMoim(@RequestBody MoimCreateRequest moimCreateRequest) {
+    public ResponseEntity<ApiResponse<Long>> createMoim(@RequestBody MoimCreateRequest moimCreateRequest) {
         Moim moim = moimService.createMoim(moimCreateRequest);
-        return ResponseEntity.ok().body(moim.getId());
+        return ResponseEntity.ok().body(new ApiResponse<>(moim.getId()));
     }
 
     @GetMapping
-    public ResponseEntity<MoimFindAllResponses> findAllMoim() {
-        return ResponseEntity.ok().body(moimService.findAllMoim());
+    public ResponseEntity<ApiResponse<MoimFindAllResponses>> findAllMoim() {
+        return ResponseEntity.ok().body(new ApiResponse<>(moimService.findAllMoim()));
     }
 }
