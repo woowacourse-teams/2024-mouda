@@ -12,10 +12,12 @@ export const navStyle = css`
   gap: 12px;
 `;
 
-export const navItemStyle = css`
-  color: rgba(71, 123, 255, 1);
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 22.88px;
-  border-bottom: solid 2px;
-`;
+export const navItemStyle = (isTurnedOn: boolean) => {
+  return css`
+    color: ${isTurnedOn ? 'rgba(71, 123, 255, 1)' : '#ededed'};
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22.88px;
+    border-bottom: solid 2px;
+  `;
+};
