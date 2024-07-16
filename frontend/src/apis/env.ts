@@ -1,5 +1,5 @@
 const ENV = {
-  baseUrl: 'https://mouda.com',
+  baseUrl: 'http://43.202.67.25',
 };
 
 export default ENV;

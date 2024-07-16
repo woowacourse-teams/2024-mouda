@@ -4,10 +4,12 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
 import mouda.backend.moim.dto.response.MoimFindAllResponses;
+import mouda.backend.moim.repository.MoimRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,6 +21,9 @@ class MoimServiceTest {
 
     @Autowired
     private MoimService moimService;
+
+    @Autowired
+    private MoimRepository moimRepository;
 
     @Autowired
     private DatabaseCleaner databaseCleaner;
@@ -53,5 +58,20 @@ class MoimServiceTest {
 
         assertThat(moimResponses).isNotNull();
         assertThat(moimResponses.moims()).hasSize(2);
+    }
+
+    @DisplayName("모임을 삭제한다.")
+    @Test
+    void deleteMoim() {
+        MoimCreateRequest moimCreateRequest = new MoimCreateRequest(
+            "title", LocalDate.now(), LocalTime.now(), "place",
+            10, "안나", "설명"
+        );
+        moimService.createMoim(moimCreateRequest);
+
+        moimService.deleteMoim(1L);
+        List<Moim> moims = moimRepository.findAll();
+
+        assertThat(moims).hasSize(0);
     }
 }

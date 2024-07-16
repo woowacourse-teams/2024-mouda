@@ -32,4 +32,11 @@ public class MoimService {
 				.toList()
 		);
 	}
+
+    public void deleteMoim(long id) {
+		Moim moim = moimRepository.findById(id)
+			.orElseThrow(IllegalArgumentException::new);
+
+		moimRepository.delete(moim);
+    }
 }
