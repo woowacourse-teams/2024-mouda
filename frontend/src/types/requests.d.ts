@@ -9,7 +9,7 @@ export interface MoimInfo {
 }
 
 export interface GetMoim {
-  data: MoimInfo[];
+  data: { moims: MoimInfo[] };
 }
 
 export interface PostMoim {

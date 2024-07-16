@@ -1,4 +1,5 @@
 export interface MoimInfo {
+  id: number;
   title: string;
   date: string;
   time: string;

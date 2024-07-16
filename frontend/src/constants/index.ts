@@ -33,7 +33,7 @@ export const Input_Info_List: Record<string, InputInfoType> = {
   },
   maxPeople: {
     title: '최대인원수',
-    type: 'text',
+    type: 'number',
     placeholder: '0명',
     required: true,
   },
