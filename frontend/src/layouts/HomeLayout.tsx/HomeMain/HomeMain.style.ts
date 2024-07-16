@@ -14,7 +14,7 @@ export const navStyle = css`
 
 export const navItemStyle = (isTurnedOn: boolean) => {
   return css`
-    color: ${isTurnedOn ? 'rgba(71, 123, 255, 1)' : '#ededed'};
+    color: ${isTurnedOn ? 'rgba(71, 123, 255, 1)' : '#868e96'};
     font-weight: 600;
     font-size: 18px;
     line-height: 22.88px;

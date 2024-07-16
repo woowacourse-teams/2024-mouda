@@ -1,10 +1,10 @@
+import Button from '../components/Button/Button';
+import ENDPOINTS from '../constants/endpoints';
 import HomeLayout from '../layouts/HomeLayout.tsx/HomeLayout';
 import MoimCardList from '../components/MoimCardList/MoimCardList';
-import Button from '../components/Button/Button';
 import Plus from '../common/assets/tabler_plus.svg';
-import { useNavigate } from 'react-router-dom';
-import ENDPOINTS from '../constants/endpoints';
 import useMoims from '../queries/useMoims';
+import { useNavigate } from 'react-router-dom';
 
 export default function MoimListPage() {
   const navigate = useNavigate();
@@ -17,7 +17,11 @@ export default function MoimListPage() {
       </HomeLayout.Main>
 
       <HomeLayout.HomeFixedButtonWrapper>
-        <Button shape="circle" onClick={() => navigate(ENDPOINTS.addMoim)}>
+        <Button
+          shape="circle"
+          onClick={() => navigate(ENDPOINTS.addMoim)}
+          disabled={false}
+        >
           <img src={Plus} />
         </Button>
       </HomeLayout.HomeFixedButtonWrapper>

@@ -1,5 +1,6 @@
 import QUERY_KEYS from '../queryKeys';
 import { getMoims } from '../apis/gets';
+import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 export default function useMoims() {
@@ -8,5 +9,16 @@ export default function useMoims() {
     queryFn: getMoims,
   });
 
-  return { moims, isLoading };
+  // TODO:서버에서 검증하면 없애야 함
+  const filteredMoims = useMemo(
+    () =>
+      moims?.filter((moim) => {
+        const nowDate = new Date();
+        const nowDateYyyymmdd = `${nowDate.getFullYear()}-${(nowDate.getMonth() + 1).toString().padStart(2, '00')}-${nowDate.getDate().toString().padStart(2, '00')}`;
+        return moim.date >= nowDateYyyymmdd;
+      }),
+    [moims],
+  );
+
+  return { moims: filteredMoims, isLoading };
 }
