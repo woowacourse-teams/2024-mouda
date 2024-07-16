@@ -1,5 +1,4 @@
 export interface MoimInfo {
-  id: number;
   title: string;
   date: string;
   time: string;
@@ -10,7 +9,7 @@ export interface MoimInfo {
 }
 
 export interface GetMoim {
-  data: MoimInfo[];
+  data: { moims: MoimInfo[] };
 }
 
 export interface PostMoim {
