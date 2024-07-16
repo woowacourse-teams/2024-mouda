@@ -1,7 +1,9 @@
 package mouda.backend.moim.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,5 +43,14 @@ public class MoimController {
 	@GetMapping
 	public ResponseEntity<RestResponse<MoimFindAllResponses>> findAllMoim() {
 		return ResponseEntity.ok().body(new RestResponse<>(moimService.findAllMoim()));
+	}
+
+	@Operation(summary = "모임 삭제", description = "해당하는 id의 모임을 삭제한다.")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "모임 삭제 성공!"),
+	})
+	@DeleteMapping("/{id}")
+	public void deleteMoim(@PathVariable long id) {
+		moimService.deleteMoim(id);
 	}
 }
