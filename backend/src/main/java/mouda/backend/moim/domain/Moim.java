@@ -27,7 +27,7 @@ public class Moim {
 	private LocalDate date;
 
 	private LocalTime time;
-
+ss
 	private String place;
 
 	private int maxPeople;
