@@ -15,3 +15,7 @@ spring:
     hibernate:
       ddl-auto: create-drop
     defer-datasource-initialization: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
