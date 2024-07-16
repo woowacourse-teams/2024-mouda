@@ -2,6 +2,7 @@ package mouda.backend.moim.service;
 
 import java.util.List;
 
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,4 +33,11 @@ public class MoimService {
 				.toList()
 		);
 	}
+
+    public void deleteMoim(long id) {
+		Moim moim = moimRepository.findById(id)
+			.orElseThrow(IllegalArgumentException::new);
+
+		moimRepository.delete(moim);
+    }
 }
