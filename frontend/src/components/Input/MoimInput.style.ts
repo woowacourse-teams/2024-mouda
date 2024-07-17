@@ -1,5 +1,5 @@
+import { common } from '@_common/common.style';
 import { css } from '@emotion/react';
-import { common } from '../../common/common.style';
 
 export const required = css`
   color: #f00;

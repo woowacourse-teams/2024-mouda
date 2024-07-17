@@ -1,6 +1,7 @@
-import { ReactNode } from 'react';
-import BackArrowLogo from './BackArrowLogo';
 import * as S from './FormHeader.style';
+
+import BackLogo from '../../../common/assets/back.svg';
+import { ReactNode } from 'react';
 
 interface FormHeaderProps {
   onBackArrowClick: () => void;
@@ -14,7 +15,7 @@ export default function FormHeader(props: FormHeaderProps) {
     // TODO: '모임등록하기'가 정가운데에 오지 않음
     <header css={S.headerStyle}>
       <span onClick={onBackArrowClick}>
-        <BackArrowLogo />
+        <BackLogo />
       </span>
       <span css={S.headerTitleStyle}>{children}</span>
       <span></span>

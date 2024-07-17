@@ -1,5 +1,5 @@
-import QUERY_KEYS from '../queryKeys';
-import { getMoims } from '../apis/gets';
+import QUERY_KEYS from '@_constants/queryKeys';
+import { getMoims } from '@_apis/gets';
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 

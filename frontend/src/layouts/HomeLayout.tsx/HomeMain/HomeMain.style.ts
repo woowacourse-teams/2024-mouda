@@ -12,6 +12,7 @@ export const navStyle = css`
   gap: 12px;
 `;
 
+// TODO: 수야 때리기 && 미사용 네비게이션 하단 바 없애기
 export const navItemStyle = (isTurnedOn: boolean) => {
   return css`
     color: ${isTurnedOn ? 'rgba(71, 123, 255, 1)' : '#868e96'};

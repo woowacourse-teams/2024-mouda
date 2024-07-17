@@ -1,5 +1,12 @@
-import type ButtonProps from './Button.type';
-import { shapes } from './Button.style';
+import { ReactNode } from 'react';
+import { shapes } from '@_components/Button/Button.style';
+
+interface ButtonProps {
+  shape: 'circle' | 'bar';
+  onClick: () => void;
+  disabled: boolean;
+  children: ReactNode;
+}
 
 export default function Button(props: ButtonProps) {
   const { shape, onClick, disabled, children } = props;
