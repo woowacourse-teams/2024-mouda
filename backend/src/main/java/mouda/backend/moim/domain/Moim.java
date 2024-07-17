@@ -39,7 +39,7 @@ public class Moim {
 	private String description;
 
 	public void join() {
-		if (currentPeople == maxPeople) {
+		if (currentPeople + 1 > maxPeople) {
 			throw new IllegalArgumentException();
 		}
 		currentPeople++;
