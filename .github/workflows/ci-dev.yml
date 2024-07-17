@@ -38,5 +38,5 @@ jobs:
 
       - name: 도커 이미지 빌드 및 푸시
         run: |
-          docker build -t 2024mouda/cd:latest .
-          docker push 2024mouda/cd:latest
+          docker buildx build --platform=linux/amd64,linux/arm64 -t 2024mouda/mouda-be:latest . --push
+          docker push 2024mouda/mouda-be:latest
