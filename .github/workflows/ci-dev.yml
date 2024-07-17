@@ -8,6 +8,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-24.04
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./backend
+
     steps:
       - name: 레포지토리 체크아웃
         uses: actions/checkout@v4
@@ -19,7 +25,7 @@ jobs:
           distribution: 'corretto'
 
       - name: gradlew 권한 부여
-        run: chmod +x ./gradlew
+        run: chmod +x ./backend/gradlew
 
       - name: Gradle 빌드
         run: ./gradlew clean build -x test
