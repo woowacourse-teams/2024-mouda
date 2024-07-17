@@ -30,9 +30,18 @@ public class Moim {
 
 	private String place;
 
+	private int currentPeople;
+
 	private int maxPeople;
 
 	private String authorNickname;
 
 	private String description;
+
+	public void join() {
+		if (currentPeople + 1 > maxPeople) {
+			throw new IllegalArgumentException();
+		}
+		currentPeople++;
+	}
 }

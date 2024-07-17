@@ -7,8 +7,7 @@ import lombok.Builder;
 import mouda.backend.moim.domain.Moim;
 
 @Builder
-public record MoimFindAllResponse(
-	long moimId,
+public record MoimDetailsFindResponse(
 	String title,
 	LocalDate date,
 	LocalTime time,
@@ -18,9 +17,8 @@ public record MoimFindAllResponse(
 	String authorNickname,
 	String description
 ) {
-	public static MoimFindAllResponse toResponse(Moim moim) {
-		return MoimFindAllResponse.builder()
-			.moimId(moim.getId())
+	public static MoimDetailsFindResponse toResponse(Moim moim) {
+		return MoimDetailsFindResponse.builder()
 			.title(moim.getTitle())
 			.date(moim.getDate())
 			.time(moim.getTime())

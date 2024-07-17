@@ -16,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import mouda.backend.common.RestResponse;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
+import mouda.backend.moim.dto.request.MoimJoinRequest;
+import mouda.backend.moim.dto.response.MoimDetailsFindResponse;
 import mouda.backend.moim.dto.response.MoimFindAllResponses;
 import mouda.backend.moim.service.MoimService;
 
@@ -45,12 +47,31 @@ public class MoimController {
 		return ResponseEntity.ok().body(new RestResponse<>(moimService.findAllMoim()));
 	}
 
+	@Operation(summary = "모임 상세 조회", description = "모임 상세 조회한다.")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "모임 상세 조회 성공!"),
+	})
+	@GetMapping("/{moimId}")
+	public ResponseEntity<RestResponse<MoimDetailsFindResponse>> findMoimDetails(@PathVariable long moimId) {
+		return ResponseEntity.ok().body(new RestResponse<>(moimService.findMoimDetails(moimId)));
+	}
+
+	@Operation(summary = "모임 참여", description = "모임에 참여한다.")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "모임 참여 성공!")
+	})
+	@PostMapping("/join")
+	public ResponseEntity<RestResponse<Void>> joinMoim(@RequestBody MoimJoinRequest moimJoinRequest) {
+		moimService.joinMoim(moimJoinRequest);
+		return ResponseEntity.ok().build();
+	}
+
 	@Operation(summary = "모임 삭제", description = "해당하는 id의 모임을 삭제한다.")
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "모임 삭제 성공!"),
 	})
-	@DeleteMapping("/{id}")
-	public void deleteMoim(@PathVariable long id) {
-		moimService.deleteMoim(id);
+	@DeleteMapping("/{moimId}")
+	public void deleteMoim(@PathVariable long moimId) {
+		moimService.deleteMoim(moimId);
 	}
 }
