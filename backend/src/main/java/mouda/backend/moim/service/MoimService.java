@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
 import mouda.backend.moim.dto.request.MoimJoinRequest;
+import mouda.backend.moim.dto.response.MoimDetailsFindResponse;
 import mouda.backend.moim.dto.response.MoimFindAllResponse;
 import mouda.backend.moim.dto.response.MoimFindAllResponses;
 import mouda.backend.moim.repository.MoimRepository;
@@ -32,6 +33,14 @@ public class MoimService {
 				.map(MoimFindAllResponse::toResponse)
 				.toList()
 		);
+	}
+
+	@Transactional(readOnly = true)
+	public MoimDetailsFindResponse findMoimDetails(long id) {
+		Moim moim = moimRepository.findById(id)
+			.orElseThrow(IllegalArgumentException::new);
+
+		return MoimDetailsFindResponse.toResponse(moim);
 	}
 
 	public void joinMoim(MoimJoinRequest moimJoinRequest) {

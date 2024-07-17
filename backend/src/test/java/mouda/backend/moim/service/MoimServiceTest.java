@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
+import mouda.backend.moim.dto.request.MoimJoinRequest;
 import mouda.backend.moim.dto.response.MoimDetailsFindResponse;
 import mouda.backend.moim.dto.response.MoimFindAllResponses;
 import mouda.backend.moim.repository.MoimRepository;
@@ -75,6 +76,22 @@ class MoimServiceTest {
 		MoimDetailsFindResponse moimDetails = moimService.findMoimDetails(1L);
 
 		assertThat(moimDetails.authorNickname()).isEqualTo("안나");
+	}
+
+	@DisplayName("모임에 참여한다.")
+	@Test
+	void joinMoim() {
+		MoimCreateRequest moimCreateRequest = new MoimCreateRequest(
+			"title", LocalDate.now(), LocalTime.now(), "place",
+			10, "안나", "설명"
+		);
+		moimService.createMoim(moimCreateRequest);
+
+		MoimJoinRequest moimJoinRequest = new MoimJoinRequest(1L);
+		moimService.joinMoim(moimJoinRequest);
+
+		MoimDetailsFindResponse moimDetails = moimService.findMoimDetails(1L);
+		assertThat(moimDetails.currentPeople()).isEqualTo(1);
 	}
 
 	@DisplayName("모임을 삭제한다.")
