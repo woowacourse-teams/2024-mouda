@@ -25,7 +25,7 @@ jobs:
           distribution: 'corretto'
 
       - name: gradlew 권한 부여
-        run: chmod +x ./backend/gradlew
+        run: chmod +x ./gradlew
 
       - name: Gradle 빌드
         run: ./gradlew clean build -x test
