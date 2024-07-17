@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
+import mouda.backend.moim.dto.response.MoimDetailsFindResponse;
 import mouda.backend.moim.dto.response.MoimFindAllResponse;
 import mouda.backend.moim.dto.response.MoimFindAllResponses;
 import mouda.backend.moim.repository.MoimRepository;
@@ -33,10 +34,18 @@ public class MoimService {
 		);
 	}
 
-    public void deleteMoim(long id) {
+	@Transactional(readOnly = true)
+	public MoimDetailsFindResponse findMoimDetails(long id) {
+		Moim moim = moimRepository.findById(id)
+			.orElseThrow(IllegalArgumentException::new);
+
+		return MoimDetailsFindResponse.toResponse(moim);
+	}
+
+	public void deleteMoim(long id) {
 		Moim moim = moimRepository.findById(id)
 			.orElseThrow(IllegalArgumentException::new);
 
 		moimRepository.delete(moim);
-    }
+	}
 }
