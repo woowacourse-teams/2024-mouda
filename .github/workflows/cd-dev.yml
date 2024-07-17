@@ -9,11 +9,6 @@ jobs:
   deploy:
     runs-on: self-hosted
 
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./backend
-
     steps:
       - name: change permission
         run: |
@@ -27,6 +22,6 @@ jobs:
 
       - name: Docker Compose up
         run: |
-          docker compose -f docker-compose.yml down cd
-          docker compose -f docker-compose.yml pull cd
-          docker compose -f docker-compose.yml up -d cd
+          docker compose -f ./backend/docker-compose.yml down cd
+          docker compose -f ./backend/docker-compose.yml pull cd
+          docker compose -f ./backend/docker-compose.yml up -d cd
