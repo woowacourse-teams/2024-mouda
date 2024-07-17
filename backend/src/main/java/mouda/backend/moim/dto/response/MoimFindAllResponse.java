@@ -12,6 +12,7 @@ public record MoimFindAllResponse(
 	LocalDate date,
 	LocalTime time,
 	String place,
+	int currentPeople,
 	int maxPeople,
 	String authorNickname,
 	String description
@@ -22,6 +23,7 @@ public record MoimFindAllResponse(
 			.date(moim.getDate())
 			.time(moim.getTime())
 			.place(moim.getPlace())
+			.currentPeople(moim.getCurrentPeople())
 			.maxPeople(moim.getMaxPeople())
 			.authorNickname(moim.getAuthorNickname())
 			.description(moim.getDescription())
