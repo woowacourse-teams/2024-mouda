@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
+import mouda.backend.moim.dto.request.MoimJoinRequest;
 import mouda.backend.moim.dto.response.MoimFindAllResponse;
 import mouda.backend.moim.dto.response.MoimFindAllResponses;
 import mouda.backend.moim.repository.MoimRepository;
@@ -33,10 +34,16 @@ public class MoimService {
 		);
 	}
 
-    public void deleteMoim(long id) {
+	public void joinMoim(MoimJoinRequest moimJoinRequest) {
+		Moim moim = moimRepository.findById(moimJoinRequest.moimId())
+			.orElseThrow(() -> new IllegalArgumentException("모임이 존재하지 않습니다."));
+		moim.join();
+	}
+
+	public void deleteMoim(long id) {
 		Moim moim = moimRepository.findById(id)
 			.orElseThrow(IllegalArgumentException::new);
 
 		moimRepository.delete(moim);
-    }
+	}
 }
