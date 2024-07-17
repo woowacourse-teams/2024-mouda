@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import mouda.backend.common.RestResponse;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
+import mouda.backend.moim.dto.response.MoimDetailsFindResponse;
 import mouda.backend.moim.dto.response.MoimFindAllResponses;
 import mouda.backend.moim.service.MoimService;
 
@@ -43,6 +44,15 @@ public class MoimController {
 	@GetMapping
 	public ResponseEntity<RestResponse<MoimFindAllResponses>> findAllMoim() {
 		return ResponseEntity.ok().body(new RestResponse<>(moimService.findAllMoim()));
+	}
+
+	@Operation(summary = "모임 상세 조회", description = "모임 상세 조회한다.")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "모임 상세 조회 성공!"),
+	})
+	@GetMapping("/{id}")
+	public ResponseEntity<RestResponse<MoimDetailsFindResponse>> findMoimDetails(@PathVariable long id) {
+		return ResponseEntity.ok().body(new RestResponse<>(moimService.findMoimDetails(id)));
 	}
 
 	@Operation(summary = "모임 삭제", description = "해당하는 id의 모임을 삭제한다.")
