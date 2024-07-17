@@ -22,6 +22,6 @@ jobs:
 
       - name: Docker Compose up
         run: |
-          docker compose -f ./backend/docker-compose.yml down cd
-          docker compose -f ./backend/docker-compose.yml pull cd
-          docker compose -f ./backend/docker-compose.yml up -d cd
+          docker compose -f ./backend/docker-compose.yml down mouda-be
+          docker compose -f ./backend/docker-compose.yml pull mouda-be
+          docker compose -f ./backend/docker-compose.yml up -d mouda-be
