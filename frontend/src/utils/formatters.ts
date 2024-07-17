@@ -1,4 +1,7 @@
-export const yyyymmddToKorean = (yyyymmdd: string, seperator: string = '-') => {
+export const formatYyyymmddToKorean = (
+  yyyymmdd: string,
+  seperator: string = '-',
+) => {
   const yyyymmddArray = yyyymmdd.split(seperator).map(Number);
   if (yyyymmddArray.length !== 3) {
     throw new Error('올바른 날짜 형식이 아닙니다');
@@ -16,7 +19,7 @@ export const yyyymmddToKorean = (yyyymmdd: string, seperator: string = '-') => {
   return result;
 };
 
-export const hhmmToKorean = (hhmm: string, seperator: string = ':') => {
+export const formatHhmmToKorean = (hhmm: string, seperator: string = ':') => {
   const hhmmArray = hhmm.split(seperator).map(Number);
   if (hhmmArray.length < 2) {
     throw new Error('올바른 시간 형식이 아닙니다');

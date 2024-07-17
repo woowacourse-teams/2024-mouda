@@ -1,12 +1,19 @@
-import * as S from './MoimCard.style';
+import * as S from '@_components/Card/MoimCard.style';
 
-import { hhmmToKorean, yyyymmddToKorean } from '../../utils/formatters';
+import {
+  formatHhmmToKorean,
+  formatYyyymmddToKorean,
+} from '../../utils/formatters';
 
-import MoimCardProps from './MoimCard.type';
+import { MoimInfo } from '../../types';
+
+interface MoimCardProps {
+  moimInfo: MoimInfo;
+}
 
 export default function MoimCard(props: MoimCardProps) {
   const {
-    data: { title, date, time, place, maxPeople },
+    moimInfo: { title, date, time, place, maxPeople },
   } = props;
 
   return (
@@ -15,7 +22,7 @@ export default function MoimCard(props: MoimCardProps) {
       <div css={S.subjectBox}>
         <span css={S.subjectTag}>날짜 및 시간</span>
         <span css={S.subjectInfo}>
-          {`${yyyymmddToKorean(date)} ${hhmmToKorean(time)}`}
+          {`${formatYyyymmddToKorean(date)} ${formatHhmmToKorean(time)}`}
         </span>
       </div>
       <div css={S.subjectBox}>

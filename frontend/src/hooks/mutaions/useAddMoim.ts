@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import QUERY_KEYS from '../queryKeys';
-import { postMoim } from '../apis/posts';
+import QUERY_KEYS from '@_constants/queryKeys';
+import { postMoim } from '@_apis/posts';
 
 export default function useAddMoim(onSuccess: () => void) {
   const queryClient = useQueryClient();
