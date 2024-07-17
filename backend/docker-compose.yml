@@ -1,0 +1,11 @@
+version: "3.7" # 파일 규격 버전
+services:
+  mouda-be:
+    build: .
+    container_name: mouda-be # 컨테이너 이름 설정
+    ports:
+      - "8080:8080"
+    command:
+      - run
+      - --cors
+      - "*"
