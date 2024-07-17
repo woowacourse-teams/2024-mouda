@@ -50,17 +50,17 @@ public class MoimController {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "모임 상세 조회 성공!"),
 	})
-	@GetMapping("/{id}")
-	public ResponseEntity<RestResponse<MoimDetailsFindResponse>> findMoimDetails(@PathVariable long id) {
-		return ResponseEntity.ok().body(new RestResponse<>(moimService.findMoimDetails(id)));
+	@GetMapping("/{moimId}")
+	public ResponseEntity<RestResponse<MoimDetailsFindResponse>> findMoimDetails(@PathVariable long moimId) {
+		return ResponseEntity.ok().body(new RestResponse<>(moimService.findMoimDetails(moimId)));
 	}
 
 	@Operation(summary = "모임 삭제", description = "해당하는 id의 모임을 삭제한다.")
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "모임 삭제 성공!"),
 	})
-	@DeleteMapping("/{id}")
-	public void deleteMoim(@PathVariable long id) {
-		moimService.deleteMoim(id);
+	@DeleteMapping("/{moimId}")
+	public void deleteMoim(@PathVariable long moimId) {
+		moimService.deleteMoim(moimId);
 	}
 }
