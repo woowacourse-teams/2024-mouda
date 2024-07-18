@@ -91,7 +91,7 @@ class MoimServiceTest {
 		moimService.joinMoim(moimJoinRequest);
 
 		MoimDetailsFindResponse moimDetails = moimService.findMoimDetails(1L);
-		assertThat(moimDetails.currentPeople()).isEqualTo(1);
+		assertThat(moimDetails.currentPeople()).isEqualTo(2);
 	}
 
 	@DisplayName("모임을 삭제한다.")

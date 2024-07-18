@@ -10,7 +10,7 @@ public record MoimCreateRequest(
 	LocalDate date,
 	LocalTime time,
 	String place,
-	int maxPeople,
+	Integer maxPeople,
 	String authorNickname,
 	String description
 ) {

@@ -31,9 +31,9 @@ public class Moim {
 
 	private String place;
 
-	private int currentPeople;
+	private Integer currentPeople;
 
-	private int maxPeople;
+	private Integer maxPeople;
 
 	private String authorNickname;
 

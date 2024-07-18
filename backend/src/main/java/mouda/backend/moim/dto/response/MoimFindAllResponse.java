@@ -8,13 +8,13 @@ import mouda.backend.moim.domain.Moim;
 
 @Builder
 public record MoimFindAllResponse(
-	long moimId,
+	Long moimId,
 	String title,
 	LocalDate date,
 	LocalTime time,
 	String place,
-	int currentPeople,
-	int maxPeople,
+	Integer currentPeople,
+	Integer maxPeople,
 	String authorNickname,
 	String description
 ) {

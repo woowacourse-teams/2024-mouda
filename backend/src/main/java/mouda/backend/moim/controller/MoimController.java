@@ -53,7 +53,7 @@ public class MoimController {
 		@ApiResponse(responseCode = "200", description = "모임 상세 조회 성공!"),
 	})
 	@GetMapping("/{moimId}")
-	public ResponseEntity<RestResponse<MoimDetailsFindResponse>> findMoimDetails(@PathVariable long moimId) {
+	public ResponseEntity<RestResponse<MoimDetailsFindResponse>> findMoimDetails(@PathVariable Long moimId) {
 		return ResponseEntity.ok().body(new RestResponse<>(moimService.findMoimDetails(moimId)));
 	}
 
@@ -73,7 +73,7 @@ public class MoimController {
 		@ApiResponse(responseCode = "200", description = "모임 삭제 성공!"),
 	})
 	@DeleteMapping("/{moimId}")
-	public ResponseEntity<Void> deleteMoim(@PathVariable long moimId) {
+	public ResponseEntity<Void> deleteMoim(@PathVariable Long moimId) {
 		moimService.deleteMoim(moimId);
 
 		return ResponseEntity.ok().build();
