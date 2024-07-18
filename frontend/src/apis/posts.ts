@@ -1,8 +1,8 @@
 import ENDPOINTS from '@_apis/endPoints';
-import { MoimInfo } from '@_types/index';
+import { MoimInputInfo } from '@_types/index';
 import { PostMoim } from '@_apis/responseTypes';
 
-export const postMoim = async (moim: MoimInfo): Promise<number> => {
+export const postMoim = async (moim: MoimInputInfo): Promise<number> => {
   const url = ENDPOINTS.moim;
 
   const options = {

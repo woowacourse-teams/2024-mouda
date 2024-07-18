@@ -1,4 +1,5 @@
 export interface MoimInfo {
+  moimId: number;
   title: string;
   date: string;
   time: string;
@@ -7,3 +8,5 @@ export interface MoimInfo {
   authorNickname: string;
   description?: string;
 }
+
+export type MoimInputInfo = Omit<MoimInfo, 'moimId'>;

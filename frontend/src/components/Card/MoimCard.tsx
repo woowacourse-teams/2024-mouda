@@ -6,18 +6,20 @@ import {
 } from '../../utils/formatters';
 
 import { MoimInfo } from '../../types';
+import { HTMLProps } from 'react';
 
-interface MoimCardProps {
+interface MoimCardProps extends HTMLProps<HTMLDivElement> {
   moimInfo: MoimInfo;
 }
 
 export default function MoimCard(props: MoimCardProps) {
   const {
     moimInfo: { title, date, time, place, maxPeople },
+    ...args
   } = props;
 
   return (
-    <div css={S.cardBox}>
+    <div css={S.cardBox} {...args}>
       <h2 css={S.cardTitle}>{title}</h2>
       <div css={S.subjectBox}>
         <span css={S.subjectTag}>날짜 및 시간</span>
