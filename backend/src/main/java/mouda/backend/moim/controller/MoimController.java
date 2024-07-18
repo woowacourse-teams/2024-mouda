@@ -45,7 +45,9 @@ public class MoimController {
 	})
 	@GetMapping
 	public ResponseEntity<RestResponse<MoimFindAllResponses>> findAllMoim() {
-		return ResponseEntity.ok().body(new RestResponse<>(moimService.findAllMoim()));
+		MoimFindAllResponses moimFindAllResponses = moimService.findAllMoim();
+
+		return ResponseEntity.ok().body(new RestResponse<>(moimFindAllResponses));
 	}
 
 	@Operation(summary = "모임 상세 조회", description = "모임 상세 조회한다.")
@@ -54,7 +56,9 @@ public class MoimController {
 	})
 	@GetMapping("/{moimId}")
 	public ResponseEntity<RestResponse<MoimDetailsFindResponse>> findMoimDetails(@PathVariable Long moimId) {
-		return ResponseEntity.ok().body(new RestResponse<>(moimService.findMoimDetails(moimId)));
+		MoimDetailsFindResponse moimDetailsFindResponse = moimService.findMoimDetails(moimId);
+
+		return ResponseEntity.ok().body(new RestResponse<>(moimDetailsFindResponse));
 	}
 
 	@Operation(summary = "모임 참여", description = "모임에 참여한다.")
