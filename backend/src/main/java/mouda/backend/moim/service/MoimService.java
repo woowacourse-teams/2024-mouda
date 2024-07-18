@@ -28,6 +28,7 @@ public class MoimService {
 	@Transactional(readOnly = true)
 	public MoimFindAllResponses findAllMoim() {
 		List<Moim> moims = moimRepository.findAll();
+
 		return new MoimFindAllResponses(
 			moims.stream()
 				.map(MoimFindAllResponse::toResponse)

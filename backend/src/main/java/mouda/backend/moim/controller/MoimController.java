@@ -35,6 +35,7 @@ public class MoimController {
 	@PostMapping
 	public ResponseEntity<RestResponse<Long>> createMoim(@RequestBody MoimCreateRequest moimCreateRequest) {
 		Moim moim = moimService.createMoim(moimCreateRequest);
+
 		return ResponseEntity.ok().body(new RestResponse<>(moim.getId()));
 	}
 
@@ -63,6 +64,7 @@ public class MoimController {
 	@PostMapping("/join")
 	public ResponseEntity<RestResponse<Void>> joinMoim(@RequestBody MoimJoinRequest moimJoinRequest) {
 		moimService.joinMoim(moimJoinRequest);
+
 		return ResponseEntity.ok().build();
 	}
 
