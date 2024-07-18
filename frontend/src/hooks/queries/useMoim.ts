@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export default function useMoim(moimId: number) {
   const { data: moim, isLoading } = useQuery({
-    queryKey: [QUERY_KEYS.moim],
+    queryKey: [QUERY_KEYS.moim, moimId],
     queryFn: () => getMoim(moimId),
   });
 
