@@ -20,10 +20,10 @@ export const postMoim = async (moim: MoimInputInfo): Promise<number> => {
   checkStatus(response);
 
   const json = (await response.json()) as PostMoim;
-  return json.id;
+  return json.data;
 };
 
-export const postJoinMoim = async (moimId: number): Promise<number> => {
+export const postJoinMoim = async (moimId: number) => {
   const url = `${ENDPOINTS.moims}/join`;
 
   const options = {
@@ -33,8 +33,5 @@ export const postJoinMoim = async (moimId: number): Promise<number> => {
 
   const response = await fetch(url, options);
 
-  checkStatus(response);
-
-  const json = await response.json();
-  return json.id;
+  await checkStatus(response);
 };

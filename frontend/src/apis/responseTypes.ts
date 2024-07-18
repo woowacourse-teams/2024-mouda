@@ -9,5 +9,5 @@ export interface GetMoim {
 }
 
 export interface PostMoim {
-  id: number;
+  data: number;
 }
