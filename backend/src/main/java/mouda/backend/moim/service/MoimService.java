@@ -22,7 +22,10 @@ public class MoimService {
 	private final MoimRepository moimRepository;
 
 	public Moim createMoim(MoimCreateRequest moimCreateRequest) {
-		return moimRepository.save(moimCreateRequest.toEntity());
+		Moim moim = moimCreateRequest.toEntity();
+		moim.initCurrentPeople();
+
+		return moimRepository.save(moim);
 	}
 
 	@Transactional(readOnly = true)
