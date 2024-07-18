@@ -66,6 +66,7 @@
     "webpack-dev-server": "^5.0.4"
   },
   "dependencies": {
+    "@emotion/babel-preset-css-prop": "^11.11.0",
     "@emotion/eslint-plugin": "^11.11.0",
     "@emotion/react": "^11.11.4",
     "react": "^18.3.1",
