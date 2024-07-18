@@ -12,10 +12,8 @@ export default function MoimCardList(props: MoimCardListProps) {
   const { moimInfos } = props;
   const navigate = useNavigate();
   const handleMoimCard = (moimId: number) => {
-    console.log(moimId);
     navigate(`/${moimId}`);
   };
-  console.log(moimInfos);
 
   return (
     <div css={S.cardListSection}>
