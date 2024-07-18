@@ -10,7 +10,7 @@ export default function useJoinMoim(onSuccess: () => void) {
     mutationFn: postJoinMoim,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.moim, QUERY_KEYS.moim],
+        queryKey: [QUERY_KEYS.moim],
       });
       onSuccess();
     },
