@@ -14,7 +14,7 @@ interface MoimCardProps extends HTMLProps<HTMLDivElement> {
 
 export default function MoimCard(props: MoimCardProps) {
   const {
-    moimInfo: { title, date, time, place, maxPeople },
+    moimInfo: { title, date, time, place, maxPeople, currentPeople },
     ...args
   } = props;
 
@@ -32,8 +32,10 @@ export default function MoimCard(props: MoimCardProps) {
         <span css={S.subjectInfo}>{place}</span>
       </div>
       <div css={S.subjectBox}>
-        <span css={S.subjectTag}>최대인원수</span>
-        <span css={S.subjectInfo}>{maxPeople}명</span>
+        <span css={S.subjectTag}>인원수</span>
+        <span css={S.subjectInfo}>
+          최대{maxPeople}명 / 현재 {currentPeople}명
+        </span>
       </div>
     </div>
   );
