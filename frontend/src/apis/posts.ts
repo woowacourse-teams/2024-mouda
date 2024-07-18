@@ -1,9 +1,9 @@
-import { MoimInfo, PostMoim } from '../types/requests';
-
-import ENV from './env';
+import ENDPOINTS from '@_apis/endPoints';
+import { MoimInfo } from '@_types/index';
+import { PostMoim } from '@_apis/responseTypes';
 
 export const postMoim = async (moim: MoimInfo): Promise<number> => {
-  const url = `${ENV.baseUrl}/${'v1/moim'}`;
+  const url = ENDPOINTS.moim;
 
   const options = {
     method: 'POST',
