@@ -14,6 +14,7 @@ public record MoimCreateRequest(
 	String authorNickname,
 	String description
 ) {
+
 	public Moim toEntity() {
 		return Moim.builder()
 			.title(title)

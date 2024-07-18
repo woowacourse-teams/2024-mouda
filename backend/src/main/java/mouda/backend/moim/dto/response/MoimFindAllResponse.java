@@ -18,6 +18,7 @@ public record MoimFindAllResponse(
 	String authorNickname,
 	String description
 ) {
+
 	public static MoimFindAllResponse toResponse(Moim moim) {
 		return MoimFindAllResponse.builder()
 			.moimId(moim.getId())
