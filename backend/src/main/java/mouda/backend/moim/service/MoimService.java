@@ -37,8 +37,8 @@ public class MoimService {
 	}
 
 	@Transactional(readOnly = true)
-	public MoimDetailsFindResponse findMoimDetails(long id) {
-		Moim moim = moimRepository.findById(id)
+	public MoimDetailsFindResponse findMoimDetails(long moimId) {
+		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(IllegalArgumentException::new);
 
 		return MoimDetailsFindResponse.toResponse(moim);
@@ -50,8 +50,8 @@ public class MoimService {
 		moim.join();
 	}
 
-	public void deleteMoim(long id) {
-		Moim moim = moimRepository.findById(id)
+	public void deleteMoim(long moimId) {
+		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(IllegalArgumentException::new);
 
 		moimRepository.delete(moim);
