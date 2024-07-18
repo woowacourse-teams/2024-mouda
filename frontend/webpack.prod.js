@@ -9,10 +9,7 @@ module.exports = merge(common, {
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        use: [
-          'babel-loader',
-          'ts-loader',
-        ],
+        use: ['babel-loader', 'ts-loader'],
       },
     ],
   },
