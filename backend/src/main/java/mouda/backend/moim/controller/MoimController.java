@@ -71,7 +71,9 @@ public class MoimController {
 		@ApiResponse(responseCode = "200", description = "모임 삭제 성공!"),
 	})
 	@DeleteMapping("/{moimId}")
-	public void deleteMoim(@PathVariable long moimId) {
+	public ResponseEntity<Void> deleteMoim(@PathVariable long moimId) {
 		moimService.deleteMoim(moimId);
+
+		return ResponseEntity.ok().build();
 	}
 }
