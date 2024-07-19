@@ -33,6 +33,7 @@
     "@storybook/react-webpack5": "^8.1.11",
     "@storybook/test": "^8.1.11",
     "@stylelint/postcss-css-in-js": "^0.38.0",
+    "@svgr/webpack": "^8.1.0",
     "@tanstack/react-query": "^5.51.1",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

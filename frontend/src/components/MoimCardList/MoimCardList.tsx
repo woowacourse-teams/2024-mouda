@@ -1,13 +1,20 @@
-import MoimCard from '../Card/MoimCard';
-import * as S from './MoimCardList.style';
-import MoimCardListProps from './MoimCardList.type';
+import * as S from '@_components/MoimCardList/MoimCardList.style';
+
+import MoimCard from '@_components/Card/MoimCard';
+import { MoimInfo } from '@_types/index';
+
+interface MoimCardListProps {
+  moimInfos: MoimInfo[];
+}
 
 export default function MoimCardList(props: MoimCardListProps) {
-  const { data } = props;
+  const { moimInfos } = props;
   return (
     <div css={S.cardListSection}>
-      {data.map((moimInfo, index) => {
-        return <MoimCard key={`${moimInfo.title}${index}`} data={moimInfo} />;
+      {moimInfos.map((moimInfo, index) => {
+        return (
+          <MoimCard key={`${moimInfo.title}${index}`} moimInfo={moimInfo} />
+        );
       })}
     </div>
   );

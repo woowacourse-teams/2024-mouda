@@ -17,18 +17,22 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
 
-    "jsxImportSource": "@emotion/react"
+    "jsxImportSource": "@emotion/react",
 
-    // @components 같이 절대경로 설정
-    // "baseUrl": "./",
-    // "paths": {
-    //   "@components/*": [
-    //     "src/components/*"
-    //   ],
-    //   "@utils/*": [
-    //     "src/utils/*"
-    //   ],
+    "baseUrl": "./",
+    "paths": {
+      "@_apis/*": ["src/apis/*"],
+      "@_constants/*": ["src/constants/*"],
+      "@_common/*": ["src/common/*"],
+      "@_components/*": ["src/components/*"],
+      "@_hooks/*": ["src/hooks/*"],
+      "@_layouts/*": ["src/layouts/*"],
+      "@_pages/*": ["src/pages/*"],
+      "@_types/*": ["src/types/*"],
+      "@_utils/*": ["src/utils/*"]
+    }
   },
+
   "exclude": ["node_modules"],
   "include": ["./src/**/*.tsx", "./src/**/*.ts"]
 }

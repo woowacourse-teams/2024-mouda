@@ -17,11 +17,26 @@ module.exports = {
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
+    alias: {
+      '@_apis': path.resolve(__dirname, 'src/apis'),
+      '@_constants': path.resolve(__dirname, 'src/constants'),
+      '@_common': path.resolve(__dirname, 'src/common'),
+      '@_components': path.resolve(__dirname, 'src/components'),
+      '@_hooks': path.resolve(__dirname, 'src/hooks'),
+      '@_layouts': path.resolve(__dirname, 'src/layouts'),
+      '@_pages': path.resolve(__dirname, 'src/pages'),
+      '@_types': path.resolve(__dirname, 'src/types'),
+      '@_utils': path.resolve(__dirname, 'src/utils'),
+    },
   },
   module: {
     rules: [
       {
-        test: /\.(png|jpe?g|gif|svg|webp)$/i,
+        test: /\.svg$/i,
+        use: ['@svgr/webpack'],
+      },
+      {
+        test: /\.(png|jpe?g|gif|webp)$/i,
         type: 'asset/resource',
       },
     ],
