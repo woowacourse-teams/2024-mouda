@@ -44,7 +44,7 @@ public class Moim {
 
 	public void join() {
 		if (currentPeople + 1 > maxPeople) {
-			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MOIM_MAX_PEOPLE);
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MAX_PEOPLE);
 		}
 		currentPeople++;
 	}
