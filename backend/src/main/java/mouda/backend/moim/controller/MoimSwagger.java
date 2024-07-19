@@ -31,7 +31,7 @@ public interface MoimSwagger {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "모임 상세 조회 성공!"),
 	})
-	ResponseEntity<RestResponse<MoimDetailsFindResponse>> findMoimDetails(@PathVariable long moimId);
+	ResponseEntity<RestResponse<MoimDetailsFindResponse>> findMoimDetails(@PathVariable Long moimId);
 
 	@Operation(summary = "모임 참여", description = "모임에 참여한다.")
 	@ApiResponses({
@@ -43,5 +43,5 @@ public interface MoimSwagger {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "모임 삭제 성공!"),
 	})
-	void deleteMoim(@PathVariable long moimId);
+	ResponseEntity<Void> deleteMoim(@PathVariable Long moimId);
 }
