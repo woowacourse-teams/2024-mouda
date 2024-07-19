@@ -19,3 +19,9 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+
+datetime:
+  format:
+    date: yyyy-MM-dd
+    time: HH:mm
