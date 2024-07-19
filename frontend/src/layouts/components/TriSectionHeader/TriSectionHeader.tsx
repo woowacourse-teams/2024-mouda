@@ -2,7 +2,7 @@ import * as S from './TriSectionHeader.style';
 
 import { Fragment, ReactNode } from 'react';
 
-interface BackHeaderProps {
+interface TriSectionHeaderProps {
   left?: ReactNode;
   center?: ReactNode;
   right?: ReactNode;
@@ -10,7 +10,7 @@ interface BackHeaderProps {
   borderBottomColor?: string;
 }
 
-export default function TriSectionHeader(props: BackHeaderProps) {
+export default function TriSectionHeader(props: TriSectionHeaderProps) {
   const { left, center, right, borderBottomColor } = props;
   return (
     <Fragment>
