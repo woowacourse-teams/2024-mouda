@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ServiceException extends RuntimeException {
+public class MoudaException extends RuntimeException {
 
 	private HttpStatus httpStatus;
 	private String message;

@@ -9,8 +9,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler(ServiceException.class)
-	public ResponseEntity<ErrorResponse> handleServiceException(ServiceException exception) {
+	@ExceptionHandler(MoudaException.class)
+	public ResponseEntity<ErrorResponse> handleMoudaException(MoudaException exception) {
 		return ResponseEntity.status(exception.getHttpStatus()).body(new ErrorResponse(exception.getMessage()));
 	}
 
