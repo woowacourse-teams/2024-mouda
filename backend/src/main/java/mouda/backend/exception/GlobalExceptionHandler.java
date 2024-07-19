@@ -1,5 +1,6 @@
 package mouda.backend.exception;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -9,7 +10,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(ServiceException.class)
-	public ResponseEntity<ErrorResponse> handleGlobalException(ServiceException e) {
-		return ResponseEntity.status(e.getHttpStatus()).body(new ErrorResponse(e.getMessage()));
+	public ResponseEntity<ErrorResponse> handleServiceException(ServiceException exception) {
+		return ResponseEntity.status(exception.getHttpStatus()).body(new ErrorResponse(exception.getMessage()));
+	}
+
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ErrorResponse> handleException() {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("서버 오류가 발생했습니다."));
 	}
 }
