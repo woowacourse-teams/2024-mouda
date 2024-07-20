@@ -2,6 +2,7 @@ package mouda.backend.moim.service;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,8 @@ import mouda.backend.moim.dto.request.MoimJoinRequest;
 import mouda.backend.moim.dto.response.MoimDetailsFindResponse;
 import mouda.backend.moim.dto.response.MoimFindAllResponse;
 import mouda.backend.moim.dto.response.MoimFindAllResponses;
+import mouda.backend.moim.exception.MoimErrorMessage;
+import mouda.backend.moim.exception.MoimException;
 import mouda.backend.moim.repository.MoimRepository;
 
 @Transactional
@@ -38,20 +41,20 @@ public class MoimService {
 	@Transactional(readOnly = true)
 	public MoimDetailsFindResponse findMoimDetails(long id) {
 		Moim moim = moimRepository.findById(id)
-			.orElseThrow(IllegalArgumentException::new);
+			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
 
 		return MoimDetailsFindResponse.toResponse(moim);
 	}
 
 	public void joinMoim(MoimJoinRequest moimJoinRequest) {
 		Moim moim = moimRepository.findById(moimJoinRequest.moimId())
-			.orElseThrow(() -> new IllegalArgumentException("모임이 존재하지 않습니다."));
+			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
 		moim.join();
 	}
 
 	public void deleteMoim(long id) {
 		Moim moim = moimRepository.findById(id)
-			.orElseThrow(IllegalArgumentException::new);
+			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
 
 		moimRepository.delete(moim);
 	}

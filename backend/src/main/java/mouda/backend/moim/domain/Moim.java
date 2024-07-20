@@ -3,6 +3,8 @@ package mouda.backend.moim.domain;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import org.springframework.http.HttpStatus;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,6 +13,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mouda.backend.moim.exception.MoimErrorMessage;
+import mouda.backend.moim.exception.MoimException;
 
 @Entity
 @Getter
@@ -40,7 +44,7 @@ public class Moim {
 
 	public void join() {
 		if (currentPeople + 1 > maxPeople) {
-			throw new IllegalArgumentException();
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MAX_PEOPLE);
 		}
 		currentPeople++;
 	}
