@@ -1,12 +1,13 @@
-import MoimInputProps from './MoimInput.type';
-import * as S from './MoimInput.style';
+import * as S from '@_components/Input/MoimInput.style';
 
-export default function MoimInput(props: MoimInputProps) {
-  const {
-    name,
-    data: { title, type, placeholder, required },
-    onChange,
-  } = props;
+import { HTMLProps } from 'react';
+
+export interface LabeledInputProps extends HTMLProps<HTMLInputElement> {
+  title: string;
+}
+
+export default function LabeledInput(props: LabeledInputProps) {
+  const { name, title, type, placeholder, required, onChange } = props;
 
   return (
     <label htmlFor={title}>
@@ -22,7 +23,7 @@ export default function MoimInput(props: MoimInputProps) {
         placeholder={placeholder}
         id={title}
         onChange={onChange}
-      ></input>
+      />
     </label>
   );
 }

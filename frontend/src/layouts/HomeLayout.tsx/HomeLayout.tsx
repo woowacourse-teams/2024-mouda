@@ -1,8 +1,9 @@
-import { PropsWithChildren } from 'react';
 import * as S from './MoimList.style';
+
+import HomeFixedButtonWrapper from './HomeFixedButtonWrapper/HomeFixedButtonWrapper';
 import HomeHeader from './HomeHeader/HomeHeader';
 import HomeMain from './HomeMain/HomeMain';
-import HomeFixedButtonWrapper from './HomeFixedButtonWrapper/HomeFixedButtonWrapper';
+import { PropsWithChildren } from 'react';
 
 function HomeLayout(props: PropsWithChildren) {
   const { children } = props;

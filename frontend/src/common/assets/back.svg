@@ -1,5 +1,3 @@
-export default function BackArrowLogo() {
-  return (
     <svg
       width="27"
       height="27"
@@ -15,5 +13,3 @@ export default function BackArrowLogo() {
         strokeLinejoin="round"
       />
     </svg>
-  );
-}

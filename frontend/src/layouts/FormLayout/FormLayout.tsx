@@ -1,8 +1,9 @@
-import { PropsWithChildren } from 'react';
 import * as S from './FormLayout.style';
+
+import FormBottomWrapper from './FormBottomWrapper/FormBottomButtonWrapper';
 import FormHeader from './FormHeader/FormHeader';
 import FormMain from './FormMain/FormMain';
-import FormBottomButtonWrapper from './FormBottomButtonWrapper/FormBottomButtonWrapper';
+import { PropsWithChildren } from 'react';
 
 function FormLayout(props: PropsWithChildren) {
   const { children } = props;
@@ -12,6 +13,6 @@ function FormLayout(props: PropsWithChildren) {
 
 FormLayout.Header = FormHeader;
 FormLayout.MainForm = FormMain;
-FormLayout.BottomButtonWrapper = FormBottomButtonWrapper;
+FormLayout.BottomButtonWrapper = FormBottomWrapper;
 
 export default FormLayout;
