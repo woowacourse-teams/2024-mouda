@@ -37,7 +37,7 @@ public interface MoimSwagger {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "모임 참여 성공!")
 	})
-	ResponseEntity<RestResponse<Void>> joinMoim(@RequestBody MoimJoinRequest moimJoinRequest);
+	ResponseEntity<Void> joinMoim(@RequestBody MoimJoinRequest moimJoinRequest);
 
 	@Operation(summary = "모임 삭제", description = "해당하는 id의 모임을 삭제한다.")
 	@ApiResponses({

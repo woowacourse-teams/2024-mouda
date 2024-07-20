@@ -51,7 +51,7 @@ public class MoimController implements MoimSwagger {
 
 	@Override
 	@PostMapping("/join")
-	public ResponseEntity<RestResponse<Void>> joinMoim(@RequestBody MoimJoinRequest moimJoinRequest) {
+	public ResponseEntity<Void> joinMoim(@RequestBody MoimJoinRequest moimJoinRequest) {
 		moimService.joinMoim(moimJoinRequest);
 
 		return ResponseEntity.ok().build();
