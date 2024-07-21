@@ -12,7 +12,7 @@ export default function MoimCardList(props: MoimCardListProps) {
   const { moimInfos } = props;
   const navigate = useNavigate();
   const handleMoimCard = (moimId: number) => {
-    navigate(`/${moimId}`);
+    navigate(`/moim/${moimId}`);
   };
 
   return (

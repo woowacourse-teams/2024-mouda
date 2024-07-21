@@ -1,7 +1,7 @@
 const ROUTES = {
   main: '/',
   addMoim: '/add-moim',
-  detail: '/:moimId',
+  detail: '/moim/:moimId',
 };
 
 export default ROUTES;
