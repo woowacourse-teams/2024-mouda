@@ -1,24 +1,32 @@
 import * as S from './TriSectionHeader.style';
 
-import { Fragment, ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 
-interface TriSectionHeaderProps {
-  left?: ReactNode;
-  center?: ReactNode;
-  right?: ReactNode;
-
+interface TriSectionHeaderProps extends PropsWithChildren {
   borderBottomColor?: string;
 }
-
-export default function TriSectionHeader(props: TriSectionHeaderProps) {
-  const { left, center, right, borderBottomColor } = props;
+function TriSectionHeader(props: TriSectionHeaderProps) {
+  const { children, borderBottomColor } = props;
   return (
-    <Fragment>
-      <header css={S.getTriSectionHeaderStyle({ borderBottomColor })}>
-        <div css={S.leftSectionStyle}>{left}</div>
-        <div css={S.middleSectionStyle}>{center}</div>
-        <div css={S.rightSectionStyle}>{right}</div>
-      </header>
-    </Fragment>
+    <header css={S.getTriSectionHeaderStyle({ borderBottomColor })}>
+      {children}
+    </header>
   );
 }
+
+TriSectionHeader.Left = function Left(props: PropsWithChildren) {
+  const { children } = props;
+  return <div css={S.leftSectionStyle}>{children}</div>;
+};
+
+TriSectionHeader.Center = function Center(props: PropsWithChildren) {
+  const { children } = props;
+  return <div css={S.centerSectionStyle}>{children}</div>;
+};
+
+TriSectionHeader.Right = function Right(props: PropsWithChildren) {
+  const { children } = props;
+  return <div css={S.rightSectionStyle}>{children}</div>;
+};
+
+export default TriSectionHeader;
