@@ -18,7 +18,7 @@ export const getMoims = async (): Promise<MoimInfo[]> => {
 };
 
 export const getMoim = async (moimId: number): Promise<MoimInfo> => {
-  const url = `${ENDPOINTS.moims}/${moimId}`;
+  const url = `${ENDPOINTS.moim}/${moimId}`;
 
   const response = await fetch(url, defaultGetOptions);
 
