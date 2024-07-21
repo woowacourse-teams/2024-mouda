@@ -13,7 +13,7 @@ export const getTriSectionHeaderStyle = ({
     align-items: center;
     justify-content: space-between;
 
-    ${borderBottomColor ? `border-bottom: 1px solid ${borderBottomColor};` : ''}
+    ${borderBottomColor && `border-bottom: 1px solid ${borderBottomColor};`}
 
     & > * {
       position: absolute;
@@ -28,7 +28,7 @@ export const leftSectionStyle = css`
   left: 1rem;
 `;
 
-export const middleSectionStyle = css`
+export const centerSectionStyle = css`
   left: 50%;
   transform: translateX(-50%);
 `;
