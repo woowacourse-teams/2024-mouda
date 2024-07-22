@@ -1,24 +1,37 @@
 import ENDPOINTS from '@_apis/endPoints';
-import { MoimInfo } from '@_types/index';
+import { MoimInputInfo } from '@_types/index';
 import { PostMoim } from '@_apis/responseTypes';
+import { checkStatus, defaultOptions } from './apiconfig';
 
-export const postMoim = async (moim: MoimInfo): Promise<number> => {
+const defaultPostOptions = {
+  method: 'POST',
+  ...defaultOptions,
+};
+export const postMoim = async (moim: MoimInputInfo): Promise<number> => {
   const url = ENDPOINTS.moim;
 
   const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    ...defaultPostOptions,
     body: JSON.stringify(moim),
   };
 
   const response = await fetch(url, options);
 
-  const statusHead = Math.floor(response.status / 100);
-  if (statusHead === 4 || statusHead === 5)
-    throw new Error('모임을 업데이트하지 못했습니다.');
+  checkStatus(response);
 
   const json = (await response.json()) as PostMoim;
-  return json.id;
+  return json.data;
+};
+
+export const postJoinMoim = async (moimId: number) => {
+  const url = `${ENDPOINTS.moims}/join`;
+
+  const options = {
+    ...defaultPostOptions,
+    body: JSON.stringify({ moimId }),
+  };
+
+  const response = await fetch(url, options);
+
+  await checkStatus(response);
 };

@@ -6,10 +6,14 @@ const createQueryClient = () => {
       queries: {
         networkMode: 'always',
       },
+      mutations: {
+        onError: (error) => alert(error.message),
+        networkMode: 'always',
+      },
     },
     queryCache: new QueryCache({
       onError: (error) => {
-        alert(error);
+        alert(error instanceof Error ? error.message : 'An error occurred');
       },
     }),
   });

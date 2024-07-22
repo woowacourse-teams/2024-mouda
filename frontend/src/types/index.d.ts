@@ -1,11 +1,14 @@
 export interface MoimInfo {
-  id: number;
+  moimId: number;
   title: string;
   date: string;
   time: string;
   place: string;
   currentPeople: number;
   maxPeople: number;
+  currentPeople: number;
   authorNickname: string;
   description?: string;
 }
+
+export type MoimInputInfo = Omit<MoimInfo, 'moimId' | 'currentPeople'>;
