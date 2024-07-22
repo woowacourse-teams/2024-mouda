@@ -3,7 +3,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 
 async function enableMocking() {
-  if (process.env.NODE_ENV !== 'development') {
+  if (process.env.MSW !== 'true') {
     return;
   }
 

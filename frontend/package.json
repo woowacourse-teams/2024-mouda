@@ -6,6 +6,7 @@
   "scripts": {
     "test": "test",
     "start": "webpack serve --config webpack.dev.js",
+    "start-mock": "MSW=true webpack serve --config webpack.dev.js",
     "start-prod": "webpack serve --config webpack.prod.js",
     "build": "webpack --config webpack.prod.js",
     "sb": "storybook dev -p 6006",
