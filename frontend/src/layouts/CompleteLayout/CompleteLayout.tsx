@@ -5,14 +5,14 @@ import CompleteContentContainer from './CompleteContentContainer/CompleteContent
 import { PropsWithChildren } from 'react';
 import TriSectionHeader from '@_layouts/components/TriSectionHeader/TriSectionHeader';
 
-function InformationLayout(props: PropsWithChildren) {
+function CompleteLayout(props: PropsWithChildren) {
   const { children } = props;
 
   return <div css={S.layoutStyle}>{children}</div>;
 }
 
-InformationLayout.Header = TriSectionHeader;
-InformationLayout.ContentContainer = CompleteContentContainer;
-InformationLayout.BottomButtonWrapper = CompleteBottomWrapper;
+CompleteLayout.Header = TriSectionHeader;
+CompleteLayout.ContentContainer = CompleteContentContainer;
+CompleteLayout.BottomButtonWrapper = CompleteBottomWrapper;
 
-export default InformationLayout;
+export default CompleteLayout;

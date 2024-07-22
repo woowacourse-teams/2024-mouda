@@ -25,7 +25,6 @@ export const postMoim = async (moim: MoimInputInfo): Promise<number> => {
 
 export const postJoinMoim = async (moimId: number) => {
   const url = `${ENDPOINTS.moims}/join`;
-
   const options = {
     ...defaultPostOptions,
     body: JSON.stringify({ moimId }),

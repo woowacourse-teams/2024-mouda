@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Fragment } from 'react';
 import InformationLayout from './InformationLayout';
 import { css } from '@emotion/react';
-
+import TriSectionHeader from '@_layouts/components/TriSectionHeader/TriSectionHeader';
 const meta: Meta<typeof InformationLayout> = {
   component: InformationLayout,
   decorators: (Story) => {
@@ -23,16 +23,18 @@ export default meta;
 type Story = StoryObj<typeof InformationLayout>;
 
 const DummyHeader = (
-  <InformationLayout.Header
-    left={
-      <Fragment>
-        <div>left1</div>
-        <div>left2</div>
-      </Fragment>
-    }
-    center={<div>center</div>}
-    right="sdf"
-  />
+  <TriSectionHeader borderBottomColor="gray">
+    <TriSectionHeader.Left>
+      <div>left1</div>
+      <div>left2</div>
+    </TriSectionHeader.Left>
+
+    <TriSectionHeader.Center>
+      <div>center</div>
+    </TriSectionHeader.Center>
+
+    <TriSectionHeader.Right>{'right'}</TriSectionHeader.Right>
+  </TriSectionHeader>
 );
 const DummyContent = (
   <InformationLayout.ContentContainer>

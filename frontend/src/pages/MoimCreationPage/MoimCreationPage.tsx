@@ -10,7 +10,7 @@ import { useState } from 'react';
 export default function MoimCreationPage() {
   const navigate = useNavigate();
   const { mutate } = useAddMoim((moimId: number) => {
-    navigate(`/${moimId}`);
+    navigate(`/moim/${moimId}`);
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
