@@ -9,7 +9,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,9 +17,7 @@ import mouda.backend.moim.exception.MoimException;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class Moim {
 
 	@Id
@@ -35,16 +32,32 @@ public class Moim {
 
 	private String place;
 
-	private Integer currentPeople;
+	private int currentPeople;
 
-	private Integer maxPeople;
+	private int maxPeople;
 
 	private String authorNickname;
 
 	private String description;
 
-	public void initCurrentPeople() {
+	@Builder
+	public Moim(
+		String title,
+		LocalDate date,
+		LocalTime time,
+		String place,
+		int maxPeople,
+		String authorNickname,
+		String description
+	) {
+		this.title = title;
+		this.date = date;
+		this.time = time;
+		this.place = place;
 		this.currentPeople = 1;
+		this.maxPeople = maxPeople;
+		this.authorNickname = authorNickname;
+		this.description = description;
 	}
 
 	public void join() {
