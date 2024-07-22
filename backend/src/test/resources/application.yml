@@ -9,9 +9,3 @@ spring:
   sql:
     init:
       data-locations: classpath:test-data.sql
-
-
-datetime:
-  format:
-    date: yyyy-MM-dd
-    time: HH:mm

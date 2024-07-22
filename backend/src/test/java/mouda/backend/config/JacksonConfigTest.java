@@ -45,7 +45,7 @@ class JacksonConfigTest {
 
 	@DisplayName("날짜 형식에 따른 직렬화 및 역직렬화 테스트")
 	@Nested
-	class DateDeserialize {
+	class DateFormatTest {
 
 		@DisplayName("yyyy-MM-dd 형식의 날짜를 역직렬화한다.")
 		@Test
@@ -89,7 +89,7 @@ class JacksonConfigTest {
 
 		@DisplayName("날짜는 yyyy-MM-dd 형식으로 직렬화된다.")
 		@Test
-		void dateSerialize() {
+		void serialize() {
 			Moim moim = Moim.builder()
 				.title("title")
 				.date(LocalDate.parse("2024-07-19"))
@@ -111,7 +111,7 @@ class JacksonConfigTest {
 
 	@DisplayName("시간 형식에 따른 직렬화 및 역직렬화 테스트")
 	@Nested
-	class TimeSerialize {
+	class TimeFormatTest {
 
 		@DisplayName("HH:mm 형식의 시간을 역직렬화한다.")
 		@Test

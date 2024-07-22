@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,27 +15,18 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 
 @Configuration
-@EnableConfigurationProperties(DateTimeFormat.class)
 public class JacksonConfig {
 
 	@Bean
-	public ObjectMapper objectMapper(DateTimeFormat dateTimeFormat) {
-		return new ObjectMapper()
-			.registerModule(javaTimeModule(dateTimeFormat));
-	}
-
-	@Bean
-	public JavaTimeModule javaTimeModule(DateTimeFormat dateTimeFormat) {
+	public JavaTimeModule javaTimeModule() {
 		JavaTimeModule javaTimeModule = new JavaTimeModule();
+		DateTimeFormatter dateFormat = DateTimeFormatter.ISO_LOCAL_DATE;
+		DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
 
-		javaTimeModule.addSerializer(LocalDate.class,
-				new LocalDateSerializer(DateTimeFormatter.ofPattern(dateTimeFormat.getDate())))
-			.addSerializer(LocalTime.class,
-				new LocalTimeSerializer(DateTimeFormatter.ofPattern(dateTimeFormat.getTime())))
-			.addDeserializer(LocalDate.class,
-				new LocalDateDeserializer(DateTimeFormatter.ofPattern(dateTimeFormat.getDate())))
-			.addDeserializer(LocalTime.class,
-				new LocalTimeDeserializer(DateTimeFormatter.ofPattern(dateTimeFormat.getTime())));
+		javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(dateFormat))
+			.addSerializer(LocalTime.class, new LocalTimeSerializer(timeFormat))
+			.addDeserializer(LocalDate.class, new LocalDateDeserializer(dateFormat))
+			.addDeserializer(LocalTime.class, new LocalTimeDeserializer(timeFormat));
 
 		return javaTimeModule;
 	}
