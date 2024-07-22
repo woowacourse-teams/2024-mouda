@@ -7,7 +7,8 @@ export default function useJoinMoim(onSuccess: () => void) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (moimId: number) => postJoinMoim(moimId),
+    mutationFn: ({ moimId, nickName }: { moimId: number; nickName: string }) =>
+      postJoinMoim(moimId, nickName),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.moim],
