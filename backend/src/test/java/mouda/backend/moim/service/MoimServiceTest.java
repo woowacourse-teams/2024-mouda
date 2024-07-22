@@ -5,7 +5,9 @@ import static org.assertj.core.api.Assertions.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -71,8 +73,9 @@ class MoimServiceTest {
 		);
 		moimService.createMoim(moimCreateRequest);
 
-		Moim moim = moimRepository.findById(1L).orElseThrow();
-		assertThat(moim.getAuthorNickname()).isEqualTo("안나");
+		Optional<Moim> moimOptional = moimRepository.findById(1L);
+		assertThat(moimOptional).isNotEmpty();
+		assertThat(moimOptional.get().getAuthorNickname()).isEqualTo("안나");
 	}
 
 	@DisplayName("모임에 참여한다.")
@@ -87,8 +90,9 @@ class MoimServiceTest {
 		MoimJoinRequest moimJoinRequest = new MoimJoinRequest(1L);
 		moimService.joinMoim(moimJoinRequest);
 
-		Moim moim = moimRepository.findById(1L).orElseThrow();
-		assertThat(moim.getCurrentPeople()).isEqualTo(2);
+		Optional<Moim> moimOptional = moimRepository.findById(1L);
+		assertThat(moimOptional).isNotEmpty();
+		assertThat(moimOptional.get().getCurrentPeople()).isEqualTo(2);
 	}
 
 	@DisplayName("모임을 삭제한다.")
