@@ -1,5 +1,6 @@
 import * as S from './MoimInformation.style';
 import { MoimInfo } from '@_types/index';
+import { formatYyyymmddToKorean, formatHhmmToKorean } from '@_utils/formatters';
 
 interface MoimInformationProps {
   moimInfo: Pick<
@@ -17,11 +18,11 @@ export default function MoimInformation(props: MoimInformationProps) {
       <div css={S.cardStyle}>
         <div css={S.rowStyle}>
           <span>날짜</span>
-          <span>{date}</span>
+          <span>{formatYyyymmddToKorean(date)}</span>
         </div>
         <div css={S.rowStyle}>
           <span>시간</span>
-          <span>{time}</span>
+          <span>{formatHhmmToKorean(time)}</span>
         </div>
         <div css={S.rowStyle}>
           <span>장소</span>

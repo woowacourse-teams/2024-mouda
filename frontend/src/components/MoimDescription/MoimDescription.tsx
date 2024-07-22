@@ -7,6 +7,10 @@ interface MoimDescriptionProps {
 export default function MoimDescription(props: MoimDescriptionProps) {
   const { description } = props;
 
+  if (description === '') {
+    return;
+  }
+
   return (
     <div css={S.containerStyle}>
       <h2 css={S.titleStyle}>상세설명</h2>
