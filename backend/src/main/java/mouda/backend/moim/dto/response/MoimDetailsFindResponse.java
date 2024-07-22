@@ -12,8 +12,8 @@ public record MoimDetailsFindResponse(
 	LocalDate date,
 	LocalTime time,
 	String place,
-	Integer currentPeople,
-	Integer maxPeople,
+	int currentPeople,
+	int maxPeople,
 	String authorNickname,
 	String description
 ) {
