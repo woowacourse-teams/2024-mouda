@@ -7,4 +7,5 @@ export const contentStyle = css`
   gap: 12px;
   height: 100%;
   justify-content: center;
+  align-items: center;
 `;
