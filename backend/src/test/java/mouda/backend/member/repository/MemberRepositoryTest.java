@@ -20,15 +20,23 @@ class MemberRepositoryTest {
 
 	@Autowired
 	private MoimRepository moimRepository;
+	//
+	// @Autowired
+	// private DatabaseCleaner databaseCleaner;
+	//
+	// @AfterEach
+	// void cleanUp() {
+	// 	databaseCleaner.cleanUp();
+	// }
 
 	@DisplayName("모임에 가입된 맴버의 이름을 반환한다.")
 	@Test
 	void findNickNamesByMoimId() {
 		Member member = new Member("tehah");
-		Moim moim = new Moim().builder()
+		Moim moim = Moim.builder()
 			.build();
 		Moim saveMoim = moimRepository.save(moim);
-		member.joinMoim(moim);
+		member.joinMoim(saveMoim);
 		memberRepository.save(member);
 
 		List<String> participants = memberRepository.findNickNamesByMoimId(saveMoim.getId());

@@ -84,7 +84,7 @@ class MoimServiceTest {
 			"title", LocalDate.now(), LocalTime.now(), "place",
 			10, "안나", "설명"
 		);
-		moimService.createMoim(moimCreateRequest);
+		Moim moim = moimService.createMoim(moimCreateRequest);
 
 		MoimJoinRequest moimJoinRequest = new MoimJoinRequest(1L, "호기");
 		moimService.joinMoim(moimJoinRequest);
