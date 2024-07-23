@@ -29,7 +29,12 @@ public class MoimService {
 	private final MemberRepository memberRepository;
 
 	public Moim createMoim(MoimCreateRequest moimCreateRequest) {
-		return moimRepository.save(moimCreateRequest.toEntity());
+		Member author = new Member(moimCreateRequest.authorNickname());
+		Moim moim = moimRepository.save(moimCreateRequest.toEntity());
+		author.joinMoim(moim);
+		memberRepository.save(author);
+
+		return moim;
 	}
 
 	@Transactional(readOnly = true)
@@ -37,7 +42,10 @@ public class MoimService {
 		List<Moim> moims = moimRepository.findAll();
 		return new MoimFindAllResponses(
 			moims.stream()
-				.map(MoimFindAllResponse::toResponse)
+				.map(moim -> {
+					List<Member> participants = memberRepository.findAllByMoimId(moim.getId());
+					return MoimFindAllResponse.toResponse(moim, participants.size());
+				})
 				.toList()
 		);
 	}
@@ -47,24 +55,32 @@ public class MoimService {
 		Moim moim = moimRepository.findById(id)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
 
-		List<String> participants = memberRepository.findNickNamesByMoimId(id);
+		List<String> participants = memberRepository.findAllByMoimId(id).stream()
+			.map(Member::getNickname)
+			.toList();
 
 		return MoimDetailsFindResponse.toResponse(moim, participants);
 	}
 
 	public void joinMoim(MoimJoinRequest moimJoinRequest) {
 		Member member = new Member(moimJoinRequest.nickName());
-
 		Moim moim = moimRepository.findById(moimJoinRequest.moimId())
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
+
 		member.joinMoim(moim);
 		memberRepository.save(member);
-		moim.join();
+		List<Member> participants = memberRepository.findAllByMoimId(moim.getId());
+
+		moim.validateCurrentPeople(participants.size());
 	}
 
 	public void deleteMoim(long id) {
 		Moim moim = moimRepository.findById(id)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
+		List<Member> participants = memberRepository.findAllByMoimId(moim.getId());
+		for (Member participant : participants) {
+			memberRepository.deleteById(participant.getId());
+		}
 
 		moimRepository.delete(moim);
 	}
