@@ -8,7 +8,7 @@ import mouda.backend.moim.domain.Moim;
 
 @Builder
 public record MoimFindAllResponse(
-	long moimId,
+	Long moimId,
 	String title,
 	LocalDate date,
 	LocalTime time,
@@ -18,6 +18,7 @@ public record MoimFindAllResponse(
 	String authorNickname,
 	String description
 ) {
+
 	public static MoimFindAllResponse toResponse(Moim moim) {
 		return MoimFindAllResponse.builder()
 			.moimId(moim.getId())

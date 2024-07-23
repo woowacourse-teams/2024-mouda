@@ -4,7 +4,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    ddl-auto: create-drop
+    hibernate:
+      ddl-auto: create-drop
     defer-datasource-initialization: true
   sql:
     init:

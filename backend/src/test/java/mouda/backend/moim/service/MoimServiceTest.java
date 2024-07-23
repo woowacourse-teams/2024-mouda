@@ -5,7 +5,9 @@ import static org.assertj.core.api.Assertions.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,8 +18,6 @@ import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
 import mouda.backend.moim.dto.request.MoimJoinRequest;
-import mouda.backend.moim.dto.response.MoimDetailsFindResponse;
-import mouda.backend.moim.dto.response.MoimFindAllResponses;
 import mouda.backend.moim.repository.MoimRepository;
 
 @SpringBootTest
@@ -44,7 +44,9 @@ class MoimServiceTest {
 			"title", LocalDate.now(), LocalTime.now(), "place",
 			10, "안나", "설명"
 		);
+
 		Moim moim = moimService.createMoim(moimCreateRequest);
+
 		assertThat(moim.getId()).isEqualTo(1L);
 	}
 
@@ -58,10 +60,8 @@ class MoimServiceTest {
 		moimService.createMoim(moimCreateRequest);
 		moimService.createMoim(moimCreateRequest);
 
-		MoimFindAllResponses moimResponses = moimService.findAllMoim();
-
-		assertThat(moimResponses).isNotNull();
-		assertThat(moimResponses.moims()).hasSize(2);
+		List<Moim> moims = moimRepository.findAll();
+		assertThat(moims).isNotNull().hasSize(2);
 	}
 
 	@DisplayName("모임 상세를 조회한다.")
@@ -73,9 +73,9 @@ class MoimServiceTest {
 		);
 		moimService.createMoim(moimCreateRequest);
 
-		MoimDetailsFindResponse moimDetails = moimService.findMoimDetails(1L);
-
-		assertThat(moimDetails.authorNickname()).isEqualTo("안나");
+		Optional<Moim> moimOptional = moimRepository.findById(1L);
+		assertThat(moimOptional).isNotEmpty();
+		assertThat(moimOptional.get().getAuthorNickname()).isEqualTo("안나");
 	}
 
 	@DisplayName("모임에 참여한다.")
@@ -90,8 +90,9 @@ class MoimServiceTest {
 		MoimJoinRequest moimJoinRequest = new MoimJoinRequest(1L);
 		moimService.joinMoim(moimJoinRequest);
 
-		MoimDetailsFindResponse moimDetails = moimService.findMoimDetails(1L);
-		assertThat(moimDetails.currentPeople()).isEqualTo(1);
+		Optional<Moim> moimOptional = moimRepository.findById(1L);
+		assertThat(moimOptional).isNotEmpty();
+		assertThat(moimOptional.get().getCurrentPeople()).isEqualTo(2);
 	}
 
 	@DisplayName("모임을 삭제한다.")
@@ -104,8 +105,8 @@ class MoimServiceTest {
 		moimService.createMoim(moimCreateRequest);
 
 		moimService.deleteMoim(1L);
-		List<Moim> moims = moimRepository.findAll();
 
+		List<Moim> moims = moimRepository.findAll();
 		assertThat(moims).hasSize(0);
 	}
 }

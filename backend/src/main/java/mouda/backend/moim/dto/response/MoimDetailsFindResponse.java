@@ -17,6 +17,7 @@ public record MoimDetailsFindResponse(
 	String authorNickname,
 	String description
 ) {
+
 	public static MoimDetailsFindResponse toResponse(Moim moim) {
 		return MoimDetailsFindResponse.builder()
 			.title(moim.getTitle())
