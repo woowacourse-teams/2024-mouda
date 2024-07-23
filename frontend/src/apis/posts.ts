@@ -1,7 +1,8 @@
+import { checkStatus, defaultOptions } from './apiconfig';
+
 import ENDPOINTS from '@_apis/endPoints';
 import { MoimInputInfo } from '@_types/index';
 import { PostMoim } from '@_apis/responseTypes';
-import { checkStatus, defaultOptions } from './apiconfig';
 
 const defaultPostOptions = {
   method: 'POST',
@@ -23,11 +24,11 @@ export const postMoim = async (moim: MoimInputInfo): Promise<number> => {
   return json.data;
 };
 
-export const postJoinMoim = async (moimId: number) => {
+export const postJoinMoim = async (moimId: number, nickName: string) => {
   const url = `${ENDPOINTS.moims}/join`;
   const options = {
     ...defaultPostOptions,
-    body: JSON.stringify({ moimId }),
+    body: JSON.stringify({ moimId, nickName }),
   };
 
   const response = await fetch(url, options);
