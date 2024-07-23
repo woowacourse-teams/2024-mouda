@@ -8,11 +8,11 @@ export const getTriSectionHeaderStyle = ({
   return css`
     position: relative;
 
-    height: 53px;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    height: 53px;
 
     ${borderBottomColor && `border-bottom: 1px solid ${borderBottomColor};`}
 

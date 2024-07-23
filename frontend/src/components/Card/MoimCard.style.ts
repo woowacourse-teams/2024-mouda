@@ -28,12 +28,11 @@ export const subjectTag = css`
 
   padding: 0.1rem 0.3rem;
 
-  font-family: Pretendard;
   font-size: 0.75rem;
   font-weight: 600;
   font-style: normal;
   line-height: 130%;
-  color: var(--Main-Blue, #477bff);
+  color: var(--main-blue, #477bff);
 
   background: #dde7ff;
   border-radius: 0.625rem;
