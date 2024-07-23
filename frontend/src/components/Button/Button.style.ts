@@ -1,12 +1,12 @@
 import { css } from '@emotion/react';
 
 const font = css`
-  font-size: 1rem;
+  font-size: 1.6rem;
   font-weight: 700;
   font-style: normal;
   line-height: normal;
   color: #fff;
-  letter-spacing: -0.02rem;
+  letter-spacing: -0.032rem;
 `;
 export const shapes = (shape: 'circle' | 'bar', disabled: boolean) => {
   if (shape === 'circle') {
@@ -29,17 +29,17 @@ export const shapes = (shape: 'circle' | 'bar', disabled: boolean) => {
       ${font}
       display: flex;
       flex-shrink: 0;
-      gap: 0.625rem;
+      gap: 1rem;
       align-items: center;
       justify-content: center;
 
       width: 100%;
-      height: 4rem;
-      padding: 1rem 3.6875rem;
+      height: 6.4rem;
+      padding: 1.6rem 5.9rem;
 
       background: ${disabled ? '#868e96' : '#477bff'};
       border: none;
-      border-radius: 1.875rem;
+      border-radius: 3rem;
 
       &:active {
         background-color: ${disabled ? '#868e96' : '#005bb5'};

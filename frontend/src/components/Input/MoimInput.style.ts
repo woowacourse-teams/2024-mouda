@@ -14,11 +14,11 @@ export const input = css`
   flex-shrink: 0;
 
   width: 100%;
-  height: 2.5rem;
+  height: 4rem;
 
-  font-size: 1rem;
+  font-size: 1.6rem;
 
   background: #fff;
   border: 1px solid #b3b3b3;
-  border-radius: 0.5rem;
+  border-radius: 0.8rem;
 `;

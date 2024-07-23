@@ -25,7 +25,7 @@ export const getTriSectionHeaderStyle = ({
 };
 
 export const leftSectionStyle = css`
-  left: 1rem;
+  left: 1.6rem;
 `;
 
 export const centerSectionStyle = css`
@@ -34,5 +34,5 @@ export const centerSectionStyle = css`
 `;
 
 export const rightSectionStyle = css`
-  right: 1rem;
+  right: 1.6rem;
 `;
