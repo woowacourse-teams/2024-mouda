@@ -7,7 +7,6 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -87,7 +86,7 @@ class MoimServiceTest {
 		);
 		moimService.createMoim(moimCreateRequest);
 
-		MoimJoinRequest moimJoinRequest = new MoimJoinRequest(1L);
+		MoimJoinRequest moimJoinRequest = new MoimJoinRequest(1L, "호기");
 		moimService.joinMoim(moimJoinRequest);
 
 		Optional<Moim> moimOptional = moimRepository.findById(1L);

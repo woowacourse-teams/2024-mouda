@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.member.domain.Member;
+import mouda.backend.member.repository.MemberRepository;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
 import mouda.backend.moim.dto.request.MoimJoinRequest;
@@ -23,6 +25,8 @@ import mouda.backend.moim.repository.MoimRepository;
 public class MoimService {
 
 	private final MoimRepository moimRepository;
+
+	private final MemberRepository memberRepository;
 
 	public Moim createMoim(MoimCreateRequest moimCreateRequest) {
 		return moimRepository.save(moimCreateRequest.toEntity());
@@ -43,12 +47,18 @@ public class MoimService {
 		Moim moim = moimRepository.findById(id)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
 
-		return MoimDetailsFindResponse.toResponse(moim);
+		List<String> participants = memberRepository.findNickNamesByMoimId(id);
+
+		return MoimDetailsFindResponse.toResponse(moim, participants);
 	}
 
 	public void joinMoim(MoimJoinRequest moimJoinRequest) {
+		Member member = new Member(moimJoinRequest.nickName());
+
 		Moim moim = moimRepository.findById(moimJoinRequest.moimId())
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
+		member.joinMoim(moim);
+		memberRepository.save(member);
 		moim.join();
 	}
 
