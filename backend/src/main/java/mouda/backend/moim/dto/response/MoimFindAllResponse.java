@@ -19,14 +19,14 @@ public record MoimFindAllResponse(
 	String description
 ) {
 
-	public static MoimFindAllResponse toResponse(Moim moim) {
+	public static MoimFindAllResponse toResponse(Moim moim, int currentPeople) {
 		return MoimFindAllResponse.builder()
 			.moimId(moim.getId())
 			.title(moim.getTitle())
 			.date(moim.getDate())
 			.time(moim.getTime())
 			.place(moim.getPlace())
-			.currentPeople(moim.getCurrentPeople())
+			.currentPeople(currentPeople)
 			.maxPeople(moim.getMaxPeople())
 			.authorNickname(moim.getAuthorNickname())
 			.description(moim.getDescription())

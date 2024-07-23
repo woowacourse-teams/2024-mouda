@@ -26,7 +26,7 @@ public record MoimDetailsFindResponse(
 			.date(moim.getDate())
 			.time(moim.getTime())
 			.place(moim.getPlace())
-			.currentPeople(moim.getCurrentPeople())
+			.currentPeople(participants.size())
 			.maxPeople(moim.getMaxPeople())
 			.authorNickname(moim.getAuthorNickname())
 			.description(moim.getDescription())

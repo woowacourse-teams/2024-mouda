@@ -32,8 +32,6 @@ public class Moim {
 
 	private String place;
 
-	private int currentPeople;
-
 	private int maxPeople;
 
 	private String authorNickname;
@@ -54,16 +52,14 @@ public class Moim {
 		this.date = date;
 		this.time = time;
 		this.place = place;
-		this.currentPeople = 1;
 		this.maxPeople = maxPeople;
 		this.authorNickname = authorNickname;
 		this.description = description;
 	}
 
-	public void join() {
+	public void validateCurrentPeople(int currentPeople) {
 		if (currentPeople + 1 > maxPeople) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MAX_PEOPLE);
 		}
-		currentPeople++;
 	}
 }
