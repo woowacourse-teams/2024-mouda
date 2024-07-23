@@ -4,7 +4,7 @@ export const common = {
   fontType: {
     title: css`
       /* title */
-      font-size: 0.34rem;
+      font-size: 3rem;
       font-feature-settings:
         'clig' off,
         'liga' off;

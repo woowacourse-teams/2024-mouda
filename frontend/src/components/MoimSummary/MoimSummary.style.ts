@@ -1,3 +1,4 @@
+import { common } from '@_common/common.style';
 import { css } from '@emotion/react';
 
 export const containerStyle = css`
@@ -7,8 +8,7 @@ export const containerStyle = css`
 `;
 
 export const titleStyle = css`
-  font-size: 26px;
-  font-weight: 700;
+  ${common.fontType.title}
 `;
 
 export const contentStyle = css`
