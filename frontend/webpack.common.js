@@ -23,7 +23,7 @@ module.exports = {
       template: path.resolve(__dirname, './src/index.html'),
     }),
     new webpack.DefinePlugin({
-      'process.env.BASE_URL': JSON.stringify(process.env.BASE_URL)}),
+      'process.env': JSON.stringify(process.env)}),
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
