@@ -45,6 +45,7 @@ export const subjectBox = css`
 
 export const subjectInfo = css`
   display: inline-block;
+  font-size: 1.6rem;
   line-height: 130%;
   vertical-align: middle;
 `;

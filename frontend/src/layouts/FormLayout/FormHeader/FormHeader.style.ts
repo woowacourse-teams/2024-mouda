@@ -11,7 +11,7 @@ export const headerStyle = css`
 `;
 
 export const headerTitleStyle = css`
+  font-size: 1.6rem;
   font-weight: 700;
-  font-weight: 18px;
   color: rgb(118 118 118 / 100%);
 `;

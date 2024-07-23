@@ -24,6 +24,7 @@ export const rowStyle = css`
 
   padding: 10px 0;
 
+  font-size: 2.5rem;
   color: #666;
 
   border-top: 1px solid #e0e0e0;

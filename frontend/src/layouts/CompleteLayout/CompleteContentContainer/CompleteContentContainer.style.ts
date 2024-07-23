@@ -9,4 +9,7 @@ export const contentStyle = css`
 
   height: 100%;
   padding: 16px 22px;
+
+  font-size: 5rem;
+  font-weight: 700;
 `;
