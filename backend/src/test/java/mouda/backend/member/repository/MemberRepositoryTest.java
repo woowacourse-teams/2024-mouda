@@ -3,11 +3,13 @@ package mouda.backend.member.repository;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.member.domain.Member;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.repository.MoimRepository;
@@ -20,14 +22,14 @@ class MemberRepositoryTest {
 
 	@Autowired
 	private MoimRepository moimRepository;
-	//
-	// @Autowired
-	// private DatabaseCleaner databaseCleaner;
-	//
-	// @AfterEach
-	// void cleanUp() {
-	// 	databaseCleaner.cleanUp();
-	// }
+
+	@Autowired
+	private DatabaseCleaner databaseCleaner;
+
+	@AfterEach
+	void cleanUp() {
+		databaseCleaner.cleanUp();
+	}
 
 	@DisplayName("모임에 가입된 맴버의 이름을 반환한다.")
 	@Test
@@ -39,9 +41,8 @@ class MemberRepositoryTest {
 		member.joinMoim(saveMoim);
 		memberRepository.save(member);
 
-		List<String> participants = memberRepository.findNickNamesByMoimId(saveMoim.getId());
+		List<Member> participants = memberRepository.findAllByMoimId(saveMoim.getId());
 
 		Assertions.assertThat(participants.size()).isEqualTo(1);
 	}
-
 }
