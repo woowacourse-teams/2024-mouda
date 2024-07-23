@@ -3,14 +3,16 @@ import { css } from '@emotion/react';
 
 export const cardBox = css`
   display: flex;
-  align-items: flex-start;
-  gap: 0.2rem;
   flex-direction: column;
+  flex-shrink: 0;
+  gap: 0.2rem;
+  align-items: flex-start;
+
   width: 100%;
   padding: 2rem 1rem;
-  flex-shrink: 0;
-  border-radius: 1.5625rem;
+
   background: #ededed;
+  border-radius: 1.5625rem;
 `;
 
 export const cardTitle = css`
@@ -20,18 +22,21 @@ export const cardTitle = css`
 
 export const subjectTag = css`
   display: inline-flex;
-  padding: 0.1rem 0.3rem;
-  justify-content: center;
-  align-items: center;
   gap: 0.625rem;
-  border-radius: 0.625rem;
-  background: #dde7ff;
-  color: var(--Main-Blue, #477bff);
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.1rem 0.3rem;
+
   font-family: Pretendard;
   font-size: 0.75rem;
-  font-style: normal;
   font-weight: 600;
+  font-style: normal;
   line-height: 130%;
+  color: var(--Main-Blue, #477bff);
+
+  background: #dde7ff;
+  border-radius: 0.625rem;
 `;
 
 export const subjectBox = css`
@@ -40,7 +45,7 @@ export const subjectBox = css`
 `;
 
 export const subjectInfo = css`
-  line-height: 130%;
   display: inline-block;
+  line-height: 130%;
   vertical-align: middle;
 `;

@@ -7,6 +7,7 @@ export const getTriSectionHeaderStyle = ({
 }) => {
   return css`
     position: relative;
+
     height: 53px;
 
     display: flex;
@@ -17,7 +18,6 @@ export const getTriSectionHeaderStyle = ({
 
     & > * {
       position: absolute;
-
       display: flex;
       flex-direction: row;
     }

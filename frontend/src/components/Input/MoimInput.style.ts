@@ -7,16 +7,18 @@ export const required = css`
 
 export const title = css`
   ${common.fontType.subtitle};
-  margin: 0 0 10px 0;
+  margin: 0 0 10px;
 `;
 
 export const input = css`
-  width: 100%;
-  font-size: 1rem;
-  height: 2.5rem;
   flex-shrink: 0;
-  border-radius: 0.5rem;
-  border: 1px solid #b3b3b3;
+
+  width: 100%;
+  height: 2.5rem;
+
+  font-size: 1rem;
 
   background: #fff;
+  border: 1px solid #b3b3b3;
+  border-radius: 0.5rem;
 `;

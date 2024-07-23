@@ -11,7 +11,7 @@
     "build": "webpack --config webpack.prod.js",
     "sb": "storybook dev -p 6006",
     "build-sb": "storybook build",
-    "sl": "stylelint '**/*.styles.ts' --fix"
+    "sl": "stylelint **/*.style.ts --fix"
   },
   "repository": {
     "type": "git",
