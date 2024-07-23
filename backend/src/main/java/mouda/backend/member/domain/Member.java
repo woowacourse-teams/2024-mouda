@@ -20,14 +20,14 @@ public class Member {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String nickName;
+	private String nickname;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Moim moim;
 
 	@Builder
-	public Member(String nickName) {
-		this.nickName = nickName;
+	public Member(String nickname) {
+		this.nickname = nickname;
 	}
 
 	public void joinMoim(Moim moim) {
