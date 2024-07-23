@@ -10,10 +10,11 @@ public record MoimCreateRequest(
 	LocalDate date,
 	LocalTime time,
 	String place,
-	int maxPeople,
+	Integer maxPeople,
 	String authorNickname,
 	String description
 ) {
+
 	public Moim toEntity() {
 		return Moim.builder()
 			.title(title)

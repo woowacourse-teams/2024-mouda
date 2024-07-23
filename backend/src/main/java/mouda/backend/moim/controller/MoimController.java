@@ -29,31 +29,39 @@ public class MoimController implements MoimSwagger {
 	@PostMapping
 	public ResponseEntity<RestResponse<Long>> createMoim(@RequestBody MoimCreateRequest moimCreateRequest) {
 		Moim moim = moimService.createMoim(moimCreateRequest);
+
 		return ResponseEntity.ok().body(new RestResponse<>(moim.getId()));
 	}
 
 	@Override
 	@GetMapping
 	public ResponseEntity<RestResponse<MoimFindAllResponses>> findAllMoim() {
-		return ResponseEntity.ok().body(new RestResponse<>(moimService.findAllMoim()));
+		MoimFindAllResponses moimFindAllResponses = moimService.findAllMoim();
+
+		return ResponseEntity.ok().body(new RestResponse<>(moimFindAllResponses));
 	}
 
 	@Override
 	@GetMapping("/{moimId}")
-	public ResponseEntity<RestResponse<MoimDetailsFindResponse>> findMoimDetails(@PathVariable long moimId) {
-		return ResponseEntity.ok().body(new RestResponse<>(moimService.findMoimDetails(moimId)));
+	public ResponseEntity<RestResponse<MoimDetailsFindResponse>> findMoimDetails(@PathVariable Long moimId) {
+		MoimDetailsFindResponse moimDetailsFindResponse = moimService.findMoimDetails(moimId);
+
+		return ResponseEntity.ok().body(new RestResponse<>(moimDetailsFindResponse));
 	}
 
 	@Override
 	@PostMapping("/join")
-	public ResponseEntity<RestResponse<Void>> joinMoim(@RequestBody MoimJoinRequest moimJoinRequest) {
+	public ResponseEntity<Void> joinMoim(@RequestBody MoimJoinRequest moimJoinRequest) {
 		moimService.joinMoim(moimJoinRequest);
+
 		return ResponseEntity.ok().build();
 	}
 
 	@Override
 	@DeleteMapping("/{moimId}")
-	public void deleteMoim(@PathVariable long moimId) {
+	public ResponseEntity<Void> deleteMoim(@PathVariable Long moimId) {
 		moimService.deleteMoim(moimId);
+
+		return ResponseEntity.ok().build();
 	}
 }
