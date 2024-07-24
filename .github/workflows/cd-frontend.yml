@@ -30,8 +30,8 @@ jobs:
 
       - name: docker compose pull
         run: |
-          docker compose -f ~/frontend/docker-compose-fe.yml pull 
+          docker compose -f ./frontend/docker-compose-fe.yml pull 
 
       - name: docker compose up
         run: |
-          docker compose -f ~/frontend/docker-compose-fe.yml up -d
+          docker compose -f ./frontend/docker-compose-fe.yml up -d
