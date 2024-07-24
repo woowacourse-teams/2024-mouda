@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.member.domain.Member;
+import mouda.backend.member.repository.MemberRepository;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
 import mouda.backend.moim.dto.request.MoimJoinRequest;
@@ -24,8 +26,15 @@ public class MoimService {
 
 	private final MoimRepository moimRepository;
 
+	private final MemberRepository memberRepository;
+
 	public Moim createMoim(MoimCreateRequest moimCreateRequest) {
-		return moimRepository.save(moimCreateRequest.toEntity());
+		Member author = new Member(moimCreateRequest.authorNickname());
+		Moim moim = moimRepository.save(moimCreateRequest.toEntity());
+		author.joinMoim(moim);
+		memberRepository.save(author);
+
+		return moim;
 	}
 
 	@Transactional(readOnly = true)
@@ -33,7 +42,10 @@ public class MoimService {
 		List<Moim> moims = moimRepository.findAll();
 		return new MoimFindAllResponses(
 			moims.stream()
-				.map(MoimFindAllResponse::toResponse)
+				.map(moim -> {
+					List<Member> participants = memberRepository.findAllByMoimId(moim.getId());
+					return MoimFindAllResponse.toResponse(moim, participants.size());
+				})
 				.toList()
 		);
 	}
@@ -43,18 +55,32 @@ public class MoimService {
 		Moim moim = moimRepository.findById(id)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
 
-		return MoimDetailsFindResponse.toResponse(moim);
+		List<String> participants = memberRepository.findAllByMoimId(id).stream()
+			.map(Member::getNickname)
+			.toList();
+
+		return MoimDetailsFindResponse.toResponse(moim, participants);
 	}
 
 	public void joinMoim(MoimJoinRequest moimJoinRequest) {
+		Member member = new Member(moimJoinRequest.nickname());
 		Moim moim = moimRepository.findById(moimJoinRequest.moimId())
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
-		moim.join();
+
+		member.joinMoim(moim);
+		memberRepository.save(member);
+		List<Member> participants = memberRepository.findAllByMoimId(moim.getId());
+
+		moim.validateAlreadyFullMoim(participants.size());
 	}
 
 	public void deleteMoim(long id) {
 		Moim moim = moimRepository.findById(id)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
+		List<Member> participants = memberRepository.findAllByMoimId(moim.getId());
+		for (Member participant : participants) {
+			memberRepository.deleteById(participant.getId());
+		}
 
 		moimRepository.delete(moim);
 	}

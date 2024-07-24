@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import mouda.backend.config.DatabaseCleaner;
+import mouda.backend.member.domain.Member;
+import mouda.backend.member.repository.MemberRepository;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
 import mouda.backend.moim.dto.request.MoimJoinRequest;
@@ -29,6 +31,9 @@ class MoimServiceTest {
 
 	@Autowired
 	private MoimRepository moimRepository;
+
+	@Autowired
+	private MemberRepository memberRepository;
 
 	@Autowired
 	private DatabaseCleaner databaseCleaner;
@@ -87,14 +92,15 @@ class MoimServiceTest {
 			"title", LocalDate.now(), LocalTime.now(), "place",
 			10, "안나", "설명"
 		);
-		moimService.createMoim(moimCreateRequest);
+		Moim moim = moimService.createMoim(moimCreateRequest);
 
-		MoimJoinRequest moimJoinRequest = new MoimJoinRequest(1L);
+		MoimJoinRequest moimJoinRequest = new MoimJoinRequest(moim.getId(), "호기");
 		moimService.joinMoim(moimJoinRequest);
+		List<Member> participants = memberRepository.findAllByMoimId(moim.getId());
 
-		Optional<Moim> moimOptional = moimRepository.findById(1L);
+		Optional<Moim> moimOptional = moimRepository.findById(moim.getId());
 		assertThat(moimOptional).isNotEmpty();
-		assertThat(moimOptional.get().getCurrentPeople()).isEqualTo(2);
+		assertThat(participants.size()).isEqualTo(2);
 	}
 
 	@DisplayName("모임을 삭제한다.")
