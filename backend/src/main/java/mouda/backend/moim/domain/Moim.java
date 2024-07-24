@@ -5,10 +5,14 @@ import java.time.LocalTime;
 
 import org.springframework.http.HttpStatus;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,16 +28,28 @@ public class Moim {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotBlank
+	@Column(nullable = false)
 	private String title;
 
+	@NotNull
+	@Column(nullable = false)
 	private LocalDate date;
 
+	@NotNull
+	@Column(nullable = false)
 	private LocalTime time;
 
+	@NotBlank
+	@Column(nullable = false)
 	private String place;
 
+	@Positive
+	@Column(nullable = false)
 	private int maxPeople;
 
+	@NotBlank
+	@Column(nullable = false)
 	private String authorNickname;
 
 	private String description;
