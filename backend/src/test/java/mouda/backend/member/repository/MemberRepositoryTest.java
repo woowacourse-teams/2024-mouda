@@ -31,7 +31,7 @@ class MemberRepositoryTest {
 		databaseCleaner.cleanUp();
 	}
 
-	@DisplayName("모임에 가입된 맴버의 이름을 반환한다.")
+	@DisplayName("모임에 가입된 참여자의 수를 반환한다.")
 	@Test
 	void findNickNamesByMoimId() {
 		Member member = new Member("tehah");

@@ -18,12 +18,6 @@ public class DatabaseCleaner {
 
 	@Transactional
 	public void cleanUp() {
-		// String sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'PUBLIC' AND table_type='BASE TABLE'";
-		// List<String> tables = jdbcTemplate.queryForList(sql, String.class);
-		// for (String tableName : tables) {
-		//     jdbcTemplate.update("DELETE FROM " + tableName);
-		//     jdbcTemplate.update("ALTER TABLE " + tableName + " alter column id restart with 1");
-		// }
 		entityManager.createNativeQuery("DELETE FROM MEMBER").executeUpdate();
 		entityManager.createNativeQuery("ALTER TABLE MEMBER alter column id restart with 1").executeUpdate();
 
