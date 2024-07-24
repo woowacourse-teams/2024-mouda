@@ -63,7 +63,7 @@ public class MoimService {
 	}
 
 	public void joinMoim(MoimJoinRequest moimJoinRequest) {
-		Member member = new Member(moimJoinRequest.nickName());
+		Member member = new Member(moimJoinRequest.nickname());
 		Moim moim = moimRepository.findById(moimJoinRequest.moimId())
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
 
@@ -71,7 +71,7 @@ public class MoimService {
 		memberRepository.save(member);
 		List<Member> participants = memberRepository.findAllByMoimId(moim.getId());
 
-		moim.validateCurrentPeople(participants.size());
+		moim.validateAlreadyFullMoim(participants.size());
 	}
 
 	public void deleteMoim(long id) {
