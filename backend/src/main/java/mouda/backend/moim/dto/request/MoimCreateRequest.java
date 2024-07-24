@@ -3,15 +3,33 @@ package mouda.backend.moim.dto.request;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import mouda.backend.moim.domain.Moim;
 
 public record MoimCreateRequest(
+	@NotBlank
 	String title,
+
+	@NotNull
+	@FutureOrPresent
 	LocalDate date,
+
+	@NotNull
 	LocalTime time,
+
+	@NotBlank
 	String place,
+
+	@NotNull
+	@Positive
 	Integer maxPeople,
+
+	@NotBlank
 	String authorNickname,
+
 	String description
 ) {
 
