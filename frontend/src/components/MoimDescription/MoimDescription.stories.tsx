@@ -12,7 +12,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    description: '볼 함 차보까?',
+    title: '볼 함 차보까?',
+    children: '내용',
   },
   render: (args) => <MoimDescription {...args} />,
 };
