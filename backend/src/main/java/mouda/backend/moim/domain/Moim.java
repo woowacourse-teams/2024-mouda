@@ -11,9 +11,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +32,7 @@ public class Moim {
 	private Long id;
 
 	@NotBlank
+	@Size(max = 30)
 	@Column(nullable = false)
 	private String title;
 
@@ -42,17 +45,21 @@ public class Moim {
 	private LocalTime time;
 
 	@NotBlank
+	@Size(max = 100)
 	@Column(nullable = false)
 	private String place;
 
 	@Positive
+	@Max(99)
 	@Column(nullable = false)
 	private int maxPeople;
 
 	@NotBlank
+	@Size(max = 10)
 	@Column(nullable = false)
 	private String authorNickname;
 
+	@Size(max = 1000)
 	private String description;
 
 	@Builder
