@@ -6,12 +6,15 @@
   "scripts": {
     "test": "jest",
     "start": "webpack serve --config webpack.dev.js",
-    "start-mock": "MSW=true webpack serve --config webpack.dev.js",
-    "start-prod": "webpack serve --config webpack.prod.js",
+    "start:mock": "MSW=true webpack serve --config webpack.dev.js",
+    "start:prod": "webpack serve --config webpack.prod.js",
     "build": "webpack --config webpack.prod.js",
     "sb": "storybook dev -p 6006",
     "build-sb": "storybook build",
-    "sl": "stylelint '**/*.styles.ts' --fix"
+    "sl": "stylelint '**/*.styles.ts' --fix",
+    "lint:eslint": "eslint 'src/**/*.{ts,tsx}'",
+    "lint:css": "stylelint --fix 'src/**/*.{ts,tsx}'",
+    "lint": "npm run lint:js && npm run lint:css"
   },
   "repository": {
     "type": "git",
