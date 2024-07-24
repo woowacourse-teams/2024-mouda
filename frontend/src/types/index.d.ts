@@ -8,7 +8,11 @@ export interface MoimInfo {
   maxPeople: number;
   currentPeople: number;
   authorNickname: string;
+  participants: string[];
   description?: string;
 }
 
-export type MoimInputInfo = Omit<MoimInfo, 'moimId' | 'currentPeople'>;
+export type MoimInputInfo = Omit<
+  MoimInfo,
+  'moimId' | 'currentPeople' | 'participants'
+>;
