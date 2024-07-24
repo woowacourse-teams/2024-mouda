@@ -19,6 +19,8 @@ import mouda.backend.member.repository.MemberRepository;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
 import mouda.backend.moim.dto.request.MoimJoinRequest;
+import mouda.backend.moim.dto.response.MoimDetailsFindResponse;
+import mouda.backend.moim.dto.response.MoimFindAllResponses;
 import mouda.backend.moim.repository.MoimRepository;
 
 @SpringBootTest
@@ -64,8 +66,9 @@ class MoimServiceTest {
 		moimService.createMoim(moimCreateRequest);
 		moimService.createMoim(moimCreateRequest);
 
-		List<Moim> moims = moimRepository.findAll();
-		assertThat(moims).isNotNull().hasSize(2);
+		MoimFindAllResponses moimResponses = moimService.findAllMoim();
+
+		assertThat(moimResponses.moims()).hasSize(2);
 	}
 
 	@DisplayName("모임 상세를 조회한다.")
@@ -77,9 +80,9 @@ class MoimServiceTest {
 		);
 		moimService.createMoim(moimCreateRequest);
 
-		Optional<Moim> moimOptional = moimRepository.findById(1L);
-		assertThat(moimOptional).isNotEmpty();
-		assertThat(moimOptional.get().getAuthorNickname()).isEqualTo("안나");
+		MoimDetailsFindResponse moimDetails = moimService.findMoimDetails(1L);
+
+		assertThat(moimDetails.authorNickname()).isEqualTo("안나");
 	}
 
 	@DisplayName("모임에 참여한다.")
