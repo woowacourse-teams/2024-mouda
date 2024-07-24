@@ -1,6 +1,7 @@
 package mouda.backend.moim.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.springframework.http.HttpStatus;
@@ -65,12 +66,20 @@ public class Moim {
 		String description
 	) {
 		this.title = title;
+		validateMoimIsFuture(date, time);
 		this.date = date;
 		this.time = time;
 		this.place = place;
 		this.maxPeople = maxPeople;
 		this.authorNickname = authorNickname;
 		this.description = description;
+	}
+
+	private void validateMoimIsFuture(LocalDate date, LocalTime time) {
+		LocalDateTime moimDateTime = LocalDateTime.of(date, time);
+		if (moimDateTime.isBefore(LocalDateTime.now())) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.PAST_DATE_TIME);
+		}
 	}
 
 	public void validateAlreadyFullMoim(int currentPeople) {
