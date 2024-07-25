@@ -18,13 +18,12 @@ export default function ParticipationCompletePage() {
       </CompleteLayout.Header>
       <CompleteLayout.ContentContainer>
         <div>참여가 완료되었어요!</div>
+        <CompleteLayout.BottomButtonWrapper>
+          <Button shape={'bar'} disabled={false} onClick={() => navigate(-1)}>
+            확인하기
+          </Button>
+        </CompleteLayout.BottomButtonWrapper>
       </CompleteLayout.ContentContainer>
-
-      <CompleteLayout.BottomButtonWrapper>
-        <Button shape={'bar'} disabled={false} onClick={() => navigate(-1)}>
-          확인하기
-        </Button>
-      </CompleteLayout.BottomButtonWrapper>
     </CompleteLayout>
   );
 }

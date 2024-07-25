@@ -18,7 +18,11 @@ export const titleStyle = css`
 `;
 
 export const descriptionStyle = css`
-  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  font-size: 20px;
   font-weight: 600;
   color: rgb(255 255 255 / 100%);
 `;

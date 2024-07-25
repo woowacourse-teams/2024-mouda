@@ -11,6 +11,7 @@ import MoimSummary from '@_components/MoimSummary/MoimSummary';
 import ROUTES from '@_constants/routes';
 import useJoinMoim from '@_hooks/mutaions/useJoinMoim';
 import useMoim from '@_hooks/queries/useMoim';
+import { css } from '@emotion/react';
 
 export default function MoimDetailPage() {
   const navigate = useNavigate();
@@ -42,7 +43,6 @@ export default function MoimDetailPage() {
       <InformationLayout.ContentContainer>
         <MoimSummary moimInfo={moim} />
         <MoimInformation moimInfo={moim} />
-
         {moim.description && (
           <MoimDescription title={'상세설명'}>
             {moim.description}
@@ -51,11 +51,19 @@ export default function MoimDetailPage() {
         {moim.participants && (
           <MoimDescription title="참여자">
             {moim.participants.map((nickName) => {
-              return <p key={nickName}>{nickName}</p>;
+              return (
+                <div
+                  key={nickName}
+                  css={css`
+                    font-size: 1.5rem;
+                  `}
+                >
+                  {nickName}
+                </div>
+              );
             })}
           </MoimDescription>
         )}
-
         <LabeledInput
           title="참가자 이름"
           required
