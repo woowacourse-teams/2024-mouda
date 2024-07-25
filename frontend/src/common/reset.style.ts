@@ -86,7 +86,7 @@ const reset = css`
     margin: 0;
     padding: 0;
 
-    font: inherit;
+    font-family: Pretendard;
     font-size: 62.5%;
     vertical-align: baseline;
 
