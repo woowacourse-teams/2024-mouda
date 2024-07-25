@@ -43,7 +43,18 @@ export default function MoimDetailPage() {
         <MoimSummary moimInfo={moim} />
         <MoimInformation moimInfo={moim} />
 
-        {moim.description && <MoimDescription description={moim.description} />}
+        {moim.description && (
+          <MoimDescription title={'상세설명'}>
+            {moim.description}
+          </MoimDescription>
+        )}
+        {moim.participants && (
+          <MoimDescription title="참여자">
+            {moim.participants.map((nickName) => {
+              return <p key={nickName}>{nickName}</p>;
+            })}
+          </MoimDescription>
+        )}
 
         <LabeledInput
           title="참가자 이름"
