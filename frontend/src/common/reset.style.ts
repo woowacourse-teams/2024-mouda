@@ -1,3 +1,4 @@
+import { DISPLAY_MAX_WIDTH } from '@_constants/styles';
 import { css } from '@emotion/react';
 
 const reset = css`
@@ -109,6 +110,9 @@ const reset = css`
   }
 
   body {
+    position: relative;
+    max-width: ${DISPLAY_MAX_WIDTH};
+    margin: 0 auto;
     line-height: 1;
   }
 
