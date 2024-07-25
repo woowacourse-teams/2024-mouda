@@ -12,8 +12,9 @@
     "sb": "storybook dev -p 6006",
     "build-sb": "storybook build",
     "lint:eslint": "eslint 'src/**/*.{ts,tsx}'",
-    "lint:css": "stylelint --fix 'src/**/*.{ts,tsx}'",
-    "lint": "npm run lint:js && npm run lint:css"
+    "lint:style": "stylelint **/*.style.ts --fix",
+    "lint": "npm run lint:eslint && npm run lint:style"
+    
   },
   "repository": {
     "type": "git",

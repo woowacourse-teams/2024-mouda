@@ -15,7 +15,7 @@ import useMoim from '@_hooks/queries/useMoim';
 export default function MoimDetailPage() {
   const navigate = useNavigate();
   const params = useParams();
-  const [nickName, setNickName] = useState('');
+  const [nickname, setNickname] = useState('');
 
   const moimId = Number(params.moimId);
 
@@ -60,15 +60,15 @@ export default function MoimDetailPage() {
           title="참가자 이름"
           required
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setNickName(e.target.value)
+            setNickname(e.target.value)
           }
         />
       </InformationLayout.ContentContainer>
       <InformationLayout.BottomButtonWrapper>
         <Button
           shape="bar"
-          disabled={nickName === ''}
-          onClick={() => mutate({ moimId, nickName })}
+          disabled={nickname === ''}
+          onClick={() => mutate({ moimId, nickname })}
         >
           참여하기
         </Button>

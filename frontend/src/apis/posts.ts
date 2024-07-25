@@ -24,11 +24,11 @@ export const postMoim = async (moim: MoimInputInfo): Promise<number> => {
   return json.data;
 };
 
-export const postJoinMoim = async (moimId: number, nickName: string) => {
+export const postJoinMoim = async (moimId: number, nickname: string) => {
   const url = `${ENDPOINTS.moims}/join`;
   const options = {
     ...defaultPostOptions,
-    body: JSON.stringify({ moimId, nickName }),
+    body: JSON.stringify({ moimId, nickname }),
   };
 
   const response = await fetch(url, options);
