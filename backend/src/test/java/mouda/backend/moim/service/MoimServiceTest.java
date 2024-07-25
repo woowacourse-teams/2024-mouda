@@ -1,6 +1,7 @@
 package mouda.backend.moim.service;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -21,6 +22,7 @@ import mouda.backend.moim.dto.request.MoimCreateRequest;
 import mouda.backend.moim.dto.request.MoimJoinRequest;
 import mouda.backend.moim.dto.response.MoimDetailsFindResponse;
 import mouda.backend.moim.dto.response.MoimFindAllResponses;
+import mouda.backend.moim.exception.MoimException;
 import mouda.backend.moim.repository.MoimRepository;
 
 @SpringBootTest
@@ -116,5 +118,21 @@ class MoimServiceTest {
 
 		List<Moim> moims = moimRepository.findAll();
 		assertThat(moims).hasSize(0);
+	}
+
+	@DisplayName("최대 참여 인원을 넘으면 예외가 발생한다.")
+	@Test
+	void failToJoinMoimWhenExceedMaxPeople() {
+		MoimCreateRequest moimCreateRequest = new MoimCreateRequest(
+			"title", LocalDate.now(), LocalTime.now(), "place",
+			2, "안나", "설명"
+		);
+
+		Moim moim = moimService.createMoim(moimCreateRequest);
+		MoimJoinRequest hogee = new MoimJoinRequest(moim.getId(), "호기");
+		moimService.joinMoim(hogee);
+		MoimJoinRequest tebah = new MoimJoinRequest(moim.getId(), "테바");
+
+		assertThrows(MoimException.class, () -> moimService.joinMoim(tebah));
 	}
 }
