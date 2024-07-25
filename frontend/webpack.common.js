@@ -23,7 +23,8 @@ module.exports = {
       template: path.resolve(__dirname, './src/index.html'),
     }),
     new webpack.DefinePlugin({
-      'process.env': JSON.stringify(process.env)}),
+      'process.env': JSON.stringify(process.env),
+    }),
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
@@ -48,6 +49,10 @@ module.exports = {
       {
         test: /\.(png|jpe?g|gif|webp)$/i,
         type: 'asset/resource',
+      },
+      {
+        test: /\.(woff2)$/i,
+        use: ['file-loader'],
       },
     ],
   },
