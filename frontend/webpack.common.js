@@ -23,7 +23,8 @@ module.exports = {
       template: path.resolve(__dirname, './src/index.html'),
     }),
     new webpack.DefinePlugin({
-      'process.env': JSON.stringify(process.env)}),
+      'process.env': JSON.stringify(process.env),
+    }),
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
@@ -46,7 +47,7 @@ module.exports = {
         use: ['@svgr/webpack'],
       },
       {
-        test: /\.(png|jpe?g|gif|webp)$/i,
+        test: /\.(png|jpe?g|gif|webp|woff2)$/i,
         type: 'asset/resource',
       },
     ],
