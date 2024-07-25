@@ -32,8 +32,11 @@ jobs:
       - name: Install Dependencies
         run: npm install --frozen-lockfile
 
-#      - name: Run tests
-#        run: npm run test
+      - name: Run tests
+        run: npm run test
+
+      - name: Run linter
+        run: npm run lint
 
       - name: Build static file
         run: npm run build
