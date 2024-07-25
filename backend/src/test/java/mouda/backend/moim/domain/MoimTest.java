@@ -6,43 +6,32 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import mouda.backend.moim.exception.MoimException;
 
 class MoimTest {
-	private String title;
-	private LocalDate date;
-	private LocalTime time;
-	private String place;
-	private int maxPeople;
-	private String authorNickname;
-	private String description;
 
-	@BeforeEach
-	void setUp() {
-		title = "이번 주에 축구하실 분 구함";
-		date = LocalDate.now().plusDays(1);
-		time = LocalTime.now().plusHours(1);
-		place = "서울시 동작구 강원대로 10길 5";
-		maxPeople = 11;
-		authorNickname = "안나";
-		description = "이번 주 금요일에 퇴근하고 축구하실 분 계신가요? 끝나고 치맥도 할 생각입니다.";
-	}
+	private static final String TITLE = "이번 주에 축구하실 분 구함";
+	private static final LocalDate DATE = LocalDate.now().plusDays(1);
+	private static final LocalTime TIME = LocalTime.now().plusHours(1);
+	private static final String PLACE = "서울시 동작구 강원대로 10길 5";
+	private static final int MAX_PEOPLE = 11;
+	private static final String AUTHOR_NICKNAME = "안나";
+	private static final String DESCRIPTION = "이번 주 금요일에 퇴근하고 축구하실 분 계신가요? 끝나고 치맥도 할 생각입니다.";
 
 	@DisplayName("모임 객체를 정상적으로 생성한다.")
 	@Test
 	void createMoim() {
 		Assertions.assertDoesNotThrow(() -> Moim.builder()
-			.title(title)
-			.date(date)
-			.time(time)
-			.place(place)
-			.maxPeople(maxPeople)
-			.authorNickname(authorNickname)
-			.description(description)
+			.title(TITLE)
+			.date(DATE)
+			.time(TIME)
+			.place(PLACE)
+			.maxPeople(MAX_PEOPLE)
+			.authorNickname(AUTHOR_NICKNAME)
+			.description(DESCRIPTION)
 			.build());
 	}
 
@@ -52,12 +41,12 @@ class MoimTest {
 		String longTitle = "a".repeat(31);
 		assertThrows(MoimException.class, () -> Moim.builder()
 			.title(longTitle)
-			.date(date)
-			.time(time)
-			.place(place)
-			.maxPeople(maxPeople)
-			.authorNickname(authorNickname)
-			.description(description)
+			.date(DATE)
+			.time(TIME)
+			.place(PLACE)
+			.maxPeople(MAX_PEOPLE)
+			.authorNickname(AUTHOR_NICKNAME)
+			.description(DESCRIPTION)
 			.build());
 	}
 
@@ -66,12 +55,12 @@ class MoimTest {
 	void failToCreateMoimWhenTitleDoesNotExists() {
 		assertThrows(MoimException.class, () -> Moim.builder()
 			.title("")
-			.date(date)
-			.time(time)
-			.place(place)
-			.maxPeople(maxPeople)
-			.authorNickname(authorNickname)
-			.description(description)
+			.date(DATE)
+			.time(TIME)
+			.place(PLACE)
+			.maxPeople(MAX_PEOPLE)
+			.authorNickname(AUTHOR_NICKNAME)
+			.description(DESCRIPTION)
 			.build());
 	}
 
@@ -79,13 +68,13 @@ class MoimTest {
 	@Test
 	void failToCreateMoimWhenDateIsNull() {
 		assertThrows(MoimException.class, () -> Moim.builder()
-			.title(title)
+			.title(TITLE)
 			.date(null)
-			.time(time)
-			.place(place)
-			.maxPeople(maxPeople)
-			.authorNickname(authorNickname)
-			.description(description)
+			.time(TIME)
+			.place(PLACE)
+			.maxPeople(MAX_PEOPLE)
+			.authorNickname(AUTHOR_NICKNAME)
+			.description(DESCRIPTION)
 			.build());
 	}
 
@@ -93,13 +82,13 @@ class MoimTest {
 	@Test
 	void failToCreateMoimWhenTimeIsNull() {
 		assertThrows(MoimException.class, () -> Moim.builder()
-			.title(title)
-			.date(date)
+			.title(TITLE)
+			.date(DATE)
 			.time(null)
-			.place(place)
-			.maxPeople(maxPeople)
-			.authorNickname(authorNickname)
-			.description(description)
+			.place(PLACE)
+			.maxPeople(MAX_PEOPLE)
+			.authorNickname(AUTHOR_NICKNAME)
+			.description(DESCRIPTION)
 			.build());
 	}
 
@@ -107,13 +96,13 @@ class MoimTest {
 	@Test
 	void failToCreateMoimWhenDateIsPast() {
 		assertThrows(MoimException.class, () -> Moim.builder()
-			.title(title)
+			.title(TITLE)
 			.date(LocalDate.now().minusDays(1))
 			.time(LocalTime.now().plusHours(1))
-			.place(place)
-			.maxPeople(maxPeople)
-			.authorNickname(authorNickname)
-			.description(description)
+			.place(PLACE)
+			.maxPeople(MAX_PEOPLE)
+			.authorNickname(AUTHOR_NICKNAME)
+			.description(DESCRIPTION)
 			.build());
 	}
 
@@ -121,13 +110,13 @@ class MoimTest {
 	@Test
 	void failToCreateMoimWhenTimeIsPast() {
 		assertThrows(MoimException.class, () -> Moim.builder()
-			.title(title)
+			.title(TITLE)
 			.date(LocalDate.now())
 			.time(LocalTime.now().minusHours(1))
-			.place(place)
-			.maxPeople(maxPeople)
-			.authorNickname(authorNickname)
-			.description(description)
+			.place(PLACE)
+			.maxPeople(MAX_PEOPLE)
+			.authorNickname(AUTHOR_NICKNAME)
+			.description(DESCRIPTION)
 			.build());
 	}
 
@@ -135,13 +124,13 @@ class MoimTest {
 	@Test
 	void failToCreateMoimWhenPlaceIsBlank() {
 		assertThrows(MoimException.class, () -> Moim.builder()
-			.title(title)
+			.title(TITLE)
 			.date(LocalDate.now())
 			.time(LocalTime.now().minusHours(1))
 			.place("")
-			.maxPeople(maxPeople)
-			.authorNickname(authorNickname)
-			.description(description)
+			.maxPeople(MAX_PEOPLE)
+			.authorNickname(AUTHOR_NICKNAME)
+			.description(DESCRIPTION)
 			.build());
 	}
 
@@ -150,13 +139,13 @@ class MoimTest {
 	void failToCreateMoimWhenPlaceIsTooLong() {
 		String longPlace = "a".repeat(101);
 		assertThrows(MoimException.class, () -> Moim.builder()
-			.title(title)
-			.date(date)
-			.time(time)
+			.title(TITLE)
+			.date(DATE)
+			.time(TIME)
 			.place(longPlace)
-			.maxPeople(maxPeople)
-			.authorNickname(authorNickname)
-			.description(description)
+			.maxPeople(MAX_PEOPLE)
+			.authorNickname(AUTHOR_NICKNAME)
+			.description(DESCRIPTION)
 			.build());
 	}
 
@@ -164,13 +153,13 @@ class MoimTest {
 	@Test
 	void failToCreateMoimWhenMaxPeopleIsTooSmall() {
 		assertThrows(MoimException.class, () -> Moim.builder()
-			.title(title)
-			.date(date)
-			.time(time)
-			.place(place)
+			.title(TITLE)
+			.date(DATE)
+			.time(TIME)
+			.place(PLACE)
 			.maxPeople(-1)
-			.authorNickname(authorNickname)
-			.description(description)
+			.authorNickname(AUTHOR_NICKNAME)
+			.description(DESCRIPTION)
 			.build());
 	}
 
@@ -178,13 +167,13 @@ class MoimTest {
 	@Test
 	void failToCreateMoimWhenMaxPeopleIsTooMany() {
 		assertThrows(MoimException.class, () -> Moim.builder()
-			.title(title)
-			.date(date)
-			.time(time)
-			.place(place)
+			.title(TITLE)
+			.date(DATE)
+			.time(TIME)
+			.place(PLACE)
 			.maxPeople(100)
-			.authorNickname(authorNickname)
-			.description(description)
+			.authorNickname(AUTHOR_NICKNAME)
+			.description(DESCRIPTION)
 			.build());
 	}
 
@@ -192,13 +181,13 @@ class MoimTest {
 	@Test
 	void failToCreateMoimWhenAuthorNicknameIsBlank() {
 		assertThrows(MoimException.class, () -> Moim.builder()
-			.title(title)
-			.date(date)
-			.time(time)
-			.place(place)
-			.maxPeople(maxPeople)
+			.title(TITLE)
+			.date(DATE)
+			.time(TIME)
+			.place(PLACE)
+			.maxPeople(MAX_PEOPLE)
 			.authorNickname("")
-			.description(description)
+			.description(DESCRIPTION)
 			.build());
 	}
 
@@ -207,13 +196,13 @@ class MoimTest {
 	void failToCreateMoimWhenAuthorNicknameIsTooLong() {
 		String longNickname = "a".repeat(11);
 		assertThrows(MoimException.class, () -> Moim.builder()
-			.title(title)
-			.date(date)
-			.time(time)
-			.place(place)
-			.maxPeople(maxPeople)
+			.title(TITLE)
+			.date(DATE)
+			.time(TIME)
+			.place(PLACE)
+			.maxPeople(MAX_PEOPLE)
 			.authorNickname(longNickname)
-			.description(description)
+			.description(DESCRIPTION)
 			.build());
 	}
 
@@ -221,12 +210,12 @@ class MoimTest {
 	@Test
 	void createMoimWhenDescriptionIsNull() {
 		assertDoesNotThrow(() -> Moim.builder()
-			.title(title)
-			.date(date)
-			.time(time)
-			.place(place)
-			.maxPeople(maxPeople)
-			.authorNickname(authorNickname)
+			.title(TITLE)
+			.date(DATE)
+			.time(TIME)
+			.place(PLACE)
+			.maxPeople(MAX_PEOPLE)
+			.authorNickname(AUTHOR_NICKNAME)
 			.description(null)
 			.build());
 	}
@@ -236,12 +225,12 @@ class MoimTest {
 	void createMoimWhenDescriptionIsTooLong() {
 		String longDescription = "a".repeat(1001);
 		assertThrows(MoimException.class, () -> Moim.builder()
-			.title(title)
-			.date(date)
-			.time(time)
-			.place(place)
-			.maxPeople(maxPeople)
-			.authorNickname(authorNickname)
+			.title(TITLE)
+			.date(DATE)
+			.time(TIME)
+			.place(PLACE)
+			.maxPeople(MAX_PEOPLE)
+			.authorNickname(AUTHOR_NICKNAME)
 			.description(longDescription)
 			.build());
 	}
