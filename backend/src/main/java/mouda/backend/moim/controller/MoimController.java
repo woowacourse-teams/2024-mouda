@@ -44,7 +44,7 @@ public class MoimController implements MoimSwagger {
 
 	@Override
 	@GetMapping("/{moimId}")
-	public ResponseEntity<RestResponse<MoimDetailsFindResponse>> findMoimDetails(@PathVariable Long moimId) {
+	public ResponseEntity<RestResponse<MoimDetailsFindResponse>> findMoimDetails(@PathVariable("moimId") Long moimId) {
 		MoimDetailsFindResponse moimDetailsFindResponse = moimService.findMoimDetails(moimId);
 
 		return ResponseEntity.ok().body(new RestResponse<>(moimDetailsFindResponse));

@@ -53,9 +53,11 @@ class JacksonConfigTest {
 		@DisplayName("yyyy-MM-dd 형식의 날짜를 역직렬화한다.")
 		@Test
 		void deserialize() {
+			LocalDate date = LocalDate.now().plusDays(1);
+
 			Map<String, Object> params = Map.of(
 				"title", "title",
-				"date", "2024-07-19",
+				"date", date.format(formatter),
 				"time", "12:30",
 				"place", "place",
 				"maxPeople", 10,
