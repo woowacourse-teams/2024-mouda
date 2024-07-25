@@ -11,11 +11,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,53 +22,52 @@ import mouda.backend.moim.exception.MoimException;
 @NoArgsConstructor
 public class Moim {
 
+	private static final int TITLE_MAX_LENGTH = 30;
+	private static final int PLACE_MAX_LENGTH = 100;
+	private static final int MAX_PEOPLE_LOWER_BOUND = 1;
+	private static final int MAX_PEOPLE_UPPER_BOUND = 99;
+	private static final int AUTHOR_NICKNAME_MAX_LENGTH = 10;
+	private static final int DESCRIPTION_MAX_LENGTH = 1000;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank
-	@Size(max = 30)
 	@Column(nullable = false)
 	private String title;
 
-	@NotNull
 	@Column(nullable = false)
 	private LocalDate date;
 
-	@NotNull
 	@Column(nullable = false)
 	private LocalTime time;
 
-	@NotBlank
-	@Size(max = 100)
 	@Column(nullable = false)
 	private String place;
 
-	@Positive
-	@Max(99)
 	@Column(nullable = false)
 	private int maxPeople;
 
-	@NotBlank
-	@Size(max = 10)
 	@Column(nullable = false)
 	private String authorNickname;
 
-	@Size(max = 1000)
 	private String description;
 
 	@Builder
 	public Moim(
-		String title,
-		LocalDate date,
-		LocalTime time,
-		String place,
-		int maxPeople,
-		String authorNickname,
-		String description
+		String title, LocalDate date, LocalTime time,
+		String place, int maxPeople, String authorNickname, String description
 	) {
-		this.title = title;
+		validateTitle(title);
+		validateDate(date);
+		validateTime(time);
 		validateMoimIsFuture(date, time);
+		validatePlace(place);
+		validateMaxPeople(maxPeople);
+		validateAuthorNickname(authorNickname);
+		validateDescription(description);
+
+		this.title = title;
 		this.date = date;
 		this.time = time;
 		this.place = place;
@@ -82,10 +76,64 @@ public class Moim {
 		this.description = description;
 	}
 
+	private void validateTitle(String title) {
+		if (title.isBlank()) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.TITLE_NOT_EXIST);
+		}
+		if (title.length() > TITLE_MAX_LENGTH) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.TITLE_TOO_LONG);
+		}
+	}
+
+	private void validateDate(LocalDate date) {
+		if (date == null) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.DATE_NOT_EXIST);
+		}
+	}
+
+	private void validateTime(LocalTime time) {
+		if (time == null) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.TIME_NOT_EXIST);
+		}
+	}
+
 	private void validateMoimIsFuture(LocalDate date, LocalTime time) {
 		LocalDateTime moimDateTime = LocalDateTime.of(date, time);
 		if (moimDateTime.isBefore(LocalDateTime.now())) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.PAST_DATE_TIME);
+		}
+	}
+
+	private void validatePlace(String place) {
+		if (place.isBlank()) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.PLACE_NOT_EXIST);
+		}
+		if (place.length() > PLACE_MAX_LENGTH) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.PLACE_TOO_LONG);
+		}
+	}
+
+	private void validateMaxPeople(int maxPeople) {
+		if (maxPeople < MAX_PEOPLE_LOWER_BOUND) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MAX_PEOPLE_IS_POSITIVE);
+		}
+		if (maxPeople > MAX_PEOPLE_UPPER_BOUND) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MAX_PEOPLE_TOO_MANY);
+		}
+	}
+
+	private void validateAuthorNickname(String authorNickname) {
+		if (authorNickname.isBlank()) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.AUTHOR_NICKNAME_NOT_EXIST);
+		}
+		if (authorNickname.length() > AUTHOR_NICKNAME_MAX_LENGTH) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.AUTHOR_NICKNAME_TOO_LONG);
+		}
+	}
+
+	private void validateDescription(String description) {
+		if (description != null && description.length() > DESCRIPTION_MAX_LENGTH) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.DESCRIPTION_TOO_LONG);
 		}
 	}
 
