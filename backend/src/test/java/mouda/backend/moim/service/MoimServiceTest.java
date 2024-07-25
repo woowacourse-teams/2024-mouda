@@ -47,7 +47,7 @@ class MoimServiceTest {
 	@Test
 	void createMoim() {
 		MoimCreateRequest moimCreateRequest = new MoimCreateRequest(
-			"title", LocalDate.now(), LocalTime.now(), "place",
+			"title", LocalDate.now().plusDays(1), LocalTime.now(), "place",
 			10, "안나", "설명"
 		);
 
