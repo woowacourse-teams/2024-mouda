@@ -87,7 +87,7 @@ const reset = css`
     margin: 0;
     padding: 0;
 
-    font-family: Pretendard;
+    font-family: Pretendard, sans-serif;
     font-size: 62.5%;
     vertical-align: baseline;
 
