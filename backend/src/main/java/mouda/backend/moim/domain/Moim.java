@@ -58,7 +58,7 @@ public class Moim {
 	}
 
 	public void validateAlreadyFullMoim(int currentPeople) {
-		if (currentPeople + 1 > maxPeople) {
+		if (currentPeople > maxPeople) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MAX_PEOPLE);
 		}
 	}
