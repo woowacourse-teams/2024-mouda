@@ -28,6 +28,10 @@ jobs:
       - name: Install Dependencies
         run: npm install --frozen-lockfile
 
+      - name: Create .env file
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+
       - name: Run tests
         run: npm run test
 
