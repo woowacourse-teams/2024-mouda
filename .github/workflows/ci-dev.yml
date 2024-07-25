@@ -28,7 +28,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Gradle 빌드
-        run: ./gradlew clean build -x test
+        run: ./gradlew clean build
 
       - name: DockerHub 로그인
         uses: docker/login-action@v1
