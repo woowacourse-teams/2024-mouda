@@ -1,3 +1,4 @@
+import { common } from '@_common/common.style';
 import { css } from '@emotion/react';
 
 export const containerStyle = css`
@@ -7,23 +8,24 @@ export const containerStyle = css`
 `;
 
 export const titleStyle = css`
-  font-size: 26px;
-  font-weight: 700;
+  ${common.fontType.title}
 `;
 
 export const contentStyle = css`
   display: flex;
-  align-items: center;
   gap: 6px;
+  align-items: center;
 `;
 
 export const contentKeyStyle = css`
-  background: rgba(221, 231, 255, 1);
-  border-radius: 10px;
   padding: 2px 6px;
-  color: rgba(71, 123, 255, 1);
+
   font-size: 12px;
   font-weight: 600;
+  color: rgb(71 123 255 / 100%);
+
+  background: rgb(221 231 255 / 100%);
+  border-radius: 10px;
 `;
 
 export const contentValueStyle = css`
