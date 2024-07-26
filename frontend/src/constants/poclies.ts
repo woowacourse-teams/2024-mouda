@@ -12,7 +12,7 @@ const POLICES = {
   maximumAuthorNicknameLength: 10,
 
   yyyymmddDashRegex: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/,
-  hhmmRegex: /^\d{2}:\d{2}$/,
+  hhmmRegex: /^([01]\d|2[0-3]):([0-5]\d)$/,
 };
 
 export default POLICES;

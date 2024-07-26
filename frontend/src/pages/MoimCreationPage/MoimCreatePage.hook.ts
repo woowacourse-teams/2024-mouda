@@ -8,10 +8,10 @@ import {
   validateTitle,
 } from './MoimCreatePage.util';
 
-import { MoimInfo } from '../../types';
+import { MoimInputInfo } from '../../types';
 
 const useMoimInfoInput = () => {
-  const [inputData, setInputData] = useState<MoimInfo>({
+  const [inputData, setInputData] = useState<MoimInputInfo>({
     title: '',
     date: '',
     time: '',

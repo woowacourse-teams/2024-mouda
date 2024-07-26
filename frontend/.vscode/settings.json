@@ -1,0 +1,7 @@
+{
+  "stylelint.configFile": ".stylelintrc.json",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.stylelint": "always"
+  },
+  "stylelint.validate": ["typescript", "typescriptreact"]
+}
