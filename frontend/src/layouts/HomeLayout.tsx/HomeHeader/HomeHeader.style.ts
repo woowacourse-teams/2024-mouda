@@ -1,10 +1,9 @@
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 
 export const headerStyle = css`
   padding: 14px 22px;
 `;
 
-export const logoStyle = css`
-  font-size: 22px;
-  font-weight: 700;
+export const logoStyle = (props: { theme: Theme }) => css`
+  ${props.theme.typography.h5}
 `;
