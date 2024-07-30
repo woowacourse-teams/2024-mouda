@@ -10,6 +10,12 @@ export interface Colors {
   red: Record<number, string>;
 }
 
+export interface Semantic {
+  primary: string;
+  secondary: string;
+  disabled: string;
+}
+
 export interface Typography {
   h1: SerializedStyles;
   h2: SerializedStyles;
@@ -36,6 +42,7 @@ export interface Typography {
 }
 
 export interface Theme {
-  colors: Colors;
+  colorPalette: Colors;
   typography: Typography;
+  semantic: Semantic;
 }

@@ -1,5 +1,5 @@
 import { Colors } from './theme.type';
-const colors: Colors = {
+const colorPalette: Colors = {
   black: {
     100: '#000000',
     90: '#000000E5',
@@ -86,4 +86,4 @@ const colors: Colors = {
   },
 };
 
-export default colors;
+export default colorPalette;

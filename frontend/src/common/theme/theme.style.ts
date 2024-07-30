@@ -1,8 +1,10 @@
-import colors from './colors';
 import { Theme } from './theme.type';
 import typography from './typography';
+import colorPalette from './colorPalette';
+import semantic from './semantic';
 
 export const theme: Theme = {
-  colors,
+  colorPalette,
   typography,
+  semantic,
 };
