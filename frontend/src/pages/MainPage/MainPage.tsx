@@ -1,10 +1,11 @@
 import Button from '@_components/Button/Button';
 import HomeLayout from '@_layouts/HomeLayout.tsx/HomeLayout';
 import MoimCardList from '@_components/MoimCardList/MoimCardList';
-import Plus from '@_common/assets/tabler_plus.svg';
 import ROUTES from '@_constants/routes';
 import useMoims from '@_hooks/queries/useMoims';
 import { useNavigate } from 'react-router-dom';
+import PlusIcon from '@_components/PlusIcon/PlusIcon';
+import MoimTabBar from '@_components/Home/MoimTabBar/MoimTabBar';
 
 export default function MainPage() {
   const navigate = useNavigate();
@@ -13,6 +14,11 @@ export default function MainPage() {
   return (
     <HomeLayout>
       <HomeLayout.Header>우아한테크코스</HomeLayout.Header>
+
+      <HomeLayout.Nav>
+        <MoimTabBar />
+      </HomeLayout.Nav>
+
       <HomeLayout.Main>
         {moims && <MoimCardList moimInfos={moims} />}
       </HomeLayout.Main>
@@ -23,7 +29,7 @@ export default function MainPage() {
           onClick={() => navigate(ROUTES.addMoim)}
           disabled={false}
         >
-          <Plus />
+          <PlusIcon />
         </Button>
       </HomeLayout.HomeFixedButtonWrapper>
     </HomeLayout>
