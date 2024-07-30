@@ -54,7 +54,30 @@ const config: StorybookConfig = {
         presets: [require.resolve('@emotion/babel-preset-css-prop')],
       },
     });
-
+    if (config.module?.rules) {
+      config.module = config.module || {};
+      config.module.rules = config.module.rules || [];
+      const imageRule = config.module.rules.find((rule) =>
+        rule?.['test']?.test('.svg'),
+      );
+      if (imageRule) {
+        imageRule['exclude'] = /\.svg$/;
+      }
+      config.module.rules.push({
+        test: /\.svg$/i,
+        oneOf: [
+          {
+            use: ['@svgr/webpack'],
+            issuer: /\.[jt]sx?$/,
+            resourceQuery: { not: [/url/] },
+          },
+          {
+            type: 'asset/resource',
+            resourceQuery: /url/,
+          },
+        ],
+      });
+    }
     return config;
   },
 };
