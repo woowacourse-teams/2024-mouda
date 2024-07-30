@@ -1,8 +1,8 @@
-import * as S from '@_components/MoimCardList/MoimCardList.style';
+import * as S from './MoimCardList.style';
 
-import MoimCard from '@_components/Card/MoimCard';
 import { MoimInfo } from '@_types/index';
 import { useNavigate } from 'react-router-dom';
+import MoimCard from './Card/MoimCard';
 
 interface MoimCardListProps {
   moimInfos: MoimInfo[];
@@ -10,7 +10,9 @@ interface MoimCardListProps {
 
 export default function MoimCardList(props: MoimCardListProps) {
   const { moimInfos } = props;
+
   const navigate = useNavigate();
+
   const handleMoimCard = (moimId: number) => {
     navigate(`/moim/${moimId}`);
   };
