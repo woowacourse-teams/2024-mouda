@@ -50,7 +50,6 @@ public class Moim {
 		LocalTime time,
 		String place,
 		int maxPeople,
-		String authorNickname,
 		String description
 	) {
 		this.title = title;

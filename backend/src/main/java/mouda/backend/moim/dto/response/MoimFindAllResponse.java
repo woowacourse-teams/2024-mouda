@@ -28,7 +28,6 @@ public record MoimFindAllResponse(
 			.place(moim.getPlace())
 			.currentPeople(currentPeople)
 			.maxPeople(moim.getMaxPeople())
-			.authorNickname(moim.getAuthorNickname())
 			.description(moim.getDescription())
 			.build();
 	}
