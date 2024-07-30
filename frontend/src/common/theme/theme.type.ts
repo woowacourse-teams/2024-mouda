@@ -41,8 +41,13 @@ export interface Typography {
   Tiny: SerializedStyles;
 }
 
+export interface Layout {
+  default: SerializedStyles;
+}
+
 export interface Theme {
   colorPalette: Colors;
   typography: Typography;
   semantic: Semantic;
+  layout: Layout;
 }

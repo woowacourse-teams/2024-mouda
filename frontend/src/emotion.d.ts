@@ -5,5 +5,6 @@ declare module '@emotion/react' {
     colorPalette: Colors;
     typography: Typography;
     semantic: Semantic;
+    layout: Layout;
   }
 }
