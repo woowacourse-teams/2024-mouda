@@ -10,7 +10,7 @@ import UserPreview from '@_components/UserPreview/UserPreview';
 import { formatHhmmToKoreanWithPrefix } from '@_utils/formatters';
 import { useTheme } from '@emotion/react';
 
-interface ChatMessageProps {
+export interface ChatMessageProps {
   sender: string;
   message: string;
   isMyMessage: boolean;
