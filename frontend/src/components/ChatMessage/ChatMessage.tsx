@@ -24,7 +24,7 @@ export default function ChatMessage(props: ChatMessageProps) {
   return (
     <div css={ChatMessageStyle({ isMyMessage })}>
       <UserPreview imageUrl={imageUrl} />
-      <div css={messageContainer}>
+      <div css={messageContainer({ isMyMessage })}>
         <span css={senderStyle({ theme })}>{sender}</span>
         <div css={messageStyle({ theme, isMyMessage })}>{message}</div>
         <span css={timeStyle({ theme })}>

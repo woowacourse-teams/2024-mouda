@@ -10,9 +10,14 @@ export const ChatMessageStyle = ({
   gap: 1rem;
 `;
 
-export const messageContainer = css`
+export const messageContainer = ({
+  isMyMessage,
+}: {
+  isMyMessage: boolean;
+}) => css`
   display: flex;
   flex-direction: column;
+  ${isMyMessage && 'align-items: flex-end'}
 `;
 
 export const senderStyle = ({ theme }: { theme: Theme }) => css`
