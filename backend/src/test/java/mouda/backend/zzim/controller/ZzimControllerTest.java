@@ -2,20 +2,17 @@ package mouda.backend.zzim.controller;
 
 import static org.hamcrest.Matchers.*;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 import io.restassured.RestAssured;
 import mouda.backend.config.DatabaseCleaner;
+import mouda.backend.fixture.MoimFixture;
 import mouda.backend.fixture.TokenFixture;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.repository.MemberRepository;
@@ -62,15 +59,7 @@ class ZzimControllerTest {
 			String accessToken = TokenFixture.getTokenWithNicknameTebah();
 			Member member = memberRepository.findByNickname("테바").get();
 
-			Moim moim = moimRepository.save(Moim.builder()
-				.title("test")
-				.date(LocalDate.now().plusDays(1))
-				.time(LocalTime.now())
-				.place("test")
-				.maxPeople(10)
-				.description("test")
-				.build()
-			);
+			Moim moim = moimRepository.save(MoimFixture.getSoccerMoim());
 
 			Zzim zzim = Zzim.builder().moim(moim).member(member).build();
 			zzimRepository.save(zzim);
@@ -87,16 +76,7 @@ class ZzimControllerTest {
 		@Test
 		void checkZzimByMoimAndMember_WhenMemberDidntZzim() {
 			String accessToken = TokenFixture.getTokenWithNicknameTebah();
-
-			Moim moim = moimRepository.save(Moim.builder()
-				.title("test")
-				.date(LocalDate.now().plusDays(1))
-				.time(LocalTime.now())
-				.place("test")
-				.maxPeople(10)
-				.description("test")
-				.build()
-			);
+			Moim moim = moimRepository.save(MoimFixture.getSoccerMoim());
 
 			RestAssured.given()
 				.header("Authorization", "Bearer " + accessToken)

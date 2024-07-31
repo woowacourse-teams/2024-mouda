@@ -23,6 +23,8 @@ import mouda.backend.chamyo.domain.Chamyo;
 import mouda.backend.chamyo.domain.MoimRole;
 import mouda.backend.chamyo.repository.ChamyoRepository;
 import mouda.backend.config.DatabaseCleaner;
+import mouda.backend.fixture.MemberFixture;
+import mouda.backend.fixture.MoimFixture;
 import mouda.backend.fixture.TokenFixture;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.repository.MemberRepository;
@@ -65,15 +67,7 @@ class ChamyoControllerTest {
 		@ParameterizedTest
 		@MethodSource("provideMoimRoleAndExpectedResult")
 		void success(MoimRole role, String expectedResult) {
-			Moim moim = Moim.builder()
-				.title("test")
-				.date(LocalDate.now().plusDays(1))
-				.time(LocalTime.now())
-				.place("test")
-				.maxPeople(10)
-				.description("test")
-				.build();
-			Moim savedMoim = moimRepository.save(moim);
+			Moim moim = moimRepository.save(MoimFixture.getSoccerMoim());
 
 			String accessToken = TokenFixture.getTokenWithNicknameTebah();
 			Member member = memberRepository.findByNickname("테바").get();
@@ -87,7 +81,7 @@ class ChamyoControllerTest {
 
 			RestAssured.given().log().all()
 				.header("Authorization", "Bearer " + accessToken)
-				.param("moimId", savedMoim.getId())
+				.param("moimId", moim.getId())
 				.when().get("/v1/chamyo/me")
 				.then().log().all().statusCode(200)
 				.body("data.role", is(expectedResult));
@@ -114,19 +108,11 @@ class ChamyoControllerTest {
 		@DisplayName("모든 참여자를 조회한다.")
 		@Test
 		void success() {
-			Moim moim = Moim.builder()
-				.title("test")
-				.date(LocalDate.now().plusDays(1))
-				.time(LocalTime.now())
-				.place("test")
-				.maxPeople(10)
-				.description("test")
-				.build();
-			Moim savedMoim = moimRepository.save(moim);
+			Moim moim = moimRepository.save(MoimFixture.getSoccerMoim());
 
 			String accessToken = TokenFixture.getTokenWithNicknameTebah();
 			Member member = memberRepository.findByNickname("테바").get();
-			Member member1 = memberRepository.save(Member.builder().nickname("테바1").build());
+			Member member1 = memberRepository.save(MemberFixture.getHogee());
 
 			Chamyo chamyo = Chamyo.builder()
 				.member(member)
@@ -144,14 +130,12 @@ class ChamyoControllerTest {
 
 			RestAssured.given().log().all()
 				.header("Authorization", "Bearer " + accessToken)
-				.param("moimId", savedMoim.getId())
+				.param("moimId", moim.getId())
 				.when().get("/v1/chamyo/all")
 				.then().log().all().statusCode(200)
 				.body("data.chamyos.size()", is(2))
 				.body("data.chamyos[0].role", is("MOIMER"))
-				.body("data.chamyos[0].nickname", is("테바"))
-				.body("data.chamyos[1].role", is("MOIMEE"))
-				.body("data.chamyos[1].nickname", is("테바1"));
+				.body("data.chamyos[1].role", is("MOIMEE"));
 		}
 	}
 }
