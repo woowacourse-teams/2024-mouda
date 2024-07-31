@@ -1,14 +1,19 @@
 package mouda.backend.chat.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.chat.dto.request.ChatCreateRequest;
+import mouda.backend.chat.dto.response.ChatFindUnloadedResponse;
 import mouda.backend.chat.service.ChatService;
+import mouda.backend.common.RestResponse;
 import mouda.backend.member.domain.Member;
 
 @RestController
@@ -20,10 +25,20 @@ public class ChatController {
 
 	@PostMapping
 	public ResponseEntity<Void> createChat(
-		@RequestBody ChatCreateRequest chatCreateRequest,
+		@Valid @RequestBody ChatCreateRequest chatCreateRequest,
 		Member member
 	) {
 		chatService.createChat(chatCreateRequest, member);
 		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping
+	public ResponseEntity<RestResponse<ChatFindUnloadedResponse>> findUnloadedChats(
+		@RequestParam Long recentChatId,
+		@RequestParam Long moimId,
+		Member member
+	) {
+		ChatFindUnloadedResponse unloadedChats = chatService.findUnloadedChats(recentChatId, moimId, member);
+		return ResponseEntity.ok(new RestResponse<>(unloadedChats));
 	}
 }
