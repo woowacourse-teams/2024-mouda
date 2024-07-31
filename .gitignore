@@ -1,2 +1,4 @@
-/.github/.idea
 /.idea
+/.github/.idea
+/backend/out
+/frontend/.idea

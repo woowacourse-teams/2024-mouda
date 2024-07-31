@@ -36,7 +36,6 @@ public record MoimCreateRequest(
 			.time(time)
 			.place(place)
 			.maxPeople(maxPeople)
-			.authorNickname(authorNickname)
 			.description(description)
 			.build();
 	}

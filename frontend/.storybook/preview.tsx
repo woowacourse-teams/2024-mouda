@@ -1,5 +1,7 @@
 import type { Preview } from '@storybook/react';
 import React from 'react';
+import reset from '../src/common/reset.style';
+import { Global } from '@emotion/react';
 
 const preview: Preview = {
   parameters: {
@@ -13,6 +15,7 @@ const preview: Preview = {
   decorators: [
     (Story) => (
       <div style={{ margin: '3em' }}>
+        <Global styles={reset} />
         <Story />
       </div>
     ),

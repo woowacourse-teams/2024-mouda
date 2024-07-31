@@ -102,7 +102,6 @@ class JacksonConfigTest {
 				.time(LocalTime.parse("12:30"))
 				.place("place")
 				.maxPeople(10)
-				.authorNickname("안나")
 				.description("설명")
 				.build();
 
@@ -174,7 +173,6 @@ class JacksonConfigTest {
 				.time(LocalTime.parse("12:30"))
 				.place("place")
 				.maxPeople(10)
-				.authorNickname("안나")
 				.description("설명")
 				.build();
 			Moim saved = moimRepository.save(moim);

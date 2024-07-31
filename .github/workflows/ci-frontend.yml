@@ -1,0 +1,38 @@
+name: frontend-integration
+
+on:
+  pull_request:
+    branches:
+      - develop-frontend
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./frontend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.15.0'
+
+#      추후에 API 서버와 통신하는 테스트가 추가되면 활성화
+#      - name: Create .env file
+#        run: |
+#          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+
+      - name: Install Dependencies
+        run: npm install --frozen-lockfile
+
+      - name: Run tests
+        run: npm run test
+
+      - name: Run linter
+        run: npm run lint

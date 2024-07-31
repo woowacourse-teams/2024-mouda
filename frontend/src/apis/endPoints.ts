@@ -1,7 +1,5 @@
-import ENV from '@_apis/env';
-
 const getEndpoint = (string: string) => {
-  return `${ENV.baseUrl}/${string}`;
+  return `${process.env.BASE_URL}/${string}`;
 };
 
 const ENDPOINTS = {
