@@ -19,3 +19,9 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+security:
+  jwt:
+    token:
+      secret-key: kksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabo
+      expire-length: 3600000
