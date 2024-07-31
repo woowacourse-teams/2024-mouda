@@ -24,7 +24,7 @@ public record CommentResponse(
 	public static CommentResponse toResponse(Comment parentComment, List<ChildCommentResponse> childComments) {
 		return CommentResponse.builder()
 			.commentId(parentComment.getId())
-			.nickname(parentComment.getMember().getNickname())
+			.nickname(parentComment.getAuthorNickname())
 			.content(parentComment.getContent())
 			.dateTime(parentComment.getCreatedAt())
 			.childs(childComments)
