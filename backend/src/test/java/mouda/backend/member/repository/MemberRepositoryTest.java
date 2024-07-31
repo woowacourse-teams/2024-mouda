@@ -43,7 +43,6 @@ class MemberRepositoryTest {
 			.time(LocalTime.now().minusHours(1))
 			.place("서울시 강북구 중앙로 2길 25")
 			.maxPeople(10)
-			.authorNickname("안나")
 			.description("모임 설명입니다.")
 			.build();
 		Moim saveMoim = moimRepository.save(moim);

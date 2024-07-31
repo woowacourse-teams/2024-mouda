@@ -124,7 +124,7 @@ class MoimServiceTest {
 	@Test
 	void failToJoinMoimWhenExceedMaxPeople() {
 		MoimCreateRequest moimCreateRequest = new MoimCreateRequest(
-			"title", LocalDate.now(), LocalTime.now(), "place",
+			"title", LocalDate.now().plusDays(1), LocalTime.now(), "place",
 			2, "안나", "설명"
 		);
 

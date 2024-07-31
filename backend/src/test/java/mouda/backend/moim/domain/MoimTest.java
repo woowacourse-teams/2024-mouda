@@ -30,7 +30,6 @@ class MoimTest {
 			.time(TIME)
 			.place(PLACE)
 			.maxPeople(MAX_PEOPLE)
-			.authorNickname(AUTHOR_NICKNAME)
 			.description(DESCRIPTION)
 			.build());
 	}
@@ -45,7 +44,6 @@ class MoimTest {
 			.time(TIME)
 			.place(PLACE)
 			.maxPeople(MAX_PEOPLE)
-			.authorNickname(AUTHOR_NICKNAME)
 			.description(DESCRIPTION)
 			.build());
 	}
@@ -59,7 +57,6 @@ class MoimTest {
 			.time(TIME)
 			.place(PLACE)
 			.maxPeople(MAX_PEOPLE)
-			.authorNickname(AUTHOR_NICKNAME)
 			.description(DESCRIPTION)
 			.build());
 	}
@@ -73,7 +70,6 @@ class MoimTest {
 			.time(TIME)
 			.place(PLACE)
 			.maxPeople(MAX_PEOPLE)
-			.authorNickname(AUTHOR_NICKNAME)
 			.description(DESCRIPTION)
 			.build());
 	}
@@ -87,7 +83,6 @@ class MoimTest {
 			.time(null)
 			.place(PLACE)
 			.maxPeople(MAX_PEOPLE)
-			.authorNickname(AUTHOR_NICKNAME)
 			.description(DESCRIPTION)
 			.build());
 	}
@@ -101,7 +96,6 @@ class MoimTest {
 			.time(LocalTime.now().plusHours(1))
 			.place(PLACE)
 			.maxPeople(MAX_PEOPLE)
-			.authorNickname(AUTHOR_NICKNAME)
 			.description(DESCRIPTION)
 			.build());
 	}
@@ -115,7 +109,6 @@ class MoimTest {
 			.time(LocalTime.now().minusHours(1))
 			.place(PLACE)
 			.maxPeople(MAX_PEOPLE)
-			.authorNickname(AUTHOR_NICKNAME)
 			.description(DESCRIPTION)
 			.build());
 	}
@@ -129,7 +122,6 @@ class MoimTest {
 			.time(LocalTime.now().minusHours(1))
 			.place("")
 			.maxPeople(MAX_PEOPLE)
-			.authorNickname(AUTHOR_NICKNAME)
 			.description(DESCRIPTION)
 			.build());
 	}
@@ -144,7 +136,6 @@ class MoimTest {
 			.time(TIME)
 			.place(longPlace)
 			.maxPeople(MAX_PEOPLE)
-			.authorNickname(AUTHOR_NICKNAME)
 			.description(DESCRIPTION)
 			.build());
 	}
@@ -158,7 +149,6 @@ class MoimTest {
 			.time(TIME)
 			.place(PLACE)
 			.maxPeople(-1)
-			.authorNickname(AUTHOR_NICKNAME)
 			.description(DESCRIPTION)
 			.build());
 	}
@@ -172,36 +162,6 @@ class MoimTest {
 			.time(TIME)
 			.place(PLACE)
 			.maxPeople(100)
-			.authorNickname(AUTHOR_NICKNAME)
-			.description(DESCRIPTION)
-			.build());
-	}
-
-	@DisplayName("작성자 닉네임이 빈 문자열이면 모임 객체 생성에 실패한다.")
-	@Test
-	void failToCreateMoimWhenAuthorNicknameIsBlank() {
-		assertThrows(MoimException.class, () -> Moim.builder()
-			.title(TITLE)
-			.date(DATE)
-			.time(TIME)
-			.place(PLACE)
-			.maxPeople(MAX_PEOPLE)
-			.authorNickname("")
-			.description(DESCRIPTION)
-			.build());
-	}
-
-	@DisplayName("작성자 닉네임 길이가 제한을 초과하면 모임 객체 생성에 실패한다.")
-	@Test
-	void failToCreateMoimWhenAuthorNicknameIsTooLong() {
-		String longNickname = "a".repeat(11);
-		assertThrows(MoimException.class, () -> Moim.builder()
-			.title(TITLE)
-			.date(DATE)
-			.time(TIME)
-			.place(PLACE)
-			.maxPeople(MAX_PEOPLE)
-			.authorNickname(longNickname)
 			.description(DESCRIPTION)
 			.build());
 	}
@@ -215,7 +175,6 @@ class MoimTest {
 			.time(TIME)
 			.place(PLACE)
 			.maxPeople(MAX_PEOPLE)
-			.authorNickname(AUTHOR_NICKNAME)
 			.description(null)
 			.build());
 	}
@@ -230,7 +189,6 @@ class MoimTest {
 			.time(TIME)
 			.place(PLACE)
 			.maxPeople(MAX_PEOPLE)
-			.authorNickname(AUTHOR_NICKNAME)
 			.description(longDescription)
 			.build());
 	}
