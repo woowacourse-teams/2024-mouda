@@ -31,5 +31,5 @@ public class Chamyo {
 	private Member member;
 
 	@Enumerated(EnumType.STRING)
-	private Role role;
+	private MoimRole moimRole;
 }

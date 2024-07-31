@@ -15,6 +15,7 @@ import mouda.backend.moim.domain.Moim;
 @Getter
 @NoArgsConstructor
 public class Comment {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
