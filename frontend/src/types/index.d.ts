@@ -12,6 +12,12 @@ export interface MoimInfo {
   description?: string;
 }
 
+export interface Participation {
+  nickname: string;
+  profile: string;
+  role: 'moimer' | 'moimee';
+}
+
 export type MoimInputInfo = Omit<
   MoimInfo,
   'moimId' | 'currentPeople' | 'participants'
