@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 import org.junit.jupiter.api.AfterEach;
@@ -23,6 +24,8 @@ import mouda.backend.moim.repository.MoimRepository;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class JacksonConfigTest {
+
+	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 	@Autowired
 	private MoimRepository moimRepository;
@@ -50,9 +53,11 @@ class JacksonConfigTest {
 		@DisplayName("yyyy-MM-dd 형식의 날짜를 역직렬화한다.")
 		@Test
 		void deserialize() {
+			LocalDate date = LocalDate.now().plusDays(1);
+
 			Map<String, Object> params = Map.of(
 				"title", "title",
-				"date", "2024-07-19",
+				"date", date.format(formatter),
 				"time", "12:30",
 				"place", "place",
 				"maxPeople", 10,
@@ -90,9 +95,10 @@ class JacksonConfigTest {
 		@DisplayName("날짜는 yyyy-MM-dd 형식으로 직렬화된다.")
 		@Test
 		void serialize() {
+			LocalDate date = LocalDate.now().plusDays(1);
 			Moim moim = Moim.builder()
 				.title("title")
-				.date(LocalDate.parse("2024-07-19"))
+				.date(date)
 				.time(LocalTime.parse("12:30"))
 				.place("place")
 				.maxPeople(10)
@@ -104,7 +110,7 @@ class JacksonConfigTest {
 			RestAssured.given()
 				.when().get("/v1/moim/" + saved.getId())
 				.then().statusCode(is(HttpStatus.OK.value()))
-				.body("data.date", is("2024-07-19"));
+				.body("data.date", is(date.format(formatter)));
 		}
 	}
 
@@ -115,9 +121,11 @@ class JacksonConfigTest {
 		@DisplayName("HH:mm 형식의 시간을 역직렬화한다.")
 		@Test
 		void deserialize() {
+			LocalDate date = LocalDate.now().plusDays(1);
+
 			Map<String, Object> params = Map.of(
 				"title", "title",
-				"date", "2024-07-19",
+				"date", date.format(formatter),
 				"time", "12:30",
 				"place", "place",
 				"maxPeople", 10,
@@ -135,9 +143,11 @@ class JacksonConfigTest {
 		@DisplayName("HH:mm 형식이 아닌 시간이 입력되면 예외가 발생한다.")
 		@Test
 		void deserialize_when_invalidTimeFormat() {
+			LocalDate date = LocalDate.now().plusDays(1);
+
 			Map<String, Object> params = Map.of(
 				"title", "title",
-				"date", "2024-07-19",
+				"date", date.format(formatter),
 				"time", "12-30",
 				"place", "place",
 				"maxPeople", 10,
@@ -155,9 +165,11 @@ class JacksonConfigTest {
 		@DisplayName("시간은 HH:mm 형식으로 직렬화된다.")
 		@Test
 		void serialize() {
+			LocalDate date = LocalDate.now().plusDays(1);
+
 			Moim moim = Moim.builder()
 				.title("title")
-				.date(LocalDate.now().plusDays(1))
+				.date(date)
 				.time(LocalTime.parse("12:30"))
 				.place("place")
 				.maxPeople(10)

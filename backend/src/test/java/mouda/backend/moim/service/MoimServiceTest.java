@@ -49,7 +49,7 @@ class MoimServiceTest {
 	@Test
 	void createMoim() {
 		MoimCreateRequest moimCreateRequest = new MoimCreateRequest(
-			"title", LocalDate.now(), LocalTime.now(), "place",
+			"title", LocalDate.now().plusDays(1), LocalTime.now(), "place",
 			10, "안나", "설명"
 		);
 
@@ -62,7 +62,7 @@ class MoimServiceTest {
 	@Test
 	void findAllMoim() {
 		MoimCreateRequest moimCreateRequest = new MoimCreateRequest(
-			"title", LocalDate.now(), LocalTime.now(), "place",
+			"title", LocalDate.now().plusDays(1), LocalTime.now(), "place",
 			10, "안나", "설명"
 		);
 		moimService.createMoim(moimCreateRequest);
@@ -77,7 +77,7 @@ class MoimServiceTest {
 	@Test
 	void findMoimDetails() {
 		MoimCreateRequest moimCreateRequest = new MoimCreateRequest(
-			"title", LocalDate.now(), LocalTime.now(), "place",
+			"title", LocalDate.now().plusDays(1), LocalTime.now(), "place",
 			10, "안나", "설명"
 		);
 		moimService.createMoim(moimCreateRequest);
@@ -91,7 +91,7 @@ class MoimServiceTest {
 	@Test
 	void joinMoim() {
 		MoimCreateRequest moimCreateRequest = new MoimCreateRequest(
-			"title", LocalDate.now(), LocalTime.now(), "place",
+			"title", LocalDate.now().plusDays(1), LocalTime.now(), "place",
 			10, "안나", "설명"
 		);
 		Moim moim = moimService.createMoim(moimCreateRequest);
@@ -109,7 +109,7 @@ class MoimServiceTest {
 	@Test
 	void deleteMoim() {
 		MoimCreateRequest moimCreateRequest = new MoimCreateRequest(
-			"title", LocalDate.now(), LocalTime.now(), "place",
+			"title", LocalDate.now().plusDays(1), LocalTime.now(), "place",
 			10, "안나", "설명"
 		);
 		moimService.createMoim(moimCreateRequest);
@@ -124,7 +124,7 @@ class MoimServiceTest {
 	@Test
 	void failToJoinMoimWhenExceedMaxPeople() {
 		MoimCreateRequest moimCreateRequest = new MoimCreateRequest(
-			"title", LocalDate.now(), LocalTime.now(), "place",
+			"title", LocalDate.now().plusDays(1), LocalTime.now(), "place",
 			2, "안나", "설명"
 		);
 
