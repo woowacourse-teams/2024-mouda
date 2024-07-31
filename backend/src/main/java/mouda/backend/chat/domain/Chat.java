@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mouda.backend.member.domain.Member;
@@ -33,4 +34,13 @@ public class Chat {
 	private LocalDate date;
 
 	private LocalTime time;
+
+	@Builder
+	public Chat(String content, Moim moim, Member member, LocalDate date, LocalTime time) {
+		this.content = content;
+		this.moim = moim;
+		this.member = member;
+		this.date = date;
+		this.time = time;
+	}
 }
