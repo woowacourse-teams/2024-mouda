@@ -1,4 +1,4 @@
-import ProfileBox from '@_components/Profile/ProfileBox';
+import ProfileBox from '@_components/Profile/ProfileCard';
 import * as S from './ProfileList.style';
 import { Participation } from '@_types/index';
 
@@ -12,13 +12,7 @@ export default function ProfileList(props: ProfileListProps) {
   return (
     <div css={S.ProfileContanier}>
       {participants.map((participant) => {
-        return (
-          <ProfileBox
-            key={participant.nickname}
-            name={participant.nickname}
-            src={participant.profile}
-          />
-        );
+        return <ProfileBox key={participant.nickname} profile={participant} />;
       })}
     </div>
   );

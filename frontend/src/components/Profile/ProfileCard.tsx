@@ -1,18 +1,23 @@
 import ProfileFrame from './ProfileFrame';
 import * as S from './ProfileCard.style';
 import { useTheme } from '@emotion/react';
+import { Participation } from '@_types/index';
 
 interface ProfileCardProps {
-  name: string;
-  src: string;
+  profile: Participation;
 }
 export default function ProfileBox(props: ProfileCardProps) {
-  const { name, src } = props;
+  const { profile } = props;
   const theme = useTheme();
   return (
     <div css={S.ProfileCard}>
-      <ProfileFrame width={7} height={7} src={src} />
-      <div css={S.ProfileName({ theme })}>{name}</div>
+      <ProfileFrame
+        width={7}
+        height={7}
+        src={profile.src}
+        role={profile.role}
+      />
+      <div css={S.ProfileName({ theme })}>{profile.nickname}</div>
     </div>
   );
 }
