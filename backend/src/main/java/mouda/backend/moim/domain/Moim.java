@@ -72,7 +72,6 @@ public class Moim {
 		validateMoimIsFuture(date, time);
 		validatePlace(place);
 		validateMaxPeople(maxPeople);
-		validateAuthorNickname(authorNickname);
 		validateDescription(description);
 
 		this.title = title;
@@ -126,15 +125,6 @@ public class Moim {
 		}
 		if (maxPeople > MAX_PEOPLE_UPPER_BOUND) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MAX_PEOPLE_TOO_MANY);
-		}
-	}
-
-	private void validateAuthorNickname(String authorNickname) {
-		if (authorNickname.isBlank()) {
-			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.AUTHOR_NICKNAME_NOT_EXIST);
-		}
-		if (authorNickname.length() > AUTHOR_NICKNAME_MAX_LENGTH) {
-			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.AUTHOR_NICKNAME_TOO_LONG);
 		}
 	}
 
