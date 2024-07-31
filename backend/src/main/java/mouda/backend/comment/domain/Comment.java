@@ -43,4 +43,8 @@ public class Comment {
 	public boolean isChild() {
 		return parentId != null;
 	}
+
+	public String getAuthorNickname() {
+		return member.getNickname();
+	}
 }
