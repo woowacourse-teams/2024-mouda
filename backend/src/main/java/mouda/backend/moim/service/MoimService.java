@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.comment.domain.Comment;
+import mouda.backend.comment.dto.request.CommentCreateRequest;
 import mouda.backend.comment.dto.response.ChildCommentResponse;
 import mouda.backend.comment.dto.response.CommentResponse;
 import mouda.backend.comment.repository.CommentRepository;
@@ -108,5 +109,13 @@ public class MoimService {
 		}
 
 		moimRepository.delete(moim);
+	}
+
+	public void createComment(Member member, Long moimId, CommentCreateRequest commentCreateRequest) {
+		Moim moim = moimRepository.findById(moimId).orElseThrow(
+			() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND)
+		);
+
+		commentRepository.save(commentCreateRequest.toEntity(moim, member));
 	}
 }

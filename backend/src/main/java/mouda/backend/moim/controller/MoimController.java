@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import mouda.backend.comment.dto.request.CommentCreateRequest;
 import mouda.backend.common.RestResponse;
+import mouda.backend.config.argumentresolver.LoginMember;
+import mouda.backend.member.domain.Member;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
 import mouda.backend.moim.dto.request.MoimJoinRequest;
@@ -62,6 +65,15 @@ public class MoimController implements MoimSwagger {
 	@DeleteMapping("/{moimId}")
 	public ResponseEntity<Void> deleteMoim(@PathVariable Long moimId) {
 		moimService.deleteMoim(moimId);
+
+		return ResponseEntity.ok().build();
+	}
+
+	@Override
+	@PostMapping("/{moimId}")
+	public ResponseEntity<Void> createComment(@LoginMember Member member, @PathVariable Long moimId,
+		@RequestBody CommentCreateRequest commentCreateRequest) {
+		moimService.createComment(member, moimId, commentCreateRequest);
 
 		return ResponseEntity.ok().build();
 	}
