@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.http.HttpStatus;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,6 +29,7 @@ public class Comment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(nullable = false)
 	private String content;
 
 	@ManyToOne
@@ -36,6 +38,7 @@ public class Comment {
 	@ManyToOne
 	private Member member;
 
+	@Column(nullable = false)
 	private LocalDateTime createdAt;
 
 	private Long parentId;
@@ -53,7 +56,7 @@ public class Comment {
 	}
 
 	private void validateContent(String content) {
-		if (content.isBlank()) {
+		if (content == null || content.isBlank()) {
 			throw new CommentException(HttpStatus.BAD_REQUEST, CommentErrorMessage.CONTENT_NOT_FOUND);
 		}
 	}
