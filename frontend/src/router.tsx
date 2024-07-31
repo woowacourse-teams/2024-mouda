@@ -4,6 +4,7 @@ import ROUTES from '@_constants/routes';
 import { createBrowserRouter } from 'react-router-dom';
 import MoimDetailPage from '@_pages/MoimDetailPage/MoimDetailPage';
 import ParticipationCompletePage from '@_pages/ParticipationCompletePage/ParticipationCompletePage';
+import LoginPage from '@_pages/LoginPage/LoginPage';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: ROUTES.participationComplete,
     element: <ParticipationCompletePage />,
+  },
+  {
+    path: ROUTES.login,
+    element: <LoginPage />,
   },
 ]);
 

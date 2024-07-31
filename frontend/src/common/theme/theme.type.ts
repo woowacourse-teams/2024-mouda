@@ -39,6 +39,7 @@ export interface Typography {
   Medium: SerializedStyles;
   small: SerializedStyles;
   Tiny: SerializedStyles;
+  tag: SerializedStyles;
 }
 
 export interface Layout {
