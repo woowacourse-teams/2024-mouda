@@ -16,6 +16,10 @@ export const getMoims = async (): Promise<MoimInfo[]> => {
   const json = (await response.json()) as GetMoims;
   return json.data.moims;
 };
+// export const getMoims = async (): Promise<MoimInfo[]> => {
+//   const json: GetMoims = await ApiClient.get('moim');
+//   return json.data.moims;
+// };
 
 export const getMoim = async (moimId: number): Promise<MoimInfo> => {
   const url = `${ENDPOINTS.moim}/${moimId}`;
@@ -27,3 +31,7 @@ export const getMoim = async (moimId: number): Promise<MoimInfo> => {
   const json = (await response.json()) as GetMoim;
   return json.data;
 };
+// export const getMoim = async (moimId: number): Promise<MoimInfo> => {
+//   const json: GetMoim = await ApiClient.get(`moim/${moimId}`);
+//   return json.data;
+// };
