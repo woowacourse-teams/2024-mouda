@@ -220,9 +220,9 @@ class MoimTest {
 			.build());
 	}
 
-	@DisplayName("설명의 길이가 길면 모임 객체 생성에 성공한다.")
+	@DisplayName("설명의 길이가 길면 모임 객체 생성에 실패한다.")
 	@Test
-	void createMoimWhenDescriptionIsTooLong() {
+	void failToCreateMoimWhenDescriptionIsTooLong() {
 		String longDescription = "a".repeat(1001);
 		assertThrows(MoimException.class, () -> Moim.builder()
 			.title(TITLE)

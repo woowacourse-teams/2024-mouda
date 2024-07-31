@@ -55,8 +55,13 @@ public class Moim {
 
 	@Builder
 	public Moim(
-		String title, LocalDate date, LocalTime time,
-		String place, int maxPeople, String authorNickname, String description
+		String title,
+		LocalDate date,
+		LocalTime time,
+		String place,
+		int maxPeople,
+		String authorNickname,
+		String description
 	) {
 		validateTitle(title);
 		validateDate(date);
