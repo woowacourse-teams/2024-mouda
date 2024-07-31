@@ -14,17 +14,27 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    width: '7rem',
-    height: '7rem',
+    width: 7,
+    height: 7,
     src: EmptyProfile,
+  },
+  render: (args) => <ProfileFrame {...args} />,
+};
+
+export const WithCustomImageAndCrown: Story = {
+  args: {
+    width: 7,
+    height: 7,
+    src: Plus,
+    role: 'moimer',
   },
   render: (args) => <ProfileFrame {...args} />,
 };
 
 export const WithCustomImage: Story = {
   args: {
-    width: '7rem',
-    height: '7rem',
+    width: 7,
+    height: 7,
     src: Plus,
   },
   render: (args) => <ProfileFrame {...args} />,
@@ -32,8 +42,8 @@ export const WithCustomImage: Story = {
 
 export const WithErrorHandling: Story = {
   args: {
-    width: '7rem',
-    height: '7rem',
+    width: 7,
+    height: 7,
     src: 'invalid-url.jpg', // 오류를 발생시키기 위한 잘못된 URL
   },
   render: (args) => <ProfileFrame {...args} />,
