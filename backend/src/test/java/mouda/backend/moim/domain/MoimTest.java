@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import mouda.backend.fixture.MoimFixture;
 import mouda.backend.moim.exception.MoimException;
 
 class MoimTest {
@@ -24,14 +25,7 @@ class MoimTest {
 	@DisplayName("모임 객체를 정상적으로 생성한다.")
 	@Test
 	void createMoim() {
-		Assertions.assertDoesNotThrow(() -> Moim.builder()
-			.title(TITLE)
-			.date(DATE)
-			.time(TIME)
-			.place(PLACE)
-			.maxPeople(MAX_PEOPLE)
-			.description(DESCRIPTION)
-			.build());
+		Assertions.assertDoesNotThrow(MoimFixture::getBasketballMoim);
 	}
 
 	@DisplayName("제목 길이가 제한을 초과하면 모임 객체 생성에 실패한다.")
