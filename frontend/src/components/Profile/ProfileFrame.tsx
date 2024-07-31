@@ -1,13 +1,16 @@
 import { ImgHTMLAttributes } from 'react';
 import * as S from './ProfileFrame.style';
 import EmptyProfile from '@_common/assets/empty_profile.svg?url';
+import Crown from '@_common/assets/crown.svg?url';
+import { Role } from '@_types/index';
 
 interface ProfileFrameProps extends ImgHTMLAttributes<HTMLImageElement> {
-  width: string | number | undefined;
-  height: string | number | undefined;
+  role?: Role;
+  width: number;
+  height: number;
 }
 export default function ProfileFrame(props: ProfileFrameProps) {
-  const { width, height, onError, ...args } = props;
+  const { width, height, onError, role, ...args } = props;
 
   const handleError = (
     event: React.SyntheticEvent<HTMLImageElement, Event>,
@@ -19,8 +22,11 @@ export default function ProfileFrame(props: ProfileFrameProps) {
   };
 
   return (
-    <div css={S.profileFrame(width, height)}>
-      <img css={S.profileImage} {...args} onError={handleError} />
+    <div css={S.profileBox()}>
+      {role === 'moimer' ? <img src={Crown} css={S.profileCrown(width)} /> : ''}
+      <div css={S.profileFrame(width, height)}>
+        <img css={S.profileImage} {...args} onError={handleError} />
+      </div>
     </div>
   );
 }

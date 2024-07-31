@@ -1,6 +1,12 @@
 import { css } from '@emotion/react';
 
-type Size = string | number | undefined;
+type Size = number;
+
+export const profileBox = () => {
+  return css`
+    width: fit-content;
+  `;
+};
 
 export const profileFrame = (width: Size, height: Size) => {
   return css`
@@ -9,8 +15,8 @@ export const profileFrame = (width: Size, height: Size) => {
     align-items: center;
     justify-content: center;
 
-    width: ${width};
-    height: ${height};
+    width: ${width}rem;
+    height: ${height}rem;
 
     border: 0.5rem solid orange;
     border-radius: 300rem;
@@ -22,5 +28,14 @@ export const profileImage = () => {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  `;
+};
+
+export const profileCrown = (width: Size) => {
+  return css`
+    position: relative;
+    top: 1rem;
+    left: ${width / 2 - (3 * (width / 8)) / 2}rem;
+    width: ${3 * (width / 8)}rem;
   `;
 };
