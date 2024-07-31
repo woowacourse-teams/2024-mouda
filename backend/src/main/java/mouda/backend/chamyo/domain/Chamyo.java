@@ -6,7 +6,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,11 +22,9 @@ public class Chamyo {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "moim_id")
 	private Moim moim;
 
 	@ManyToOne
-	@JoinColumn(name = "member_id")
 	private Member member;
 
 	@Enumerated(EnumType.STRING)
