@@ -21,8 +21,9 @@ public class ZzimController implements ZzimSwagger {
 
 	@Override
 	@GetMapping("/me")
-	public ResponseEntity<RestResponse<ZzimCheckResponse>> checkZzimByMoimAndMember(@RequestParam Long moimId,
-		Member member) {
+	public ResponseEntity<RestResponse<ZzimCheckResponse>> checkZzimByMoimAndMember(
+		@RequestParam Long moimId, Member member
+	) {
 		ZzimCheckResponse zzimCheckResponse = zzimService.checkZzimByMember(moimId, member);
 
 		return ResponseEntity.ok().body(new RestResponse<>(zzimCheckResponse));

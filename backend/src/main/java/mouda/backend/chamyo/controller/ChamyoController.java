@@ -22,8 +22,9 @@ public class ChamyoController implements ChamyoSwagger {
 
 	@Override
 	@GetMapping("/me")
-	public ResponseEntity<RestResponse<MoimRoleFindResponse>> findMoimRoleByMember(@RequestParam Long moimId,
-		Member member) {
+	public ResponseEntity<RestResponse<MoimRoleFindResponse>> findMoimRoleByMember(
+		@RequestParam Long moimId, Member member
+	) {
 		MoimRoleFindResponse moimRoleFindResponse = chamyoService.findMoimRole(moimId, member);
 
 		return ResponseEntity.ok().body(new RestResponse<>(moimRoleFindResponse));
