@@ -54,19 +54,19 @@ public class JwtProvider {
 
     public Claims getPayload(String token) {
         try {
-            Claims claims = Jwts.parser()
+            return Jwts.parser()
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody();
 
-            validateExpiration(claims);
-            return claims;
         } catch (JwtException | IllegalArgumentException e) {
             throw new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.UNAUTHORIZED);
         }
     }
 
-    public void validateExpiration(Claims claims) {
+    public void validateExpiration(String token) {
+        Claims claims = getPayload(token);
+
         if (claims.getExpiration().before(new Date())) {
             throw new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.UNAUTHORIZED);
         }
