@@ -2,8 +2,6 @@ package mouda.backend.chat.repository;
 
 import static org.assertj.core.api.Assertions.*;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -12,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import mouda.backend.chat.domain.Chat;
+import mouda.backend.fixture.ChatFixture;
+import mouda.backend.fixture.MemberFixture;
+import mouda.backend.fixture.MoimFixture;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.repository.MemberRepository;
 import mouda.backend.moim.domain.Moim;
@@ -32,37 +33,19 @@ class ChatRepositoryTest {
 	@DisplayName("모임 아이디가 동일하고 채팅 아이디가 더 큰 채팅 리스트가 조회된다.")
 	@Test
 	void test() {
-		Moim moim = Moim.builder()
-			.place("asdf")
-			.maxPeople(1)
-			.description("123")
-			.time(LocalTime.now())
-			.date(LocalDate.now())
-			.title("sdfsdfsd")
-			.build();
+		Moim moim = MoimFixture.getCoffeeMoim();
 		moimRepository.save(moim);
 
-		Member member = Member.builder()
-			.nickname("hogee")
-			.build();
-		memberRepository.save(member);
+		Member member1 = MemberFixture.getAnna();
+		Member member2 = MemberFixture.getHogee();
 
-		Chat chat1 = Chat.builder()
-			.moim(moim)
-			.member(member)
-			.content("콘텐트")
-			.date(LocalDate.now())
-			.time(LocalTime.now())
-			.build();
-		Chat chat2 = Chat.builder()
-			.moim(moim)
-			.member(member)
-			.content("콘텐트")
-			.date(LocalDate.now())
-			.time(LocalTime.now())
-			.build();
-		chatRepository.save(chat1);
-		chatRepository.save(chat2);
+		memberRepository.save(member1);
+		memberRepository.save(member2);
+
+		Chat hogee = ChatFixture.getChatWithHogeeAtCoffeeMoim();
+		chatRepository.save(hogee);
+		Chat anna = ChatFixture.getChatWithAnnaAtCoffeeMoim();
+		chatRepository.save(anna);
 
 		List<Chat> chats = chatRepository.findAllUnloadedChats(1L, 1L);
 

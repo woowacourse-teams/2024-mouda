@@ -27,6 +27,16 @@ public class ChatFixture {
 			.build();
 	}
 
+	public static Chat getChatWithHogeeAtCoffeeMoim() {
+		return Chat.builder()
+			.time(LocalTime.now())
+			.date(LocalDate.now())
+			.content("반갑읍니다")
+			.member(MemberFixture.getHogee())
+			.moim(MoimFixture.getCoffeeMoim())
+			.build();
+	}
+
 	public static Chat getChatWithTebahAtSoccerMoim() {
 		return Chat.builder()
 			.time(LocalTime.now())
