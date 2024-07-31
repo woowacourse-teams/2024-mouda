@@ -84,7 +84,7 @@ class MoimServiceTest {
 
 		MoimDetailsFindResponse moimDetails = moimService.findMoimDetails(1L);
 
-		assertThat(moimDetails.authorNickname()).isEqualTo("안나");
+		assertThat(moimDetails.title()).isEqualTo("title");
 	}
 
 	@DisplayName("모임에 참여한다.")
