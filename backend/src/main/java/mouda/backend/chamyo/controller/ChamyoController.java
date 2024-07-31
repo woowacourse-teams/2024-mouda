@@ -11,6 +11,7 @@ import mouda.backend.chamyo.dto.ChamyoFindAllResponses;
 import mouda.backend.chamyo.dto.MoimRoleFindResponse;
 import mouda.backend.chamyo.service.ChamyoService;
 import mouda.backend.common.RestResponse;
+import mouda.backend.config.argumentresolver.LoginMember;
 import mouda.backend.member.domain.Member;
 
 @RestController
@@ -23,7 +24,7 @@ public class ChamyoController implements ChamyoSwagger {
 	@Override
 	@GetMapping("/me")
 	public ResponseEntity<RestResponse<MoimRoleFindResponse>> findMoimRoleByMember(
-		@RequestParam Long moimId, Member member
+		@RequestParam Long moimId, @LoginMember Member member
 	) {
 		MoimRoleFindResponse moimRoleFindResponse = chamyoService.findMoimRole(moimId, member);
 

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.common.RestResponse;
+import mouda.backend.config.argumentresolver.LoginMember;
 import mouda.backend.member.domain.Member;
 import mouda.backend.zzim.dto.ZzimCheckResponse;
 import mouda.backend.zzim.service.ZzimService;
@@ -22,7 +23,7 @@ public class ZzimController implements ZzimSwagger {
 	@Override
 	@GetMapping("/me")
 	public ResponseEntity<RestResponse<ZzimCheckResponse>> checkZzimByMoimAndMember(
-		@RequestParam Long moimId, Member member
+		@RequestParam Long moimId, @LoginMember Member member
 	) {
 		ZzimCheckResponse zzimCheckResponse = zzimService.checkZzimByMember(moimId, member);
 
