@@ -5,6 +5,7 @@ export const ProfileCard = css`
   flex-direction: column;
   gap: 0.4rem;
   align-items: center;
+  justify-content: flex-end;
 
   width: auto;
   width: fit-content;
