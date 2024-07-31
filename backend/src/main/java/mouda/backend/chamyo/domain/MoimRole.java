@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public enum MoimRole {
-	DEFAULT
+	MOIMER, MOIMEE, NON_MOIMEE
 }
