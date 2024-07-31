@@ -1,7 +1,4 @@
-package mouda.backend.chat;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
+package mouda.backend.zzim.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,21 +13,15 @@ import mouda.backend.moim.domain.Moim;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Chat {
+public class Zzim {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	private String content;
 
 	@ManyToOne
 	private Moim moim;
 
 	@ManyToOne
 	private Member member;
-
-	private LocalDate date;
-
-	private LocalTime time;
 }
