@@ -1,6 +1,5 @@
 package mouda.backend.exception;
 
-import mouda.backend.auth.exception.AuthException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -24,11 +23,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(MoudaException.class)
     public ResponseEntity<ErrorResponse> handleMoudaException(MoudaException exception) {
-        return ResponseEntity.status(exception.getHttpStatus()).body(new ErrorResponse(exception.getMessage()));
-    }
-
-    @ExceptionHandler(AuthException.class)
-    public ResponseEntity<ErrorResponse> handleMoudaException(AuthException exception) {
         return ResponseEntity.status(exception.getHttpStatus()).body(new ErrorResponse(exception.getMessage()));
     }
 
