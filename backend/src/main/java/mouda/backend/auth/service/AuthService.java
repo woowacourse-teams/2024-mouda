@@ -43,4 +43,8 @@ public class AuthService {
             .orElseThrow(
                 () -> new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.UNAUTHORIZED));
     }
+
+    public void checkAuthentication(String token) {
+        jwtProvider.validateExpiration(token);
+    }
 }
