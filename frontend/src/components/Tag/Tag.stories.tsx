@@ -18,7 +18,7 @@ export const Default: Story = {
   render: (args) => <Tag {...args} />,
 };
 
-export const GreenTag: Story = {
+export const RecruitingTag: Story = {
   args: {
     children: '모집중',
     color: 'green',
@@ -26,7 +26,7 @@ export const GreenTag: Story = {
   render: (args) => <Tag {...args} />,
 };
 
-export const RedTag: Story = {
+export const RecruitingCanceledTag: Story = {
   args: {
     children: '모집취소',
     color: 'red',
@@ -34,7 +34,7 @@ export const RedTag: Story = {
   render: (args) => <Tag {...args} />,
 };
 
-export const GreyTag: Story = {
+export const RecruitingCompletedTag: Story = {
   args: {
     children: '모집완료',
     color: 'grey',
