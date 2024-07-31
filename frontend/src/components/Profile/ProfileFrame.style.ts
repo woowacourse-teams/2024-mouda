@@ -31,6 +31,7 @@ export const profileImage = () => {
   `;
 };
 
+// 크라운 이미지를 가운데 정렬하기 위한 css
 export const profileCrown = (width: Size) => {
   return css`
     position: relative;
