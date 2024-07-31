@@ -33,7 +33,7 @@ public class ChamyoController implements ChamyoSwagger {
 
 	@Override
 	@GetMapping("/all")
-	public ResponseEntity<RestResponse<ChamyoFindAllResponses>> findAllChamyo(@RequestParam Long moimId) {
+	public ResponseEntity<RestResponse<ChamyoFindAllResponses>> findAllChamyoByMoim(@RequestParam Long moimId) {
 		ChamyoFindAllResponses chamyoFindAllResponses = chamyoService.findAllChamyo(moimId);
 
 		return ResponseEntity.ok().body(new RestResponse<>(chamyoFindAllResponses));

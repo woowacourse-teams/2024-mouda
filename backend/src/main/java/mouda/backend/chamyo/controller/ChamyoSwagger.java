@@ -23,5 +23,5 @@ public interface ChamyoSwagger {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "모든 모임 참여자 조회 성공")
 	})
-	ResponseEntity<RestResponse<ChamyoFindAllResponses>> findAllChamyo(@RequestParam Long moimId);
+	ResponseEntity<RestResponse<ChamyoFindAllResponses>> findAllChamyoByMoim(@RequestParam Long moimId);
 }
