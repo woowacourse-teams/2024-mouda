@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mouda.backend.member.domain.Member;
@@ -29,4 +30,11 @@ public class Chamyo {
 
 	@Enumerated(EnumType.STRING)
 	private MoimRole moimRole;
+
+	@Builder
+	public Chamyo(Moim moim, Member member, MoimRole moimRole) {
+		this.moim = moim;
+		this.member = member;
+		this.moimRole = moimRole;
+	}
 }

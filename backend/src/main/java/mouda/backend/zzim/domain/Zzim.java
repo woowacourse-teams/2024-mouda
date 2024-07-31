@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mouda.backend.member.domain.Member;
@@ -24,4 +25,10 @@ public class Zzim {
 
 	@ManyToOne
 	private Member member;
+
+	@Builder
+	public Zzim(Moim moim, Member member) {
+		this.moim = moim;
+		this.member = member;
+	}
 }
