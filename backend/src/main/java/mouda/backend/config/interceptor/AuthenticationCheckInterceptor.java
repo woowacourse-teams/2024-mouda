@@ -11,7 +11,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @RequiredArgsConstructor
 public class AuthenticationCheckInterceptor implements HandlerInterceptor {
 
-    public static final String AUTHORIZATION_PREFIX = "Bearer ";
+    private static final String AUTHORIZATION_PREFIX = "Bearer ";
 
     private final AuthService authService;
 
