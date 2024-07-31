@@ -44,7 +44,17 @@ module.exports = {
     rules: [
       {
         test: /\.svg$/i,
-        use: ['@svgr/webpack'],
+        oneOf: [
+          {
+            use: ['@svgr/webpack'],
+            issuer: /\.[jt]sx?$/,
+            resourceQuery: { not: [/url/] },
+          },
+          {
+            type: 'asset/resource',
+            resourceQuery: /url/,
+          }
+        ]
       },
       {
         test: /\.(png|jpe?g|gif|webp|woff2)$/i,
