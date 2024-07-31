@@ -23,10 +23,6 @@ export const postMoim = async (moim: MoimInputInfo): Promise<number> => {
   const json = (await response.json()) as PostMoim;
   return json.data;
 };
-// export const postMoim = async (moim: MoimInputInfo): Promise<number> => {
-//   const json = await ApiClient.post('moim', moim);
-//   return json.data;
-// };
 
 export const postJoinMoim = async (moimId: number, nickname: string) => {
   const url = `${ENDPOINTS.moims}/join`;
@@ -39,6 +35,3 @@ export const postJoinMoim = async (moimId: number, nickname: string) => {
 
   await checkStatus(response);
 };
-// export const postJoinMoim = async (moimId: number, nickname: string) => {
-//   await ApiClient.post('moim/join', { moimId, nickname });
-// };
