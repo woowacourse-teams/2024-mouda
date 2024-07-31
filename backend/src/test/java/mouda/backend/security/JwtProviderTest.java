@@ -2,8 +2,10 @@ package mouda.backend.security;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.repository.MemberRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,14 @@ class JwtProviderTest {
 
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    private DatabaseCleaner databaseCleaner;
+
+    @AfterEach
+    void cleanUp() {
+        databaseCleaner.cleanUp();
+    }
 
     @DisplayName("토큰을 발급한다.")
     @Test
