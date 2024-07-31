@@ -4,12 +4,12 @@ const defaultHeaders = {
   'Content-Type': 'application/json',
 };
 
-const baseURL = process.env.BASE_URL;
+const baseURL = `${process.env.BASE_URL}/v1`;
 
 class ApiClient {
   private static addBaseURL(url: string) {
     if (url[0] !== '/') url = '/' + url;
-    return baseURL + '/v1' + url;
+    return baseURL + url;
   }
 
   private static getHeaders(token: string | null) {

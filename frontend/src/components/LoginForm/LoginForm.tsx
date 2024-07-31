@@ -2,10 +2,10 @@ import Button from '@_components/Button/Button';
 import LabeledInput from '@_components/Input/MoimInput';
 import * as S from './LoginForm.style';
 import { useEffect, useState } from 'react';
-import { login } from '@_apis/user';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '@_constants/routes';
 import { setToken } from '@_utils/tokenManager';
+import { login } from '@_apis/auth';
 
 // TODO: 로그인 기능 요구사항 변경 예정
 export default function LoginForm() {
