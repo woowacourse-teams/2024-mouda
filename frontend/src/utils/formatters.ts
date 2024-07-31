@@ -56,7 +56,7 @@ export const formatHhmmToKoreanWithPrefix = (
   }
 
   if (hour > 12) {
-    return `오후 ${hour - 1}:${minute.toString().padStart(2, '00')}`;
+    return `오후 ${hour - 12}:${minute.toString().padStart(2, '00')}`;
   }
 
   return `오전 ${hour}:${minute.toString().padStart(2, '00')}`;
