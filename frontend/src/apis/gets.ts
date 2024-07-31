@@ -1,24 +1,29 @@
 import ENDPOINTS from '@_apis/endPoints';
-import { GetMoim } from '@_apis/responseTypes';
+import { GetMoim, GetMoims } from '@_apis/responseTypes';
 import { MoimInfo } from '@_types/index';
+import { checkStatus, defaultOptions } from './apiconfig';
 
+const defaultGetOptions = {
+  method: 'GET',
+  ...defaultOptions,
+};
 export const getMoims = async (): Promise<MoimInfo[]> => {
   const url = ENDPOINTS.moims;
 
-  const options = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
+  const response = await fetch(url, defaultGetOptions);
 
-  const response = await fetch(url, options);
+  checkStatus(response);
+  const json = (await response.json()) as GetMoims;
+  return json.data.moims;
+};
 
-  const statusHead = Math.floor(response.status / 100);
-  if (statusHead === 4 || statusHead === 5) {
-    throw new Error('모임을 받아오지 못했습니다.');
-  }
+export const getMoim = async (moimId: number): Promise<MoimInfo> => {
+  const url = `${ENDPOINTS.moim}/${moimId}`;
+
+  const response = await fetch(url, defaultGetOptions);
+
+  checkStatus(response);
 
   const json = (await response.json()) as GetMoim;
-  return json.data.moims;
+  return json.data;
 };

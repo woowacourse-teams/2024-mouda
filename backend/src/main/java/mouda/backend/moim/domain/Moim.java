@@ -6,6 +6,8 @@ import java.time.LocalTime;
 import org.springframework.http.HttpStatus;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,9 +36,12 @@ public class Moim {
 
 	private int maxPeople;
 
-	private String authorNickname;
-
 	private String description;
+
+	@Enumerated(EnumType.STRING)
+	private MoimStatus moimStatus;
+
+	private boolean isChatOpened;
 
 	@Builder
 	public Moim(
@@ -45,7 +50,6 @@ public class Moim {
 		LocalTime time,
 		String place,
 		int maxPeople,
-		String authorNickname,
 		String description
 	) {
 		this.title = title;
@@ -53,7 +57,6 @@ public class Moim {
 		this.time = time;
 		this.place = place;
 		this.maxPeople = maxPeople;
-		this.authorNickname = authorNickname;
 		this.description = description;
 	}
 

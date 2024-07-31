@@ -32,6 +32,9 @@
       "@_utils/*": ["src/utils/*"]
     }
   },
+  "ts-node": {
+    "files": true
+  },
 
   "exclude": ["node_modules"],
   "include": ["./src/**/*.tsx", "./src/**/*.ts"]
