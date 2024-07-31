@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { login } from '@_apis/user';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '@_constants/routes';
+import { setToken } from '@_utils/tokenManager';
 
 // TODO: 로그인 기능 요구사항 변경 예정
 export default function LoginForm() {
@@ -19,7 +20,10 @@ export default function LoginForm() {
 
   const handleLoginFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await login({ nickname });
+
+    const response = await login({ nickname });
+    console.log(response);
+    setToken(response.data.accessToken);
     navigate(ROUTES.main);
   };
 
