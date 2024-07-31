@@ -1,5 +1,7 @@
 package mouda.backend.comment.domain;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,7 +17,7 @@ import mouda.backend.moim.domain.Moim;
 @Getter
 @NoArgsConstructor
 public class Comment {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -29,6 +31,8 @@ public class Comment {
 	@ManyToOne
 	@JoinColumn(name = "member_id")
 	private Member member;
+
+	private LocalDateTime createdAt;
 
 	private Long parentId;
 }
