@@ -10,3 +10,9 @@ spring:
   sql:
     init:
       data-locations: classpath:test-data.sql
+
+security:
+  jwt:
+    token:
+      secret-key: kksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabo
+      expire-length: 3600000
