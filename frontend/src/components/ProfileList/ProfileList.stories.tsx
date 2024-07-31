@@ -11,6 +11,49 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+    participants: [
+      {
+        nickname: '치코',
+        profile: '',
+        role: 'moimer',
+      },
+      {
+        nickname: '치코',
+        profile: '',
+        role: 'moimer',
+      },
+      {
+        nickname: '치코',
+        profile: '',
+        role: 'moimer',
+      },
+      {
+        nickname: '치코',
+        profile: '',
+        role: 'moimer',
+      },
+      {
+        nickname: '치코',
+        profile: '',
+        role: 'moimer',
+      },
+      {
+        nickname: '치코',
+        profile: '',
+        role: 'moimer',
+      },
+      {
+        nickname: '치코',
+        profile: '',
+        role: 'moimer',
+      },
+      {
+        nickname: '치코',
+        profile: '',
+        role: 'moimer',
+      },
+    ],
+  },
   render: (args) => <ProfileList {...args} />,
 };

@@ -1,19 +1,25 @@
 import ProfileBox from '@_components/Profile/ProfileBox';
 import * as S from './ProfileList.style';
-import EmptyProfile from '@_common/assets/empty_profile.svg';
+import { Participation } from '@_types/index';
 
-export default function ProfileList() {
-  //TODO 데이터 타입이 정해질 경우 수정 예정
+interface ProfileListProps {
+  participants: Participation[];
+}
+
+export default function ProfileList(props: ProfileListProps) {
+  const { participants } = props;
+
   return (
     <div css={S.ProfileContanier}>
-      <ProfileBox name="치코" src={EmptyProfile}></ProfileBox>
-      <ProfileBox name="치코" src={EmptyProfile}></ProfileBox>
-      <ProfileBox name="치코" src={EmptyProfile}></ProfileBox>
-      <ProfileBox name="치코" src={EmptyProfile}></ProfileBox>
-      <ProfileBox name="치코" src={EmptyProfile}></ProfileBox>
-      <ProfileBox name="치코" src={EmptyProfile}></ProfileBox>
-      <ProfileBox name="치코" src={EmptyProfile}></ProfileBox>
-      <ProfileBox name="치코" src={EmptyProfile}></ProfileBox>
+      {participants.map((participant) => {
+        return (
+          <ProfileBox
+            key={participant.nickname}
+            name={participant.nickname}
+            src={participant.profile}
+          />
+        );
+      })}
     </div>
   );
 }
