@@ -68,7 +68,7 @@ public class MoimService {
 			.map(Member::getNickname)
 			.toList();
 
-		List<Comment> comments = commentRepository.findAllByMoimId(id);
+		List<Comment> comments = commentRepository.findAllByMoimIdOrderByCreatedAt(id);
 		Map<Long, List<Comment>> childComments = comments.stream()
 			.filter(Comment::isChild)
 			.collect(groupingBy(Comment::getParentId));
