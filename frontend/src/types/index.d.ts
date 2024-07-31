@@ -15,8 +15,10 @@ export interface MoimInfo {
 export interface Participation {
   nickname: string;
   profile: string;
-  role: 'moimer' | 'moimee';
+  role: Role;
 }
+
+export type Role = 'moimer' | 'moimee';
 
 export type MoimInputInfo = Omit<
   MoimInfo,
