@@ -1,12 +1,19 @@
 package mouda.backend.moim.service;
 
+import static java.util.stream.Collectors.*;
+
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.comment.domain.Comment;
+import mouda.backend.comment.dto.response.ChildCommentResponse;
+import mouda.backend.comment.dto.response.CommentResponse;
+import mouda.backend.comment.repository.CommentRepository;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.repository.MemberRepository;
 import mouda.backend.moim.domain.Moim;
@@ -27,6 +34,8 @@ public class MoimService {
 	private final MoimRepository moimRepository;
 
 	private final MemberRepository memberRepository;
+
+	private final CommentRepository commentRepository;
 
 	public Moim createMoim(MoimCreateRequest moimCreateRequest) {
 		Member author = new Member(moimCreateRequest.authorNickname());
@@ -59,7 +68,23 @@ public class MoimService {
 			.map(Member::getNickname)
 			.toList();
 
-		return MoimDetailsFindResponse.toResponse(moim, participants);
+		List<Comment> comments = commentRepository.findAllByMoimId(id);
+		Map<Long, List<Comment>> childComments = comments.stream()
+			.filter(Comment::isChild)
+			.collect(groupingBy(Comment::getParentId));
+
+		List<CommentResponse> commentResponses = comments.stream()
+			.filter(Comment::isParent)
+			.map(comment -> CommentResponse.toResponse(comment, findChildComments(comment, childComments)))
+			.toList();
+
+		return MoimDetailsFindResponse.toResponse(moim, participants, commentResponses);
+	}
+
+	private List<ChildCommentResponse> findChildComments(Comment comment, Map<Long, List<Comment>> childComments) {
+		return childComments.getOrDefault(comment.getId(), List.of()).stream()
+			.map(ChildCommentResponse::toResponse)
+			.toList();
 	}
 
 	public void joinMoim(MoimJoinRequest moimJoinRequest) {

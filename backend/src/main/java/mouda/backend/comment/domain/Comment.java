@@ -35,4 +35,12 @@ public class Comment {
 	private LocalDateTime createdAt;
 
 	private Long parentId;
+
+	public boolean isParent() {
+		return parentId == null;
+	}
+
+	public boolean isChild() {
+		return parentId != null;
+	}
 }
