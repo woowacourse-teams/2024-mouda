@@ -14,6 +14,8 @@ import mouda.backend.comment.domain.Comment;
 import mouda.backend.comment.dto.request.CommentCreateRequest;
 import mouda.backend.comment.dto.response.ChildCommentResponse;
 import mouda.backend.comment.dto.response.CommentResponse;
+import mouda.backend.comment.exception.CommentErrorMessage;
+import mouda.backend.comment.exception.CommentException;
 import mouda.backend.comment.repository.CommentRepository;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.repository.MemberRepository;
@@ -115,6 +117,11 @@ public class MoimService {
 		Moim moim = moimRepository.findById(moimId).orElseThrow(
 			() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND)
 		);
+
+		Long parentId = commentCreateRequest.parentId();
+		if (parentId != null && !commentRepository.existsById(parentId)) {
+			throw new CommentException(HttpStatus.BAD_REQUEST, CommentErrorMessage.PARENT_NOT_FOUND);
+		}
 
 		commentRepository.save(commentCreateRequest.toEntity(moim, member));
 	}
