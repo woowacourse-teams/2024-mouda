@@ -18,12 +18,6 @@ public class DatabaseCleaner {
 
 	@Transactional
 	public void cleanUp() {
-		entityManager.createNativeQuery("DELETE FROM MEMBER").executeUpdate();
-		entityManager.createNativeQuery("ALTER TABLE MEMBER alter column id restart with 1").executeUpdate();
-
-		entityManager.createNativeQuery("DELETE FROM MOIM").executeUpdate();
-		entityManager.createNativeQuery("ALTER TABLE MOIM alter column id restart with 1").executeUpdate();
-
 		entityManager.createNativeQuery("DELETE FROM CHAT").executeUpdate();
 		entityManager.createNativeQuery("ALTER TABLE CHAT alter column id restart with 1").executeUpdate();
 
@@ -35,6 +29,12 @@ public class DatabaseCleaner {
 
 		entityManager.createNativeQuery("DELETE FROM CHAMYO").executeUpdate();
 		entityManager.createNativeQuery("ALTER TABLE CHAMYO alter column id restart with 1").executeUpdate();
+
+		entityManager.createNativeQuery("DELETE FROM MEMBER").executeUpdate();
+		entityManager.createNativeQuery("ALTER TABLE MEMBER alter column id restart with 1").executeUpdate();
+
+		entityManager.createNativeQuery("DELETE FROM MOIM").executeUpdate();
+		entityManager.createNativeQuery("ALTER TABLE MOIM alter column id restart with 1").executeUpdate();
 
 		entityManager.clear();
 	}
