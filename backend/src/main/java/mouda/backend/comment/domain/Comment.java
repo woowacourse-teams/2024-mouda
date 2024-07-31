@@ -8,7 +8,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,11 +31,9 @@ public class Comment {
 	private String content;
 
 	@ManyToOne
-	@JoinColumn(name = "moim_id")
 	private Moim moim;
 
 	@ManyToOne
-	@JoinColumn(name = "member_id")
 	private Member member;
 
 	private LocalDateTime createdAt;
