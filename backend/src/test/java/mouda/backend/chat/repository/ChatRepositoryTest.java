@@ -42,10 +42,10 @@ class ChatRepositoryTest {
 		memberRepository.save(member1);
 		memberRepository.save(member2);
 
-		Chat hogee = ChatFixture.getChatWithHogeeAtCoffeeMoim();
-		chatRepository.save(hogee);
-		Chat anna = ChatFixture.getChatWithAnnaAtCoffeeMoim();
+		Chat anna = ChatFixture.getChatWithMemberAtMoim(member1, moim);
 		chatRepository.save(anna);
+		Chat hogee = ChatFixture.getChatWithMemberAtMoim(member2, moim);
+		chatRepository.save(hogee);
 
 		List<Chat> chats = chatRepository.findAllUnloadedChats(1L, 1L);
 
