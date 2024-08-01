@@ -1,10 +1,10 @@
-import * as S from './ChattingRoomHeader.style';
+import * as S from './StickyTriSectionHeader.style';
 
 import { PropsWithChildren } from 'react';
 import TriSectionHeader from '@_layouts/components/TriSectionHeader/TriSectionHeader';
 import { useTheme } from '@emotion/react';
 
-function ChattingRoomHeader(props: PropsWithChildren) {
+function StickyTriSectionHeader(props: PropsWithChildren) {
   const { children } = props;
   const theme = useTheme();
 
@@ -15,8 +15,8 @@ function ChattingRoomHeader(props: PropsWithChildren) {
   );
 }
 
-ChattingRoomHeader.Left = TriSectionHeader.Left;
-ChattingRoomHeader.Center = TriSectionHeader.Center;
-ChattingRoomHeader.Right = TriSectionHeader.Right;
+StickyTriSectionHeader.Left = TriSectionHeader.Left;
+StickyTriSectionHeader.Center = TriSectionHeader.Center;
+StickyTriSectionHeader.Right = TriSectionHeader.Right;
 
-export default ChattingRoomHeader;
+export default StickyTriSectionHeader;

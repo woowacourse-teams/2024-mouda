@@ -1,8 +1,8 @@
 import * as S from './ChattingRoomLayout.style';
 
 import ChattingRoomFooter from './ChattingRoomFooter/ChattingRoomFooter';
-import ChattingRoomHeader from './ChattingRoomHeader/ChattingRoomHeader';
 import { PropsWithChildren } from 'react';
+import StickyTriSectionHeader from '@_layouts/components/StickyTriSectionHeader/StickyTriSectionHeader';
 
 function ChattingRoomLayout(props: PropsWithChildren) {
   const { children } = props;
@@ -10,7 +10,7 @@ function ChattingRoomLayout(props: PropsWithChildren) {
   return <div css={S.layoutStyle}>{children}</div>;
 }
 
-ChattingRoomLayout.Header = ChattingRoomHeader;
+ChattingRoomLayout.Header = StickyTriSectionHeader;
 ChattingRoomLayout.Footer = ChattingRoomFooter;
 
 export default ChattingRoomLayout;
