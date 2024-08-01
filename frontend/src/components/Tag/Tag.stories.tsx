@@ -12,32 +12,28 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    children: '모집중',
-    color: 'green',
+    status: 'MOIMING',
   },
   render: (args) => <Tag {...args} />,
 };
 
 export const RecruitingTag: Story = {
   args: {
-    children: '모집중',
-    color: 'green',
+    status: 'MOIMING',
   },
   render: (args) => <Tag {...args} />,
 };
 
 export const RecruitingCanceledTag: Story = {
   args: {
-    children: '모집취소',
-    color: 'red',
+    status: 'CANCEL',
   },
   render: (args) => <Tag {...args} />,
 };
 
 export const RecruitingCompletedTag: Story = {
   args: {
-    children: '모집완료',
-    color: 'grey',
+    status: 'COMPLETE',
   },
   render: (args) => <Tag {...args} />,
 };

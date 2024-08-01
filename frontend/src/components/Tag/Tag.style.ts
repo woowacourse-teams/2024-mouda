@@ -2,10 +2,10 @@ import { css, Theme } from '@emotion/react';
 
 interface TagBoxProps {
   theme: Theme;
-  color: 'red' | 'green' | 'grey';
+  status: 'MOIMING' | 'COMPLETE' | 'CANCEL';
 }
 export const tagBox = (props: TagBoxProps) => {
-  const { theme, color } = props;
+  const { theme, status } = props;
   return css`
     ${theme.typography.tag}
     display: inline-flex;
@@ -17,9 +17,9 @@ export const tagBox = (props: TagBoxProps) => {
 
     color: ${theme.colorPalette.white[100]};
 
-    background-color: ${color === 'red'
+    background-color: ${status === 'CANCEL'
       ? theme.colorPalette.red[400]
-      : color === 'green'
+      : status === 'MOIMING'
         ? theme.colorPalette.green[200]
         : theme.colorPalette.grey[400]};
     border-radius: 1rem;
