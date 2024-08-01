@@ -83,6 +83,14 @@ public class MoimController implements MoimSwagger {
 	}
 
 	@Override
+	@PatchMapping("/cancel/{moimId}")
+	public ResponseEntity<Void> cancelMoim(@PathVariable Long moimId, @LoginMember Member member) {
+		moimService.cancelMoim(moimId, member);
+
+		return ResponseEntity.ok().build();
+	}
+
+	@Override
 	@PostMapping("/{moimId}")
 	public ResponseEntity<Void> createComment(
 		@LoginMember Member member,

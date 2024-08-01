@@ -169,4 +169,24 @@ public class MoimService {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MOIM_CANCELED);
 		}
 	}
+
+	public void cancelMoim(Long moimId, Member member) {
+		Moim moim = moimRepository.findById(moimId)
+			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
+		validateCanCancelMoim(moim, member);
+
+		moimRepository.updateMoimStatusById(moimId, MoimStatus.CANCELED);
+	}
+
+	private void validateCanCancelMoim(Moim moim, Member member) {
+		MoimRole moimRole = chamyoRepository.findByMoimIdAndMemberId(moim.getId(), member.getId())
+			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND))
+			.getMoimRole();
+		if (moimRole != MoimRole.MOIMER) {
+			throw new MoimException(HttpStatus.FORBIDDEN, MoimErrorMessage.NOT_ALLOWED_TO_CANCEL);
+		}
+		if (moim.getMoimStatus() == MoimStatus.CANCELED) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MOIM_CANCELED);
+		}
+	}
 }
