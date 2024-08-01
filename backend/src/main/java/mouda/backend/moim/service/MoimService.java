@@ -24,6 +24,7 @@ import mouda.backend.member.repository.MemberRepository;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimStatus;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
+import mouda.backend.moim.dto.request.MoimEditRequest;
 import mouda.backend.moim.dto.request.MoimJoinRequest;
 import mouda.backend.moim.dto.response.MoimDetailsFindResponse;
 import mouda.backend.moim.dto.response.MoimFindAllResponse;
@@ -204,6 +205,27 @@ public class MoimService {
 			.getMoimRole();
 		if (moimRole != MoimRole.MOIMER) {
 			throw new MoimException(HttpStatus.FORBIDDEN, errorMessage);
+		}
+	}
+
+	public void editMoim(MoimEditRequest request, Member member) {
+		Moim moim = moimRepository.findById(request.moimId())
+			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
+		validateCanEditMoim(moim, member);
+
+		moim.update(request.title(), request.date(), request.time(), request.place(), request.maxPeople(),
+			request.description());
+		moimRepository.save(moim);
+	}
+
+	private void validateCanEditMoim(Moim moim, Member member) {
+		validateIsMoimerWithErrorMessage(moim, member, MoimErrorMessage.NOT_ALLOWED_TO_EDIT);
+		MoimStatus moimStatus = moim.getMoimStatus();
+		if (moimStatus == MoimStatus.COMPLETED) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.ALREADY_COMPLETED);
+		}
+		if (moimStatus == MoimStatus.CANCELED) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MOIM_CANCELED);
 		}
 	}
 }

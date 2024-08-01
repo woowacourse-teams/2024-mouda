@@ -18,6 +18,7 @@ import mouda.backend.config.argumentresolver.LoginMember;
 import mouda.backend.member.domain.Member;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
+import mouda.backend.moim.dto.request.MoimEditRequest;
 import mouda.backend.moim.dto.request.MoimJoinRequest;
 import mouda.backend.moim.dto.response.MoimDetailsFindResponse;
 import mouda.backend.moim.dto.response.MoimFindAllResponses;
@@ -94,6 +95,14 @@ public class MoimController implements MoimSwagger {
 	@PatchMapping("/{moimId}/reopen")
 	public ResponseEntity<Void> reopenMoim(@PathVariable Long moimId, @LoginMember Member member) {
 		moimService.reopenMoim(moimId, member);
+
+		return ResponseEntity.ok().build();
+	}
+
+	@Override
+	@PatchMapping
+	public ResponseEntity<Void> editMoim(@Valid @RequestBody MoimEditRequest request, @LoginMember Member member) {
+		moimService.editMoim(request, member);
 
 		return ResponseEntity.ok().build();
 	}
