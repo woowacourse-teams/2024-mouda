@@ -49,12 +49,10 @@ public class ChamyoService {
 	}
 
 	public void chamyoMoim(MoimChamyoRequest request, Member member) {
-		// 모임 조회 및 참여 가능 여부 확인
 		Moim moim = moimRepository.findById(request.moimId())
 			.orElseThrow(() -> new ChamyoException(HttpStatus.NOT_FOUND, ChamyoErrorMessage.MOIM_NOT_FOUND));
 		validateCanChamyoMoim(moim, member);
 
-		// 참여 처리
 		Chamyo chamyo = Chamyo.builder()
 			.moim(moim)
 			.member(member)
@@ -62,8 +60,10 @@ public class ChamyoService {
 			.build();
 		chamyoRepository.save(chamyo);
 
-		// 현재 참여로 인해 모임 인원이 꽉 찬 경우 모임 상태를 변경
-		updateMoimStatus(moim);
+		int currentPeople = chamyoRepository.countByMoim(moim);
+		if (currentPeople >= moim.getMaxPeople()) {
+			moimRepository.updateMoimStatusById(moim.getId(), MoimStatus.COMPLETED);
+		}
 	}
 
 	private void validateCanChamyoMoim(Moim moim, Member member) {
@@ -79,13 +79,6 @@ public class ChamyoService {
 		}
 		if (chamyoRepository.existsByMoimAndMember(moim, member)) {
 			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_ALREADY_JOINED);
-		}
-	}
-
-	private void updateMoimStatus(Moim moim) {
-		int currentPeople = chamyoRepository.countByMoim(moim);
-		if (currentPeople >= moim.getMaxPeople()) {
-			moimRepository.updateMoimStatusById(moim.getId(), MoimStatus.COMPLETED);
 		}
 	}
 }
