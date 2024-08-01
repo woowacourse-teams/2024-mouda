@@ -93,7 +93,7 @@ public class ChamyoService {
 
 	private void validateCanCancelChamyo(Moim moim, Member member) {
 		MoimRole moimRole = chamyoRepository.findByMoimIdAndMemberId(moim.getId(), member.getId())
-			.orElseThrow(() -> new ChamyoException(HttpStatus.NOT_FOUND, ChamyoErrorMessage.MOIM_NOT_JOINED))
+			.orElseThrow(() -> new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_JOINED))
 			.getMoimRole();
 
 		if (moimRole != MoimRole.MOIMEE) {
