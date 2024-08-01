@@ -74,14 +74,10 @@ public class MoimService {
 		Moim moim = moimRepository.findById(id)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
 
-		List<String> participants = memberRepository.findAllByMoimId(id).stream()
-			.map(Member::getNickname)
-			.toList();
-
 		List<Comment> comments = commentRepository.findAllByMoimIdOrderByCreatedAt(id);
 		List<CommentResponse> commentResponses = toCommentResponse(comments);
 
-		return MoimDetailsFindResponse.toResponse(moim, participants, commentResponses);
+		return MoimDetailsFindResponse.toResponse(moim, chamyoRepository.countByMoim(moim), commentResponses);
 	}
 
 	private List<CommentResponse> toCommentResponse(List<Comment> comments) {

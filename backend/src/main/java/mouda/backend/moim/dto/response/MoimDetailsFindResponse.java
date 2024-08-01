@@ -18,21 +18,20 @@ public record MoimDetailsFindResponse(
 	int maxPeople,
 	String authorNickname,
 	String description,
-	List<String> participants,
+	String status,
 	List<CommentResponse> comments
 ) {
 
-	public static MoimDetailsFindResponse toResponse(Moim moim, List<String> participants,
-		List<CommentResponse> comments) {
+	public static MoimDetailsFindResponse toResponse(Moim moim, int currentPeople, List<CommentResponse> comments) {
 		return MoimDetailsFindResponse.builder()
 			.title(moim.getTitle())
 			.date(moim.getDate())
 			.time(moim.getTime())
 			.place(moim.getPlace())
-			.currentPeople(participants.size())
+			.currentPeople(currentPeople)
 			.maxPeople(moim.getMaxPeople())
 			.description(moim.getDescription())
-			.participants(participants)
+			.status(moim.getMoimStatus().name())
 			.comments(comments)
 			.build();
 	}
