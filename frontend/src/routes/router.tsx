@@ -5,28 +5,45 @@ import { createBrowserRouter } from 'react-router-dom';
 import MoimDetailPage from '@_pages/MoimDetailPage/MoimDetailPage';
 import ParticipationCompletePage from '@_pages/ParticipationCompletePage/ParticipationCompletePage';
 import LoginPage from '@_pages/LoginPage/LoginPage';
+import ProtectedRoute from './ProtectedRoute';
 
-const router = createBrowserRouter([
+const routesConfig = [
   {
     path: ROUTES.main,
     element: <MainPage />,
+    requiresAuth: true,
   },
   {
     path: ROUTES.addMoim,
     element: <MoimCreationPage />,
+    requiresAuth: true,
   },
   {
     path: ROUTES.detail,
     element: <MoimDetailPage />,
+    requiresAuth: true,
   },
   {
     path: ROUTES.participationComplete,
     element: <ParticipationCompletePage />,
+    requiresAuth: true,
   },
   {
     path: ROUTES.login,
     element: <LoginPage />,
+    requiresAuth: false,
   },
-]);
+];
+
+const router = createBrowserRouter(
+  routesConfig.map((route) => ({
+    path: route.path,
+    element: route.requiresAuth ? (
+      <ProtectedRoute>{route.element}</ProtectedRoute>
+    ) : (
+      route.element
+    ),
+  })),
+);
 
 export default router;

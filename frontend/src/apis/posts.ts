@@ -1,37 +1,21 @@
-import { checkStatus, defaultOptions } from './apiconfig';
-
-import ENDPOINTS from '@_apis/endPoints';
 import { MoimInputInfo } from '@_types/index';
-import { PostMoim } from '@_apis/responseTypes';
+import ApiClient from './apiClient';
+import { PostMoim } from './responseTypes';
+import { checkStatus } from './apiconfig';
 
-const defaultPostOptions = {
-  method: 'POST',
-  ...defaultOptions,
-};
 export const postMoim = async (moim: MoimInputInfo): Promise<number> => {
-  const url = ENDPOINTS.moim;
-
-  const options = {
-    ...defaultPostOptions,
-    body: JSON.stringify(moim),
-  };
-
-  const response = await fetch(url, options);
+  const response = await ApiClient.postWithAuth('moim', moim);
 
   checkStatus(response);
 
-  const json = (await response.json()) as PostMoim;
+  const json: PostMoim = await response.json();
   return json.data;
 };
 
 export const postJoinMoim = async (moimId: number, nickname: string) => {
-  const url = `${ENDPOINTS.moims}/join`;
-  const options = {
-    ...defaultPostOptions,
-    body: JSON.stringify({ moimId, nickname }),
-  };
-
-  const response = await fetch(url, options);
-
+  const response = await ApiClient.postWithAuth('moim/join', {
+    moimId,
+    nickname,
+  });
   await checkStatus(response);
 };
