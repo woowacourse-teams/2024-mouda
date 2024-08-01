@@ -20,6 +20,14 @@ export interface Participation {
 
 export type Role = 'moimer' | 'moimee';
 
+export interface Comment {
+  id: number;
+  nickname: string;
+  content: string;
+  dateTime: string;
+  src: string;
+  child: Comment[];
+}
 export type MoimInputInfo = Omit<
   MoimInfo,
   'moimId' | 'currentPeople' | 'participants'

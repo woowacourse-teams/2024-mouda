@@ -44,6 +44,7 @@ const config: StorybookConfig = {
         '@_pages': path.resolve(__dirname, '../src/pages'),
         '@_types': path.resolve(__dirname, '../src/types'),
         '@_utils': path.resolve(__dirname, '../src/utils'),
+        '@_routes': path.resolve(__dirname, 'src/routes'),
       };
     }
 

@@ -6,7 +6,7 @@ import { Participation } from '@_types/index';
 interface ProfileCardProps {
   profile: Participation;
 }
-export default function ProfileBox(props: ProfileCardProps) {
+export default function ProfileCard(props: ProfileCardProps) {
   const { profile } = props;
   const theme = useTheme();
   return (
