@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 
-export const contentStyle = css`
+export const Container = ({ theme }: { theme: Theme }) => css`
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
@@ -11,6 +11,8 @@ export const contentStyle = css`
   width: 100%;
   height: 100%;
   padding: 28px 22px;
+
+  background-color: ${theme.colorPalette.grey[100]};
 
   &::-webkit-scrollbar {
     display: none;
