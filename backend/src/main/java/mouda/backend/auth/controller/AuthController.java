@@ -1,8 +1,8 @@
 package mouda.backend.auth.controller;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.auth.dto.LoginRequest;
-import mouda.backend.auth.dto.LoginResponse;
+import mouda.backend.auth.dto.request.LoginRequest;
+import mouda.backend.auth.dto.response.LoginResponse;
 import mouda.backend.auth.service.AuthService;
 import mouda.backend.common.RestResponse;
 import org.springframework.http.ResponseEntity;

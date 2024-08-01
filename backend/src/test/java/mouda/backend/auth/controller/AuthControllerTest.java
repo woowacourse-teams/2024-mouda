@@ -2,7 +2,7 @@ package mouda.backend.auth.controller;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import mouda.backend.auth.dto.LoginRequest;
+import mouda.backend.auth.dto.request.LoginRequest;
 import mouda.backend.config.DatabaseCleaner;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;

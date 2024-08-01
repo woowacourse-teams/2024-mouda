@@ -80,6 +80,7 @@ public class Moim {
 		this.place = place;
 		this.maxPeople = maxPeople;
 		this.description = description;
+		this.moimStatus = MoimStatus.MOIMING;
 	}
 
 	private void validateTitle(String title) {

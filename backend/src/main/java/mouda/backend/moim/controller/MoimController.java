@@ -31,8 +31,11 @@ public class MoimController implements MoimSwagger {
 
 	@Override
 	@PostMapping
-	public ResponseEntity<RestResponse<Long>> createMoim(@Valid @RequestBody MoimCreateRequest moimCreateRequest) {
-		Moim moim = moimService.createMoim(moimCreateRequest);
+	public ResponseEntity<RestResponse<Long>> createMoim(
+		@Valid @RequestBody MoimCreateRequest moimCreateRequest,
+		@LoginMember Member member
+	) {
+		Moim moim = moimService.createMoim(moimCreateRequest, member);
 
 		return ResponseEntity.ok().body(new RestResponse<>(moim.getId()));
 	}
@@ -53,6 +56,7 @@ public class MoimController implements MoimSwagger {
 		return ResponseEntity.ok().body(new RestResponse<>(moimDetailsFindResponse));
 	}
 
+	@Deprecated
 	@Override
 	@PostMapping("/join")
 	public ResponseEntity<Void> joinMoim(@RequestBody MoimJoinRequest moimJoinRequest) {
@@ -63,8 +67,8 @@ public class MoimController implements MoimSwagger {
 
 	@Override
 	@DeleteMapping("/{moimId}")
-	public ResponseEntity<Void> deleteMoim(@PathVariable Long moimId) {
-		moimService.deleteMoim(moimId);
+	public ResponseEntity<Void> deleteMoim(@PathVariable Long moimId, @LoginMember Member member) {
+		moimService.deleteMoim(moimId, member);
 
 		return ResponseEntity.ok().build();
 	}

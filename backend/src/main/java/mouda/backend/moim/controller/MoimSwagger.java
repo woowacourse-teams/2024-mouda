@@ -22,7 +22,8 @@ public interface MoimSwagger {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "모임 생성 성공!"),
 	})
-	ResponseEntity<RestResponse<Long>> createMoim(@RequestBody MoimCreateRequest moimCreateRequest);
+	ResponseEntity<RestResponse<Long>> createMoim(@RequestBody MoimCreateRequest moimCreateRequest,
+		@LoginMember Member member);
 
 	@Operation(summary = "모임 전체 조회", description = "모든 모임을 조회한다.")
 	@ApiResponses({
@@ -46,7 +47,7 @@ public interface MoimSwagger {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "모임 삭제 성공!"),
 	})
-	ResponseEntity<Void> deleteMoim(@PathVariable Long moimId);
+	ResponseEntity<Void> deleteMoim(@PathVariable Long moimId, @LoginMember Member member);
 
 	@Operation(summary = "댓글 작성", description = "해당하는 id의 모임에 댓글을 생성한다.")
 	@ApiResponses({

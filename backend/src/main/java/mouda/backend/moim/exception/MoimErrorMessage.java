@@ -22,7 +22,8 @@ public enum MoimErrorMessage {
 	AUTHOR_NICKNAME_TOO_LONG("모임 생성자 이름을 조금 더 짧게 입력해주세요."),
 	DESCRIPTION_TOO_LONG("모임 설명을 조금 더 짧게 입력해주세요."),
 	MEMBER_NICKNAME_NOT_EXISTS("모임 참여자 닉네임을 입력해주세요."),
-	MEMBER_NICKNAME_TOO_LONG("모임 참여자 닉네임을 조금 더 짧게 입력해주세요.");
+	MEMBER_NICKNAME_TOO_LONG("모임 참여자 닉네임을 조금 더 짧게 입력해주세요."),
+	NOT_ALLOWED_TO_DELETE("방장만 삭제할 수 있어요.");
 
 	private final String message;
 }

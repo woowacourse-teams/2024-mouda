@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -25,10 +24,8 @@ import mouda.backend.member.domain.Member;
 import mouda.backend.member.repository.MemberRepository;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
-import mouda.backend.moim.dto.request.MoimJoinRequest;
 import mouda.backend.moim.dto.response.MoimDetailsFindResponse;
 import mouda.backend.moim.dto.response.MoimFindAllResponses;
-import mouda.backend.moim.exception.MoimException;
 import mouda.backend.moim.repository.MoimRepository;
 
 @SpringBootTest
@@ -59,10 +56,11 @@ class MoimServiceTest {
 	void createMoim() {
 		MoimCreateRequest moimCreateRequest = new MoimCreateRequest(
 			"title", LocalDate.now().plusDays(1), LocalTime.now(), "place",
-			10, "안나", "설명"
+			10, "설명"
 		);
 
-		Moim moim = moimService.createMoim(moimCreateRequest);
+		Member hogee = memberRepository.save(MemberFixture.getHogee());
+		Moim moim = moimService.createMoim(moimCreateRequest, hogee);
 
 		assertThat(moim.getId()).isEqualTo(1L);
 	}
@@ -72,10 +70,12 @@ class MoimServiceTest {
 	void findAllMoim() {
 		MoimCreateRequest moimCreateRequest = new MoimCreateRequest(
 			"title", LocalDate.now().plusDays(1), LocalTime.now(), "place",
-			10, "안나", "설명"
+			10, "설명"
 		);
-		moimService.createMoim(moimCreateRequest);
-		moimService.createMoim(moimCreateRequest);
+
+		Member hogee = memberRepository.save(MemberFixture.getHogee());
+		moimService.createMoim(moimCreateRequest, hogee);
+		moimService.createMoim(moimCreateRequest, hogee);
 
 		MoimFindAllResponses moimResponses = moimService.findAllMoim();
 
@@ -87,31 +87,14 @@ class MoimServiceTest {
 	void findMoimDetails() {
 		MoimCreateRequest moimCreateRequest = new MoimCreateRequest(
 			"title", LocalDate.now().plusDays(1), LocalTime.now(), "place",
-			10, "안나", "설명"
+			10, "설명"
 		);
-		moimService.createMoim(moimCreateRequest);
+		Member hogee = memberRepository.save(MemberFixture.getHogee());
+		moimService.createMoim(moimCreateRequest, hogee);
 
 		MoimDetailsFindResponse moimDetails = moimService.findMoimDetails(1L);
 
 		assertThat(moimDetails.title()).isEqualTo("title");
-	}
-
-	@DisplayName("모임에 참여한다.")
-	@Test
-	void joinMoim() {
-		MoimCreateRequest moimCreateRequest = new MoimCreateRequest(
-			"title", LocalDate.now().plusDays(1), LocalTime.now(), "place",
-			10, "안나", "설명"
-		);
-		Moim moim = moimService.createMoim(moimCreateRequest);
-
-		MoimJoinRequest moimJoinRequest = new MoimJoinRequest(moim.getId(), "호기");
-		moimService.joinMoim(moimJoinRequest);
-		List<Member> participants = memberRepository.findAllByMoimId(moim.getId());
-
-		Optional<Moim> moimOptional = moimRepository.findById(moim.getId());
-		assertThat(moimOptional).isNotEmpty();
-		assertThat(participants.size()).isEqualTo(2);
 	}
 
 	@DisplayName("모임을 삭제한다.")
@@ -119,30 +102,15 @@ class MoimServiceTest {
 	void deleteMoim() {
 		MoimCreateRequest moimCreateRequest = new MoimCreateRequest(
 			"title", LocalDate.now().plusDays(1), LocalTime.now(), "place",
-			10, "안나", "설명"
+			10, "설명"
 		);
-		moimService.createMoim(moimCreateRequest);
+		Member hogee = memberRepository.save(MemberFixture.getHogee());
+		Moim moim = moimService.createMoim(moimCreateRequest, hogee);
 
-		moimService.deleteMoim(1L);
+		moimService.deleteMoim(moim.getId(), hogee);
 
 		List<Moim> moims = moimRepository.findAll();
 		assertThat(moims).hasSize(0);
-	}
-
-	@DisplayName("최대 참여 인원을 넘으면 예외가 발생한다.")
-	@Test
-	void failToJoinMoimWhenExceedMaxPeople() {
-		MoimCreateRequest moimCreateRequest = new MoimCreateRequest(
-			"title", LocalDate.now().plusDays(1), LocalTime.now(), "place",
-			2, "안나", "설명"
-		);
-
-		Moim moim = moimService.createMoim(moimCreateRequest);
-		MoimJoinRequest hogee = new MoimJoinRequest(moim.getId(), "호기");
-		moimService.joinMoim(hogee);
-		MoimJoinRequest tebah = new MoimJoinRequest(moim.getId(), "테바");
-
-		assertThrows(MoimException.class, () -> moimService.joinMoim(tebah));
 	}
 
 	@DisplayName("댓글을 생성한다.")

@@ -1,7 +1,7 @@
 package mouda.backend.auth.service;
 
-import mouda.backend.auth.dto.LoginRequest;
-import mouda.backend.auth.dto.LoginResponse;
+import mouda.backend.auth.dto.request.LoginRequest;
+import mouda.backend.auth.dto.response.LoginResponse;
 import mouda.backend.auth.exception.AuthErrorMessage;
 import mouda.backend.auth.exception.AuthException;
 import mouda.backend.member.domain.Member;
