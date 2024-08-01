@@ -29,7 +29,8 @@ public enum MoimErrorMessage {
 	ALREADY_COMPLETED("이미 모집 완료된 모임이에요."),
 	NOT_ALLOWED_TO_CANCEL("방장만 취소할 수 있어요."),
 	NOT_ALLOWED_TO_REOPEN("방장만 다시 열 수 있어요."),
-	MOIM_FULL_FOR_REOPEN("모임이 꽉 차서 다시 열 수 없어요.");
+	MOIM_FULL_FOR_REOPEN("모임이 꽉 차서 다시 열 수 없어요."),
+	ALREADY_MOIMING("이미 모집 중인 모임이에요.");
 
 	private final String message;
 }

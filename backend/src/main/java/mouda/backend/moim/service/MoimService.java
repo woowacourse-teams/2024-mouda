@@ -189,6 +189,13 @@ public class MoimService {
 		if (currentPeople >= moim.getMaxPeople()) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MOIM_FULL_FOR_REOPEN);
 		}
+		MoimStatus moimStatus = moim.getMoimStatus();
+		if (moimStatus == MoimStatus.CANCELED) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MOIM_CANCELED);
+		}
+		if (moimStatus == MoimStatus.MOIMING) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.ALREADY_MOIMING);
+		}
 	}
 
 	private void validateIsMoimerWithErrorMessage(Moim moim, Member member, MoimErrorMessage errorMessage) {
