@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import lombok.Builder;
+import mouda.backend.comment.dto.response.CommentResponse;
 import mouda.backend.moim.domain.Moim;
 
 @Builder
@@ -17,10 +18,12 @@ public record MoimDetailsFindResponse(
 	int maxPeople,
 	String authorNickname,
 	String description,
-	List<String> participants
+	List<String> participants,
+	List<CommentResponse> comments
 ) {
 
-	public static MoimDetailsFindResponse toResponse(Moim moim, List<String> participants) {
+	public static MoimDetailsFindResponse toResponse(Moim moim, List<String> participants,
+		List<CommentResponse> comments) {
 		return MoimDetailsFindResponse.builder()
 			.title(moim.getTitle())
 			.date(moim.getDate())
@@ -30,6 +33,7 @@ public record MoimDetailsFindResponse(
 			.maxPeople(moim.getMaxPeople())
 			.description(moim.getDescription())
 			.participants(participants)
+			.comments(comments)
 			.build();
 	}
 }
