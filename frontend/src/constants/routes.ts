@@ -5,6 +5,7 @@ const ROUTES = {
   participationComplete: '/moim/participation-complete',
   login: '/login',
   chat: '/chat',
+  chattingRoom: '/chatting-room/:moimId',
 };
 
 export default ROUTES;

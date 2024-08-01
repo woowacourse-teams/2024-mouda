@@ -1,4 +1,5 @@
 import ChatPage from '@_pages/ChatPage/ChatPage';
+import ChattingRoomPage from '@_pages/ChattingRoomPage/ChattingRoomPage';
 import LoginPage from '@_pages/LoginPage/LoginPage';
 import MainPage from '@_pages/MainPage/MainPage';
 import MoimCreationPage from '@_pages/MoimCreationPage/MoimCreationPage';
@@ -32,6 +33,11 @@ const routesConfig = [
   {
     path: ROUTES.chat,
     element: <ChatPage />,
+    requiresAuth: true,
+  },
+  {
+    path: ROUTES.chattingRoom,
+    element: <ChattingRoomPage />,
     requiresAuth: true,
   },
   {
