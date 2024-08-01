@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,8 +18,6 @@ import mouda.backend.comment.exception.CommentErrorMessage;
 import mouda.backend.comment.exception.CommentException;
 import mouda.backend.member.domain.Member;
 import mouda.backend.moim.domain.Moim;
-import mouda.backend.moim.exception.MoimErrorMessage;
-import mouda.backend.moim.exception.MoimException;
 
 @Entity
 @Getter
@@ -33,9 +32,11 @@ public class Comment {
 	private String content;
 
 	@ManyToOne
+	@JoinColumn(nullable = false)
 	private Moim moim;
 
 	@ManyToOne
+	@JoinColumn(nullable = false)
 	private Member member;
 
 	@Column(nullable = false)
@@ -63,7 +64,7 @@ public class Comment {
 
 	private void validateMoim(Moim moim) {
 		if (moim == null) {
-			throw new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND);
+			throw new CommentException(HttpStatus.NOT_FOUND, CommentErrorMessage.MOIM_NOT_FOUND);
 		}
 	}
 
