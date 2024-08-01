@@ -2,12 +2,20 @@
 import { MoimInfo } from '@_types/index';
 import ApiClient from './apiClient';
 import { GetMoim, GetMoims } from './responseTypes';
+import { checkStatus } from './apiconfig';
 
 export const getMoims = async (): Promise<MoimInfo[]> => {
-  const json: GetMoims = await ApiClient.getWithAuth('moim');
+  const response = await ApiClient.getWithAuth('moim');
+  checkStatus(response);
+
+  const json: GetMoims = await response.json();
   return json.data.moims;
 };
+
 export const getMoim = async (moimId: number): Promise<MoimInfo> => {
-  const json: GetMoim = await ApiClient.getWithAuth(`moim/${moimId}`);
+  const response = await ApiClient.getWithAuth(`moim/${moimId}`);
+  checkStatus(response);
+
+  const json: GetMoim = await response.json();
   return json.data;
 };

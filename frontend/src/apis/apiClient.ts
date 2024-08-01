@@ -25,8 +25,8 @@ class ApiClient {
   private static async request(
     method: Method,
     endpoint: string,
-    data: object,
-    config: RequestInit,
+    data: object = {},
+    config: RequestInit = {},
     isRequiredAuth: boolean = false,
   ) {
     const url = this.addBaseURL(endpoint);
@@ -42,22 +42,10 @@ class ApiClient {
       options.body = JSON.stringify(data);
     }
 
-    const res = await fetch(url, options);
-
-    if (!res.ok) {
-      console.log(res);
-      throw new Error(res.statusText);
-    }
-
-    const contentType = res.headers.get('Content-Type');
-    if (contentType && contentType.includes('application/json')) {
-      return res.json();
-    }
-
-    return {};
+    return await fetch(url, options);
   }
 
-  static async get(
+  private static async get(
     endpoint: string,
     config: RequestInit = {},
     isRequiredAuth: boolean = false,
@@ -73,7 +61,7 @@ class ApiClient {
     return this.get(endpoint, config, true);
   }
 
-  static async post(
+  private static async post(
     endpoint: string,
     data: object = {},
     config: RequestInit = {},
@@ -98,7 +86,7 @@ class ApiClient {
     return this.post(endpoint, data, config, false);
   }
 
-  static async put(
+  private static async put(
     endpoint: string,
     data: object = {},
     config: RequestInit = {},
@@ -123,7 +111,7 @@ class ApiClient {
     return this.put(endpoint, data, config, false);
   }
 
-  static async patch(
+  private static async patch(
     endpoint: string,
     data: object = {},
     config: RequestInit = {},
@@ -148,7 +136,7 @@ class ApiClient {
     return this.patch(endpoint, data, config, false);
   }
 
-  static async delete(
+  private static async delete(
     endpoint: string,
     data: object = {},
     config: RequestInit = {},
