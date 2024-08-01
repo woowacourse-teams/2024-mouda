@@ -15,4 +15,14 @@ public class CommentFixture {
 			.parentId(null)
 			.build();
 	}
+
+	public static Comment getChildCommentWithAnnaAtSoccerMoim() {
+		return Comment.builder()
+			.content("그냥 자식 댓글")
+			.moim(MoimFixture.getSoccerMoim())
+			.member(MemberFixture.getAnna())
+			.createdAt(LocalDateTime.now())
+			.parentId(1L)
+			.build();
+	}
 }
