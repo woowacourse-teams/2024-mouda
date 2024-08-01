@@ -17,12 +17,14 @@ export const Default: Story = {
       nickname: 'nickname',
       content: 'content',
       dateTime: '2023-04-04 14:00',
+      src: '',
       child: [
         {
           id: 0,
           nickname: 'nickname',
           content: 'content',
           dateTime: '2023-04-04 14:00',
+          src: '',
           child: [],
         },
       ],
