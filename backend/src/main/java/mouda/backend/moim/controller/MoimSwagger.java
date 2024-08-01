@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import mouda.backend.comment.dto.request.CommentCreateRequest;
 import mouda.backend.common.RestResponse;
 import mouda.backend.config.argumentresolver.LoginMember;
 import mouda.backend.member.domain.Member;
@@ -47,4 +48,11 @@ public interface MoimSwagger {
 		@ApiResponse(responseCode = "200", description = "모임 삭제 성공!"),
 	})
 	ResponseEntity<Void> deleteMoim(@PathVariable Long moimId, @LoginMember Member member);
+
+	@Operation(summary = "댓글 작성", description = "해당하는 id의 모임에 댓글을 생성한다.")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "댓글 생성 성공!")
+	})
+	ResponseEntity<Void> createComment(@LoginMember Member member, @PathVariable Long moimId,
+		@RequestBody CommentCreateRequest commentCreateRequest);
 }
