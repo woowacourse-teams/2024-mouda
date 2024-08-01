@@ -1,6 +1,3 @@
-// import Crown from '@_common/assets/crown.svg';
-
-import { Fragment } from 'react';
 import { preview } from './UserPreview.style';
 
 interface UserPreviewProps {
@@ -12,9 +9,5 @@ interface UserPreviewProps {
 export default function UserPreview(props: UserPreviewProps) {
   const { imageUrl, size, hasCrown = false } = props;
   hasCrown;
-  return (
-    <Fragment>
-      <div css={preview({ imageUrl, size })} />
-    </Fragment>
-  );
+  return <div css={preview({ imageUrl, size })} />;
 }
