@@ -42,7 +42,7 @@ public class MoimService {
 	private final MemberRepository memberRepository;
 	private final ChamyoRepository chamyoRepository;
 	private final ZzimRepository zzimRepository;
-	private final CommentRepository commentRepository;
+  private final CommentRepository commentRepository;
 
 	public Moim createMoim(MoimCreateRequest moimCreateRequest, Member member) {
 		Moim moim = moimRepository.save(moimCreateRequest.toEntity());
@@ -130,7 +130,7 @@ public class MoimService {
 
 	public void updateMoimStatusById(long id, MoimStatus status) {
 		moimRepository.updateMoimStatusById(id, status);
-	}
+  }
 
 	public void createComment(Member member, Long moimId, CommentCreateRequest commentCreateRequest) {
 		Moim moim = moimRepository.findById(moimId).orElseThrow(
