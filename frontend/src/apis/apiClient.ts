@@ -1,57 +1,48 @@
 import { getToken } from '@_utils/tokenManager';
 
-const defaultHeaders = {
+type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+
+const DEFAULT_HEADERS = {
   'Content-Type': 'application/json',
 };
 
-const baseURL = `${process.env.BASE_URL}/v1`;
+const BASE_URL = `${process.env.BASE_URL}/v1`;
 
 class ApiClient {
-  private static addBaseURL(url: string) {
-    if (url[0] !== '/') url = '/' + url;
-    return baseURL + url;
+  private static addBaseURL(endpoint: string) {
+    if (endpoint[0] !== '/') endpoint = '/' + endpoint;
+    return BASE_URL + endpoint;
   }
 
-  private static getHeaders(token: string | null) {
-    const headers = new Headers(defaultHeaders);
+  private static getHeaders(token?: string) {
+    const headers = new Headers(DEFAULT_HEADERS);
     if (token) {
       headers.append('Authorization', `Bearer ${token}`);
     }
     return headers;
   }
 
-  static async get(path = '', config = {}, isRequiredAuth = false) {
-    const url = this.addBaseURL(path);
-    const token = isRequiredAuth ? getToken() : null;
+  private static async request(
+    method: Method,
+    endpoint: string,
+    data: object,
+    config: RequestInit,
+    isRequiredAuth: boolean = false,
+  ) {
+    const url = this.addBaseURL(endpoint);
+    const token = isRequiredAuth ? getToken() : undefined;
 
-    const res = await fetch(url, {
-      method: 'GET',
+    const options: RequestInit = {
+      method,
       headers: this.getHeaders(token),
       ...config,
-    });
+    };
 
-    if (!res.ok) {
-      console.log(res);
-      throw new Error(res.statusText);
+    if (method !== 'GET') {
+      options.body = JSON.stringify(data);
     }
 
-    return res.json();
-  }
-
-  static async getWithAuth(path = '', config = {}) {
-    return this.get(path, config, true);
-  }
-
-  static async post(path = '', data = {}, config = {}, isRequiredAuth = false) {
-    const url = this.addBaseURL(path);
-    const token = isRequiredAuth ? getToken() : null;
-
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: this.getHeaders(token),
-      body: JSON.stringify(data),
-      ...config,
-    });
+    const res = await fetch(url, options);
 
     if (!res.ok) {
       console.log(res);
@@ -63,90 +54,123 @@ class ApiClient {
       return res.json();
     }
 
-    return;
+    return {};
   }
 
-  static async postWithAuth(path = '', data = {}, config = {}) {
-    return this.post(path, data, config, true);
+  static async get(
+    endpoint: string,
+    config: RequestInit = {},
+    isRequiredAuth: boolean = false,
+  ) {
+    return this.request('GET', endpoint, {}, config, isRequiredAuth);
   }
 
-  static async put(path = '', data = {}, config = {}, isRequiredAuth = false) {
-    const url = this.addBaseURL(path);
-    const token = isRequiredAuth ? getToken() : null;
-
-    const res = await fetch(url, {
-      method: 'PUT',
-      headers: this.getHeaders(token),
-      body: JSON.stringify(data),
-      ...config,
-    });
-
-    if (!res.ok) {
-      console.log(res);
-      throw new Error(res.statusText);
-    }
-
-    return res.json();
+  static async getWithoutAuth(endpoint: string, config: RequestInit = {}) {
+    return this.get(endpoint, config, false);
   }
 
-  static async putWithAuth(path = '', data = {}, config = {}) {
-    return this.put(path, data, config, true);
+  static async getWithAuth(endpoint: string, config: RequestInit = {}) {
+    return this.get(endpoint, config, true);
+  }
+
+  static async post(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+    isRequiredAuth: boolean = false,
+  ) {
+    return this.request('POST', endpoint, data, config, isRequiredAuth);
+  }
+
+  static async postWithAuth(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return this.post(endpoint, data, config, true);
+  }
+
+  static async postWithoutAuth(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return this.post(endpoint, data, config, false);
+  }
+
+  static async put(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+    isRequiredAuth: boolean = false,
+  ) {
+    return this.request('PUT', endpoint, data, config, isRequiredAuth);
+  }
+
+  static async putWithAuth(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return this.put(endpoint, data, config, true);
+  }
+
+  static async putWithoutAuth(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return this.put(endpoint, data, config, false);
   }
 
   static async patch(
-    path = '',
-    data = {},
-    config = {},
-    isRequiredAuth = false,
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+    isRequiredAuth: boolean = false,
   ) {
-    const url = this.addBaseURL(path);
-    const token = isRequiredAuth ? getToken() : null;
-
-    const res = await fetch(url, {
-      method: 'patch',
-      headers: this.getHeaders(token),
-      body: JSON.stringify(data),
-      ...config,
-    });
-
-    if (!res.ok) {
-      console.log(res);
-      throw new Error(res.statusText);
-    }
-
-    return res.json();
+    return this.request('PATCH', endpoint, data, config, isRequiredAuth);
   }
 
-  static async patchWithAuth(path = '', data = {}, config = {}) {
-    return this.patch(path, data, config, true);
+  static async patchWithAuth(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return this.patch(endpoint, data, config, true);
+  }
+
+  static async patchWithoutAuth(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return this.patch(endpoint, data, config, false);
   }
 
   static async delete(
-    path = '',
-    data = {},
-    config = {},
-    isRequiredAuth = false,
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+    isRequiredAuth: boolean = false,
   ) {
-    const url = this.addBaseURL(path);
-    const token = isRequiredAuth ? getToken() : null;
-
-    const res = await fetch(url, {
-      method: 'DELETE',
-      headers: this.getHeaders(token),
-      body: JSON.stringify(data),
-      ...config,
-    });
-
-    if (!res.ok) {
-      console.log(res);
-      throw new Error(res.statusText);
-    }
-
-    return res.json();
+    return this.request('DELETE', endpoint, data, config, isRequiredAuth);
   }
 
-  static async deleteWithAuth(path = '', data = {}, config = {}) {
-    return this.delete(path, data, config, true);
+  static async deleteWithAuth(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return this.delete(endpoint, data, config, true);
+  }
+
+  static async deleteWithoutAuth(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return this.delete(endpoint, data, config, false);
   }
 }
 
