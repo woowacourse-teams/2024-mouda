@@ -1,7 +1,7 @@
 import * as S from './ChattingPreviewLayout.style';
 
 import { PropsWithChildren } from 'react';
-import TriSectionHeader from '@_layouts/components/TriSectionHeader/TriSectionHeader';
+import StickyTriSectionHeader from '@_layouts/components/StickyTriSectionHeader/StickyTriSectionHeader';
 import { useTheme } from '@emotion/react';
 
 function ChattingPreview(props: PropsWithChildren) {
@@ -11,7 +11,7 @@ function ChattingPreview(props: PropsWithChildren) {
   return <div css={S.layoutStyle({ theme })}>{children}</div>;
 }
 
-ChattingPreview.Header = TriSectionHeader;
+ChattingPreview.Header = StickyTriSectionHeader;
 ChattingPreview.ContentContainer = ChattingPreview;
 
 export default ChattingPreview;
