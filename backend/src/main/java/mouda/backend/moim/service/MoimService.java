@@ -41,7 +41,9 @@ public class MoimService {
 	private final CommentRepository commentRepository;
 
 	public Moim createMoim(MoimCreateRequest moimCreateRequest) {
-		Member author = new Member(moimCreateRequest.authorNickname());
+		Member author = Member.builder()
+			.nickname(moimCreateRequest.authorNickname())
+			.build();
 		Moim moim = moimRepository.save(moimCreateRequest.toEntity());
 		author.joinMoim(moim);
 		memberRepository.save(author);
