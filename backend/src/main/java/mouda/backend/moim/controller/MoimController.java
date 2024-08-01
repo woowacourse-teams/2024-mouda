@@ -3,6 +3,7 @@ package mouda.backend.moim.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -69,6 +70,14 @@ public class MoimController implements MoimSwagger {
 	@DeleteMapping("/{moimId}")
 	public ResponseEntity<Void> deleteMoim(@PathVariable Long moimId, @LoginMember Member member) {
 		moimService.deleteMoim(moimId, member);
+
+		return ResponseEntity.ok().build();
+	}
+
+	@Override
+	@PatchMapping("/{moimId}")
+	public ResponseEntity<Void> completeMoim(@PathVariable Long moimId, @LoginMember Member member) {
+		moimService.completeMoim(moimId, member);
 
 		return ResponseEntity.ok().build();
 	}

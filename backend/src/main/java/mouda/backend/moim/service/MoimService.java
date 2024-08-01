@@ -144,4 +144,29 @@ public class MoimService {
 
 		commentRepository.save(commentCreateRequest.toEntity(moim, member));
 	}
+
+	public void completeMoim(Long moimId, Member member) {
+		Moim moim = moimRepository.findById(moimId)
+			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
+		validateCanCompleteMoim(moim, member);
+
+		moimRepository.updateMoimStatusById(moimId, MoimStatus.COMPLETED);
+	}
+
+	private void validateCanCompleteMoim(Moim moim, Member member) {
+		MoimRole moimRole = chamyoRepository.findByMoimIdAndMemberId(moim.getId(), member.getId())
+			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND))
+			.getMoimRole();
+		if (moimRole != MoimRole.MOIMER) {
+			throw new MoimException(HttpStatus.FORBIDDEN, MoimErrorMessage.NOT_ALLOWED_TO_COMPLETE);
+		}
+
+		MoimStatus moimStatus = moim.getMoimStatus();
+		if (moimStatus == MoimStatus.COMPLETED) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.ALREADY_COMPLETED);
+		}
+		if (moimStatus == MoimStatus.CANCELED) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MOIM_CANCELED);
+		}
+	}
 }
