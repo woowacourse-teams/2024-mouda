@@ -10,8 +10,11 @@ import mouda.backend.member.domain.Member;
 import mouda.backend.moim.domain.Moim;
 
 public record ChatCreateRequest(
-	@NotNull Long moimId,
-	@NotBlank String content
+	@NotNull
+	Long moimId,
+	
+	@NotBlank
+	String content
 ) {
 	public Chat toEntity(Moim moim, Member member) {
 		return Chat.builder()
