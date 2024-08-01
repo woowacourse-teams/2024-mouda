@@ -2,6 +2,11 @@ import { css, Theme } from '@emotion/react';
 
 export const commentContainer = () => css`
   display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+export const commentWrapper = () => css`
+  display: flex;
   align-items: center;
   width: 100%;
   background-color: #f3f4f6;
@@ -54,4 +59,7 @@ export const commentHeaderRight = (props: { theme: Theme }) => css`
 export const timestamp = (props: { theme: Theme }) => css`
   ${props.theme.typography.c3}
   color: ${props.theme.colorPalette.grey[500]};
+`;
+export const commentChildBox = () => css`
+  margin-left: 3rem;
 `;
