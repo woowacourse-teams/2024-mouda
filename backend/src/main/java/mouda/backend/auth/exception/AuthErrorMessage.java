@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum AuthErrorMessage {
 
-    UNAUTHORIZED("모임이 존재하지 않습니다.");
+    UNAUTHORIZED("인증되지 않은 사용자입니다.");
 
     private final String message;
 }

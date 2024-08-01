@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("v1/auth")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthController implements AuthSwagger {
 
     private final AuthService authService;
 
+    @Override
     @PostMapping("/login")
     public ResponseEntity<RestResponse<LoginResponse>> login(@RequestBody LoginRequest loginRequest) {
         LoginResponse response = authService.login(loginRequest);

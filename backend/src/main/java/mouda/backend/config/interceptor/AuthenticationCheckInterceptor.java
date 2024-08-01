@@ -4,8 +4,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import mouda.backend.auth.exception.AuthErrorMessage;
+import mouda.backend.auth.exception.AuthException;
 import mouda.backend.auth.service.AuthService;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -26,7 +29,7 @@ public class AuthenticationCheckInterceptor implements HandlerInterceptor {
         String authorizationHeader = request.getHeader("Authorization");
 
         if (authorizationHeader == null || !authorizationHeader.startsWith(AUTHORIZATION_PREFIX)) {
-            throw new IllegalArgumentException("Authorization header is missing or invalid");
+            throw new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.UNAUTHORIZED);
         }
 
         String token = extractToken(authorizationHeader);

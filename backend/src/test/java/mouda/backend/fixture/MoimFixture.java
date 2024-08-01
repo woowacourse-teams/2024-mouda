@@ -36,7 +36,7 @@ public class MoimFixture {
 			.date(LocalDate.now().plusDays(1))
 			.place("안나 집")
 			.description("커피 머신 들고와라")
-			.maxPeople(100)
+			.maxPeople(60)
 			.build();
 	}
 }

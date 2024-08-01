@@ -4,36 +4,18 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import mouda.backend.chat.domain.Chat;
+import mouda.backend.member.domain.Member;
+import mouda.backend.moim.domain.Moim;
 
 public class ChatFixture {
 
-	public static Chat getChatWithHogeeAtBasketballMoim() {
+	public static Chat getChatWithMemberAtMoim(Member member, Moim moim) {
 		return Chat.builder()
 			.time(LocalTime.now())
 			.date(LocalDate.now())
-			.content("ㅎㅇㅎㅇ")
-			.member(MemberFixture.getHogee())
-			.moim(MoimFixture.getBasketballMoim())
-			.build();
-	}
-
-	public static Chat getChatWithAnnaAtCoffeeMoim() {
-		return Chat.builder()
-			.time(LocalTime.now())
-			.date(LocalDate.now())
-			.content("반갑읍니다")
-			.member(MemberFixture.getAnna())
-			.moim(MoimFixture.getCoffeeMoim())
-			.build();
-	}
-
-	public static Chat getChatWithTebahAtSoccerMoim() {
-		return Chat.builder()
-			.time(LocalTime.now())
-			.date(LocalDate.now())
-			.content("ㅎㅇㅎㅇ")
-			.member(MemberFixture.getTebah())
-			.moim(MoimFixture.getSoccerMoim())
+			.content("안녕하쎄요")
+			.member(member)
+			.moim(moim)
 			.build();
 	}
 }
