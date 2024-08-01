@@ -83,7 +83,7 @@ class ChamyoControllerTest {
 
 		@DisplayName("현재 로그인 된 회원은 참여자이다.")
 		@Test
-		void success() {
+		void findMoimRole_WhemMemberIsMoimee() {
 			Member hogee = memberRepository.save(MemberFixture.getHogee());
 			Moim moim = moimService.createMoim(getMoimCreateRequestByMaxPeople(2), hogee);
 
@@ -101,7 +101,7 @@ class ChamyoControllerTest {
 
 		@DisplayName("현재 로그인 된 회원은 아직 모임에 참여하지 않은 상태이다.")
 		@Test
-		void fail() {
+		void findMoimRole_WhemMemberIsNonMoimee() {
 			Member hogee = memberRepository.save(MemberFixture.getHogee());
 			Moim moim = moimService.createMoim(getMoimCreateRequestByMaxPeople(2), hogee);
 
