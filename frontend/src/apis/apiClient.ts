@@ -8,7 +8,7 @@ const DEFAULT_HEADERS = {
 
 const BASE_URL = `${process.env.BASE_URL}/v1`;
 
-function addBaseURL(endpoint: string) {
+function addBaseUrl(endpoint: string) {
   if (endpoint[0] !== '/') endpoint = '/' + endpoint;
   return BASE_URL + endpoint;
 }
@@ -28,7 +28,7 @@ async function request(
   config: RequestInit = {},
   isRequiredAuth: boolean = false,
 ) {
-  const url = addBaseURL(endpoint);
+  const url = addBaseUrl(endpoint);
   const token = isRequiredAuth ? getToken() : undefined;
 
   const options: RequestInit = {
