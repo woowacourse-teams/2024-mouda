@@ -18,4 +18,6 @@ public interface ChamyoRepository extends JpaRepository<Chamyo, Long> {
 	int countByMoim(Moim moim);
 
 	boolean existsByMoimAndMember(Moim moim, Member member);
+
+	void deleteAllByMoimId(Long moimId);
 }

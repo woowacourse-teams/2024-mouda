@@ -7,9 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.chamyo.domain.Chamyo;
+import mouda.backend.chamyo.domain.MoimRole;
+import mouda.backend.chamyo.repository.ChamyoRepository;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.repository.MemberRepository;
 import mouda.backend.moim.domain.Moim;
+import mouda.backend.moim.domain.MoimStatus;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
 import mouda.backend.moim.dto.request.MoimJoinRequest;
 import mouda.backend.moim.dto.response.MoimDetailsFindResponse;
@@ -18,6 +22,7 @@ import mouda.backend.moim.dto.response.MoimFindAllResponses;
 import mouda.backend.moim.exception.MoimErrorMessage;
 import mouda.backend.moim.exception.MoimException;
 import mouda.backend.moim.repository.MoimRepository;
+import mouda.backend.zzim.repository.ZzimRepository;
 
 @Transactional
 @Service
@@ -25,14 +30,18 @@ import mouda.backend.moim.repository.MoimRepository;
 public class MoimService {
 
 	private final MoimRepository moimRepository;
-
 	private final MemberRepository memberRepository;
+	private final ChamyoRepository chamyoRepository;
+	private final ZzimRepository zzimRepository;
 
-	public Moim createMoim(MoimCreateRequest moimCreateRequest) {
-		Member author = new Member(moimCreateRequest.authorNickname());
+	public Moim createMoim(MoimCreateRequest moimCreateRequest, Member member) {
 		Moim moim = moimRepository.save(moimCreateRequest.toEntity());
-		author.joinMoim(moim);
-		memberRepository.save(author);
+		Chamyo chamyo = Chamyo.builder()
+			.member(member)
+			.moim(moim)
+			.moimRole(MoimRole.MOIMER)
+			.build();
+		chamyoRepository.save(chamyo);
 
 		return moim;
 	}
@@ -62,6 +71,7 @@ public class MoimService {
 		return MoimDetailsFindResponse.toResponse(moim, participants);
 	}
 
+	@Deprecated
 	public void joinMoim(MoimJoinRequest moimJoinRequest) {
 		Member member = new Member(moimJoinRequest.nickname());
 		Moim moim = moimRepository.findById(moimJoinRequest.moimId())
@@ -74,14 +84,27 @@ public class MoimService {
 		moim.validateAlreadyFullMoim(participants.size());
 	}
 
-	public void deleteMoim(long id) {
+	public void deleteMoim(long id, Member member) {
 		Moim moim = moimRepository.findById(id)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
-		List<Member> participants = memberRepository.findAllByMoimId(moim.getId());
-		for (Member participant : participants) {
-			memberRepository.deleteById(participant.getId());
-		}
+		validateCanDeleteMoim(moim, member);
 
+		chamyoRepository.deleteAllByMoimId(id);
+		zzimRepository.deleteAllByMoimId(id);
 		moimRepository.delete(moim);
+	}
+
+	private void validateCanDeleteMoim(Moim moim, Member member) {
+		MoimRole moimRole = chamyoRepository.findByMoimIdAndMemberId(moim.getId(), member.getId())
+			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND))
+			.getMoimRole();
+
+		if (moimRole != MoimRole.MOIMER) {
+			throw new MoimException(HttpStatus.FORBIDDEN, MoimErrorMessage.NOT_ALLOWED_TO_DELETE);
+		}
+	}
+
+	public void updateMoimStatusById(long id, MoimStatus status) {
+		moimRepository.updateMoimStatusById(id, status);
 	}
 }

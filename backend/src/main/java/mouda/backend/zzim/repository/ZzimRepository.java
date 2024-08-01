@@ -11,4 +11,6 @@ public interface ZzimRepository extends JpaRepository<Zzim, Long> {
 	boolean existsByMoimIdAndMemberId(Long moimId, Long memberId);
 
 	Optional<Zzim> findByMoimIdAndMemberId(Long moimId, Long memberId);
+
+	void deleteAllByMoimId(Long moimId);
 }

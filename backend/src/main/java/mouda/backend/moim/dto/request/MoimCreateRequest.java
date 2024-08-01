@@ -23,9 +23,6 @@ public record MoimCreateRequest(
 	@NotNull
 	Integer maxPeople,
 
-	@NotBlank
-	String authorNickname,
-
 	String description
 ) {
 

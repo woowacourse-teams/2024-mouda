@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public enum MoimStatus {
-	DEFAULT
+	MOIMING, COMPLETED, CANCELED
 }

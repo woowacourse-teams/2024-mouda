@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import mouda.backend.common.RestResponse;
+import mouda.backend.config.argumentresolver.LoginMember;
+import mouda.backend.member.domain.Member;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
 import mouda.backend.moim.dto.request.MoimJoinRequest;
 import mouda.backend.moim.dto.response.MoimDetailsFindResponse;
@@ -19,7 +21,8 @@ public interface MoimSwagger {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "모임 생성 성공!"),
 	})
-	ResponseEntity<RestResponse<Long>> createMoim(@RequestBody MoimCreateRequest moimCreateRequest);
+	ResponseEntity<RestResponse<Long>> createMoim(@RequestBody MoimCreateRequest moimCreateRequest,
+		@LoginMember Member member);
 
 	@Operation(summary = "모임 전체 조회", description = "모든 모임을 조회한다.")
 	@ApiResponses({
@@ -43,5 +46,5 @@ public interface MoimSwagger {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "모임 삭제 성공!"),
 	})
-	ResponseEntity<Void> deleteMoim(@PathVariable Long moimId);
+	ResponseEntity<Void> deleteMoim(@PathVariable Long moimId, @LoginMember Member member);
 }
