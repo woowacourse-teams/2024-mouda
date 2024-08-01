@@ -1,6 +1,6 @@
 import { Theme, css } from '@emotion/react';
 
-export const ChatMessageStyle = ({
+export const chatMessageStyle = ({
   isMyMessage,
 }: {
   isMyMessage: boolean;

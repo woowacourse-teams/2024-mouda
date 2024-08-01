@@ -1,6 +1,4 @@
-import ChatMessage, {
-  ChatMessageProps,
-} from '@_components/ChatMessage/ChatMessage';
+import Chat, { ChatMessageProps } from '@_components/Chat/Chat';
 
 import { list } from './ChatList.style';
 import { useTheme } from '@emotion/react';
@@ -16,7 +14,7 @@ export default function ChatList(props: ChatListProps) {
   return (
     <div css={list({ theme })}>
       {chats.map((chat) => (
-        <ChatMessage key={chat.message + chat.time} {...chat} />
+        <Chat key={chat.message + chat.time} {...chat} />
       ))}
     </div>
   );
