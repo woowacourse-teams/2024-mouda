@@ -8,8 +8,10 @@ export interface MoimInfo {
   maxPeople: number;
   currentPeople: number;
   authorNickname: string;
-  participants: string[];
+  participants: Participation[];
   description?: string;
+  status: 'MOIMING' | 'COMPLETE' | 'CANCEL';
+  comments: Comment[];
 }
 
 export interface Participation {
@@ -30,5 +32,5 @@ export interface Comment {
 }
 export type MoimInputInfo = Omit<
   MoimInfo,
-  'moimId' | 'currentPeople' | 'participants'
+  'moimId' | 'currentPeople' | 'participants' | 'status' | 'comments'
 >;
