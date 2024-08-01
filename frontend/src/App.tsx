@@ -4,9 +4,9 @@ import { RouterProvider } from 'react-router-dom';
 import createQueryClient from './queryClient';
 import fonts from '@_common/font.style';
 import reset from './common/reset.style';
-import router from './router';
 import { useMemo } from 'react';
 import { theme } from '@_common/theme/theme.style';
+import router from '@_routes/router';
 
 export default function App() {
   const queryClient = useMemo(createQueryClient, []);

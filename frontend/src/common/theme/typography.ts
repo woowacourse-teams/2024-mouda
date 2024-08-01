@@ -165,6 +165,13 @@ const typography: Typography = {
     font-weight: 800;
     line-height: 1.2rem;
   `,
+  tag: css`
+    font-family: Pretendard;
+    font-size: 1.2rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%;
+  `,
 };
 
 export default typography;

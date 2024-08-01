@@ -5,5 +5,6 @@ const getEndpoint = (string: string) => {
 const ENDPOINTS = {
   moim: getEndpoint('v1/moim'),
   moims: getEndpoint('v1/moim'),
+  auth: getEndpoint('v1/auth'),
 };
 export default ENDPOINTS;

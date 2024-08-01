@@ -22,6 +22,7 @@ const config: Config = {
     '^@_pages/(.*)$': '<rootDir>/src/pages/$1',
     '^@_types/(.*)$': '<rootDir>/src/types/$1',
     '^@_utils/(.*)$': '<rootDir>/src/utils/$1',
+    '^@_routes/(.*)$': '<rootDir>/src/routes/$1',
   },
 };
 
