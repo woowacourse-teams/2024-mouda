@@ -3,7 +3,7 @@ package mouda.backend.fixture;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import mouda.backend.auth.dto.LoginRequest;
+import mouda.backend.auth.dto.request.LoginRequest;
 
 public class TokenFixture {
 

@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import mouda.backend.common.RestResponse;
 import mouda.backend.config.argumentresolver.LoginMember;
 import mouda.backend.member.domain.Member;
-import mouda.backend.zzim.dto.ZzimCheckResponse;
+import mouda.backend.zzim.dto.response.ZzimCheckResponse;
 import mouda.backend.zzim.dto.request.ZzimUpdateRequest;
 import mouda.backend.zzim.service.ZzimService;
 

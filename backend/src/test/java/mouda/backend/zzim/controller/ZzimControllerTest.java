@@ -24,7 +24,7 @@ import mouda.backend.member.repository.MemberRepository;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
 import mouda.backend.moim.service.MoimService;
-import mouda.backend.zzim.dto.ZzimCheckResponse;
+import mouda.backend.zzim.dto.response.ZzimCheckResponse;
 import mouda.backend.zzim.dto.request.ZzimUpdateRequest;
 import mouda.backend.zzim.service.ZzimService;
 

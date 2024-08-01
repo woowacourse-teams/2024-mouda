@@ -9,7 +9,7 @@ import mouda.backend.member.domain.Member;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.repository.MoimRepository;
 import mouda.backend.zzim.domain.Zzim;
-import mouda.backend.zzim.dto.ZzimCheckResponse;
+import mouda.backend.zzim.dto.response.ZzimCheckResponse;
 import mouda.backend.zzim.dto.request.ZzimUpdateRequest;
 import mouda.backend.zzim.exception.ZzimErrorMessage;
 import mouda.backend.zzim.exception.ZzimException;

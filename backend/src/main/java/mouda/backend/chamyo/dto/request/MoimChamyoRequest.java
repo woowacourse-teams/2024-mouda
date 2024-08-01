@@ -1,4 +1,4 @@
-package mouda.backend.chamyo.dto;
+package mouda.backend.chamyo.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

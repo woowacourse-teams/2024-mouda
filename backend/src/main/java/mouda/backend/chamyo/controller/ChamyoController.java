@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import mouda.backend.chamyo.dto.ChamyoFindAllResponses;
-import mouda.backend.chamyo.dto.MoimChamyoRequest;
-import mouda.backend.chamyo.dto.MoimRoleFindResponse;
+import mouda.backend.chamyo.dto.response.ChamyoFindAllResponses;
+import mouda.backend.chamyo.dto.request.MoimChamyoRequest;
+import mouda.backend.chamyo.dto.response.MoimRoleFindResponse;
 import mouda.backend.chamyo.service.ChamyoService;
 import mouda.backend.common.RestResponse;
 import mouda.backend.config.argumentresolver.LoginMember;

@@ -1,4 +1,4 @@
-package mouda.backend.chamyo.dto;
+package mouda.backend.chamyo.dto.response;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package mouda.backend.auth.service;
 
-import mouda.backend.auth.dto.LoginRequest;
-import mouda.backend.auth.dto.LoginResponse;
+import mouda.backend.auth.dto.request.LoginRequest;
+import mouda.backend.auth.dto.response.LoginResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

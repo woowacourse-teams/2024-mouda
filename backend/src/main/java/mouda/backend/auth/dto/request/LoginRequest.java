@@ -1,4 +1,4 @@
-package mouda.backend.auth.dto;
+package mouda.backend.auth.dto.request;
 
 public record LoginRequest(String nickname) {
 

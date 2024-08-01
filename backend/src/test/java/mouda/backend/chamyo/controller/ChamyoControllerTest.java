@@ -17,7 +17,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 
 import io.restassured.RestAssured;
-import mouda.backend.chamyo.dto.MoimChamyoRequest;
+import mouda.backend.chamyo.dto.request.MoimChamyoRequest;
 import mouda.backend.chamyo.service.ChamyoService;
 import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.fixture.MemberFixture;
