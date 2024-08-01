@@ -12,7 +12,6 @@ import mouda.backend.comment.exception.CommentException;
 import mouda.backend.fixture.CommentFixture;
 import mouda.backend.fixture.MemberFixture;
 import mouda.backend.fixture.MoimFixture;
-import mouda.backend.moim.exception.MoimException;
 
 class CommentTest {
 
@@ -49,7 +48,7 @@ class CommentTest {
 	@DisplayName("모임이 존재하지 않으면 댓글 객체 생성에 실패한다.")
 	@Test
 	void failToCreateCommentWhenMoimDoesNotExist() {
-		assertThrows(MoimException.class, () -> Comment.builder()
+		assertThrows(CommentException.class, () -> Comment.builder()
 			.content("댓글댓글")
 			.moim(null)
 			.member(MemberFixture.getHogee())
