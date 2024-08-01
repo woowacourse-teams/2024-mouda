@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.MediaType;
 
 import io.restassured.RestAssured;
 import mouda.backend.chamyo.dto.request.MoimChamyoRequest;
@@ -25,6 +26,7 @@ import mouda.backend.member.repository.MemberRepository;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimStatus;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
+import mouda.backend.moim.dto.request.MoimEditRequest;
 import mouda.backend.moim.repository.MoimRepository;
 import mouda.backend.moim.service.MoimService;
 
@@ -70,10 +72,14 @@ public class MoimControllerTest {
 			Member tebah = memberRepository.findByNickname("테바").get();
 			Moim moim = moimService.createMoim(getMoimCreateRequest(), tebah);
 
-			RestAssured.given().log().all()
+			RestAssured.given()
+				.log()
+				.all()
 				.header("Authorization", "Bearer " + accessToken)
-				.when().patch("/v1/moim/{moimId}/complete", moim.getId())
-				.then().statusCode(200);
+				.when()
+				.patch("/v1/moim/{moimId}/complete", moim.getId())
+				.then()
+				.statusCode(200);
 
 			assertThat(moimRepository.findById(moim.getId()).get().getMoimStatus()).isEqualTo(MoimStatus.COMPLETED);
 		}
@@ -88,10 +94,16 @@ public class MoimControllerTest {
 
 			chamyoService.chamyoMoim(new MoimChamyoRequest(moim.getId()), tebah);
 
-			RestAssured.given().log().all()
+			RestAssured.given()
+				.log()
+				.all()
 				.header("Authorization", "Bearer " + accessToken)
-				.when().patch("/v1/moim/{moimId}/complete", moim.getId())
-				.then().log().all().statusCode(403);
+				.when()
+				.patch("/v1/moim/{moimId}/complete", moim.getId())
+				.then()
+				.log()
+				.all()
+				.statusCode(403);
 		}
 
 		@DisplayName("이미 모집이 완료된 경우 모집을 완료할 수 없다.")
@@ -103,10 +115,14 @@ public class MoimControllerTest {
 
 			moimService.completeMoim(moim.getId(), tebah);
 
-			RestAssured.given().log().all()
+			RestAssured.given()
+				.log()
+				.all()
 				.header("Authorization", "Bearer " + accessToken)
-				.when().patch("/v1/moim/{moimId}/complete", moim.getId())
-				.then().statusCode(400);
+				.when()
+				.patch("/v1/moim/{moimId}/complete", moim.getId())
+				.then()
+				.statusCode(400);
 		}
 
 		@DisplayName("취소된 모임에 대해서는 모집을 완료할 수 없다.")
@@ -118,10 +134,14 @@ public class MoimControllerTest {
 
 			moimService.cancelMoim(moim.getId(), tebah);
 
-			RestAssured.given().log().all()
+			RestAssured.given()
+				.log()
+				.all()
 				.header("Authorization", "Bearer " + accessToken)
-				.when().patch("/v1/moim/{moimId}/complete", moim.getId())
-				.then().statusCode(400);
+				.when()
+				.patch("/v1/moim/{moimId}/complete", moim.getId())
+				.then()
+				.statusCode(400);
 		}
 	}
 
@@ -141,10 +161,14 @@ public class MoimControllerTest {
 			Member tebah = memberRepository.findByNickname("테바").get();
 			Moim moim = moimService.createMoim(getMoimCreateRequest(), tebah);
 
-			RestAssured.given().log().all()
+			RestAssured.given()
+				.log()
+				.all()
 				.header("Authorization", "Bearer " + accessToken)
-				.when().patch("/v1/moim/{moimId}/cancel", moim.getId())
-				.then().statusCode(200);
+				.when()
+				.patch("/v1/moim/{moimId}/cancel", moim.getId())
+				.then()
+				.statusCode(200);
 
 			assertThat(moimRepository.findById(moim.getId()).get().getMoimStatus()).isEqualTo(MoimStatus.CANCELED);
 		}
@@ -159,10 +183,16 @@ public class MoimControllerTest {
 
 			chamyoService.chamyoMoim(new MoimChamyoRequest(moim.getId()), tebah);
 
-			RestAssured.given().log().all()
+			RestAssured.given()
+				.log()
+				.all()
 				.header("Authorization", "Bearer " + accessToken)
-				.when().patch("/v1/moim/{moimId}/cancel", moim.getId())
-				.then().log().all().statusCode(403);
+				.when()
+				.patch("/v1/moim/{moimId}/cancel", moim.getId())
+				.then()
+				.log()
+				.all()
+				.statusCode(403);
 		}
 
 		@DisplayName("이미 취소된 모임은 취소할 수 없다.")
@@ -174,10 +204,14 @@ public class MoimControllerTest {
 
 			moimService.cancelMoim(moim.getId(), tebah);
 
-			RestAssured.given().log().all()
+			RestAssured.given()
+				.log()
+				.all()
 				.header("Authorization", "Bearer " + accessToken)
-				.when().patch("/v1/moim/{moimId}/cancel", moim.getId())
-				.then().statusCode(400);
+				.when()
+				.patch("/v1/moim/{moimId}/cancel", moim.getId())
+				.then()
+				.statusCode(400);
 		}
 	}
 
@@ -199,10 +233,14 @@ public class MoimControllerTest {
 
 			moimService.completeMoim(moim.getId(), tebah);
 
-			RestAssured.given().log().all()
+			RestAssured.given()
+				.log()
+				.all()
 				.header("Authorization", "Bearer " + accessToken)
-				.when().patch("/v1/moim/{moimId}/reopen", moim.getId())
-				.then().statusCode(200);
+				.when()
+				.patch("/v1/moim/{moimId}/reopen", moim.getId())
+				.then()
+				.statusCode(200);
 
 			assertThat(moimRepository.findById(moim.getId()).get().getMoimStatus()).isEqualTo(MoimStatus.MOIMING);
 		}
@@ -217,10 +255,16 @@ public class MoimControllerTest {
 
 			chamyoService.chamyoMoim(new MoimChamyoRequest(moim.getId()), tebah);
 
-			RestAssured.given().log().all()
+			RestAssured.given()
+				.log()
+				.all()
 				.header("Authorization", "Bearer " + accessToken)
-				.when().patch("/v1/moim/{moimId}/reopen", moim.getId())
-				.then().log().all().statusCode(403);
+				.when()
+				.patch("/v1/moim/{moimId}/reopen", moim.getId())
+				.then()
+				.log()
+				.all()
+				.statusCode(403);
 		}
 
 		@DisplayName("인원이 가득 찬 모임은 재개할 수 없다.")
@@ -233,10 +277,14 @@ public class MoimControllerTest {
 
 			chamyoService.chamyoMoim(new MoimChamyoRequest(moim.getId()), hogee);
 
-			RestAssured.given().log().all()
+			RestAssured.given()
+				.log()
+				.all()
 				.header("Authorization", "Bearer " + accessToken)
-				.when().patch("/v1/moim/{moimId}/reopen", moim.getId())
-				.then().statusCode(400);
+				.when()
+				.patch("/v1/moim/{moimId}/reopen", moim.getId())
+				.then()
+				.statusCode(400);
 		}
 
 		@DisplayName("이미 모집 중인 모임은 재개할 수 없다.")
@@ -246,10 +294,14 @@ public class MoimControllerTest {
 			Member tebah = memberRepository.findByNickname("테바").get();
 			Moim moim = moimService.createMoim(getMoimCreateRequest(), tebah);
 
-			RestAssured.given().log().all()
+			RestAssured.given()
+				.log()
+				.all()
 				.header("Authorization", "Bearer " + accessToken)
-				.when().patch("/v1/moim/{moimId}/reopen", moim.getId())
-				.then().statusCode(400);
+				.when()
+				.patch("/v1/moim/{moimId}/reopen", moim.getId())
+				.then()
+				.statusCode(400);
 		}
 
 		@DisplayName("이미 취소된 모임은 재개할 수 없다.")
@@ -261,10 +313,140 @@ public class MoimControllerTest {
 
 			moimService.cancelMoim(moim.getId(), tebah);
 
-			RestAssured.given().log().all()
+			RestAssured.given()
+				.log()
+				.all()
 				.header("Authorization", "Bearer " + accessToken)
-				.when().patch("/v1/moim/{moimId}/reopen", moim.getId())
-				.then().statusCode(400);
+				.when()
+				.patch("/v1/moim/{moimId}/reopen", moim.getId())
+				.then()
+				.statusCode(400);
+		}
+	}
+
+	@Nested
+	@DisplayName("모임 수정 테스트")
+	class EditMoimTest {
+
+		@AfterEach
+		void tearDown() {
+			dbCleaner.cleanUp();
+		}
+
+		@DisplayName("방장이 아닌 참여자는 모임을 수정할 수 없다.")
+		@Test
+		void fail_whenMemberIsNotMoimer() {
+			String accessToken = TokenFixture.getTokenWithNicknameTebah();
+			Member hogee = memberRepository.save(MemberFixture.getHogee());
+			Moim moim = moimService.createMoim(getMoimCreateRequest(), hogee);
+
+			chamyoService.chamyoMoim(new MoimChamyoRequest(moim.getId()), memberRepository.findByNickname("테바").get());
+			MoimEditRequest request = getMoimEditRequest(moim.getId(), "test", LocalDate.now().plusDays(1),
+				LocalTime.now(), "test", 10, "test");
+
+			RestAssured.given()
+				.log()
+				.all()
+				.header("Authorization", "Bearer " + accessToken)
+				.body(request)
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.when()
+				.patch("/v1/moim")
+				.then()
+				.log()
+				.all()
+				.statusCode(403);
+		}
+
+		@DisplayName("완료된 모임은 수정할 수 없다.")
+		@Test
+		void fail_whenMoimCompleted() {
+			String accessToken = TokenFixture.getTokenWithNicknameTebah();
+			Member tebah = memberRepository.findByNickname("테바").get();
+			Moim moim = moimService.createMoim(getMoimCreateRequest(), tebah);
+
+			moimService.completeMoim(moim.getId(), tebah);
+			MoimEditRequest request = getMoimEditRequest(moim.getId(), "test", LocalDate.now().plusDays(1),
+				LocalTime.now(), "test", 10, "test");
+
+			RestAssured.given()
+				.log()
+				.all()
+				.header("Authorization", "Bearer " + accessToken)
+				.body(request)
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.when()
+				.patch("/v1/moim")
+				.then()
+				.log()
+				.all()
+				.statusCode(400);
+		}
+
+		@DisplayName("취소된 모임은 수정할 수 없다.")
+		@Test
+		void fail_whenMoimCanceled() {
+			String accessToken = TokenFixture.getTokenWithNicknameTebah();
+			Member tebah = memberRepository.findByNickname("테바").get();
+			Moim moim = moimService.createMoim(getMoimCreateRequest(), tebah);
+
+			moimService.cancelMoim(moim.getId(), tebah);
+			MoimEditRequest request = getMoimEditRequest(moim.getId(), "test", LocalDate.now().plusDays(1),
+				LocalTime.now(), "test", 10, "test");
+
+			RestAssured.given()
+				.log()
+				.all()
+				.header("Authorization", "Bearer " + accessToken)
+				.body(request)
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.when()
+				.patch("/v1/moim")
+				.then()
+				.log()
+				.all()
+				.statusCode(400);
+		}
+
+		@DisplayName("모임을 수정한다.")
+		@Test
+		void success() {
+			String newTitle = "newTitle";
+			LocalDate newDate = LocalDate.now().plusDays(7);
+			LocalTime newTime = LocalTime.now().minusHours(1);
+			String newPlace = "newPlace";
+			int newMaxPeople = 20;
+			String newDescription = "newDescription";
+
+			String accessToken = TokenFixture.getTokenWithNicknameTebah();
+			Member tebah = memberRepository.findByNickname("테바").get();
+			Moim moim = moimService.createMoim(getMoimCreateRequest(), tebah);
+
+			MoimEditRequest request = getMoimEditRequest(moim.getId(), newTitle, newDate, newTime, newPlace,
+				newMaxPeople, newDescription);
+
+			RestAssured.given()
+				.log()
+				.all()
+				.header("Authorization", "Bearer " + accessToken)
+				.body(request)
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.when()
+				.patch("/v1/moim")
+				.then()
+				.log()
+				.all()
+				.statusCode(200);
+
+			Moim newMoim = moimRepository.findById(moim.getId()).get();
+			assertThat(newMoim.getTitle()).isEqualTo(newTitle);
+			assertThat(newMoim.getDate()).isEqualTo(newDate);
+			assertThat(newMoim.getTime().getHour()).isEqualTo(newTime.getHour());
+			assertThat(newMoim.getTime().getMinute()).isEqualTo(newTime.getMinute());
+			assertThat(newMoim.getTime().getSecond()).isEqualTo(newTime.getSecond());
+			assertThat(newMoim.getPlace()).isEqualTo(newPlace);
+			assertThat(newMoim.getMaxPeople()).isEqualTo(newMaxPeople);
+			assertThat(newMoim.getDescription()).isEqualTo(newDescription);
 		}
 	}
 
@@ -273,9 +455,11 @@ public class MoimControllerTest {
 	}
 
 	private MoimCreateRequest getMoimCreateRequest(int maxPeople) {
-		return new MoimCreateRequest(
-			"test", LocalDate.now().plusDays(1), LocalTime.now(),
-			"test", maxPeople, "test"
-		);
+		return new MoimCreateRequest("test", LocalDate.now().plusDays(1), LocalTime.now(), "test", maxPeople, "test");
+	}
+
+	private MoimEditRequest getMoimEditRequest(Long moimId, String title, LocalDate date, LocalTime time, String place,
+		int maxPeople, String description) {
+		return new MoimEditRequest(moimId, title, date, time, place, maxPeople, description);
 	}
 }

@@ -7,6 +7,7 @@ import java.time.LocalTime;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import mouda.backend.fixture.MoimFixture;
@@ -19,7 +20,6 @@ class MoimTest {
 	private static final LocalTime TIME = LocalTime.now().plusHours(1);
 	private static final String PLACE = "서울시 동작구 강원대로 10길 5";
 	private static final int MAX_PEOPLE = 11;
-	private static final String AUTHOR_NICKNAME = "안나";
 	private static final String DESCRIPTION = "이번 주 금요일에 퇴근하고 축구하실 분 계신가요? 끝나고 치맥도 할 생각입니다.";
 
 	@DisplayName("모임 객체를 정상적으로 생성한다.")
@@ -94,7 +94,7 @@ class MoimTest {
 			.build());
 	}
 
-	@DisplayName("모임 시간이 현재보다 과거이면 모임 객체 생성에 실패한다.")
+	@DisplayName("날짜는 같고, 시간이 현재보다 과거이면 모임 객체 생성에 실패한다.")
 	@Test
 	void failToCreateMoimWhenTimeIsPast() {
 		assertThrows(MoimException.class, () -> Moim.builder()
@@ -185,5 +185,111 @@ class MoimTest {
 			.maxPeople(MAX_PEOPLE)
 			.description(longDescription)
 			.build());
+	}
+
+	@Nested
+	@DisplayName("모임 수정 테스트")
+	class UpdateMoimTest {
+
+		private Moim moim = Moim.builder()
+			.title(TITLE)
+			.date(DATE)
+			.time(TIME)
+			.place(PLACE)
+			.maxPeople(MAX_PEOPLE)
+			.description(DESCRIPTION)
+			.build();
+
+		@DisplayName("최대 길이를 초과하는 제목으로는 수정할 수 없다.")
+		@Test
+		void fail_whenTitleIsTooLong() {
+			String longTitle = "a".repeat(31);
+			assertThrows(MoimException.class, () -> moim.update(longTitle, DATE, TIME, PLACE, MAX_PEOPLE, DESCRIPTION));
+		}
+
+		@DisplayName("제목이 빈 문자열이면 수정할 수 없다.")
+		@Test
+		void fail_whenTitleDoesNotExists() {
+			assertThrows(MoimException.class, () -> moim.update("", DATE, TIME, PLACE, MAX_PEOPLE, DESCRIPTION));
+		}
+
+		@DisplayName("날짜가 null이면 수정할 수 없다.")
+		@Test
+		void fail_whenDateIsNull() {
+			assertThrows(MoimException.class, () -> moim.update(TITLE, null, TIME, PLACE, MAX_PEOPLE, DESCRIPTION));
+		}
+
+		@DisplayName("시간이 null이면 수정할 수 없다.")
+		@Test
+		void fail_whenTimeIsNull() {
+			assertThrows(MoimException.class, () -> moim.update(TITLE, DATE, null, PLACE, MAX_PEOPLE, DESCRIPTION));
+		}
+
+		@DisplayName("모임 날짜가 현재보다 과거이면 수정할 수 없다.")
+		@Test
+		void fail_whenDateIsPast() {
+			assertThrows(MoimException.class,
+				() -> moim.update(TITLE, LocalDate.now().minusDays(1), TIME, PLACE, MAX_PEOPLE, DESCRIPTION));
+		}
+
+		@DisplayName("날짜는 같고, 시간이 현재보다 과거이면 수정할 수 없다.")
+		@Test
+		void fail_whenTimeIsPast() {
+			assertThrows(MoimException.class,
+				() -> moim.update(TITLE, LocalDate.now(), LocalTime.now().minusHours(1), PLACE, MAX_PEOPLE,
+					DESCRIPTION));
+		}
+
+		@DisplayName("장소가 빈 문자열이면 수정할 수 없다.")
+		@Test
+		void fail_whenPlaceIsBlank() {
+			assertThrows(MoimException.class, () -> moim.update(TITLE, DATE, TIME, "", MAX_PEOPLE, DESCRIPTION));
+		}
+
+		@DisplayName("장소 길이가 제한을 초과하면 수정할 수 없다.")
+		@Test
+		void fail_whenPlaceIsTooLong() {
+			String longPlace = "a".repeat(101);
+			assertThrows(MoimException.class, () -> moim.update(TITLE, DATE, TIME, longPlace, MAX_PEOPLE, DESCRIPTION));
+		}
+
+		@DisplayName("모임 최대 인원이 1보다 작으면 수정할 수 없다.")
+		@Test
+		void fail_whenMaxPeopleIsTooSmall() {
+			assertThrows(MoimException.class, () -> moim.update(TITLE, DATE, TIME, PLACE, 0, DESCRIPTION));
+		}
+
+		@DisplayName("모임 최대 인원이 제한을 초과하면 수정할 수 없다.")
+		@Test
+		void fail_whenMaxPeopleIsTooMany() {
+			assertThrows(MoimException.class, () -> moim.update(TITLE, DATE, TIME, PLACE, 100, DESCRIPTION));
+		}
+
+		@DisplayName("설명의 길이가 길면 수정할 수 없다.")
+		@Test
+		void fail_whenDescriptionIsTooLong() {
+			String longDescription = "a".repeat(1001);
+			assertThrows(MoimException.class, () -> moim.update(TITLE, DATE, TIME, PLACE, MAX_PEOPLE, longDescription));
+		}
+
+		@DisplayName("모임 객체를 수정한다.")
+		@Test
+		void updateMoim() {
+			String newTitle = "축구 모집합니다.";
+			LocalDate newDate = LocalDate.now().plusDays(2);
+			LocalTime newTime = LocalTime.now().plusHours(2);
+			String newPlace = "서울시 강남구 강남대로 10길 5";
+			int newMaxPeople = 10;
+			String newDescription = "축구하실 분 구합니다.";
+
+			moim.update(newTitle, newDate, newTime, newPlace, newMaxPeople, newDescription);
+
+			assertEquals(newTitle, moim.getTitle());
+			assertEquals(newDate, moim.getDate());
+			assertEquals(newTime, moim.getTime());
+			assertEquals(newPlace, moim.getPlace());
+			assertEquals(newMaxPeople, moim.getMaxPeople());
+			assertEquals(newDescription, moim.getDescription());
+		}
 	}
 }
