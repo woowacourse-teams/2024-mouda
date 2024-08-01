@@ -11,7 +11,10 @@ import MoimSummary from '@_components/MoimSummary/MoimSummary';
 import ROUTES from '@_constants/routes';
 import useJoinMoim from '@_hooks/mutaions/useJoinMoim';
 import useMoim from '@_hooks/queries/useMoim';
-import { css } from '@emotion/react';
+import ProfileList from '@_components/ProfileList/ProfileList';
+import CommentList from '@_components/CommentList/CommentList';
+import KebabMenu from '@_components/KebabMenu/KebabMenu';
+import ZzimButton from '@_components/Zzim/ZzimButton';
 
 export default function MoimDetailPage() {
   const navigate = useNavigate();
@@ -39,29 +42,28 @@ export default function MoimDetailPage() {
             <BackLogo />
           </div>
         </InformationLayout.Header.Left>
+        <InformationLayout.Header.Right>
+          <ZzimButton isChecked={true} onClick={() => {}} />
+          <KebabMenu
+            options={[
+              { name: '모임 수정하기', onClick: () => {} },
+              { name: '모임 삭제하기', onClick: () => {} },
+            ]}
+          />
+        </InformationLayout.Header.Right>
       </InformationLayout.Header>
       <InformationLayout.ContentContainer>
         <MoimSummary moimInfo={moim} />
+        <ProfileList participants={moim.participants} />
         <MoimInformation moimInfo={moim} />
         {moim.description && (
           <MoimDescription title={'상세설명'}>
             {moim.description}
           </MoimDescription>
         )}
-        {moim.participants && (
-          <MoimDescription title="참여자">
-            {moim.participants.map((nickName) => {
-              return (
-                <div
-                  key={nickName}
-                  css={css`
-                    font-size: 1.5rem;
-                  `}
-                >
-                  {nickName}
-                </div>
-              );
-            })}
+        {moim.comments && (
+          <MoimDescription title="코멘트" color="grey">
+            <CommentList comments={moim.comments}></CommentList>
           </MoimDescription>
         )}
         <LabeledInput
