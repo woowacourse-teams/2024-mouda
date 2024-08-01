@@ -19,15 +19,19 @@ public record CommentResponse(
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	LocalDateTime dateTime,
 
-	List<ChildCommentResponse> childs
+	List<ChildCommentResponse> children
 ) {
-	public static CommentResponse toResponse(Comment parentComment, List<ChildCommentResponse> childComments) {
+	public static CommentResponse toResponse(Comment parentComment, List<Comment> childComments) {
+		List<ChildCommentResponse> children = childComments.stream()
+			.map(ChildCommentResponse::toResponse)
+			.toList();
+
 		return CommentResponse.builder()
 			.commentId(parentComment.getId())
 			.nickname(parentComment.getAuthorNickname())
 			.content(parentComment.getContent())
 			.dateTime(parentComment.getCreatedAt())
-			.childs(childComments)
+			.children(children)
 			.build();
 	}
 }

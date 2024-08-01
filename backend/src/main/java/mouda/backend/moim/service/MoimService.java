@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.comment.domain.Comment;
 import mouda.backend.comment.dto.request.CommentCreateRequest;
-import mouda.backend.comment.dto.response.ChildCommentResponse;
 import mouda.backend.comment.dto.response.CommentResponse;
 import mouda.backend.comment.exception.CommentErrorMessage;
 import mouda.backend.comment.exception.CommentException;
@@ -74,21 +73,19 @@ public class MoimService {
 			.toList();
 
 		List<Comment> comments = commentRepository.findAllByMoimIdOrderByCreatedAt(id);
-		Map<Long, List<Comment>> childComments = comments.stream()
-			.filter(Comment::isChild)
-			.collect(groupingBy(Comment::getParentId));
-
-		List<CommentResponse> commentResponses = comments.stream()
-			.filter(Comment::isParent)
-			.map(comment -> CommentResponse.toResponse(comment, findChildComments(comment, childComments)))
-			.toList();
+		List<CommentResponse> commentResponses = toCommentResponse(comments);
 
 		return MoimDetailsFindResponse.toResponse(moim, participants, commentResponses);
 	}
 
-	private List<ChildCommentResponse> findChildComments(Comment comment, Map<Long, List<Comment>> childComments) {
-		return childComments.getOrDefault(comment.getId(), List.of()).stream()
-			.map(ChildCommentResponse::toResponse)
+	private List<CommentResponse> toCommentResponse(List<Comment> comments) {
+		Map<Long, List<Comment>> children = comments.stream()
+			.filter(Comment::isChild)
+			.collect(groupingBy(Comment::getParentId));
+
+		return comments.stream()
+			.filter(Comment::isParent)
+			.map(comment -> CommentResponse.toResponse(comment, children.getOrDefault(comment.getId(), List.of())))
 			.toList();
 	}
 
