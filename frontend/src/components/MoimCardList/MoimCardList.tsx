@@ -2,7 +2,7 @@ import * as S from './MoimCardList.style';
 
 import { MoimInfo } from '@_types/index';
 import { useNavigate } from 'react-router-dom';
-import MoimCard from './Card/MoimCard';
+import MoimCard from '../MoimCard/MoimCard';
 
 interface MoimCardListProps {
   moimInfos: MoimInfo[];

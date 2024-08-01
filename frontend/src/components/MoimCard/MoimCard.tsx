@@ -4,7 +4,7 @@ import { HTMLProps } from 'react';
 import { formatHhmmToKorean, formatYyyymmddToKorean } from '@_utils/formatters';
 import { MoimInfo } from '@_types/index';
 import { useTheme } from '@emotion/react';
-import HeartIcon from '@_components/HeartIcon/HeartIcon';
+import HeartIcon from '@_components/Icons/HeartIcon';
 
 interface MoimCardProps extends HTMLProps<HTMLDivElement> {
   moimInfo: MoimInfo;
@@ -12,7 +12,7 @@ interface MoimCardProps extends HTMLProps<HTMLDivElement> {
 
 export default function MoimCard(props: MoimCardProps) {
   const {
-    moimInfo: { title, date, time, place, maxPeople, currentPeople },
+    moimInfo: { title, date, time, place, maxPeople, currentPeople, zzim },
     ...args
   } = props;
 
@@ -22,7 +22,7 @@ export default function MoimCard(props: MoimCardProps) {
     <div css={S.cardBox} {...args}>
       <div css={S.titleBox}>
         <h2 css={S.cardTitle({ theme })}>{title}</h2>
-        <HeartIcon isFilled={false} />
+        <HeartIcon isFilled={zzim} />
       </div>
 
       <div css={S.subjectBox}>

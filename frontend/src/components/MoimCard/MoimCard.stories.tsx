@@ -19,7 +19,7 @@ export const Default: Story = {
       place: '서울 마포구 독막로 96 1층',
       maxPeople: 5,
       currentPeople: 3,
-
+      zzim: true,
       moimId: 1,
       authorNickname: '김코딩',
       participants: ['김코딩', '이코딩', '박코딩'],
