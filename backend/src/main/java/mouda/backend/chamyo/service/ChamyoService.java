@@ -30,6 +30,7 @@ public class ChamyoService {
 	private final ChamyoRepository chamyoRepository;
 	private final MoimRepository moimRepository;
 
+	@Transactional(readOnly = true)
 	public MoimRoleFindResponse findMoimRole(Long moimId, Member member) {
 		Optional<Chamyo> chamyoOptional = chamyoRepository.findByMoimIdAndMemberId(moimId, member.getId());
 
@@ -38,6 +39,7 @@ public class ChamyoService {
 		return new MoimRoleFindResponse(moimRole.name());
 	}
 
+	@Transactional(readOnly = true)
 	public ChamyoFindAllResponses findAllChamyo(Long moimId) {
 		List<ChamyoFindAllResponse> responses = chamyoRepository.findAllByMoimId(moimId).stream()
 			.map(ChamyoFindAllResponse::toResponse)

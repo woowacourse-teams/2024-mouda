@@ -2,6 +2,7 @@ package mouda.backend.zzim.service;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.member.domain.Member;
@@ -21,6 +22,7 @@ public class ZzimService {
 	private final ZzimRepository zzimRepository;
 	private final MoimRepository moimRepository;
 
+	@Transactional(readOnly = true)
 	public ZzimCheckResponse checkZzimByMember(Long moimId, Member member) {
 		boolean isZzimed = zzimRepository.existsByMoimIdAndMemberId(moimId, member.getId());
 
