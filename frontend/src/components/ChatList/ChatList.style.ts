@@ -7,6 +7,7 @@ export const list = ({ theme }: { theme: Theme }) => css`
   gap: 1rem;
 
   height: 100%;
+  min-height: 100vh;
   padding: 2rem;
 
   background-color: ${theme.colorPalette.grey[100]};
