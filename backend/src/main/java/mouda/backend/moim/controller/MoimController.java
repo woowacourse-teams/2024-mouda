@@ -75,7 +75,7 @@ public class MoimController implements MoimSwagger {
 	}
 
 	@Override
-	@PatchMapping("/{moimId}")
+	@PatchMapping("/{moimId}/complete")
 	public ResponseEntity<Void> completeMoim(@PathVariable Long moimId, @LoginMember Member member) {
 		moimService.completeMoim(moimId, member);
 
