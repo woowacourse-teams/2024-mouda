@@ -1,12 +1,21 @@
 package mouda.backend.moim.service;
 
+import static java.util.stream.Collectors.*;
+
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.comment.domain.Comment;
+import mouda.backend.comment.dto.request.CommentCreateRequest;
+import mouda.backend.comment.dto.response.CommentResponse;
+import mouda.backend.comment.exception.CommentErrorMessage;
+import mouda.backend.comment.exception.CommentException;
+import mouda.backend.comment.repository.CommentRepository;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.repository.MemberRepository;
 import mouda.backend.moim.domain.Moim;
@@ -28,8 +37,12 @@ public class MoimService {
 
 	private final MemberRepository memberRepository;
 
+	private final CommentRepository commentRepository;
+
 	public Moim createMoim(MoimCreateRequest moimCreateRequest) {
-		Member author = new Member(moimCreateRequest.authorNickname());
+		Member author = Member.builder()
+			.nickname(moimCreateRequest.authorNickname())
+			.build();
 		Moim moim = moimRepository.save(moimCreateRequest.toEntity());
 		author.joinMoim(moim);
 		memberRepository.save(author);
@@ -59,7 +72,21 @@ public class MoimService {
 			.map(Member::getNickname)
 			.toList();
 
-		return MoimDetailsFindResponse.toResponse(moim, participants);
+		List<Comment> comments = commentRepository.findAllByMoimIdOrderByCreatedAt(id);
+		List<CommentResponse> commentResponses = toCommentResponse(comments);
+
+		return MoimDetailsFindResponse.toResponse(moim, participants, commentResponses);
+	}
+
+	private List<CommentResponse> toCommentResponse(List<Comment> comments) {
+		Map<Long, List<Comment>> children = comments.stream()
+			.filter(Comment::isChild)
+			.collect(groupingBy(Comment::getParentId));
+
+		return comments.stream()
+			.filter(Comment::isParent)
+			.map(comment -> CommentResponse.toResponse(comment, children.getOrDefault(comment.getId(), List.of())))
+			.toList();
 	}
 
 	public void joinMoim(MoimJoinRequest moimJoinRequest) {
@@ -83,5 +110,18 @@ public class MoimService {
 		}
 
 		moimRepository.delete(moim);
+	}
+
+	public void createComment(Member member, Long moimId, CommentCreateRequest commentCreateRequest) {
+		Moim moim = moimRepository.findById(moimId).orElseThrow(
+			() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND)
+		);
+
+		Long parentId = commentCreateRequest.parentId();
+		if (parentId != null && !commentRepository.existsById(parentId)) {
+			throw new CommentException(HttpStatus.BAD_REQUEST, CommentErrorMessage.PARENT_NOT_FOUND);
+		}
+
+		commentRepository.save(commentCreateRequest.toEntity(moim, member));
 	}
 }
