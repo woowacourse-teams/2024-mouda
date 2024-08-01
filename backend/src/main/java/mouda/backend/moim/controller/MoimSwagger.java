@@ -61,6 +61,12 @@ public interface MoimSwagger {
 	})
 	ResponseEntity<Void> cancelMoim(@PathVariable Long moimId, @LoginMember Member member);
 
+	@Operation(summary = "모집 재개", description = "방장이 모집을 재개합니다.")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "모집 재개 성공!")
+	})
+	ResponseEntity<Void> reopenMoim(@PathVariable Long moimId, @LoginMember Member member);
+
 	@Operation(summary = "댓글 작성", description = "해당하는 id의 모임에 댓글을 생성한다.")
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "댓글 생성 성공!")

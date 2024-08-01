@@ -154,13 +154,7 @@ public class MoimService {
 	}
 
 	private void validateCanCompleteMoim(Moim moim, Member member) {
-		MoimRole moimRole = chamyoRepository.findByMoimIdAndMemberId(moim.getId(), member.getId())
-			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND))
-			.getMoimRole();
-		if (moimRole != MoimRole.MOIMER) {
-			throw new MoimException(HttpStatus.FORBIDDEN, MoimErrorMessage.NOT_ALLOWED_TO_COMPLETE);
-		}
-
+		validateIsMoimerWithErrorMessage(moim, member, MoimErrorMessage.NOT_ALLOWED_TO_COMPLETE);
 		MoimStatus moimStatus = moim.getMoimStatus();
 		if (moimStatus == MoimStatus.COMPLETED) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.ALREADY_COMPLETED);
@@ -179,14 +173,34 @@ public class MoimService {
 	}
 
 	private void validateCanCancelMoim(Moim moim, Member member) {
+		validateIsMoimerWithErrorMessage(moim, member, MoimErrorMessage.NOT_ALLOWED_TO_CANCEL);
+		if (moim.getMoimStatus() == MoimStatus.CANCELED) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MOIM_CANCELED);
+		}
+	}
+
+	public void reopenMoim(Long moimId, Member member) {
+		Moim moim = moimRepository.findById(moimId)
+			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
+		validateCanReopenMoim(moim, member);
+
+		moimRepository.updateMoimStatusById(moimId, MoimStatus.MOIMING);
+	}
+
+	private void validateCanReopenMoim(Moim moim, Member member) {
+		validateIsMoimerWithErrorMessage(moim, member, MoimErrorMessage.NOT_ALLOWED_TO_REOPEN);
+		int currentPeople = chamyoRepository.countByMoim(moim);
+		if (currentPeople >= moim.getMaxPeople()) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MOIM_FULL_FOR_REOPEN);
+		}
+	}
+
+	private void validateIsMoimerWithErrorMessage(Moim moim, Member member, MoimErrorMessage errorMessage) {
 		MoimRole moimRole = chamyoRepository.findByMoimIdAndMemberId(moim.getId(), member.getId())
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND))
 			.getMoimRole();
 		if (moimRole != MoimRole.MOIMER) {
-			throw new MoimException(HttpStatus.FORBIDDEN, MoimErrorMessage.NOT_ALLOWED_TO_CANCEL);
-		}
-		if (moim.getMoimStatus() == MoimStatus.CANCELED) {
-			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MOIM_CANCELED);
+			throw new MoimException(HttpStatus.FORBIDDEN, errorMessage);
 		}
 	}
 }

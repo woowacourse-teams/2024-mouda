@@ -83,9 +83,17 @@ public class MoimController implements MoimSwagger {
 	}
 
 	@Override
-	@PatchMapping("/cancel/{moimId}")
+	@PatchMapping("/{moimId}/cancel")
 	public ResponseEntity<Void> cancelMoim(@PathVariable Long moimId, @LoginMember Member member) {
 		moimService.cancelMoim(moimId, member);
+
+		return ResponseEntity.ok().build();
+	}
+
+	@Override
+	@PatchMapping("/{moimId}/reopen")
+	public ResponseEntity<Void> reopenMoim(@PathVariable Long moimId, @LoginMember Member member) {
+		moimService.reopenMoim(moimId, member);
 
 		return ResponseEntity.ok().build();
 	}
