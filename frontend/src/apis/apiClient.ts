@@ -8,158 +8,156 @@ const DEFAULT_HEADERS = {
 
 const BASE_URL = `${process.env.BASE_URL}/v1`;
 
-class ApiClient {
-  private static addBaseURL(endpoint: string) {
-    if (endpoint[0] !== '/') endpoint = '/' + endpoint;
-    return BASE_URL + endpoint;
-  }
-
-  private static getHeaders(token?: string) {
-    const headers = new Headers(DEFAULT_HEADERS);
-    if (token) {
-      headers.append('Authorization', `Bearer ${token}`);
-    }
-    return headers;
-  }
-
-  private static async request(
-    method: Method,
-    endpoint: string,
-    data: object = {},
-    config: RequestInit = {},
-    isRequiredAuth: boolean = false,
-  ) {
-    const url = this.addBaseURL(endpoint);
-    const token = isRequiredAuth ? getToken() : undefined;
-
-    const options: RequestInit = {
-      method,
-      headers: this.getHeaders(token),
-      ...config,
-    };
-
-    if (method !== 'GET') {
-      options.body = JSON.stringify(data);
-    }
-
-    return await fetch(url, options);
-  }
-
-  private static async get(
-    endpoint: string,
-    config: RequestInit = {},
-    isRequiredAuth: boolean = false,
-  ) {
-    return this.request('GET', endpoint, {}, config, isRequiredAuth);
-  }
-
-  static async getWithoutAuth(endpoint: string, config: RequestInit = {}) {
-    return this.get(endpoint, config, false);
-  }
-
-  static async getWithAuth(endpoint: string, config: RequestInit = {}) {
-    return this.get(endpoint, config, true);
-  }
-
-  private static async post(
-    endpoint: string,
-    data: object = {},
-    config: RequestInit = {},
-    isRequiredAuth: boolean = false,
-  ) {
-    return this.request('POST', endpoint, data, config, isRequiredAuth);
-  }
-
-  static async postWithAuth(
-    endpoint: string,
-    data: object = {},
-    config: RequestInit = {},
-  ) {
-    return this.post(endpoint, data, config, true);
-  }
-
-  static async postWithoutAuth(
-    endpoint: string,
-    data: object = {},
-    config: RequestInit = {},
-  ) {
-    return this.post(endpoint, data, config, false);
-  }
-
-  private static async put(
-    endpoint: string,
-    data: object = {},
-    config: RequestInit = {},
-    isRequiredAuth: boolean = false,
-  ) {
-    return this.request('PUT', endpoint, data, config, isRequiredAuth);
-  }
-
-  static async putWithAuth(
-    endpoint: string,
-    data: object = {},
-    config: RequestInit = {},
-  ) {
-    return this.put(endpoint, data, config, true);
-  }
-
-  static async putWithoutAuth(
-    endpoint: string,
-    data: object = {},
-    config: RequestInit = {},
-  ) {
-    return this.put(endpoint, data, config, false);
-  }
-
-  private static async patch(
-    endpoint: string,
-    data: object = {},
-    config: RequestInit = {},
-    isRequiredAuth: boolean = false,
-  ) {
-    return this.request('PATCH', endpoint, data, config, isRequiredAuth);
-  }
-
-  static async patchWithAuth(
-    endpoint: string,
-    data: object = {},
-    config: RequestInit = {},
-  ) {
-    return this.patch(endpoint, data, config, true);
-  }
-
-  static async patchWithoutAuth(
-    endpoint: string,
-    data: object = {},
-    config: RequestInit = {},
-  ) {
-    return this.patch(endpoint, data, config, false);
-  }
-
-  private static async delete(
-    endpoint: string,
-    data: object = {},
-    config: RequestInit = {},
-    isRequiredAuth: boolean = false,
-  ) {
-    return this.request('DELETE', endpoint, data, config, isRequiredAuth);
-  }
-
-  static async deleteWithAuth(
-    endpoint: string,
-    data: object = {},
-    config: RequestInit = {},
-  ) {
-    return this.delete(endpoint, data, config, true);
-  }
-
-  static async deleteWithoutAuth(
-    endpoint: string,
-    data: object = {},
-    config: RequestInit = {},
-  ) {
-    return this.delete(endpoint, data, config, false);
-  }
+function addBaseURL(endpoint: string) {
+  if (endpoint[0] !== '/') endpoint = '/' + endpoint;
+  return BASE_URL + endpoint;
 }
+
+function getHeaders(token?: string) {
+  const headers = new Headers(DEFAULT_HEADERS);
+  if (token) {
+    headers.append('Authorization', `Bearer ${token}`);
+  }
+  return headers;
+}
+
+async function request(
+  method: Method,
+  endpoint: string,
+  data: object = {},
+  config: RequestInit = {},
+  isRequiredAuth: boolean = false,
+) {
+  const url = addBaseURL(endpoint);
+  const token = isRequiredAuth ? getToken() : undefined;
+
+  const options: RequestInit = {
+    method,
+    headers: getHeaders(token),
+    ...config,
+  };
+
+  if (method !== 'GET') {
+    options.body = JSON.stringify(data);
+  }
+
+  return await fetch(url, options);
+}
+
+async function get(
+  endpoint: string,
+  config: RequestInit = {},
+  isRequiredAuth: boolean = false,
+) {
+  return request('GET', endpoint, {}, config, isRequiredAuth);
+}
+
+async function post(
+  endpoint: string,
+  data: object = {},
+  config: RequestInit = {},
+  isRequiredAuth: boolean = false,
+) {
+  return request('POST', endpoint, data, config, isRequiredAuth);
+}
+
+async function put(
+  endpoint: string,
+  data: object = {},
+  config: RequestInit = {},
+  isRequiredAuth: boolean = false,
+) {
+  return request('PUT', endpoint, data, config, isRequiredAuth);
+}
+
+async function patch(
+  endpoint: string,
+  data: object = {},
+  config: RequestInit = {},
+  isRequiredAuth: boolean = false,
+) {
+  return request('PATCH', endpoint, data, config, isRequiredAuth);
+}
+
+/**
+ * delete는 예약어로 사용할 수 없는 함수 이름이라 부득이 `deleteMethod`로 이름을 지었습니다.
+ */
+async function deleteMethod(
+  endpoint: string,
+  data: object = {},
+  config: RequestInit = {},
+  isRequiredAuth: boolean = false,
+) {
+  return request('DELETE', endpoint, data, config, isRequiredAuth);
+}
+
+const ApiClient = {
+  async getWithoutAuth(endpoint: string, config: RequestInit = {}) {
+    return get(endpoint, config, false);
+  },
+  async getWithAuth(endpoint: string, config: RequestInit = {}) {
+    return get(endpoint, config, true);
+  },
+
+  async postWithAuth(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return post(endpoint, data, config, true);
+  },
+  async postWithoutAuth(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return post(endpoint, data, config, false);
+  },
+
+  async putWithAuth(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return put(endpoint, data, config, true);
+  },
+  async putWithoutAuth(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return put(endpoint, data, config, false);
+  },
+
+  async patchWithAuth(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return patch(endpoint, data, config, true);
+  },
+  async patchWithoutAuth(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return patch(endpoint, data, config, false);
+  },
+
+  async deleteWithAuth(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return deleteMethod(endpoint, data, config, true);
+  },
+  async deleteWithoutAuth(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return deleteMethod(endpoint, data, config, false);
+  },
+};
 
 export default ApiClient;
