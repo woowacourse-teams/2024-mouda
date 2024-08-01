@@ -1,11 +1,13 @@
 package mouda.backend.chamyo.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,12 +25,15 @@ public class Chamyo {
 	private Long id;
 
 	@ManyToOne
+	@JoinColumn(nullable = false)
 	private Moim moim;
 
 	@ManyToOne
+	@JoinColumn(nullable = false)
 	private Member member;
 
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private MoimRole moimRole;
 
 	@Builder
