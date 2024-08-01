@@ -55,7 +55,7 @@ public class ChamyoController implements ChamyoSwagger {
 
 	@Override
 	@DeleteMapping
-	public ResponseEntity<Void> cancelChamyo(ChamyoCancelRequest request, Member member) {
+	public ResponseEntity<Void> cancelChamyo(@Valid @RequestBody ChamyoCancelRequest request, Member member) {
 		chamyoService.cancelChamyo(request, member);
 
 		return ResponseEntity.ok().build();
