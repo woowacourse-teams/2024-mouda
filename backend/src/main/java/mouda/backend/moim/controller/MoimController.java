@@ -71,8 +71,11 @@ public class MoimController implements MoimSwagger {
 
 	@Override
 	@PostMapping("/{moimId}")
-	public ResponseEntity<Void> createComment(@LoginMember Member member, @PathVariable Long moimId,
-		@RequestBody CommentCreateRequest commentCreateRequest) {
+	public ResponseEntity<Void> createComment(
+		@LoginMember Member member,
+		@PathVariable Long moimId,
+		@RequestBody CommentCreateRequest commentCreateRequest
+	) {
 		moimService.createComment(member, moimId, commentCreateRequest);
 
 		return ResponseEntity.ok().build();
