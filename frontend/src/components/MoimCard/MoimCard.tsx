@@ -12,7 +12,7 @@ interface MoimCardProps extends HTMLProps<HTMLDivElement> {
 
 export default function MoimCard(props: MoimCardProps) {
   const {
-    moimInfo: { title, date, time, place, maxPeople, currentPeople, zzim },
+    moimInfo: { title, date, time, place, maxPeople, currentPeople, isZzimed },
     ...args
   } = props;
 
@@ -22,7 +22,7 @@ export default function MoimCard(props: MoimCardProps) {
     <div css={S.cardBox} {...args}>
       <div css={S.titleBox}>
         <h2 css={S.cardTitle({ theme })}>{title}</h2>
-        <HeartIcon isFilled={zzim} />
+        <HeartIcon isFilled={isZzimed} />
       </div>
 
       <div css={S.subjectBox}>
