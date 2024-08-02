@@ -6,6 +6,7 @@ import MoimDetailPage from '@_pages/MoimDetailPage/MoimDetailPage';
 import ParticipationCompletePage from '@_pages/ParticipationCompletePage/ParticipationCompletePage';
 import LoginPage from '@_pages/LoginPage/LoginPage';
 import ProtectedRoute from './ProtectedRoute';
+import MoimModifyPage from '@_pages/MoimModifyPage/MoimModifyPage';
 
 const routesConfig = [
   {
@@ -31,6 +32,11 @@ const routesConfig = [
   {
     path: ROUTES.login,
     element: <LoginPage />,
+    requiresAuth: false,
+  },
+  {
+    path: ROUTES.modify,
+    element: <MoimModifyPage />,
     requiresAuth: false,
   },
 ];
