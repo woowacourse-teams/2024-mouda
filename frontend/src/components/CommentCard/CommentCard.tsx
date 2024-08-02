@@ -7,11 +7,13 @@ import { HTMLProps } from 'react';
 
 export interface CommentCardProps extends HTMLProps<HTMLDivElement> {
   comment: Comment;
+
+  onWriteClick?: () => void;
 }
 
 export default function CommentCard(props: CommentCardProps) {
   const theme = useTheme();
-  const { comment } = props;
+  const { comment, onWriteClick } = props;
 
   return (
     <div css={S.commentContainer()}>
@@ -26,7 +28,7 @@ export default function CommentCard(props: CommentCardProps) {
             <div css={S.commentHeaderRight({ theme })}>
               <button>수정</button>
               <button>삭제</button>
-              <button>답글쓰기</button>
+              <button onClick={onWriteClick}>답글쓰기</button>
             </div>
           </div>
           <div>{comment.content}</div>

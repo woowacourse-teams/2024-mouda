@@ -48,6 +48,7 @@ export const Default: Story = {
         ],
       },
     ],
+    onWriteClick: () => {},
   },
   render: (args) => <CommentList {...args} />,
 };

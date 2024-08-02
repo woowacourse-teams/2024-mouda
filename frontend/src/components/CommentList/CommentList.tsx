@@ -5,15 +5,22 @@ import { HTMLProps } from 'react';
 
 interface CommentListProps extends HTMLProps<HTMLDivElement> {
   comments: Comment[];
+  onWriteClick: () => void;
 }
 
 export default function CommentList(props: CommentListProps) {
-  const { comments } = props;
+  const { comments, onWriteClick } = props;
 
   return (
     <div css={S.commentListBox()}>
       {comments.map((comment) => {
-        return <CommentCard key={comment.id} comment={comment} />;
+        return (
+          <CommentCard
+            key={comment.id}
+            comment={comment}
+            onWriteClick={onWriteClick}
+          />
+        );
       })}
     </div>
   );
