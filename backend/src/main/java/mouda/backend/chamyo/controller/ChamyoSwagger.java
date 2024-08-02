@@ -8,8 +8,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import mouda.backend.chamyo.dto.response.ChamyoFindAllResponses;
+import mouda.backend.chamyo.dto.request.ChamyoCancelRequest;
 import mouda.backend.chamyo.dto.request.MoimChamyoRequest;
+import mouda.backend.chamyo.dto.response.ChamyoFindAllResponses;
 import mouda.backend.chamyo.dto.response.MoimRoleFindResponse;
 import mouda.backend.common.RestResponse;
 import mouda.backend.config.argumentresolver.LoginMember;
@@ -35,4 +36,10 @@ public interface ChamyoSwagger {
 		@ApiResponse(responseCode = "200", description = "모임 참여 성공")
 	})
 	ResponseEntity<Void> chamyoMoim(@Valid @RequestBody MoimChamyoRequest request, @LoginMember Member member);
+
+	@Operation(summary = "모임 참여 취소", description = "모임 참여를 취소합니다.")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "모임 참여 취소 성공")
+	})
+	ResponseEntity<Void> cancelChamyo(@Valid @RequestBody ChamyoCancelRequest request, @LoginMember Member member);
 }

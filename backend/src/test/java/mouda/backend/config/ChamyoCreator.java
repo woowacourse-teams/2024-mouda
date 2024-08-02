@@ -23,7 +23,8 @@ public class ChamyoCreator {
         entityManager.createNativeQuery(
             "INSERT INTO Moim (title, date, time, place, max_people, description, moim_status, is_chat_opened) VALUES "
                 + "('미래 축구 모임', DATEADD('DAY', 5, CURRENT_DATE), CURRENT_TIME(), '축구 장소', 20, '많이 오세요', 'MOIMING', true), "
-                + "('미래 농구 모임', DATEADD('DAY', 10, CURRENT_DATE), CURRENT_TIME(), '농구 장소', 25, '많이 오세요', 'MOIMING', false), ('미래 커피 모임', DATEADD('DAY', 15, CURRENT_DATE), CURRENT_TIME(), '커피 장소', 30, '많이 오세요', 'MOIMING', true);"
+                + "('미래 농구 모임', DATEADD('DAY', 10, CURRENT_DATE), CURRENT_TIME(), '농구 장소', 25, '많이 오세요', 'MOIMING', false), "
+                + "('미래 커피 모임', DATEADD('DAY', 15, CURRENT_DATE), CURRENT_TIME(), '커피 장소', 30, '많이 오세요', 'MOIMING', true);"
         ).executeUpdate();
 
         entityManager.createNativeQuery("INSERT INTO MEMBER (nickname) VALUES ('테바')").executeUpdate();
@@ -34,5 +35,7 @@ public class ChamyoCreator {
             + "(1, 3, 'MOIMEE'), "
             + "(1, 4, 'MOIMEE'), "
             + "(1, 5, 'MOIMEE')").executeUpdate();
+
+        entityManager.clear();
     }
 }

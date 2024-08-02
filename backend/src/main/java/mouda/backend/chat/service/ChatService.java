@@ -33,9 +33,9 @@ public class ChatService {
 
 	public ChatFindUnloadedResponse findUnloadedChats(long recentChatId, long moimId, Member member) {
 		List<ChatFindDetailResponse> chats = chatRepository.findAllUnloadedChats(moimId, recentChatId).stream()
-			.map(ChatFindDetailResponse::toResponse)
+			.map(chat -> ChatFindDetailResponse.toResponse(chat, chat.isMyMessage(member.getId())))
 			.toList();
-		
-		return new ChatFindUnloadedResponse(member.getId(), chats);
+
+		return new ChatFindUnloadedResponse(chats);
 	}
 }

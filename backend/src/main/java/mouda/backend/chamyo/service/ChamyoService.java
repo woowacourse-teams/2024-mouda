@@ -10,9 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.chamyo.domain.Chamyo;
 import mouda.backend.chamyo.domain.MoimRole;
+import mouda.backend.chamyo.dto.request.ChamyoCancelRequest;
+import mouda.backend.chamyo.dto.request.MoimChamyoRequest;
 import mouda.backend.chamyo.dto.response.ChamyoFindAllResponse;
 import mouda.backend.chamyo.dto.response.ChamyoFindAllResponses;
-import mouda.backend.chamyo.dto.request.MoimChamyoRequest;
 import mouda.backend.chamyo.dto.response.MoimRoleFindResponse;
 import mouda.backend.chamyo.exception.ChamyoErrorMessage;
 import mouda.backend.chamyo.exception.ChamyoException;
@@ -79,6 +80,24 @@ public class ChamyoService {
 		}
 		if (chamyoRepository.existsByMoimAndMember(moim, member)) {
 			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_ALREADY_JOINED);
+		}
+	}
+
+	public void cancelChamyo(ChamyoCancelRequest request, Member member) {
+		Moim moim = moimRepository.findById(request.moimId())
+			.orElseThrow(() -> new ChamyoException(HttpStatus.NOT_FOUND, ChamyoErrorMessage.MOIM_NOT_FOUND));
+		validateCanCancelChamyo(moim, member);
+
+		chamyoRepository.deleteByMoimAndMember(moim, member);
+	}
+
+	private void validateCanCancelChamyo(Moim moim, Member member) {
+		MoimRole moimRole = chamyoRepository.findByMoimIdAndMemberId(moim.getId(), member.getId())
+			.orElseThrow(() -> new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_JOINED))
+			.getMoimRole();
+
+		if (moimRole != MoimRole.MOIMEE) {
+			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.CANNOT_CANCEL_CHAMYO);
 		}
 	}
 }

@@ -17,6 +17,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 
 import io.restassured.RestAssured;
+import mouda.backend.chamyo.dto.request.ChamyoCancelRequest;
 import mouda.backend.chamyo.dto.request.MoimChamyoRequest;
 import mouda.backend.chamyo.service.ChamyoService;
 import mouda.backend.config.DatabaseCleaner;
@@ -44,10 +45,10 @@ class ChamyoControllerTest {
 	private MoimRepository moimRepository;
 
 	@Autowired
-	private DatabaseCleaner dbCleaner;
+	private MoimService moimService;
 
 	@Autowired
-	private MoimService moimService;
+	private DatabaseCleaner dbCleaner;
 
 	@LocalServerPort
 	private int port;
@@ -76,7 +77,7 @@ class ChamyoControllerTest {
 			RestAssured.given()
 				.header("Authorization", "Bearer " + accessToken)
 				.param("moimId", moim.getId())
-				.when().get("/v1/chamyo/me")
+				.when().get("/v1/chamyo/mine")
 				.then().statusCode(200)
 				.body("data.role", is("MOIMER"));
 		}
@@ -94,7 +95,7 @@ class ChamyoControllerTest {
 			RestAssured.given()
 				.header("Authorization", "Bearer " + accessToken)
 				.param("moimId", moim.getId())
-				.when().get("/v1/chamyo/me")
+				.when().get("/v1/chamyo/mine")
 				.then().log().all().statusCode(200)
 				.body("data.role", is("MOIMEE"));
 		}
@@ -108,7 +109,7 @@ class ChamyoControllerTest {
 			RestAssured.given().log().all()
 				.header("Authorization", "Bearer " + TokenFixture.getTokenWithNicknameTebah())
 				.param("moimId", moim.getId())
-				.when().get("/v1/chamyo/me")
+				.when().get("/v1/chamyo/mine")
 				.then().log().all().statusCode(200)
 				.body("data.role", is("NON_MOIMEE"));
 		}
@@ -245,6 +246,51 @@ class ChamyoControllerTest {
 
 			Moim updatedMoim = moimRepository.findById(moim.getId()).get();
 			assertThat(updatedMoim.getMoimStatus()).isEqualTo(MoimStatus.COMPLETED);
+		}
+	}
+
+	@Nested
+	@DisplayName("모임 참여 취소 테스트")
+	class CancelChamyoTest {
+
+		@AfterEach
+		void tearDown() {
+			dbCleaner.cleanUp();
+		}
+
+		@DisplayName("모임 참여를 취소한다.")
+		@Test
+		void success() {
+			String accessToken = TokenFixture.getTokenWithNicknameTebah();
+			Member tebah = memberRepository.findByNickname("테바").get();
+			Member hogee = memberRepository.save(MemberFixture.getHogee());
+			Moim moim = moimService.createMoim(getMoimCreateRequestByMaxPeople(2), hogee);
+
+			chamyoService.chamyoMoim(new MoimChamyoRequest(moim.getId()), tebah);
+
+			RestAssured.given().log().all()
+				.header("Authorization", "Bearer " + accessToken)
+				.body(new ChamyoCancelRequest(moim.getId()))
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.when().delete("/v1/chamyo")
+				.then().log().all().statusCode(200);
+
+			assertThat(chamyoService.findMoimRole(moim.getId(), tebah).role()).isEqualTo("NON_MOIMEE");
+		}
+
+		@DisplayName("방장은 모임 참여를 취소할 수 없다.")
+		@Test
+		void fail_whenMemberIsMoimer() {
+			String accessToken = TokenFixture.getTokenWithNicknameTebah();
+			Member tebah = memberRepository.findByNickname("테바").get();
+			Moim moim = moimService.createMoim(getMoimCreateRequestByMaxPeople(2), tebah);
+
+			RestAssured.given().log().all()
+				.header("Authorization", "Bearer " + accessToken)
+				.body(new ChamyoCancelRequest(moim.getId()))
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.when().delete("/v1/chamyo")
+				.then().log().all().statusCode(400);
 		}
 	}
 

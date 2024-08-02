@@ -7,15 +7,15 @@ import io.restassured.http.ContentType;
 import mouda.backend.config.ChamyoCreator;
 import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.fixture.TokenFixture;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.server.LocalServerPort;
 
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class MoimControllerTest {
 
     @Autowired
@@ -24,16 +24,14 @@ class MoimControllerTest {
     @Autowired
     private DatabaseCleaner databaseCleaner;
 
+    @LocalServerPort
+    private int port;
+
     @BeforeEach
     void setUp() {
         databaseCleaner.cleanUp();
-
+        RestAssured.port = port;
         chamyoCreator.setUpTwoPastThreeUpcomingMoim();
-    }
-
-    @AfterEach
-    void cleanUp() {
-        databaseCleaner.cleanUp();
     }
 
     @DisplayName("내가 참여한 모든 모임을 조회한다.")
