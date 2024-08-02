@@ -16,10 +16,10 @@ public record MoimFindAllResponse(
     int maxPeople,
     String authorNickname,
     String description,
-    boolean zzimed
+    boolean isZzimed
 ) {
 
-    public static MoimFindAllResponse toResponse(Moim moim, int currentPeople, boolean zzimed) {
+    public static MoimFindAllResponse toResponse(Moim moim, int currentPeople, boolean isZzimed) {
         return MoimFindAllResponse.builder()
             .moimId(moim.getId())
             .title(moim.getTitle())
@@ -29,7 +29,7 @@ public record MoimFindAllResponse(
             .currentPeople(currentPeople)
             .maxPeople(moim.getMaxPeople())
             .description(moim.getDescription())
-            .zzimed(zzimed)
+            .isZzimed(isZzimed)
             .build();
     }
 }
