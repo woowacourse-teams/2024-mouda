@@ -1,4 +1,3 @@
-// ./src/apis/gets.ts
 import { MoimInfo } from '@_types/index';
 import ApiClient from './apiClient';
 import { GetMoim, GetMoims } from './responseTypes';
@@ -13,8 +12,6 @@ export const getMoims = async (): Promise<MoimInfo[]> => {
 };
 
 export const getMyMoims = async (): Promise<MoimInfo[]> => {
-  return [];
-
   const response = await ApiClient.getWithAuth('moim/mine');
   checkStatus(response);
 
