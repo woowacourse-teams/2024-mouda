@@ -14,6 +14,7 @@ import mouda.backend.chat.dto.request.ChatCreateRequest;
 import mouda.backend.chat.dto.response.ChatFindUnloadedResponse;
 import mouda.backend.chat.service.ChatService;
 import mouda.backend.common.RestResponse;
+import mouda.backend.config.argumentresolver.LoginMember;
 import mouda.backend.member.domain.Member;
 
 @RestController
@@ -26,7 +27,7 @@ public class ChatController {
 	@PostMapping
 	public ResponseEntity<Void> createChat(
 		@Valid @RequestBody ChatCreateRequest chatCreateRequest,
-		Member member
+		@LoginMember Member member
 	) {
 		chatService.createChat(chatCreateRequest, member);
 		return ResponseEntity.ok().build();
@@ -34,9 +35,9 @@ public class ChatController {
 
 	@GetMapping
 	public ResponseEntity<RestResponse<ChatFindUnloadedResponse>> findUnloadedChats(
-		@RequestParam Long recentChatId,
-		@RequestParam Long moimId,
-		Member member
+		@RequestParam("recentChatId") Long recentChatId,
+		@RequestParam("moimId") Long moimId,
+		@LoginMember Member member
 	) {
 		ChatFindUnloadedResponse unloadedChats = chatService.findUnloadedChats(recentChatId, moimId, member);
 		return ResponseEntity.ok(new RestResponse<>(unloadedChats));
