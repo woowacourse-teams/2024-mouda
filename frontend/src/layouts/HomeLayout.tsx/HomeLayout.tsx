@@ -4,6 +4,7 @@ import HomeFixedButtonWrapper from './HomeFixedButtonWrapper/HomeFixedButtonWrap
 import HomeHeader from './HomeHeader/HomeHeader';
 import HomeMain from './HomeMain/HomeMain';
 import { PropsWithChildren } from 'react';
+import HomeNav from './HomeNav/HomeNav';
 
 function HomeLayout(props: PropsWithChildren) {
   const { children } = props;
@@ -12,6 +13,7 @@ function HomeLayout(props: PropsWithChildren) {
 }
 
 HomeLayout.Header = HomeHeader;
+HomeLayout.Nav = HomeNav;
 HomeLayout.Main = HomeMain;
 HomeLayout.HomeFixedButtonWrapper = HomeFixedButtonWrapper;
 
