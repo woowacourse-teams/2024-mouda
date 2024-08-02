@@ -6,6 +6,7 @@ import useAddMoim from '@_hooks/mutaions/useAddMoim';
 import useMoimInfoInput from './MoimCreatePage.hook';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import ROUTES from '@_constants/routes';
 
 export default function MoimCreationPage() {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ export default function MoimCreationPage() {
 
   return (
     <FormLayout>
-      <FormLayout.Header onBackArrowClick={() => navigate(-1)}>
+      <FormLayout.Header onBackArrowClick={() => navigate(ROUTES.main)}>
         모임등록하기
       </FormLayout.Header>
 
