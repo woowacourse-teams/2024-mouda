@@ -33,7 +33,48 @@ export const Default: Story = {
         isZzimed: true,
         moimId: 1,
         authorNickname: '김코딩',
-        participants: ['김코딩', '이코딩', '박코딩'],
+        participants: [
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimee',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+        ],
         description: '코딩하면서 놀아요',
       },
       {
@@ -48,7 +89,48 @@ export const Default: Story = {
         isZzimed: false,
         moimId: 1,
         authorNickname: '김코딩',
-        participants: ['김코딩', '이코딩', '박코딩'],
+        participants: [
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimee',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+        ],
         description: '코딩하면서 놀아요',
       },
       {
@@ -63,7 +145,48 @@ export const Default: Story = {
         isZzimed: true,
         moimId: 1,
         authorNickname: '김코딩',
-        participants: ['김코딩', '이코딩', '박코딩'],
+        participants: [
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimee',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+          {
+            nickname: '치코',
+            profile: '',
+            role: 'moimer',
+          },
+        ],
         description: '코딩하면서 놀아요',
       },
     ],
