@@ -7,7 +7,7 @@ export interface LabeledInputProps extends HTMLProps<HTMLInputElement> {
 }
 
 export default function LabeledInput(props: LabeledInputProps) {
-  const { name, title, type, placeholder, required, onChange } = props;
+  const { name, title, type, placeholder, required, onChange, ...args } = props;
 
   return (
     <label htmlFor={title}>
@@ -23,6 +23,7 @@ export default function LabeledInput(props: LabeledInputProps) {
         placeholder={placeholder}
         id={title}
         onChange={onChange}
+        {...args}
       />
     </label>
   );
