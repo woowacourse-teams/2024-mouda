@@ -16,7 +16,7 @@ export interface GetChamyoMine {
 
 export interface GetChamyoAll {
   data: {
-    chamoys: Participation[];
+    chamyos: Participation[];
   };
 }
 
