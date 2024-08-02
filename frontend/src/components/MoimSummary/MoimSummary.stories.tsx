@@ -15,6 +15,7 @@ export const Default: Story = {
     moimInfo: {
       title: '풋살 할 사람?',
       authorNickname: `괘안나`,
+      status: 'COMPLETE',
     },
   },
   render: (args) => <MoimSummary {...args} />,

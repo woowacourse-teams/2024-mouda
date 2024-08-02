@@ -1,28 +1,30 @@
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 
-export const containerStyle = css`
+export const containerStyle = (props: { theme: Theme; color: string }) => css`
   display: flex;
   flex-direction: column;
   gap: 8px;
 
   padding: 20px 24px;
 
-  background: rgb(71 123 255 / 100%);
+  color: ${props.color === 'grey'
+    ? props.theme.colorPalette.black[100]
+    : props.theme.colorPalette.white[100]};
+
+  background: ${props.color === 'grey'
+    ? props.theme.colorPalette.grey[100]
+    : props.theme.semantic.primary};
   border-radius: 14px;
 `;
 
-export const titleStyle = css`
-  font-size: 16px;
-  font-weight: 700;
-  color: rgb(255 255 255 / 100%);
+export const titleStyle = (props: { theme: Theme }) => css`
+  ${props.theme.typography.s2}
 `;
 
-export const descriptionStyle = css`
+export const descriptionStyle = (props: { theme: Theme }) => css`
   display: flex;
   flex-direction: column;
   gap: 10px;
 
-  font-size: 20px;
-  font-weight: 600;
-  color: rgb(255 255 255 / 100%);
+  ${props.theme.typography.b3}
 `;
