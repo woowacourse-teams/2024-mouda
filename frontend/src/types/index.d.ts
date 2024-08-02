@@ -23,11 +23,11 @@ export interface Participation {
 export type Role = 'moimer' | 'moimee';
 
 export interface Comment {
-  id: number;
+  commentId: number;
   nickname: string;
   content: string;
   dateTime: string;
-  src: string;
+  profile: string;
   child: Comment[];
 }
 export type MoimInputInfo = Omit<

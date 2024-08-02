@@ -16,7 +16,7 @@ export default function CommentList(props: CommentListProps) {
       {comments.map((comment) => {
         return (
           <CommentCard
-            key={comment.id}
+            key={comment.commentId}
             comment={comment}
             onWriteClick={onWriteClick}
           />

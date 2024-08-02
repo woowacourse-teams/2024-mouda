@@ -13,17 +13,20 @@ export interface CommentCardProps extends HTMLProps<HTMLDivElement> {
 
 export default function CommentCard(props: CommentCardProps) {
   const theme = useTheme();
-  const { comment, onWriteClick } = props;
+  const {
+    comment: { profile, nickname, dateTime, content, child },
+    onWriteClick,
+  } = props;
 
   return (
     <div css={S.commentContainer()}>
       <div css={S.commentWrapper()}>
-        <ProfileFrame width={3} height={3} src={comment.src}></ProfileFrame>
+        <ProfileFrame width={3} height={3} src={profile}></ProfileFrame>
         <div css={S.commnetBox()}>
           <div css={S.commnetHeader}>
             <div css={S.commentHeaderLeft}>
-              <div css={theme.typography.small}>{comment.nickname}</div>
-              <div css={S.timestamp({ theme })}>{comment.dateTime}</div>
+              <div css={theme.typography.small}>{nickname}</div>
+              <div css={S.timestamp({ theme })}>{dateTime}</div>
             </div>
             <div css={S.commentHeaderRight({ theme })}>
               <button>수정</button>
@@ -31,13 +34,13 @@ export default function CommentCard(props: CommentCardProps) {
               <button onClick={onWriteClick}>답글쓰기</button>
             </div>
           </div>
-          <div>{comment.content}</div>
+          <div>{content}</div>
         </div>
       </div>
-      {comment.child && comment.child.length > 0 && (
+      {child && child.length > 0 && (
         <div css={S.commentChildBox()}>
-          {comment.child.map((childComment) => (
-            <CommentCard key={childComment.id} comment={childComment} />
+          {child.map((childComment) => (
+            <CommentCard key={childComment.commentId} comment={childComment} />
           ))}
         </div>
       )}
