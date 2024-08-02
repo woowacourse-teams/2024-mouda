@@ -43,4 +43,8 @@ public class Chat {
 		this.date = date;
 		this.time = time;
 	}
+
+	public boolean isMyMessage(long memberId) {
+		return memberId == id;
+	}
 }
