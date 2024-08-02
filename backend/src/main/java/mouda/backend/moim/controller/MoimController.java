@@ -45,8 +45,8 @@ public class MoimController implements MoimSwagger {
 
     @Override
     @GetMapping
-    public ResponseEntity<RestResponse<MoimFindAllResponses>> findAllMoim() {
-        MoimFindAllResponses moimFindAllResponses = moimService.findAllMoim();
+    public ResponseEntity<RestResponse<MoimFindAllResponses>> findAllMoim(@LoginMember Member member) {
+        MoimFindAllResponses moimFindAllResponses = moimService.findAllMoim(member);
 
         return ResponseEntity.ok().body(new RestResponse<>(moimFindAllResponses));
     }
