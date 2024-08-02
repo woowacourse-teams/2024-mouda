@@ -12,6 +12,24 @@ export const getMoims = async (): Promise<MoimInfo[]> => {
   return json.data.moims;
 };
 
+export const getMyMoims = async (): Promise<MoimInfo[]> => {
+  return [];
+
+  const response = await ApiClient.getWithAuth('moim/mine');
+  checkStatus(response);
+
+  const json: GetMoims = await response.json();
+  return json.data.moims;
+};
+
+export const getMyZzimMoims = async (): Promise<MoimInfo[]> => {
+  const response = await ApiClient.getWithAuth('moim/zzim');
+  checkStatus(response);
+
+  const json: GetMoims = await response.json();
+  return json.data.moims;
+};
+
 export const getMoim = async (moimId: number): Promise<MoimInfo> => {
   const response = await ApiClient.getWithAuth(`moim/${moimId}`);
   checkStatus(response);

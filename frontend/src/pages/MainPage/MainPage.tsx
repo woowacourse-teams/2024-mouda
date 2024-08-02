@@ -1,23 +1,18 @@
 import Button from '@_components/Button/Button';
 import HomeLayout from '@_layouts/HomeLayout.tsx/HomeLayout';
 import ROUTES from '@_constants/routes';
-import useMoims from '@_hooks/queries/useMoims';
 import { useNavigate } from 'react-router-dom';
 import PlusIcon from '@_components/Icons/PlusIcon';
-import MoimTabBar from '@_components/MoimTabBar/MoimTabBar';
-import MoimCardList from '@_components/MoimCardList/MoimCardList';
+import MoimTabBar, { MainPageTab } from '@_components/MoimTabBar/MoimTabBar';
 import { useState } from 'react';
-import MyMoimListFilters from '@_components/MyMoimListFilters/MyMoimListFilters';
-
-const tabs = ['모임목록', '나의모임', '찜한모임'];
+import HomeMainContent from '@_components/HomeMainContent/HomeMainContent';
 
 export default function MainPage() {
   const navigate = useNavigate();
-  const { moims } = useMoims();
 
-  const [currentTab, setCurrentTab] = useState(tabs[0]);
+  const [currentTab, setCurrentTab] = useState<MainPageTab>('모임목록');
 
-  const handleTabClick = (tab: string) => {
+  const handleTabClick = (tab: MainPageTab) => {
     setCurrentTab(tab);
   };
 
@@ -26,16 +21,11 @@ export default function MainPage() {
       <HomeLayout.Header>우아한테크코스</HomeLayout.Header>
 
       <HomeLayout.Nav>
-        <MoimTabBar
-          tabs={tabs}
-          currentTab={currentTab}
-          onTabClick={handleTabClick}
-        />
+        <MoimTabBar currentTab={currentTab} onTabClick={handleTabClick} />
       </HomeLayout.Nav>
 
       <HomeLayout.Main>
-        {currentTab === '나의모임' && <MyMoimListFilters />}
-        {moims && <MoimCardList moimInfos={moims} />}
+        <HomeMainContent currentTab={currentTab} />
       </HomeLayout.Main>
 
       <HomeLayout.HomeFixedButtonWrapper>
