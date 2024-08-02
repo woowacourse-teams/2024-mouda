@@ -1,15 +1,22 @@
 import * as S from '@_components/Tag/Tag.style';
 
-import { HTMLProps, ReactNode } from 'react';
+import { HTMLProps } from 'react';
 import { useTheme } from '@emotion/react';
 
 interface TagProps extends HTMLProps<HTMLDivElement> {
-  color: 'red' | 'green' | 'grey';
-  children: ReactNode;
+  status: 'MOIMING' | 'COMPLETE' | 'CANCEL';
 }
 
 export default function Tag(props: TagProps) {
   const theme = useTheme();
-  const { children, color } = props;
-  return <div css={S.tagBox({ theme, color })}>{children}</div>;
+  const { status } = props;
+  return (
+    <div css={S.tagBox({ theme, status })}>
+      {status === 'CANCEL'
+        ? '모임 취소'
+        : status === 'MOIMING'
+          ? '모임중'
+          : '모집완료'}
+    </div>
+  );
 }

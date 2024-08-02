@@ -12,10 +12,22 @@ export const postMoim = async (moim: MoimInputInfo): Promise<number> => {
   return json.data;
 };
 
-export const postJoinMoim = async (moimId: number, nickname: string) => {
-  const response = await ApiClient.postWithAuth('moim/join', {
+export const postJoinMoim = async (moimId: number) => {
+  const response = await ApiClient.postWithAuth('chamyo', {
     moimId,
-    nickname,
+  });
+  await checkStatus(response);
+};
+
+export const postChangeZzim = async (moimId: number) => {
+  const response = await ApiClient.postWithAuth('zzim', {
+    moimId,
+  });
+  await checkStatus(response);
+};
+export const postWriteComment = async (moimId: number) => {
+  const response = await ApiClient.postWithAuth(`moim/${moimId}/comment`, {
+    moimId,
   });
   await checkStatus(response);
 };

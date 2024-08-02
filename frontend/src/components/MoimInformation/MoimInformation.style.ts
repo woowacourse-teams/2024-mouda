@@ -1,33 +1,28 @@
-import { common } from '@_common/common.style';
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 
-export const containerStyle = css`
+export const containerStyle = () => css`
   display: flex;
   flex-direction: column;
   gap: 14px;
 `;
 
-export const titleStyle = css`
-  ${common.fontType.subtitle}
+export const titleStyle = (props: { theme: Theme }) => css`
+  ${props.theme.typography.s1}
 `;
 
-export const cardStyle = css`
+export const cardStyle = (props: { theme: Theme }) => css`
   padding: 16px 24px;
-  color: #333;
-  background-color: #f0f4ff;
+  color: ${props.theme.colorPalette.grey[700]};
+  background-color: ${props.theme.semantic.secondary};
   border-radius: 18px;
 `;
 
-export const rowStyle = css`
+export const rowStyle = (props: { theme: Theme }) => css`
   display: flex;
+  ${props.theme.typography.b1}
   justify-content: space-between;
-
-  padding: 10px 0;
-
-  font-size: 2.5rem;
-  color: #666;
-
-  border-top: 1px solid #e0e0e0;
+  padding: 5px 0;
+  border-top: 1px solid ${props.theme.colorPalette.grey[400]};
 
   &:first-of-type {
     padding-top: 0;

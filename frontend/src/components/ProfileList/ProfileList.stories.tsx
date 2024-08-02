@@ -15,42 +15,42 @@ export const Default: Story = {
     participants: [
       {
         nickname: '치코',
-        src: '',
+        profile: '',
         role: 'moimer',
       },
       {
         nickname: '치코',
-        src: '',
+        profile: '',
         role: 'moimee',
       },
       {
         nickname: '치코',
-        src: '',
+        profile: '',
         role: 'moimer',
       },
       {
         nickname: '치코',
-        src: '',
+        profile: '',
         role: 'moimer',
       },
       {
         nickname: '치코',
-        src: '',
+        profile: '',
         role: 'moimer',
       },
       {
         nickname: '치코',
-        src: '',
+        profile: '',
         role: 'moimer',
       },
       {
         nickname: '치코',
-        src: '',
+        profile: '',
         role: 'moimer',
       },
       {
         nickname: '치코',
-        src: '',
+        profile: '',
         role: 'moimer',
       },
     ],
