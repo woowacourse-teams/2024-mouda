@@ -24,6 +24,7 @@ import mouda.backend.member.repository.MemberRepository;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimStatus;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
+import mouda.backend.moim.dto.request.MoimEditRequest;
 import mouda.backend.moim.dto.request.MoimJoinRequest;
 import mouda.backend.moim.dto.response.MoimDetailsFindResponse;
 import mouda.backend.moim.dto.response.MoimFindAllResponse;
@@ -74,14 +75,10 @@ public class MoimService {
 		Moim moim = moimRepository.findById(id)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
 
-		List<String> participants = memberRepository.findAllByMoimId(id).stream()
-			.map(Member::getNickname)
-			.toList();
-
 		List<Comment> comments = commentRepository.findAllByMoimIdOrderByCreatedAt(id);
 		List<CommentResponse> commentResponses = toCommentResponse(comments);
 
-		return MoimDetailsFindResponse.toResponse(moim, participants, commentResponses);
+		return MoimDetailsFindResponse.toResponse(moim, chamyoRepository.countByMoim(moim), commentResponses);
 	}
 
 	private List<CommentResponse> toCommentResponse(List<Comment> comments) {
@@ -143,5 +140,92 @@ public class MoimService {
 		}
 
 		commentRepository.save(commentCreateRequest.toEntity(moim, member));
+	}
+
+	public void completeMoim(Long moimId, Member member) {
+		Moim moim = moimRepository.findById(moimId)
+			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
+		validateCanCompleteMoim(moim, member);
+
+		moimRepository.updateMoimStatusById(moimId, MoimStatus.COMPLETED);
+	}
+
+	private void validateCanCompleteMoim(Moim moim, Member member) {
+		validateIsMoimerWithErrorMessage(moim, member, MoimErrorMessage.NOT_ALLOWED_TO_COMPLETE);
+		MoimStatus moimStatus = moim.getMoimStatus();
+		if (moimStatus == MoimStatus.COMPLETED) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.ALREADY_COMPLETED);
+		}
+		if (moimStatus == MoimStatus.CANCELED) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MOIM_CANCELED);
+		}
+	}
+
+	public void cancelMoim(Long moimId, Member member) {
+		Moim moim = moimRepository.findById(moimId)
+			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
+		validateCanCancelMoim(moim, member);
+
+		moimRepository.updateMoimStatusById(moimId, MoimStatus.CANCELED);
+	}
+
+	private void validateCanCancelMoim(Moim moim, Member member) {
+		validateIsMoimerWithErrorMessage(moim, member, MoimErrorMessage.NOT_ALLOWED_TO_CANCEL);
+		if (moim.getMoimStatus() == MoimStatus.CANCELED) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MOIM_CANCELED);
+		}
+	}
+
+	public void reopenMoim(Long moimId, Member member) {
+		Moim moim = moimRepository.findById(moimId)
+			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
+		validateCanReopenMoim(moim, member);
+
+		moimRepository.updateMoimStatusById(moimId, MoimStatus.MOIMING);
+	}
+
+	private void validateCanReopenMoim(Moim moim, Member member) {
+		validateIsMoimerWithErrorMessage(moim, member, MoimErrorMessage.NOT_ALLOWED_TO_REOPEN);
+		int currentPeople = chamyoRepository.countByMoim(moim);
+		if (currentPeople >= moim.getMaxPeople()) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MOIM_FULL_FOR_REOPEN);
+		}
+		MoimStatus moimStatus = moim.getMoimStatus();
+		if (moimStatus == MoimStatus.CANCELED) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MOIM_CANCELED);
+		}
+		if (moimStatus == MoimStatus.MOIMING) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.ALREADY_MOIMING);
+		}
+	}
+
+	private void validateIsMoimerWithErrorMessage(Moim moim, Member member, MoimErrorMessage errorMessage) {
+		MoimRole moimRole = chamyoRepository.findByMoimIdAndMemberId(moim.getId(), member.getId())
+			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND))
+			.getMoimRole();
+		if (moimRole != MoimRole.MOIMER) {
+			throw new MoimException(HttpStatus.FORBIDDEN, errorMessage);
+		}
+	}
+
+	public void editMoim(MoimEditRequest request, Member member) {
+		Moim moim = moimRepository.findById(request.moimId())
+			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
+		validateCanEditMoim(moim, member);
+
+		moim.update(request.title(), request.date(), request.time(), request.place(), request.maxPeople(),
+			request.description());
+		moimRepository.save(moim);
+	}
+
+	private void validateCanEditMoim(Moim moim, Member member) {
+		validateIsMoimerWithErrorMessage(moim, member, MoimErrorMessage.NOT_ALLOWED_TO_EDIT);
+		MoimStatus moimStatus = moim.getMoimStatus();
+		if (moimStatus == MoimStatus.COMPLETED) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.ALREADY_COMPLETED);
+		}
+		if (moimStatus == MoimStatus.CANCELED) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MOIM_CANCELED);
+		}
 	}
 }

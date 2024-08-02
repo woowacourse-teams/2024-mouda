@@ -20,4 +20,6 @@ public interface ChamyoRepository extends JpaRepository<Chamyo, Long> {
 	boolean existsByMoimAndMember(Moim moim, Member member);
 
 	void deleteAllByMoimId(Long moimId);
+
+	void deleteByMoimAndMember(Moim moim, Member member);
 }

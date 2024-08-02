@@ -3,6 +3,7 @@ package mouda.backend.moim.domain;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
 
@@ -139,5 +140,40 @@ public class Moim {
 		if (currentPeople > maxPeople) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MAX_PEOPLE);
 		}
+	}
+
+	public void update(String title, LocalDate date, LocalTime time, String place, int maxPeople,
+		String description) {
+		if (!Objects.equals(this.title, title)) {
+			validateTitle(title);
+			this.title = title;
+		}
+
+		if (!Objects.equals(this.date, date)) {
+			validateDate(date);
+			this.date = date;
+		}
+
+		if (!Objects.equals(this.time, time)) {
+			validateTime(time);
+			this.time = time;
+		}
+
+		if (!Objects.equals(this.place, place)) {
+			validatePlace(place);
+			this.place = place;
+		}
+
+		if (!Objects.equals(this.maxPeople, maxPeople)) {
+			validateMaxPeople(maxPeople);
+			this.maxPeople = maxPeople;
+		}
+
+		if (!Objects.equals(this.description, description)) {
+			validateDescription(description);
+			this.description = description;
+		}
+
+		validateMoimIsFuture(this.date, this.time);
 	}
 }
