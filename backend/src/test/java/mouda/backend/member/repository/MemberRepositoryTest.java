@@ -37,7 +37,7 @@ class MemberRepositoryTest {
         Member member = MemberFixture.getHogee();
         Moim moim = MoimFixture.getBasketballMoim();
         Moim saveMoim = moimRepository.save(moim);
-//		member.joinMoim(saveMoim);
+        member.joinMoim(saveMoim);
         memberRepository.save(member);
 
         List<Member> participants = memberRepository.findAllByMoimId(saveMoim.getId());
