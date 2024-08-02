@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import {
   footer,
   menuButton,
@@ -22,6 +22,7 @@ export default function ChattingFooter(props: ChattingFooterProps) {
   const [isMenuClicked, setIsMenuClicked] = useState(false);
   const [message, setMessage] = useState('');
   const theme = useTheme();
+  const input = useRef<HTMLInputElement | null>(null);
 
   return (
     <div css={footer({ theme })}>
@@ -39,6 +40,7 @@ export default function ChattingFooter(props: ChattingFooterProps) {
           e.preventDefault();
           onSubmit(message);
           setMessage('');
+          input.current?.focus();
         }}
         css={messageForm({ theme })}
       >
@@ -52,6 +54,7 @@ export default function ChattingFooter(props: ChattingFooterProps) {
             setMessage(e.target.value)
           }
           required
+          ref={input}
         />
         <button css={sendingButton} type="submit" disabled={message === ''}>
           <SendButton disabled={message === ''} />
