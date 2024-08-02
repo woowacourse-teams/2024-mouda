@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import ComentList from './ComentList';
+import CommentList from './CommentList';
 
 const meta = {
-  component: ComentList,
-  title: 'Components/ComentList',
-} satisfies Meta<typeof ComentList>;
+  component: CommentList,
+  title: 'Components/CommentList',
+} satisfies Meta<typeof CommentList>;
 
 export default meta;
 
@@ -49,5 +49,5 @@ export const Default: Story = {
       },
     ],
   },
-  render: (args) => <ComentList {...args} />,
+  render: (args) => <CommentList {...args} />,
 };
