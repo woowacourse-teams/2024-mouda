@@ -176,4 +176,14 @@ public class Moim {
 
 		validateMoimIsFuture(this.date, this.time);
 	}
+
+    public boolean isPastMoim() {
+        LocalDateTime dateTime = LocalDateTime.of(date, time);
+        return dateTime.isBefore(LocalDateTime.now());
+    }
+
+    public boolean isUpcomingMoim() {
+        return !isPastMoim();
+    }
+
 }
