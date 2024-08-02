@@ -1,4 +1,4 @@
-import { MoimInfo } from '../types';
+import { MoimInfo, Participation } from '../types';
 
 export interface GetMoims {
   data: { moims: MoimInfo[] };
@@ -11,6 +11,12 @@ export interface GetMoim {
 export interface GetChamyoMine {
   data: {
     role: 'MOIMER' | 'MOIMEE' | 'NON_MOIMEE';
+  };
+}
+
+export interface GetChamyoAll {
+  data: {
+    chamoys: Participation[];
   };
 }
 

@@ -4,6 +4,7 @@ const QUERY_KEYS = {
   userKey: 'userKey',
   chamyoMine: 'chamyoMine',
   ZzimMine: 'ZzimMine',
+  chamyoAll: 'chamyoAll',
   comment: 'comment',
 };
 

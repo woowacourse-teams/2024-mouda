@@ -1,7 +1,13 @@
 // ./src/apis/gets.ts
-import { MoimInfo } from '@_types/index';
+import { MoimInfo, Participation } from '@_types/index';
 import ApiClient from './apiClient';
-import { GetChamyoMine, GetMoim, GetMoims, GetZzimMine } from './responseTypes';
+import {
+  GetChamyoAll,
+  GetChamyoMine,
+  GetMoim,
+  GetMoims,
+  GetZzimMine,
+} from './responseTypes';
 import { checkStatus } from './apiconfig';
 
 export const getMoims = async (): Promise<MoimInfo[]> => {
@@ -36,4 +42,14 @@ export const getZzimMine = async (moimId: number): Promise<boolean> => {
 
   const json: GetZzimMine = await response.json();
   return json.data.isZzimed;
+};
+
+export const getChamyoAll = async (
+  moimId: number,
+): Promise<Participation[]> => {
+  const response = await ApiClient.getWithAuth(`chamyo/mine?moimId=${moimId}`);
+  checkStatus(response);
+
+  const json: GetChamyoAll = await response.json();
+  return json.data.chamoys;
 };
