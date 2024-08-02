@@ -16,7 +16,7 @@ export interface MoimInfo {
 
 export interface Participation {
   nickname: string;
-  src: string;
+  profile: string;
   role: Role;
 }
 
