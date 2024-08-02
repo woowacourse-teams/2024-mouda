@@ -42,7 +42,6 @@ export default function MoimDetailPage() {
   const { mutate: ReopenMoim } = useReopenMoim();
   const { mutate: completeMoim } = useCompleteMoin();
   const { mutate: cancelChamyo } = useCancelChamyo();
-  console.log(moim, role, participants);
 
   if (
     isLoading ||
@@ -128,7 +127,7 @@ export default function MoimDetailPage() {
             <Button shape="bar" disabled={false} onClick={() => mutate(moimId)}>
               참여하기
             </Button>
-          ) : moim.status === 'COMPLETE' ? (
+          ) : moim.status === 'COMPLETED' ? (
             <Button shape="bar" disabled={true} onClick={() => navigate(-1)}>
               모집이 완료되었어요
             </Button>

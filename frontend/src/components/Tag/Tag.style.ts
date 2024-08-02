@@ -2,7 +2,7 @@ import { css, Theme } from '@emotion/react';
 
 interface TagBoxProps {
   theme: Theme;
-  status: 'MOIMING' | 'COMPLETE' | 'CANCEL';
+  status: 'MOIMING' | 'COMPLETED' | 'CANCELED';
 }
 export const tagBox = (props: TagBoxProps) => {
   const { theme, status } = props;
@@ -17,7 +17,7 @@ export const tagBox = (props: TagBoxProps) => {
 
     color: ${theme.colorPalette.white[100]};
 
-    background-color: ${status === 'CANCEL'
+    background-color: ${status === 'CANCELED'
       ? theme.colorPalette.red[400]
       : status === 'MOIMING'
         ? theme.colorPalette.green[200]

@@ -4,7 +4,7 @@ import { HTMLProps } from 'react';
 import { useTheme } from '@emotion/react';
 
 interface TagProps extends HTMLProps<HTMLDivElement> {
-  status: 'MOIMING' | 'COMPLETE' | 'CANCEL';
+  status: 'MOIMING' | 'COMPLETED' | 'CANCELED';
 }
 
 export default function Tag(props: TagProps) {
@@ -12,7 +12,7 @@ export default function Tag(props: TagProps) {
   const { status } = props;
   return (
     <div css={S.tagBox({ theme, status })}>
-      {status === 'CANCEL'
+      {status === 'CANCELED'
         ? '모임 취소'
         : status === 'MOIMING'
           ? '모임중'
