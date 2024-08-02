@@ -13,7 +13,7 @@ export const postMoim = async (moim: MoimInputInfo): Promise<number> => {
 };
 
 export const postJoinMoim = async (moimId: number) => {
-  const response = await ApiClient.postWithAuth('moim/join', {
+  const response = await ApiClient.postWithAuth('chamyo', {
     moimId,
   });
   await checkStatus(response);
