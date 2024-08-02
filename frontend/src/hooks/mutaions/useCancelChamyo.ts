@@ -2,18 +2,17 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import QUERY_KEYS from '@_constants/queryKeys';
 
-import { postJoinMoim } from '@_apis/posts';
+import { deleteCancelChamyo } from '@_apis/deletes';
 
-export default function useJoinMoim(onSuccess: () => void) {
+export default function useCancelChamyo() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: postJoinMoim,
+    mutationFn: deleteCancelChamyo,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.moim],
+        queryKey: [QUERY_KEYS.chamyoMine],
       });
-      onSuccess();
     },
   });
 }

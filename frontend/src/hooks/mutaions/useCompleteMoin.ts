@@ -2,18 +2,17 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import QUERY_KEYS from '@_constants/queryKeys';
 
-import { postJoinMoim } from '@_apis/posts';
+import { fetchCompleteMoin } from '@_apis/fetchs';
 
-export default function useJoinMoim(onSuccess: () => void) {
+export default function useCompleteMoin() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: postJoinMoim,
+    mutationFn: fetchCompleteMoin,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.moim],
       });
-      onSuccess();
     },
   });
 }

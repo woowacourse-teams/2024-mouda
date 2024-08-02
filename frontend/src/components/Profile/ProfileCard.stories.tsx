@@ -14,9 +14,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    profile: {
+    info: {
       nickname: '치코',
-      src: EmptyProfile,
+      profile: EmptyProfile,
       role: 'moimee',
     },
   },
@@ -25,9 +25,9 @@ export const Default: Story = {
 
 export const WithCustomImage: Story = {
   args: {
-    profile: {
+    info: {
       nickname: '치코',
-      src: Plus,
+      profile: Plus,
       role: 'moimee',
     },
   },
@@ -36,9 +36,9 @@ export const WithCustomImage: Story = {
 
 export const WithErrorHandling: Story = {
   args: {
-    profile: {
+    info: {
       nickname: '치코',
-      src: 'invalid-url.jpg', // 오류를 발생시키기 위한 잘못된 URL
+      profile: 'invalid-url.jpg', // 오류를 발생시키기 위한 잘못된 URL
       role: 'moimee',
     },
   },

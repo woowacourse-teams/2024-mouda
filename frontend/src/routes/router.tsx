@@ -6,6 +6,7 @@ import MoimCreationPage from '@_pages/MoimCreationPage/MoimCreationPage';
 import MoimDetailPage from '@_pages/MoimDetailPage/MoimDetailPage';
 import ParticipationCompletePage from '@_pages/ParticipationCompletePage/ParticipationCompletePage';
 import ProtectedRoute from './ProtectedRoute';
+import MoimModifyPage from '@_pages/MoimModifyPage/MoimModifyPage';
 import ROUTES from '@_constants/routes';
 import { createBrowserRouter } from 'react-router-dom';
 
@@ -43,6 +44,11 @@ const routesConfig = [
   {
     path: ROUTES.login,
     element: <LoginPage />,
+    requiresAuth: false,
+  },
+  {
+    path: ROUTES.modify,
+    element: <MoimModifyPage />,
     requiresAuth: false,
   },
 ];

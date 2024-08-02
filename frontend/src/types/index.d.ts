@@ -15,21 +15,31 @@ export interface MoimInfo {
 
 export interface Participation {
   nickname: string;
-  src: string;
+  profile: string;
   role: Role;
 }
 
 export type Role = 'moimer' | 'moimee';
 
 export interface Comment {
-  id: number;
+  commentId: number;
   nickname: string;
   content: string;
   dateTime: string;
-  src: string;
+  profile: string;
   child: Comment[];
 }
 export type MoimInputInfo = Omit<
   MoimInfo,
   'moimId' | 'currentPeople' | 'participants' | 'status' | 'comments'
+>;
+
+export type TempMoimInputInfo = Omit<
+  MoimInfo,
+  | 'moimId'
+  | 'currentPeople'
+  | 'participants'
+  | 'status'
+  | 'comments'
+  | 'authorNickname'
 >;

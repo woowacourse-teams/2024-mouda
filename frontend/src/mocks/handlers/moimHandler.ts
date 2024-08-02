@@ -90,4 +90,41 @@ export const moimHandler = [
       },
     });
   }),
+  http.get(`${ENDPOINTS.chamyo}/all?moimId=1`, () => {
+    return HttpResponse.json({
+      data: {
+        chamyos: [
+          {
+            nickname: '치코',
+            src: '',
+            role: 'moimer',
+          },
+          {
+            nickname: '치코',
+            src: '',
+            role: 'moimee',
+          },
+          {
+            nickname: '치코',
+            src: '',
+            role: 'moimer',
+          },
+        ],
+      },
+    });
+  }),
+  http.get(`${ENDPOINTS.zzim}/mine?moimId=1`, () => {
+    return HttpResponse.json({
+      data: {
+        isZzimed: false,
+      },
+    });
+  }),
+  http.get(`${ENDPOINTS.chamyo}/mine?moimId=1`, () => {
+    return HttpResponse.json({
+      data: {
+        role: 'MOIMER',
+      },
+    });
+  }),
 ];
