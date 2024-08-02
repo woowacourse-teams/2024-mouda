@@ -10,16 +10,16 @@ import mouda.backend.chat.domain.Chat;
 public record ChatFindDetailResponse(
 	long chatId,
 	String content,
-	long memberId,
+	boolean isMyMessage,
 	String nickname,
 	LocalDate date,
 	LocalTime time
 ) {
-	public static ChatFindDetailResponse toResponse(Chat chat) {
+	public static ChatFindDetailResponse toResponse(Chat chat, boolean isMyMessage) {
 		return ChatFindDetailResponse.builder()
 			.chatId(chat.getId())
 			.content(chat.getContent())
-			.memberId(chat.getMember().getId())
+			.isMyMessage(isMyMessage)
 			.nickname(chat.getMember().getNickname())
 			.date(chat.getDate())
 			.time(chat.getTime())
