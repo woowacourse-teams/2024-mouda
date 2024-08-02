@@ -69,4 +69,16 @@ class MoimControllerTest {
             .statusCode(200)
             .body("data.moims.size()", is(3));
     }
+
+    @DisplayName("찜한 모임을 조회한다.")
+    @Test
+    void findAllZzimMoim() {
+        RestAssured.given().log().all()
+            .contentType(ContentType.JSON)
+            .header("Authorization", "Bearer " + TokenFixture.getTokenWithNicknameTebah())
+            .when().get("v1/moim/zzim")
+            .then().log().all()
+            .statusCode(200)
+            .body("data.moims.size()", is(3));
+    }
 }

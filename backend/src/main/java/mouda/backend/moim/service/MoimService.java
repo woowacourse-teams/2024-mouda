@@ -29,6 +29,7 @@ import mouda.backend.moim.dto.response.MoimFindAllResponses;
 import mouda.backend.moim.exception.MoimErrorMessage;
 import mouda.backend.moim.exception.MoimException;
 import mouda.backend.moim.repository.MoimRepository;
+import mouda.backend.zzim.domain.Zzim;
 import mouda.backend.zzim.repository.ZzimRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -248,6 +249,20 @@ public class MoimService {
                 return MoimFindAllResponse.toResponse(moim, participantCount, zzimed);
             })
             .toList();
+
+        return new MoimFindAllResponses(responses);
+    }
+
+    public MoimFindAllResponses findZzimedMoim(Member member) {
+        List<Zzim> zzims = zzimRepository.findAllByMemberId(member.getId());
+
+        List<MoimFindAllResponse> responses = zzims.stream()
+            .map(zzim -> {
+                Moim moim = zzim.getMoim();
+                int participantCount = memberRepository.findAllByMoimId(moim.getId()).size();
+                boolean zzimed = zzimRepository.existsByMoimIdAndMemberId(moim.getId(), member.getId());
+                return MoimFindAllResponse.toResponse(zzim.getMoim(), participantCount, zzimed);
+            }).toList();
 
         return new MoimFindAllResponses(responses);
     }

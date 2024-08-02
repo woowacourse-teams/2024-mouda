@@ -36,6 +36,11 @@ public class ChamyoCreator {
             + "(1, 4, 'MOIMEE'), "
             + "(1, 5, 'MOIMEE')").executeUpdate();
 
+        entityManager.createNativeQuery("INSERT INTO ZZIM (member_id, moim_id) VALUES "
+            + "(1, 1), "
+            + "(1, 3), "
+            + "(1, 5)").executeUpdate();
+
         entityManager.clear();
     }
 }

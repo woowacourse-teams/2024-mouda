@@ -129,4 +129,11 @@ public class MoimController implements MoimSwagger {
 
         return ResponseEntity.ok().body(new RestResponse<>(moimFindAllResponses));
     }
+
+    @GetMapping("/zzim")
+    public ResponseEntity<RestResponse<MoimFindAllResponses>> findAllZzimedMoim(@LoginMember Member member) {
+        MoimFindAllResponses moimFindAllResponses = moimService.findZzimedMoim(member);
+
+        return ResponseEntity.ok().body(new RestResponse<>(moimFindAllResponses));
+    }
 }
