@@ -47,9 +47,9 @@ export const getZzimMine = async (moimId: number): Promise<boolean> => {
 export const getChamyoAll = async (
   moimId: number,
 ): Promise<Participation[]> => {
-  const response = await ApiClient.getWithAuth(`chamyo/mine?moimId=${moimId}`);
+  const response = await ApiClient.getWithAuth(`chamyo/all?moimId=${moimId}`);
   checkStatus(response);
 
   const json: GetChamyoAll = await response.json();
-  return json.data.chamoys;
+  return json.data.chamyos;
 };
