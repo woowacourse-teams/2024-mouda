@@ -22,3 +22,9 @@ export const fetchModifyMoin = async (moimId: number) => {
   await checkStatus(response);
 };
 
+export const fetchReopenMoin = async (moimId: number) => {
+  const response = await ApiClient.patchWithAuth(`moim/${moimId}/reopen`, {
+    moimId,
+  });
+  await checkStatus(response);
+};
