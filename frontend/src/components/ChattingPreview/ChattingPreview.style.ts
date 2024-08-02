@@ -5,8 +5,9 @@ export const container = css`
   align-items: center;
   justify-content: space-between;
 
+  width: 100%;
   height: 10rem;
-  padding: 0 2rem;
+  padding: 2rem;
 
   border-radius: 25px;
   box-shadow: 0 0 10px 0 #00000040;
