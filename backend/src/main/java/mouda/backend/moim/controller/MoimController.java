@@ -120,6 +120,7 @@ public class MoimController implements MoimSwagger {
         return ResponseEntity.ok().build();
     }
 
+    @Override
     @GetMapping("/mine")
     public ResponseEntity<RestResponse<MoimFindAllResponses>> findAllMyMoim(
         @LoginMember Member member,
@@ -130,6 +131,7 @@ public class MoimController implements MoimSwagger {
         return ResponseEntity.ok().body(new RestResponse<>(moimFindAllResponses));
     }
 
+    @Override
     @GetMapping("/zzim")
     public ResponseEntity<RestResponse<MoimFindAllResponses>> findAllZzimedMoim(@LoginMember Member member) {
         MoimFindAllResponses moimFindAllResponses = moimService.findZzimedMoim(member);

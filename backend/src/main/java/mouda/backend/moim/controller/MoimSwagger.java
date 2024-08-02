@@ -8,6 +8,7 @@ import mouda.backend.comment.dto.request.CommentCreateRequest;
 import mouda.backend.common.RestResponse;
 import mouda.backend.config.argumentresolver.LoginMember;
 import mouda.backend.member.domain.Member;
+import mouda.backend.moim.domain.FilterType;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
 import mouda.backend.moim.dto.request.MoimEditRequest;
 import mouda.backend.moim.dto.request.MoimJoinRequest;
@@ -16,6 +17,7 @@ import mouda.backend.moim.dto.response.MoimFindAllResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 public interface MoimSwagger {
 
@@ -80,4 +82,21 @@ public interface MoimSwagger {
     })
     ResponseEntity<Void> createComment(@LoginMember Member member, @PathVariable Long moimId,
         @RequestBody CommentCreateRequest commentCreateRequest);
+
+
+    @Operation(summary = "나의 모임 목록 조회", description = "내가 참여하는 모임의 목록을 조회한다.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "나의 모임 목록 조회 성공!")
+    })
+    ResponseEntity<RestResponse<MoimFindAllResponses>> findAllMyMoim(
+        @LoginMember Member member,
+        @RequestParam(value = "filter", defaultValue = "ALL") FilterType filter
+    );
+
+
+    @Operation(summary = "찜한 모임 목록 조회", description = "찜한 모임의 목록을 조회한다.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "찜한 모임 조회 성공!")
+    })
+    ResponseEntity<RestResponse<MoimFindAllResponses>> findAllZzimedMoim(@LoginMember Member member);
 }
