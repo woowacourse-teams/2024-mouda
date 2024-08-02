@@ -18,12 +18,10 @@ import useZzimMine from '@_hooks/queries/useZzimMine';
 import useChangeZzim from '@_hooks/mutaions/useChangeZzim';
 import useWriteComment from '@_hooks/mutaions/useWriteComment';
 import useCancelMoim from '@_hooks/mutaions/useCancelMoim';
-import useModifyMoim from '@_hooks/mutaions/useModifyMoim';
 import useReopenMoim from '@_hooks/mutaions/useReopenMoim';
 import useCompleteMoin from '@_hooks/mutaions/useCompleteMoin';
 import useChamyoAll from '@_hooks/queries/useChamyoAll';
 import useCancelChamyo from '@_hooks/mutaions/useCancelChamyo';
-
 export default function MoimDetailPage() {
   const navigate = useNavigate();
   const params = useParams();
@@ -40,11 +38,11 @@ export default function MoimDetailPage() {
   });
   const { mutate: writeComment } = useWriteComment();
   const { mutate: cancelMoim } = useCancelMoim();
-  const { mutate: modifyMoim } = useModifyMoim();
+
   const { mutate: ReopenMoim } = useReopenMoim();
   const { mutate: completeMoim } = useCompleteMoin();
   const { mutate: cancelChamyo } = useCancelChamyo();
-  console.log(moim, role, isZzimed);
+  console.log(moim, role, participants);
 
   if (
     isLoading ||
@@ -54,7 +52,7 @@ export default function MoimDetailPage() {
   ) {
     return <div>Loading...</div>;
   }
-  if (!moim || !isZzimed || !participants) {
+  if (!moim || isZzimed === undefined || !participants) {
     return <div>No data found</div>;
   }
   return (
@@ -70,7 +68,15 @@ export default function MoimDetailPage() {
           {role === 'MOIMER' ? (
             <KebabMenu
               options={[
-                { name: '모임 수정하기', onClick: () => modifyMoim(moimId) },
+                {
+                  name: '모임 수정하기',
+                  onClick: () =>
+                    navigate(`/modify/${moimId}`, {
+                      state: {
+                        ...moim,
+                      },
+                    }),
+                },
                 { name: '모임 삭제하기', onClick: () => cancelMoim(moimId) },
                 { name: '모임 다시 열기', onClick: () => ReopenMoim(moimId) },
               ]}
