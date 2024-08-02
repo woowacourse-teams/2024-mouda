@@ -8,6 +8,18 @@ export interface GetMoim {
   data: MoimInfo;
 }
 
+export interface GetChamyoMine {
+  data: {
+    role: 'MOIMER' | 'MOIMEE' | 'NON_MOIMEE';
+  };
+}
+
+export interface GetZzimMine {
+  data: {
+    isZzimed: boolean;
+  };
+}
+
 export interface PostMoim {
   data: number;
 }
