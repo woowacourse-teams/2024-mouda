@@ -58,7 +58,7 @@ const colorPalette: Colors = {
     300: '#FF9538',
     200: '#FFA557',
     100: '#FFB87A',
-    50: '#FFCB9E',
+    50: '#FFCB9E4D',
   },
   yellow: {
     900: '#CAA802',
