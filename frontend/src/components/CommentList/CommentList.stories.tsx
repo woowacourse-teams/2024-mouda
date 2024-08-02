@@ -14,35 +14,35 @@ export const Default: Story = {
   args: {
     comments: [
       {
-        id: 0,
+        commentId: 0,
         nickname: 'nickname',
         content: 'content',
         dateTime: '2023-04-04 14:00',
-        src: '',
+        profile: '',
         child: [
           {
-            id: 0,
+            commentId: 0,
             nickname: 'nickname',
             content: 'content',
             dateTime: '2023-04-04 14:00',
-            src: '',
+            profile: '',
             child: [],
           },
         ],
       },
       {
-        id: 3,
+        commentId: 3,
         nickname: 'nickname',
         content: 'content',
         dateTime: '2023-04-04 14:00',
-        src: '',
+        profile: '',
         child: [
           {
-            id: 4,
+            commentId: 4,
             nickname: 'nickname',
             content: 'content',
             dateTime: '2023-04-04 14:00',
-            src: '',
+            profile: '',
             child: [],
           },
         ],
