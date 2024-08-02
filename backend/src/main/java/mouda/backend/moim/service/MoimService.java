@@ -64,8 +64,8 @@ public class MoimService {
             moims.stream()
                 .map(moim -> {
                     List<Member> participants = memberRepository.findAllByMoimId(moim.getId());
-                    boolean zzim = zzimRepository.existsByMoimIdAndMemberId(moim.getId(), member.getId());
-                    return MoimFindAllResponse.toResponse(moim, participants.size(), zzim);
+                    boolean zzimed = zzimRepository.existsByMoimIdAndMemberId(moim.getId(), member.getId());
+                    return MoimFindAllResponse.toResponse(moim, participants.size(), zzimed);
                 })
                 .toList()
         );
@@ -244,8 +244,8 @@ public class MoimService {
             .map(chamyo -> {
                 Moim moim = chamyo.getMoim();
                 int participantCount = memberRepository.findAllByMoimId(moim.getId()).size();
-                boolean zzim = zzimRepository.existsByMoimIdAndMemberId(moim.getId(), member.getId());
-                return MoimFindAllResponse.toResponse(moim, participantCount, zzim);
+                boolean zzimed = zzimRepository.existsByMoimIdAndMemberId(moim.getId(), member.getId());
+                return MoimFindAllResponse.toResponse(moim, participantCount, zzimed);
             })
             .toList();
 
