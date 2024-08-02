@@ -3,7 +3,7 @@ import { shapes } from '@_components/Button/Button.style';
 
 interface ButtonProps {
   shape: 'circle' | 'bar';
-  onClick: () => void;
+  onClick?: () => void;
   disabled: boolean;
   children: ReactNode;
 }
