@@ -4,7 +4,6 @@ export interface MoimInfo {
   date: string;
   time: string;
   place: string;
-  currentPeople: number;
   maxPeople: number;
   currentPeople: number;
   authorNickname: string;

@@ -1,11 +1,13 @@
+import ChatPage from '@_pages/ChatPage/ChatPage';
+import ChattingRoomPage from '@_pages/ChattingRoomPage/ChattingRoomPage';
+import LoginPage from '@_pages/LoginPage/LoginPage';
 import MainPage from '@_pages/MainPage/MainPage';
 import MoimCreationPage from '@_pages/MoimCreationPage/MoimCreationPage';
-import ROUTES from '@_constants/routes';
-import { createBrowserRouter } from 'react-router-dom';
 import MoimDetailPage from '@_pages/MoimDetailPage/MoimDetailPage';
 import ParticipationCompletePage from '@_pages/ParticipationCompletePage/ParticipationCompletePage';
-import LoginPage from '@_pages/LoginPage/LoginPage';
 import ProtectedRoute from './ProtectedRoute';
+import ROUTES from '@_constants/routes';
+import { createBrowserRouter } from 'react-router-dom';
 
 const routesConfig = [
   {
@@ -26,6 +28,16 @@ const routesConfig = [
   {
     path: ROUTES.participationComplete,
     element: <ParticipationCompletePage />,
+    requiresAuth: true,
+  },
+  {
+    path: ROUTES.chat,
+    element: <ChatPage />,
+    requiresAuth: true,
+  },
+  {
+    path: ROUTES.chattingRoom,
+    element: <ChattingRoomPage />,
     requiresAuth: true,
   },
   {
