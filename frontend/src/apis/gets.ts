@@ -1,7 +1,6 @@
 // ./src/apis/gets.ts
 import { MoimInfo } from '@_types/index';
 import ApiClient from './apiClient';
-import { GetMoim, GetMoims } from './responseTypes';
 import { GetChamyoMine, GetMoim, GetMoims, GetZzimMine } from './responseTypes';
 import { checkStatus } from './apiconfig';
 
@@ -31,3 +30,10 @@ export const getChamyoMine = async (
   return json.data.role;
 };
 
+export const getZzimMine = async (moimId: number): Promise<boolean> => {
+  const response = await ApiClient.getWithAuth(`zzim/mine?moimId=${moimId}`);
+  checkStatus(response);
+
+  const json: GetZzimMine = await response.json();
+  return json.data.isZzimed;
+};
