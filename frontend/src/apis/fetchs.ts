@@ -7,3 +7,11 @@ export const fetchCompleteMoin = async (moimId: number) => {
   });
   await checkStatus(response);
 };
+
+export const fetchCancelMoin = async (moimId: number) => {
+  const response = await ApiClient.patchWithAuth(`moim/${moimId}/cancel`, {
+    moimId,
+  });
+  await checkStatus(response);
+};
+
