@@ -27,6 +27,12 @@ export const cardTitle = (props: { theme: Theme }) => {
   `;
 };
 
+export const heartButton = css`
+  padding: 0;
+  background: none;
+  border: 0;
+`;
+
 export const subjectBox = css`
   display: flex;
   gap: 0.8rem;

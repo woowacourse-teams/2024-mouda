@@ -5,6 +5,7 @@ import { formatHhmmToKorean, formatYyyymmddToKorean } from '@_utils/formatters';
 import { MoimInfo } from '@_types/index';
 import { useTheme } from '@emotion/react';
 import HeartIcon from '@_components/Icons/HeartIcon';
+import useChangeZzim from '@_hooks/mutaions/useChangeZzim';
 
 interface MoimCardProps extends HTMLProps<HTMLDivElement> {
   moimInfo: MoimInfo;
@@ -12,17 +13,36 @@ interface MoimCardProps extends HTMLProps<HTMLDivElement> {
 
 export default function MoimCard(props: MoimCardProps) {
   const {
-    moimInfo: { title, date, time, place, maxPeople, currentPeople, isZzimed },
+    moimInfo: {
+      moimId,
+      title,
+      date,
+      time,
+      place,
+      maxPeople,
+      currentPeople,
+      isZzimed,
+    },
     ...args
   } = props;
 
   const theme = useTheme();
 
+  const { mutate: changeZzim } = useChangeZzim();
+
+  const handleHeartButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    console.log(1);
+    changeZzim(moimId);
+  };
+
   return (
     <div css={S.cardBox} {...args}>
       <div css={S.titleBox}>
         <h2 css={S.cardTitle({ theme })}>{title}</h2>
-        <HeartIcon isFilled={isZzimed} />
+        <button css={S.heartButton} onClick={handleHeartButtonClick}>
+          <HeartIcon isFilled={isZzimed} />
+        </button>
       </div>
 
       <div css={S.subjectBox}>
