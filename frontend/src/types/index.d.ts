@@ -34,3 +34,13 @@ export type MoimInputInfo = Omit<
   MoimInfo,
   'moimId' | 'currentPeople' | 'participants' | 'status' | 'comments'
 >;
+
+export type TempMoimInputInfo = Omit<
+  MoimInfo,
+  | 'moimId'
+  | 'currentPeople'
+  | 'participants'
+  | 'status'
+  | 'comments'
+  | 'authorNickname'
+>;
