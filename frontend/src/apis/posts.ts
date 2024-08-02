@@ -18,6 +18,16 @@ export const postJoinMoim = async (moimId: number) => {
   });
   await checkStatus(response);
 };
+
+export const postChangeZzim = async (moimId: number) => {
+  const response = await ApiClient.postWithAuth('zzim', {
+    moimId,
+  });
+  await checkStatus(response);
+};
+export const postWriteComment = async (moimId: number) => {
+  const response = await ApiClient.postWithAuth(`moim/${moimId}/comment`, {
+    moimId,
   });
   await checkStatus(response);
 };
