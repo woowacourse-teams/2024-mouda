@@ -22,5 +22,5 @@ export type Role = 'moimer' | 'moimee';
 
 export type MoimInputInfo = Omit<
   MoimInfo,
-  'moimId' | 'currentPeople' | 'participants'
+  'moimId' | 'currentPeople' | 'participants' | 'zzim'
 >;
