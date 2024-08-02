@@ -15,3 +15,10 @@ export const fetchCancelMoin = async (moimId: number) => {
   await checkStatus(response);
 };
 
+export const fetchModifyMoin = async (moimId: number) => {
+  const response = await ApiClient.patchWithAuth(`moim`, {
+    moimId,
+  });
+  await checkStatus(response);
+};
+
