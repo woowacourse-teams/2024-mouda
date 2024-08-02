@@ -8,7 +8,7 @@ import { Fragment, useState } from 'react';
 export default function MyMoimList() {
   const [selectedFilter, setSelectedFilter] = useState<Filter['api']>('all');
 
-  const { myMoims, isLoading } = useMyMoims();
+  const { myMoims, isLoading } = useMyMoims(selectedFilter);
 
   const handleFilterSelect = (filter: Filter['api']) => {
     setSelectedFilter(filter);

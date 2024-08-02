@@ -2,6 +2,7 @@ import { MoimInfo } from '@_types/index';
 import ApiClient from './apiClient';
 import { GetMoim, GetMoims } from './responseTypes';
 import { checkStatus } from './apiconfig';
+import { Filter } from '@_components/MyMoimListFilters/MyMoimListFilters';
 
 export const getMoims = async (): Promise<MoimInfo[]> => {
   const response = await ApiClient.getWithAuth('moim');
@@ -11,8 +12,10 @@ export const getMoims = async (): Promise<MoimInfo[]> => {
   return json.data.moims;
 };
 
-export const getMyMoims = async (): Promise<MoimInfo[]> => {
-  const response = await ApiClient.getWithAuth('moim/mine');
+export const getMyMoims = async (
+  filter: Filter['api'],
+): Promise<MoimInfo[]> => {
+  const response = await ApiClient.getWithAuth(`moim/mine?filter=${filter}`);
   checkStatus(response);
 
   const json: GetMoims = await response.json();
