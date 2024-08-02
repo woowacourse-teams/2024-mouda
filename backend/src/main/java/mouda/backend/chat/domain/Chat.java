@@ -45,6 +45,6 @@ public class Chat {
 	}
 
 	public boolean isMyMessage(long memberId) {
-		return memberId == id;
+		return memberId == member.getId();
 	}
 }
