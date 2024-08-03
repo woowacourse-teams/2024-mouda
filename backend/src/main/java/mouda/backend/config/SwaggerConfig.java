@@ -4,18 +4,13 @@ import org.springdoc.core.utils.SpringDocUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
-import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import mouda.backend.config.argumentresolver.LoginMember;
 
 @Configuration
-@SecurityScheme(
-	name = "Bearer Authorization",
-	type = SecuritySchemeType.HTTP,
-	bearerFormat = "JWT",
-	scheme = "bearer"
-)
 public class SwaggerConfig {
 
 	static {
@@ -24,6 +19,16 @@ public class SwaggerConfig {
 
 	@Bean
 	public OpenAPI openAPI() {
-		return new OpenAPI();
+		return new OpenAPI().addSecurityItem(
+				new SecurityRequirement().addList("Bearer Authorization"))
+			.components(new Components().addSecuritySchemes(
+				"Bearer Authorization", createAPIKeyScheme()
+			));
+	}
+
+	private SecurityScheme createAPIKeyScheme() {
+		return new SecurityScheme().type(SecurityScheme.Type.HTTP)
+			.bearerFormat("JWT")
+			.scheme("bearer");
 	}
 }
