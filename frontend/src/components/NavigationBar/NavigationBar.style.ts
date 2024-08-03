@@ -20,18 +20,3 @@ export const navigationBarList = css`
 
   list-style: none;
 `;
-
-export const navigationBarItem = css`
-  display: flex;
-  flex: 1; /* 각 아이템이 동일한 너비를 가지도록 설정 */
-  flex-direction: column;
-  gap: 4px;
-  align-items: center;
-  justify-content: center;
-
-  color: #6d717f;
-
-  :hover {
-    color: #000;
-  }
-`;
