@@ -1,3 +1,4 @@
+import { DISPLAY_MAX_WIDTH } from '@_constants/styles';
 import { css, Theme } from '@emotion/react';
 
 export const navigationBarContainer = (props: { theme: Theme }) => {
@@ -8,6 +9,7 @@ export const navigationBarContainer = (props: { theme: Theme }) => {
     justify-content: space-between;
 
     width: 100%;
+    max-width: ${DISPLAY_MAX_WIDTH};
     height: 100%;
 
     background-color: ${theme.colorPalette.white[100]};
