@@ -20,10 +20,11 @@ import mouda.backend.member.domain.Member;
 @RestController
 @RequestMapping("/v1/chat")
 @RequiredArgsConstructor
-public class ChatController {
+public class ChatController implements ChatSwagger {
 
 	private final ChatService chatService;
 
+	@Override
 	@PostMapping
 	public ResponseEntity<Void> createChat(
 		@Valid @RequestBody ChatCreateRequest chatCreateRequest,
@@ -33,6 +34,7 @@ public class ChatController {
 		return ResponseEntity.ok().build();
 	}
 
+	@Override
 	@GetMapping
 	public ResponseEntity<RestResponse<ChatFindUnloadedResponse>> findUnloadedChats(
 		@RequestParam("recentChatId") Long recentChatId,
