@@ -22,11 +22,11 @@ public class SwaggerConfig {
 		return new OpenAPI().addSecurityItem(
 				new SecurityRequirement().addList("Bearer Authorization"))
 			.components(new Components().addSecuritySchemes(
-				"Bearer Authorization", createAPIKeyScheme()
+				"Bearer Authorization", createBearerTokenScheme()
 			));
 	}
 
-	private SecurityScheme createAPIKeyScheme() {
+	private SecurityScheme createBearerTokenScheme() {
 		return new SecurityScheme().type(SecurityScheme.Type.HTTP)
 			.bearerFormat("JWT")
 			.scheme("bearer");
