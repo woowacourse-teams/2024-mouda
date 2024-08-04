@@ -21,7 +21,7 @@ public interface ChatSwagger {
 	})
 	ResponseEntity<Void> createChat(
 		@RequestBody ChatCreateRequest chatCreateRequest,
-		Member member
+		@LoginMember Member member
 	);
 
 	@Operation(summary = "채팅 조회", description = "아직 조회되지 않은 채팅 내역을 조회한다.")
