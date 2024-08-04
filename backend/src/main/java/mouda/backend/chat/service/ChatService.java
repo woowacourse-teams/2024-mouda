@@ -32,6 +32,13 @@ public class ChatService {
 	}
 
 	public ChatFindUnloadedResponse findUnloadedChats(long recentChatId, long moimId, Member member) {
+		moimRepository.findById(moimId)
+			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIM_NOT_FOUND));
+
+		if (recentChatId < 0) {
+			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.INVALID_RECENT_CHAT_ID);
+		}
+
 		List<ChatFindDetailResponse> chats = chatRepository.findAllUnloadedChats(moimId, recentChatId).stream()
 			.map(chat -> ChatFindDetailResponse.toResponse(chat, chat.isMyMessage(member.getId())))
 			.toList();
