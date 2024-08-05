@@ -72,6 +72,7 @@ export default function MoimDetailPage() {
                     navigate(`/modify/${moimId}`, {
                       state: {
                         ...moim,
+                        moimId,
                       },
                     }),
                 },
