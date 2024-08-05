@@ -55,6 +55,9 @@ export const commentHeaderRight = (props: { theme: Theme }) => css`
     border: none;
   }
 `;
+export const contentBox = (props: { theme: Theme }) => css`
+  ${props.theme.typography.c2}
+`;
 
 export const timestamp = (props: { theme: Theme }) => css`
   ${props.theme.typography.c3}

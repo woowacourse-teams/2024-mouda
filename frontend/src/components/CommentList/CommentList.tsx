@@ -1,15 +1,19 @@
 import CommentCard from '@_components/CommentCard/CommentCard';
 import * as S from '@_components/CommentList/ComentList.style';
+import MessageInput from '@_components/Input/MessagInput/MessageInput';
+import useWriteComment from '@_hooks/mutaions/useWriteComment';
 import { Comment } from '@_types/index';
-import { HTMLProps } from 'react';
+import { HTMLProps, useState } from 'react';
 
 interface CommentListProps extends HTMLProps<HTMLDivElement> {
+  moimId: number;
   comments: Comment[];
-  onWriteClick: () => void;
 }
 
 export default function CommentList(props: CommentListProps) {
-  const { comments, onWriteClick } = props;
+  const { moimId, comments } = props;
+  const { mutate: writeComment } = useWriteComment();
+  const [selectedComment, setSelectedCommnet] = useState(0);
 
   return (
     <div css={S.commentListBox()}>
@@ -18,10 +22,16 @@ export default function CommentList(props: CommentListProps) {
           <CommentCard
             key={comment.commentId}
             comment={comment}
-            onWriteClick={onWriteClick}
+            onWriteClick={() => setSelectedCommnet(comment.commentId)}
           />
         );
       })}
+      <MessageInput
+        placeHolder={'메세지를 입력해주세요'}
+        onSubmit={(message: string) =>
+          writeComment({ moimId, message, selectedComment })
+        }
+      ></MessageInput>
     </div>
   );
 }
