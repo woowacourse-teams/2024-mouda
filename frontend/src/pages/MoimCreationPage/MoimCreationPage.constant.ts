@@ -37,13 +37,6 @@ const MOIM_INPUT_INFOS: LabeledInputProps[] = [
     required: true,
   },
   {
-    name: 'authorNickname',
-    title: '작성자 닉네임',
-    type: 'text',
-    placeholder: '알았다 안나야~',
-    required: true,
-  },
-  {
     name: 'description',
     title: '상세 내용 작성',
     type: 'textarea',
