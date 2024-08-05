@@ -14,7 +14,7 @@ export interface CommentCardProps extends HTMLProps<HTMLDivElement> {
 export default function CommentCard(props: CommentCardProps) {
   const theme = useTheme();
   const {
-    comment: { profile, nickname, dateTime, content, child },
+    comment: { profile, nickname, dateTime, content, children },
     onWriteClick,
   } = props;
 
@@ -29,17 +29,15 @@ export default function CommentCard(props: CommentCardProps) {
               <div css={S.timestamp({ theme })}>{dateTime}</div>
             </div>
             <div css={S.commentHeaderRight({ theme })}>
-              <button>수정</button>
-              <button>삭제</button>
               <button onClick={onWriteClick}>답글쓰기</button>
             </div>
           </div>
-          <div>{content}</div>
+          <div css={S.contentBox({ theme })}>{content}</div>
         </div>
       </div>
-      {child && child.length > 0 && (
+      {children && (
         <div css={S.commentChildBox()}>
-          {child.map((childComment) => (
+          {children.map((childComment) => (
             <CommentCard key={childComment.commentId} comment={childComment} />
           ))}
         </div>
