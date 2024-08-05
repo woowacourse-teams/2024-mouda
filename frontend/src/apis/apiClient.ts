@@ -21,6 +21,15 @@ function getHeaders(token?: string) {
   return headers;
 }
 
+const checkStatus = async (response: Response) => {
+  const statusHead = Math.floor(response.status / 100);
+  if (statusHead === 4 || statusHead === 5) {
+    const json = await response.json();
+    throw new Error(json.message);
+  }
+  return response;
+};
+
 async function request(
   method: Method,
   endpoint: string,
@@ -41,7 +50,19 @@ async function request(
     options.body = JSON.stringify(data);
   }
 
-  return await fetch(url, options);
+  const response = await fetch(url, options);
+
+  if (response.status === 401) {
+    throw new Error('Unauthorized');
+  }
+
+  if (!response.ok) {
+    throw new Error('API request failed');
+  }
+
+  checkStatus(response);
+
+  return response;
 }
 
 async function get(
