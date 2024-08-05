@@ -22,7 +22,6 @@ export default function LoginForm() {
     e.preventDefault();
 
     const response = await login({ nickname });
-    console.log(response);
     setToken(response.data.accessToken);
     navigate(ROUTES.main);
   };

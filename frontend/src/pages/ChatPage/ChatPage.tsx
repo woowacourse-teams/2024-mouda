@@ -2,7 +2,9 @@ import ChattingPreviewLayout from '@_layouts/ChattingPreviewLayout/ChattingPrevi
 import ChattingPreviewWrapper from '@_components/ChattingPreviewWrapper/ChattingPreviewWrapper';
 import useMyMoims from '@_hooks/queries/useMyMoim';
 import { useNavigate } from 'react-router-dom';
+
 import { useTheme } from '@emotion/react';
+import { Fragment } from 'react';
 
 export default function ChatPage() {
   const theme = useTheme();
@@ -26,5 +28,6 @@ export default function ChatPage() {
           ))}
       </ChattingPreviewLayout.ContentContainer>
     </ChattingPreviewLayout>
+
   );
 }

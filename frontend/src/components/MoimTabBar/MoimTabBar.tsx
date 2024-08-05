@@ -1,14 +1,17 @@
 import { useTheme } from '@emotion/react';
 import * as S from './MoimTabBar.style';
 
+export type MainPageTab = '모임목록' | '나의모임' | '찜한모임';
+
+const tabs: MainPageTab[] = ['모임목록', '나의모임', '찜한모임'];
+
 interface MoimTabBarProps {
-  tabs: string[];
-  currentTab: string;
-  onTabClick: (tab: string) => void;
+  currentTab: MainPageTab;
+  onTabClick: (tab: MainPageTab) => void;
 }
 
 export default function MoimTabBar(props: MoimTabBarProps) {
-  const { tabs, currentTab, onTabClick } = props;
+  const { currentTab, onTabClick } = props;
 
   const theme = useTheme();
 

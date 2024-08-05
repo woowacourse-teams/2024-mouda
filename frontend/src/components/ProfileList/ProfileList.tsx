@@ -11,7 +11,6 @@ interface ProfileListProps {
 export default function ProfileList(props: ProfileListProps) {
   const theme = useTheme();
   const { participants } = props;
-  console.log(participants);
   return (
     <Fragment>
       <div css={theme.typography.s1}>참여자</div>

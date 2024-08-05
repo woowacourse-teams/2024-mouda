@@ -12,6 +12,15 @@ export default function useChangeZzim() {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.ZzimMine, moimId],
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.moims],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.myMoims],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.myZzimMoims],
+      });
     },
   });
 }

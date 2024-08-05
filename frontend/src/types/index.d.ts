@@ -9,8 +9,9 @@ export interface MoimInfo {
   authorNickname: string;
   participants: Participation[];
   description?: string;
-  status: 'MOIMING' | 'COMPLETE' | 'CANCEL';
+  status: 'MOIMING' | 'COMPLETED' | 'CANCELED';
   comments: Comment[];
+  isZzimed: boolean;
 }
 
 export interface Participation {
@@ -31,7 +32,12 @@ export interface Comment {
 }
 export type MoimInputInfo = Omit<
   MoimInfo,
-  'moimId' | 'currentPeople' | 'participants' | 'status' | 'comments'
+  | 'moimId'
+  | 'currentPeople'
+  | 'participants'
+  | 'status'
+  | 'comments'
+  | 'isZzimed'
 >;
 
 export type TempMoimInputInfo = Omit<
@@ -42,6 +48,7 @@ export type TempMoimInputInfo = Omit<
   | 'status'
   | 'comments'
   | 'authorNickname'
+  | 'isZzimed'
 >;
 
 export interface Chat {
