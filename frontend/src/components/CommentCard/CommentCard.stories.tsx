@@ -18,14 +18,14 @@ export const Default: Story = {
       content: 'content',
       dateTime: '2023-04-04 14:00',
       profile: '',
-      child: [
+      children: [
         {
           commentId: 0,
           nickname: 'nickname',
           content: 'content',
           dateTime: '2023-04-04 14:00',
           profile: '',
-          child: [],
+          children: [],
         },
       ],
     },

@@ -16,7 +16,6 @@ import ZzimButton from '@_components/Zzim/ZzimButton';
 import useChamyoMine from '@_hooks/queries/useChamyoMine';
 import useZzimMine from '@_hooks/queries/useZzimMine';
 import useChangeZzim from '@_hooks/mutaions/useChangeZzim';
-import useWriteComment from '@_hooks/mutaions/useWriteComment';
 import useCancelMoim from '@_hooks/mutaions/useCancelMoim';
 import useReopenMoim from '@_hooks/mutaions/useReopenMoim';
 import useCompleteMoin from '@_hooks/mutaions/useCompleteMoin';
@@ -36,7 +35,7 @@ export default function MoimDetailPage() {
   const { mutate } = useJoinMoim(() => {
     navigate(ROUTES.participationComplete);
   });
-  const { mutate: writeComment } = useWriteComment();
+
   const { mutate: cancelMoim } = useCancelMoim();
 
   const { mutate: ReopenMoim } = useReopenMoim();
@@ -100,10 +99,7 @@ export default function MoimDetailPage() {
         )}
         {moim.comments && (
           <MoimDescription title="코멘트" color="grey">
-            <CommentList
-              comments={moim.comments}
-              onWriteClick={() => writeComment(moimId)}
-            />
+            <CommentList moimId={moimId} comments={moim.comments} />
           </MoimDescription>
         )}
       </InformationLayout.ContentContainer>

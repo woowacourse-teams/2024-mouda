@@ -28,7 +28,7 @@ export interface Comment {
   content: string;
   dateTime: string;
   profile: string;
-  child: Comment[];
+  children: Comment[];
 }
 export type MoimInputInfo = Omit<
   MoimInfo,

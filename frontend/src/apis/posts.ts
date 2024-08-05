@@ -25,11 +25,23 @@ export const postChangeZzim = async (moimId: number) => {
   });
   await checkStatus(response);
 };
-export const postWriteComment = async (moimId: number) => {
-  const response = await ApiClient.postWithAuth(`moim/${moimId}/comment`, {
-    moimId,
-  });
-  await checkStatus(response);
+export const postWriteComment = async (
+  moimId: number,
+  selectedComment: number,
+  message: string,
+) => {
+  if (selectedComment === 0) {
+    const response = await ApiClient.postWithAuth(`moim/${moimId}`, {
+      content: message,
+    });
+    await checkStatus(response);
+  } else {
+    const response = await ApiClient.postWithAuth(`moim/${moimId}`, {
+      parentId: selectedComment,
+      content: message,
+    });
+    await checkStatus(response);
+  }
 };
 
 export const postChat = async (moimId: number, content: string) => {

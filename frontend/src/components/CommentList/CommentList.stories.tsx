@@ -12,6 +12,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
+    moimId: 1,
     comments: [
       {
         commentId: 0,
@@ -19,14 +20,14 @@ export const Default: Story = {
         content: 'content',
         dateTime: '2023-04-04 14:00',
         profile: '',
-        child: [
+        children: [
           {
             commentId: 0,
             nickname: 'nickname',
             content: 'content',
             dateTime: '2023-04-04 14:00',
             profile: '',
-            child: [],
+            children: [],
           },
         ],
       },
@@ -36,19 +37,18 @@ export const Default: Story = {
         content: 'content',
         dateTime: '2023-04-04 14:00',
         profile: '',
-        child: [
+        children: [
           {
             commentId: 4,
             nickname: 'nickname',
             content: 'content',
             dateTime: '2023-04-04 14:00',
             profile: '',
-            child: [],
+            children: [],
           },
         ],
       },
     ],
-    onWriteClick: () => {},
   },
   render: (args) => <CommentList {...args} />,
 };
