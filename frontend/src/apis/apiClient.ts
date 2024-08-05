@@ -1,3 +1,4 @@
+import { ApiError } from '@_utils/customError/ApiError';
 import { getToken } from '@_utils/tokenManager';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -21,15 +22,6 @@ function getHeaders(token?: string) {
   return headers;
 }
 
-const checkStatus = async (response: Response) => {
-  const statusHead = Math.floor(response.status / 100);
-  if (statusHead === 4 || statusHead === 5) {
-    const json = await response.json();
-    throw new Error(json.message);
-  }
-  return response;
-};
-
 async function request(
   method: Method,
   endpoint: string,
@@ -52,15 +44,11 @@ async function request(
 
   const response = await fetch(url, options);
 
-  if (response.status === 401) {
-    throw new Error('Unauthorized');
-  }
-
+  // status < 200 || status > 299 면 -> ok === false
   if (!response.ok) {
-    throw new Error('API request failed');
+    const json = await response.json();
+    throw new ApiError(response.status, json.message);
   }
-
-  checkStatus(response);
 
   return response;
 }
