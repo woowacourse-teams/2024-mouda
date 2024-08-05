@@ -1,20 +1,42 @@
 import MyMoimListFilterTag from '@_components/MyMoimListFilterTag/MyMoimListFilterTag';
-import { useState } from 'react';
 import * as S from './MyMoimListFilters.style';
 
-const filters = ['모든 모임', '다가오는 모임', '지난 모임'];
+export type Filter =
+  | {
+      ui: '모든 모임';
+      api: 'all';
+    }
+  | {
+      ui: '다가오는 모임';
+      api: 'upcoming';
+    }
+  | {
+      ui: '지난 모임';
+      api: 'past';
+    };
 
-export default function MyMoimListFilters() {
-  const [selectedFilter, setSelectedFilter] = useState(filters[0]);
+const filters: Filter[] = [
+  { ui: '모든 모임', api: 'all' },
+  { ui: '다가오는 모임', api: 'upcoming' },
+  { ui: '지난 모임', api: 'past' },
+];
+
+interface MyMoimListFiltersProps {
+  selectedFilter: Filter['api'];
+  handleFilterSelect: (filter: Filter['api']) => void;
+}
+
+export default function MyMoimListFilters(props: MyMoimListFiltersProps) {
+  const { selectedFilter, handleFilterSelect } = props;
 
   return (
     <div css={S.container}>
-      {filters.map((filter) => (
+      {filters.map(({ ui, api }) => (
         <MyMoimListFilterTag
-          key={filter}
-          label={filter}
-          isSelected={selectedFilter === filter}
-          onClick={() => setSelectedFilter(filter)}
+          key={ui}
+          label={ui}
+          isSelected={selectedFilter === api}
+          onClick={() => handleFilterSelect(api)}
         />
       ))}
     </div>
