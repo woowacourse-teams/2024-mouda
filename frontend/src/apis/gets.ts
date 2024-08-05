@@ -21,7 +21,7 @@ export const getMoims = async (): Promise<MoimInfo[]> => {
   return json.data.moims;
 };
 
-export const getMyMoims = async (
+export const getMyFilteredMoims = async (
   filter: Filter['api'],
 ): Promise<MoimInfo[]> => {
   const response = await ApiClient.getWithAuth(`moim/mine?filter=${filter}`);
