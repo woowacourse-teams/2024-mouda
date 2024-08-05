@@ -1,6 +1,9 @@
 import ChattingPreview from '@_components/ChattingPreview/ChattingPreview';
+import NavigationBar from '@_components/NavigationBar/NavigationBar';
 import ChattingPreviewLayout from '@_layouts/ChattingPreviewLayout/ChattingPreviewLayout';
+import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
 import { useTheme } from '@emotion/react';
+import { Fragment } from 'react';
 
 export default function ChatPage() {
   const theme = useTheme();
@@ -12,17 +15,22 @@ export default function ChatPage() {
   });
 
   return (
-    <ChattingPreviewLayout>
-      <ChattingPreviewLayout.Header>
-        <ChattingPreviewLayout.Header.Left>
-          <h2 css={theme.typography.h5}>채팅</h2>
-        </ChattingPreviewLayout.Header.Left>
-      </ChattingPreviewLayout.Header>
-      <ChattingPreviewLayout.ContentContainer>
-        {dummy.map((dum, id) => (
-          <ChattingPreview {...dum} key={id} />
-        ))}
-      </ChattingPreviewLayout.ContentContainer>
-    </ChattingPreviewLayout>
+    <Fragment>
+      <ChattingPreviewLayout>
+        <ChattingPreviewLayout.Header>
+          <ChattingPreviewLayout.Header.Left>
+            <h2 css={theme.typography.h5}>채팅</h2>
+          </ChattingPreviewLayout.Header.Left>
+        </ChattingPreviewLayout.Header>
+        <ChattingPreviewLayout.ContentContainer>
+          {dummy.map((dum, id) => (
+            <ChattingPreview {...dum} key={id} />
+          ))}
+        </ChattingPreviewLayout.ContentContainer>
+      </ChattingPreviewLayout>
+      <NavigationBarWrapper>
+        <NavigationBar />
+      </NavigationBarWrapper>
+    </Fragment>
   );
 }

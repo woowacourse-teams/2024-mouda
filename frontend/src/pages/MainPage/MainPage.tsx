@@ -3,8 +3,11 @@ import HomeLayout from '@_layouts/HomeLayout.tsx/HomeLayout';
 import ROUTES from '@_constants/routes';
 import { useNavigate } from 'react-router-dom';
 import PlusIcon from '@_components/Icons/PlusIcon';
+import { Fragment, useState } from 'react';
+import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
+import NavigationBar from '@_components/NavigationBar/NavigationBar';
+
 import MoimTabBar, { MainPageTab } from '@_components/MoimTabBar/MoimTabBar';
-import { useState } from 'react';
 import HomeMainContent from '@_components/HomeMainContent/HomeMainContent';
 
 export default function MainPage() {
@@ -17,26 +20,32 @@ export default function MainPage() {
   };
 
   return (
-    <HomeLayout>
-      <HomeLayout.Header>우아한테크코스</HomeLayout.Header>
+    <Fragment>
+      <HomeLayout>
+        <HomeLayout.Header>우아한테크코스</HomeLayout.Header>
 
-      <HomeLayout.Nav>
-        <MoimTabBar currentTab={currentTab} onTabClick={handleTabClick} />
-      </HomeLayout.Nav>
+        <HomeLayout.Nav>
+          <MoimTabBar currentTab={currentTab} onTabClick={handleTabClick} />
+        </HomeLayout.Nav>
 
-      <HomeLayout.Main>
-        <HomeMainContent currentTab={currentTab} />
-      </HomeLayout.Main>
+        <HomeLayout.Main>
+          <HomeMainContent currentTab={currentTab} />
+        </HomeLayout.Main>
 
-      <HomeLayout.HomeFixedButtonWrapper>
-        <Button
-          shape="circle"
-          onClick={() => navigate(ROUTES.addMoim)}
-          disabled={false}
-        >
-          <PlusIcon />
-        </Button>
-      </HomeLayout.HomeFixedButtonWrapper>
-    </HomeLayout>
+        <HomeLayout.HomeFixedButtonWrapper>
+          <Button
+            shape="circle"
+            onClick={() => navigate(ROUTES.addMoim)}
+            disabled={false}
+          >
+            <PlusIcon />
+          </Button>
+        </HomeLayout.HomeFixedButtonWrapper>
+      </HomeLayout>
+
+      <NavigationBarWrapper>
+        <NavigationBar />
+      </NavigationBarWrapper>
+    </Fragment>
   );
 }
