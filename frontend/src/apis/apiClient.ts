@@ -44,7 +44,6 @@ async function request(
 
   const response = await fetch(url, options);
 
-  // status < 200 || status > 299 면 -> ok === false
   if (!response.ok) {
     const json = await response.json();
     throw new ApiError(response.status, json.message);
