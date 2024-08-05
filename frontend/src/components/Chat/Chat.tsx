@@ -6,27 +6,26 @@ import {
   timeStyle,
 } from './Chatstyle';
 
+import { Chat } from '@_types/index';
 import UserPreview from '@_components/UserPreview/UserPreview';
 import { formatHhmmToKoreanWithPrefix } from '@_utils/formatters';
 import { useTheme } from '@emotion/react';
 
 export interface ChatMessageProps {
-  sender: string;
-  message: string;
-  isMyMessage: boolean;
-  time: string;
-  imageUrl?: string;
+  chat: Chat;
 }
 
 export default function Chat(props: ChatMessageProps) {
-  const { sender, message, isMyMessage, time, imageUrl } = props;
+  const { chat } = props;
+  const { content, nickname, time, isMyMessage } = chat;
   const theme = useTheme();
   return (
     <div css={chatMessageStyle({ isMyMessage })}>
-      <UserPreview imageUrl={imageUrl} />
+      {/* TODO: 추후 프로필 사진 추가시 변경해야함  */}
+      <UserPreview imageUrl={''} />
       <div css={messageContainer({ isMyMessage })}>
-        <span css={senderStyle({ theme })}>{sender}</span>
-        <div css={messageStyle({ theme, isMyMessage })}>{message}</div>
+        <span css={senderStyle({ theme })}>{nickname}</span>
+        <div css={messageStyle({ theme, isMyMessage })}>{content}</div>
         <span css={timeStyle({ theme })}>
           {formatHhmmToKoreanWithPrefix(time)}
         </span>
