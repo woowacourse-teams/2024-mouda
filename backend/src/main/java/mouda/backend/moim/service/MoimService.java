@@ -64,9 +64,9 @@ public class MoimService {
         return new MoimFindAllResponses(
             moims.stream()
                 .map(moim -> {
-                    List<Member> participants = memberRepository.findAllByMoimId(moim.getId());
+                    int currentPeople = chamyoRepository.countByMoim(moim);
                     boolean isZzimed = zzimRepository.existsByMoimIdAndMemberId(moim.getId(), member.getId());
-                    return MoimFindAllResponse.toResponse(moim, participants.size(), isZzimed);
+                    return MoimFindAllResponse.toResponse(moim, currentPeople, isZzimed);
                 })
                 .toList()
         );
@@ -244,9 +244,9 @@ public class MoimService {
         List<MoimFindAllResponse> responses = chamyoStream
             .map(chamyo -> {
                 Moim moim = chamyo.getMoim();
-                int participantCount = memberRepository.findAllByMoimId(moim.getId()).size();
+                int currentPeople = chamyoRepository.countByMoim(moim);
                 boolean isZzimed = zzimRepository.existsByMoimIdAndMemberId(moim.getId(), member.getId());
-                return MoimFindAllResponse.toResponse(moim, participantCount, isZzimed);
+                return MoimFindAllResponse.toResponse(moim, currentPeople, isZzimed);
             })
             .toList();
 
@@ -259,9 +259,9 @@ public class MoimService {
         List<MoimFindAllResponse> responses = zzims.stream()
             .map(zzim -> {
                 Moim moim = zzim.getMoim();
-                int participantCount = memberRepository.findAllByMoimId(moim.getId()).size();
+                int currentPeople = chamyoRepository.countByMoim(moim);
                 boolean zzimed = zzimRepository.existsByMoimIdAndMemberId(moim.getId(), member.getId());
-                return MoimFindAllResponse.toResponse(zzim.getMoim(), participantCount, zzimed);
+                return MoimFindAllResponse.toResponse(zzim.getMoim(), currentPeople, zzimed);
             }).toList();
 
         return new MoimFindAllResponses(responses);
