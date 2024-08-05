@@ -6,7 +6,7 @@ export const Container = ({ theme }: { theme: Theme }) => css`
   flex-direction: column;
   gap: 2rem;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 
   width: 100%;
   height: 100%;

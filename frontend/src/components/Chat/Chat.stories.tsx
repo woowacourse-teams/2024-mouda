@@ -11,10 +11,13 @@ type Story = StoryObj<typeof Chat>;
 
 export const Default: Story = {
   args: {
-    sender: '테바',
-    time: '12:12',
-    imageUrl: '',
-    message: '여러분~ 싸우지 마세요',
-    isMyMessage: false,
+    chat: {
+      chatId: 11,
+      content: '여러분~ 싸우지 마세요',
+      nickname: '테바',
+      date: '2024-08-01',
+      time: '12:12',
+      isMyMessage: false,
+    },
   },
 };

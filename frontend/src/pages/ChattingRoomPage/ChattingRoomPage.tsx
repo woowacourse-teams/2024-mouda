@@ -4,6 +4,8 @@ import Back from '@_common/assets/back.svg';
 import ChatList from '@_components/ChatList/ChatList';
 import ChattingFooter from '@_components/ChattingFooter/ChattingFooter';
 import ChattingRoomLayout from '@_layouts/ChattingRoomLayout/ChattingRoomLayout';
+import useChats from '@_hooks/queries/useChat';
+import useSendMessage from '@_hooks/mutaions/useSendMessage';
 import { useTheme } from '@emotion/react';
 
 export default function ChattingRoomPage() {
@@ -11,24 +13,10 @@ export default function ChattingRoomPage() {
   const params = useParams();
   const navigate = useNavigate();
 
-  const moimId = params.moimId;
+  const moimId = +(params.moimId || '0');
+  const { chats } = useChats(moimId);
+  const { mutate: handleSendMessage } = useSendMessage(moimId);
   const moimTitle = '모임 ' + moimId;
-  const chats = [
-    {
-      sender: '테바',
-      time: '14:07',
-      message:
-        '두 분 다 강퇴 당하고 싶지 않으시면 서로 말 예쁘게 해주시고 ~ 각자 괜찮은 시간이나 좀 남겨주세요!',
-      isMyMessage: false,
-    },
-    {
-      sender: '테바j',
-      time: '14:07',
-      message:
-        '두 분 다 강퇴 당하고 싶지 않으시면 서로 말 예쁘게 해주시고 ~ 각자 괜찮은 시간이나 좀 남겨주세요!',
-      isMyMessage: true,
-    },
-  ];
 
   return (
     <ChattingRoomLayout>
@@ -44,7 +32,7 @@ export default function ChattingRoomPage() {
       </ChattingRoomLayout.Header>
       <ChatList chats={chats} />
       <ChattingRoomLayout.Footer>
-        <ChattingFooter onSubmit={() => {}} />
+        <ChattingFooter onSubmit={handleSendMessage} />
       </ChattingRoomLayout.Footer>
     </ChattingRoomLayout>
   );

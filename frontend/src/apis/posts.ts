@@ -1,5 +1,5 @@
-import { MoimInputInfo } from '@_types/index';
 import ApiClient from './apiClient';
+import { MoimInputInfo } from '@_types/index';
 import { PostMoim } from './responseTypes';
 import { checkStatus } from './apiconfig';
 
@@ -28,6 +28,14 @@ export const postChangeZzim = async (moimId: number) => {
 export const postWriteComment = async (moimId: number) => {
   const response = await ApiClient.postWithAuth(`moim/${moimId}/comment`, {
     moimId,
+  });
+  await checkStatus(response);
+};
+
+export const postChat = async (moimId: number, content: string) => {
+  const response = await ApiClient.postWithAuth('chat', {
+    moimId,
+    content,
   });
   await checkStatus(response);
 };
