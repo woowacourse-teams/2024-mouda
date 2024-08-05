@@ -1,52 +1,51 @@
 import Button from '@_components/Button/Button';
 import HomeLayout from '@_layouts/HomeLayout.tsx/HomeLayout';
 import ROUTES from '@_constants/routes';
-import useMoims from '@_hooks/queries/useMoims';
 import { useNavigate } from 'react-router-dom';
 import PlusIcon from '@_components/Icons/PlusIcon';
-import MoimTabBar from '@_components/MoimTabBar/MoimTabBar';
-import MoimCardList from '@_components/MoimCardList/MoimCardList';
-import { useState } from 'react';
-import MyMoimListFilters from '@_components/MyMoimListFilters/MyMoimListFilters';
+import { Fragment, useState } from 'react';
+import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
+import NavigationBar from '@_components/NavigationBar/NavigationBar';
 
-const tabs = ['모임목록', '나의모임', '찜한모임'];
+import MoimTabBar, { MainPageTab } from '@_components/MoimTabBar/MoimTabBar';
+import HomeMainContent from '@_components/HomeMainContent/HomeMainContent';
 
 export default function MainPage() {
   const navigate = useNavigate();
-  const { moims } = useMoims();
 
-  const [currentTab, setCurrentTab] = useState(tabs[0]);
+  const [currentTab, setCurrentTab] = useState<MainPageTab>('모임목록');
 
-  const handleTabClick = (tab: string) => {
+  const handleTabClick = (tab: MainPageTab) => {
     setCurrentTab(tab);
   };
 
   return (
-    <HomeLayout>
-      <HomeLayout.Header>우아한테크코스</HomeLayout.Header>
+    <Fragment>
+      <HomeLayout>
+        <HomeLayout.Header>우아한테크코스</HomeLayout.Header>
 
-      <HomeLayout.Nav>
-        <MoimTabBar
-          tabs={tabs}
-          currentTab={currentTab}
-          onTabClick={handleTabClick}
-        />
-      </HomeLayout.Nav>
+        <HomeLayout.Nav>
+          <MoimTabBar currentTab={currentTab} onTabClick={handleTabClick} />
+        </HomeLayout.Nav>
 
-      <HomeLayout.Main>
-        {currentTab === '나의모임' && <MyMoimListFilters />}
-        {moims && <MoimCardList moimInfos={moims} />}
-      </HomeLayout.Main>
+        <HomeLayout.Main>
+          <HomeMainContent currentTab={currentTab} />
+        </HomeLayout.Main>
 
-      <HomeLayout.HomeFixedButtonWrapper>
-        <Button
-          shape="circle"
-          onClick={() => navigate(ROUTES.addMoim)}
-          disabled={false}
-        >
-          <PlusIcon />
-        </Button>
-      </HomeLayout.HomeFixedButtonWrapper>
-    </HomeLayout>
+        <HomeLayout.HomeFixedButtonWrapper>
+          <Button
+            shape="circle"
+            onClick={() => navigate(ROUTES.addMoim)}
+            disabled={false}
+          >
+            <PlusIcon />
+          </Button>
+        </HomeLayout.HomeFixedButtonWrapper>
+      </HomeLayout>
+
+      <NavigationBarWrapper>
+        <NavigationBar />
+      </NavigationBarWrapper>
+    </Fragment>
   );
 }

@@ -1,4 +1,4 @@
-import * as S from './MoimList.style';
+import * as S from './HomeLayout.style';
 
 import HomeFixedButtonWrapper from './HomeFixedButtonWrapper/HomeFixedButtonWrapper';
 import HomeHeader from './HomeHeader/HomeHeader';
