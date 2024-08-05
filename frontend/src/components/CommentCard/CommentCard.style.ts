@@ -64,5 +64,8 @@ export const timestamp = (props: { theme: Theme }) => css`
   color: ${props.theme.colorPalette.grey[500]};
 `;
 export const commentChildBox = () => css`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   margin-left: 3rem;
 `;
