@@ -43,3 +43,12 @@ export type TempMoimInputInfo = Omit<
   | 'comments'
   | 'authorNickname'
 >;
+
+export interface Chat {
+  chatId: number;
+  content: string;
+  isMyMessage: boolean;
+  nickname: string;
+  date: string;
+  time: string;
+}
