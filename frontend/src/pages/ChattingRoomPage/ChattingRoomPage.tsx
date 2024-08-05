@@ -7,6 +7,8 @@ import ChattingRoomLayout from '@_layouts/ChattingRoomLayout/ChattingRoomLayout'
 import useChats from '@_hooks/queries/useChat';
 import useSendMessage from '@_hooks/mutaions/useSendMessage';
 import { useTheme } from '@emotion/react';
+import useMoims from '@_hooks/queries/useMoims';
+import { useMemo } from 'react';
 
 export default function ChattingRoomPage() {
   const theme = useTheme();
@@ -14,9 +16,14 @@ export default function ChattingRoomPage() {
   const navigate = useNavigate();
 
   const moimId = +(params.moimId || '0');
+  const { moims } = useMoims();
   const { chats } = useChats(moimId);
   const { mutate: handleSendMessage } = useSendMessage(moimId);
-  const moimTitle = '모임 ' + moimId;
+
+  const moimTitle = useMemo(
+    () => moims?.find((moim) => moim.moimId === moimId)?.title,
+    [moims, moimId],
+  );
 
   return (
     <ChattingRoomLayout>

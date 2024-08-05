@@ -4,7 +4,8 @@ import useMyMoims from '@_hooks/queries/useMyMoim';
 import { useNavigate } from 'react-router-dom';
 
 import { useTheme } from '@emotion/react';
-import { Fragment } from 'react';
+import NavigationBar from '@_components/NavigationBar/NavigationBar';
+import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
 
 export default function ChatPage() {
   const theme = useTheme();
@@ -27,7 +28,9 @@ export default function ChatPage() {
             />
           ))}
       </ChattingPreviewLayout.ContentContainer>
+      <NavigationBarWrapper>
+        <NavigationBar />
+      </NavigationBarWrapper>
     </ChattingPreviewLayout>
-
   );
 }
