@@ -42,7 +42,6 @@ export default function MoimDetailPage() {
   const { mutate: ReopenMoim } = useReopenMoim();
   const { mutate: completeMoim } = useCompleteMoin();
   const { mutate: cancelChamyo } = useCancelChamyo();
-  console.log(moim, role, participants);
 
   if (
     isLoading ||
@@ -59,7 +58,7 @@ export default function MoimDetailPage() {
     <InformationLayout>
       <InformationLayout.Header>
         <InformationLayout.Header.Left>
-          <div onClick={() => navigate(-1)}>
+          <div onClick={() => navigate(ROUTES.main)}>
             <BackLogo />
           </div>
         </InformationLayout.Header.Left>
@@ -119,7 +118,11 @@ export default function MoimDetailPage() {
               모집 완료하기
             </Button>
           ) : (
-            <Button shape="bar" disabled={false} onClick={() => navigate(-1)}>
+            <Button
+              shape="bar"
+              disabled={false}
+              onClick={() => navigate(ROUTES.chat)}
+            >
               채팅방 열기(이동하기)
             </Button>
           )
@@ -128,21 +131,25 @@ export default function MoimDetailPage() {
             <Button shape="bar" disabled={false} onClick={() => mutate(moimId)}>
               참여하기
             </Button>
-          ) : moim.status === 'COMPLETE' ? (
-            <Button shape="bar" disabled={true} onClick={() => navigate(-1)}>
+          ) : moim.status === 'COMPLETED' ? (
+            <Button shape="bar" disabled={true}>
               모집이 완료되었어요
             </Button>
           ) : (
-            <Button shape="bar" disabled={true} onClick={() => navigate(-1)}>
+            <Button shape="bar" disabled={true}>
               취소된 모임이예요
             </Button>
           )
         ) : moim.status === 'MOIMING' ? (
-          <Button shape="bar" disabled={true} onClick={() => navigate(-1)}>
+          <Button shape="bar" disabled={true}>
             기다려 임마
           </Button>
         ) : (
-          <Button shape="bar" disabled={false} onClick={() => navigate(-1)}>
+          <Button
+            shape="bar"
+            disabled={false}
+            onClick={() => navigate(ROUTES.chat)}
+          >
             채팅방으로 가기
           </Button>
         )}

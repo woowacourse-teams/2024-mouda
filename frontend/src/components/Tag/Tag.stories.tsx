@@ -26,14 +26,14 @@ export const RecruitingTag: Story = {
 
 export const RecruitingCanceledTag: Story = {
   args: {
-    status: 'CANCEL',
+    status: 'CANCELED',
   },
   render: (args) => <Tag {...args} />,
 };
 
 export const RecruitingCompletedTag: Story = {
   args: {
-    status: 'COMPLETE',
+    status: 'COMPLETED',
   },
   render: (args) => <Tag {...args} />,
 };

@@ -26,6 +26,8 @@ export const Default: Story = {
         date: '2021-10-30',
         time: '19:00',
         place: '서울 마포구 독막로 96 1층',
+        status: 'MOIMING',
+        comments: [],
         maxPeople: 5,
         currentPeople: 3,
         isZzimed: true,
@@ -112,6 +114,7 @@ export const Default: Story = {
             profile: 'https://avatars.githubusercontent.com/u/78939596?v=4',
             role: 'moimee',
           },
+
         ],
         description: '코딩하면서 놀아요',
         status: 'MOIMING',
