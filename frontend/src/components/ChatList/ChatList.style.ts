@@ -4,6 +4,7 @@ export const list = ({ theme }: { theme: Theme }) => css`
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   gap: 1rem;
 
   height: 100%;

@@ -16,7 +16,7 @@ export default function ChatList(props: ChatListProps) {
   const theme = useTheme();
 
   useEffect(() => {
-    messageEndRef.current?.scrollIntoView();
+    messageEndRef.current?.scrollIntoView(false);
   }, [chats]);
 
   return (
@@ -24,7 +24,7 @@ export default function ChatList(props: ChatListProps) {
       {chats.map((chat) => (
         <Chat key={chat.chatId} chat={chat} />
       ))}
-      <div ref={messageEndRef} tabIndex={1}></div>
+      <div ref={messageEndRef}></div>
     </div>
   );
 }
