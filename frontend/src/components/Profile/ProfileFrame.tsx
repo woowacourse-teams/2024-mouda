@@ -9,8 +9,9 @@ interface ProfileFrameProps extends ImgHTMLAttributes<HTMLImageElement> {
   width: number;
   height: number;
 }
+
 export default function ProfileFrame(props: ProfileFrameProps) {
-  const { width, height, onError, role, ...args } = props;
+  const { width, height, onError, role, src, ...args } = props;
 
   const handleError = (
     event: React.SyntheticEvent<HTMLImageElement, Event>,
@@ -25,7 +26,12 @@ export default function ProfileFrame(props: ProfileFrameProps) {
     <div css={S.profileBox()}>
       {role === 'moimer' ? <img src={Crown} css={S.profileCrown(width)} /> : ''}
       <div css={S.profileFrame(width, height)}>
-        <img css={S.profileImage} {...args} onError={handleError} />
+        <img
+          css={S.profileImage}
+          src={src || EmptyProfile}
+          {...args}
+          onError={handleError}
+        />
       </div>
     </div>
   );
