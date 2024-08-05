@@ -5,11 +5,16 @@ export const commentContainer = () => css`
   flex-direction: column;
   gap: 1rem;
 `;
-export const commentWrapper = () => css`
+export const commentWrapper = (props: {
+  theme: Theme;
+  isChecked: boolean;
+}) => css`
   display: flex;
   align-items: center;
   width: 100%;
-  background-color: #f3f4f6;
+  padding: 0.4rem;
+  border-radius: 1rem;
+  background: ${props.isChecked && props.theme.colorPalette.grey[400]};
 `;
 
 export const profileImage = () => css`
@@ -43,6 +48,7 @@ export const commentHeaderRight = (props: { theme: Theme }) => css`
   align-items: center;
 
   button {
+    border-radius: 1rem;
     ${props.theme.typography.c3}
     color: ${props.theme.colorPalette.grey[500]};
     border: none;
@@ -61,7 +67,7 @@ export const contentBox = (props: { theme: Theme }) => css`
 
 export const timestamp = (props: { theme: Theme }) => css`
   ${props.theme.typography.c3}
-  color: ${props.theme.colorPalette.grey[500]};
+  color: ${props.theme.colorPalette.grey[300]};
 `;
 export const commentChildBox = () => css`
   display: flex;

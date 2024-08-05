@@ -22,7 +22,14 @@ export default function CommentList(props: CommentListProps) {
           <CommentCard
             key={comment.commentId}
             comment={comment}
-            onWriteClick={() => setSelectedCommnet(comment.commentId)}
+            onWriteClick={() => {
+              if (comment.commentId === selectedComment) {
+                setSelectedCommnet(0);
+              } else {
+                setSelectedCommnet(comment.commentId);
+              }
+            }}
+            isChecked={comment.commentId === selectedComment}
           />
         );
       })}

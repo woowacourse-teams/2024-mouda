@@ -7,8 +7,9 @@ import { HTMLProps } from 'react';
 
 export interface CommentCardProps extends HTMLProps<HTMLDivElement> {
   comment: Comment;
-
   onWriteClick?: () => void;
+  isChecked?: boolean;
+  isChild?: boolean;
 }
 
 export default function CommentCard(props: CommentCardProps) {
@@ -16,11 +17,13 @@ export default function CommentCard(props: CommentCardProps) {
   const {
     comment: { profile, nickname, dateTime, content, children },
     onWriteClick,
+    isChecked = false,
+    isChild = false,
   } = props;
 
   return (
     <div css={S.commentContainer()}>
-      <div css={S.commentWrapper()}>
+      <div css={S.commentWrapper({ theme, isChecked })}>
         <ProfileFrame width={3} height={3} src={profile}></ProfileFrame>
         <div css={S.commnetBox()}>
           <div css={S.commnetHeader}>
@@ -28,9 +31,11 @@ export default function CommentCard(props: CommentCardProps) {
               <div css={theme.typography.small}>{nickname}</div>
               <div css={S.timestamp({ theme })}>{dateTime}</div>
             </div>
-            <div css={S.commentHeaderRight({ theme })}>
-              <button onClick={onWriteClick}>답글쓰기</button>
-            </div>
+            {!isChild && (
+              <div css={S.commentHeaderRight({ theme })}>
+                <button onClick={onWriteClick}>답글쓰기</button>
+              </div>
+            )}
           </div>
           <div css={S.contentBox({ theme })}>{content}</div>
         </div>
@@ -38,7 +43,11 @@ export default function CommentCard(props: CommentCardProps) {
       {children && (
         <div css={S.commentChildBox()}>
           {children.map((childComment) => (
-            <CommentCard key={childComment.commentId} comment={childComment} />
+            <CommentCard
+              key={childComment.commentId}
+              comment={childComment}
+              isChild={true}
+            />
           ))}
         </div>
       )}
