@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.chamyo.repository.ChamyoRepository;
 import mouda.backend.chat.domain.Chat;
 import mouda.backend.chat.dto.request.ChatCreateRequest;
 import mouda.backend.chat.dto.response.ChatFindDetailResponse;
@@ -23,8 +24,11 @@ public class ChatService {
 
 	private final ChatRepository chatRepository;
 	private final MoimRepository moimRepository;
+	private final ChamyoRepository chamyoRepository;
 
 	public void createChat(ChatCreateRequest chatCreateRequest, Member member) {
+		chamyoRepository.findByMoimIdAndMemberId(chatCreateRequest.moimId(), member.getId())
+			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.NOT_PARTICIPANT_OF_MOIM));
 		Moim moim = moimRepository.findById(chatCreateRequest.moimId())
 			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIM_NOT_FOUND));
 		Chat chat = chatCreateRequest.toEntity(moim, member);
