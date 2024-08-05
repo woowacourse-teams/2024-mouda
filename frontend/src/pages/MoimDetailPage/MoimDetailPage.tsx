@@ -62,7 +62,7 @@ export default function MoimDetailPage() {
           </div>
         </InformationLayout.Header.Left>
         <InformationLayout.Header.Right>
-          <ZzimButton isChecked={isZzimed} onClick={() => changZzim(moimId)} />
+          <ZzimButton isZzimed={isZzimed} onClick={() => changZzim(moimId)} />
           {role === 'MOIMER' ? (
             <KebabMenu
               options={[
