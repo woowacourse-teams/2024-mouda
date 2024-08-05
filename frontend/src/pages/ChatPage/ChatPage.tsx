@@ -1,16 +1,13 @@
-import ChattingPreview from '@_components/ChattingPreview/ChattingPreview';
 import ChattingPreviewLayout from '@_layouts/ChattingPreviewLayout/ChattingPreviewLayout';
+import ChattingPreviewWrapper from '@_components/ChattingPreviewWrapper/ChattingPreviewWrapper';
+import useMyMoims from '@_hooks/queries/useMyMoim';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
 
 export default function ChatPage() {
   const theme = useTheme();
-  const dummy = new Array(30).fill(undefined).map(() => {
-    return {
-      title: '밥먹으실 사람',
-      participants: [{ imageUrl: '' }, { imageUrl: '' }, { imageUrl: '' }],
-    };
-  });
-
+  const { moims, isLoading } = useMyMoims();
+  const navigate = useNavigate();
   return (
     <ChattingPreviewLayout>
       <ChattingPreviewLayout.Header>
@@ -19,9 +16,14 @@ export default function ChatPage() {
         </ChattingPreviewLayout.Header.Left>
       </ChattingPreviewLayout.Header>
       <ChattingPreviewLayout.ContentContainer>
-        {dummy.map((dum, id) => (
-          <ChattingPreview {...dum} key={id} />
-        ))}
+        {!isLoading &&
+          moims?.map((moim, id) => (
+            <ChattingPreviewWrapper
+              moim={moim}
+              key={id}
+              onClick={() => navigate(`/chatting-room/${moim.moimId}`)}
+            />
+          ))}
       </ChattingPreviewLayout.ContentContainer>
     </ChattingPreviewLayout>
   );
