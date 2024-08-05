@@ -43,7 +43,7 @@ export const Default: Story = {
           content: '안녕하세요',
           dateTime: '2021-10-30 19:00',
           profile: 'https://avatars.githubusercontent.com/u/78939596?v=4',
-          child: [],
+          children: [],
         },
       ],
     },

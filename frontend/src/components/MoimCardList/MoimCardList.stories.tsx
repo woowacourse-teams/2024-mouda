@@ -46,17 +46,6 @@ export const Default: Story = {
           },
         ],
         description: '코딩하면서 놀아요',
-        status: 'MOIMING',
-        comments: [
-          {
-            commentId: 1,
-            nickname: '김코딩',
-            content: '안녕하세요',
-            dateTime: '2021-10-30 19:00',
-            profile: 'https://avatars.githubusercontent.com/u/78939596?v=4',
-            child: [],
-          },
-        ],
       },
       {
         title: '볼 함 차보까?',
@@ -89,7 +78,7 @@ export const Default: Story = {
             content: '안녕하세요',
             dateTime: '2021-10-30 19:00',
             profile: 'https://avatars.githubusercontent.com/u/78939596?v=4',
-            child: [],
+            children: [],
           },
         ],
       },
@@ -114,7 +103,6 @@ export const Default: Story = {
             profile: 'https://avatars.githubusercontent.com/u/78939596?v=4',
             role: 'moimee',
           },
-
         ],
         description: '코딩하면서 놀아요',
         status: 'MOIMING',
@@ -125,7 +113,7 @@ export const Default: Story = {
             content: '안녕하세요',
             dateTime: '2021-10-30 19:00',
             profile: 'https://avatars.githubusercontent.com/u/78939596?v=4',
-            child: [],
+            children: [],
           },
         ],
       },
