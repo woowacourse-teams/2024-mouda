@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.chamyo.repository.ChamyoRepository;
 import mouda.backend.chat.domain.Chat;
 import mouda.backend.chat.dto.request.ChatCreateRequest;
 import mouda.backend.chat.dto.response.ChatFindDetailResponse;
@@ -23,15 +24,28 @@ public class ChatService {
 
 	private final ChatRepository chatRepository;
 	private final MoimRepository moimRepository;
+	private final ChamyoRepository chamyoRepository;
 
 	public void createChat(ChatCreateRequest chatCreateRequest, Member member) {
 		Moim moim = moimRepository.findById(chatCreateRequest.moimId())
 			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIM_NOT_FOUND));
+		chamyoRepository.findByMoimIdAndMemberId(chatCreateRequest.moimId(), member.getId())
+			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.NOT_PARTICIPANT_TO_SEND));
+
 		Chat chat = chatCreateRequest.toEntity(moim, member);
 		chatRepository.save(chat);
 	}
 
 	public ChatFindUnloadedResponse findUnloadedChats(long recentChatId, long moimId, Member member) {
+		moimRepository.findById(moimId)
+			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIM_NOT_FOUND));
+		chamyoRepository.findByMoimIdAndMemberId(moimId, member.getId())
+			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.NOT_PARTICIPANT_TO_FIND));
+
+		if (recentChatId < 0) {
+			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.INVALID_RECENT_CHAT_ID);
+		}
+
 		List<ChatFindDetailResponse> chats = chatRepository.findAllUnloadedChats(moimId, recentChatId).stream()
 			.map(chat -> ChatFindDetailResponse.toResponse(chat, chat.isMyMessage(member.getId())))
 			.toList();
