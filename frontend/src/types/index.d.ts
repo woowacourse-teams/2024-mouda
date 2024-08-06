@@ -50,3 +50,8 @@ export interface Chat {
   date: string;
   time: string;
 }
+
+export interface PleaseInfoInput {
+  title: string;
+  description: string;
+}
