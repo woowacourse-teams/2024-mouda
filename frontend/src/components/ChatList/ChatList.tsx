@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 import Chat from '@_components/Chat/Chat';
+import { ChatChildren } from '@_components/ChatBubble/ChatChildren/ChatChildren';
 import { Chat as ChatType } from '@_types/index';
 import { list } from './ChatList.style';
 import { useTheme } from '@emotion/react';
@@ -21,9 +22,13 @@ export default function ChatList(props: ChatListProps) {
 
   return (
     <div css={list({ theme })}>
-      {chats.map((chat) => (
-        <Chat key={chat.chatId} chat={chat} />
-      ))}
+      {chats.map((chat) => {
+        return (
+          <Chat key={chat.chatId} chat={chat}>
+            <ChatChildren chat={chat} />
+          </Chat>
+        );
+      })}
       <div ref={endRef} />
     </div>
   );
