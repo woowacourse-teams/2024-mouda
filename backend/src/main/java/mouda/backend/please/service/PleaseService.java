@@ -33,10 +33,10 @@ public class PleaseService {
 
 	public void deletePlease(Member member, Long pleaseId) {
 		Please please = pleaseRepository.findById(pleaseId)
-			.orElseThrow(() -> new PleaseException(HttpStatus.NOT_FOUND, PleaseErrorMessage.NOT_FOUND.getMessage()));
+			.orElseThrow(() -> new PleaseException(HttpStatus.NOT_FOUND, PleaseErrorMessage.NOT_FOUND));
 
 		if (please.isNotAuthor(member.getId())) {
-			throw new PleaseException(HttpStatus.FORBIDDEN, PleaseErrorMessage.NOT_ALLOWED_TO_DELETE.getMessage());
+			throw new PleaseException(HttpStatus.FORBIDDEN, PleaseErrorMessage.NOT_ALLOWED_TO_DELETE);
 		}
 
 		pleaseRepository.deleteById(pleaseId);

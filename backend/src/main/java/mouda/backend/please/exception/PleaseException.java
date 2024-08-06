@@ -6,7 +6,7 @@ import mouda.backend.exception.MoudaException;
 
 public class PleaseException extends MoudaException {
 
-	public PleaseException(HttpStatus httpStatus, String message) {
-		super(httpStatus, message);
+	public PleaseException(HttpStatus httpStatus, PleaseErrorMessage message) {
+		super(httpStatus, message.getMessage());
 	}
 }

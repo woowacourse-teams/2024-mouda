@@ -42,13 +42,13 @@ public class Please {
 
 	private void validateTitle(String title) {
 		if (title == null || title.isEmpty()) {
-			throw new PleaseException(HttpStatus.BAD_REQUEST, PleaseErrorMessage.TITLE_NOT_EXIST.getMessage());
+			throw new PleaseException(HttpStatus.BAD_REQUEST, PleaseErrorMessage.TITLE_NOT_EXIST);
 		}
 	}
 
 	private void validateDescription(String description) {
 		if (description == null || description.isEmpty()) {
-			throw new PleaseException(HttpStatus.BAD_REQUEST, PleaseErrorMessage.DESCRIPTION_NOT_EXIST.getMessage());
+			throw new PleaseException(HttpStatus.BAD_REQUEST, PleaseErrorMessage.DESCRIPTION_NOT_EXIST);
 		}
 	}
 
