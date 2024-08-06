@@ -13,10 +13,7 @@ export const fetchCancelMoin = async (moimId: number) => {
   });
 };
 
-export const fetchModifyMoin = async (
-  moimId: number,
-  state: TempMoimInputInfo,
-) => {
+export const fetchModifyMoin = async (moimId: number, state: MoimInputInfo) => {
   await ApiClient.patchWithAuth(`moim`, {
     moimId,
     ...state,
