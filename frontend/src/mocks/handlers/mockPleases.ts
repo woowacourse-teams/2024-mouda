@@ -20,6 +20,30 @@ export let pleasesData = [
     isInterested: false,
     interestCount: 3,
   },
+  {
+    pleaseId: 7,
+    title: '제목',
+    interestCount: 1,
+    description: '설명',
+  },
+  {
+    pleaseId: 8,
+    title: '제목',
+    interestCount: 1,
+    description: '설명',
+  },
+  {
+    pleaseId: 9,
+    title: '제목',
+    interestCount: 1,
+    description: '설명',
+  },
+  {
+    pleaseId: 10,
+    title: '제목',
+    interestCount: 1,
+    description: '설명',
+  },
 ];
 
 export function updatePlease(pleaseId: number, interesting: boolean) {

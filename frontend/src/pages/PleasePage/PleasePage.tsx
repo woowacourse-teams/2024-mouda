@@ -4,7 +4,7 @@ import NavigationBar from '@_components/NavigationBar/NavigationBar';
 import PleaseList from '@_components/PleaseList/PleaseList';
 import ROUTES from '@_constants/routes';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
-import HomeLayout from '@_layouts/HomeLayout.tsx/HomeLayout';
+import PleaseLayout from '@_layouts/PleaseLayout/PleaseLayout';
 import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,14 +13,14 @@ export default function PleasePage() {
 
   return (
     <Fragment>
-      <HomeLayout>
-        <HomeLayout.Header>우아한테크코스</HomeLayout.Header>
+      <PleaseLayout>
+        <PleaseLayout.Header>우아한테크코스</PleaseLayout.Header>
 
-        <HomeLayout.Main>
+        <PleaseLayout.Main>
           <PleaseList />
-        </HomeLayout.Main>
+        </PleaseLayout.Main>
 
-        <HomeLayout.HomeFixedButtonWrapper>
+        <PleaseLayout.HomeFixedButtonWrapper>
           <Button
             shape="circle"
             onClick={() => navigate(ROUTES.please)}
@@ -28,8 +28,8 @@ export default function PleasePage() {
           >
             <PlusIcon />
           </Button>
-        </HomeLayout.HomeFixedButtonWrapper>
-      </HomeLayout>
+        </PleaseLayout.HomeFixedButtonWrapper>
+      </PleaseLayout>
       <NavigationBarWrapper>
         <NavigationBar />
       </NavigationBarWrapper>

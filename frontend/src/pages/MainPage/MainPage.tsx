@@ -22,11 +22,10 @@ export default function MainPage() {
   return (
     <Fragment>
       <HomeLayout>
-        <HomeLayout.Header>우아한테크코스</HomeLayout.Header>
-
-        <HomeLayout.Nav>
+        <HomeLayout.Header>
+          우아한테크코스
           <MoimTabBar currentTab={currentTab} onTabClick={handleTabClick} />
-        </HomeLayout.Nav>
+        </HomeLayout.Header>
 
         <HomeLayout.Main>
           <HomeMainContent currentTab={currentTab} />
