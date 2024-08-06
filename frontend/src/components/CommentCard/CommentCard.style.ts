@@ -11,10 +11,12 @@ export const commentWrapper = (props: {
 }) => css`
   display: flex;
   align-items: center;
+
   width: 100%;
   padding: 0.4rem;
-  border-radius: 1rem;
+
   background: ${props.isChecked && props.theme.colorPalette.grey[400]};
+  border-radius: 1rem;
 `;
 
 export const profileImage = () => css`
@@ -48,10 +50,10 @@ export const commentHeaderRight = (props: { theme: Theme }) => css`
   align-items: center;
 
   button {
-    border-radius: 1rem;
     ${props.theme.typography.c3}
     color: ${props.theme.colorPalette.grey[500]};
     border: none;
+    border-radius: 1rem;
   }
 
   button:hover {

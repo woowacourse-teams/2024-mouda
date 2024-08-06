@@ -24,7 +24,12 @@ export default function CommentCard(props: CommentCardProps) {
   return (
     <div css={S.commentContainer()}>
       <div css={S.commentWrapper({ theme, isChecked })}>
-        <ProfileFrame width={3} height={3} src={profile}></ProfileFrame>
+        <ProfileFrame
+          width={3}
+          height={3}
+          borderWidth={0}
+          src={profile}
+        ></ProfileFrame>
         <div css={S.commnetBox()}>
           <div css={S.commnetHeader}>
             <div css={S.commentHeaderLeft}>
