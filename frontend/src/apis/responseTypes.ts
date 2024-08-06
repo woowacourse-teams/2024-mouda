@@ -1,4 +1,4 @@
-import { Chat, MoimInfo, Participation } from '../types';
+import { Chat, MoimInfo, Participation, Please } from '../types';
 
 export interface GetMoims {
   data: { moims: MoimInfo[] };
@@ -31,5 +31,11 @@ export interface GetChamyoAll {
 export interface GetZzimMine {
   data: {
     isZzimed: boolean;
+  };
+}
+
+export interface GetPleases {
+  data: {
+    pleases: Please[];
   };
 }
