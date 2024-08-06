@@ -11,6 +11,7 @@ import mouda.backend.chamyo.domain.MoimRole;
 import mouda.backend.chamyo.repository.ChamyoRepository;
 import mouda.backend.chat.domain.Chat;
 import mouda.backend.chat.dto.request.ChatCreateRequest;
+import mouda.backend.chat.dto.request.DateTimeConfirmRequest;
 import mouda.backend.chat.dto.request.PlaceConfirmRequest;
 import mouda.backend.chat.dto.response.ChatFindDetailResponse;
 import mouda.backend.chat.dto.response.ChatFindUnloadedResponse;
@@ -59,6 +60,17 @@ public class ChatService {
 		}
 
 		Chat chat = placeConfirmRequest.toEntity(moim, member);
+		chatRepository.save(chat);
+	}
+
+	public void confirmDateTime(DateTimeConfirmRequest dateTimeConfirmRequest, Member member) {
+		Moim moim = findMoimByMoimId(dateTimeConfirmRequest.moimId());
+		Chamyo chamyo = findChamyoByMoimIdAndMemberId(dateTimeConfirmRequest.moimId(), member.getId());
+		if (chamyo.getMoimRole() != MoimRole.MOIMER) {
+			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIMER_CAN_CONFIRM_DATETIME);
+		}
+
+		Chat chat = dateTimeConfirmRequest.toEntity(moim, member);
 		chatRepository.save(chat);
 	}
 

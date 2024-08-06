@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import mouda.backend.chat.dto.request.ChatCreateRequest;
+import mouda.backend.chat.dto.request.DateTimeConfirmRequest;
 import mouda.backend.chat.dto.request.PlaceConfirmRequest;
 import mouda.backend.chat.dto.response.ChatFindUnloadedResponse;
 import mouda.backend.common.RestResponse;
@@ -35,12 +36,21 @@ public interface ChatSwagger {
 		@LoginMember Member member
 	);
 
-	@Operation(summary = "채팅 확정", description = "작성자가 장소를 확정하는 채팅을 전송합니다.")
+	@Operation(summary = "장소 확정", description = "작성자가 장소를 확정하는 채팅을 전송합니다.")
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "장소 확정 성공!")
 	})
 	ResponseEntity<Void> confirmPlace(
 		@RequestBody PlaceConfirmRequest placeConfirmRequest,
+		@LoginMember Member member
+	);
+
+	@Operation(summary = "날짜 시간 확정", description = "작성자가 날짜와 시간을 확정하는 채팅을 전송합니다.")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "날짜 시간 확정 성공!")
+	})
+	ResponseEntity<Void> confirmDateTime(
+		@RequestBody DateTimeConfirmRequest dateTimeConfirmRequest,
 		@LoginMember Member member
 	);
 }
