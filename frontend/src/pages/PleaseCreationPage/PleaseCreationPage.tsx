@@ -7,6 +7,8 @@ import { useState } from 'react';
 import ROUTES from '@_constants/routes';
 import PLEASE_INPUT_INFOS from './PleaseCreationPage.constant';
 import useAddPlease from '@_hooks/mutaions/useAddPlease';
+import LabeledTextArea from '@_components/TextArea/LabeledTextArea';
+import * as S from './PleaseCreationPage.style';
 
 export default function PleaseCreationPage() {
   const navigate = useNavigate();
@@ -15,8 +17,12 @@ export default function PleaseCreationPage() {
     navigate(-1);
   });
 
-  const { inputData, handleChange, isValidMoimInfoInput } =
-    usePleaseInfoInput();
+  const {
+    inputData,
+    handleInputChange,
+    handleTextAreaChange,
+    isValidMoimInfoInput,
+  } = usePleaseInfoInput();
 
   const handleRegisterButtonClick = async () => {
     if (!isValidMoimInfoInput) {
@@ -34,9 +40,27 @@ export default function PleaseCreationPage() {
       </FormLayout.Header>
 
       <FormLayout.MainForm>
-        {PLEASE_INPUT_INFOS.map((info) => (
-          <LabeledInput {...info} key={info.title} onChange={handleChange} />
-        ))}
+        <div css={S.inputContainer}>
+          {PLEASE_INPUT_INFOS.map((info) =>
+            info.type === 'textarea' ? (
+              <LabeledTextArea
+                name={info.name}
+                title={info.title}
+                key={info.title}
+                required={info.required}
+                onChange={handleTextAreaChange}
+              />
+            ) : (
+              <LabeledInput
+                name={info.name}
+                title={info.title}
+                key={info.title}
+                required={info.required}
+                onChange={handleInputChange}
+              />
+            ),
+          )}
+        </div>
       </FormLayout.MainForm>
 
       <FormLayout.BottomButtonWrapper>

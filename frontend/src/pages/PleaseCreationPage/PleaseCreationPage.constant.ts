@@ -1,6 +1,7 @@
 import { LabeledInputProps } from '@_components/Input/MoimInput';
+import { LabeledTextAreaProps } from '@_components/TextArea/LabeledTextArea';
 
-const PLEASE_INPUT_INFOS: LabeledInputProps[] = [
+const PLEASE_INPUT_INFOS: (LabeledInputProps | LabeledTextAreaProps)[] = [
   {
     name: 'title',
     title: '제목',
