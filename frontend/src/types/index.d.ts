@@ -65,5 +65,5 @@ export interface Please {
   title: string;
   description: string;
   isInterested: boolean;
-  interestedCount: number;
+  interestCount: number;
 }

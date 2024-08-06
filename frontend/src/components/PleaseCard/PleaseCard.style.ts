@@ -1,0 +1,70 @@
+import { css, Theme } from '@emotion/react';
+
+export const cardBox = css`
+  display: flex;
+  gap: 1.6rem;
+  justify-content: space-between;
+
+  width: 100%;
+  padding: 2rem 2.4rem;
+
+  border-radius: 2.5rem;
+  box-shadow: rgb(0 0 0 / 24%) 0 3px 8px;
+`;
+
+export const contentWrapper = css`
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+`;
+
+export const headerWrapper = css`
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+`;
+
+export const title = ({ theme }: { theme: Theme }) => css`
+  ${theme.typography.s1}
+`;
+
+export const count = ({ theme }: { theme: Theme }) => css`
+  ${theme.typography.c3}
+`;
+
+export const countAccent = ({ theme }: { theme: Theme }) => css`
+  ${theme.typography.c3}
+  color: ${theme.semantic.primary};
+`;
+
+export const description = ({ theme }: { theme: Theme }) => css`
+  ${theme.typography.c3}
+`;
+
+export const actionWrapper = css`
+  display: flex;
+`;
+
+export const actionButtonWrapper = css`
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const actionButton = ({ theme }: { theme: Theme }) => css`
+  display: flex;
+
+  padding: 8px;
+
+  background-color: ${theme.colorPalette.grey[100]};
+  border: none;
+  border-radius: 16px;
+  box-shadow: rgb(0 0 0 / 24%) 0 3px 8px;
+`;
+
+export const actionText = ({ theme }: { theme: Theme }) => css`
+  ${theme.typography.c3}
+  white-space: nowrap;
+`;
