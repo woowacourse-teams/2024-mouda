@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { shapes } from '@_components/Button/Button.style';
+import { useTheme } from '@emotion/react';
 
 interface ButtonProps {
   shape: 'circle' | 'bar';
@@ -10,8 +11,13 @@ interface ButtonProps {
 
 export default function Button(props: ButtonProps) {
   const { shape, onClick, disabled, children } = props;
+  const theme = useTheme();
   return (
-    <button css={shapes(shape, disabled)} onClick={onClick} disabled={disabled}>
+    <button
+      css={shapes(shape, disabled, theme)}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {children}
     </button>
   );
