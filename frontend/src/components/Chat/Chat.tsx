@@ -6,7 +6,7 @@ import {
   timeStyle,
 } from './Chatstyle';
 
-import { Chat } from '@_types/index';
+import type { Chat } from '@_types/index';
 import UserPreview from '@_components/UserPreview/UserPreview';
 import { formatHhmmToKoreanWithPrefix } from '@_utils/formatters';
 import { useTheme } from '@emotion/react';
