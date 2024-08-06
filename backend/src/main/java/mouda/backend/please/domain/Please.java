@@ -47,4 +47,8 @@ public class Please {
 			throw new IllegalArgumentException();
 		}
 	}
+
+	public boolean isNotAuthor(long memberId) {
+		return authorId != memberId;
+	}
 }

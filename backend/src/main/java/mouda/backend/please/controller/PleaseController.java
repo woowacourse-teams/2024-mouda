@@ -1,6 +1,8 @@
 package mouda.backend.please.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,5 +32,12 @@ public class PleaseController {
 		Please please = pleaseService.createPlease(member, pleaseCreateRequest);
 
 		return ResponseEntity.ok().body(new RestResponse<>(please.getId()));
+	}
+
+	@DeleteMapping("/{pleaseId}")
+	public ResponseEntity<Void> deletePlease(@LoginMember Member member, @PathVariable Long pleaseId) {
+		pleaseService.deletePlease(member, pleaseId);
+
+		return ResponseEntity.ok().build();
 	}
 }

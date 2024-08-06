@@ -21,4 +21,15 @@ public class PleaseService {
 
 		return pleaseRepository.save(please);
 	}
+
+	public void deletePlease(Member member, Long pleaseId) {
+		Please please = pleaseRepository.findById(pleaseId)
+			.orElseThrow();
+
+		if (please.isNotAuthor(member.getId())) {
+			throw new IllegalArgumentException();
+		}
+
+		pleaseRepository.deleteById(pleaseId);
+	}
 }
