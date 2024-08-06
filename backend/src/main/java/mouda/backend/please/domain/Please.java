@@ -29,8 +29,22 @@ public class Please {
 
 	@Builder
 	public Please(String title, String description, long authorId) {
+		validateTitle(title);
+		validateDescription(description);
 		this.title = title;
 		this.description = description;
 		this.authorId = authorId;
+	}
+
+	private void validateTitle(String title) {
+		if (title == null || title.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
+	}
+
+	private void validateDescription(String description) {
+		if (description == null || description.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
 	}
 }
