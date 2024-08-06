@@ -12,4 +12,6 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
 
 	@Query("SELECT c FROM Chat c WHERE c.moim.id = :moimId AND c.id > :chatId")
 	List<Chat> findAllUnloadedChats(@Param("moimId") long moimId, @Param("chatId") long chatId);
+
+	Chat findLastByOrderById();
 }

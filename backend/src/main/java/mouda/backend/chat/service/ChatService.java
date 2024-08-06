@@ -13,6 +13,8 @@ import mouda.backend.chat.dto.request.ChatCreateRequest;
 import mouda.backend.chat.dto.request.LastReadChatRequest;
 import mouda.backend.chat.dto.response.ChatFindDetailResponse;
 import mouda.backend.chat.dto.response.ChatFindUnloadedResponse;
+import mouda.backend.chat.dto.response.ChatPreviewResponse;
+import mouda.backend.chat.dto.response.ChatPreviewResponses;
 import mouda.backend.chat.exception.ChatErrorMessage;
 import mouda.backend.chat.exception.ChatException;
 import mouda.backend.chat.repository.ChatRepository;
@@ -53,6 +55,23 @@ public class ChatService {
 			.toList();
 
 		return new ChatFindUnloadedResponse(chats);
+	}
+
+	public ChatPreviewResponses findChatPreview(Member member) {
+		List<Chamyo> chamyos = chamyoRepository.findAllByMemberId(member.getId());
+		if (chamyos.isEmpty()) {
+			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIM_NOT_FOUND);
+		}
+		List<ChatPreviewResponse> chatPreviews = chamyos.stream()
+			.map(chamyo -> {
+				Chat chat = chatRepository.findLastByOrderById();
+				int currentPeople = chamyoRepository.countByMoim(chamyo.getMoim());
+				long unreadContentCount = chat.getId() - chamyo.getLastReadChatId();
+				return ChatPreviewResponse.toResponse(chat, chamyo, currentPeople, unreadContentCount);
+			})
+			.toList();
+
+		return new ChatPreviewResponses(chatPreviews);
 	}
 
 	public void createLastChat(LastReadChatRequest lastReadChatRequest, Member member) {
