@@ -1,4 +1,4 @@
-import * as S from '@_components/TextArea/TextArea.style';
+import * as S from '@_components/TextArea/LabeledTextArea.style';
 import { useTheme } from '@emotion/react';
 
 import { HTMLProps } from 'react';
