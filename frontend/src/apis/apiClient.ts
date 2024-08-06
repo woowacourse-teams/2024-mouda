@@ -1,3 +1,4 @@
+import { ApiError } from '@_utils/customError/ApiError';
 import { getToken } from '@_utils/tokenManager';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -41,7 +42,14 @@ async function request(
     options.body = JSON.stringify(data);
   }
 
-  return await fetch(url, options);
+  const response = await fetch(url, options);
+
+  if (!response.ok) {
+    const json = await response.json();
+    throw new ApiError(response.status, json.message);
+  }
+
+  return response;
 }
 
 async function get(
