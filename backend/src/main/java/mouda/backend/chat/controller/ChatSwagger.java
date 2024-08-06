@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import mouda.backend.chat.dto.request.ChatCreateRequest;
+import mouda.backend.chat.dto.request.PlaceConfirmRequest;
 import mouda.backend.chat.dto.response.ChatFindUnloadedResponse;
 import mouda.backend.common.RestResponse;
 import mouda.backend.config.argumentresolver.LoginMember;
@@ -31,6 +32,15 @@ public interface ChatSwagger {
 	ResponseEntity<RestResponse<ChatFindUnloadedResponse>> findUnloadedChats(
 		@RequestParam Long recentChatId,
 		@RequestParam Long moimId,
+		@LoginMember Member member
+	);
+
+	@Operation(summary = "채팅 확정", description = "작성자가 장소를 확정하는 채팅을 전송합니다.")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "장소 확정 성공!")
+	})
+	ResponseEntity<Void> confirmPlace(
+		@RequestBody PlaceConfirmRequest placeConfirmRequest,
 		@LoginMember Member member
 	);
 }

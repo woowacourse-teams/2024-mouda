@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.chat.dto.request.ChatCreateRequest;
+import mouda.backend.chat.dto.request.PlaceConfirmRequest;
 import mouda.backend.chat.dto.response.ChatFindUnloadedResponse;
 import mouda.backend.chat.service.ChatService;
 import mouda.backend.common.RestResponse;
@@ -43,5 +44,14 @@ public class ChatController implements ChatSwagger {
 	) {
 		ChatFindUnloadedResponse unloadedChats = chatService.findUnloadedChats(recentChatId, moimId, member);
 		return ResponseEntity.ok(new RestResponse<>(unloadedChats));
+	}
+
+	@Override
+	public ResponseEntity<Void> confirmPlace(
+		@RequestBody PlaceConfirmRequest placeConfirmRequest,
+		@LoginMember Member member
+	) {
+		chatService.confirmPlace(placeConfirmRequest, member);
+		return ResponseEntity.ok().build();
 	}
 }
