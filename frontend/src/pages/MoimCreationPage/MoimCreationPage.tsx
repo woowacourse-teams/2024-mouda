@@ -48,6 +48,7 @@ export default function MoimCreationPage() {
                 title={info.title}
                 key={info.title}
                 required={info.required}
+                placeholder={info.placeholder}
                 onChange={handleTextAreaChange}
               />
             ) : (
@@ -56,6 +57,7 @@ export default function MoimCreationPage() {
                 title={info.title}
                 key={info.title}
                 required={info.required}
+                placeholder={info.placeholder}
                 onChange={handleInputChange}
               />
             ),
