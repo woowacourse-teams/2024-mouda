@@ -7,7 +7,7 @@ export const list = ({ size, length }: { size: string; length: number }) => css`
   flex-direction: row;
   align-items: center;
 
-  width: calc(${size}*${0.5 + 0.5 * length});
+  width: calc(${size}*${0.5 + 0.5 * Math.min(length, 3)});
 
   & > div:first-child {
     z-index: 3;

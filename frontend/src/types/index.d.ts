@@ -50,6 +50,15 @@ export type TempMoimInputInfo = Omit<
   | 'authorNickname'
   | 'isZzimed'
 >;
+
+export interface ChattingPreview {
+  moimId: number;
+  title: string;
+  currentPeople: number;
+  beforeMoim: boolean;
+  lastContent: string;
+  unreadContentCount: number;
+}
 export interface Chat {
   chatId: number;
   content: string;

@@ -15,6 +15,7 @@ const POLICES = {
   hhmmRegex: /^([01]\d|2[0-3]):([0-5]\d)$/,
 
   maxMessageLength: 10000,
+  maxUnreadMessageCount: 300,
 };
 
 export default POLICES;
