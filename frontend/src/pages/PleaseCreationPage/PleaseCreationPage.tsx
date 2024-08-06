@@ -8,7 +8,7 @@ import ROUTES from '@_constants/routes';
 import PLEASE_INPUT_INFOS from './PleaseCreationPage.constant';
 import useAddPlease from '@_hooks/mutaions/useAddPlease';
 
-export default function MoimCreationPage() {
+export default function PleaseCreationPage() {
   const navigate = useNavigate();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { mutate } = useAddPlease(() => {
