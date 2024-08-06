@@ -204,32 +204,37 @@ class MoimTest {
 		@Test
 		void fail_whenTitleIsTooLong() {
 			String longTitle = "a".repeat(31);
-			assertThrows(MoimException.class, () -> moim.update(longTitle, DATE, TIME, PLACE, MAX_PEOPLE, DESCRIPTION));
+			assertThrows(MoimException.class,
+				() -> moim.update(longTitle, DATE, TIME, PLACE, MAX_PEOPLE, DESCRIPTION, MAX_PEOPLE + 1));
 		}
 
 		@DisplayName("제목이 빈 문자열이면 수정할 수 없다.")
 		@Test
 		void fail_whenTitleDoesNotExists() {
-			assertThrows(MoimException.class, () -> moim.update("", DATE, TIME, PLACE, MAX_PEOPLE, DESCRIPTION));
+			assertThrows(MoimException.class,
+				() -> moim.update("", DATE, TIME, PLACE, MAX_PEOPLE, DESCRIPTION, MAX_PEOPLE + 1));
 		}
 
 		@DisplayName("날짜가 null이면 수정할 수 없다.")
 		@Test
 		void fail_whenDateIsNull() {
-			assertThrows(MoimException.class, () -> moim.update(TITLE, null, TIME, PLACE, MAX_PEOPLE, DESCRIPTION));
+			assertThrows(MoimException.class,
+				() -> moim.update(TITLE, null, TIME, PLACE, MAX_PEOPLE, DESCRIPTION, MAX_PEOPLE + 1));
 		}
 
 		@DisplayName("시간이 null이면 수정할 수 없다.")
 		@Test
 		void fail_whenTimeIsNull() {
-			assertThrows(MoimException.class, () -> moim.update(TITLE, DATE, null, PLACE, MAX_PEOPLE, DESCRIPTION));
+			assertThrows(MoimException.class,
+				() -> moim.update(TITLE, DATE, null, PLACE, MAX_PEOPLE, DESCRIPTION, MAX_PEOPLE + 1));
 		}
 
 		@DisplayName("모임 날짜가 현재보다 과거이면 수정할 수 없다.")
 		@Test
 		void fail_whenDateIsPast() {
 			assertThrows(MoimException.class,
-				() -> moim.update(TITLE, LocalDate.now().minusDays(1), TIME, PLACE, MAX_PEOPLE, DESCRIPTION));
+				() -> moim.update(TITLE, LocalDate.now().minusDays(1), TIME, PLACE, MAX_PEOPLE, DESCRIPTION,
+					MAX_PEOPLE + 1));
 		}
 
 		@DisplayName("날짜는 같고, 시간이 현재보다 과거이면 수정할 수 없다.")
@@ -237,39 +242,51 @@ class MoimTest {
 		void fail_whenTimeIsPast() {
 			assertThrows(MoimException.class,
 				() -> moim.update(TITLE, LocalDate.now(), LocalTime.now().minusHours(1), PLACE, MAX_PEOPLE,
-					DESCRIPTION));
+					DESCRIPTION, MAX_PEOPLE + 1));
 		}
 
 		@DisplayName("장소가 빈 문자열이면 수정할 수 없다.")
 		@Test
 		void fail_whenPlaceIsBlank() {
-			assertThrows(MoimException.class, () -> moim.update(TITLE, DATE, TIME, "", MAX_PEOPLE, DESCRIPTION));
+			assertThrows(MoimException.class,
+				() -> moim.update(TITLE, DATE, TIME, "", MAX_PEOPLE, DESCRIPTION, MAX_PEOPLE + 1));
 		}
 
 		@DisplayName("장소 길이가 제한을 초과하면 수정할 수 없다.")
 		@Test
 		void fail_whenPlaceIsTooLong() {
 			String longPlace = "a".repeat(101);
-			assertThrows(MoimException.class, () -> moim.update(TITLE, DATE, TIME, longPlace, MAX_PEOPLE, DESCRIPTION));
+			assertThrows(MoimException.class,
+				() -> moim.update(TITLE, DATE, TIME, longPlace, MAX_PEOPLE, DESCRIPTION, MAX_PEOPLE + 1));
 		}
 
 		@DisplayName("모임 최대 인원이 1보다 작으면 수정할 수 없다.")
 		@Test
 		void fail_whenMaxPeopleIsTooSmall() {
-			assertThrows(MoimException.class, () -> moim.update(TITLE, DATE, TIME, PLACE, 0, DESCRIPTION));
+			assertThrows(MoimException.class,
+				() -> moim.update(TITLE, DATE, TIME, PLACE, 0, DESCRIPTION, MAX_PEOPLE + 1));
 		}
 
 		@DisplayName("모임 최대 인원이 제한을 초과하면 수정할 수 없다.")
 		@Test
 		void fail_whenMaxPeopleIsTooMany() {
-			assertThrows(MoimException.class, () -> moim.update(TITLE, DATE, TIME, PLACE, 100, DESCRIPTION));
+			assertThrows(MoimException.class,
+				() -> moim.update(TITLE, DATE, TIME, PLACE, 100, DESCRIPTION, MAX_PEOPLE + 1));
+		}
+
+		@DisplayName("모임 최대 인원이 현재 참여 인원보다 적으면 수정할 수 없다.")
+		@Test
+		void fail_whenMaxPeopleIsLowerThanCurrentPeople() {
+			assertThrows(MoimException.class,
+				() -> moim.update(TITLE, DATE, TIME, PLACE, MAX_PEOPLE - 1, DESCRIPTION, MAX_PEOPLE));
 		}
 
 		@DisplayName("설명의 길이가 길면 수정할 수 없다.")
 		@Test
 		void fail_whenDescriptionIsTooLong() {
 			String longDescription = "a".repeat(1001);
-			assertThrows(MoimException.class, () -> moim.update(TITLE, DATE, TIME, PLACE, MAX_PEOPLE, longDescription));
+			assertThrows(MoimException.class,
+				() -> moim.update(TITLE, DATE, TIME, PLACE, MAX_PEOPLE, longDescription, MAX_PEOPLE + 1));
 		}
 
 		@DisplayName("모임 객체를 수정한다.")
@@ -279,10 +296,10 @@ class MoimTest {
 			LocalDate newDate = LocalDate.now().plusDays(2);
 			LocalTime newTime = LocalTime.now().plusHours(2);
 			String newPlace = "서울시 강남구 강남대로 10길 5";
-			int newMaxPeople = 10;
+			int newMaxPeople = MAX_PEOPLE + 1;
 			String newDescription = "축구하실 분 구합니다.";
 
-			moim.update(newTitle, newDate, newTime, newPlace, newMaxPeople, newDescription);
+			moim.update(newTitle, newDate, newTime, newPlace, newMaxPeople, newDescription, MAX_PEOPLE);
 
 			assertEquals(newTitle, moim.getTitle());
 			assertEquals(newDate, moim.getDate());

@@ -143,7 +143,7 @@ public class Moim {
 	}
 
 	public void update(String title, LocalDate date, LocalTime time, String place, int maxPeople,
-		String description) {
+		String description, int currentPeople) {
 		if (!Objects.equals(this.title, title)) {
 			validateTitle(title);
 			this.title = title;
@@ -159,6 +159,8 @@ public class Moim {
 			this.time = time;
 		}
 
+		validateMoimIsFuture(this.date, this.time);
+
 		if (!Objects.equals(this.place, place)) {
 			validatePlace(place);
 			this.place = place;
@@ -166,6 +168,7 @@ public class Moim {
 
 		if (!Objects.equals(this.maxPeople, maxPeople)) {
 			validateMaxPeople(maxPeople);
+			validateMaxPeopleIsUpperThanCurrentPeople(maxPeople, currentPeople);
 			this.maxPeople = maxPeople;
 		}
 
@@ -173,17 +176,21 @@ public class Moim {
 			validateDescription(description);
 			this.description = description;
 		}
-
-		validateMoimIsFuture(this.date, this.time);
 	}
 
-    public boolean isPastMoim() {
-        LocalDateTime dateTime = LocalDateTime.of(date, time);
-        return dateTime.isBefore(LocalDateTime.now());
-    }
+	private void validateMaxPeopleIsUpperThanCurrentPeople(int maxPeople, int currentPeople) {
+		if (maxPeople < currentPeople) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MAX_PEOPLE_IS_LOWER_THAN_CURRENT_PEOPLE);
+		}
+	}
 
-    public boolean isUpcomingMoim() {
-        return !isPastMoim();
-    }
+	public boolean isPastMoim() {
+		LocalDateTime dateTime = LocalDateTime.of(date, time);
+		return dateTime.isBefore(LocalDateTime.now());
+	}
+
+	public boolean isUpcomingMoim() {
+		return !isPastMoim();
+	}
 
 }
