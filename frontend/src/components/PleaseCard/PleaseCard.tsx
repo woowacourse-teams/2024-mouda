@@ -2,6 +2,7 @@ import { Please } from '@_types/index';
 import * as S from './PleaseCard.style';
 import { useTheme } from '@emotion/react';
 import InterestingIcon from '@_components/Icons/InterestingIcon';
+import useInterest from '@_hooks/mutaions/useInterest';
 
 interface PleaseCardProps {
   please: Please;
@@ -11,6 +12,12 @@ export default function PleaseCard(props: PleaseCardProps) {
   const { please, ...args } = props;
 
   const theme = useTheme();
+
+  const { mutate: changeInterest } = useInterest(please);
+
+  const handleInterestButtonClick = () => {
+    changeInterest();
+  };
 
   return (
     <div css={S.cardBox} {...args}>
@@ -25,12 +32,12 @@ export default function PleaseCard(props: PleaseCardProps) {
         <div css={S.description({ theme })}>{please.description}</div>
       </div>
       <div css={S.actionWrapper}>
-        <div css={S.actionButtonWrapper}>
-          <button css={S.actionButton({ theme })}>
+        <button css={S.actionButton} onClick={handleInterestButtonClick}>
+          <div css={S.actionIconWrapper({ theme })}>
             <InterestingIcon isActive={please.isInterested} />
-          </button>
+          </div>
           <div css={S.actionText({ theme })}>관심있어요</div>
-        </div>
+        </button>
       </div>
     </div>
   );

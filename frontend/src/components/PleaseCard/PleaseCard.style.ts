@@ -45,15 +45,20 @@ export const actionWrapper = css`
   display: flex;
 `;
 
-export const actionButtonWrapper = css`
+export const actionButton = css`
   display: flex;
   flex-direction: column;
   gap: 14px;
   align-items: center;
   justify-content: center;
+
+  padding: 0;
+
+  background: none;
+  border: none;
 `;
 
-export const actionButton = ({ theme }: { theme: Theme }) => css`
+export const actionIconWrapper = ({ theme }: { theme: Theme }) => css`
   display: flex;
 
   padding: 8px;
