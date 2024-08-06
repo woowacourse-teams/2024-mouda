@@ -44,7 +44,7 @@ public class AuthControllerTest {
 		RestAssured.given().log().all()
 			.contentType(ContentType.JSON)
 			.body(request)
-			.when().post("v1/auth/login")
+			.when().post("/v1/auth/login")
 			.then().log().all()
 			.statusCode(200);
 	}
