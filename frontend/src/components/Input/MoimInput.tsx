@@ -1,4 +1,5 @@
 import * as S from '@_components/Input/MoimInput.style';
+import { useTheme } from '@emotion/react';
 
 import { HTMLProps } from 'react';
 
@@ -7,18 +8,27 @@ export interface LabeledInputProps extends HTMLProps<HTMLInputElement> {
 }
 
 export default function LabeledInput(props: LabeledInputProps) {
-  const { name, title, type, placeholder, required, onChange, ...args } = props;
+  const theme = useTheme();
+  const {
+    name,
+    title,
+    type = 'text',
+    placeholder,
+    required,
+    onChange,
+    ...args
+  } = props;
 
   return (
     <label htmlFor={title}>
-      <h3 css={S.title}>
+      <h3 css={S.title({ theme })}>
         {title}
-        <span css={S.required}>{required ? '*' : ''}</span>
+        <span css={S.required({ theme })}>{required ? '*' : ''}</span>
       </h3>
 
       <input
         name={name}
-        css={S.input}
+        css={S.input({ theme })}
         type={type}
         placeholder={placeholder}
         id={title}
