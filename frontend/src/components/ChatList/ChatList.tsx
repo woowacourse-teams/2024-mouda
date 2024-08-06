@@ -11,12 +11,12 @@ interface ChatListProps {
 
 export default function ChatList(props: ChatListProps) {
   const { chats } = props;
-  const messageEndRef = useRef<HTMLDivElement | null>(null);
+  const endRef = useRef<HTMLDivElement | null>(null);
 
   const theme = useTheme();
 
   useEffect(() => {
-    messageEndRef.current?.scrollIntoView(false);
+    endRef.current?.scrollIntoView();
   }, [chats]);
 
   return (
@@ -24,7 +24,7 @@ export default function ChatList(props: ChatListProps) {
       {chats.map((chat) => (
         <Chat key={chat.chatId} chat={chat} />
       ))}
-      <div ref={messageEndRef}></div>
+      <div ref={endRef} />
     </div>
   );
 }

@@ -7,6 +7,7 @@ import {
   GetMoim,
   GetMoims,
   GetPleases,
+  GetMyInfo,
   GetZzimMine,
 } from './responseTypes';
 
@@ -92,4 +93,11 @@ export const getPleases = async () => {
 
   const json: GetPleases = await response.json();
   return json.data.pleases;
+};
+
+export const getMyInfo = async () => {
+  const response = await ApiClient.getWithAuth('member/mine');
+
+  const json: GetMyInfo = await response.json();
+  return json.data;
 };

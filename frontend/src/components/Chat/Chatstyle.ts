@@ -17,7 +17,7 @@ export const messageContainer = ({
 }) => css`
   display: flex;
   flex-direction: column;
-  ${isMyMessage && 'align-items: flex-end'}
+  align-items: ${isMyMessage ? 'flex-end;' : 'flex-start;'};
 `;
 
 export const senderStyle = ({ theme }: { theme: Theme }) => css`

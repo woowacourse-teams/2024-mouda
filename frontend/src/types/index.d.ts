@@ -30,17 +30,8 @@ export interface Comment {
   profile: string;
   children: Comment[];
 }
-export type MoimInputInfo = Omit<
-  MoimInfo,
-  | 'moimId'
-  | 'currentPeople'
-  | 'participants'
-  | 'status'
-  | 'comments'
-  | 'isZzimed'
->;
 
-export type TempMoimInputInfo = Omit<
+export type MoimInputInfo = Omit<
   MoimInfo,
   | 'moimId'
   | 'currentPeople'

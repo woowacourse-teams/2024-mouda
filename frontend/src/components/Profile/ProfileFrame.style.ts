@@ -8,7 +8,7 @@ export const profileBox = () => {
   `;
 };
 
-export const profileFrame = (width: Size, height: Size) => {
+export const profileFrame = (width: Size, height: Size, borderWidth: Size) => {
   return css`
     overflow: hidden;
     display: flex;
@@ -18,7 +18,7 @@ export const profileFrame = (width: Size, height: Size) => {
     width: ${width}rem;
     height: ${height}rem;
 
-    border: 0.5rem solid orange;
+    border: ${borderWidth}rem solid orange;
     border-radius: 300rem;
   `;
 };

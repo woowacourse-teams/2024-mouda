@@ -11,6 +11,7 @@ const QUERY_KEYS = {
   chamyoAll: 'chamyoAll',
   comment: 'comment',
   pleases: 'pleases',
+  myInfo: 'MyInfo',
 };
 
 export default QUERY_KEYS;

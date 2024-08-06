@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import QUERY_KEYS from '@_constants/queryKeys';
 import { fetchModifyMoin } from '@_apis/fetchs';
-import { TempMoimInputInfo } from '@_types/index';
+import { MoimInputInfo } from '@_types/index';
 
 interface ModifyMoimParams {
   moimId: number;
-  state: TempMoimInputInfo;
+  state: MoimInputInfo;
 }
 
 export default function useModifyMoim(onSuccess: (moimId: number) => void) {

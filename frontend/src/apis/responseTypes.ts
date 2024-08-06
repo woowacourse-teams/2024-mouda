@@ -39,3 +39,10 @@ export interface GetPleases {
     pleases: Please[];
   };
 }
+
+export interface GetMyInfo {
+  data: {
+    nickname: string;
+    profile: string;
+  };
+}

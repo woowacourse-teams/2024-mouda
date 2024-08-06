@@ -6,7 +6,7 @@ import useMoimInfoInput from './MoimModifyPage.hook';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import useModifyMoim from '@_hooks/mutaions/useModifyMoim';
-import { MoimInfo, TempMoimInputInfo } from '@_types/index';
+import { MoimInfo, MoimInputInfo } from '@_types/index';
 
 export default function MoimModifyPage() {
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ export default function MoimModifyPage() {
             {...info}
             key={info.title}
             onChange={handleChange}
-            value={inputData[info.name as keyof TempMoimInputInfo]}
+            value={inputData[info.name as keyof MoimInputInfo]}
           />
         ))}
       </FormLayout.MainForm>
