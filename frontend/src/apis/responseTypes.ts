@@ -33,3 +33,10 @@ export interface GetZzimMine {
     isZzimed: boolean;
   };
 }
+
+export interface GetMyInfo {
+  data: {
+    nickname: string;
+    profile: string;
+  };
+}
