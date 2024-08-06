@@ -62,7 +62,10 @@ public class ChatController implements ChatSwagger {
 
 	@Override
 	@PostMapping("/datetime")
-	public ResponseEntity<Void> confirmDateTime(DateTimeConfirmRequest dateTimeConfirmRequest, Member member) {
+	public ResponseEntity<Void> confirmDateTime(
+		@RequestBody DateTimeConfirmRequest dateTimeConfirmRequest,
+		@LoginMember Member member
+	) {
 		chatService.confirmDateTime(dateTimeConfirmRequest, member);
 
 		return ResponseEntity.ok().build();
