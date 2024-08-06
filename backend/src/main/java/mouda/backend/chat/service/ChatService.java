@@ -6,9 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.chamyo.domain.Chamyo;
 import mouda.backend.chamyo.repository.ChamyoRepository;
 import mouda.backend.chat.domain.Chat;
 import mouda.backend.chat.dto.request.ChatCreateRequest;
+import mouda.backend.chat.dto.request.LastReadChatRequest;
 import mouda.backend.chat.dto.response.ChatFindDetailResponse;
 import mouda.backend.chat.dto.response.ChatFindUnloadedResponse;
 import mouda.backend.chat.exception.ChatErrorMessage;
@@ -51,5 +53,12 @@ public class ChatService {
 			.toList();
 
 		return new ChatFindUnloadedResponse(chats);
+	}
+
+	public void createLastChat(LastReadChatRequest lastReadChatRequest, Member member) {
+		Chamyo chamyo = chamyoRepository.findByMoimIdAndMemberId(lastReadChatRequest.moimId(), member.getId())
+			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.NOT_PARTICIPANT_TO_FIND));
+
+		chamyo.updateLastChat(lastReadChatRequest.lastReadChatId());
 	}
 }

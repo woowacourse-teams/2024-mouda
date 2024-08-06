@@ -36,10 +36,17 @@ public class Chamyo {
 	@Column(nullable = false)
 	private MoimRole moimRole;
 
+	private long lastReadChatId;
+
 	@Builder
 	public Chamyo(Moim moim, Member member, MoimRole moimRole) {
 		this.moim = moim;
 		this.member = member;
 		this.moimRole = moimRole;
+		this.lastReadChatId = 0L;
+	}
+
+	public void updateLastChat(Long lastReadChatId) {
+		this.lastReadChatId = lastReadChatId;
 	}
 }
