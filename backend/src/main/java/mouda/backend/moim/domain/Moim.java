@@ -193,4 +193,12 @@ public class Moim {
 		return !isPastMoim();
 	}
 
+	public void confirmPlace(String place) {
+		this.place = place;
+	}
+
+	public void confirmDateTime(LocalDate date, LocalTime time) {
+		this.date = date;
+		this.time = time;
+	}
 }

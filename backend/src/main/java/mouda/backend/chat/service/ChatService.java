@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.chamyo.domain.Chamyo;
@@ -22,6 +23,7 @@ import mouda.backend.member.domain.Member;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.repository.MoimRepository;
 
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class ChatService {
@@ -38,6 +40,7 @@ public class ChatService {
 		chatRepository.save(chat);
 	}
 
+	@Transactional(readOnly = true)
 	public ChatFindUnloadedResponse findUnloadedChats(long recentChatId, long moimId, Member member) {
 		findMoimByMoimId(moimId);
 		findChamyoByMoimIdAndMemberId(moimId, member.getId());
@@ -60,6 +63,7 @@ public class ChatService {
 		}
 
 		Chat chat = placeConfirmRequest.toEntity(moim, member);
+		moim.confirmPlace(placeConfirmRequest.place());
 		chatRepository.save(chat);
 	}
 
@@ -71,6 +75,7 @@ public class ChatService {
 		}
 
 		Chat chat = dateTimeConfirmRequest.toEntity(moim, member);
+		moim.confirmDateTime(dateTimeConfirmRequest.date(), dateTimeConfirmRequest.time());
 		chatRepository.save(chat);
 	}
 

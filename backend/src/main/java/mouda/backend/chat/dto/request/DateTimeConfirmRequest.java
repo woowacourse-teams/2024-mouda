@@ -20,7 +20,7 @@ public record DateTimeConfirmRequest(
 ) {
 	public Chat toEntity(Moim moim, Member member) {
 		return Chat.builder()
-			.content(date.toString() + time.toString())
+			.content(date.toString() + " " + time.toString())
 			.moim(moim)
 			.date(LocalDate.now())
 			.time(LocalTime.now())
