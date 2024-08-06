@@ -89,7 +89,6 @@ export const getChamyoAll = async (
 
 export const getMyInfo = async () => {
   const response = await ApiClient.getWithAuth('member/mine');
-  checkStatus(response);
 
   const json: GetMyInfo = await response.json();
   return json.data;
