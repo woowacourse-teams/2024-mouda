@@ -11,7 +11,12 @@ export default function MineInfoCard(props: MineInfoCardProps) {
   const theme = useTheme();
   return (
     <div css={S.MineInfoContainer()}>
-      <ProfileFrame width={9} height={9} src={profile}></ProfileFrame>
+      <ProfileFrame
+        width={9}
+        height={9}
+        borderWidth={0}
+        src={profile}
+      ></ProfileFrame>
       <div css={S.MinetextWrapper}>
         <span css={theme.typography.s1}>안녕하세요</span>
         <span css={theme.typography.h4}>{nickname}</span>
