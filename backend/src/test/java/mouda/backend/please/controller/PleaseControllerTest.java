@@ -11,6 +11,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 
 import io.restassured.RestAssured;
 import mouda.backend.config.DatabaseCleaner;
+import mouda.backend.fixture.PleaseFixture;
 import mouda.backend.fixture.TokenFixture;
 import mouda.backend.please.domain.Please;
 import mouda.backend.please.repository.PleaseRepository;
@@ -32,7 +33,8 @@ public class PleaseControllerTest {
 		databaseCleaner.cleanUp();
 		RestAssured.port = port;
 
-		pleaseRepository.save(new Please("이거 해주세요", "아니 그냥 해달라고", 1L));
+		Please please = PleaseFixture.getPleaseWithAuthorId1L();
+		pleaseRepository.save(please);
 	}
 
 	@DisplayName("해주세요 전체 목록을 조회한다.")
