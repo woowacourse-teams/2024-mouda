@@ -17,6 +17,7 @@ import mouda.backend.member.domain.Member;
 import mouda.backend.member.repository.MemberRepository;
 import mouda.backend.please.domain.Please;
 import mouda.backend.please.dto.request.PleaseCreateRequest;
+import mouda.backend.please.exception.PleaseException;
 
 @SpringBootTest
 class PleaseServiceTest {
@@ -58,7 +59,7 @@ class PleaseServiceTest {
 			Member tebah = memberRepository.save(MemberFixture.getTebah());
 
 			assertThatThrownBy(() -> pleaseService.createPlease(tebah, request))
-				.isInstanceOf(IllegalArgumentException.class);
+				.isInstanceOf(PleaseException.class);
 		}
 
 		@DisplayName("해주세요의 설명이 비어있으면 해주세요 생성에 실패한다.")
@@ -69,7 +70,7 @@ class PleaseServiceTest {
 			Member tebah = memberRepository.save(MemberFixture.getTebah());
 
 			assertThatThrownBy(() -> pleaseService.createPlease(tebah, request))
-				.isInstanceOf(IllegalArgumentException.class);
+				.isInstanceOf(PleaseException.class);
 		}
 	}
 }
