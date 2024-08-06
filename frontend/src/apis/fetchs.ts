@@ -1,4 +1,4 @@
-import { TempMoimInputInfo } from '@_types/index';
+import { MoimInputInfo } from '@_types/index';
 import ApiClient from './apiClient';
 
 export const fetchCompleteMoin = async (moimId: number) => {
@@ -13,10 +13,7 @@ export const fetchCancelMoin = async (moimId: number) => {
   });
 };
 
-export const fetchModifyMoin = async (
-  moimId: number,
-  state: TempMoimInputInfo,
-) => {
+export const fetchModifyMoin = async (moimId: number, state: MoimInputInfo) => {
   await ApiClient.patchWithAuth(`moim`, {
     moimId,
     ...state,
