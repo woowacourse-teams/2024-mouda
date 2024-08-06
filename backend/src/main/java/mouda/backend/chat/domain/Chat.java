@@ -35,6 +35,8 @@ public class Chat {
 
 	private LocalTime time;
 
+	private boolean isConfirmChat;
+
 	@Builder
 	public Chat(String content, Moim moim, Member member, LocalDate date, LocalTime time) {
 		this.content = content;
@@ -42,6 +44,7 @@ public class Chat {
 		this.member = member;
 		this.date = date;
 		this.time = time;
+		this.isConfirmChat = false;
 	}
 
 	public boolean isMyMessage(long memberId) {

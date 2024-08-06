@@ -2,6 +2,7 @@ package mouda.backend.please.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import mouda.backend.config.argumentresolver.LoginMember;
 import mouda.backend.member.domain.Member;
 import mouda.backend.please.domain.Please;
 import mouda.backend.please.dto.request.PleaseCreateRequest;
+import mouda.backend.please.dto.response.PleaseFindAllResponses;
 import mouda.backend.please.service.PleaseService;
 
 @RestController
@@ -39,5 +41,12 @@ public class PleaseController {
 		pleaseService.deletePlease(member, pleaseId);
 
 		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping
+	public ResponseEntity<RestResponse<PleaseFindAllResponses>> findAllPlease(@LoginMember Member member) {
+		PleaseFindAllResponses responses = pleaseService.findAllPlease(member);
+
+		return ResponseEntity.ok().body(new RestResponse<>(responses));
 	}
 }

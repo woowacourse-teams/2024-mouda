@@ -13,7 +13,8 @@ public record ChatFindDetailResponse(
 	boolean isMyMessage,
 	String nickname,
 	LocalDate date,
-	LocalTime time
+	LocalTime time,
+	boolean isConfirmChat
 ) {
 	public static ChatFindDetailResponse toResponse(Chat chat, boolean isMyMessage) {
 		return ChatFindDetailResponse.builder()
@@ -23,6 +24,7 @@ public record ChatFindDetailResponse(
 			.nickname(chat.getMember().getNickname())
 			.date(chat.getDate())
 			.time(chat.getTime())
+			.isConfirmChat(chat.isConfirmChat())
 			.build();
 	}
 }
