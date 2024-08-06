@@ -20,7 +20,7 @@ export default function LabeledInput(props: LabeledInputProps) {
   } = props;
 
   return (
-    <label htmlFor={title}>
+    <label htmlFor={title} css={S.labelWrapper}>
       <h3 css={S.title({ theme })}>
         {title}
         <span css={S.required({ theme })}>{required ? '*' : ''}</span>

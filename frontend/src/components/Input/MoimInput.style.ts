@@ -4,6 +4,10 @@ export const required = (props: { theme: Theme }) => css`
   color: ${props.theme.colorPalette.red[500]};
 `;
 
+export const labelWrapper = () => css`
+  width: 100%;
+`;
+
 export const title = (props: { theme: Theme }) => css`
   ${props.theme.typography.b1}
 `;
