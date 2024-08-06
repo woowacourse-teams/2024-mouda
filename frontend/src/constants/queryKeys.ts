@@ -10,7 +10,8 @@ const QUERY_KEYS = {
   ZzimMine: 'ZzimMine',
   chamyoAll: 'chamyoAll',
   comment: 'comment',
-  myInfo: 'MyInfo',
+  myInfo: 'myinfo',
+  please: 'please',
 };
 
 export default QUERY_KEYS;
