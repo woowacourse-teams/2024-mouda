@@ -47,7 +47,8 @@ public class ChatController implements ChatSwagger {
 		return ResponseEntity.ok(new RestResponse<>(unloadedChats));
 	}
 
-	@GetMapping
+	@Override
+	@GetMapping("/preview")
 	public ResponseEntity<RestResponse<ChatPreviewResponses>> findChatPreviews(
 		@LoginMember Member member
 	) {
@@ -56,6 +57,8 @@ public class ChatController implements ChatSwagger {
 		return ResponseEntity.ok(new RestResponse<>(chatPreviewResponses));
 	}
 
+	@Override
+	@PostMapping("/last")
 	public ResponseEntity<Void> createLastReadChatId(
 		@RequestBody LastReadChatRequest lastReadChatRequest,
 		@LoginMember Member member
