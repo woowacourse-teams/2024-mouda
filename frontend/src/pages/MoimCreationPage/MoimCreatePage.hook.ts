@@ -19,7 +19,14 @@ const useMoimInfoInput = () => {
     description: '',
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputData({
+      ...inputData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInputData({
       ...inputData,
       [e.target.name]: e.target.value,
@@ -35,7 +42,8 @@ const useMoimInfoInput = () => {
 
   return {
     inputData,
-    handleChange,
+    handleInputChange,
+    handleTextAreaChange,
     isValidMoimInfoInput,
   };
 };

@@ -7,6 +7,8 @@ import useMoimInfoInput from './MoimCreatePage.hook';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import ROUTES from '@_constants/routes';
+import * as S from './MoimCreationPage.style';
+import LabeledTextArea from '@_components/TextArea/LabeledTextArea';
 
 export default function MoimCreationPage() {
   const navigate = useNavigate();
@@ -15,7 +17,12 @@ export default function MoimCreationPage() {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const { inputData, handleChange, isValidMoimInfoInput } = useMoimInfoInput();
+  const {
+    inputData,
+    handleInputChange,
+    handleTextAreaChange,
+    isValidMoimInfoInput,
+  } = useMoimInfoInput();
 
   const handleRegisterButtonClick = async () => {
     if (!isValidMoimInfoInput) {
@@ -33,9 +40,27 @@ export default function MoimCreationPage() {
       </FormLayout.Header>
 
       <FormLayout.MainForm>
-        {MOIM_INPUT_INFOS.map((info) => (
-          <LabeledInput {...info} key={info.title} onChange={handleChange} />
-        ))}
+        <div css={S.inputContainer}>
+          {MOIM_INPUT_INFOS.map((info) =>
+            info.type === 'textarea' ? (
+              <LabeledTextArea
+                name={info.name}
+                title={info.title}
+                key={info.title}
+                required={info.required}
+                onChange={handleTextAreaChange}
+              />
+            ) : (
+              <LabeledInput
+                name={info.name}
+                title={info.title}
+                key={info.title}
+                required={info.required}
+                onChange={handleInputChange}
+              />
+            ),
+          )}
+        </div>
       </FormLayout.MainForm>
 
       <FormLayout.BottomButtonWrapper>
