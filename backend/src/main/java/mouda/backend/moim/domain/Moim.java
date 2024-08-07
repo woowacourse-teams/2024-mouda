@@ -82,6 +82,7 @@ public class Moim {
 		this.maxPeople = maxPeople;
 		this.description = description;
 		this.moimStatus = MoimStatus.MOIMING;
+		this.isChatOpened = false;
 	}
 
 	private void validateTitle(String title) {
@@ -204,5 +205,9 @@ public class Moim {
 		validateMoimIsFuture(date, time);
 		this.date = date;
 		this.time = time;
+  }
+  
+	public void openChat() {
+		this.isChatOpened = true;
 	}
 }

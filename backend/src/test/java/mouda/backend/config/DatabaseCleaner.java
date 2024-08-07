@@ -30,6 +30,12 @@ public class DatabaseCleaner {
 		entityManager.createNativeQuery("DELETE FROM CHAMYO").executeUpdate();
 		entityManager.createNativeQuery("ALTER TABLE CHAMYO alter column id restart with 1").executeUpdate();
 
+		entityManager.createNativeQuery("DELETE FROM INTEREST").executeUpdate();
+		entityManager.createNativeQuery("ALTER TABLE INTEREST alter column id restart with 1").executeUpdate();
+
+		entityManager.createNativeQuery("DELETE FROM PLEASE").executeUpdate();
+		entityManager.createNativeQuery("ALTER TABLE PLEASE alter column id restart with 1").executeUpdate();
+
 		entityManager.createNativeQuery("DELETE FROM MEMBER").executeUpdate();
 		entityManager.createNativeQuery("ALTER TABLE MEMBER alter column id restart with 1").executeUpdate();
 

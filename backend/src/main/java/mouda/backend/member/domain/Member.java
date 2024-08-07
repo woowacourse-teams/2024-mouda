@@ -1,5 +1,7 @@
 package mouda.backend.member.domain;
 
+import java.util.Objects;
+
 import org.springframework.http.HttpStatus;
 
 import jakarta.persistence.Entity;
@@ -21,7 +23,7 @@ import mouda.backend.moim.exception.MoimException;
 public class Member {
 
 	private static final int NICKNAME_MAX_LENGTH = 10;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -48,5 +50,20 @@ public class Member {
 
 	public void joinMoim(Moim moim) {
 		this.moim = moim;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Member member = (Member)o;
+		return Objects.equals(id, member.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
 	}
 }
