@@ -8,27 +8,55 @@ import ChatList from '@_components/ChatList/ChatList';
 import ChatMenuItem from '@_components/ChatMenuItem/ChatMenuItem';
 import ChattingFooter from '@_components/ChattingFooter/ChattingFooter';
 import ChattingRoomLayout from '@_layouts/ChattingRoomLayout/ChattingRoomLayout';
+import DateTimeModalContent from '@_components/DateTimeModalContent/DateTimeModalContent';
+import Modal from '@_components/Modal/Modal';
 import Picker from '@_components/Icons/Picker';
+import PlaceModalContent from '@_components/PlaceModalContent/PlaceModalContent';
 import useChats from '@_hooks/queries/useChat';
 import useMoims from '@_hooks/queries/useMoims';
 import useSendMessage from '@_hooks/mutaions/useSendMessage';
 import { useTheme } from '@emotion/react';
 
+type ModalContent = 'place' | 'datetime';
+
 export default function ChattingRoomPage() {
   const theme = useTheme();
   const params = useParams();
   const navigate = useNavigate();
-  const [isMenuOpened, setIsMenuOpened] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const moimId = +(params.moimId || '0');
   const { moims } = useMoims();
   const { chats } = useChats(moimId);
   const { mutate: handleSendMessage } = useSendMessage(moimId);
+  const [nowModalContent, setNowModalContent] = useState<ModalContent>('place');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const moimTitle = useMemo(
     () => moims?.find((moim) => moim.moimId === moimId)?.title,
     [moims, moimId],
   );
+
+  const modal = useMemo(() => {
+    if (nowModalContent === 'datetime')
+      return (
+        <Modal onClose={() => setIsModalOpen(false)}>
+          <DateTimeModalContent
+            onCancel={() => setIsModalOpen(false)}
+            onConfirm={() => setIsModalOpen(false)}
+          />
+        </Modal>
+      );
+    if (nowModalContent === 'place')
+      return (
+        <Modal onClose={() => setIsModalOpen(false)}>
+          <PlaceModalContent
+            onCancel={() => setIsModalOpen(false)}
+            onConfirm={() => setIsModalOpen(false)}
+          />
+        </Modal>
+      );
+  }, [nowModalContent]);
 
   return (
     <ChattingRoomLayout>
@@ -46,22 +74,31 @@ export default function ChattingRoomPage() {
       <ChattingRoomLayout.Footer>
         <ChattingFooter
           onSubmit={handleSendMessage}
-          onMenuClick={() => setIsMenuOpened(!isMenuOpened)}
+          onMenuClick={() => setIsMenuOpen(!isMenuOpen)}
         />
-        {isMenuOpened && (
+        {isMenuOpen && (
           <ChatBottomMenu>
             <ChatMenuItem
               icon={<Picker />}
               description="장소 정하기"
-              onClick={() => alert('장소정하기')}
+              onClick={() => {
+                setNowModalContent('place');
+                setIsModalOpen(true);
+              }}
             />
             <ChatMenuItem
               icon={<CalenderClock />}
               description="날짜/시간 정하기"
+              onClick={() => {
+                setNowModalContent('datetime');
+                setIsModalOpen(true);
+              }}
             />
           </ChatBottomMenu>
         )}
       </ChattingRoomLayout.Footer>
+
+      {isModalOpen && modal}
     </ChattingRoomLayout>
   );
 }
