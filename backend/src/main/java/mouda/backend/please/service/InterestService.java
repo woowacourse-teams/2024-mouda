@@ -33,7 +33,7 @@ public class InterestService {
 
 		if (!isInterestExists) {
 			Please please = pleaseRepository.findById(pleaseId)
-				.orElseThrow(() -> new PleaseException(HttpStatus.BAD_REQUEST, PleaseErrorMessage.NOT_FOUND));
+				.orElseThrow(() -> new PleaseException(HttpStatus.NOT_FOUND, PleaseErrorMessage.NOT_FOUND));
 			Interest newInterest = Interest.builder()
 				.member(member)
 				.please(please)
