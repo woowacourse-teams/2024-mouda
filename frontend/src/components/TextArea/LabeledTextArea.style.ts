@@ -7,16 +7,17 @@ export const required = (props: { theme: Theme }) => css`
 export const labelWrapper = () => css`
   width: 100%;
 `;
-
 export const title = (props: { theme: Theme }) => css`
   ${props.theme.typography.b1}
 `;
 
-export const input = (props: { theme: Theme }) => css`
+export const textArea = (props: { theme: Theme }) => css`
+  resize: none;
+
   flex-shrink: 0;
 
   width: 100%;
-  height: 4rem;
+  height: 8rem;
 
   font-size: 1.6rem;
 

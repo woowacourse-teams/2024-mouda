@@ -1,14 +1,13 @@
+import { Fragment, useState } from 'react';
+import MoimTabBar, { MainPageTab } from '@_components/MoimTabBar/MoimTabBar';
 import Button from '@_components/Button/Button';
 import HomeLayout from '@_layouts/HomeLayout.tsx/HomeLayout';
+import HomeMainContent from '@_components/HomeMainContent/HomeMainContent';
+import NavigationBar from '@_components/NavigationBar/NavigationBar';
+import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
+import PlusIcon from '@_components/Icons/PlusIcon';
 import ROUTES from '@_constants/routes';
 import { useNavigate } from 'react-router-dom';
-import PlusIcon from '@_components/Icons/PlusIcon';
-import { Fragment, useState } from 'react';
-import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
-import NavigationBar from '@_components/NavigationBar/NavigationBar';
-
-import MoimTabBar, { MainPageTab } from '@_components/MoimTabBar/MoimTabBar';
-import HomeMainContent from '@_components/HomeMainContent/HomeMainContent';
 import HomeHeaderContent from '@_components/HomeHeaderContent/HomHeaderContent';
 
 export default function MainPage() {
@@ -37,6 +36,7 @@ export default function MainPage() {
             shape="circle"
             onClick={() => navigate(ROUTES.addMoim)}
             disabled={false}
+            reversePrimary
           >
             <PlusIcon />
           </Button>
