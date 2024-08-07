@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +21,11 @@ import mouda.backend.chat.dto.request.ChatCreateRequest;
 import mouda.backend.chat.dto.request.DateTimeConfirmRequest;
 import mouda.backend.chat.dto.request.PlaceConfirmRequest;
 import mouda.backend.chat.dto.response.ChatFindUnloadedResponse;
+import mouda.backend.chat.dto.response.ChatPreviewResponses;
 import mouda.backend.chat.exception.ChatException;
 import mouda.backend.chat.repository.ChatRepository;
 import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.fixture.ChatFixture;
-import mouda.backend.chat.dto.response.ChatPreviewResponses;
-import mouda.backend.chat.repository.ChatRepository;
-import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.fixture.MemberFixture;
 import mouda.backend.fixture.MoimFixture;
 import mouda.backend.member.domain.Member;
@@ -44,7 +41,6 @@ class ChatServiceTest {
 
 	@Autowired
 	private ChatRepository chatRepository;
-	private ChatRepository chatRepository;
 
 	@Autowired
 	private MoimRepository moimRepository;
@@ -53,14 +49,7 @@ class ChatServiceTest {
 	private MemberRepository memberRepository;
 
 	@Autowired
-	private MoimRepository moimRepository;
-
-	@Autowired
 	private ChamyoRepository chamyoRepository;
-	private ChamyoRepository chamyoRepository;
-
-	@Autowired
-	private ChatService chatService;
 
 	@Autowired
 	private DatabaseCleaner databaseCleaner;
@@ -214,9 +203,9 @@ class ChatServiceTest {
 		assertThat(moimOptional.get().getDate()).isEqualTo(date);
 		assertThat(moimOptional.get().getTime().getHour()).isEqualTo(time.getHour());
 		assertThat(moimOptional.get().getTime().getMinute()).isEqualTo(time.getMinute());
-  }
-    
-  @DisplayName("열린 채팅방이 없다면 빈 리스트를 반환한다.")
+	}
+
+	@DisplayName("열린 채팅방이 없다면 빈 리스트를 반환한다.")
 	@Test
 	void findChatPreview() {
 		Member hogee = MemberFixture.getHogee();
