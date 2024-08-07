@@ -1,4 +1,10 @@
-import { Chat, MoimInfo, Participation, Please } from '../types';
+import {
+  Chat,
+  ChattingPreview,
+  MoimInfo,
+  Participation,
+  Please,
+} from '../types';
 
 export interface GetMoims {
   data: { moims: MoimInfo[] };
@@ -12,6 +18,9 @@ export interface PostMoim {
   data: number;
 }
 
+export interface GetChattingPreview {
+  data: { chatPreviewResponses: ChattingPreview[] };
+}
 export interface GetChat {
   data: { chats: Chat[] };
 }
