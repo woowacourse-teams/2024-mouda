@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mouda.backend.member.domain.Member;
@@ -26,6 +27,10 @@ public class Interest {
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Please please;
+
+	@Builder
+	public Interest(Member member, Please please) {
+		this.member = member;
+		this.please = please;
+	}
 }
-
-
