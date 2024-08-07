@@ -9,6 +9,7 @@ import NavigationBar from '@_components/NavigationBar/NavigationBar';
 
 import MoimTabBar, { MainPageTab } from '@_components/MoimTabBar/MoimTabBar';
 import HomeMainContent from '@_components/HomeMainContent/HomeMainContent';
+import HomeHeaderContent from '@_components/HomeHeaderContent/HomHeaderContent';
 
 export default function MainPage() {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ export default function MainPage() {
     <Fragment>
       <HomeLayout>
         <HomeLayout.Header>
-          우아한테크코스
+          <HomeHeaderContent>우아한테크코스</HomeHeaderContent>
           <MoimTabBar currentTab={currentTab} onTabClick={handleTabClick} />
         </HomeLayout.Header>
 
