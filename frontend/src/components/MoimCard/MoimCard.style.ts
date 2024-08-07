@@ -8,6 +8,7 @@ export const cardBox = css`
   width: 100%;
   padding: 2rem 2.4rem;
 
+  background: white;
   border-radius: 2.5rem;
   box-shadow: rgb(0 0 0 / 24%) 0 3px 8px;
 `;
