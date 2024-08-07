@@ -22,22 +22,29 @@ public class InterestService {
 
 	public void updateInterest(Member member, InterestUpdateRequest request) {
 		if (request.isInterested()) {
-			boolean exists = interestRepository.findByMemberIdAndPleaseId(member.getId(), request.pleaseId())
-				.isPresent();
-
-			if (!exists) {
-				Please please = pleaseRepository.findById(request.pleaseId())
-					.orElseThrow(() -> new PleaseException(HttpStatus.BAD_REQUEST, PleaseErrorMessage.NOT_FOUND));
-				Interest newInterest = Interest.builder()
-					.member(member)
-					.please(please)
-					.build();
-				interestRepository.save(newInterest);
-			}
+			addInterest(member, request.pleaseId());
 			return;
 		}
+		removeInterest(member, request.pleaseId());
+	}
 
-		interestRepository.findByMemberIdAndPleaseId(member.getId(), request.pleaseId())
+	private void addInterest(Member member, Long pleaseId) {
+		boolean isInterestExists = interestRepository.findByMemberIdAndPleaseId(member.getId(), pleaseId).isPresent();
+
+		if (!isInterestExists) {
+			Please please = pleaseRepository.findById(pleaseId)
+				.orElseThrow(() -> new PleaseException(HttpStatus.BAD_REQUEST, PleaseErrorMessage.NOT_FOUND));
+			Interest newInterest = Interest.builder()
+				.member(member)
+				.please(please)
+				.build();
+			interestRepository.save(newInterest);
+		}
+	}
+
+	private void removeInterest(Member member, Long pleaseId) {
+		interestRepository.findByMemberIdAndPleaseId(member.getId(), pleaseId)
 			.ifPresent(interestRepository::delete);
 	}
+
 }
