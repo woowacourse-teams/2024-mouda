@@ -28,18 +28,4 @@ public record ChatPreviewResponse(
 			.unreadContentCount(unreadContentCount)
 			.build();
 	}
-
-	public static ChatPreviewResponse toResponse(
-		Chamyo chamyo,
-		int currentPeople
-	) {
-		return ChatPreviewResponse.builder()
-			.moimId(chamyo.getMoim().getId())
-			.title(chamyo.getMoim().getTitle())
-			.currentPeople(currentPeople)
-			.beforeMoim(chamyo.getMoim().isPastMoim())
-			.lastContent("")
-			.unreadContentCount(0)
-			.build();
-	}
 }
