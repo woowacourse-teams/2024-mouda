@@ -194,10 +194,14 @@ public class Moim {
 	}
 
 	public void confirmPlace(String place) {
+		validatePlace(place);
 		this.place = place;
 	}
 
 	public void confirmDateTime(LocalDate date, LocalTime time) {
+		validateDate(date);
+		validateTime(time);
+		validateMoimIsFuture(date, time);
 		this.date = date;
 		this.time = time;
 	}
