@@ -4,14 +4,14 @@ import { updatePlease } from './mockPleases';
 
 interface InterestRequestBody {
   pleaseId: number;
-  interesting: boolean;
+  isInterested: boolean;
 }
 
 export const interestHandler = [
   http.post(`${ENDPOINTS.interest}`, async ({ request }) => {
-    const { pleaseId, interesting } =
+    const { pleaseId, isInterested } =
       (await request.json()) as InterestRequestBody;
-    updatePlease(pleaseId, interesting);
+    updatePlease(pleaseId, isInterested);
     return HttpResponse.json({ success: true });
   }),
 ];
