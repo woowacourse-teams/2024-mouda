@@ -11,6 +11,7 @@ import ROUTES from '@_constants/routes';
 import { createBrowserRouter } from 'react-router-dom';
 import PleasePage from '@_pages/PleasePage/PleasePage';
 import MyPage from '@_pages/Mypage/MyPage';
+import RouteChangeTracker from '../RouteChageTracker';
 
 const routesConfig = [
   {
@@ -68,10 +69,15 @@ const routesConfig = [
 const router = createBrowserRouter(
   routesConfig.map((route) => ({
     path: route.path,
-    element: route.requiresAuth ? (
-      <ProtectedRoute>{route.element}</ProtectedRoute>
-    ) : (
-      route.element
+    element: (
+      <>
+        <RouteChangeTracker />
+        {route.requiresAuth ? (
+          <ProtectedRoute>{route.element}</ProtectedRoute>
+        ) : (
+          route.element
+        )}
+      </>
     ),
   })),
 );
