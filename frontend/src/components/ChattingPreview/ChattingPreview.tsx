@@ -8,7 +8,7 @@ import {
   unreadContentContainer,
 } from './ChattingPreview.style';
 
-import ChatBubbleSvg from '@_components/ChatBubbleSvg/ChatBubbleSvg';
+import ChatBubbleSvg from '@_components/Icons/ChatBubbleSvg';
 import { ChattingPreview as ChattingPreviewType } from '@_types/index';
 import POLICES from '@_constants/poclies';
 import UserPreviewList from '@_components/UserPreviewList/UserPreviewList';
