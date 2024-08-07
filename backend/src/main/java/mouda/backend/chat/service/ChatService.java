@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.chamyo.domain.Chamyo;
+import mouda.backend.chamyo.domain.MoimRole;
 import mouda.backend.chamyo.repository.ChamyoRepository;
 import mouda.backend.chat.domain.Chat;
 import mouda.backend.chat.dto.request.ChatCreateRequest;
@@ -72,13 +73,11 @@ public class ChatService {
 			chamyo.getMoim().getId());
 
 		int currentPeople = chamyoRepository.countByMoim(chamyo.getMoim());
-		if (lastChat.isPresent()) {
-			String lastContent = lastChat.get().getContent();
-			long unreadContentCount = lastChat.get().getId() - chamyo.getLastReadChatId();
-			return ChatPreviewResponse.toResponse(chamyo, currentPeople, lastContent, unreadContentCount);
-		}
+		String lastContent = lastChat.map(Chat::getContent).orElse("");
+		long lastReadChatId = chamyo.getLastReadChatId();
+		long unreadContentCount = lastChat.map(Chat::getId).orElse(lastReadChatId) - lastReadChatId;
 
-		return ChatPreviewResponse.toResponse(chamyo, currentPeople);
+		return ChatPreviewResponse.toResponse(chamyo, currentPeople, lastContent, unreadContentCount);
 	}
 
 	public void createLastChat(LastReadChatRequest lastReadChatRequest, Member member) {
@@ -86,5 +85,18 @@ public class ChatService {
 			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.NOT_PARTICIPANT_TO_FIND));
 
 		chamyo.updateLastChat(lastReadChatRequest.lastReadChatId());
+	}
+
+	public void openChatRoom(Long moimId, Member member) {
+		Moim moim = moimRepository.findById(moimId)
+			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIM_NOT_FOUND));
+		Chamyo chamyo = chamyoRepository.findByMoimIdAndMemberId(moimId, member.getId())
+			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.NOT_PARTICIPANT_TO_FIND));
+		if (chamyo.getMoimRole() == MoimRole.MOIMER) {
+			moim.openChat();
+		}
+		if (chamyo.getMoimRole() != MoimRole.MOIMER) {
+			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.NO_PERMISSION_OPEN_CHAT);
+		}
 	}
 }

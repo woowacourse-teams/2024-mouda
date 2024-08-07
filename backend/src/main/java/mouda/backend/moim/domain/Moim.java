@@ -194,4 +194,7 @@ public class Moim {
 		return !isPastMoim();
 	}
 
+	public void openChat() {
+		this.isChatOpened = true;
+	}
 }

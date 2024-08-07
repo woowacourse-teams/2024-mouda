@@ -2,6 +2,7 @@ package mouda.backend.chat.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,6 +65,17 @@ public class ChatController implements ChatSwagger {
 		@LoginMember Member member
 	) {
 		chatService.createLastChat(lastReadChatRequest, member);
+
+		return ResponseEntity.ok().build();
+	}
+
+	@Override
+	@PatchMapping("/open")
+	public ResponseEntity<Void> openChatRoom(
+		@RequestParam("moimId") Long moimId,
+		@LoginMember Member member
+	) {
+		chatService.openChatRoom(moimId, member);
 
 		return ResponseEntity.ok().build();
 	}

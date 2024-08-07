@@ -52,4 +52,13 @@ public interface ChatSwagger {
 		@RequestBody LastReadChatRequest lastReadChatRequest,
 		@LoginMember Member member
 	);
+
+	@Operation(summary = "채팅방 열기", description = "채팅방을 연다!")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "채팅방 열기 성공!")
+	})
+	ResponseEntity<Void> openChatRoom(
+		@RequestParam("moimId") Long moimId,
+		@LoginMember Member member
+	);
 }
