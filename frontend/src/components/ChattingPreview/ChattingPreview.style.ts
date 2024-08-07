@@ -15,6 +15,7 @@ export const container = ({
   height: 10rem;
   padding: 2rem;
 
+  background-color: ${theme.colorPalette.white[100]};
   border: 0.3rem solid;
   border-color: ${beforeMoim
     ? theme.colorPalette.orange[100]
