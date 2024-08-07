@@ -1,28 +1,28 @@
 import Button from '@_components/Button/Button';
 import FormLayout from '@_layouts/FormLayout/FormLayout';
 import LabeledInput from '@_components/Input/MoimInput';
-import MOIM_INPUT_INFOS from './MoimCreationPage.constant';
-import useAddMoim from '@_hooks/mutaions/useAddMoim';
-import useMoimInfoInput from './MoimCreatePage.hook';
+import usePleaseInfoInput from './PleaseCreationPage.hook';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import ROUTES from '@_constants/routes';
-import * as S from './MoimCreationPage.style';
+import PLEASE_INPUT_INFOS from './PleaseCreationPage.constant';
+import useAddPlease from '@_hooks/mutaions/useAddPlease';
 import LabeledTextArea from '@_components/TextArea/LabeledTextArea';
+import * as S from './PleaseCreationPage.style';
 
-export default function MoimCreationPage() {
+export default function PleaseCreationPage() {
   const navigate = useNavigate();
-  const { mutate } = useAddMoim((moimId: number) => {
-    navigate(`/moim/${moimId}`);
-  });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { mutate } = useAddPlease(() => {
+    navigate(-1);
+  });
 
   const {
     inputData,
     handleInputChange,
     handleTextAreaChange,
     isValidMoimInfoInput,
-  } = useMoimInfoInput();
+  } = usePleaseInfoInput();
 
   const handleRegisterButtonClick = async () => {
     if (!isValidMoimInfoInput) {
@@ -36,12 +36,12 @@ export default function MoimCreationPage() {
   return (
     <FormLayout>
       <FormLayout.Header onBackArrowClick={() => navigate(ROUTES.main)}>
-        모임등록하기
+        해주세요 만들기
       </FormLayout.Header>
 
       <FormLayout.MainForm>
         <div css={S.inputContainer}>
-          {MOIM_INPUT_INFOS.map((info) =>
+          {PLEASE_INPUT_INFOS.map((info) =>
             info.type === 'textarea' ? (
               <LabeledTextArea
                 name={info.name}

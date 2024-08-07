@@ -51,6 +51,11 @@ export interface Chat {
   time: string;
 }
 
+
+export interface PleaseInfoInput {
+  title: string;
+  description: string;
+}
 export interface Please {
   pleaseId: number;
   title: string;
