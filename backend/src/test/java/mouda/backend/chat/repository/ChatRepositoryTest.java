@@ -51,4 +51,22 @@ class ChatRepositoryTest {
 
 		assertThat(chats).hasSize(1);
 	}
+
+	@DisplayName("해당하는 모임의 가장 최근의 채팅을 보여준다.")
+	@Test
+	void findFirstByMoimIdOrderByIdDesc() {
+		Moim moim = MoimFixture.getCoffeeMoim();
+		Moim savedMoim = moimRepository.save(moim);
+
+		Member member = MemberFixture.getHogee();
+		memberRepository.save(member);
+
+		Chat hogee1 = ChatFixture.getChatWithMemberAtMoim(member, moim);
+		chatRepository.save(hogee1);
+		Chat hogee2 = ChatFixture.getChatWithMemberAtMoim(member, moim);
+		Chat savedLastChat = chatRepository.save(hogee2);
+
+		Chat chat = chatRepository.findFirstByMoimIdOrderByIdDesc(savedMoim.getId()).get();
+		assertThat(chat.getId()).isEqualTo(savedLastChat.getId());
+	}
 }
