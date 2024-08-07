@@ -69,7 +69,7 @@ public class InterestControllerTest {
 		assertThat(byMemberIdAndPleaseId.isPresent()).isTrue();
 	}
 
-	@DisplayName("관심있어요 상태를 변경한다. -> 관심있어요.")
+	@DisplayName("관심있어요 상태를 변경한다. -> 관심있어요 취소.")
 	@Test
 	void updateInterest_toNotInterested() {
 		String accessToken = TokenFixture.getTokenWithNicknameTebah();
