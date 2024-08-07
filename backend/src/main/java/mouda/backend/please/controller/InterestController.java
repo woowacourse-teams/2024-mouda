@@ -15,15 +15,13 @@ import mouda.backend.please.service.InterestService;
 @RestController
 @RequestMapping("/v1/interest")
 @RequiredArgsConstructor
-public class InterestController {
+public class InterestController implements InterestSwagger {
 
 	private final InterestService interestService;
 
+	@Override
 	@PostMapping
-	public ResponseEntity<Void> updateInterest(
-		@LoginMember Member member,
-		@RequestBody InterestUpdateRequest request
-	) {
+	public ResponseEntity<Void> updateInterest(@LoginMember Member member, @RequestBody InterestUpdateRequest request) {
 		interestService.updateInterest(member, request);
 
 		return ResponseEntity.ok().build();
