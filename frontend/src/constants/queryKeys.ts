@@ -6,6 +6,7 @@ const QUERY_KEYS = {
   myMoim: 'myMoim',
   userKey: 'userKey',
   chat: 'chat',
+  chatPreview: 'chatPreview',
   chamyoMine: 'chamyoMine',
   ZzimMine: 'ZzimMine',
   chamyoAll: 'chamyoAll',

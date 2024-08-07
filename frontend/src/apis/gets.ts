@@ -45,7 +45,7 @@ export const getMoim = async (moimId: number): Promise<MoimInfo> => {
 };
 
 export const getChatPreview = async (): Promise<ChattingPreview[]> => {
-  const response = await ApiClient.getWithAuth(`chat?preview`);
+  const response = await ApiClient.getWithAuth(`chat/preview`);
 
   const json: GetChattingPreview = await response.json();
   return json.data.chatPreviewResponses;
