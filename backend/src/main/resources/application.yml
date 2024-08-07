@@ -8,3 +8,9 @@ security:
     token:
       secret-key: kksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabo
       expire-length: 3600000
+
+logging:
+  level:
+    root: "warn"
+    org.springframework.web: "info"
+    org.hibernate: "error"
