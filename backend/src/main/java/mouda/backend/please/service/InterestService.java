@@ -46,5 +46,4 @@ public class InterestService {
 		interestRepository.findByMemberIdAndPleaseId(member.getId(), pleaseId)
 			.ifPresent(interestRepository::delete);
 	}
-
 }

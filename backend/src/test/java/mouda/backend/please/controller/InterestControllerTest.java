@@ -43,7 +43,9 @@ public class InterestControllerTest {
 		RestAssured.port = port;
 
 		Please please = PleaseFixture.getPleaseWithAuthorId1L();
+		Please please2 = PleaseFixture.getPlease();
 		pleaseRepository.save(please);
+		pleaseRepository.save(please2);
 	}
 
 	@DisplayName("관심있어요 상태를 변경한다. -> 관심있어요.")
@@ -65,8 +67,10 @@ public class InterestControllerTest {
 			.all()
 			.statusCode(200);
 
-		Optional<Interest> byMemberIdAndPleaseId = interestRepository.findByMemberIdAndPleaseId(1L, 1L);
-		assertThat(byMemberIdAndPleaseId.isPresent()).isTrue();
+		Optional<Interest> interest = interestRepository.findByMemberIdAndPleaseId(1L, 1L);
+		Optional<Interest> interest2 = interestRepository.findByMemberIdAndPleaseId(1L, 2L);
+		assertThat(interest.isPresent()).isTrue();
+		assertThat(interest2.isPresent()).isFalse();
 	}
 
 	@DisplayName("관심있어요 상태를 변경한다. -> 관심있어요 취소.")
