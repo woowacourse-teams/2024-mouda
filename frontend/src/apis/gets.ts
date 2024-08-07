@@ -6,6 +6,7 @@ import {
   GetChat,
   GetMoim,
   GetMoims,
+  GetPleases,
   GetMyInfo,
   GetZzimMine,
 } from './responseTypes';
@@ -87,9 +88,15 @@ export const getChamyoAll = async (
   return json.data.chamyos;
 };
 
+export const getPleases = async () => {
+  const response = await ApiClient.getWithAuth('please');
+
+  const json: GetPleases = await response.json();
+  return json.data.pleases;
+};
+
 export const getMyInfo = async () => {
   const response = await ApiClient.getWithAuth('member/mine');
-  checkStatus(response);
 
   const json: GetMyInfo = await response.json();
   return json.data;

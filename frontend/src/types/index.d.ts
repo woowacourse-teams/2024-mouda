@@ -50,3 +50,11 @@ export interface Chat {
   date: string;
   time: string;
 }
+
+export interface Please {
+  pleaseId: number;
+  title: string;
+  description: string;
+  isInterested: boolean;
+  interestCount: number;
+}

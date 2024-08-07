@@ -43,3 +43,10 @@ export const postChat = async (moimId: number, content: string) => {
     content,
   });
 };
+
+export const postInterest = async (pleaseId: number, interesting: boolean) => {
+  await ApiClient.postWithAuth('interest', {
+    pleaseId,
+    interesting,
+  });
+};

@@ -32,7 +32,6 @@ export default function MoimCard(props: MoimCardProps) {
 
   const handleHeartButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    console.log(1);
     changeZzim(moimId);
   };
 
