@@ -1,7 +1,9 @@
 import { NAVIGATION_BAR_HEIGHT } from '@_constants/styles';
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 
-export const containerStyle = css`
+export const containerStyle = ({ theme }: { theme: Theme }) => css`
+  min-height: 100vh;
   margin-top: 5.6rem;
   margin-bottom: ${NAVIGATION_BAR_HEIGHT};
+  background-color: ${theme.colorPalette.grey[100]};
 `;

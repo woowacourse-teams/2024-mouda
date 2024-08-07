@@ -52,9 +52,9 @@ export default function MoimCard(props: MoimCardProps) {
       </div>
 
       <div css={S.detailInfo({ theme })}>
-        <span>{place}</span>
+        <span css={theme.typography.b3}>{place}</span>
 
-        <span>
+        <span css={theme.typography.b3}>
           최대 {maxPeople}명 (현재 {currentPeople}명)
         </span>
       </div>

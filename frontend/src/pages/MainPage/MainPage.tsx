@@ -1,6 +1,5 @@
 import { Fragment, useState } from 'react';
 import MoimTabBar, { MainPageTab } from '@_components/MoimTabBar/MoimTabBar';
-
 import Button from '@_components/Button/Button';
 import HomeLayout from '@_layouts/HomeLayout.tsx/HomeLayout';
 import HomeMainContent from '@_components/HomeMainContent/HomeMainContent';
@@ -9,6 +8,7 @@ import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/Navi
 import PlusIcon from '@_components/Icons/PlusIcon';
 import ROUTES from '@_constants/routes';
 import { useNavigate } from 'react-router-dom';
+import HomeHeaderContent from '@_components/HomeHeaderContent/HomHeaderContent';
 
 export default function MainPage() {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export default function MainPage() {
     <Fragment>
       <HomeLayout>
         <HomeLayout.Header>
-          우아한테크코스
+          <HomeHeaderContent>우아한테크코스</HomeHeaderContent>
           <MoimTabBar currentTab={currentTab} onTabClick={handleTabClick} />
         </HomeLayout.Header>
 
