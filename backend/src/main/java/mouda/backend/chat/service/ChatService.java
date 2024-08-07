@@ -1,6 +1,7 @@
 package mouda.backend.chat.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -58,20 +59,26 @@ public class ChatService {
 	}
 
 	public ChatPreviewResponses findChatPreview(Member member) {
-		List<Chamyo> chamyos = chamyoRepository.findAllByMemberId(member.getId());
-		if (chamyos.isEmpty()) {
-			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIM_NOT_FOUND);
-		}
-		List<ChatPreviewResponse> chatPreviews = chamyos.stream()
-			.map(chamyo -> {
-				Chat chat = chatRepository.findLastByOrderById();
-				int currentPeople = chamyoRepository.countByMoim(chamyo.getMoim());
-				long unreadContentCount = chat.getId() - chamyo.getLastReadChatId();
-				return ChatPreviewResponse.toResponse(chat, chamyo, currentPeople, unreadContentCount);
-			})
+		List<ChatPreviewResponse> chatPreviews = chamyoRepository.findAllByMemberId(member.getId()).stream()
+			.filter(chamyo -> chamyo.getMoim().isChatOpened())
+			.map(this::getChatPreviewResponse)
 			.toList();
 
 		return new ChatPreviewResponses(chatPreviews);
+	}
+
+	private ChatPreviewResponse getChatPreviewResponse(Chamyo chamyo) {
+		Optional<Chat> lastChat = chatRepository.findFirstByMoimIdOrderByIdDesc(
+			chamyo.getMoim().getId());
+
+		int currentPeople = chamyoRepository.countByMoim(chamyo.getMoim());
+		if (lastChat.isPresent()) {
+			String lastContent = lastChat.get().getContent();
+			long unreadContentCount = lastChat.get().getId() - chamyo.getLastReadChatId();
+			return ChatPreviewResponse.toResponse(chamyo, currentPeople, lastContent, unreadContentCount);
+		}
+
+		return ChatPreviewResponse.toResponse(chamyo, currentPeople);
 	}
 
 	public void createLastChat(LastReadChatRequest lastReadChatRequest, Member member) {
