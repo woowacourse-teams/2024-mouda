@@ -1,5 +1,5 @@
 import ApiClient from './apiClient';
-import { MoimInputInfo } from '@_types/index';
+import { MoimInputInfo, PleaseInfoInput } from '@_types/index';
 import { PostMoim } from './responseTypes';
 
 export const postMoim = async (moim: MoimInputInfo): Promise<number> => {
@@ -49,4 +49,8 @@ export const postInterest = async (pleaseId: number, isInterested: boolean) => {
     pleaseId,
     isInterested,
   });
+};
+
+export const postPlease = async (please: PleaseInfoInput) => {
+  await ApiClient.postWithAuth('please', please);
 };
