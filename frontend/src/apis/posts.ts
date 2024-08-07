@@ -44,9 +44,9 @@ export const postChat = async (moimId: number, content: string) => {
   });
 };
 
-export const postInterest = async (pleaseId: number, interesting: boolean) => {
+export const postInterest = async (pleaseId: number, isInterested: boolean) => {
   await ApiClient.postWithAuth('interest', {
     pleaseId,
-    interesting,
+    isInterested,
   });
 };
