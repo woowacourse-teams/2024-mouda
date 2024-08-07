@@ -11,6 +11,6 @@ security:
 
 logging:
   level:
-    root: "warn"
+    root: "info"
     org.springframework.web: "info"
     org.hibernate: "error"
