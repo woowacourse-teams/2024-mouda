@@ -1,24 +1,29 @@
 import * as S from './ChatMenuItem.style';
 
-import { PropsWithChildren, ReactNode } from 'react';
-
+import { ReactNode } from 'react';
 import { useTheme } from '@emotion/react';
 
-interface ChatMenuItemProps extends PropsWithChildren {
+interface ChatMenuItemProps {
   icon: ReactNode;
   description: string;
+  onClick?: () => void;
 }
 
 export default function ChatMenuItem(props: ChatMenuItemProps) {
-  const { icon, description } = props;
+  const { icon, description, onClick } = props;
   const theme = useTheme();
 
   return (
-    <div css={S.item}>
+    <div css={S.item} onClick={onClick}>
       <div css={S.button({ theme })}>{icon}</div>
-      <span css={theme.coloredTypography.label(theme.colorPalette.grey[500])}>
+      <div
+        css={[
+          S.textBox,
+          theme.coloredTypography.label(theme.colorPalette.grey[500]),
+        ]}
+      >
         {description}
-      </span>
+      </div>
     </div>
   );
 }

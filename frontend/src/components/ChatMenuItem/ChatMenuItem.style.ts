@@ -4,9 +4,7 @@ export const item = css`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  width: 7.5rem;
-  height: 8rem;
+  width: 7rem;
 `;
 
 export const button = ({ theme }: { theme: Theme }) => {
@@ -23,3 +21,10 @@ export const button = ({ theme }: { theme: Theme }) => {
     border-radius: 15%;
   `;
 };
+
+export const textBox = css`
+  user-select: none;
+  width: 100%;
+  text-align: center;
+  word-break: keep-all;
+`;
