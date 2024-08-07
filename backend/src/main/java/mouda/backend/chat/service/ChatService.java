@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.chamyo.domain.Chamyo;
@@ -12,6 +13,8 @@ import mouda.backend.chamyo.domain.MoimRole;
 import mouda.backend.chamyo.repository.ChamyoRepository;
 import mouda.backend.chat.domain.Chat;
 import mouda.backend.chat.dto.request.ChatCreateRequest;
+import mouda.backend.chat.dto.request.DateTimeConfirmRequest;
+import mouda.backend.chat.dto.request.PlaceConfirmRequest;
 import mouda.backend.chat.dto.request.LastReadChatRequest;
 import mouda.backend.chat.dto.response.ChatFindDetailResponse;
 import mouda.backend.chat.dto.response.ChatFindUnloadedResponse;
@@ -24,6 +27,7 @@ import mouda.backend.member.domain.Member;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.repository.MoimRepository;
 
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class ChatService {
@@ -33,21 +37,17 @@ public class ChatService {
 	private final ChamyoRepository chamyoRepository;
 
 	public void createChat(ChatCreateRequest chatCreateRequest, Member member) {
-		Moim moim = moimRepository.findById(chatCreateRequest.moimId())
-			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIM_NOT_FOUND));
-		chamyoRepository.findByMoimIdAndMemberId(chatCreateRequest.moimId(), member.getId())
-			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.NOT_PARTICIPANT_TO_SEND));
+		Moim moim = findMoimByMoimId(chatCreateRequest.moimId());
+		findChamyoByMoimIdAndMemberId(chatCreateRequest.moimId(), member.getId());
 
 		Chat chat = chatCreateRequest.toEntity(moim, member);
 		chatRepository.save(chat);
 	}
 
+	@Transactional(readOnly = true)
 	public ChatFindUnloadedResponse findUnloadedChats(long recentChatId, long moimId, Member member) {
-		moimRepository.findById(moimId)
-			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIM_NOT_FOUND));
-		chamyoRepository.findByMoimIdAndMemberId(moimId, member.getId())
-			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.NOT_PARTICIPANT_TO_FIND));
-
+		findMoimByMoimId(moimId);
+		findChamyoByMoimIdAndMemberId(moimId, member.getId());
 		if (recentChatId < 0) {
 			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.INVALID_RECENT_CHAT_ID);
 		}
@@ -59,7 +59,31 @@ public class ChatService {
 		return new ChatFindUnloadedResponse(chats);
 	}
 
-	public ChatPreviewResponses findChatPreview(Member member) {
+	public void confirmPlace(PlaceConfirmRequest placeConfirmRequest, Member member) {
+		Moim moim = findMoimByMoimId(placeConfirmRequest.moimId());
+		Chamyo chamyo = findChamyoByMoimIdAndMemberId(placeConfirmRequest.moimId(), member.getId());
+		if (chamyo.getMoimRole() != MoimRole.MOIMER) {
+			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIMER_CAN_CONFIRM_PLACE);
+		}
+
+		Chat chat = placeConfirmRequest.toEntity(moim, member);
+		moim.confirmPlace(placeConfirmRequest.place());
+		chatRepository.save(chat);
+	}
+
+	public void confirmDateTime(DateTimeConfirmRequest dateTimeConfirmRequest, Member member) {
+		Moim moim = findMoimByMoimId(dateTimeConfirmRequest.moimId());
+		Chamyo chamyo = findChamyoByMoimIdAndMemberId(dateTimeConfirmRequest.moimId(), member.getId());
+		if (chamyo.getMoimRole() != MoimRole.MOIMER) {
+			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIMER_CAN_CONFIRM_DATETIME);
+		}
+
+		Chat chat = dateTimeConfirmRequest.toEntity(moim, member);
+		moim.confirmDateTime(dateTimeConfirmRequest.date(), dateTimeConfirmRequest.time());
+		chatRepository.save(chat);
+	}
+  
+  public ChatPreviewResponses findChatPreview(Member member) {
 		List<ChatPreviewResponse> chatPreviews = chamyoRepository.findAllByMemberId(member.getId()).stream()
 			.filter(chamyo -> chamyo.getMoim().isChatOpened())
 			.map(this::getChatPreviewResponse)
@@ -81,17 +105,14 @@ public class ChatService {
 	}
 
 	public void createLastChat(LastReadChatRequest lastReadChatRequest, Member member) {
-		Chamyo chamyo = chamyoRepository.findByMoimIdAndMemberId(lastReadChatRequest.moimId(), member.getId())
-			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.NOT_PARTICIPANT_TO_FIND));
+		Chamyo chamyo = findChamyoByMoimIdAndMemberId(lastReadChatRequest.moimId(), member.getId());
 
 		chamyo.updateLastChat(lastReadChatRequest.lastReadChatId());
 	}
 
 	public void openChatRoom(Long moimId, Member member) {
-		Moim moim = moimRepository.findById(moimId)
-			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIM_NOT_FOUND));
-		Chamyo chamyo = chamyoRepository.findByMoimIdAndMemberId(moimId, member.getId())
-			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.NOT_PARTICIPANT_TO_FIND));
+		Moim moim = findMoimByMoimId(moimId);
+		Chamyo chamyo = findChamyoByMoimIdAndMemberId(moimId, member.getId());
 		if (chamyo.getMoimRole() == MoimRole.MOIMER) {
 			moim.openChat();
 		}
@@ -99,4 +120,14 @@ public class ChatService {
 			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.NO_PERMISSION_OPEN_CHAT);
 		}
 	}
+  
+	private Moim findMoimByMoimId(long moimId) {
+		return moimRepository.findById(moimId)
+			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIM_NOT_FOUND));
+	}
+
+	private Chamyo findChamyoByMoimIdAndMemberId(long moimId, long memberId) {
+		return chamyoRepository.findByMoimIdAndMemberId(moimId, memberId)
+			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.NOT_PARTICIPANT_TO_FIND));
+  }
 }
