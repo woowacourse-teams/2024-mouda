@@ -1,3 +1,7 @@
+export type Entries<T> = {
+  [K in keyof T]: [K, T[K]];
+}[keyof T][];
+
 export interface MoimInfo {
   moimId: number;
   title: string;
@@ -61,6 +65,11 @@ export interface Chat {
   chatType: 'BASIC' | 'PLACE' | 'DATETIME';
 }
 
+
+export interface PleaseInfoInput {
+  title: string;
+  description: string;
+}
 export interface Please {
   pleaseId: number;
   title: string;

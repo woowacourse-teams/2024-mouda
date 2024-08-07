@@ -42,6 +42,31 @@ export interface Typography {
   tag: SerializedStyles;
 }
 
+export interface ColoredTypography {
+  h1: (fontColor: string) => SerializedStyles;
+  h2: (fontColor: string) => SerializedStyles;
+  h3: (fontColor: string) => SerializedStyles;
+  h4: (fontColor: string) => SerializedStyles;
+  h5: (fontColor: string) => SerializedStyles;
+  s1: (fontColor: string) => SerializedStyles;
+  s2: (fontColor: string) => SerializedStyles;
+  b1: (fontColor: string) => SerializedStyles;
+  b2: (fontColor: string) => SerializedStyles;
+  b3: (fontColor: string) => SerializedStyles;
+  b4: (fontColor: string) => SerializedStyles;
+  c1: (fontColor: string) => SerializedStyles;
+  c2: (fontColor: string) => SerializedStyles;
+  c3: (fontColor: string) => SerializedStyles;
+  label: (fontColor: string) => SerializedStyles;
+  ButtonFont: (fontColor: string) => SerializedStyles;
+  Typeface: (fontColor: string) => SerializedStyles;
+  Giant: (fontColor: string) => SerializedStyles;
+  Large: (fontColor: string) => SerializedStyles;
+  Medium: (fontColor: string) => SerializedStyles;
+  small: (fontColor: string) => SerializedStyles;
+  Tiny: (fontColor: string) => SerializedStyles;
+  tag: (fontColor: string) => SerializedStyles;
+}
 export interface Layout {
   default: SerializedStyles;
 }

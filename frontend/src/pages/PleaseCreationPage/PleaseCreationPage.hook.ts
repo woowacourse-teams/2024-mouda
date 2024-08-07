@@ -1,21 +1,10 @@
 import { ChangeEvent, useState } from 'react';
-import {
-  validateDate,
-  validateMaxPeople,
-  validatePlace,
-  validateTime,
-  validateTitle,
-} from './MoimCreatePage.util';
+import { validateDescription, validateTitle } from './PleaseCreationPage.util';
+import { PleaseInfoInput } from '@_types/index';
 
-import { MoimInputInfo } from '../../types';
-
-const useMoimInfoInput = () => {
-  const [inputData, setInputData] = useState<MoimInputInfo>({
+const usePleaseInfoInput = () => {
+  const [inputData, setInputData] = useState<PleaseInfoInput>({
     title: '',
-    date: '',
-    time: '',
-    place: '',
-    maxPeople: 0,
     description: '',
   });
 
@@ -35,10 +24,7 @@ const useMoimInfoInput = () => {
 
   const isValidMoimInfoInput =
     validateTitle(inputData.title) &&
-    validateDate(inputData.date) &&
-    validateTime(inputData.time) &&
-    validatePlace(inputData.place) &&
-    validateMaxPeople(inputData.maxPeople);
+    validateDescription(inputData.description);
 
   return {
     inputData,
@@ -48,4 +34,4 @@ const useMoimInfoInput = () => {
   };
 };
 
-export default useMoimInfoInput;
+export default usePleaseInfoInput;

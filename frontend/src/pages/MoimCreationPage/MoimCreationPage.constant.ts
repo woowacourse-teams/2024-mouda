@@ -1,6 +1,4 @@
-import { LabeledInputProps } from '@_components/Input/MoimInput';
-
-const MOIM_INPUT_INFOS: LabeledInputProps[] = [
+const MOIM_INPUT_INFOS = [
   {
     name: 'title',
     title: '제목',

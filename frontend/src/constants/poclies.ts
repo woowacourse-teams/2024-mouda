@@ -16,6 +16,9 @@ const POLICES = {
 
   maxMessageLength: 10000,
   maxUnreadMessageCount: 300,
+
+  minPleaseDescription: 5,
+  maxPleaseDescription: 10000,
 };
 
 export default POLICES;

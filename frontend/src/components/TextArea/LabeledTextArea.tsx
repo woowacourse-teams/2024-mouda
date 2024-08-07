@@ -1,23 +1,15 @@
-import * as S from '@_components/Input/MoimInput.style';
+import * as S from '@_components/TextArea/LabeledTextArea.style';
 import { useTheme } from '@emotion/react';
 
 import { HTMLProps } from 'react';
 
-export interface LabeledInputProps extends HTMLProps<HTMLInputElement> {
+export interface LabeledTextAreaProps extends HTMLProps<HTMLTextAreaElement> {
   title: string;
 }
 
-export default function LabeledInput(props: LabeledInputProps) {
+export default function LabeledTextArea(props: LabeledTextAreaProps) {
   const theme = useTheme();
-  const {
-    name,
-    title,
-    type = 'text',
-    placeholder,
-    required,
-    onChange,
-    ...args
-  } = props;
+  const { name, title, placeholder, required, onChange, ...args } = props;
 
   return (
     <label htmlFor={title} css={S.labelWrapper}>
@@ -26,10 +18,9 @@ export default function LabeledInput(props: LabeledInputProps) {
         <span css={S.required({ theme })}>{required ? '*' : ''}</span>
       </h3>
 
-      <input
+      <textarea
         name={name}
-        css={S.input({ theme })}
-        type={type}
+        css={S.textArea({ theme })}
         placeholder={placeholder}
         id={title}
         onChange={onChange}
