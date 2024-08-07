@@ -82,6 +82,7 @@ public class Moim {
 		this.maxPeople = maxPeople;
 		this.description = description;
 		this.moimStatus = MoimStatus.MOIMING;
+		this.isChatOpened = false;
 	}
 
 	private void validateTitle(String title) {
