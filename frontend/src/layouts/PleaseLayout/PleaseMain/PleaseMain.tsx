@@ -1,9 +1,9 @@
 import { useTheme } from '@emotion/react';
-import * as S from './HomeMain.style';
+import * as S from './PleaseMain.style';
 
 import { PropsWithChildren } from 'react';
 
-export default function HomeMain(props: PropsWithChildren) {
+export default function PleaseMain(props: PropsWithChildren) {
   const { children } = props;
 
   const theme = useTheme();

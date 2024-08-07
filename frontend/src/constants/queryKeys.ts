@@ -12,6 +12,7 @@ const QUERY_KEYS = {
   comment: 'comment',
   myInfo: 'myinfo',
   please: 'please',
+  pleases: 'pleases',
 };
 
 export default QUERY_KEYS;
