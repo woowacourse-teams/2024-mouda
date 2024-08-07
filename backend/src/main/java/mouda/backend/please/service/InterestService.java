@@ -29,7 +29,7 @@ public class InterestService {
 	}
 
 	private void addInterest(Member member, Long pleaseId) {
-		boolean isInterestExists = interestRepository.findByMemberIdAndPleaseId(member.getId(), pleaseId).isPresent();
+		boolean isInterestExists = interestRepository.existsByMemberIdAndPleaseId(member.getId(), pleaseId);
 
 		if (!isInterestExists) {
 			Please please = pleaseRepository.findById(pleaseId)
