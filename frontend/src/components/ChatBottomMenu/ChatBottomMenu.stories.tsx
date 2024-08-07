@@ -12,8 +12,27 @@ const meta: Meta<typeof ChatBottomMenu> = {
 
 export default meta;
 type Story = StoryObj<typeof ChatBottomMenu>;
+export const Two: Story = {
+  args: {
+    children: (
+      <Fragment>
+        <ChatMenuItem icon={<Plus />} description="더하기" />
+        <ChatMenuItem icon={<Plus />} description="더하기" />
+      </Fragment>
+    ),
+  },
+  decorators: (Story) => (
+    <div
+      css={css`
+        width: 300px;
+      `}
+    >
+      <Story />
+    </div>
+  ),
+};
 
-export const Default: Story = {
+export const Nine: Story = {
   args: {
     children: (
       <Fragment>
@@ -22,7 +41,10 @@ export const Default: Story = {
         <ChatMenuItem icon={<Plus />} description="더하기" />
         <ChatMenuItem icon={<Plus />} description="더하기" />
         <ChatMenuItem icon={<Plus />} description="더하기" />
-        <ChatMenuItem icon={<Plus />} description="더하기" />
+        <ChatMenuItem
+          icon={<Plus />}
+          description="더하기rrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"
+        />
         <ChatMenuItem icon={<Plus />} description="더하기" />
         <ChatMenuItem icon={<Plus />} description="더하기" />
         <ChatMenuItem icon={<Plus />} description="더하기" />
