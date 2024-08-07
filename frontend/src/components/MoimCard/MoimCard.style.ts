@@ -70,7 +70,6 @@ export const detailInfo = (props: { theme: Theme }) => {
   const { theme } = props;
 
   return css`
-    ${theme.typography.b3}
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
