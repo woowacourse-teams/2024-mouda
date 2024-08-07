@@ -42,6 +42,9 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
 
+    // logging
+    implementation 'org.springframework.boot:spring-boot-starter-data-log4j2'
+
     // test
     testImplementation 'io.rest-assured:rest-assured:5.3.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
