@@ -19,7 +19,9 @@ import mouda.backend.fixture.PleaseFixture;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.repository.MemberRepository;
 import mouda.backend.please.domain.Please;
+import mouda.backend.please.dto.request.InterestUpdateRequest;
 import mouda.backend.please.dto.request.PleaseCreateRequest;
+import mouda.backend.please.dto.response.PleaseFindAllResponses;
 import mouda.backend.please.exception.PleaseException;
 import mouda.backend.please.repository.PleaseRepository;
 
@@ -34,6 +36,9 @@ class PleaseServiceTest {
 
 	@Autowired
 	private PleaseService pleaseService;
+
+	@Autowired
+	private InterestService interestService;
 
 	@Autowired
 	private DatabaseCleaner databaseCleaner;
@@ -115,6 +120,23 @@ class PleaseServiceTest {
 
 			assertThatThrownBy(() -> pleaseService.deletePlease(tebah, 0L))
 				.isInstanceOf(PleaseException.class);
+		}
+
+		@DisplayName("관심있어요 상태 변경시 변경한 해주세요만 관심여부가 변경된다.")
+		@Test
+		void findAllPlease() {
+			Member tebah = memberRepository.save(MemberFixture.getTebah());
+			PleaseCreateRequest pleaseCreateRequest = new PleaseCreateRequest("치킨 사주세요", "제발요");
+			PleaseCreateRequest pleaseCreateRequest2 = new PleaseCreateRequest("치킨 사줄까요", "제발요요");
+			Please please = pleaseService.createPlease(tebah, pleaseCreateRequest);
+			pleaseService.createPlease(tebah, pleaseCreateRequest2);
+
+			InterestUpdateRequest interestUpdateRequest = new InterestUpdateRequest(please.getId(), true);
+			interestService.updateInterest(tebah, interestUpdateRequest);
+
+			PleaseFindAllResponses pleaseFindAllResponses = pleaseService.findAllPlease(tebah);
+			assertThat(pleaseFindAllResponses.pleases().get(0).isInterested()).isTrue();
+			assertThat(pleaseFindAllResponses.pleases().get(1).isInterested()).isFalse();
 		}
 	}
 }

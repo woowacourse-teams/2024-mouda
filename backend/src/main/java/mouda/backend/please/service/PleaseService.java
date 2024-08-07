@@ -48,7 +48,8 @@ public class PleaseService {
 		return new PleaseFindAllResponses(
 			pleases.stream()
 				.map(please -> {
-					boolean isInterested = interestRepository.existsByMemberId(member.getId());
+					boolean isInterested = interestRepository
+						.existsByMemberIdAndPleaseId(member.getId(), please.getId());
 					long interestCount = interestRepository.countByPleaseId(please.getId());
 					return PleaseFindAllResponse.toResponse(please, isInterested, interestCount);
 				})
