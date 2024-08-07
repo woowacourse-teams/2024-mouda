@@ -12,7 +12,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    isChecked: true,
+    isZzimed: true,
     onClick: () => {},
   },
   render: (args) => <ZzimButton {...args} />,
@@ -20,7 +20,7 @@ export const Default: Story = {
 
 export const CheckedZzim: Story = {
   args: {
-    isChecked: true,
+    isZzimed: true,
     onClick: () => {},
   },
   render: (args) => <ZzimButton {...args} />,
@@ -28,7 +28,7 @@ export const CheckedZzim: Story = {
 
 export const NoneCheckedZzim: Story = {
   args: {
-    isChecked: false,
+    isZzimed: false,
     onClick: () => {},
   },
   render: (args) => <ZzimButton {...args} />,

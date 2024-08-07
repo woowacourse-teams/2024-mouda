@@ -1,6 +1,5 @@
 import { ChangeEvent, useState } from 'react';
 import {
-  validateAuthorNickname,
   validateDate,
   validateMaxPeople,
   validatePlace,
@@ -17,7 +16,6 @@ const useMoimInfoInput = () => {
     time: '',
     place: '',
     maxPeople: 0,
-    authorNickname: '',
     description: '',
   });
 
@@ -33,8 +31,7 @@ const useMoimInfoInput = () => {
     validateDate(inputData.date) &&
     validateTime(inputData.time) &&
     validatePlace(inputData.place) &&
-    validateMaxPeople(inputData.maxPeople) &&
-    validateAuthorNickname(inputData.authorNickname);
+    validateMaxPeople(inputData.maxPeople);
 
   return {
     inputData,

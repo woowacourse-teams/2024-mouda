@@ -14,7 +14,6 @@ export const Default: Story = {
   args: {
     moimInfo: {
       title: '풋살 할 사람?',
-      authorNickname: `괘안나`,
       status: 'COMPLETED',
     },
   },

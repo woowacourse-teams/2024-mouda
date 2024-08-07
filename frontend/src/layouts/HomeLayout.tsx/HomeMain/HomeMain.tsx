@@ -1,3 +1,4 @@
+import { useTheme } from '@emotion/react';
 import * as S from './HomeMain.style';
 
 import { PropsWithChildren } from 'react';
@@ -5,5 +6,7 @@ import { PropsWithChildren } from 'react';
 export default function HomeMain(props: PropsWithChildren) {
   const { children } = props;
 
-  return <main css={S.mainStyle}>{children}</main>;
+  const theme = useTheme();
+
+  return <main css={S.mainStyle({ theme })}>{children}</main>;
 }

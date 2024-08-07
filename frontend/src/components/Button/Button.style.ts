@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 
 const font = css`
   font-size: 1.6rem;
@@ -8,13 +8,19 @@ const font = css`
   color: #fff;
   letter-spacing: -0.032rem;
 `;
-export const shapes = (shape: 'circle' | 'bar', disabled: boolean) => {
+export const shapes = (
+  shape: 'circle' | 'bar',
+  disabled: boolean,
+  theme: Theme,
+) => {
   if (shape === 'circle') {
     return css`
       ${font};
       flex-shrink: 0;
 
-      background: ${disabled ? '#868e96' : '#ffffff'};
+      background: ${disabled
+        ? theme.colorPalette.grey[300]
+        : theme.colorPalette.white[100]};
       border: none;
       border-radius: 50%;
       box-shadow: 0 0 3px #444;
@@ -37,12 +43,16 @@ export const shapes = (shape: 'circle' | 'bar', disabled: boolean) => {
       height: 6.4rem;
       padding: 1.6rem 5.9rem;
 
-      background: ${disabled ? '#868e96' : '#477bff'};
+      background: ${disabled
+        ? theme.colorPalette.grey[300]
+        : theme.colorPalette.orange[300]};
       border: none;
       border-radius: 3rem;
 
       &:active {
-        background-color: ${disabled ? '#868e96' : '#005bb5'};
+        background-color: ${disabled
+          ? theme.colorPalette.grey[400]
+          : theme.colorPalette.orange[400]};
       }
     `;
   }

@@ -7,10 +7,10 @@ import {
   validateTitle,
 } from './MoimModifyPage.util';
 
-import { TempMoimInputInfo } from '../../types';
+import { MoimInputInfo } from '../../types';
 
-const useMoimInfoInput = (state: TempMoimInputInfo) => {
-  const [inputData, setInputData] = useState<TempMoimInputInfo>({
+const useMoimInfoInput = (state: MoimInputInfo) => {
+  const [inputData, setInputData] = useState<MoimInputInfo>({
     title: state.title,
     date: state.date,
     time: state.time,

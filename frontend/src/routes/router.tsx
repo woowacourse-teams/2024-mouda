@@ -9,6 +9,8 @@ import ProtectedRoute from './ProtectedRoute';
 import MoimModifyPage from '@_pages/MoimModifyPage/MoimModifyPage';
 import ROUTES from '@_constants/routes';
 import { createBrowserRouter } from 'react-router-dom';
+import PleasePage from '@_pages/PleasePage/PleasePage';
+import MyPage from '@_pages/Mypage/MyPage';
 
 const routesConfig = [
   {
@@ -50,6 +52,16 @@ const routesConfig = [
     path: ROUTES.modify,
     element: <MoimModifyPage />,
     requiresAuth: false,
+  },
+  {
+    path: ROUTES.please,
+    element: <PleasePage />,
+    requiresAuth: true,
+  },
+  {
+    path: ROUTES.myPage,
+    element: <MyPage />,
+    requiresAuth: true,
   },
 ];
 

@@ -2,7 +2,6 @@ import { renderHook } from '@testing-library/react';
 import useMoimInfoInput from './MoimCreatePage.hook';
 
 jest.mock('./MoimCreatePage.util', () => ({
-  validateAuthorNickname: jest.fn(() => true),
   validateDate: jest.fn(() => true),
   validateMaxPeople: jest.fn(() => true),
   validatePlace: jest.fn(() => true),
