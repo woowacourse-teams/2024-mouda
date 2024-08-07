@@ -17,7 +17,6 @@ export const Default: Story = {
       nickname: '테바',
       date: '2024-08-01',
       time: '12:12',
-      isConfirmChat: true,
       chatType: 'BASIC',
       isMyMessage: false,
     },

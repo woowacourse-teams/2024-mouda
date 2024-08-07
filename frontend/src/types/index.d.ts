@@ -61,10 +61,8 @@ export interface Chat {
   nickname: string;
   date: string;
   time: string;
-  isConfirmChat: boolean;
   chatType: 'BASIC' | 'PLACE' | 'DATETIME';
 }
-
 
 export interface PleaseInfoInput {
   title: string;

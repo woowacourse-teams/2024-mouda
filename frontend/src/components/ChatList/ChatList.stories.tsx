@@ -19,7 +19,6 @@ export const Default: Story = {
         nickname: '홍길동',
         date: '2024-08-01',
         time: '10:00',
-        isConfirmChat: false,
         chatType: 'BASIC',
       },
       {
@@ -29,7 +28,6 @@ export const Default: Story = {
         nickname: '김철수',
         date: '2024-08-01',
         time: '10:01',
-        isConfirmChat: true,
         chatType: 'BASIC',
       },
       {
@@ -39,7 +37,6 @@ export const Default: Story = {
         nickname: '홍길동',
         date: '2024-08-01',
         time: '10:05',
-        isConfirmChat: false,
         chatType: 'DATETIME',
       },
       {
@@ -49,7 +46,6 @@ export const Default: Story = {
         nickname: '김철수',
         date: '2024-08-01',
         time: '10:06',
-        isConfirmChat: true,
         chatType: 'DATETIME',
       },
       {
@@ -59,7 +55,6 @@ export const Default: Story = {
         nickname: '홍길동',
         date: '2024-08-01',
         time: '10:10',
-        isConfirmChat: false,
         chatType: 'PLACE',
       },
       {
@@ -69,7 +64,6 @@ export const Default: Story = {
         nickname: '김철수',
         date: '2024-08-01',
         time: '10:12',
-        isConfirmChat: true,
         chatType: 'PLACE',
       },
       {
@@ -79,7 +73,6 @@ export const Default: Story = {
         nickname: '홍길동',
         date: '2024-08-01',
         time: '10:15',
-        isConfirmChat: false,
         chatType: 'BASIC',
       },
       {
@@ -89,7 +82,6 @@ export const Default: Story = {
         nickname: '김철수',
         date: '2024-08-01',
         time: '10:16',
-        isConfirmChat: true,
         chatType: 'BASIC',
       },
       {
@@ -99,7 +91,6 @@ export const Default: Story = {
         nickname: '홍길동',
         date: '2024-08-01',
         time: '10:20',
-        isConfirmChat: false,
         chatType: 'DATETIME',
       },
       {
@@ -109,7 +100,6 @@ export const Default: Story = {
         nickname: '김철수',
         date: '2024-08-01',
         time: '10:21',
-        isConfirmChat: true,
         chatType: 'DATETIME',
       },
     ],
