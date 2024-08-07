@@ -12,7 +12,5 @@ public interface InterestRepository extends JpaRepository<Interest, Long> {
 
 	long countByPleaseId(Long pleaseId);
 
-	boolean existsByMemberIdAndPleaseId(Long memberId, long pleaseId);
-
-	Optional<Interest> findByMemberIdAndPleaseId(Long memberId, long pleasedId);
+	Optional<Interest> findByMemberIdAndPleaseId(long memberId, long pleasedId);
 }
