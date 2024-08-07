@@ -2,7 +2,6 @@ package mouda.backend.chat.dto.response;
 
 import lombok.Builder;
 import mouda.backend.chamyo.domain.Chamyo;
-import mouda.backend.chat.domain.Chat;
 
 @Builder
 public record ChatPreviewResponse(
@@ -15,9 +14,9 @@ public record ChatPreviewResponse(
 ) {
 
 	public static ChatPreviewResponse toResponse(
-		Chat chat,
 		Chamyo chamyo,
 		int currentPeople,
+		String lastContent,
 		long unreadContentCount
 	) {
 		return ChatPreviewResponse.builder()
@@ -25,8 +24,22 @@ public record ChatPreviewResponse(
 			.title(chamyo.getMoim().getTitle())
 			.currentPeople(currentPeople)
 			.beforeMoim(chamyo.getMoim().isPastMoim())
-			.lastContent(chat.getContent())
+			.lastContent(lastContent)
 			.unreadContentCount(unreadContentCount)
+			.build();
+	}
+
+	public static ChatPreviewResponse toResponse(
+		Chamyo chamyo,
+		int currentPeople
+	) {
+		return ChatPreviewResponse.builder()
+			.moimId(chamyo.getMoim().getId())
+			.title(chamyo.getMoim().getTitle())
+			.currentPeople(currentPeople)
+			.beforeMoim(chamyo.getMoim().isPastMoim())
+			.lastContent("")
+			.unreadContentCount(0)
 			.build();
 	}
 }
