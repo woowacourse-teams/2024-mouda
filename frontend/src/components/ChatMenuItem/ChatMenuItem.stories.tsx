@@ -13,3 +13,7 @@ type Story = StoryObj<typeof ChatMenuItem>;
 export const Default: Story = {
   args: { icon: <Plus />, description: '더하기' },
 };
+
+export const LineBreak: Story = {
+  args: { icon: <Plus />, description: '더하기기기기기ㅣ기기기기ㅣ기' },
+};
