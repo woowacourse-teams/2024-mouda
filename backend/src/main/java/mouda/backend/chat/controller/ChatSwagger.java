@@ -8,7 +8,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import mouda.backend.chat.dto.request.ChatCreateRequest;
+import mouda.backend.chat.dto.request.LastReadChatRequest;
 import mouda.backend.chat.dto.response.ChatFindUnloadedResponse;
+import mouda.backend.chat.dto.response.ChatPreviewResponses;
 import mouda.backend.common.RestResponse;
 import mouda.backend.config.argumentresolver.LoginMember;
 import mouda.backend.member.domain.Member;
@@ -31,6 +33,23 @@ public interface ChatSwagger {
 	ResponseEntity<RestResponse<ChatFindUnloadedResponse>> findUnloadedChats(
 		@RequestParam Long recentChatId,
 		@RequestParam Long moimId,
+		@LoginMember Member member
+	);
+
+	@Operation(summary = "채팅방 목록 조회", description = "채팅방 목록을 조회한다.")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "채팅방 조회 성공!")
+	})
+	ResponseEntity<RestResponse<ChatPreviewResponses>> findChatPreviews(
+		@LoginMember Member member
+	);
+
+	@Operation(summary = "마지막 읽은 채팅 저장", description = "마지막 읽은 채팅을 저장한다.")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "마지막 채팅 저장 성공!")
+	})
+	ResponseEntity<Void> createLastReadChatId(
+		@RequestBody LastReadChatRequest lastReadChatRequest,
 		@LoginMember Member member
 	);
 }

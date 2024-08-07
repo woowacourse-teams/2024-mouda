@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.chat.dto.request.ChatCreateRequest;
+import mouda.backend.chat.dto.request.LastReadChatRequest;
 import mouda.backend.chat.dto.response.ChatFindUnloadedResponse;
+import mouda.backend.chat.dto.response.ChatPreviewResponses;
 import mouda.backend.chat.service.ChatService;
 import mouda.backend.common.RestResponse;
 import mouda.backend.config.argumentresolver.LoginMember;
@@ -43,5 +45,26 @@ public class ChatController implements ChatSwagger {
 	) {
 		ChatFindUnloadedResponse unloadedChats = chatService.findUnloadedChats(recentChatId, moimId, member);
 		return ResponseEntity.ok(new RestResponse<>(unloadedChats));
+	}
+
+	@Override
+	@GetMapping("/preview")
+	public ResponseEntity<RestResponse<ChatPreviewResponses>> findChatPreviews(
+		@LoginMember Member member
+	) {
+		ChatPreviewResponses chatPreviewResponses = chatService.findChatPreview(member);
+
+		return ResponseEntity.ok(new RestResponse<>(chatPreviewResponses));
+	}
+
+	@Override
+	@PostMapping("/last")
+	public ResponseEntity<Void> createLastReadChatId(
+		@RequestBody LastReadChatRequest lastReadChatRequest,
+		@LoginMember Member member
+	) {
+		chatService.createLastChat(lastReadChatRequest, member);
+
+		return ResponseEntity.ok().build();
 	}
 }
