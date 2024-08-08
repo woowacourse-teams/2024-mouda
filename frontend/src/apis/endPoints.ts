@@ -7,6 +7,7 @@ const ENDPOINTS = {
   moims: getEndpoint('v1/moim'),
   auth: getEndpoint('v1/auth'),
   chamyo: getEndpoint('v1/chamyo'),
+  chat: getEndpoint('v1/chat'),
   zzim: getEndpoint('v1/zzim'),
   interest: getEndpoint('v1/interest'),
   please: getEndpoint('v1/please'),
