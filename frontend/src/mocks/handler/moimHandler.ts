@@ -215,7 +215,7 @@ export const moimHandler = [
       },
     });
   }),
-  http.get(`${ENDPOINTS.chamyo}/all?moimId=1`, () => {
+  http.get(`${ENDPOINTS.chamyo}/all`, () => {
     return HttpResponse.json({
       data: {
         chamyos: [
@@ -238,14 +238,14 @@ export const moimHandler = [
       },
     });
   }),
-  http.get(`${ENDPOINTS.zzim}/mine?moimId=1`, () => {
+  http.get(`${ENDPOINTS.zzim}/mine`, () => {
     return HttpResponse.json({
       data: {
         isZzimed: false,
       },
     });
   }),
-  http.get(`${ENDPOINTS.chamyo}/mine?moimId=1`, () => {
+  http.get(`${ENDPOINTS.chamyo}/mine`, () => {
     return HttpResponse.json({
       data: {
         role: 'MOIMER',
