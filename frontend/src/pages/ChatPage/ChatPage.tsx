@@ -1,5 +1,6 @@
 import ChattingPreview from '@_components/ChattingPreview/ChattingPreview';
 import ChattingPreviewLayout from '@_layouts/ChattingPreviewLayout/ChattingPreviewLayout';
+import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import NavigationBar from '@_components/NavigationBar/NavigationBar';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
 import { common } from '@_common/common.style';
@@ -9,7 +10,7 @@ import { useTheme } from '@emotion/react';
 
 export default function ChatPage() {
   const theme = useTheme();
-  const { chatPreviews, isLoading } = useChatPreviews();
+  const { chatPreviews } = useChatPreviews();
   const navigate = useNavigate();
   return (
     <ChattingPreviewLayout>
@@ -19,14 +20,17 @@ export default function ChatPage() {
         </ChattingPreviewLayout.Header.Left>
       </ChattingPreviewLayout.Header>
       <ChattingPreviewLayout.ContentContainer>
-        {!isLoading &&
+        {chatPreviews && chatPreviews.length > 0 ? (
           chatPreviews?.map((chatPreview) => (
             <ChattingPreview
               chatPreview={chatPreview}
               onClick={() => navigate('/chatting-room/' + chatPreview.moimId)}
               key={chatPreview.moimId}
             />
-          ))}
+          ))
+        ) : (
+          <MissingFallback text="아직 열린 채팅방이 없습니다" />
+        )}
       </ChattingPreviewLayout.ContentContainer>
       <NavigationBarWrapper>
         <NavigationBar />

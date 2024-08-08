@@ -15,7 +15,7 @@ export default function MissingFallback(props: MissingFallbackProps) {
   return (
     <div css={S.container}>
       <img src={regretCat} alt="미안해용" css={S.image} />
-      <span css={font || theme.typography.h3}>{text}</span>
+      <span css={font || theme.typography.h5}>{text}</span>
     </div>
   );
 }

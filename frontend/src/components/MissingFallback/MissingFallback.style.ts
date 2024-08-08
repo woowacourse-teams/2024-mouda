@@ -5,6 +5,14 @@ export const container = css`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+
+  min-width: 30rem;
+  min-height: 30rem;
+
+  & > * {
+    text-align: center;
+    white-space: pre-line;
+  }
 `;
 
 export const image = css`
