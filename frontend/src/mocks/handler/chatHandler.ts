@@ -17,8 +17,8 @@ export const pushNextChatsIntoSever = () => {
 export const chatSliceIndexes = [
   [0, 0],
   [0, 2],
-  [2, 5],
-  [5, 8],
+  [2, 2],
+  [2, 8],
   [8, 10],
   [10, 13],
   [13, mockedChats.length],
@@ -26,7 +26,6 @@ export const chatSliceIndexes = [
 
 export const chatHandler = [
   http.get(`http://43.202.67.25/v1/chat`, async ({ request }) => {
-    console.log('server실행');
     const url = new URL(request.url);
 
     const recentChatId = +(url.searchParams.get('recentChatId') || 0);
