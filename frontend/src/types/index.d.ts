@@ -50,7 +50,7 @@ export interface ChattingPreview {
   moimId: number;
   title: string;
   currentPeople: number;
-  beforeMoim: boolean;
+  isStarted: boolean;
   lastContent: string;
   unreadContentCount: number;
 }
