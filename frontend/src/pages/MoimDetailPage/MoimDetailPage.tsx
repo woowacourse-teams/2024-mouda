@@ -2,25 +2,27 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import BackLogo from '@_common/assets/back.svg';
 import Button from '@_components/Button/Button';
+import CommentList from '@_components/CommentList/CommentList';
 import InformationLayout from '@_layouts/InformationLayout/InformationLayout';
+import KebabMenu from '@_components/KebabMenu/KebabMenu';
 import MoimDescription from '@_components/MoimDescription/MoimDescription';
 import MoimInformation from '@_components/MoimInformation/MoimInformation';
 import MoimSummary from '@_components/MoimSummary/MoimSummary';
+import ProfileList from '@_components/ProfileList/ProfileList';
 import ROUTES from '@_constants/routes';
+import ZzimButton from '@_components/Zzim/ZzimButton';
+import useCancelChamyo from '@_hooks/mutaions/useCancelChamyo';
+import useCancelMoim from '@_hooks/mutaions/useCancelMoim';
+import useChamyoAll from '@_hooks/queries/useChamyoAll';
+import useChamyoMine from '@_hooks/queries/useChamyoMine';
+import useChangeZzim from '@_hooks/mutaions/useChangeZzim';
+import useCompleteMoin from '@_hooks/mutaions/useCompleteMoin';
 import useJoinMoim from '@_hooks/mutaions/useJoinMoim';
 import useMoim from '@_hooks/queries/useMoim';
-import ProfileList from '@_components/ProfileList/ProfileList';
-import CommentList from '@_components/CommentList/CommentList';
-import KebabMenu from '@_components/KebabMenu/KebabMenu';
-import ZzimButton from '@_components/Zzim/ZzimButton';
-import useChamyoMine from '@_hooks/queries/useChamyoMine';
-import useZzimMine from '@_hooks/queries/useZzimMine';
-import useChangeZzim from '@_hooks/mutaions/useChangeZzim';
-import useCancelMoim from '@_hooks/mutaions/useCancelMoim';
+import useOpenChat from '@_hooks/mutaions/useOpenChat';
 import useReopenMoim from '@_hooks/mutaions/useReopenMoim';
-import useCompleteMoin from '@_hooks/mutaions/useCompleteMoin';
-import useChamyoAll from '@_hooks/queries/useChamyoAll';
-import useCancelChamyo from '@_hooks/mutaions/useCancelChamyo';
+import useZzimMine from '@_hooks/queries/useZzimMine';
+
 export default function MoimDetailPage() {
   const navigate = useNavigate();
   const params = useParams();
@@ -41,6 +43,9 @@ export default function MoimDetailPage() {
   const { mutate: ReopenMoim } = useReopenMoim();
   const { mutate: completeMoim } = useCompleteMoin();
   const { mutate: cancelChamyo } = useCancelChamyo();
+  const { mutate: openChat } = useOpenChat(() =>
+    navigate(`/chatting-room/${moimId}`),
+  );
 
   if (
     isLoading ||
@@ -118,7 +123,7 @@ export default function MoimDetailPage() {
             <Button
               shape="bar"
               disabled={false}
-              onClick={() => navigate(`/chatting-room/${moimId}`)}
+              onClick={() => openChat(moimId)}
             >
               채팅방 열기(이동하기)
             </Button>
@@ -145,7 +150,7 @@ export default function MoimDetailPage() {
           <Button
             shape="bar"
             disabled={false}
-            onClick={() => navigate(ROUTES.chat)}
+            onClick={() => navigate(`/chatting-room/${moimId}`)}
           >
             채팅방으로 가기
           </Button>

@@ -1,10 +1,10 @@
 import { Theme, css } from '@emotion/react';
 
 export const container = ({
-  beforeMoim,
+  isStarted,
   theme,
 }: {
-  beforeMoim: boolean;
+  isStarted: boolean;
   theme: Theme;
 }) => css`
   display: flex;
@@ -17,9 +17,9 @@ export const container = ({
 
   background-color: ${theme.colorPalette.white[100]};
   border: 0.3rem solid;
-  border-color: ${beforeMoim
-    ? theme.colorPalette.orange[100]
-    : theme.colorPalette.yellow[100]};
+  border-color: ${isStarted
+    ? theme.colorPalette.yellow[100]
+    : theme.colorPalette.orange[100]};
   border-radius: 25px;
   box-shadow: 0 0 10px 0 #00000040;
 `;
@@ -32,10 +32,10 @@ export const titleContainer = css`
 
 export const tag = ({
   theme,
-  beforeMoim,
+  isStarted,
 }: {
   theme: Theme;
-  beforeMoim: boolean;
+  isStarted: boolean;
 }) => css`
   ${theme.typography.small}
   display: flex;
@@ -45,13 +45,13 @@ export const tag = ({
   height: 24px;
   padding: 0.2rem 0.6rem;
 
-  color: ${beforeMoim
-    ? theme.colorPalette.white[100]
-    : theme.colorPalette.yellow[800]};
+  color: ${isStarted
+    ? theme.colorPalette.yellow[800]
+    : theme.colorPalette.white[100]};
 
-  background-color: ${beforeMoim
-    ? theme.colorPalette.orange[100]
-    : theme.colorPalette.yellow[50]};
+  background-color: ${isStarted
+    ? theme.colorPalette.yellow[50]
+    : theme.colorPalette.orange[100]};
   border-radius: 1rem;
 `;
 

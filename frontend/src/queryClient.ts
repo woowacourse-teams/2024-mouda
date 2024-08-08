@@ -1,6 +1,7 @@
 import { QueryCache, QueryClient } from '@tanstack/react-query';
 import { ApiError } from '@_utils/customError/ApiError';
 import { removeToken } from '@_utils/tokenManager';
+import * as Sentry from '@sentry/react';
 
 const createQueryClient = () => {
   return new QueryClient({
@@ -26,6 +27,7 @@ const createQueryClient = () => {
 };
 
 const handleApiError = (error: Error) => {
+  Sentry.captureException(error);
   if (error instanceof ApiError && error.status === 401) {
     removeToken();
     window.location.href = '/login';

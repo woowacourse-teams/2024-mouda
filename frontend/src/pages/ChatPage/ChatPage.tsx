@@ -22,7 +22,7 @@ export default function ChatPage() {
           chatPreviews?.map((chatPreview) => (
             <ChattingPreview
               chatPreview={chatPreview}
-              onClick={() => navigate('chatting-room/' + chatPreview.moimId)}
+              onClick={() => navigate('/chatting-room/' + chatPreview.moimId)}
               key={chatPreview.moimId}
             />
           ))}
