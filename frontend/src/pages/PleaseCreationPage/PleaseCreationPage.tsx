@@ -14,18 +14,18 @@ export default function PleaseCreationPage() {
   const navigate = useNavigate();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { mutate } = useAddPlease(() => {
-    navigate(-1);
+    navigate(ROUTES.please);
   });
 
   const {
     inputData,
     handleInputChange,
     handleTextAreaChange,
-    isValidMoimInfoInput,
+    isValidPleaseInfoInput,
   } = usePleaseInfoInput();
 
   const handleRegisterButtonClick = async () => {
-    if (!isValidMoimInfoInput) {
+    if (!isValidPleaseInfoInput) {
       return;
     }
     if (isSubmitted) return;
@@ -69,7 +69,7 @@ export default function PleaseCreationPage() {
         <Button
           shape="bar"
           onClick={handleRegisterButtonClick}
-          disabled={!isValidMoimInfoInput}
+          disabled={!isValidPleaseInfoInput}
         >
           등록하기
         </Button>

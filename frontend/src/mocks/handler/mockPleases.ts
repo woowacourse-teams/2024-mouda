@@ -46,13 +46,13 @@ export let pleasesData = [
   },
 ];
 
-export function updatePlease(pleaseId: number, interesting: boolean) {
+export function updatePlease(pleaseId: number, isInterested: boolean) {
   pleasesData = pleasesData.map((please) =>
     please.pleaseId === pleaseId
       ? {
           ...please,
-          isInterested: interesting,
-          interestCount: interesting
+          isInterested,
+          interestCount: isInterested
             ? please.interestCount + 1
             : please.interestCount - 1,
         }

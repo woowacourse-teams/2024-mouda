@@ -14,9 +14,10 @@ function addBaseUrl(endpoint: string) {
   return BASE_URL + endpoint;
 }
 
-function getHeaders(token?: string) {
+function getHeaders(isRequiredAuth: boolean) {
   const headers = new Headers(DEFAULT_HEADERS);
-  if (token) {
+  if (isRequiredAuth) {
+    const token = getToken();
     headers.append('Authorization', `Bearer ${token}`);
   }
   return headers;
@@ -30,11 +31,10 @@ async function request(
   isRequiredAuth: boolean = false,
 ) {
   const url = addBaseUrl(endpoint);
-  const token = isRequiredAuth ? getToken() : undefined;
 
   const options: RequestInit = {
     method,
-    headers: getHeaders(token),
+    headers: getHeaders(isRequiredAuth),
     ...config,
   };
 

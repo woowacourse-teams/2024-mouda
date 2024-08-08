@@ -3,11 +3,14 @@ import PleaseHeader from './PleaseHeader/PleaseHeader';
 import PleaseMain from './PleaseMain/PleaseMain';
 import PleaseFixedButtonWrapper from './PleaseFixedButtonWrapper/PleaseFixedButtonWrapper';
 import * as S from './PleaseLayout.style';
+import { useTheme } from '@emotion/react';
 
 function PleaseLayout(props: PropsWithChildren) {
   const { children } = props;
 
-  return <div css={S.containerStyle}>{children}</div>;
+  const theme = useTheme();
+
+  return <div css={S.containerStyle({ theme })}>{children}</div>;
 }
 
 PleaseLayout.Header = PleaseHeader;

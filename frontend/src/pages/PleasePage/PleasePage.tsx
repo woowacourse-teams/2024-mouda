@@ -1,7 +1,6 @@
-import Button from '@_components/Button/Button';
-import PlusIcon from '@_components/Icons/PlusIcon';
 import NavigationBar from '@_components/NavigationBar/NavigationBar';
 import PleaseList from '@_components/PleaseList/PleaseList';
+import PlusButton from '@_components/PlusButton/PlusButton';
 import ROUTES from '@_constants/routes';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
 import PleaseLayout from '@_layouts/PleaseLayout/PleaseLayout';
@@ -21,13 +20,7 @@ export default function PleasePage() {
         </PleaseLayout.Main>
 
         <PleaseLayout.HomeFixedButtonWrapper>
-          <Button
-            shape="circle"
-            onClick={() => navigate(ROUTES.please)}
-            disabled={false}
-          >
-            <PlusIcon />
-          </Button>
+          <PlusButton onClick={() => navigate(ROUTES.addPlease)} />
         </PleaseLayout.HomeFixedButtonWrapper>
       </PleaseLayout>
       <NavigationBarWrapper>

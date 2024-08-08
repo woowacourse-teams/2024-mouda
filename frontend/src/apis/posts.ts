@@ -45,6 +45,12 @@ export const postChat = async (moimId: number, content: string) => {
   });
 };
 
+export const postInterest = async (pleaseId: number, isInterested: boolean) => {
+  await ApiClient.postWithAuth('interest', {
+    pleaseId,
+    isInterested,
+  });
+};
 export const postLastReadChatId = async (
   moimId: number,
   lastReadChatId: number,
@@ -76,11 +82,4 @@ export const postConfirmPlace = async (moimId: number, place: string) => {
 
 export const postPlease = async (please: PleaseInfoInput) => {
   await ApiClient.postWithAuth('please', please);
-};
-
-export const postInterest = async (pleaseId: number, interesting: boolean) => {
-  await ApiClient.postWithAuth('interest', {
-    pleaseId,
-    interesting,
-  });
 };
