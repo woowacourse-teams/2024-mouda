@@ -1,8 +1,8 @@
 import { http, HttpResponse } from 'msw';
 import ENDPOINTS from '@_apis/endPoints';
-
 export const moimHandler = [
   http.get(`${ENDPOINTS.moims}`, () => {
+    console.log('msw중');
     return HttpResponse.json({
       data: {
         moims: [
@@ -16,6 +16,10 @@ export const moimHandler = [
             maxPeople: 2,
             authorNickname: '2',
             description: '',
+            status: 'MOIMING',
+            participants: [],
+            comments: [],
+            isZzimed: false,
           },
           {
             moimId: 2,
@@ -27,6 +31,10 @@ export const moimHandler = [
             maxPeople: 2,
             authorNickname: '2',
             description: '',
+            status: 'MOIMING',
+            participants: [],
+            comments: [],
+            isZzimed: false,
           },
           {
             moimId: 3,
@@ -38,6 +46,10 @@ export const moimHandler = [
             maxPeople: 2,
             authorNickname: '2',
             description: '',
+            status: 'MOIMING',
+            participants: [],
+            comments: [],
+            isZzimed: false,
           },
           {
             moimId: 4,
@@ -49,6 +61,10 @@ export const moimHandler = [
             maxPeople: 2,
             authorNickname: '2',
             description: '',
+            status: 'MOIMING',
+            participants: [],
+            comments: [],
+            isZzimed: false,
           },
           {
             moimId: 5,
@@ -60,6 +76,10 @@ export const moimHandler = [
             maxPeople: 2,
             authorNickname: '2',
             description: '',
+            status: 'MOIMING',
+            participants: [],
+            comments: [],
+            isZzimed: false,
           },
           {
             moimId: 6,
@@ -71,6 +91,10 @@ export const moimHandler = [
             maxPeople: 2,
             authorNickname: '2',
             description: '',
+            status: 'MOIMING',
+            participants: [],
+            comments: [],
+            isZzimed: false,
           },
           {
             moimId: 7,
@@ -82,6 +106,10 @@ export const moimHandler = [
             maxPeople: 2,
             authorNickname: '2',
             description: '',
+            status: 'MOIMING',
+            participants: [],
+            comments: [],
+            isZzimed: false,
           },
           {
             moimId: 8,
@@ -93,6 +121,10 @@ export const moimHandler = [
             maxPeople: 2,
             authorNickname: '2',
             description: '',
+            status: 'MOIMING',
+            participants: [],
+            comments: [],
+            isZzimed: false,
           },
           {
             moimId: 9,
@@ -104,6 +136,10 @@ export const moimHandler = [
             maxPeople: 2,
             authorNickname: '2',
             description: '',
+            status: 'MOIMING',
+            participants: [],
+            comments: [],
+            isZzimed: false,
           },
         ],
       },
