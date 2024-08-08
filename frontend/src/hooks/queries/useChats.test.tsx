@@ -6,8 +6,8 @@ import {
   nowChatServerData,
   pushNextChatsIntoSever,
 } from '../../mocks/handler/chatHandler';
-import { renderHook, waitFor } from '@testing-library/react';
 
+import { renderHook } from '@testing-library/react';
 import useChats from './useChats';
 
 const queryClient = new QueryClient();
@@ -16,11 +16,7 @@ const wrapper = ({ children }: { children: ReactNode }) => (
 );
 
 describe('useChats', () => {
-  beforeEach(() => {
-    jest.useFakeTimers();
-  });
   afterEach(() => {
-    jest.useRealTimers();
     nowChatServerData.length = 0;
     initChatIndex();
   });
@@ -31,16 +27,14 @@ describe('useChats', () => {
   });
 
   it('chats의 값은 서버의 값과 같다', async () => {
-    const { result } = renderHook(() => useChats(1), { wrapper });
-
+    const { result, rerender } = renderHook(() => useChats(1), { wrapper });
     for (let i = 0; i < chatSliceIndexes.length; i++) {
-      act(async () => {
+      await act(async () => {
         pushNextChatsIntoSever();
-        jest.advanceTimersByTime(100);
-
-        await waitFor(() => result.current.isLoading);
-        expect(result.current.chats).toEqual(nowChatServerData);
+        await new Promise((res) => setInterval(res, 100));
+        rerender();
       });
+      expect(result.current.chats).toEqual(nowChatServerData);
     }
   });
 });
