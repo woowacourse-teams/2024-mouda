@@ -10,14 +10,13 @@ public record ChatPreviewResponse(
 	int currentPeople,
 	boolean isStarted,
 	String lastContent,
-	long unreadContentCount
+	long lastReadChatId
 ) {
 
 	public static ChatPreviewResponse toResponse(
 		Chamyo chamyo,
 		int currentPeople,
-		String lastContent,
-		long unreadContentCount
+		String lastContent
 	) {
 		return ChatPreviewResponse.builder()
 			.moimId(chamyo.getMoim().getId())
@@ -25,7 +24,7 @@ public record ChatPreviewResponse(
 			.currentPeople(currentPeople)
 			.isStarted(chamyo.getMoim().isPastMoim())
 			.lastContent(lastContent)
-			.unreadContentCount(unreadContentCount)
+			.lastReadChatId(chamyo.getLastReadChatId())
 			.build();
 	}
 }
