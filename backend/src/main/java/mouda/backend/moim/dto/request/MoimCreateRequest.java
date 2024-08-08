@@ -11,13 +11,10 @@ public record MoimCreateRequest(
 	@NotBlank
 	String title,
 
-	@NotNull
 	LocalDate date,
 
-	@NotNull
 	LocalTime time,
 
-	@NotBlank
 	String place,
 
 	@NotNull

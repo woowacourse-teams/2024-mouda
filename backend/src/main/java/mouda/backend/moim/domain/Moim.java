@@ -39,13 +39,10 @@ public class Moim {
 	@Column(nullable = false)
 	private String title;
 
-	@Column(nullable = false)
 	private LocalDate date;
 
-	@Column(nullable = false)
 	private LocalTime time;
 
-	@Column(nullable = false)
 	private String place;
 
 	@Column(nullable = false)
@@ -68,8 +65,6 @@ public class Moim {
 		String description
 	) {
 		validateTitle(title);
-		validateDate(date);
-		validateTime(time);
 		validateMoimIsFuture(date, time);
 		validatePlace(place);
 		validateMaxPeople(maxPeople);
@@ -107,6 +102,9 @@ public class Moim {
 	}
 
 	private void validateMoimIsFuture(LocalDate date, LocalTime time) {
+		if (date == null && time == null) {
+			return;
+		}
 		LocalDateTime moimDateTime = LocalDateTime.of(date, time);
 		if (moimDateTime.isBefore(LocalDateTime.now())) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.PAST_DATE_TIME);
@@ -114,6 +112,9 @@ public class Moim {
 	}
 
 	private void validatePlace(String place) {
+		if (place == null) {
+			return;
+		}
 		if (place.isBlank()) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.PLACE_NOT_EXIST);
 		}
@@ -151,12 +152,10 @@ public class Moim {
 		}
 
 		if (!Objects.equals(this.date, date)) {
-			validateDate(date);
 			this.date = date;
 		}
 
 		if (!Objects.equals(this.time, time)) {
-			validateTime(time);
 			this.time = time;
 		}
 
@@ -186,6 +185,9 @@ public class Moim {
 	}
 
 	public boolean isPastMoim() {
+		if (date == null || time == null) {
+			return true;
+		}
 		LocalDateTime dateTime = LocalDateTime.of(date, time);
 		return dateTime.isBefore(LocalDateTime.now());
 	}
@@ -200,13 +202,11 @@ public class Moim {
 	}
 
 	public void confirmDateTime(LocalDate date, LocalTime time) {
-		validateDate(date);
-		validateTime(time);
 		validateMoimIsFuture(date, time);
 		this.date = date;
 		this.time = time;
-  }
-  
+	}
+
 	public void openChat() {
 		this.isChatOpened = true;
 	}
