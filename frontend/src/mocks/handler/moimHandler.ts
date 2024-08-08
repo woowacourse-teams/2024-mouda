@@ -1,8 +1,9 @@
-import { http, HttpResponse } from 'msw';
+import { HttpResponse, http } from 'msw';
+
 import ENDPOINTS from '@_apis/endPoints';
+
 export const moimHandler = [
   http.get(`${ENDPOINTS.moims}`, () => {
-    console.log('msw중');
     return HttpResponse.json({
       data: {
         moims: [

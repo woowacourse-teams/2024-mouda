@@ -13,7 +13,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     currentTab: '모임목록',
-    onTabClick: (tab: string) => console.log(tab),
+    onTabClick: (_: string) => {
+      _;
+    },
   },
   render: (args) => <MoimTabBar {...args} />,
 };
