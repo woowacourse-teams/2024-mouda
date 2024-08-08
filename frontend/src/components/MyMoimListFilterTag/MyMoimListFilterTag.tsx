@@ -1,5 +1,7 @@
-import { useTheme } from '@emotion/react';
 import * as S from './MyMoimListFilterTag.style';
+
+import { common } from '@_common/common.style';
+import { useTheme } from '@emotion/react';
 
 interface MyMoimListFilterTagProps {
   label: string;
@@ -13,7 +15,10 @@ export default function MyMoimListFilterTag(props: MyMoimListFilterTagProps) {
   const theme = useTheme();
 
   return (
-    <div css={S.tag({ theme, isSelected })} onClick={onClick}>
+    <div
+      css={[S.tag({ theme, isSelected }), common.nonScroll]}
+      onClick={onClick}
+    >
       {label}
     </div>
   );

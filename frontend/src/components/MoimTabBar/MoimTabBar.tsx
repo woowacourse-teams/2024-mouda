@@ -1,5 +1,7 @@
-import { useTheme } from '@emotion/react';
 import * as S from './MoimTabBar.style';
+
+import { common } from '@_common/common.style';
+import { useTheme } from '@emotion/react';
 
 export type MainPageTab = '모임목록' | '나의모임' | '찜한모임';
 
@@ -20,7 +22,10 @@ export default function MoimTabBar(props: MoimTabBarProps) {
       {tabs.map((tab, index) => (
         <p
           key={index}
-          css={S.tabItemStyle({ theme, isTurnedOn: currentTab === tab })}
+          css={[
+            S.tabItemStyle({ theme, isTurnedOn: currentTab === tab }),
+            common.nonScroll,
+          ]}
           onClick={() => onTabClick(tab)}
         >
           {tab}

@@ -1,4 +1,4 @@
-import { css, Theme } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 
 export const navigationBarItem = (props: {
   theme: Theme;
@@ -19,3 +19,7 @@ export const navigationBarItem = (props: {
       : theme.colorPalette.grey[300]};
   `;
 };
+
+export const navigationBarSpan = css`
+  user-select: none;
+`;
