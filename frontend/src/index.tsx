@@ -1,9 +1,12 @@
 import App from './App';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-
-//...
+import ReactGA from 'react-ga4';
 import * as Sentry from '@sentry/react';
+
+if (process.env.REACT_APP_GOOGLE_ANALYTICS) {
+  ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS);
+}
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,

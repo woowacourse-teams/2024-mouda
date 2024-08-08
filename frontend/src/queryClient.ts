@@ -27,7 +27,7 @@ const createQueryClient = () => {
 };
 
 const handleApiError = (error: Error) => {
-  Sentry.captureMessage('api error occurred');
+  Sentry.captureException(error);
   if (error instanceof ApiError && error.status === 401) {
     removeToken();
     window.location.href = '/login';
