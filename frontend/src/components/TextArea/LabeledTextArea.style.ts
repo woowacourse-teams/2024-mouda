@@ -1,4 +1,4 @@
-import { css, Theme } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 
 export const required = (props: { theme: Theme }) => css`
   color: ${props.theme.colorPalette.red[500]};
@@ -12,10 +12,12 @@ export const title = (props: { theme: Theme }) => css`
 `;
 
 export const textArea = (props: { theme: Theme }) => css`
+  ${props.theme.typography.b3}
   resize: none;
 
   flex-shrink: 0;
 
+  padding: 0.6rem;
   width: 100%;
   height: 8rem;
 
