@@ -26,7 +26,7 @@ export default function PlaceModalContent(props: PlaceModalContentProps) {
   }, [place, onConfirm]);
 
   return (
-    <form css={S.content({ theme })} onSubmit={submitHandler}>
+    <div css={S.content({ theme })} onSubmit={submitHandler}>
       <LabeledInput
         title="장소 입력"
         placeholder="ex. URL, 칼바람 나락"
@@ -59,6 +59,6 @@ export default function PlaceModalContent(props: PlaceModalContentProps) {
           </Button>
         </div>
       </div>
-    </form>
+    </div>
   );
 }
