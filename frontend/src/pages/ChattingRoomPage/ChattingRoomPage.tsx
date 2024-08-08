@@ -12,7 +12,7 @@ import DateTimeModalContent from '@_components/DateTimeModalContent/DateTimeModa
 import Modal from '@_components/Modal/Modal';
 import Picker from '@_components/Icons/Picker';
 import PlaceModalContent from '@_components/PlaceModalContent/PlaceModalContent';
-import useChats from '@_hooks/queries/useChat';
+import useChats from '@_hooks/queries/useChats';
 import useConfirmDateTime from '@_hooks/mutaions/useConfirmDatetime';
 import useConfirmPlace from '@_hooks/mutaions/useConfirmPlace';
 import useMoims from '@_hooks/queries/useMoims';
