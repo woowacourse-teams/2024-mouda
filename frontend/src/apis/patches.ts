@@ -25,3 +25,7 @@ export const patchReopenMoim = async (moimId: number) => {
     moimId,
   });
 };
+
+export const patchOpenChat = async (moimId: number) => {
+  await ApiClient.patchWithAuth(`chat/open?moimId=${moimId}`);
+};
