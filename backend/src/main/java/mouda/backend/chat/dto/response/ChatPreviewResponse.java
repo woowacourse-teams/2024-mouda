@@ -8,7 +8,7 @@ public record ChatPreviewResponse(
 	Long moimId,
 	String title,
 	int currentPeople,
-	boolean beforeMoim,
+	boolean isStarted,
 	String lastContent,
 	long unreadContentCount
 ) {
@@ -23,7 +23,7 @@ public record ChatPreviewResponse(
 			.moimId(chamyo.getMoim().getId())
 			.title(chamyo.getMoim().getTitle())
 			.currentPeople(currentPeople)
-			.beforeMoim(chamyo.getMoim().isPastMoim())
+			.isStarted(chamyo.getMoim().isPastMoim())
 			.lastContent(lastContent)
 			.unreadContentCount(unreadContentCount)
 			.build();
