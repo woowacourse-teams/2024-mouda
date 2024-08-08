@@ -4,18 +4,17 @@ import HomeLayout from '@_layouts/HomeLayout.tsx/HomeLayout';
 import HomeMainContent from '@_components/HomeMainContent/HomeMainContent';
 import NavigationBar from '@_components/NavigationBar/NavigationBar';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
-// import ROUTES from '@_constants/routes';
-// import { useNavigate } from 'react-router-dom';
+import ROUTES from '@_constants/routes';
+import { useNavigate } from 'react-router-dom';
 import HomeHeaderContent from '@_components/HomeHeaderContent/HomHeaderContent';
 import PlusButton from '@_components/PlusButton/PlusButton';
 
 export default function MainPage() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [currentTab, setCurrentTab] = useState<MainPageTab>('모임목록');
 
   const handleTabClick = (tab: MainPageTab) => {
-    throw new Error('handle tab click error');
     setCurrentTab(tab);
   };
 
@@ -32,12 +31,7 @@ export default function MainPage() {
         </HomeLayout.Main>
 
         <HomeLayout.HomeFixedButtonWrapper>
-          <PlusButton
-            onClick={() => {
-              throw new Error('error testasdasdasdasdasd');
-              // navigate(ROUTES.addMoim)
-            }}
-          />
+          <PlusButton onClick={() => navigate(ROUTES.addMoim)} />
         </HomeLayout.HomeFixedButtonWrapper>
       </HomeLayout>
 
