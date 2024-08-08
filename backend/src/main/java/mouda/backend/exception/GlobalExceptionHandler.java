@@ -27,12 +27,29 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(MoudaException.class)
 	public ResponseEntity<ErrorResponse> handleMoudaException(MoudaException exception) {
+		StackTraceElement[] stackTrace = exception.getStackTrace();
+		String className = stackTrace[0].getClassName();
+		String methodName = stackTrace[0].getMethodName();
+
+		String exceptionMessage = exception.getMessage();
+
+		log.info("Exception occurred in class = {}, method = {}, message = {}, exception class = {}",
+			className, methodName, exceptionMessage, exception.getClass().getCanonicalName());
+
 		return ResponseEntity.status(exception.getHttpStatus()).body(new ErrorResponse(exception.getMessage()));
 	}
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorResponse> handleException(Exception exception) {
-		exception.printStackTrace();
+		StackTraceElement[] stackTrace = exception.getStackTrace();
+		String className = stackTrace[0].getClassName();
+		String methodName = stackTrace[0].getMethodName();
+
+		String exceptionMessage = exception.getMessage();
+
+		log.warn("Exception occurred in class = {}, method = {}, message = {}, exception class = {}",
+			className, methodName, exceptionMessage, exception.getClass().getCanonicalName());
+
 		return ResponseEntity.internalServerError().body(new ErrorResponse("서버 오류가 발생했습니다."));
 	}
 }
