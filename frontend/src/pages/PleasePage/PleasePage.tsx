@@ -20,7 +20,7 @@ export default function PleasePage() {
         </PleaseLayout.Main>
 
         <PleaseLayout.HomeFixedButtonWrapper>
-          <PlusButton onClick={() => navigate(ROUTES.please)} />
+          <PlusButton onClick={() => navigate(ROUTES.addPlease)} />
         </PleaseLayout.HomeFixedButtonWrapper>
       </PleaseLayout>
       <NavigationBarWrapper>
