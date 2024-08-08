@@ -8,4 +8,8 @@ export const layoutStyle = ({ theme }: { theme: Theme }) => css`
   height: 100vh;
 
   background-color: ${theme.colorPalette.grey[100]};
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
