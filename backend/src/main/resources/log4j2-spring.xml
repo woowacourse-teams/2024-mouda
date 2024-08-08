@@ -29,9 +29,15 @@
         </DefaultRolloverStrategy>
     </Appenders>
     <Loggers>
-        <Root level="debug">
+        <Logger name="mouda.backend" level="info" additivity="false">
             <AppenderRef ref="console" level="debug"/>
-            <AppenderRef ref="file" level="warn"/>
+            <AppenderRef ref="file" level="info"/>
+        </Logger>
+        <Logger name="org.springframework" level="warn"/>
+        <Logger name="org.hibernate" level="warn"/>
+        <Root level="error">
+            <AppenderRef ref="console" level="error"/>
+            <AppenderRef ref="file" level="error"/>
         </Root>
     </Loggers>
 </Configuration>
