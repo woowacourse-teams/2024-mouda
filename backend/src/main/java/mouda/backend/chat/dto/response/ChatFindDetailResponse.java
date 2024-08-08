@@ -5,6 +5,7 @@ import java.time.LocalTime;
 
 import lombok.Builder;
 import mouda.backend.chat.domain.Chat;
+import mouda.backend.chat.domain.ChatType;
 
 @Builder
 public record ChatFindDetailResponse(
@@ -14,7 +15,7 @@ public record ChatFindDetailResponse(
 	String nickname,
 	LocalDate date,
 	LocalTime time,
-	boolean isConfirmChat
+	ChatType chatType
 ) {
 	public static ChatFindDetailResponse toResponse(Chat chat, boolean isMyMessage) {
 		return ChatFindDetailResponse.builder()
@@ -24,7 +25,7 @@ public record ChatFindDetailResponse(
 			.nickname(chat.getMember().getNickname())
 			.date(chat.getDate())
 			.time(chat.getTime())
-			.isConfirmChat(chat.isConfirmChat())
+			.chatType(chat.getChatType())
 			.build();
 	}
 }

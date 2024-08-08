@@ -13,8 +13,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.chat.dto.request.ChatCreateRequest;
 import mouda.backend.chat.dto.request.DateTimeConfirmRequest;
-import mouda.backend.chat.dto.request.PlaceConfirmRequest;
 import mouda.backend.chat.dto.request.LastReadChatRequest;
+import mouda.backend.chat.dto.request.PlaceConfirmRequest;
 import mouda.backend.chat.dto.response.ChatFindUnloadedResponse;
 import mouda.backend.chat.dto.response.ChatPreviewResponses;
 import mouda.backend.chat.service.ChatService;
@@ -51,9 +51,9 @@ public class ChatController implements ChatSwagger {
 
 		return ResponseEntity.ok(new RestResponse<>(unloadedChats));
 	}
-  
-  @Override  
-  @GetMapping("/preview")
+
+	@Override
+	@GetMapping("/preview")
 	public ResponseEntity<RestResponse<ChatPreviewResponses>> findChatPreviews(
 		@LoginMember Member member
 	) {
@@ -80,28 +80,28 @@ public class ChatController implements ChatSwagger {
 		@LoginMember Member member
 	) {
 		chatService.confirmDateTime(dateTimeConfirmRequest, member);
-    
+
 		return ResponseEntity.ok().build();
 	}
-  
-  @Override
+
+	@Override
 	@PostMapping("/place")
 	public ResponseEntity<Void> confirmPlace(
 		@RequestBody PlaceConfirmRequest placeConfirmRequest,
 		@LoginMember Member member
 	) {
 		chatService.confirmPlace(placeConfirmRequest, member);
-    
-    return ResponseEntity.ok().build();
-  }
-    
-  @PatchMapping("/open")
+
+		return ResponseEntity.ok().build();
+	}
+
+	@PatchMapping("/open")
 	public ResponseEntity<Void> openChatRoom(
 		@RequestParam("moimId") Long moimId,
 		@LoginMember Member member
 	) {
 		chatService.openChatRoom(moimId, member);
-    
-    return ResponseEntity.ok().build();
-  }
+
+		return ResponseEntity.ok().build();
+	}
 }

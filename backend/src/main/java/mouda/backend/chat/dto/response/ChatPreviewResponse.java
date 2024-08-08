@@ -8,24 +8,23 @@ public record ChatPreviewResponse(
 	Long moimId,
 	String title,
 	int currentPeople,
-	boolean beforeMoim,
+	boolean isStarted,
 	String lastContent,
-	long unreadContentCount
+	long lastReadChatId
 ) {
 
 	public static ChatPreviewResponse toResponse(
 		Chamyo chamyo,
 		int currentPeople,
-		String lastContent,
-		long unreadContentCount
+		String lastContent
 	) {
 		return ChatPreviewResponse.builder()
 			.moimId(chamyo.getMoim().getId())
 			.title(chamyo.getMoim().getTitle())
 			.currentPeople(currentPeople)
-			.beforeMoim(chamyo.getMoim().isPastMoim())
+			.isStarted(chamyo.getMoim().isPastMoim())
 			.lastContent(lastContent)
-			.unreadContentCount(unreadContentCount)
+			.lastReadChatId(chamyo.getLastReadChatId())
 			.build();
 	}
 }
