@@ -14,7 +14,7 @@ export default function ChatPage() {
     <ChattingPreviewLayout>
       <ChattingPreviewLayout.Header>
         <ChattingPreviewLayout.Header.Left>
-          <h2 css={theme.typography.h5}>채팅</h2>
+          <h2 css={theme.typography.h5}>우아한테크코스</h2>
         </ChattingPreviewLayout.Header.Left>
       </ChattingPreviewLayout.Header>
       <ChattingPreviewLayout.ContentContainer>
