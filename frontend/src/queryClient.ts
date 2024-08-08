@@ -27,7 +27,6 @@ const createQueryClient = () => {
 };
 
 const handleApiError = (error: Error) => {
-  console.log(error);
   Sentry.captureException(error);
   if (error instanceof ApiError && error.status === 401) {
     removeToken();
