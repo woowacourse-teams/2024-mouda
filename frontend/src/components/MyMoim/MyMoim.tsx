@@ -1,9 +1,12 @@
-import MoimCardList from '@_components/MoimCardList/MoimCardList';
+import * as S from './MyMoim.style';
+
+import { Fragment, useState } from 'react';
 import MyMoimListFilters, {
   Filter,
 } from '@_components/MyMoimListFilters/MyMoimListFilters';
+
+import MoimCardList from '@_components/MoimCardList/MoimCardList';
 import useMyMoims from '@_hooks/queries/useMyMoims';
-import { Fragment, useState } from 'react';
 
 export default function MyMoimList() {
   const [selectedFilter, setSelectedFilter] = useState<Filter['api']>('all');
@@ -24,6 +27,7 @@ export default function MyMoimList() {
         selectedFilter={selectedFilter}
         handleFilterSelect={handleFilterSelect}
       />
+      <div css={S.container}></div>
       {myMoims && <MoimCardList moimInfos={myMoims} />}
     </Fragment>
   );
