@@ -1,26 +1,26 @@
-import { MoimInputInfo } from '@_types/index';
 import ApiClient from './apiClient';
+import { MoimInputInfo } from '@_types/index';
 
-export const fetchCompleteMoin = async (moimId: number) => {
+export const patchCompleteMoim = async (moimId: number) => {
   await ApiClient.patchWithAuth(`moim/${moimId}/complete`, {
     moimId,
   });
 };
 
-export const fetchCancelMoin = async (moimId: number) => {
+export const patchCancelMoim = async (moimId: number) => {
   await ApiClient.patchWithAuth(`moim/${moimId}/cancel`, {
     moimId,
   });
 };
 
-export const fetchModifyMoin = async (moimId: number, state: MoimInputInfo) => {
+export const patchModifyMoim = async (moimId: number, state: MoimInputInfo) => {
   await ApiClient.patchWithAuth(`moim`, {
     moimId,
     ...state,
   });
 };
 
-export const fetchReopenMoin = async (moimId: number) => {
+export const patchReopenMoim = async (moimId: number) => {
   await ApiClient.patchWithAuth(`moim/${moimId}/reopen`, {
     moimId,
   });

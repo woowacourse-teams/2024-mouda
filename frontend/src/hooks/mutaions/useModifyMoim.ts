@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import QUERY_KEYS from '@_constants/queryKeys';
-import { fetchModifyMoin } from '@_apis/fetchs';
+
 import { MoimInputInfo } from '@_types/index';
+import QUERY_KEYS from '@_constants/queryKeys';
+import { patchModifyMoim } from '@_apis/patches';
 
 interface ModifyMoimParams {
   moimId: number;
@@ -13,7 +14,7 @@ export default function useModifyMoim(onSuccess: (moimId: number) => void) {
 
   return useMutation({
     mutationFn: ({ moimId, state }: ModifyMoimParams) =>
-      fetchModifyMoin(moimId, state),
+      patchModifyMoim(moimId, state),
     onSuccess: (_, { moimId }) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.moim],
