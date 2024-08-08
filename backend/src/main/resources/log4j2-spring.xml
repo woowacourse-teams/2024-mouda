@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="logPath">./logs</Property>
+        <Property name="logPattern">[%-5level] %d{yyyy-MM-dd HH:mm:ss} [%t] %c{1} - %msg%n</Property>
+        <Property name="serviceName">mouda</Property>
+    </Properties>
+    <Appenders>
+        <Console name="console">
+            <PatternLayout pattern="${logPattern}"/>
+        </Console>
+        <RollingFile
+                name="file"
+                append="true"
+                fileName="${logPath}/${serviceName}-${date:yyyy-MM-dd}.log"
+                filePattern="${logPath}/${serviceName}-%d{yyyy-MM-dd}-%i.log.gz">
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${logPattern}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5MB"/>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+        </RollingFile>
+        <DefaultRolloverStrategy>
+            <Delete basePath="${logPath}" maxDepth="1">
+                <IfFileName glob="${serviceName}-*.log"/>
+                <IfLastModified age="15d"/>
+            </Delete>
+        </DefaultRolloverStrategy>
+    </Appenders>
+    <Loggers>
+        <Logger name="mouda.backend" level="info" additivity="false">
+            <AppenderRef ref="console" level="debug"/>
+            <AppenderRef ref="file" level="info"/>
+        </Logger>
+        <Logger name="org.springframework" level="warn"/>
+        <Logger name="org.hibernate" level="warn"/>
+        <Root level="error">
+            <AppenderRef ref="console" level="error"/>
+            <AppenderRef ref="file" level="error"/>
+        </Root>
+    </Loggers>
+</Configuration>

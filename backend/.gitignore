@@ -5,3 +5,4 @@ build/
 !**/src/test/**/build/
 .idea
 out
+logs
