@@ -23,13 +23,20 @@ jobs:
         with:
           node-version: '20.15.0'
 
-#      추후에 API 서버와 통신하는 테스트가 추가되면 활성화
-#      - name: Create .env file
-#        run: |
-#          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+      #      추후에 API 서버와 통신하는 테스트가 추가되면 활성화
+      #      - name: Create .env file
+      #        run: |
+      #          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
 
       - name: Install Dependencies
         run: npm install --frozen-lockfile
+
+      - name: Create .env file
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+          echo "REACT_APP_GOOGLE_ANALYTICS=${{ secrets.REACT_APP_GOOGLE_ANALYTICS }}" >> .env
+          echo "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}" >> .env
+          echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env
 
       - name: Run tests
         run: npm run test
