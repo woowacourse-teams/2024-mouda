@@ -14,6 +14,14 @@ export interface GetMoim {
   data: MoimInfo;
 }
 
+export interface PostMoimBody {
+  place?: string;
+  date?: string;
+  time?: string;
+  description?: string;
+  title: string;
+  maxPeople: number;
+}
 export interface PostMoim {
   data: number;
 }

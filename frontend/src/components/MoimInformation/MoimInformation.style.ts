@@ -1,4 +1,4 @@
-import { css, Theme } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 
 export const containerStyle = () => css`
   display: flex;
@@ -19,7 +19,7 @@ export const cardStyle = (props: { theme: Theme }) => css`
 
 export const rowStyle = (props: { theme: Theme }) => css`
   display: flex;
-  ${props.theme.typography.b1}
+  ${props.theme.typography.h5}
   justify-content: space-between;
   padding: 5px 0;
   border-top: 1px solid ${props.theme.colorPalette.grey[400]};

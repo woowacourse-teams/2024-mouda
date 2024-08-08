@@ -1,5 +1,6 @@
 import ApiClient from './apiClient';
 import { MoimInputInfo } from '@_types/index';
+import { PostMoimBody } from './responseTypes';
 
 export const patchCompleteMoim = async (moimId: number) => {
   await ApiClient.patchWithAuth(`moim/${moimId}/complete`, {
@@ -13,10 +14,17 @@ export const patchCancelMoim = async (moimId: number) => {
   });
 };
 
-export const patchModifyMoim = async (moimId: number, state: MoimInputInfo) => {
+export const patchModifyMoim = async (moimId: number, moim: MoimInputInfo) => {
+  const parsedMoim: PostMoimBody = {
+    ...moim,
+    date: moim.date || undefined,
+    time: moim.time || undefined,
+    place: moim.place || undefined,
+  };
+
   await ApiClient.patchWithAuth(`moim`, {
     moimId,
-    ...state,
+    ...parsedMoim,
   });
 };
 

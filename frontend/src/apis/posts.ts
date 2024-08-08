@@ -1,10 +1,17 @@
 import { MoimInputInfo, PleaseInfoInput } from '@_types/index';
+import { PostMoim, PostMoimBody } from './responseTypes';
 
 import ApiClient from './apiClient';
-import { PostMoim } from './responseTypes';
 
 export const postMoim = async (moim: MoimInputInfo): Promise<number> => {
-  const response = await ApiClient.postWithAuth('moim', moim);
+  const parsedMoim: PostMoimBody = {
+    ...moim,
+    date: moim.date || undefined,
+    time: moim.time || undefined,
+    place: moim.place || undefined,
+  };
+
+  const response = await ApiClient.postWithAuth('moim', parsedMoim);
 
   const json: PostMoim = await response.json();
   return json.data;

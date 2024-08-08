@@ -1,6 +1,8 @@
 import * as S from './MoimInformation.style';
+
+import { formatHhmmToKorean, formatYyyymmddToKorean } from '@_utils/formatters';
+
 import { MoimInfo } from '@_types/index';
-import { formatYyyymmddToKorean, formatHhmmToKorean } from '@_utils/formatters';
 import { useTheme } from '@emotion/react';
 
 interface MoimInformationProps {
@@ -18,18 +20,27 @@ export default function MoimInformation(props: MoimInformationProps) {
     <div css={S.containerStyle()}>
       <h2 css={S.titleStyle({ theme })}>모임 정보</h2>
       <div css={S.cardStyle({ theme })}>
-        <div css={S.rowStyle({ theme })}>
-          <span>날짜</span>
-          <span>{formatYyyymmddToKorean(date)}</span>
-        </div>
-        <div css={S.rowStyle({ theme })}>
-          <span>시간</span>
-          <span>{formatHhmmToKorean(time)}</span>
-        </div>
-        <div css={S.rowStyle({ theme })}>
-          <span>장소</span>
-          <span>{place}</span>
-        </div>
+        {date && (
+          <div css={S.rowStyle({ theme })}>
+            <span>날짜</span>
+            <span>{formatYyyymmddToKorean(date)}</span>
+          </div>
+        )}
+
+        {time && (
+          <div css={S.rowStyle({ theme })}>
+            <span>시간</span>
+            <span>{formatHhmmToKorean(time)}</span>
+          </div>
+        )}
+
+        {place && (
+          <div css={S.rowStyle({ theme })}>
+            <span>장소</span>
+            <span>{place}</span>
+          </div>
+        )}
+
         <div css={S.rowStyle({ theme })}>
           <span>최대 인원</span>
           <span>{maxPeople}명</span>
