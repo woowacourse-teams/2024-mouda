@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,16 +37,17 @@ public class Chat {
 
 	private LocalTime time;
 
-	private boolean isConfirmChat;
+	@Enumerated(EnumType.STRING)
+	private ChatType chatType;
 
 	@Builder
-	public Chat(String content, Moim moim, Member member, LocalDate date, LocalTime time) {
+	public Chat(String content, Moim moim, Member member, LocalDate date, LocalTime time, ChatType chatType) {
 		this.content = content;
 		this.moim = moim;
 		this.member = member;
 		this.date = date;
 		this.time = time;
-		this.isConfirmChat = false;
+		this.chatType = chatType;
 	}
 
 	public boolean isMyMessage(long memberId) {
