@@ -1,23 +1,23 @@
 import {
   chatMessageStyle,
   messageContainer,
-  messageStyle,
   senderStyle,
   timeStyle,
 } from './Chatstyle';
 
-import type { Chat } from '@_types/index';
+import { Chat as ChatType } from '@_types/index';
+import { PropsWithChildren } from 'react';
 import UserPreview from '@_components/UserPreview/UserPreview';
 import { formatHhmmToKoreanWithPrefix } from '@_utils/formatters';
 import { useTheme } from '@emotion/react';
 
-export interface ChatMessageProps {
-  chat: Chat;
+export interface ChatMessageProps extends PropsWithChildren {
+  chat: ChatType;
 }
 
 export default function Chat(props: ChatMessageProps) {
-  const { chat } = props;
-  const { content, nickname, time, isMyMessage } = chat;
+  const { chat, children } = props;
+  const { nickname, time, isMyMessage } = chat;
   const theme = useTheme();
   return (
     <div css={chatMessageStyle({ isMyMessage })}>
@@ -25,7 +25,7 @@ export default function Chat(props: ChatMessageProps) {
       <UserPreview imageUrl={''} />
       <div css={messageContainer({ isMyMessage })}>
         <span css={senderStyle({ theme })}>{nickname}</span>
-        <div css={messageStyle({ theme, isMyMessage })}>{content}</div>
+        {children}
         <span css={timeStyle({ theme })}>
           {formatHhmmToKoreanWithPrefix(time)}
         </span>

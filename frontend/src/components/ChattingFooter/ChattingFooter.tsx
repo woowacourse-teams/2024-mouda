@@ -14,11 +14,12 @@ import X from '@_common/assets/x.svg';
 import { useTheme } from '@emotion/react';
 
 interface ChattingFooterProps {
+  onMenuClick: () => void;
   onSubmit: (message: string) => void;
 }
 
 export default function ChattingFooter(props: ChattingFooterProps) {
-  const { onSubmit } = props;
+  const { onSubmit, onMenuClick } = props;
   const [isMenuClicked, setIsMenuClicked] = useState(false);
   const [message, setMessage] = useState('');
   const theme = useTheme();
@@ -30,7 +31,10 @@ export default function ChattingFooter(props: ChattingFooterProps) {
          필요한 점: 테마 적용(백그라운드 컬러 설정 어려움)+disabled를 optional로 주기 */}
       <button
         css={menuButton({ theme })}
-        onClick={() => setIsMenuClicked(!isMenuClicked)}
+        onClick={() => {
+          onMenuClick();
+          setIsMenuClicked(!isMenuClicked);
+        }}
       >
         {isMenuClicked ? <X /> : <Plus />}
       </button>

@@ -46,6 +46,14 @@ export type MoimInputInfo = Omit<
   | 'isZzimed'
 >;
 
+export interface ChattingPreview {
+  moimId: number;
+  title: string;
+  currentPeople: number;
+  beforeMoim: boolean;
+  lastContent: string;
+  unreadContentCount: number;
+}
 export interface Chat {
   chatId: number;
   content: string;
@@ -53,6 +61,8 @@ export interface Chat {
   nickname: string;
   date: string;
   time: string;
+  isConfirmChat: boolean;
+  chatType: 'BASIC' | 'PLACE' | 'DATETIME';
 }
 
 

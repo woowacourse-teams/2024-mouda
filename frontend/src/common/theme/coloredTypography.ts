@@ -1,13 +1,13 @@
 import { ColoredTypography, Typography } from './theme.type';
+import { SerializedStyles, css } from '@emotion/react';
 
 import { Entries } from '@_types/index';
-import { css } from '@emotion/react';
 import typography from './typography';
 
 const coloredTypography: ColoredTypography = (
   Object.entries(typography) as Entries<Typography>
 ).reduce((object, [key, style]) => {
-  object[key] = (fontColor: string) => {
+  object[key] = (fontColor: string | SerializedStyles) => {
     return css`
       ${style}
       color:${fontColor};
