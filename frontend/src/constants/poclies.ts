@@ -19,6 +19,9 @@ const POLICES = {
 
   minPleaseDescription: 5,
   maxPleaseDescription: 10000,
+
+  footerZIndex: 100,
+  modalZIndex: 200,
 };
 
 export default POLICES;
