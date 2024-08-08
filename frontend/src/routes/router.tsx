@@ -12,6 +12,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import PleasePage from '@_pages/PleasePage/PleasePage';
 import MyPage from '@_pages/Mypage/MyPage';
 import RouteChangeTracker from '../RouteChageTracker';
+import PleaseCreationPage from '@_pages/PleaseCreationPage/PleaseCreationPage';
 
 const routesConfig = [
   {
@@ -57,6 +58,11 @@ const routesConfig = [
   {
     path: ROUTES.please,
     element: <PleasePage />,
+    requiresAuth: true,
+  },
+  {
+    path: ROUTES.addPlease,
+    element: <PleaseCreationPage />,
     requiresAuth: true,
   },
   {

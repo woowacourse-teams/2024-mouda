@@ -14,7 +14,7 @@ export default function PleaseCreationPage() {
   const navigate = useNavigate();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { mutate } = useAddPlease(() => {
-    navigate(-1);
+    navigate(ROUTES.please);
   });
 
   const {
