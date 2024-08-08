@@ -14,7 +14,6 @@
     "lint:eslint": "eslint 'src/**/*.{ts,tsx}'",
     "lint:style": "stylelint **/*.style.ts --fix",
     "lint": "npm run lint:eslint && npm run lint:style"
-    
   },
   "repository": {
     "type": "git",
@@ -75,6 +74,7 @@
     "ts-node": "^10.9.2",
     "type-fest": "^4.21.0",
     "typescript": "^5.5.3",
+    "undici": "^6.19.5",
     "webpack": "^5.92.1",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4"
