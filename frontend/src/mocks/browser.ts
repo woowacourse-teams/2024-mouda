@@ -1,6 +1,10 @@
 import { setupWorker } from 'msw/browser';
-import { moimHandler } from './handlers/moimHandler';
-import { interestHandler } from './handlers/interestHandler';
-import { pleaseHandler } from './handlers/pleaseHandler';
+import { moimHandler } from './handler/moimHandler';
+import { interestHandler } from './handler/interestHandler';
+import { pleaseHandler } from './handler/pleaseHandler';
 
-export const worker = setupWorker(...moimHandler, ...interestHandler, ...pleaseHandler);
+export const worker = setupWorker(
+  ...moimHandler,
+  ...interestHandler,
+  ...pleaseHandler,
+);

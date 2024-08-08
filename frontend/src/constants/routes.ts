@@ -25,6 +25,7 @@ const ROUTES = {
   chat: '/chat',
   chattingRoom: '/chatting-room/:moimId',
   please: '/please',
+  addPlease: '/please/creation',
   myPage: '/my-page',
 };
 

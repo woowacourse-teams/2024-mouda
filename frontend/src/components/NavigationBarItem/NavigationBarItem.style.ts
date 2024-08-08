@@ -7,7 +7,6 @@ export const navigationBarItem = (props: {
   const { theme, isActive } = props;
 
   return css`
-    ${theme.typography.c2}
     display: flex;
     flex: 1;
     flex-direction: column;

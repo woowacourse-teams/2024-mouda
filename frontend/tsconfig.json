@@ -30,7 +30,8 @@
       "@_pages/*": ["src/pages/*"],
       "@_types/*": ["src/types/*"],
       "@_utils/*": ["src/utils/*"],
-      "@_routes/*": ["src/routes/*"]
+      "@_routes/*": ["src/routes/*"],
+      "@_mocks/*": ["src/mocks/*"]
     }
   },
   "ts-node": {

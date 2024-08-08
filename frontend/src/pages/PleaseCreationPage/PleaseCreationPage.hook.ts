@@ -22,7 +22,7 @@ const usePleaseInfoInput = () => {
     });
   };
 
-  const isValidMoimInfoInput =
+  const isValidPleaseInfoInput =
     validateTitle(inputData.title) &&
     validateDescription(inputData.description);
 
@@ -30,7 +30,7 @@ const usePleaseInfoInput = () => {
     inputData,
     handleInputChange,
     handleTextAreaChange,
-    isValidMoimInfoInput,
+    isValidPleaseInfoInput,
   };
 };
 

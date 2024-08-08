@@ -4,11 +4,14 @@ import HomeFixedButtonWrapper from './HomeFixedButtonWrapper/HomeFixedButtonWrap
 import HomeHeader from './HomeHeader/HomeHeader';
 import HomeMain from './HomeMain/HomeMain';
 import { PropsWithChildren } from 'react';
+import { useTheme } from '@emotion/react';
 
 function HomeLayout(props: PropsWithChildren) {
   const { children } = props;
 
-  return <div css={S.containerStyle}>{children}</div>;
+  const theme = useTheme();
+
+  return <div css={S.containerStyle({ theme })}>{children}</div>;
 }
 
 HomeLayout.Header = HomeHeader;

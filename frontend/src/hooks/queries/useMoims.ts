@@ -8,7 +8,6 @@ export default function useMoims() {
     queryKey: [QUERY_KEYS.moims],
     queryFn: getMoims,
   });
-
   // TODO:서버에서 검증하면 없애야 함
   const filteredMoims = useMemo(
     () =>
@@ -19,6 +18,5 @@ export default function useMoims() {
       }),
     [moims],
   );
-
   return { moims: filteredMoims, isLoading };
 }

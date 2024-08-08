@@ -16,7 +16,7 @@ export default function MoimTabBar(props: MoimTabBarProps) {
   const theme = useTheme();
 
   return (
-    <nav css={S.tabStyle({ theme })}>
+    <nav css={S.tabStyle}>
       {tabs.map((tab, index) => (
         <p
           key={index}
