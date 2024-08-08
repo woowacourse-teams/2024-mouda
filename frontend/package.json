@@ -14,7 +14,6 @@
     "lint:eslint": "eslint 'src/**/*.{ts,tsx}'",
     "lint:style": "stylelint **/*.style.ts --fix",
     "lint": "npm run lint:eslint && npm run lint:style"
-    
   },
   "repository": {
     "type": "git",
@@ -85,6 +84,7 @@
     "@emotion/react": "^11.11.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-ga4": "^2.1.0",
     "react-router-dom": "^6.24.1"
   },
   "msw": {
