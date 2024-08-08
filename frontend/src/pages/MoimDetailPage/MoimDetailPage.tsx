@@ -150,7 +150,7 @@ export default function MoimDetailPage() {
           <Button
             shape="bar"
             disabled={false}
-            onClick={() => navigate(ROUTES.chat)}
+            onClick={() => navigate(`/chatting-room/${moimId}`)}
           >
             채팅방으로 가기
           </Button>
