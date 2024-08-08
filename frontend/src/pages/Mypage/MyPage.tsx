@@ -1,15 +1,14 @@
-import { useNavigate } from 'react-router-dom';
-
-import BackLogo from '@_common/assets/back.svg';
-
 import InformationLayout from '@_layouts/InformationLayout/InformationLayout';
-import ROUTES from '@_constants/routes';
 import MineInfoCard from '@_components/MineInfoCard/MineInfoCard';
+import NavigationBar from '@_components/NavigationBar/NavigationBar';
+import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
+import { common } from '@_common/common.style';
 import useMyInfo from '@_hooks/queries/useMyInfo';
+import { useTheme } from '@emotion/react';
 
 export default function MyPage() {
-  const navigate = useNavigate();
   const { myInfo, isLoading } = useMyInfo();
+  const theme = useTheme();
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -21,13 +20,10 @@ export default function MyPage() {
     <InformationLayout>
       <InformationLayout.Header>
         <InformationLayout.Header.Left>
-          <div onClick={() => navigate(ROUTES.main)}>
-            <BackLogo />
-          </div>
+          <span css={[[theme.typography.h5, common.nonScroll]]}>
+            우아한테크코스
+          </span>
         </InformationLayout.Header.Left>
-        <InformationLayout.Header.Center>
-          마이페이지
-        </InformationLayout.Header.Center>
       </InformationLayout.Header>
       <InformationLayout.ContentContainer>
         <MineInfoCard
@@ -35,6 +31,9 @@ export default function MyPage() {
           profile={myInfo.profile}
         ></MineInfoCard>
       </InformationLayout.ContentContainer>
+      <NavigationBarWrapper>
+        <NavigationBar />
+      </NavigationBarWrapper>
     </InformationLayout>
   );
 }
