@@ -22,23 +22,23 @@ interface ChattingPreviewProps {
 
 export default function ChattingPreview(props: ChattingPreviewProps) {
   const { chatPreview, onClick } = props;
-  const { title, beforeMoim, lastContent, unreadContentCount, currentPeople } =
+  const { title, isStarted, lastContent, unreadContentCount, currentPeople } =
     chatPreview;
   const theme = useTheme();
   const imageUrls = useMemo(
-    () => new Array(chatPreview.currentPeople + 1).fill(''),
+    () => new Array(chatPreview.currentPeople).fill(''),
     // TODO:participation.profile 구현되면 아래 코드로 변경
     // () => moim.participants.map((participation) => participation.profile),
     [chatPreview.currentPeople],
   );
 
   return (
-    <div css={container({ beforeMoim, theme })} onClick={onClick}>
+    <div css={container({ isStarted, theme })} onClick={onClick}>
       <div css={messageContainer}>
         <div css={titleContainer}>
           <h2 css={theme.typography.s2}>{title}</h2>
-          <div css={tag({ theme, beforeMoim })}>
-            {beforeMoim ? '모임 전' : '모임 후'}
+          <div css={tag({ theme, isStarted })}>
+            {isStarted ? '모임 후' : '모임 전'}
           </div>
         </div>
         {lastContent && (
@@ -57,7 +57,7 @@ export default function ChattingPreview(props: ChattingPreviewProps) {
       </div>
 
       <div css={peopleContainer}>
-        <span css={smallGrey400({ theme })}>{`${currentPeople + 1}명`}</span>
+        <span css={smallGrey400({ theme })}>{`${currentPeople}명`}</span>
         <UserPreviewList imageUrls={imageUrls} />
       </div>
     </div>

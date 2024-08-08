@@ -1,7 +1,8 @@
-import { ImgHTMLAttributes } from 'react';
 import * as S from './ProfileFrame.style';
-import EmptyProfile from '@_common/assets/empty_profile.svg?url';
+
 import Crown from '@_common/assets/crown.svg?url';
+import EmptyProfile from '@_common/assets/empty_profile.svg?url';
+import { ImgHTMLAttributes } from 'react';
 import { Role } from '@_types/index';
 
 interface ProfileFrameProps extends ImgHTMLAttributes<HTMLImageElement> {
@@ -33,7 +34,7 @@ export default function ProfileFrame(props: ProfileFrameProps) {
 
   return (
     <div css={S.profileBox()}>
-      {role === 'moimer' ? <img src={Crown} css={S.profileCrown(width)} /> : ''}
+      {role === 'MOIMER' ? <img src={Crown} css={S.profileCrown(width)} /> : ''}
       <div css={S.profileFrame(width, height, borderWidth)}>
         <img
           css={S.profileImage}

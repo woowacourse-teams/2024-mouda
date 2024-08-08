@@ -1,13 +1,13 @@
-import { Chat, MoimInfo, Participation } from '@_types/index';
-
+import { Chat, ChattingPreview, MoimInfo, Participation } from '@_types/index';
 import {
   GetChamyoAll,
   GetChamyoMine,
   GetChat,
+  GetChattingPreview,
   GetMoim,
   GetMoims,
-  GetPleases,
   GetMyInfo,
+  GetPleases,
   GetZzimMine,
 } from './responseTypes';
 
@@ -42,6 +42,13 @@ export const getMoim = async (moimId: number): Promise<MoimInfo> => {
 
   const json: GetMoim = await response.json();
   return json.data;
+};
+
+export const getChatPreview = async (): Promise<ChattingPreview[]> => {
+  const response = await ApiClient.getWithAuth(`chat/preview`);
+
+  const json: GetChattingPreview = await response.json();
+  return json.data.chatPreviewResponses;
 };
 
 export const getChat = async (

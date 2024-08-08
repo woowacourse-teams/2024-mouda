@@ -26,12 +26,12 @@ export const Default: Story = {
         {
           nickname: '김코딩',
           profile: 'https://avatars.githubusercontent.com/u/78939596?v=4',
-          role: 'moimer',
+          role: 'MOIMER',
         },
         {
           nickname: '김디자인',
           profile: 'https://avatars.githubusercontent.com/u/78939596?v=4',
-          role: 'moimee',
+          role: 'MOIMEE',
         },
       ],
       description: '코딩하면서 놀아요',

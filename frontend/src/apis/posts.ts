@@ -1,5 +1,6 @@
-import ApiClient from './apiClient';
 import { MoimInputInfo, PleaseInfoInput } from '@_types/index';
+
+import ApiClient from './apiClient';
 import { PostMoim } from './responseTypes';
 
 export const postMoim = async (moim: MoimInputInfo): Promise<number> => {
@@ -48,6 +49,34 @@ export const postInterest = async (pleaseId: number, isInterested: boolean) => {
   await ApiClient.postWithAuth('interest', {
     pleaseId,
     isInterested,
+  });
+};
+export const postLastReadChatId = async (
+  moimId: number,
+  lastReadChatId: number,
+) => {
+  await ApiClient.postWithAuth('chat/last', {
+    moimId,
+    lastReadChatId,
+  });
+};
+
+export const postConfirmDatetime = async (
+  moimId: number,
+  date: string,
+  time: string,
+) => {
+  await ApiClient.postWithAuth('chat/datetime', {
+    moimId,
+    date,
+    time,
+  });
+};
+
+export const postConfirmPlace = async (moimId: number, place: string) => {
+  await ApiClient.postWithAuth('chat/place', {
+    moimId,
+    place,
   });
 };
 

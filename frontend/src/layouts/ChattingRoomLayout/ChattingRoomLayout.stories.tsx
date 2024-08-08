@@ -16,7 +16,6 @@ const chats: Chat[] = [
   {
     chatId: 1,
     content: '안녕하세요! 오늘 날씨 어때요?',
-    isConfirmChat: false,
     chatType: 'BASIC',
     nickname: '홍길동',
     date: '2024-08-01',
@@ -26,7 +25,6 @@ const chats: Chat[] = [
   {
     chatId: 2,
     content: '안녕하세요! 저는 괜찮아요.',
-    isConfirmChat: false,
     chatType: 'BASIC',
     nickname: '김철수',
     date: '2024-08-01',
@@ -36,7 +34,6 @@ const chats: Chat[] = [
   {
     chatId: 3,
     content: '요즘 어떤 일 하고 계세요?',
-    isConfirmChat: false,
     chatType: 'BASIC',
     nickname: '홍길동',
     date: '2024-08-01',
@@ -46,7 +43,6 @@ const chats: Chat[] = [
   {
     chatId: 4,
     content: '프로젝트 작업 중이에요.',
-    isConfirmChat: false,
     chatType: 'BASIC',
     nickname: '김철수',
     date: '2024-08-01',
@@ -56,7 +52,6 @@ const chats: Chat[] = [
   {
     chatId: 5,
     content: '주말에 만나서 이야기해요.',
-    isConfirmChat: false,
     chatType: 'BASIC',
     nickname: '홍길동',
     date: '2024-08-01',
@@ -66,7 +61,6 @@ const chats: Chat[] = [
   {
     chatId: 6,
     content: '좋아요! 그때 봅시다.',
-    isConfirmChat: false,
     chatType: 'BASIC',
     nickname: '김철수',
     date: '2024-08-01',
@@ -76,7 +70,6 @@ const chats: Chat[] = [
   {
     chatId: 7,
     content: '다음 주에 발표 준비 잘 하고 있나요?',
-    isConfirmChat: false,
     chatType: 'BASIC',
     nickname: '홍길동',
     date: '2024-08-01',
@@ -86,7 +79,6 @@ const chats: Chat[] = [
   {
     chatId: 8,
     content: '네, 열심히 하고 있어요.',
-    isConfirmChat: false,
     chatType: 'BASIC',
     nickname: '김철수',
     date: '2024-08-01',
@@ -96,7 +88,6 @@ const chats: Chat[] = [
   {
     chatId: 9,
     content: '도움 필요하면 언제든지 말해요.',
-    isConfirmChat: false,
     chatType: 'BASIC',
     nickname: '홍길동',
     date: '2024-08-01',
@@ -106,7 +97,6 @@ const chats: Chat[] = [
   {
     chatId: 10,
     content: '감사합니다! 도움 요청할게요.',
-    isConfirmChat: false,
     chatType: 'BASIC',
     nickname: '김철수',
     date: '2024-08-01',

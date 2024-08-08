@@ -24,7 +24,7 @@ export interface Participation {
   role: Role;
 }
 
-export type Role = 'moimer' | 'moimee';
+export type Role = 'MOIMER' | 'MOIMEE' | 'NON_MOIMEE';
 
 export interface Comment {
   commentId: number;
@@ -50,7 +50,7 @@ export interface ChattingPreview {
   moimId: number;
   title: string;
   currentPeople: number;
-  beforeMoim: boolean;
+  isStarted: boolean;
   lastContent: string;
   unreadContentCount: number;
 }
@@ -61,10 +61,8 @@ export interface Chat {
   nickname: string;
   date: string;
   time: string;
-  isConfirmChat: boolean;
   chatType: 'BASIC' | 'PLACE' | 'DATETIME';
 }
-
 
 export interface PleaseInfoInput {
   title: string;

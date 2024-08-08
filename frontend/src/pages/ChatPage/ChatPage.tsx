@@ -1,15 +1,15 @@
+import ChattingPreview from '@_components/ChattingPreview/ChattingPreview';
 import ChattingPreviewLayout from '@_layouts/ChattingPreviewLayout/ChattingPreviewLayout';
 import NavigationBar from '@_components/NavigationBar/NavigationBar';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
+import useChatPreviews from '@_hooks/queries/useChatPreiview';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
-
-// import useMyMoims from '@_hooks/queries/useMyMoim';
-// import { useNavigate } from 'react-router-dom';
 
 export default function ChatPage() {
   const theme = useTheme();
-  // const { moims, isLoading } = useMyMoims();
-  // const navigate = useNavigate();
+  const { chatPreviews, isLoading } = useChatPreviews();
+  const navigate = useNavigate();
   return (
     <ChattingPreviewLayout>
       <ChattingPreviewLayout.Header>
@@ -18,10 +18,14 @@ export default function ChatPage() {
         </ChattingPreviewLayout.Header.Left>
       </ChattingPreviewLayout.Header>
       <ChattingPreviewLayout.ContentContainer>
-        {/* {!isLoading &&
-          moims?.map((moim, id) => (
-           
-          ))} */}
+        {!isLoading &&
+          chatPreviews?.map((chatPreview) => (
+            <ChattingPreview
+              chatPreview={chatPreview}
+              onClick={() => navigate('/chatting-room/' + chatPreview.moimId)}
+              key={chatPreview.moimId}
+            />
+          ))}
       </ChattingPreviewLayout.ContentContainer>
       <NavigationBarWrapper>
         <NavigationBar />
