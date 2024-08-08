@@ -13,6 +13,8 @@ import Modal from '@_components/Modal/Modal';
 import Picker from '@_components/Icons/Picker';
 import PlaceModalContent from '@_components/PlaceModalContent/PlaceModalContent';
 import useChats from '@_hooks/queries/useChat';
+import useConfirmDateTime from '@_hooks/mutaions/useConfirmDatetime';
+import useConfirmPlace from '@_hooks/mutaions/useConfirmPlace';
 import useMoims from '@_hooks/queries/useMoims';
 import useSendMessage from '@_hooks/mutaions/useSendMessage';
 import { useTheme } from '@emotion/react';
@@ -23,8 +25,10 @@ export default function ChattingRoomPage() {
   const theme = useTheme();
   const params = useParams();
   const navigate = useNavigate();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { mutate: confirmDateTime } = useConfirmDateTime();
+  const { mutate: confirmPlace } = useConfirmPlace();
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const moimId = +(params.moimId || '0');
   const { moims } = useMoims();
   const { chats } = useChats(moimId);
@@ -43,7 +47,10 @@ export default function ChattingRoomPage() {
         <Modal onClose={() => setIsModalOpen(false)}>
           <DateTimeModalContent
             onCancel={() => setIsModalOpen(false)}
-            onConfirm={() => setIsModalOpen(false)}
+            onConfirm={({ date, time }: { date: string; time: string }) => {
+              confirmDateTime({ moimId, date, time });
+              setIsModalOpen(false);
+            }}
           />
         </Modal>
       );
@@ -52,11 +59,14 @@ export default function ChattingRoomPage() {
         <Modal onClose={() => setIsModalOpen(false)}>
           <PlaceModalContent
             onCancel={() => setIsModalOpen(false)}
-            onConfirm={() => setIsModalOpen(false)}
+            onConfirm={(place: string) => {
+              confirmPlace({ moimId, place });
+              setIsModalOpen(false);
+            }}
           />
         </Modal>
       );
-  }, [nowModalContent]);
+  }, [nowModalContent, confirmDateTime, confirmPlace, moimId]);
 
   return (
     <ChattingRoomLayout>
