@@ -14,8 +14,8 @@ import mouda.backend.chamyo.repository.ChamyoRepository;
 import mouda.backend.chat.domain.Chat;
 import mouda.backend.chat.dto.request.ChatCreateRequest;
 import mouda.backend.chat.dto.request.DateTimeConfirmRequest;
-import mouda.backend.chat.dto.request.PlaceConfirmRequest;
 import mouda.backend.chat.dto.request.LastReadChatRequest;
+import mouda.backend.chat.dto.request.PlaceConfirmRequest;
 import mouda.backend.chat.dto.response.ChatFindDetailResponse;
 import mouda.backend.chat.dto.response.ChatFindUnloadedResponse;
 import mouda.backend.chat.dto.response.ChatPreviewResponse;
@@ -82,8 +82,8 @@ public class ChatService {
 		moim.confirmDateTime(dateTimeConfirmRequest.date(), dateTimeConfirmRequest.time());
 		chatRepository.save(chat);
 	}
-  
-  public ChatPreviewResponses findChatPreview(Member member) {
+
+	public ChatPreviewResponses findChatPreview(Member member) {
 		List<ChatPreviewResponse> chatPreviews = chamyoRepository.findAllByMemberId(member.getId()).stream()
 			.filter(chamyo -> chamyo.getMoim().isChatOpened())
 			.map(this::getChatPreviewResponse)
@@ -98,10 +98,8 @@ public class ChatService {
 
 		int currentPeople = chamyoRepository.countByMoim(chamyo.getMoim());
 		String lastContent = lastChat.map(Chat::getContent).orElse("");
-		long lastReadChatId = chamyo.getLastReadChatId();
-		long unreadContentCount = lastChat.map(Chat::getId).orElse(lastReadChatId) - lastReadChatId;
 
-		return ChatPreviewResponse.toResponse(chamyo, currentPeople, lastContent, unreadContentCount);
+		return ChatPreviewResponse.toResponse(chamyo, currentPeople, lastContent);
 	}
 
 	public void createLastChat(LastReadChatRequest lastReadChatRequest, Member member) {
@@ -120,7 +118,7 @@ public class ChatService {
 			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.NO_PERMISSION_OPEN_CHAT);
 		}
 	}
-  
+
 	private Moim findMoimByMoimId(long moimId) {
 		return moimRepository.findById(moimId)
 			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIM_NOT_FOUND));
@@ -129,5 +127,5 @@ public class ChatService {
 	private Chamyo findChamyoByMoimIdAndMemberId(long moimId, long memberId) {
 		return chamyoRepository.findByMoimIdAndMemberId(moimId, memberId)
 			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.NOT_PARTICIPANT_TO_FIND));
-  }
+	}
 }
