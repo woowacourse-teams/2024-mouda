@@ -26,7 +26,7 @@ export const WithCustomImageAndCrown: Story = {
     width: 7,
     height: 7,
     src: Plus,
-    role: 'moimer',
+    role: 'MOIMER',
   },
   render: (args) => <ProfileFrame {...args} />,
 };

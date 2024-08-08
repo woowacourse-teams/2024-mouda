@@ -24,7 +24,7 @@ export interface Participation {
   role: Role;
 }
 
-export type Role = 'moimer' | 'moimee';
+export type Role = 'MOIMER' | 'MOIMEE' | 'NON_MOIMEE';
 
 export interface Comment {
   commentId: number;

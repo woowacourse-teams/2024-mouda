@@ -17,7 +17,7 @@ export const Default: Story = {
     info: {
       nickname: '치코',
       profile: EmptyProfile,
-      role: 'moimee',
+      role: 'MOIMEE',
     },
   },
   render: (args) => <ProfileCard {...args} />,
@@ -28,7 +28,7 @@ export const WithCustomImage: Story = {
     info: {
       nickname: '치코',
       profile: Plus,
-      role: 'moimee',
+      role: 'MOIMEE',
     },
   },
   render: (args) => <ProfileCard {...args} />,
@@ -39,7 +39,7 @@ export const WithErrorHandling: Story = {
     info: {
       nickname: '치코',
       profile: 'invalid-url.jpg', // 오류를 발생시키기 위한 잘못된 URL
-      role: 'moimee',
+      role: 'MOIMEE',
     },
   },
   render: (args) => <ProfileCard {...args} />,
