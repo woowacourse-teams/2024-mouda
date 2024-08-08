@@ -31,7 +31,7 @@ describe('useChats', () => {
     for (let i = 0; i < chatSliceIndexes.length; i++) {
       await act(async () => {
         pushNextChatsIntoSever();
-        await new Promise((res) => setInterval(res, 100));
+        await new Promise((res) => setInterval(res, 105));
         rerender();
       });
       expect(result.current.chats).toEqual(nowChatServerData);
