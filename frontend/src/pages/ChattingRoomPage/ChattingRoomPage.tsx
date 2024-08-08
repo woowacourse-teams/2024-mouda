@@ -13,7 +13,7 @@ import Modal from '@_components/Modal/Modal';
 import Picker from '@_components/Icons/Picker';
 import PlaceModalContent from '@_components/PlaceModalContent/PlaceModalContent';
 import useChamyoMine from '@_hooks/queries/useChamyoMine';
-import useChats from '@_hooks/queries/useChat';
+import useChats from '@_hooks/queries/useChats';
 import useConfirmDateTime from '@_hooks/mutaions/useConfirmDatetime';
 import useConfirmPlace from '@_hooks/mutaions/useConfirmPlace';
 import useMoims from '@_hooks/queries/useMoims';
@@ -26,11 +26,7 @@ export default function ChattingRoomPage() {
   const theme = useTheme();
   const params = useParams();
   const navigate = useNavigate();
-  
-  const { mutate: confirmDateTime } = useConfirmDateTime();
-  const { mutate: confirmPlace } = useConfirmPlace();
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const moimId = +(params.moimId || '0');
 
   const { moims } = useMoims();
@@ -76,7 +72,7 @@ export default function ChattingRoomPage() {
         </Modal>
       );
   }, [nowModalContent, confirmDateTime, confirmPlace, moimId]);
-  
+
   const menuItems = useMemo(() => {
     if (role === 'MOIMER') {
       return (
@@ -102,7 +98,7 @@ export default function ChattingRoomPage() {
     }
     return <ChatBottomMenu />;
   }, [role]);
-  
+
   return (
     <ChattingRoomLayout>
       <ChattingRoomLayout.Header>
