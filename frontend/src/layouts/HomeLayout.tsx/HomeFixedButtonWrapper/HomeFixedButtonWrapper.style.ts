@@ -11,5 +11,5 @@ export const fixedWrapperStyle = css`
   width: 100%;
   max-width: ${DISPLAY_MAX_WIDTH};
   margin-bottom: ${NAVIGATION_BAR_HEIGHT};
-  padding-right: 4rem;
+  padding-right: 24px;
 `;
