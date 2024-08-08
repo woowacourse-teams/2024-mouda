@@ -55,6 +55,7 @@ export default function MoimCreationPage() {
               <LabeledInput
                 name={info.name}
                 title={info.title}
+                type={info.type}
                 key={info.title}
                 required={info.required}
                 placeholder={info.placeholder}
