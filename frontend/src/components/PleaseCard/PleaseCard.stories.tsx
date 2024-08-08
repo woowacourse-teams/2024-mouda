@@ -1,21 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import PleaseCard from './PleaseCard';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-const queryClient = new QueryClient();
 
 const meta = {
   component: PleaseCard,
   title: 'Components/PleaseCard',
-  decorators: [
-    (Story) => {
-      return (
-        <QueryClientProvider client={queryClient}>
-          <Story />
-        </QueryClientProvider>
-      );
-    },
-  ],
 } satisfies Meta<typeof PleaseCard>;
 
 export default meta;

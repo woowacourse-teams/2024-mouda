@@ -1,17 +1,9 @@
 import { Meta, StoryObj } from '@storybook/react/*';
 import MoimCardList from './MoimCardList';
-import { BrowserRouter } from 'react-router-dom';
 
 const meta = {
   title: 'components/MoimCardList',
   component: MoimCardList,
-  decorators: [
-    (Story) => (
-      <BrowserRouter>
-        <Story />
-      </BrowserRouter>
-    ),
-  ],
 } satisfies Meta<typeof MoimCardList>;
 
 export default meta;
