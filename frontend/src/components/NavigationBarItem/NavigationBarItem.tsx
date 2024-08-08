@@ -34,7 +34,7 @@ export default function NavigationBarItem(props: NavigationBarItemProps) {
       onClick={() => onClick(tab)}
     >
       {tabIcon}
-      <span>{tab}</span>
+      <span css={theme.typography.c2}>{tab}</span>
     </li>
   );
 }
