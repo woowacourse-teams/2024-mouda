@@ -1,4 +1,4 @@
-import { css, Theme } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 
 export const cardBox = css`
   display: flex;
@@ -6,6 +6,7 @@ export const cardBox = css`
   gap: 0.8rem;
 
   width: 100%;
+  min-height: 14.6rem;
   padding: 2rem 2.4rem;
 
   background: white;
@@ -65,6 +66,29 @@ export const subjectInfo = (props: { theme: Theme }) => {
     display: inline-block;
   `;
 };
+
+export const subjectSubTag = (props: { theme: Theme }) => {
+  const { theme } = props;
+
+  return css`
+    ${theme.typography.small}
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0.2rem 0.6rem;
+
+    color: ${theme.colorPalette.orange[300]};
+
+    background: ${theme.colorPalette.yellow[50]};
+    border-radius: 1rem;
+  `;
+};
+
+export const subjectItem = css`
+  display: flex;
+  gap: 0.5rem;
+`;
 
 export const detailInfo = (props: { theme: Theme }) => {
   const { theme } = props;

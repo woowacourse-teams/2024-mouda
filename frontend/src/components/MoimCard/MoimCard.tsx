@@ -1,11 +1,12 @@
 import * as S from './MoimCard.style';
 
-import { HTMLProps } from 'react';
 import { formatHhmmToKorean, formatYyyymmddToKorean } from '@_utils/formatters';
-import { MoimInfo } from '@_types/index';
-import { useTheme } from '@emotion/react';
+
+import { HTMLProps } from 'react';
 import HeartIcon from '@_components/Icons/HeartIcon';
+import { MoimInfo } from '@_types/index';
 import useChangeZzim from '@_hooks/mutaions/useChangeZzim';
+import { useTheme } from '@emotion/react';
 
 interface MoimCardProps extends HTMLProps<HTMLDivElement> {
   moimInfo: MoimInfo;
@@ -44,19 +45,31 @@ export default function MoimCard(props: MoimCardProps) {
         </button>
       </div>
 
-      <div css={S.subjectBox}>
-        <span css={S.subjectTag({ theme })}>날짜 및 시간</span>
-        <span css={S.subjectInfo({ theme })}>
-          {`${formatYyyymmddToKorean(date)} ${formatHhmmToKorean(time)}`}
-        </span>
-      </div>
-
       <div css={S.detailInfo({ theme })}>
-        <span css={theme.typography.b3}>{place}</span>
+        {(date || time) && (
+          <div css={S.subjectBox}>
+            <span
+              css={S.subjectTag({ theme })}
+            >{`${date ? '날짜' : ''}${date && time ? ' 및 ' : ''}${time ? '시간' : ''}`}</span>
+            <span css={S.subjectInfo({ theme })}>
+              {`${date ? formatYyyymmddToKorean(date) + ' ' : ''}${time ? formatHhmmToKorean(time) : ''}`}
+            </span>
+          </div>
+        )}
 
-        <span css={theme.typography.b3}>
-          최대 {maxPeople}명 (현재 {currentPeople}명)
-        </span>
+        {place && (
+          <div css={S.subjectItem}>
+            <span css={S.subjectSubTag({ theme })}>장소</span>
+            <span css={theme.typography.b3}>{place}</span>
+          </div>
+        )}
+
+        <div css={S.subjectItem}>
+          <span css={S.subjectSubTag({ theme })}>인원(현재 인원)</span>
+          <span css={theme.typography.b3}>
+            최대 {maxPeople}명 (현재 {currentPeople}명)
+          </span>
+        </div>
       </div>
     </div>
   );
