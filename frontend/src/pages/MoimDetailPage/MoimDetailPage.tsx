@@ -119,6 +119,10 @@ export default function MoimDetailPage() {
             >
               모집 완료하기
             </Button>
+          ) : moim.status === 'CANCELED' ? (
+            <Button shape="bar" disabled={true}>
+              취소된 모임이예요
+            </Button>
           ) : (
             <Button
               shape="bar"
