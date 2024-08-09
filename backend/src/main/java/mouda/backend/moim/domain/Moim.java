@@ -89,20 +89,8 @@ public class Moim {
 		}
 	}
 
-	private void validateDate(LocalDate date) {
-		if (date == null) {
-			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.DATE_NOT_EXIST);
-		}
-	}
-
-	private void validateTime(LocalTime time) {
-		if (time == null) {
-			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.TIME_NOT_EXIST);
-		}
-	}
-
 	private void validateMoimIsFuture(LocalDate date, LocalTime time) {
-		if (date == null && time == null) {
+		if (date == null || time == null) {
 			return;
 		}
 		LocalDateTime moimDateTime = LocalDateTime.of(date, time);
