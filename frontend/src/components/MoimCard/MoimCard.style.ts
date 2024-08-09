@@ -67,6 +67,29 @@ export const subjectInfo = (props: { theme: Theme }) => {
   `;
 };
 
+export const subjectSubTag = (props: { theme: Theme }) => {
+  const { theme } = props;
+
+  return css`
+    ${theme.typography.small}
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0.2rem 0.6rem;
+
+    color: ${theme.colorPalette.orange[300]};
+
+    background: ${theme.colorPalette.yellow[50]};
+    border-radius: 1rem;
+  `;
+};
+
+export const subjectItem = css`
+  display: flex;
+  gap: 0.5rem;
+`;
+
 export const detailInfo = (props: { theme: Theme }) => {
   const { theme } = props;
 

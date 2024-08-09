@@ -45,23 +45,31 @@ export default function MoimCard(props: MoimCardProps) {
         </button>
       </div>
 
-      {(date || time) && (
-        <div css={S.subjectBox}>
-          <span
-            css={S.subjectTag({ theme })}
-          >{`${date ? '날짜' : ''}${date && time ? ' 및 ' : ''}${time ? '시간' : ''}`}</span>
-          <span css={S.subjectInfo({ theme })}>
-            {`${date ? formatYyyymmddToKorean(date) + ' ' : ''}${time ? formatHhmmToKorean(time) : ''}`}
+      <div css={S.detailInfo({ theme })}>
+        {(date || time) && (
+          <div css={S.subjectBox}>
+            <span
+              css={S.subjectTag({ theme })}
+            >{`${date ? '날짜' : ''}${date && time ? ' 및 ' : ''}${time ? '시간' : ''}`}</span>
+            <span css={S.subjectInfo({ theme })}>
+              {`${date ? formatYyyymmddToKorean(date) + ' ' : ''}${time ? formatHhmmToKorean(time) : ''}`}
+            </span>
+          </div>
+        )}
+
+        {place && (
+          <div css={S.subjectItem}>
+            <span css={S.subjectSubTag({ theme })}>장소</span>
+            <span css={theme.typography.b3}>{place}</span>
+          </div>
+        )}
+
+        <div css={S.subjectItem}>
+          <span css={S.subjectSubTag({ theme })}>인원(현재 인원)</span>
+          <span css={theme.typography.b3}>
+            최대 {maxPeople}명 (현재 {currentPeople}명)
           </span>
         </div>
-      )}
-
-      <div css={S.detailInfo({ theme })}>
-        {place && <span css={theme.typography.b3}>{place}</span>}
-
-        <span css={theme.typography.b3}>
-          최대 {maxPeople}명 (현재 {currentPeople}명)
-        </span>
       </div>
     </div>
   );
