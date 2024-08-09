@@ -13,6 +13,12 @@ export default function useCancelChamyo() {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.chamyoMine],
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.chamyoAll],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.moim],
+      });
     },
   });
 }
