@@ -1,6 +1,5 @@
 import { ChangeEvent, useState } from 'react';
 import {
-  validateAuthorNickname,
   validateDate,
   validateMaxPeople,
   validatePlace,
@@ -17,11 +16,17 @@ const useMoimInfoInput = () => {
     time: '',
     place: '',
     maxPeople: 0,
-    authorNickname: '',
     description: '',
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputData({
+      ...inputData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInputData({
       ...inputData,
       [e.target.name]: e.target.value,
@@ -30,15 +35,15 @@ const useMoimInfoInput = () => {
 
   const isValidMoimInfoInput =
     validateTitle(inputData.title) &&
-    validateDate(inputData.date) &&
-    validateTime(inputData.time) &&
-    validatePlace(inputData.place) &&
-    validateMaxPeople(inputData.maxPeople) &&
-    validateAuthorNickname(inputData.authorNickname);
+    (inputData.date === '' || validateDate(inputData.date)) &&
+    (inputData.time === '' || validateTime(inputData.time)) &&
+    (inputData.place === '' || validatePlace(inputData.place)) &&
+    validateMaxPeople(inputData.maxPeople);
 
   return {
     inputData,
-    handleChange,
+    handleInputChange,
+    handleTextAreaChange,
     isValidMoimInfoInput,
   };
 };

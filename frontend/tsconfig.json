@@ -29,7 +29,9 @@
       "@_layouts/*": ["src/layouts/*"],
       "@_pages/*": ["src/pages/*"],
       "@_types/*": ["src/types/*"],
-      "@_utils/*": ["src/utils/*"]
+      "@_utils/*": ["src/utils/*"],
+      "@_routes/*": ["src/routes/*"],
+      "@_mocks/*": ["src/mocks/*"]
     }
   },
   "ts-node": {

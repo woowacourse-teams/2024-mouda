@@ -38,13 +38,25 @@ module.exports = {
       '@_pages': path.resolve(__dirname, 'src/pages'),
       '@_types': path.resolve(__dirname, 'src/types'),
       '@_utils': path.resolve(__dirname, 'src/utils'),
+      '@_routes': path.resolve(__dirname, 'src/routes'),
+      '@_mocks': path.resolve(__dirname, 'src/mocks'),
     },
   },
   module: {
     rules: [
       {
         test: /\.svg$/i,
-        use: ['@svgr/webpack'],
+        oneOf: [
+          {
+            use: ['@svgr/webpack'],
+            issuer: /\.[jt]sx?$/,
+            resourceQuery: { not: [/url/] },
+          },
+          {
+            type: 'asset/resource',
+            resourceQuery: /url/,
+          }
+        ]
       },
       {
         test: /\.(png|jpe?g|gif|webp|woff2)$/i,

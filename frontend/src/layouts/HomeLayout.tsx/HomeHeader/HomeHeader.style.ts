@@ -1,10 +1,17 @@
+import { DISPLAY_MAX_WIDTH } from '@_constants/styles';
 import { css } from '@emotion/react';
 
 export const headerStyle = css`
-  padding: 14px 22px;
-`;
+  position: fixed;
+  top: 0;
 
-export const logoStyle = css`
-  font-size: 22px;
-  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+
+  width: 100%;
+  max-width: ${DISPLAY_MAX_WIDTH};
+  padding: 14px 22px 0;
+
+  background-color: white;
 `;

@@ -1,46 +1,37 @@
-import { LabeledInputProps } from '@_components/Input/MoimInput';
-
-const MOIM_INPUT_INFOS: LabeledInputProps[] = [
+const MOIM_INPUT_INFOS = [
   {
     name: 'title',
     title: '제목',
     type: 'text',
-    placeholder: '없음',
+    placeholder: '1자 이상 20자 이하로 입력해주세요',
     required: true,
   },
   {
     name: 'date',
     title: '날짜',
     type: 'date',
-    placeholder: '없음',
-    required: true,
+    placeholder: '현재 시간 이후로 설정해주세요',
+    required: false,
   },
   {
     name: 'time',
     title: '시간',
     type: 'time',
-    placeholder: '없음',
-    required: true,
+    placeholder: '현재 시간 이후로 설정해주세요',
+    required: false,
   },
   {
     name: 'place',
     title: '장소',
     type: 'text',
-    placeholder: '없음',
-    required: true,
+    placeholder: '1자 이상 100자 이하로 입력해주세요',
+    required: false,
   },
   {
     name: 'maxPeople',
     title: '최대인원수',
     type: 'number',
-    placeholder: '0명',
-    required: true,
-  },
-  {
-    name: 'authorNickname',
-    title: '작성자 닉네임',
-    type: 'text',
-    placeholder: '알았다 안나야~',
+    placeholder: '1명 이상 99명 이하로 입력해주세요',
     required: true,
   },
   {

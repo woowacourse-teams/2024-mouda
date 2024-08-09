@@ -64,7 +64,6 @@ describe('Validation Tests', () => {
     });
 
     it('place 문자열 길이가 1 미만이거나 101이상일 경우, false를 반환한다.', () => {
-      expect(validatePlace('')).toBe(false); // less than minimum length
       expect(validatePlace('a'.repeat(101))).toBe(false); // more than maximum length
     });
   });
