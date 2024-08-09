@@ -1,10 +1,13 @@
+import { Theme, css } from '@emotion/react';
+
 import { DISPLAY_MAX_WIDTH } from '@_constants/styles';
-import { css, Theme } from '@emotion/react';
 
 export const navigationBarContainer = (props: { theme: Theme }) => {
   const { theme } = props;
 
   return css`
+    position: relative;
+
     display: flex;
     justify-content: space-between;
 

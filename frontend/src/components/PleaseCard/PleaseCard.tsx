@@ -1,8 +1,10 @@
-import { Please } from '@_types/index';
 import * as S from './PleaseCard.style';
-import { useTheme } from '@emotion/react';
+
 import InterestingIcon from '@_components/Icons/InterestingIcon';
+import { Please } from '@_types/index';
+import { common } from '@_common/common.style';
 import useInterest from '@_hooks/mutaions/useInterest';
+import { useTheme } from '@emotion/react';
 
 interface PleaseCardProps {
   please: Please;
@@ -36,7 +38,9 @@ export default function PleaseCard(props: PleaseCardProps) {
           <div css={S.actionIconWrapper({ theme })}>
             <InterestingIcon isActive={please.isInterested} />
           </div>
-          <div css={S.actionText({ theme })}>관심있어요</div>
+          <div css={[S.actionText({ theme }), common.nonScroll]}>
+            관심있어요
+          </div>
         </button>
       </div>
     </div>

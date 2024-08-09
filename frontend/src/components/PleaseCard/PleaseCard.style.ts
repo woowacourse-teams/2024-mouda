@@ -1,4 +1,4 @@
-import { css, Theme } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 
 export const cardBox = css`
   display: flex;
@@ -26,20 +26,20 @@ export const headerWrapper = css`
 `;
 
 export const title = ({ theme }: { theme: Theme }) => css`
-  ${theme.typography.s1}
+  ${theme.typography.Giant}
 `;
 
 export const count = ({ theme }: { theme: Theme }) => css`
-  ${theme.typography.c3}
+  ${theme.typography.c1}
 `;
 
 export const countAccent = ({ theme }: { theme: Theme }) => css`
-  ${theme.typography.c3}
+  ${theme.typography.c1}
   color: ${theme.semantic.primary};
 `;
 
 export const description = ({ theme }: { theme: Theme }) => css`
-  ${theme.typography.c3}
+  ${theme.typography.c1}
 `;
 
 export const actionWrapper = css`
@@ -71,6 +71,6 @@ export const actionIconWrapper = ({ theme }: { theme: Theme }) => css`
 `;
 
 export const actionText = ({ theme }: { theme: Theme }) => css`
-  ${theme.typography.c3}
+  ${theme.typography.c2}
   white-space: nowrap;
 `;

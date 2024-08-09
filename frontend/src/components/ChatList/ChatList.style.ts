@@ -10,8 +10,4 @@ export const list = ({ theme }: { theme: Theme }) => css`
   padding: 2rem;
 
   background-color: ${theme.colorPalette.grey[100]};
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 `;

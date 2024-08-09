@@ -1,9 +1,9 @@
-import { ChangeEvent, FormEvent, useRef, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import {
   footer,
   menuButton,
   messageForm,
-  messageInput,
+  messageTextArea,
   sendingButton,
 } from './ChattingFooter.style';
 
@@ -11,6 +11,7 @@ import POLICES from '@_constants/poclies';
 import Plus from '@_common/assets/plus.svg';
 import SendButton from '@_components/Icons/SendButton';
 import X from '@_common/assets/x.svg';
+import { common } from '@_common/common.style';
 import { useTheme } from '@emotion/react';
 
 interface ChattingFooterProps {
@@ -23,7 +24,7 @@ export default function ChattingFooter(props: ChattingFooterProps) {
   const [isMenuClicked, setIsMenuClicked] = useState(false);
   const [message, setMessage] = useState('');
   const theme = useTheme();
-  const input = useRef<HTMLInputElement | null>(null);
+  const textArea = useRef<HTMLTextAreaElement | null>(null);
 
   return (
     <div css={footer({ theme })}>
@@ -39,31 +40,32 @@ export default function ChattingFooter(props: ChattingFooterProps) {
         {isMenuClicked ? <X /> : <Plus />}
       </button>
 
-      <form
-        onSubmit={(e: FormEvent<HTMLFormElement>) => {
-          e.preventDefault();
-          onSubmit(message);
-          setMessage('');
-          input.current?.focus();
-        }}
-        css={messageForm({ theme })}
-      >
-        <input
-          css={messageInput({ theme })}
-          type="text"
+      <div css={messageForm({ theme })}>
+        <textarea
+          css={messageTextArea({ theme })}
           placeholder="메시지를 입력하세요"
           maxLength={POLICES.maxMessageLength}
-          value={message}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
             setMessage(e.target.value)
           }
+          rows={1}
           required
-          ref={input}
+          ref={textArea}
         />
-        <button css={sendingButton} type="submit" disabled={message === ''}>
+        <button
+          css={[sendingButton, common.nonScroll]}
+          disabled={message === ''}
+          onClick={(e) => {
+            e.preventDefault();
+            onSubmit(message);
+            setMessage('');
+            if (textArea.current) textArea.current.value = '';
+            textArea.current?.focus();
+          }}
+        >
           <SendButton disabled={message === ''} />
         </button>
-      </form>
+      </div>
     </div>
   );
 }

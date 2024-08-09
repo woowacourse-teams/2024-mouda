@@ -9,6 +9,7 @@ import ChatMenuItem from '@_components/ChatMenuItem/ChatMenuItem';
 import ChattingFooter from '@_components/ChattingFooter/ChattingFooter';
 import ChattingRoomLayout from '@_layouts/ChattingRoomLayout/ChattingRoomLayout';
 import DateTimeModalContent from '@_components/DateTimeModalContent/DateTimeModalContent';
+import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import Modal from '@_components/Modal/Modal';
 import Picker from '@_components/Icons/Picker';
 import PlaceModalContent from '@_components/PlaceModalContent/PlaceModalContent';
@@ -96,7 +97,11 @@ export default function ChattingRoomPage() {
         </ChatBottomMenu>
       );
     }
-    return <ChatBottomMenu />;
+    return (
+      <MissingFallback
+        text={'모임에 참여한 사람은 \n 아직 할 수 있는 기능이 없어요'}
+      />
+    );
   }, [role]);
 
   return (

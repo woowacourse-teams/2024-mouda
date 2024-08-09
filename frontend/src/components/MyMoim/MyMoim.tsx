@@ -1,10 +1,20 @@
-import MoimCardList from '@_components/MoimCardList/MoimCardList';
+import * as S from './MyMoim.style';
+
+import { Fragment, useState } from 'react';
 import MyMoimListFilters, {
   Filter,
 } from '@_components/MyMoimListFilters/MyMoimListFilters';
-import useMyMoims from '@_hooks/queries/useMyMoims';
-import { Fragment, useState } from 'react';
 
+import MissingFallback from '@_components/MissingFallback/MissingFallback';
+import MoimCardList from '@_components/MoimCardList/MoimCardList';
+import useMyMoims from '@_hooks/queries/useMyMoims';
+
+const getFilterString = (filter: Filter['api']) => {
+  if (filter === 'all') return '참가한 모임이 없어요';
+  if (filter === 'past') return '지나간 모임이 없어요';
+  if (filter === 'upcoming') return '다가오는 모임이 없어요';
+  return '참가한 모임이 없어요';
+};
 export default function MyMoimList() {
   const [selectedFilter, setSelectedFilter] = useState<Filter['api']>('all');
 
@@ -24,7 +34,11 @@ export default function MyMoimList() {
         selectedFilter={selectedFilter}
         handleFilterSelect={handleFilterSelect}
       />
-      {myMoims && <MoimCardList moimInfos={myMoims} />}
+      <div css={S.container}></div>
+      {!!myMoims?.length && <MoimCardList moimInfos={myMoims} />}
+      {(!myMoims || myMoims.length === 0) && (
+        <MissingFallback text={getFilterString(selectedFilter)} />
+      )}
     </Fragment>
   );
 }

@@ -1,10 +1,12 @@
+import * as S from './NavigationBarItem.style';
+
 import ChattingIcon from '@_components/Icons/ChattingIcon';
 import HomeIcon from '@_components/Icons/HomeIcon';
 import MyPageIcon from '@_components/Icons/MyPageIcon';
 import PleaseIcon from '@_components/Icons/PleaseIcon';
-import { useTheme } from '@emotion/react';
-import * as S from './NavigationBarItem.style';
 import { Tab } from '@_components/NavigationBar/NavigationBar';
+import { common } from '@_common/common.style';
+import { useTheme } from '@emotion/react';
 
 interface NavigationBarItemProps {
   tab: Tab;
@@ -34,7 +36,7 @@ export default function NavigationBarItem(props: NavigationBarItemProps) {
       onClick={() => onClick(tab)}
     >
       {tabIcon}
-      <span css={theme.typography.c2}>{tab}</span>
+      <span css={[theme.typography.c2, common.nonScroll]}>{tab}</span>
     </li>
   );
 }

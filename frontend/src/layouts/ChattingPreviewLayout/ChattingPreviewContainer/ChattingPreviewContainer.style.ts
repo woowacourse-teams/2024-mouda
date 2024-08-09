@@ -9,8 +9,7 @@ export const Container = ({ theme }: { theme: Theme }) => css`
   justify-content: flex-start;
 
   width: 100%;
-  height: 100%;
-  padding: 28px 22px;
+  padding: 28px 28px 130px;
 
   background-color: ${theme.colorPalette.grey[100]};
 

@@ -5,7 +5,7 @@ export const footer = ({ theme }: { theme: Theme }) => css`
   align-items: center;
   justify-content: space-around;
 
-  height: 7rem;
+  padding: 1.3rem 0;
 
   background-color: ${theme.colorPalette.white[100]};
   box-shadow: 0 -10px 15px rgb(0 0 0 / 20%);
@@ -26,19 +26,26 @@ export const messageForm = ({ theme }: { theme: Theme }) => css`
   justify-content: space-between;
 
   width: 80%;
-  height: 70%;
+  max-height: 4rem;
   padding: 1rem 2rem;
 
   background: ${theme.colorPalette.grey[200]};
   border-radius: 50px;
 `;
 
-export const messageInput = ({ theme }: { theme: Theme }) => css`
-  ${theme.typography.s2}
+export const messageTextArea = ({ theme }: { theme: Theme }) => css`
+  ${theme.typography.s2};
   width: 100%;
+
+  resize: none;
+
   background: rgb(0 0 0 / 0%);
   border: 0;
   outline: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const sendingButton = css`
