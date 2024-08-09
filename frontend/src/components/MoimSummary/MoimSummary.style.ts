@@ -7,7 +7,7 @@ export const containerStyle = css`
 `;
 
 export const titleBox = () => css`
-  display: flex;
+  display: inline;
   gap: 1rem;
   align-items: center;
 `;
