@@ -55,32 +55,6 @@ class MoimTest {
 			.build());
 	}
 
-	@DisplayName("날짜가 null이면 모임 객체 생성에 실패한다.")
-	@Test
-	void failToCreateMoimWhenDateIsNull() {
-		assertThrows(MoimException.class, () -> Moim.builder()
-			.title(TITLE)
-			.date(null)
-			.time(TIME)
-			.place(PLACE)
-			.maxPeople(MAX_PEOPLE)
-			.description(DESCRIPTION)
-			.build());
-	}
-
-	@DisplayName("시간이 null이면 모임 객체 생성에 실패한다.")
-	@Test
-	void failToCreateMoimWhenTimeIsNull() {
-		assertThrows(MoimException.class, () -> Moim.builder()
-			.title(TITLE)
-			.date(DATE)
-			.time(null)
-			.place(PLACE)
-			.maxPeople(MAX_PEOPLE)
-			.description(DESCRIPTION)
-			.build());
-	}
-
 	@DisplayName("모임 날짜가 현재보다 과거이면 모임 객체 생성에 실패한다.")
 	@Test
 	void failToCreateMoimWhenDateIsPast() {
@@ -200,6 +174,13 @@ class MoimTest {
 			.description(DESCRIPTION)
 			.build();
 
+		@DisplayName("날짜, 시간, 장소가 없어도 수정할 수 있다.")
+		@Test
+		void success() {
+			assertDoesNotThrow(
+				() -> moim.update(TITLE, null, null, null, MAX_PEOPLE, null, MAX_PEOPLE + 1));
+		}
+
 		@DisplayName("최대 길이를 초과하는 제목으로는 수정할 수 없다.")
 		@Test
 		void fail_whenTitleIsTooLong() {
@@ -213,20 +194,6 @@ class MoimTest {
 		void fail_whenTitleDoesNotExists() {
 			assertThrows(MoimException.class,
 				() -> moim.update("", DATE, TIME, PLACE, MAX_PEOPLE, DESCRIPTION, MAX_PEOPLE + 1));
-		}
-
-		@DisplayName("날짜가 null이면 수정할 수 없다.")
-		@Test
-		void fail_whenDateIsNull() {
-			assertThrows(MoimException.class,
-				() -> moim.update(TITLE, null, TIME, PLACE, MAX_PEOPLE, DESCRIPTION, MAX_PEOPLE + 1));
-		}
-
-		@DisplayName("시간이 null이면 수정할 수 없다.")
-		@Test
-		void fail_whenTimeIsNull() {
-			assertThrows(MoimException.class,
-				() -> moim.update(TITLE, DATE, null, PLACE, MAX_PEOPLE, DESCRIPTION, MAX_PEOPLE + 1));
 		}
 
 		@DisplayName("모임 날짜가 현재보다 과거이면 수정할 수 없다.")

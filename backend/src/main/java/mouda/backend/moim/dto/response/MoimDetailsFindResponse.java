@@ -1,7 +1,7 @@
 package mouda.backend.moim.dto.response;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import static java.time.format.DateTimeFormatter.*;
+
 import java.util.List;
 
 import lombok.Builder;
@@ -11,8 +11,8 @@ import mouda.backend.moim.domain.Moim;
 @Builder
 public record MoimDetailsFindResponse(
 	String title,
-	LocalDate date,
-	LocalTime time,
+	String date,
+	String time,
 	String place,
 	int currentPeople,
 	int maxPeople,
@@ -23,11 +23,14 @@ public record MoimDetailsFindResponse(
 ) {
 
 	public static MoimDetailsFindResponse toResponse(Moim moim, int currentPeople, List<CommentResponse> comments) {
+		String time = moim.getTime() == null ? "" : moim.getTime().format(ofPattern("HH:mm"));
+		String date = moim.getDate() == null ? "" : moim.getDate().format(ISO_LOCAL_DATE);
+		String place = moim.getPlace() == null ? "" : moim.getPlace();
 		return MoimDetailsFindResponse.builder()
 			.title(moim.getTitle())
-			.date(moim.getDate())
-			.time(moim.getTime())
-			.place(moim.getPlace())
+			.date(date)
+			.time(time)
+			.place(place)
 			.currentPeople(currentPeople)
 			.maxPeople(moim.getMaxPeople())
 			.description(moim.getDescription())

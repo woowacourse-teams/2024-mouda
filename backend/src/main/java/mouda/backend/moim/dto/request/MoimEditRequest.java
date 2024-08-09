@@ -14,13 +14,10 @@ public record MoimEditRequest(
 	@NotBlank
 	String title,
 
-	@NotNull
 	LocalDate date,
 
-	@NotNull
 	LocalTime time,
 
-	@NotBlank
 	String place,
 
 	@NotNull
