@@ -16,13 +16,16 @@ export const input = (props: { theme: Theme }) => css`
   ${props.theme.typography.b3}
   flex-shrink: 0;
 
+  box-sizing: border-box;
   width: 100%;
   height: 4rem;
   padding: 0.1rem 0.6rem;
 
   font-size: 1.6rem;
 
+
   background: ${props.theme.colorPalette.grey[100]};
   border: 1px solid ${props.theme.colorPalette.grey[300]};
   border-radius: 0.8rem;
+
 `;
