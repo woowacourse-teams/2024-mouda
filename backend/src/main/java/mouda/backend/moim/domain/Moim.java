@@ -174,7 +174,7 @@ public class Moim {
 
 	public boolean isPastMoim() {
 		if (date == null || time == null) {
-			return true;
+			return false;
 		}
 		LocalDateTime dateTime = LocalDateTime.of(date, time);
 		return dateTime.isBefore(LocalDateTime.now());
