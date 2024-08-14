@@ -38,6 +38,8 @@ public class DarakbangController implements DarakbangSwagger {
 	@Override
 	@GetMapping("/mine")
 	public ResponseEntity<RestResponse<DarakbangResponses>> findAllMyDarakbangs(@LoginMember Member member) {
-		return null;
+		DarakbangResponses darakbangResponses = darakbangService.findAllMyDarakbangs(member);
+
+		return ResponseEntity.ok(new RestResponse<>(darakbangResponses));
 	}
 }

@@ -1,5 +1,7 @@
 package mouda.backend.darakbang.service;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.dto.request.DarakbangCreateRequest;
+import mouda.backend.darakbang.dto.response.DarakbangResponse;
+import mouda.backend.darakbang.dto.response.DarakbangResponses;
 import mouda.backend.darakbang.exception.DarakbangErrorMessage;
 import mouda.backend.darakbang.exception.DarakbangException;
 import mouda.backend.darakbang.repository.DarakbangRepository;
@@ -30,15 +34,26 @@ public class DarakbangService {
 		}
 
 		String invitationCode = invitationCodeGenerator.generate();
-		Darakbang darakbang = darakbangCreateRequest.toEntity(invitationCode);
+		Darakbang entity = darakbangCreateRequest.toEntity(invitationCode);
+		Darakbang darakbang = darakbangRepository.save(entity);
 
 		DarakbangMember darakbangMember = DarakbangMember.builder()
+			.darakbang(darakbang)
 			.member(member)
 			.nickname(darakbangCreateRequest.nickname())
 			.role(DarakBangMemberRole.MANAGER)
 			.build();
 		darakbangMemberRepository.save(darakbangMember);
 
-		return darakbangRepository.save(darakbang);
+		return darakbang;
+	}
+
+	public DarakbangResponses findAllMyDarakbangs(Member member) {
+		List<DarakbangMember> darakbangMembers = darakbangMemberRepository.findAllByMemberId(member.getId());
+		List<DarakbangResponse> responses = darakbangMembers.stream()
+			.map(DarakbangResponse::toResponse)
+			.toList();
+
+		return DarakbangResponses.toResponse(responses);
 	}
 }

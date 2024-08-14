@@ -15,6 +15,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbangmember.exception.DarakbangMemberErrorMessage;
 import mouda.backend.darakbangmember.exception.DarakbangMemberException;
 import mouda.backend.member.domain.Member;
@@ -30,6 +31,10 @@ public class DarakbangMember {
 
 	@JoinColumn(nullable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
+	private Darakbang darakbang;
+
+	@JoinColumn(nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Member member;
 
 	@Column(nullable = false)
@@ -40,8 +45,9 @@ public class DarakbangMember {
 	private DarakBangMemberRole role;
 
 	@Builder
-	public DarakbangMember(Member member, String nickname, DarakBangMemberRole role) {
+	public DarakbangMember(Darakbang darakbang, Member member, String nickname, DarakBangMemberRole role) {
 		validateNickname(nickname);
+		this.darakbang = darakbang;
 		this.member = member;
 		this.nickname = nickname;
 		this.role = role;
@@ -51,5 +57,9 @@ public class DarakbangMember {
 		if (nickname == null || nickname.isBlank()) {
 			throw new DarakbangMemberException(HttpStatus.BAD_REQUEST, DarakbangMemberErrorMessage.NICKNAME_NOT_EXIST);
 		}
+	}
+
+	public String getDarakbangName() {
+		return darakbang.getName();
 	}
 }
