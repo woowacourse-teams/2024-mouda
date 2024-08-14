@@ -9,9 +9,10 @@ import org.springframework.web.client.RestClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mouda.backend.notification.domain.Notification;
-import mouda.backend.notification.dto.request.FcmMessageDto;
+import mouda.backend.notification.dto.request.FcmMessageRequest;
 import mouda.backend.notification.dto.request.FcmSendRequest;
 import mouda.backend.notification.dto.request.FcmTokenSaveRequest;
+import mouda.backend.notification.dto.response.FcmMessageResponse;
 import mouda.backend.notification.repository.NotificationRepository;
 
 @Slf4j
@@ -19,26 +20,26 @@ import mouda.backend.notification.repository.NotificationRepository;
 @RequiredArgsConstructor
 public class NotificationService {
 
-	private static final String API_URL = "https://fcm.googleapis.com/v1/projects/test-19b91/messages:send";
+	private static final String API_URL = "https://fcm.googleapis.com/v1/projects/mouda-message/messages:send";
 
 	private final NotificationRepository notificationRepository;
 	private final RestClient restClient = RestClient.create();
 
 	public void sendMessage(FcmSendRequest fcmSendRequest) throws IOException {
-		FcmMessageDto.Message message = FcmMessageDto.Message.builder()
-			.notification(new FcmMessageDto.Notification(fcmSendRequest.title(), fcmSendRequest.body()))
+		log.info("send message start : body = " + fcmSendRequest.body());
+		FcmMessageRequest.Message message = FcmMessageRequest.Message.builder()
+			.notification(new FcmMessageRequest.Notification(fcmSendRequest.title(), fcmSendRequest.body()))
 			.build();
-		FcmMessageDto fcmMessageDto = FcmMessageDto.builder().message(message).build();
+		FcmMessageRequest fcmMessageRequest = FcmMessageRequest.builder().message(message).build();
 
-		restClient.post()
+		log.info("call api");
+		FcmMessageResponse response = restClient.post()
 			.uri(API_URL)
 			.contentType(MediaType.APPLICATION_JSON)
-			.body(fcmMessageDto)
+			.body(fcmMessageRequest)
 			.retrieve()
-			.toBodilessEntity();
-
-		// String response = FirebaseMessaging.getInstance().sendAsync(message).get();
-		// log.info("Sent message: " + response);
+			.body(FcmMessageResponse.class);
+		log.info("success count : %d", response.success());
 	}
 
 	public void saveFcmToken(long memberId, FcmTokenSaveRequest fcmTokenSaveRequest) {

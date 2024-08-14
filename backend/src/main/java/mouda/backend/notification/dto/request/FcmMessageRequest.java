@@ -6,14 +6,14 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class FcmMessageDto {
-	private FcmMessageDto.Message message;
+public class FcmMessageRequest {
+	private FcmMessageRequest.Message message;
 
 	@Builder
 	@AllArgsConstructor
 	@Getter
 	public static class Message {
-		private FcmMessageDto.Notification notification;
+		private FcmMessageRequest.Notification notification;
 		private String token;
 	}
 
