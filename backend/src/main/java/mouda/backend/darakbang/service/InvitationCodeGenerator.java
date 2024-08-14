@@ -14,17 +14,17 @@ public class InvitationCodeGenerator {
 	private final SecureRandom secureRandom = new SecureRandom();
 
 	public String generate() {
-		StringBuilder sb = new StringBuilder();
+		StringBuilder code = new StringBuilder();
 
 		for (int i = 0; i < CODE_LENGTH; i++) {
 			if (secureRandom.nextBoolean()) {
-				sb.append(secureRandom.nextInt(NUMBER_UPPER_BOUND));
+				code.append(secureRandom.nextInt(NUMBER_UPPER_BOUND));
 			} else {
-				sb.append(getRandomUpperAlphabet());
+				code.append(getRandomUpperAlphabet());
 			}
 		}
 
-		return sb.toString();
+		return code.toString();
 	}
 
 	private char getRandomUpperAlphabet() {
