@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import mouda.backend.common.RestResponse;
 import mouda.backend.config.argumentresolver.LoginMember;
 import mouda.backend.darakbang.dto.request.DarakbangCreateRequest;
+import mouda.backend.darakbang.dto.response.DarakbangResponses;
 import mouda.backend.member.domain.Member;
 
 public interface DarakbangSwagger {
@@ -20,6 +21,14 @@ public interface DarakbangSwagger {
 	})
 	ResponseEntity<RestResponse<Long>> createDarakbang(
 		@RequestBody DarakbangCreateRequest darakbangCreateRequest,
+		@LoginMember Member member
+	);
+
+	@Operation(summary = "다락방 목록 조회", description = "참여한 다락방 목록을 조회한다.")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "다락방 목록 조회 성공!")
+	})
+	ResponseEntity<RestResponse<DarakbangResponses>> findAllMyDarakbangs(
 		@LoginMember Member member
 	);
 }
