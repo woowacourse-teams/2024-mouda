@@ -5,7 +5,8 @@ import {
   smallGrey400,
   tag,
   titleContainer,
-  unreadContentContainer,
+  unreadContentCountContainer,
+  unreadContentWrapper,
 } from './ChattingPreview.style';
 
 import ChatBubbleSvg from '@_components/Icons/ChatBubbleSvg';
@@ -42,10 +43,12 @@ export default function ChattingPreview(props: ChattingPreviewProps) {
           </div>
         </div>
         {lastContent && (
-          <span css={smallGrey400({ theme })}>{lastContent}</span>
+          <span css={[smallGrey400({ theme }), unreadContentWrapper]}>
+            {lastContent}
+          </span>
         )}
         {unreadContentCount > 0 && (
-          <div css={unreadContentContainer}>
+          <div css={unreadContentCountContainer}>
             <ChatBubbleSvg />
             <span css={theme.typography.Tiny}>
               {unreadContentCount > POLICES.maxUnreadMessageCount

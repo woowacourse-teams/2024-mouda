@@ -68,11 +68,24 @@ export const peopleContainer = css`
   align-items: flex-end;
 `;
 
-export const unreadContentContainer = css`
+export const unreadContentCountContainer = css`
+  overflow: hidden;
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
   align-items: flex-start;
+`;
+
+export const unreadContentWrapper = css`
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+
+  max-height: 3rem;
+
+  text-overflow: ellipsis;
+  white-space: pre-line;
 `;
 
 export const smallGrey400 = ({ theme }: { theme: Theme }) => css`
