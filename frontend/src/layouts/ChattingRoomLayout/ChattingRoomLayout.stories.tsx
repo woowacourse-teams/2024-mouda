@@ -114,10 +114,10 @@ export const Default: Story = {
         <ChattingRoomLayout>
           <ChattingRoomLayout.Header>
             <ChattingRoomLayout.Header.Left>
-              <h1>왼쪽</h1>
+              왼쪽
             </ChattingRoomLayout.Header.Left>
             <ChattingRoomLayout.Header.Center>
-              제목
+              제목ddddddddddddddddd
             </ChattingRoomLayout.Header.Center>
           </ChattingRoomLayout.Header>
           <ChatList chats={chats} />
