@@ -11,6 +11,6 @@ type Story = StoryObj<typeof ErrorControlledInput>;
 
 export const Default: Story = {
   args: {
-    placeHolder: "place-holder"
+    placeholder: 'place-holder',
   },
 };

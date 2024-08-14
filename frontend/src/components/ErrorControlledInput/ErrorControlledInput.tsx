@@ -1,28 +1,19 @@
 import * as S from './ErrorControlledInput.style';
 
-import { ChangeEvent } from 'react';
+import { HTMLProps } from 'react';
 import { useTheme } from '@emotion/react';
 
-interface ErrorControlledInputProps {
+interface ErrorControlledInputProps extends HTMLProps<HTMLInputElement> {
   errorMessage: string;
-  onChange: (string: string) => void;
-  placeHolder?: string;
 }
 
 export default function ErrorControlledInput(props: ErrorControlledInputProps) {
-  const { errorMessage, onChange, placeHolder } = props;
+  const { errorMessage, ...inputProps } = props;
   const theme = useTheme();
 
   return (
     <div css={S.container}>
-      <input
-        type="text"
-        onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          onChange(e.target.value);
-          placeHolder;
-        }}
-        css={S.input({ theme })}
-      />
+      <input type="text" {...inputProps} css={S.input({ theme })} />
       {errorMessage && (
         <span css={S.errorMessage({ theme })}>{errorMessage}</span>
       )}
