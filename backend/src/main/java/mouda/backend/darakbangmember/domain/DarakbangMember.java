@@ -1,5 +1,7 @@
 package mouda.backend.darakbangmember.domain;
 
+import org.springframework.http.HttpStatus;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,6 +15,8 @@ import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mouda.backend.darakbangmember.exception.DarakbangMemberErrorMessage;
+import mouda.backend.darakbangmember.exception.DarakbangMemberException;
 import mouda.backend.member.domain.Member;
 
 @Entity
@@ -37,8 +41,15 @@ public class DarakbangMember {
 
 	@Builder
 	public DarakbangMember(Member member, String nickname, DarakBangMemberRole role) {
+		validateNickname(nickname);
 		this.member = member;
 		this.nickname = nickname;
 		this.role = role;
+	}
+
+	private void validateNickname(String nickname) {
+		if (nickname == null || nickname.isBlank()) {
+			throw new DarakbangMemberException(HttpStatus.BAD_REQUEST, DarakbangMemberErrorMessage.NICKNAME_NOT_EXIST);
+		}
 	}
 }

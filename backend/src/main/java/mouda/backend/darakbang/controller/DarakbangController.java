@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.common.RestResponse;
 import mouda.backend.config.argumentresolver.LoginMember;
@@ -24,11 +25,11 @@ public class DarakbangController implements DarakbangSwagger {
 	@Override
 	@PostMapping
 	public ResponseEntity<RestResponse<Long>> createDarakbang(
-		@RequestBody DarakbangCreateRequest darakbangCreateRequest,
+		@Valid @RequestBody DarakbangCreateRequest darakbangCreateRequest,
 		@LoginMember Member member
 	) {
 		Darakbang darakbang = darakbangService.createDarakbang(darakbangCreateRequest, member);
-		
+
 		return ResponseEntity.ok(new RestResponse<>(darakbang.getId()));
 	}
 }

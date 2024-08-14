@@ -7,4 +7,6 @@ import mouda.backend.darakbang.domain.Darakbang;
 
 @Repository
 public interface DarakbangRepository extends JpaRepository<Darakbang, Long> {
+
+	boolean existsByName(String name);
 }
