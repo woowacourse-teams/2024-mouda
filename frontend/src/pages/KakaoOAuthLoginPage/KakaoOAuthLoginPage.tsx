@@ -4,7 +4,7 @@ import { setToken } from '@_utils/tokenManager';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function LoginPage2() {
+export default function KakaoOAuthLoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {

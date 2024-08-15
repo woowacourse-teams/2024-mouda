@@ -3,12 +3,12 @@ import MainLogoIcon from '@_components/Icons/MainLogoIcon';
 import LoginLayout from '@_layouts/LoginLayout/LoginLayout';
 import { css, useTheme } from '@emotion/react';
 
-export default function LoginPage() {
+export default function HomePage() {
   const theme = useTheme();
 
   const kakaoAuthLogin = () => {
     if (
-      !process.env.REACT_APP_KAKAO_CLIENT_ID ||
+      !process.env.KAKAO_O_AUTH_CLIENT_ID ||
       !process.env.KAKAO_O_AUTH_REDIRECT_URI
     ) {
       throw new Error('Kakao OAuth 정보가 없습니다.');
@@ -17,7 +17,7 @@ export default function LoginPage() {
     const requestUrl = `https://kauth.kakao.com/oauth/authorize`;
 
     const params = {
-      client_id: process.env.REACT_APP_KAKAO_CLIENT_ID,
+      client_id: process.env.KAKAO_O_AUTH_CLIENT_ID,
       redirect_uri: process.env.KAKAO_O_AUTH_REDIRECT_URI,
       response_type: 'code',
       scope: 'openid',
