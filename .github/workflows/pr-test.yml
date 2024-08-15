@@ -24,6 +24,10 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
+      - name: Firebase 파일 이동
+        run: |
+          echo ${{ secrets.BACKEND_FIREBASE_JSON }} > src/main/resources/firebase/serviceAccountKey.json
+
       - name: gradlew 권한 부여
         run: chmod +x ./gradlew
 
