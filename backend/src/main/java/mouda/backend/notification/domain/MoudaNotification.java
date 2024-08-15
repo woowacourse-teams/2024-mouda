@@ -18,12 +18,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MoudaNotification {
 
+	private static final String DEFAULT_NOTIFICATION_TITLE = "모우다";
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@Column(nullable = false)
-	private String title;
 
 	@Column(nullable = false)
 	private String body;
@@ -38,8 +37,7 @@ public class MoudaNotification {
 	private LocalDateTime createdAt;
 
 	@Builder
-	public MoudaNotification(String title, String body, String targetUrl, NotificationType type) {
-		this.title = title;
+	public MoudaNotification(String body, String targetUrl, NotificationType type) {
 		this.body = body;
 		this.targetUrl = targetUrl;
 		this.type = type;
@@ -48,7 +46,7 @@ public class MoudaNotification {
 
 	public Notification toFcmNotification() {
 		return Notification.builder()
-			.setTitle(title)
+			.setTitle(DEFAULT_NOTIFICATION_TITLE)
 			.setBody(body)
 			.build();
 	}
