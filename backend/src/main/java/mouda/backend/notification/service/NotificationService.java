@@ -1,48 +1,115 @@
 package mouda.backend.notification.service;
 
-import java.io.IOException;
+import java.util.List;
 
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.google.firebase.messaging.BatchResponse;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingException;
+import com.google.firebase.messaging.Message;
+import com.google.firebase.messaging.MulticastMessage;
+import com.google.firebase.messaging.WebpushConfig;
+import com.google.firebase.messaging.WebpushFcmOptions;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mouda.backend.notification.domain.Notification;
-import mouda.backend.notification.dto.request.FcmMessageRequest;
-import mouda.backend.notification.dto.request.FcmSendRequest;
+import mouda.backend.member.domain.Member;
+import mouda.backend.notification.domain.FcmToken;
+import mouda.backend.notification.domain.MemberNotification;
+import mouda.backend.notification.domain.MoudaNotification;
 import mouda.backend.notification.dto.request.FcmTokenSaveRequest;
-import mouda.backend.notification.dto.response.FcmMessageResponse;
-import mouda.backend.notification.repository.NotificationRepository;
+import mouda.backend.notification.repository.FcmTokenRepository;
+import mouda.backend.notification.repository.MemberNotificationRepository;
+import mouda.backend.notification.repository.MoudaNotificationRepository;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class NotificationService {
 
-	private static final String API_URL = "https://fcm.googleapis.com/v1/projects/mouda-message/messages:send";
+	private final FcmTokenRepository fcmTokenRepository;
+	private final MoudaNotificationRepository moudaNotificationRepository;
+	private final MemberNotificationRepository memberNotificationRepository;
 
-	private final NotificationRepository notificationRepository;
-	private final RestClient restClient = RestClient.create();
-
-	public void sendMessage(FcmSendRequest fcmSendRequest) throws IOException {
-		log.info("send message start : body = " + fcmSendRequest.body());
-		FcmMessageRequest.Message message = FcmMessageRequest.Message.builder()
-			.notification(new FcmMessageRequest.Notification(fcmSendRequest.title(), fcmSendRequest.body()))
+	public void registerFcmToken(long memberId, FcmTokenSaveRequest fcmTokenSaveRequest) {
+		FcmToken fcmToken = FcmToken.builder()
+			.memberId(memberId)
+			.fcmToken(fcmTokenSaveRequest.token())
 			.build();
-		FcmMessageRequest fcmMessageRequest = FcmMessageRequest.builder().message(message).build();
 
-		log.info("call api");
-		FcmMessageResponse response = restClient.post()
-			.uri(API_URL)
-			.contentType(MediaType.APPLICATION_JSON)
-			.body(fcmMessageRequest)
-			.retrieve()
-			.body(FcmMessageResponse.class);
-		log.info("success count : %d", response.success());
+		fcmTokenRepository.save(fcmToken);
 	}
 
-	public void saveFcmToken(long memberId, FcmTokenSaveRequest fcmTokenSaveRequest) {
-		notificationRepository.save(new Notification(memberId, fcmTokenSaveRequest.token()));
+	public void notifyToMember(MoudaNotification moudaNotification, Member member) {
+		MoudaNotification notification = moudaNotificationRepository.save(moudaNotification);
+		memberNotificationRepository.save(MemberNotification.builder()
+			.memberId(member.getId())
+			.moudaNotification(notification)
+			.build());
+
+		String fcmToken = fcmTokenRepository.findFcmTokenByMemberId(member.getId())
+			.orElseThrow(() -> new IllegalArgumentException("FcmToken not found."))
+			.getToken();
+
+		sendNotification(notification, fcmToken);
+	}
+
+	private void sendNotification(MoudaNotification moudaNotification, String fcmToken) {
+		Message message = Message.builder()
+			.setToken(fcmToken)
+			.setNotification(moudaNotification.toFcmNotification())
+			.setWebpushConfig(getWebpushConfig(moudaNotification.getTargetUrl()))
+			.build();
+
+		try {
+			FirebaseMessaging.getInstance().send(message);
+		} catch (FirebaseMessagingException e) {
+			log.error("Failed to send message: {}", e.getMessage());
+		}
+	}
+
+	public void notifyToAllMembers(MoudaNotification moudaNotification) {
+		List<Long> allMemberId = fcmTokenRepository.findAllMemberId();
+
+		notifyToMembers(moudaNotification, allMemberId);
+	}
+
+	public void notifyToMembers(MoudaNotification moudaNotification, List<Long> memberIds) {
+		MoudaNotification notification = moudaNotificationRepository.save(moudaNotification);
+
+		memberNotificationRepository.saveAll(memberIds.stream()
+			.map(memberId -> MemberNotification.builder()
+				.memberId(memberId)
+				.moudaNotification(notification)
+				.build())
+			.toList());
+
+		List<String> tokens = fcmTokenRepository.findTokensByMemberIds(memberIds);
+
+		sendNotificationToAll(notification, tokens);
+	}
+
+	private void sendNotificationToAll(MoudaNotification notification, List<String> tokens) {
+		MulticastMessage message = MulticastMessage.builder()
+			.addAllTokens(tokens)
+			.setNotification(notification.toFcmNotification())
+			.setWebpushConfig(getWebpushConfig(notification.getTargetUrl()))
+			.build();
+
+		try {
+			BatchResponse response = FirebaseMessaging.getInstance().sendEachForMulticast(message);
+			log.info("Successfully sent message: {}", response.getSuccessCount());
+		} catch (FirebaseMessagingException e) {
+			log.error("Failed to send message: {}", e.getMessage());
+		}
+	}
+
+	private WebpushConfig getWebpushConfig(String url) {
+		return WebpushConfig.builder()
+			.setFcmOptions(WebpushFcmOptions.withLink(url))
+			.build();
 	}
 }
