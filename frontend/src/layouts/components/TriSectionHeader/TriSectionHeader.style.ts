@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 
 export const getTriSectionHeaderStyle = ({
   borderBottomColor,
@@ -12,8 +12,7 @@ export const getTriSectionHeaderStyle = ({
     align-items: center;
     justify-content: space-between;
 
-    height: 53px;
-
+    height: 5rem;
     ${borderBottomColor && `border-bottom: 1px solid ${borderBottomColor};`}
 
     & > * {
@@ -24,8 +23,9 @@ export const getTriSectionHeaderStyle = ({
   `;
 };
 
-export const leftSectionStyle = css`
+export const leftSectionStyle = (props: { theme: Theme }) => css`
   left: 1.6rem;
+  font-size: ${props.theme.typography.h5};
 `;
 
 export const centerSectionStyle = css`
