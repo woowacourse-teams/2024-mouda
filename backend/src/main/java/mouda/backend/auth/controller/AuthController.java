@@ -33,14 +33,15 @@ public class AuthController implements AuthSwagger {
 	}
 
 	@GetMapping("/kakao/oauth")
-	public void kakao(
+	public String kakao(
 		@RequestParam("code") String code,
-		@RequestParam("error") String error,
-		@RequestParam("error_description") String error_description,
-		@RequestParam("state") String state
+		@RequestParam(value = "error", required = false) String error,
+		@RequestParam(value = "error_description", required = false) String error_description,
+		@RequestParam(value = "state", required = false) String state
 	) {
 		System.out.println(code);
 		Member member = new Member(code);
 		memberRepository.save(member);
+		return code;
 	}
 }
