@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.dto.request.DarakbangCreateRequest;
+import mouda.backend.darakbang.dto.response.CodeValidationResponse;
 import mouda.backend.darakbang.dto.response.DarakbangResponse;
 import mouda.backend.darakbang.dto.response.DarakbangResponses;
 import mouda.backend.darakbang.dto.response.InvitationCodeResponse;
@@ -69,6 +70,7 @@ public class DarakbangService {
 		return DarakbangResponses.toResponse(responses);
 	}
 
+	@Transactional(readOnly = true)
 	public InvitationCodeResponse findInvitationCode(Long darakbangId, Member member) {
 		DarakBangMemberRole role = darakbangMemberRepository.findByDarakbangIdAndMemberId(darakbangId, member.getId())
 			.orElseThrow(() -> new DarakbangMemberException(HttpStatus.NOT_FOUND,
@@ -83,5 +85,13 @@ public class DarakbangService {
 			.orElseThrow(() -> new DarakbangException(HttpStatus.NOT_FOUND, DarakbangErrorMessage.DARAKBANG_NOT_FOUND));
 
 		return InvitationCodeResponse.toResponse(darakbang);
+	}
+
+	@Transactional(readOnly = true)
+	public CodeValidationResponse validateCode(String code) {
+		if (darakbangRepository.existsByCode(code)) {
+			return CodeValidationResponse.toResponse(true);
+		}
+		return CodeValidationResponse.toResponse(false);
 	}
 }

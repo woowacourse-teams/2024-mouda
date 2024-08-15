@@ -60,10 +60,9 @@ public class DarakbangController implements DarakbangSwagger {
 
 	@Override
 	@GetMapping("/validation")
-	public ResponseEntity<RestResponse<CodeValidationResponse>> validateInvitationCode(
-		@RequestParam String code,
-		@LoginMember Member member
-	) {
-		return null;
+	public ResponseEntity<RestResponse<CodeValidationResponse>> validateInvitationCode(@RequestParam String code) {
+		CodeValidationResponse codeValidationResponse = darakbangService.validateCode(code);
+
+		return ResponseEntity.ok(new RestResponse<>(codeValidationResponse));
 	}
 }

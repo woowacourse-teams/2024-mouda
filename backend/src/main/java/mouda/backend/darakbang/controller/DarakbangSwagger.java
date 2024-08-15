@@ -53,7 +53,6 @@ public interface DarakbangSwagger {
 		@ApiResponse(responseCode = "200", description = "다락방 초대코드 유효성 검사 성공!")
 	})
 	ResponseEntity<RestResponse<CodeValidationResponse>> validateInvitationCode(
-		@RequestParam String code,
-		@LoginMember Member member
+		@RequestParam String code
 	);
 }
