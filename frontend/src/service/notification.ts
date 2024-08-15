@@ -3,7 +3,7 @@ import { app } from './initFirebase';
 
 const messaging = getMessaging(app);
 
-export function requestPermission() {
+export function requestPermission(mutationFn: (currentToken: string) => void) {
   console.log('권한 요청 중...');
   Notification.requestPermission().then((permission) => {
     if (permission === 'granted') {
@@ -14,6 +14,7 @@ export function requestPermission() {
         .then((currentToken) => {
           if (currentToken) {
             console.log(currentToken);
+            mutationFn(currentToken);
           } else {
             // Show permission request UI
             console.log(

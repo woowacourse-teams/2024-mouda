@@ -5,9 +5,7 @@ import ReactGA from 'react-ga4';
 import * as Sentry from '@sentry/react';
 
 import '@_service/forgroundMessage';
-import { requestPermission } from '@_service/notification';
 
-requestPermission();
 if (process.env.REACT_APP_GOOGLE_ANALYTICS) {
   ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS);
 }
