@@ -4,7 +4,9 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -59,9 +61,13 @@ public class AuthService {
 	}
 
 	public String oauthLogin(String code) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		headers.set(HttpHeaders.ACCEPT_CHARSET, "utf-8");
+
 		OauthResponse oauthResponse = restClient.post()
 			.uri("/oauth/token")
-			.header("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
+			.headers(httpHeaders -> httpHeaders.addAll(headers))
 			.body(token(code))
 			.retrieve()
 			.body(OauthResponse.class);
