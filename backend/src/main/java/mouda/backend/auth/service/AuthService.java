@@ -5,9 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -65,14 +69,20 @@ public class AuthService {
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		headers.set(HttpHeaders.ACCEPT_CHARSET, "utf-8");
 
-		OauthResponse oauthResponse = restClient.post()
+		MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+		formData.add("code", code);
+		formData.add("client_id", "ca3adf9a52671fdbb847b809c0fdb980");
+		formData.add("grant_type", "authorization_code");
+		formData.add("redirect_uri", "http://localhost:8081/login2");
+
+		ResponseEntity<OauthResponse> response = restClient.method(HttpMethod.POST)
 			.uri("/oauth/token")
 			.headers(httpHeaders -> httpHeaders.addAll(headers))
-			.body(token(code))
+			.body(formData)
 			.retrieve()
-			.body(OauthResponse.class);
+			.toEntity(OauthResponse.class);
 
-		String kakaoIdToken = oauthResponse.id_token();
+		String kakaoIdToken = response.getBody().id_token();
 		try {
 			// JWT는 점(.)으로 구분된 세 부분으로 이루어져 있다
 			String[] parts = kakaoIdToken.split("\\.");
