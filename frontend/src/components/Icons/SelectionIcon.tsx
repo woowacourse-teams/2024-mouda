@@ -6,7 +6,6 @@ interface SelectionIconProps {
 
 export default function SelectionIcon(props: SelectionIconProps) {
   const { isSelected } = props;
-  console.log('isSelected', isSelected);
 
   const theme = useTheme();
 

@@ -3,7 +3,6 @@ import FunnelButton from '@_components/Funnel/FunnelButton/FunnelButton';
 import FunnelStepIndicator from '@_components/Funnel/FunnelStepIndicator/FunnelStepIndicator';
 import ROUTES from '@_constants/routes';
 import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
-import { MoimInputInfo } from '@_types/index';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import TitleStep from './Steps/TitleStep';
@@ -21,11 +20,12 @@ export default function MoimCreationPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [moimInfo, setMoimInfo] = useState<MoimInputInfo>({
+  const [moimInfo, setMoimInfo] = useState({
     title: '',
     date: '',
     time: '',
     maxPeople: 0,
+    onlineOrOffline: '',
     place: '',
     description: '',
   });
@@ -45,23 +45,31 @@ export default function MoimCreationPage() {
         {currentStep === 1 ? (
           <TitleStep
             title={moimInfo.title}
-            onChange={(e) =>
-              setMoimInfo({ ...moimInfo, title: e.target.value })
-            }
+            onChange={(title) => setMoimInfo((prev) => ({ ...prev, title }))}
           />
         ) : currentStep === 2 ? (
-          <PlaceStep />
+          <PlaceStep
+            onlineOrOffline={moimInfo.onlineOrOffline}
+            onChange={(onlineOrOffline) =>
+              setMoimInfo((prev) => ({ ...prev, onlineOrOffline }))
+            }
+          />
         ) : null}
       </FunnelLayout.Main>
 
       <FunnelLayout.Footer>
         <FunnelStepIndicator totalSteps={5} currentStep={currentStep} />
         <FunnelButton
+          disabled={currentStep === 1 && moimInfo.title === ''}
           onClick={() => {
             navigate(ROUTES.addMoim, { state: { step: currentStep + 1 } });
           }}
         >
-          다음으로
+          {currentStep === 1 && moimInfo.title === ''
+            ? '모임 이름을 입력해주세요'
+            : currentStep === 2 && moimInfo.onlineOrOffline === ''
+              ? '스킵하고 채팅에서 정할게요!'
+              : '다음으로'}
         </FunnelButton>
       </FunnelLayout.Footer>
     </FunnelLayout>
