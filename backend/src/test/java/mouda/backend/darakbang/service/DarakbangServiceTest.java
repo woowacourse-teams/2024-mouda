@@ -19,6 +19,7 @@ import mouda.backend.darakbang.repository.DarakbangRepository;
 import mouda.backend.darakbangmember.exception.DarakbangMemberException;
 import mouda.backend.darakbangmember.repository.repository.DarakbangMemberRepository;
 import mouda.backend.fixture.DarakbangFixture;
+import mouda.backend.fixture.DarakbangMemberFixture;
 import mouda.backend.fixture.MemberFixture;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.repository.MemberRepository;
@@ -113,6 +114,32 @@ class DarakbangServiceTest {
 			assertThatThrownBy(() -> darakbangService.createDarakbang(request, hogee))
 				.isInstanceOf(DarakbangException.class);
 		}
+	}
 
+	@DisplayName("다락방 초대코드 조회 테스트")
+	@Nested
+	class DarakbangInvitationCodeReadTest {
+
+		@DisplayName("다락방 초대코드를 성공적으로 조회한다.")
+		@Test
+		void success() {
+			Member hogee = memberRepository.save(MemberFixture.getHogee());
+			Darakbang darakbang = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
+			darakbangMemberRepository.save(DarakbangMemberFixture.getDarakbangManagerWithWooteco(darakbang, hogee));
+
+			assertThatNoException()
+				.isThrownBy(() -> darakbangService.findInvitationCode(darakbang.getId(), hogee));
+		}
+
+		@DisplayName("관리자가 아니라면 초대코드 조회에 실패한다.")
+		@Test
+		void failToReadByNotManager() {
+			Member hogee = memberRepository.save(MemberFixture.getHogee());
+			Darakbang darakbang = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
+			darakbangMemberRepository.save(DarakbangMemberFixture.getDarakbangMemberWithWooteco(darakbang, hogee));
+
+			assertThatThrownBy(() -> darakbangService.findInvitationCode(darakbang.getId(), hogee))
+				.isInstanceOf(DarakbangMemberException.class);
+		}
 	}
 }
