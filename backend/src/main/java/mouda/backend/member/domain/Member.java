@@ -43,9 +43,9 @@ public class Member {
 		if (nickname.isBlank()) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MEMBER_NICKNAME_NOT_EXISTS);
 		}
-		// if (nickname.length() >= NICKNAME_MAX_LENGTH) {
-		// 	throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MEMBER_NICKNAME_TOO_LONG);
-		// }
+		if (nickname.length() >= NICKNAME_MAX_LENGTH) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MEMBER_NICKNAME_TOO_LONG);
+		}
 	}
 
 	public void joinMoim(Moim moim) {

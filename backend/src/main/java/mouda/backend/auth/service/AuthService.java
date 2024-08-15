@@ -1,50 +1,101 @@
 package mouda.backend.auth.service;
 
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import mouda.backend.auth.dto.request.LoginRequest;
 import mouda.backend.auth.dto.response.LoginResponse;
+import mouda.backend.auth.dto.response.OauthResponse;
 import mouda.backend.auth.exception.AuthErrorMessage;
 import mouda.backend.auth.exception.AuthException;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.repository.MemberRepository;
 import mouda.backend.security.JwtProvider;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
 
-    private final JwtProvider jwtProvider;
+	private final JwtProvider jwtProvider;
 
-    private final MemberRepository memberRepository;
+	private final MemberRepository memberRepository;
+	private final RestClient restClient;
 
+	public AuthService(JwtProvider jwtProvider, MemberRepository memberRepository, RestClient restClient) {
+		this.jwtProvider = jwtProvider;
+		this.memberRepository = memberRepository;
+		this.restClient = restClient;
+	}
 
-    public AuthService(JwtProvider jwtProvider, MemberRepository memberRepository) {
-        this.jwtProvider = jwtProvider;
-        this.memberRepository = memberRepository;
-    }
+	public LoginResponse login(LoginRequest loginRequest) {
+		return memberRepository.findByNickname(loginRequest.nickname())
+			.map(member -> {
+				String token = jwtProvider.createToken(member);
+				return new LoginResponse(token);
+			})
+			.orElseGet(() -> {
+				Member newMember = new Member(loginRequest.nickname());
+				memberRepository.save(newMember);
+				String token = jwtProvider.createToken(newMember);
+				return new LoginResponse(token);
+			});
+	}
 
-    public LoginResponse login(LoginRequest loginRequest) {
-        return memberRepository.findByNickname(loginRequest.nickname())
-            .map(member -> {
-                String token = jwtProvider.createToken(member);
-                return new LoginResponse(token);
-            })
-            .orElseGet(() -> {
-                Member newMember = new Member(loginRequest.nickname());
-                memberRepository.save(newMember);
-                String token = jwtProvider.createToken(newMember);
-                return new LoginResponse(token);
-            });
-    }
+	public Member findMember(String token) {
+		long memberId = jwtProvider.extractMemberId(token);
+		return memberRepository.findById(memberId)
+			.orElseThrow(
+				() -> new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.UNAUTHORIZED));
+	}
 
-    public Member findMember(String token) {
-        long memberId = jwtProvider.extractMemberId(token);
-        return memberRepository.findById(memberId)
-            .orElseThrow(
-                () -> new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.UNAUTHORIZED));
-    }
+	public void checkAuthentication(String token) {
+		jwtProvider.validateExpiration(token);
+	}
 
-    public void checkAuthentication(String token) {
-        jwtProvider.validateExpiration(token);
-    }
+	public String oauthLogin(String code) {
+		OauthResponse oauthResponse = restClient.post()
+			.uri("/oauth/token")
+			.header("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
+			.body(token(code))
+			.retrieve()
+			.body(OauthResponse.class);
+
+		String kakaoIdToken = oauthResponse.id_token();
+		try {
+			// JWT는 점(.)으로 구분된 세 부분으로 이루어져 있다
+			String[] parts = kakaoIdToken.split("\\.");
+			if (parts.length != 3) {
+				throw new IllegalArgumentException("Invalid JWT token format");
+			}
+			// 두 번째 부분이 payload이다.
+			String payload = parts[1];
+			// Base64Url 디코딩 (Base64Url은 표준 Base64와 약간 다름)
+			byte[] decodedBytes = Base64.getUrlDecoder().decode(payload);
+			// 디코딩된 바이트 배열을 문자열로 변환
+			String decodedPayload = new String(decodedBytes);
+			// JSON 파싱하여 Map으로 변환
+			ObjectMapper objectMapper = new ObjectMapper();
+			Map payloadJson = objectMapper.readValue(decodedPayload, Map.class);
+			String nickname = payloadJson.get("nickname").toString();
+			return nickname;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	private Map<String, String> token(String code) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("grant_type", "authorization_code");
+		map.put("client_id", "ca3adf9a52671fdbb847b809c0fdb980");
+		map.put("redirect_uri", "https://dev.mouda.site/v1/auth/kakao/oauth");
+		map.put("code", code);
+		return map;
+	}
 }
