@@ -8,7 +8,7 @@ import org.springframework.web.client.RestClient;
 public class RestClientConfig {
 
 	@Bean
-	public RestClient tossPaymentRestClient() {
+	public RestClient kakaoOauthRestClient() {
 		return RestClient.builder()
 			.baseUrl("https://kauth.kakao.com")
 			.build();
