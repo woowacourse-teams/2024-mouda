@@ -37,7 +37,9 @@ public interface DarakbangSwagger {
 	@Operation(summary = "다락방 참여코드 조회", description = "참여한 다락방 참여코드를 조회한다.")
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "다락방 참여코드 조회 성공!"),
-		@ApiResponse(responseCode = "403", description = "권한이 없습니다."),
+		@ApiResponse(responseCode = "403", description = "조회 권한이 없습니다."),
+		@ApiResponse(responseCode = "404", description = "존재하지 않는 다락방 멤버입니다."),
+		@ApiResponse(responseCode = "404", description = "다락방이 존재하지 않습니다."),
 	})
 	ResponseEntity<RestResponse<InvitationCodeResponse>> findInvitationCode(
 		@PathVariable Long darakbangId,
