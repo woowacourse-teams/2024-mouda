@@ -14,7 +14,7 @@ export default function FunnelStepIndicator(props: FunnelStepIndicatorProps) {
   return (
     <div css={S.container}>
       {Array.from({ length: totalSteps }).map((_, index) =>
-        index <= currentStep ? (
+        index < currentStep ? (
           <div key={index} css={[S.step, S.activeStep({ theme })]}></div>
         ) : (
           <div key={index} css={[S.step, S.inactiveStep({ theme })]}></div>
