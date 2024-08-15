@@ -11,11 +11,14 @@ import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.dto.request.DarakbangCreateRequest;
 import mouda.backend.darakbang.dto.response.DarakbangResponse;
 import mouda.backend.darakbang.dto.response.DarakbangResponses;
+import mouda.backend.darakbang.dto.response.InvitationCodeResponse;
 import mouda.backend.darakbang.exception.DarakbangErrorMessage;
 import mouda.backend.darakbang.exception.DarakbangException;
 import mouda.backend.darakbang.repository.DarakbangRepository;
 import mouda.backend.darakbangmember.domain.DarakBangMemberRole;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
+import mouda.backend.darakbangmember.exception.DarakbangMemberErrorMessage;
+import mouda.backend.darakbangmember.exception.DarakbangMemberException;
 import mouda.backend.darakbangmember.repository.repository.DarakbangMemberRepository;
 import mouda.backend.member.domain.Member;
 
@@ -56,6 +59,7 @@ public class DarakbangService {
 		return invitationCode;
 	}
 
+	@Transactional(readOnly = true)
 	public DarakbangResponses findAllMyDarakbangs(Member member) {
 		List<DarakbangMember> darakbangMembers = darakbangMemberRepository.findAllByMemberId(member.getId());
 		List<DarakbangResponse> responses = darakbangMembers.stream()
@@ -63,5 +67,21 @@ public class DarakbangService {
 			.toList();
 
 		return DarakbangResponses.toResponse(responses);
+	}
+
+	public InvitationCodeResponse findInvitationCode(Long darakbangId, Member member) {
+		DarakBangMemberRole role = darakbangMemberRepository.findByDarakbangIdAndMemberId(darakbangId, member.getId())
+			.orElseThrow(() -> new DarakbangMemberException(HttpStatus.NOT_FOUND,
+				DarakbangMemberErrorMessage.DARAKBANG_MEMBER_NOT_EXIST))
+			.getRole();
+
+		if (role != DarakBangMemberRole.MANAGER) {
+			throw new DarakbangMemberException(HttpStatus.FORBIDDEN, DarakbangMemberErrorMessage.NOT_ALLOWED_TO_READ);
+		}
+
+		Darakbang darakbang = darakbangRepository.findById(darakbangId)
+			.orElseThrow(() -> new DarakbangException(HttpStatus.NOT_FOUND, DarakbangErrorMessage.DARAKBANG_NOT_FOUND));
+
+		return InvitationCodeResponse.toResponse(darakbang);
 	}
 }

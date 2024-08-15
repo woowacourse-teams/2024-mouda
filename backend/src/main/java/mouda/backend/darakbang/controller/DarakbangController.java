@@ -51,6 +51,8 @@ public class DarakbangController implements DarakbangSwagger {
 		@PathVariable Long darakbangId,
 		@LoginMember Member member
 	) {
-		return null;
+		InvitationCodeResponse invitationCodeResponse = darakbangService.findInvitationCode(darakbangId, member);
+
+		return ResponseEntity.ok(new RestResponse<>(invitationCodeResponse));
 	}
 }
