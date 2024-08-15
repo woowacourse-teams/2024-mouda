@@ -94,5 +94,25 @@ class DarakbangServiceTest {
 			assertThatThrownBy(() -> darakbangService.createDarakbang(request, hogee))
 				.isInstanceOf(DarakbangMemberException.class);
 		}
+
+		@DisplayName("초대코드가 중복되면 다락방 생성에 실패한다.")
+		@Test
+		void failToCreateDarakbangWithDuplicatedCode() {
+			Member hogee = memberRepository.save(MemberFixture.getHogee());
+			DarakbangCreateRequest request = new DarakbangCreateRequest("우테코", "테니");
+			darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
+
+			darakbangService = new DarakbangService(darakbangRepository, darakbangMemberRepository,
+				new InvitationCodeGenerator() {
+					@Override
+					public String generate() {
+						return "SOFABABO1";
+					}
+				});
+
+			assertThatThrownBy(() -> darakbangService.createDarakbang(request, hogee))
+				.isInstanceOf(DarakbangException.class);
+		}
+
 	}
 }

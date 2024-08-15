@@ -33,7 +33,7 @@ public class DarakbangService {
 			throw new DarakbangException(HttpStatus.BAD_REQUEST, DarakbangErrorMessage.NAME_ALREADY_EXIST);
 		}
 
-		String invitationCode = invitationCodeGenerator.generate();
+		String invitationCode = generateInvitationCode();
 		Darakbang entity = darakbangCreateRequest.toEntity(invitationCode);
 		Darakbang darakbang = darakbangRepository.save(entity);
 
@@ -46,6 +46,14 @@ public class DarakbangService {
 		darakbangMemberRepository.save(darakbangMember);
 
 		return darakbang;
+	}
+
+	private String generateInvitationCode() {
+		String invitationCode = invitationCodeGenerator.generate();
+		if (darakbangRepository.existsByCode(invitationCode)) {
+			throw new DarakbangException(HttpStatus.INTERNAL_SERVER_ERROR, DarakbangErrorMessage.CODE_ALREADY_EXIST);
+		}
+		return invitationCode;
 	}
 
 	public DarakbangResponses findAllMyDarakbangs(Member member) {
