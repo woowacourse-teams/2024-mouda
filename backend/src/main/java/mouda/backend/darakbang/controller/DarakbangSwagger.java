@@ -3,6 +3,7 @@ package mouda.backend.darakbang.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import mouda.backend.common.RestResponse;
 import mouda.backend.config.argumentresolver.LoginMember;
 import mouda.backend.darakbang.dto.request.DarakbangCreateRequest;
+import mouda.backend.darakbang.dto.response.CodeValidationResponse;
 import mouda.backend.darakbang.dto.response.DarakbangResponses;
 import mouda.backend.darakbang.dto.response.InvitationCodeResponse;
 import mouda.backend.member.domain.Member;
@@ -43,6 +45,15 @@ public interface DarakbangSwagger {
 	})
 	ResponseEntity<RestResponse<InvitationCodeResponse>> findInvitationCode(
 		@PathVariable Long darakbangId,
+		@LoginMember Member member
+	);
+
+	@Operation(summary = "다락방 초대코드 유효성 검사", description = "다락방 초대코드 유효성을 검사한다.")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "다락방 초대코드 유효성 검사 성공!")
+	})
+	ResponseEntity<RestResponse<CodeValidationResponse>> validateInvitationCode(
+		@RequestParam String code,
 		@LoginMember Member member
 	);
 }

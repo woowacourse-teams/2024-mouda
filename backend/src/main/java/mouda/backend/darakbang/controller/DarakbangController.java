@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
@@ -14,6 +15,7 @@ import mouda.backend.common.RestResponse;
 import mouda.backend.config.argumentresolver.LoginMember;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.dto.request.DarakbangCreateRequest;
+import mouda.backend.darakbang.dto.response.CodeValidationResponse;
 import mouda.backend.darakbang.dto.response.DarakbangResponses;
 import mouda.backend.darakbang.dto.response.InvitationCodeResponse;
 import mouda.backend.darakbang.service.DarakbangService;
@@ -54,5 +56,14 @@ public class DarakbangController implements DarakbangSwagger {
 		InvitationCodeResponse invitationCodeResponse = darakbangService.findInvitationCode(darakbangId, member);
 
 		return ResponseEntity.ok(new RestResponse<>(invitationCodeResponse));
+	}
+
+	@Override
+	@GetMapping("/validation")
+	public ResponseEntity<RestResponse<CodeValidationResponse>> validateInvitationCode(
+		@RequestParam String code,
+		@LoginMember Member member
+	) {
+		return null;
 	}
 }
