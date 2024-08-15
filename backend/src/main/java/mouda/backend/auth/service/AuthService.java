@@ -32,13 +32,19 @@ public class AuthService {
 	}
 
 	public LoginResponse login(LoginRequest loginRequest) {
-		return memberRepository.findByNickname(loginRequest.nickname())
+		String nickname = loginRequest.nickname();
+
+		return processLogin(nickname);
+	}
+
+	private LoginResponse processLogin(String nickname) {
+		return memberRepository.findByNickname(nickname)
 			.map(member -> {
 				String token = jwtProvider.createToken(member);
 				return new LoginResponse(token);
 			})
 			.orElseGet(() -> {
-				Member newMember = new Member(loginRequest.nickname());
+				Member newMember = new Member(nickname);
 				memberRepository.save(newMember);
 				String token = jwtProvider.createToken(newMember);
 				return new LoginResponse(token);
@@ -62,16 +68,6 @@ public class AuthService {
 		Map<String, String> payload = TokenDecoder.parseKakaoToken(kakaoIdToken);
 		String nickname = payload.get("nickname");
 
-		return memberRepository.findByNickname(nickname)
-			.map(member -> {
-				String token = jwtProvider.createToken(member);
-				return new LoginResponse(token);
-			})
-			.orElseGet(() -> {
-				Member newMember = new Member(nickname);
-				memberRepository.save(newMember);
-				String token = jwtProvider.createToken(newMember);
-				return new LoginResponse(token);
-			});
+		return processLogin(nickname);
 	}
 }
