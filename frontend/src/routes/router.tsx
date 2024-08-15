@@ -12,6 +12,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import PleasePage from '@_pages/PleasePage/PleasePage';
 import MyPage from '@_pages/Mypage/MyPage';
 import PleaseCreationPage from '@_pages/PleaseCreationPage/PleaseCreationPage';
+import LoginPage2 from '@_pages/LoginPage2/LoginPage2';
 
 const routesConfig = [
   {
@@ -47,6 +48,11 @@ const routesConfig = [
   {
     path: ROUTES.login,
     element: <LoginPage />,
+    requiresAuth: false,
+  },
+  {
+    path: ROUTES.login2,
+    element: <LoginPage2 />,
     requiresAuth: false,
   },
   {

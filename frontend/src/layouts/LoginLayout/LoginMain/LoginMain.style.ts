@@ -6,7 +6,6 @@ export const mainStyle = css`
   align-items: center;
   justify-content: center;
 
-  width: 80%;
   height: 100%;
   margin: 0 auto;
 `;
