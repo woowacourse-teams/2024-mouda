@@ -5,13 +5,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class Notification {
+public class FcmToken {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,10 +22,11 @@ public class Notification {
 	private long memberId;
 
 	@Column(nullable = false)
-	private String fcmToken;
+	private String token;
 
-	public Notification(long memberId, String fcmToken) {
+	@Builder
+	public FcmToken(long memberId, String fcmToken) {
 		this.memberId = memberId;
-		this.fcmToken = fcmToken;
+		this.token = fcmToken;
 	}
 }
