@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import mouda.backend.common.RestResponse;
 import mouda.backend.config.argumentresolver.LoginMember;
 import mouda.backend.darakbang.dto.request.DarakbangCreateRequest;
+import mouda.backend.darakbang.dto.request.DarakbangJoinRequest;
 import mouda.backend.darakbang.dto.response.CodeValidationResponse;
 import mouda.backend.darakbang.dto.response.DarakbangResponses;
 import mouda.backend.darakbang.dto.response.InvitationCodeResponse;
@@ -54,5 +55,15 @@ public interface DarakbangSwagger {
 	})
 	ResponseEntity<RestResponse<CodeValidationResponse>> validateInvitationCode(
 		@RequestParam String code
+	);
+
+	@Operation(summary = "다락방 참여", description = "다락방에 참여한다.")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "다락방 참여 성공!")
+	})
+	ResponseEntity<RestResponse<Long>> joinDarakbang(
+		@RequestParam String code,
+		@RequestBody DarakbangJoinRequest darakbangJoinRequest,
+		@LoginMember Member member
 	);
 }
