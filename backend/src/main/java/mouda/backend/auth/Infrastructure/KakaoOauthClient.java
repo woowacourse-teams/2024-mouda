@@ -43,6 +43,7 @@ public class KakaoOauthClient {
 			return response.id_token();
 		} catch (ResourceAccessException e) {
 			System.out.println("수야 멍청이");
+			return null;
 		} catch (Exception e) {
 			throw new AuthException(HttpStatus.BAD_GATEWAY, AuthErrorMessage.KAKAO_UNAUTHORIZED);
 		}
