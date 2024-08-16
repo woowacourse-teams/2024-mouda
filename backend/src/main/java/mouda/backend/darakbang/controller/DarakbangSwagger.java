@@ -51,7 +51,8 @@ public interface DarakbangSwagger {
 
 	@Operation(summary = "다락방 초대코드 유효성 검사", description = "다락방 초대코드 유효성을 검사한다.")
 	@ApiResponses({
-		@ApiResponse(responseCode = "200", description = "다락방 초대코드 유효성 검사 성공!")
+		@ApiResponse(responseCode = "200", description = "다락방 초대코드 유효성 검사 성공!"),
+		@ApiResponse(responseCode = "400", description = "유효하지 않은 초대코드입니다.")
 	})
 	ResponseEntity<RestResponse<CodeValidationResponse>> validateInvitationCode(
 		@RequestParam String code
@@ -59,7 +60,10 @@ public interface DarakbangSwagger {
 
 	@Operation(summary = "다락방 참여", description = "다락방에 참여한다.")
 	@ApiResponses({
-		@ApiResponse(responseCode = "200", description = "다락방 참여 성공!")
+		@ApiResponse(responseCode = "200", description = "다락방 참여 성공!"),
+		@ApiResponse(responseCode = "400", description = "이미 존재하는 닉네임입니다."),
+		@ApiResponse(responseCode = "400", description = "이미 가입한 멤버입니다."),
+		@ApiResponse(responseCode = "404", description = "다락방이 존재하지 않습니다."),
 	})
 	ResponseEntity<RestResponse<Long>> enterDarakbang(
 		@RequestParam String code,
