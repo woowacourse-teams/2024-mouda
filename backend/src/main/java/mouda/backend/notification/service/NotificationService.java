@@ -1,6 +1,7 @@
 package mouda.backend.notification.service;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -77,6 +78,22 @@ public class NotificationService {
 
 	public void notifyToAllMembers(MoudaNotification moudaNotification) {
 		List<Long> allMemberId = fcmTokenRepository.findAllMemberId();
+
+		notifyToMembers(moudaNotification, allMemberId);
+	}
+
+	public void notifyToAllMembersExcept(MoudaNotification moudaNotification, Long exceptMemberId) {
+		List<Long> allMemberId = fcmTokenRepository.findAllMemberId().stream()
+			.filter(memberId -> !Objects.equals(memberId, exceptMemberId))
+			.toList();
+
+		notifyToMembers(moudaNotification, allMemberId);
+	}
+
+	public void notifyToAllMembersExcept(MoudaNotification moudaNotification, List<Long> exceptMemberIds) {
+		List<Long> allMemberId = fcmTokenRepository.findAllMemberId().stream()
+			.filter(memberId -> !exceptMemberIds.contains(memberId))
+			.toList();
 
 		notifyToMembers(moudaNotification, allMemberId);
 	}

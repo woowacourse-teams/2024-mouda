@@ -37,6 +37,7 @@ import mouda.backend.moim.exception.MoimException;
 import mouda.backend.moim.repository.MoimRepository;
 import mouda.backend.notification.domain.MoudaNotification;
 import mouda.backend.notification.domain.NotificationType;
+import mouda.backend.notification.service.NotificationService;
 import mouda.backend.zzim.domain.Zzim;
 import mouda.backend.zzim.repository.ZzimRepository;
 
@@ -45,6 +46,7 @@ import mouda.backend.zzim.repository.ZzimRepository;
 @RequiredArgsConstructor
 public class MoimService {
 
+	private final NotificationService notificationService;
 	@Value("${url.base}")
 	private String baseUrl;
 
@@ -66,6 +68,14 @@ public class MoimService {
 			.build();
 		chamyoRepository.save(chamyo);
 
+		NotificationType notificationType = NotificationType.MOIM_CREATED;
+		MoudaNotification notification = MoudaNotification.builder()
+			.type(notificationType)
+			.body(notificationType.createMessage(moim.getTitle()))
+			.targetUrl(baseUrl + moimUrl + "/" + moim.getId())
+			.build();
+
+		notificationService.notifyToAllMembersExcept(notification, member.getId());
 		return moim;
 	}
 
