@@ -3,7 +3,6 @@ package mouda.backend.notification.service;
 import java.util.List;
 import java.util.Objects;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,8 +21,6 @@ import mouda.backend.notification.domain.FcmToken;
 import mouda.backend.notification.domain.MemberNotification;
 import mouda.backend.notification.domain.MoudaNotification;
 import mouda.backend.notification.dto.request.FcmTokenSaveRequest;
-import mouda.backend.notification.exception.NotificationErrorMessage;
-import mouda.backend.notification.exception.NotificationException;
 import mouda.backend.notification.repository.FcmTokenRepository;
 import mouda.backend.notification.repository.MemberNotificationRepository;
 import mouda.backend.notification.repository.MoudaNotificationRepository;
@@ -55,9 +52,12 @@ public class NotificationService {
 			.build());
 
 		String fcmToken = fcmTokenRepository.findFcmTokenByMemberId(member.getId())
-			.orElseThrow(
-				() -> new NotificationException(HttpStatus.NOT_FOUND, NotificationErrorMessage.FCM_TOKEN_NOT_FOUND))
-			.getToken();
+			.map(FcmToken::getToken)
+			.orElse(null);
+
+		if (fcmToken == null) {
+			return;
+		}
 
 		sendNotification(notification, fcmToken);
 	}
@@ -109,6 +109,10 @@ public class NotificationService {
 			.toList());
 
 		List<String> tokens = fcmTokenRepository.findTokensByMemberIds(memberIds);
+
+		if (tokens.isEmpty()) {
+			return;
+		}
 
 		sendNotificationToAll(notification, tokens);
 	}
