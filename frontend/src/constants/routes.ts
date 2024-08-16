@@ -27,6 +27,7 @@ const ROUTES = {
   please: '/please',
   addPlease: '/please/creation',
   myPage: '/my-page',
+  notification: '/notification',
 };
 
 export default ROUTES;
