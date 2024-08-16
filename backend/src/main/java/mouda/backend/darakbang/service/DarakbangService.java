@@ -90,10 +90,10 @@ public class DarakbangService {
 
 	@Transactional(readOnly = true)
 	public CodeValidationResponse validateCode(String code) {
-		if (darakbangRepository.existsByCode(code)) {
-			return CodeValidationResponse.toResponse(true);
-		}
-		return CodeValidationResponse.toResponse(false);
+		Darakbang darakbang = darakbangRepository.findByCode(code)
+			.orElseThrow(() -> new DarakbangException(HttpStatus.BAD_REQUEST, DarakbangErrorMessage.INVALID_CODE));
+
+		return CodeValidationResponse.toResponse(darakbang.getName());
 	}
 
 	public Darakbang enter(String code, DarakbangEnterRequest request, Member member) {

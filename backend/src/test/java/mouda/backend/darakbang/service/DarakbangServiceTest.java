@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -17,6 +18,7 @@ import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.dto.request.DarakbangCreateRequest;
 import mouda.backend.darakbang.dto.request.DarakbangEnterRequest;
+import mouda.backend.darakbang.dto.response.CodeValidationResponse;
 import mouda.backend.darakbang.exception.DarakbangException;
 import mouda.backend.darakbang.repository.DarakbangRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
@@ -189,6 +191,34 @@ class DarakbangServiceTest {
 
 			assertThatThrownBy(() -> darakbangService.enter(darakbang.getCode(), enterRequest, anna))
 				.isInstanceOf(DarakbangMemberException.class);
+		}
+	}
+
+	@DisplayName("다락방 초대코드 검증 테스트")
+	@Nested
+	class DarakbangCodeValidateTest {
+
+		@DisplayName("다락방 초대코드 유효성 검증에 성공한다.")
+		@Test
+		void success() {
+			memberRepository.save(MemberFixture.getHogee());
+			Darakbang darakbang = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
+
+			CodeValidationResponse codeValidationResponse = darakbangService.validateCode(darakbang.getCode());
+
+			assertThat(codeValidationResponse.name()).isNotBlank();
+		}
+
+		@DisplayName("다락방 초대코드 유효성 검증에 실패한다.")
+		@ValueSource(strings = "INVALID")
+		@NullAndEmptySource
+		@ParameterizedTest
+		void failToValidateCode(String code) {
+			memberRepository.save(MemberFixture.getHogee());
+			darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
+
+			assertThatThrownBy(() -> darakbangService.validateCode(code))
+				.isInstanceOf(DarakbangException.class);
 		}
 	}
 }

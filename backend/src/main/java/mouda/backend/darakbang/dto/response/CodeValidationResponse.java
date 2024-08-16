@@ -4,12 +4,12 @@ import lombok.Builder;
 
 @Builder
 public record CodeValidationResponse(
-	boolean isValid
+	String name
 ) {
 
-	public static CodeValidationResponse toResponse(boolean isValid) {
+	public static CodeValidationResponse toResponse(String name) {
 		return CodeValidationResponse.builder()
-			.isValid(isValid)
+			.name(name)
 			.build();
 	}
 }
