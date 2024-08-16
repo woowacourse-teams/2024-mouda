@@ -75,8 +75,8 @@ public class DarakbangService {
 	public InvitationCodeResponse findInvitationCode(Long darakbangId, Member member) {
 		DarakbangMember darakbangMember = darakbangMemberRepository
 			.findByDarakbangIdAndMemberId(darakbangId, member.getId())
-			.orElseThrow(() -> new DarakbangMemberException(HttpStatus.NOT_FOUND,
-				DarakbangMemberErrorMessage.DARAKBANG_MEMBER_NOT_EXIST));
+			.orElseThrow(
+				() -> new DarakbangMemberException(HttpStatus.NOT_FOUND, DarakbangMemberErrorMessage.MEMBER_NOT_EXIST));
 
 		if (darakbangMember.isNotManager()) {
 			throw new DarakbangMemberException(HttpStatus.FORBIDDEN, DarakbangMemberErrorMessage.NOT_ALLOWED_TO_READ);

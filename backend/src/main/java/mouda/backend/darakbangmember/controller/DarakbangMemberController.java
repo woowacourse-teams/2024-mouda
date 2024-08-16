@@ -6,20 +6,28 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.RequiredArgsConstructor;
 import mouda.backend.common.RestResponse;
 import mouda.backend.config.argumentresolver.LoginMember;
 import mouda.backend.darakbangmember.dto.response.DarakbangMemberResponses;
+import mouda.backend.darakbangmember.service.DarakbangMemberService;
 import mouda.backend.member.domain.Member;
 
 @RestController
 @RequestMapping("/v1/darakbang")
+@RequiredArgsConstructor
 public class DarakbangMemberController implements DarakbangMemberSwagger {
+
+	private final DarakbangMemberService darakbangMemberService;
 
 	@Override
 	@GetMapping("/{darakbangId}/members")
 	public ResponseEntity<RestResponse<DarakbangMemberResponses>> findAllDarakbangMembers(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member) {
-		return null;
+		@LoginMember Member member
+	) {
+		DarakbangMemberResponses responses = darakbangMemberService.findAllDarakbangMembers(darakbangId, member);
+
+		return ResponseEntity.ok(new RestResponse<>(responses));
 	}
 }
