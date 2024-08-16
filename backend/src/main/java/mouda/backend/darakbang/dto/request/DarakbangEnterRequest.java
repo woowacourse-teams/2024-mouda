@@ -6,7 +6,7 @@ import mouda.backend.darakbangmember.domain.DarakBangMemberRole;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.member.domain.Member;
 
-public record DarakbangJoinRequest(
+public record DarakbangEnterRequest(
 	@NotNull
 	String nickname
 ) {

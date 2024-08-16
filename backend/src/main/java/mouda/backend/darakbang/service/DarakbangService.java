@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.dto.request.DarakbangCreateRequest;
+import mouda.backend.darakbang.dto.request.DarakbangEnterRequest;
 import mouda.backend.darakbang.dto.response.CodeValidationResponse;
 import mouda.backend.darakbang.dto.response.DarakbangResponse;
 import mouda.backend.darakbang.dto.response.DarakbangResponses;
@@ -93,5 +94,24 @@ public class DarakbangService {
 			return CodeValidationResponse.toResponse(true);
 		}
 		return CodeValidationResponse.toResponse(false);
+	}
+
+	public Darakbang enter(String code, DarakbangEnterRequest request, Member member) {
+		Darakbang darakbang = darakbangRepository.findByCode(code)
+			.orElseThrow(() -> new DarakbangException(HttpStatus.NOT_FOUND, DarakbangErrorMessage.DARAKBANG_NOT_FOUND));
+
+		if (darakbangMemberRepository.existsByDarakbangIdAndNickname(darakbang.getId(), request.nickname())) {
+			throw new DarakbangMemberException(HttpStatus.BAD_REQUEST,
+				DarakbangMemberErrorMessage.NICKNAME_ALREADY_EXIST);
+		}
+		if (darakbangMemberRepository.existsByDarakbangIdAndMemberId(darakbang.getId(), member.getId())) {
+			throw new DarakbangMemberException(HttpStatus.BAD_REQUEST,
+				DarakbangMemberErrorMessage.MEMBER_ALREADY_EXIST);
+		}
+
+		DarakbangMember entity = request.toEntity(darakbang, member);
+		darakbangMemberRepository.save(entity);
+
+		return darakbang;
 	}
 }

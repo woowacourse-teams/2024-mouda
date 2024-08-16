@@ -14,4 +14,8 @@ public interface DarakbangMemberRepository extends JpaRepository<DarakbangMember
 	List<DarakbangMember> findAllByMemberId(long memberId);
 
 	Optional<DarakbangMember> findByDarakbangIdAndMemberId(Long darakbangId, Long id);
+
+	boolean existsByDarakbangIdAndMemberId(Long darakbangId, Long id);
+
+	boolean existsByDarakbangIdAndNickname(Long id, String nickname);
 }
