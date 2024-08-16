@@ -16,7 +16,6 @@ import com.google.firebase.messaging.WebpushFcmOptions;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mouda.backend.member.domain.Member;
 import mouda.backend.notification.domain.FcmToken;
 import mouda.backend.notification.domain.MemberNotification;
 import mouda.backend.notification.domain.MoudaNotification;
@@ -44,14 +43,14 @@ public class NotificationService {
 		fcmTokenRepository.save(fcmToken);
 	}
 
-	public void notifyToMember(MoudaNotification moudaNotification, Member member) {
+	public void notifyToMember(MoudaNotification moudaNotification, Long memberId) {
 		MoudaNotification notification = moudaNotificationRepository.save(moudaNotification);
 		memberNotificationRepository.save(MemberNotification.builder()
-			.memberId(member.getId())
+			.memberId(memberId)
 			.moudaNotification(notification)
 			.build());
 
-		String fcmToken = fcmTokenRepository.findFcmTokenByMemberId(member.getId())
+		String fcmToken = fcmTokenRepository.findFcmTokenByMemberId(memberId)
 			.map(FcmToken::getToken)
 			.orElse(null);
 
