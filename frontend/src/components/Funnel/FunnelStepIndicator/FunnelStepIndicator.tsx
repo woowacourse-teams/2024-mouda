@@ -11,15 +11,13 @@ export default function FunnelStepIndicator(props: FunnelStepIndicatorProps) {
 
   const theme = useTheme();
 
+  const progress = (currentStep / totalSteps) * 100;
+
   return (
     <div css={S.container}>
-      {Array.from({ length: totalSteps }).map((_, index) =>
-        index < currentStep ? (
-          <div key={index} css={[S.step, S.activeStep({ theme })]}></div>
-        ) : (
-          <div key={index} css={[S.step, S.inactiveStep({ theme })]}></div>
-        ),
-      )}
+      <div css={S.progressBar({ theme })}>
+        <div css={S.progress({ theme, progress })} />
+      </div>
     </div>
   );
 }

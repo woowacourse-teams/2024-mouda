@@ -41,6 +41,8 @@ export default function MoimCreationPage() {
         <FunnelLayout.Header.Center>모임 만들기</FunnelLayout.Header.Center>
       </FunnelLayout.Header>
 
+      <FunnelStepIndicator totalSteps={5} currentStep={currentStep} />
+
       <FunnelLayout.Main>
         {currentStep === 1 ? (
           <TitleStep
@@ -58,7 +60,6 @@ export default function MoimCreationPage() {
       </FunnelLayout.Main>
 
       <FunnelLayout.Footer>
-        <FunnelStepIndicator totalSteps={5} currentStep={currentStep} />
         <FunnelButton
           disabled={currentStep === 1 && moimInfo.title === ''}
           onClick={() => {

@@ -2,22 +2,33 @@ import { css, Theme } from '@emotion/react';
 
 export const container = css`
   display: flex;
-  gap: 0.6rem;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  align-items: end;
+
+  width: 100%;
+  padding: 0 22px;
 `;
 
-export const step = css`
-  width: 0.8rem;
-  height: 0.8rem;
-  border-radius: 50%;
-  transition: background-color 0.3s ease;
-`;
+export const progressBar = ({ theme }: { theme: Theme }) => css`
+  overflow: hidden;
 
-export const activeStep = ({ theme }: { theme: Theme }) => css`
-  background-color: ${theme.semantic.primary};
-`;
+  width: 100%;
+  height: 4px;
 
-export const inactiveStep = ({ theme }: { theme: Theme }) => css`
   background-color: ${theme.semantic.disabled};
+  border-radius: 2px;
+`;
+
+export const progress = ({
+  theme,
+  progress,
+}: {
+  theme: Theme;
+  progress: number;
+}) => css`
+  width: ${progress}%;
+  height: 100%;
+  background-color: ${theme.semantic.primary};
+  transition: width 0.3s ease-out;
 `;
