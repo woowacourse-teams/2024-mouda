@@ -37,7 +37,6 @@ public class Member {
 
 	@Builder
 	public Member(String nickname, Long kakaoId) {
-		validateNickname(nickname);
 		this.kakaoId = kakaoId;
 		this.nickname = nickname;
 	}
