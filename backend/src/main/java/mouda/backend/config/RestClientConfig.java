@@ -18,8 +18,8 @@ public class RestClientConfig {
 
 	private HttpComponentsClientHttpRequestFactory getClientHttpRequestFactory() {
 		HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
-		clientHttpRequestFactory.setConnectTimeout(100);
-		clientHttpRequestFactory.setConnectionRequestTimeout(70);
+		clientHttpRequestFactory.setConnectTimeout(1);
+		clientHttpRequestFactory.setConnectionRequestTimeout(30000);
 		return clientHttpRequestFactory;
 	}
 }

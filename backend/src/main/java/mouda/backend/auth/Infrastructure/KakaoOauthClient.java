@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClient;
 
 import mouda.backend.auth.dto.response.OauthResponse;
@@ -19,11 +20,9 @@ public class KakaoOauthClient {
 
 	public static final String CLIENT_ID = "ca3adf9a52671fdbb847b809c0fdb980";
 	public static final String GRANT_TYPE = "authorization_code";
-
+	private final RestClient restClient;
 	@Value("${oauth.kakao.redirect-uri}")
 	private String redirectUri;
-
-	private final RestClient restClient;
 
 	public KakaoOauthClient(RestClient restClient) {
 		this.restClient = restClient;
@@ -42,6 +41,8 @@ public class KakaoOauthClient {
 				.body(OauthResponse.class);
 
 			return response.id_token();
+		} catch (ResourceAccessException e) {
+			System.out.println("수야 멍청이");
 		} catch (Exception e) {
 			throw new AuthException(HttpStatus.BAD_GATEWAY, AuthErrorMessage.KAKAO_UNAUTHORIZED);
 		}
