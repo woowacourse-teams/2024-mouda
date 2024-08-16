@@ -8,3 +8,7 @@ spring:
 
 url:
   base: https://dev.mouda.site
+
+oauth:
+  kakao:
+    redirect-uri: https://dev.mouda.site/kakao-o-auth

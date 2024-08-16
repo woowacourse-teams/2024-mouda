@@ -117,7 +117,7 @@ public class MoimService {
 
 	@Deprecated
 	public void joinMoim(MoimJoinRequest moimJoinRequest) {
-		Member member = new Member(moimJoinRequest.nickname());
+		Member member = new Member();
 		Moim moim = moimRepository.findById(moimJoinRequest.moimId())
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
 
