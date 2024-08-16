@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import TitleStep from './Steps/TitleStep';
 import OfflineOrOnlineStep from './Steps/OfflineOrOnlineStep';
 import PlaceStep from './Steps/PlaceStep';
+import DateAndTimeStep from './Steps/DateAndTimeStep';
 
 export type MoimCreationStep =
   | '이름입력'
@@ -80,7 +81,6 @@ export default function MoimCreationPage() {
     );
     currentComponents.footer = (
       <FunnelButton
-        disabled={moimInfo.title === ''}
         onClick={() => {
           navigate(ROUTES.addMoim, {
             state: {
@@ -104,13 +104,40 @@ export default function MoimCreationPage() {
     );
     currentComponents.footer = (
       <FunnelButton
-        disabled={moimInfo.title === ''}
+        onClick={() => {
+          navigate(ROUTES.addMoim, {
+            state: { step: '최대인원설정' },
+          });
+        }}
+      >
+        {moimInfo.place === '' ? '스킵하고 채팅에서 정할게요!' : '다음으로'}
+      </FunnelButton>
+    );
+  } else if (currentStep === '날짜/시간설정') {
+    currentComponents.main = (
+      <DateAndTimeStep
+        date={moimInfo.date}
+        time={moimInfo.time}
+        onDateChange={(date) => setMoimInfo((prev) => ({ ...prev, date }))}
+        onTimeChange={(time) => setMoimInfo((prev) => ({ ...prev, time }))}
+      />
+    );
+    currentComponents.footer = (
+      <FunnelButton
         onClick={() => {
           navigate(ROUTES.addMoim, {
             state: { step: '날짜/시간설정' },
           });
         }}
-      />
+      >
+        {moimInfo.date === '' && moimInfo.time === ''
+          ? '스킵하고 채팅에서 정할게요!'
+          : moimInfo.date === ''
+            ? '날짜는 채팅에서 정할게요!'
+            : moimInfo.time === ''
+              ? '시간은 채팅에서 정할게요!'
+              : '다음으로'}
+      </FunnelButton>
     );
   }
 
