@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 
 export const footerStyle = css`
-  padding: 24px;
+  padding: 0 24px 48px;
   text-align: center;
-  background-color: #f0f0f0;
 `;
