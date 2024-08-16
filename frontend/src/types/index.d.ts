@@ -75,3 +75,9 @@ export interface Please {
   isInterested: boolean;
   interestCount: number;
 }
+
+export interface Notification {
+  type: string;
+  title: string;
+  time: string;
+}
