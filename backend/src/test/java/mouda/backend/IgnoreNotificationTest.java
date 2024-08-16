@@ -19,8 +19,8 @@ public class IgnoreNotificationTest {
 
 	@BeforeEach
 	void setUp() {
-		doNothing().when(notificationService).notifyToAllExceptMember(any(), (Long)any());
-		doNothing().when(notificationService).notifyToAllExceptMember(any(), (List<Long>)any());
+		doNothing().when(notificationService).notifyToAllExceptMember(any(), anyLong());
+		doNothing().when(notificationService).notifyToAllExceptMember(any(), anyList());
 		doNothing().when(notificationService).notifyToAllMembers(any());
 		doNothing().when(notificationService).notifyToMember(any(), any());
 		doNothing().when(notificationService).notifyToMembers(any(), any());
