@@ -1,6 +1,6 @@
 import ChatPage from '@_pages/ChatPage/ChatPage';
 import ChattingRoomPage from '@_pages/ChattingRoomPage/ChattingRoomPage';
-import LoginPage from '@_pages/LoginPage/LoginPage';
+import HomePage from '@_pages/HomePage/HomePage';
 import MainPage from '@_pages/MainPage/MainPage';
 import MoimCreationPage from '@_pages/MoimCreationPage/MoimCreationPage';
 import MoimDetailPage from '@_pages/MoimDetailPage/MoimDetailPage';
@@ -12,6 +12,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import PleasePage from '@_pages/PleasePage/PleasePage';
 import MyPage from '@_pages/Mypage/MyPage';
 import PleaseCreationPage from '@_pages/PleaseCreationPage/PleaseCreationPage';
+import KakaoOAuthLoginPage from '@_pages/KakaoOAuthLoginPage/KakaoOAuthLoginPage';
 
 const routesConfig = [
   {
@@ -45,8 +46,13 @@ const routesConfig = [
     requiresAuth: true,
   },
   {
-    path: ROUTES.login,
-    element: <LoginPage />,
+    path: ROUTES.home,
+    element: <HomePage />,
+    requiresAuth: false,
+  },
+  {
+    path: ROUTES.kakaoOAuth,
+    element: <KakaoOAuthLoginPage />,
     requiresAuth: false,
   },
   {
