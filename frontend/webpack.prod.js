@@ -25,11 +25,6 @@ module.exports = merge(common, {
     minimizer: [
       new TerserPlugin({
         parallel: true, // 병렬 처리 활성화
-        terserOptions: {
-          compress: {
-            drop_console: true, // 콘솔 로그 제거
-          },
-        },
       }),
     ],
     splitChunks: {
