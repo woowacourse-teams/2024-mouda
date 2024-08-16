@@ -16,7 +16,10 @@ public enum NotificationType {
 	NEW_REPLY(memberName -> memberName + " 님이 답글을 남겼어요!"),
 	NEW_CHAT(memberName -> memberName + " 님이 메시지를 보냈어요!"),
 	NEW_MOIMEE_JOINED(memberName -> memberName + " 님이 모임에 참여했어요!"),
-	MOIMEE_LEFT(memberName -> memberName + " 님이 참여를 취소했어요!");
+	MOIMEE_LEFT(memberName -> memberName + " 님이 참여를 취소했어요!"),
+	MOIM_PLACE_CONFIRMED(moimName -> moimName + " 모임 장소가 확정되었어요!"),
+	MOIM_TIME_CONFIRMED(moimName -> moimName + " 모임 시간이 확정되었어요!"),
+	;
 
 	private final Function<String, String> messageFunction;
 
