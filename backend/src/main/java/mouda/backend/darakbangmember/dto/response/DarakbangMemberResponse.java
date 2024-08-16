@@ -12,8 +12,8 @@ public record DarakbangMemberResponse(
 
 	public static DarakbangMemberResponse toResponse(DarakbangMember darakbangMember) {
 		return DarakbangMemberResponse.builder()
-			.memberId(darakbangMember.getMember().getId())
-			.nickname(darakbangMember.getMember().getNickname())
+			.memberId(darakbangMember.getMemberId())
+			.nickname(darakbangMember.getMemberNickname())
 			.profile("")
 			.build();
 	}

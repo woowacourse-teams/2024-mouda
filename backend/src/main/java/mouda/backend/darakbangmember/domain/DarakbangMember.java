@@ -66,4 +66,12 @@ public class DarakbangMember {
 	public String getDarakbangName() {
 		return darakbang.getName();
 	}
+
+	public long getMemberId() {
+		return member.getId();
+	}
+
+	public String getMemberNickname() {
+		return member.getNickname();
+	}
 }
