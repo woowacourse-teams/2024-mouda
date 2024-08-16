@@ -20,6 +20,7 @@ public class KakaoOauthClient {
 
 	public static final String CLIENT_ID = "ca3adf9a52671fdbb847b809c0fdb980";
 	public static final String GRANT_TYPE = "authorization_code";
+
 	private final RestClient restClient;
 	@Value("${oauth.kakao.redirect-uri}")
 	private String redirectUri;
