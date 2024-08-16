@@ -1,12 +1,12 @@
 import FunnelQuestion from '@_components/Funnel/FunnelQuestion/FunnelQuestion';
 import FunnelRadioCardGroup from '@_components/Funnel/FunnelRadioCardGroup/FunnelRadioCardGroup';
 
-interface PlaceStepProps {
+interface OnlineOrOfflineStepProps {
   onlineOrOffline: string;
   onChange: (onlineOrOffline: string) => void;
 }
 
-export default function PlaceStep(props: PlaceStepProps) {
+export default function OnlineOrOfflineStep(props: OnlineOrOfflineStepProps) {
   const { onlineOrOffline, onChange } = props;
 
   return (

@@ -6,7 +6,7 @@ import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import TitleStep from './Steps/TitleStep';
-import PlaceStep from './Steps/PlaceStep';
+import OnlineOrOfflineStep from './Steps/OnlineOrOfflineStep';
 
 // const steps = [
 //   '이름입력',
@@ -48,7 +48,7 @@ export default function MoimCreationPage() {
             onChange={(title) => setMoimInfo((prev) => ({ ...prev, title }))}
           />
         ) : currentStep === 2 ? (
-          <PlaceStep
+          <OnlineOrOfflineStep
             onlineOrOffline={moimInfo.onlineOrOffline}
             onChange={(onlineOrOffline) =>
               setMoimInfo((prev) => ({ ...prev, onlineOrOffline }))
