@@ -30,12 +30,15 @@ public class Member {
 
 	private String nickname;
 
+	private Long kakaoId;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Moim moim;
 
 	@Builder
-	public Member(String nickname) {
+	public Member(String nickname, Long kakaoId) {
 		validateNickname(nickname);
+		this.kakaoId = kakaoId;
 		this.nickname = nickname;
 	}
 
