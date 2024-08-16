@@ -2,7 +2,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const dotenv = require('dotenv');
 const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 dotenv.config();
 
@@ -25,12 +24,6 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env),
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        { from: 'public/firebase-messaging-sw.js', to: 'firebase-messaging-sw.js' },
-        { from: 'public/firebaseConfig.js', to: 'firebaseConfig.js' },
-      ],
     }),
   ],
   resolve: {
