@@ -63,13 +63,13 @@ public class NotificationService {
 	}
 
 	private void sendNotification(MoudaNotification moudaNotification, String fcmToken) {
-		Message message = Message.builder()
-			.setToken(fcmToken)
-			.setNotification(moudaNotification.toFcmNotification())
-			.setWebpushConfig(getWebpushConfig(moudaNotification.getTargetUrl()))
-			.build();
-
 		try {
+			Message message = Message.builder()
+				.setToken(fcmToken)
+				.setNotification(moudaNotification.toFcmNotification())
+				.setWebpushConfig(getWebpushConfig(moudaNotification.getTargetUrl()))
+				.build();
+
 			FirebaseMessaging.getInstance().send(message);
 		} catch (FirebaseMessagingException e) {
 			log.error("Failed to send message: {}", e.getMessage());
@@ -114,13 +114,13 @@ public class NotificationService {
 	}
 
 	private void sendNotificationToAll(MoudaNotification notification, List<String> tokens) {
-		MulticastMessage message = MulticastMessage.builder()
-			.addAllTokens(tokens)
-			.setNotification(notification.toFcmNotification())
-			.setWebpushConfig(getWebpushConfig(notification.getTargetUrl()))
-			.build();
-
 		try {
+			MulticastMessage message = MulticastMessage.builder()
+				.addAllTokens(tokens)
+				.setNotification(notification.toFcmNotification())
+				.setWebpushConfig(getWebpushConfig(notification.getTargetUrl()))
+				.build();
+
 			BatchResponse response = FirebaseMessaging.getInstance().sendEachForMulticast(message);
 			log.info("Successfully sent message: {}", response.getSuccessCount());
 		} catch (FirebaseMessagingException e) {
