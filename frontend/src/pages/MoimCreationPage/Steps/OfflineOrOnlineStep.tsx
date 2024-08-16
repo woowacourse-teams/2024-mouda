@@ -22,13 +22,21 @@ export default function OfflineOrOnlineStep(props: OnlineOrOfflineStepProps) {
           title="오프라인"
           description="농구, 간단한 맥주, 커피챗 등 집 밖에서 친구들을 만나보세요!"
           isSelected={offlineOrOnline === 'offline'}
-          onSelect={() => onOfflineOrOnlineChange('offline')}
+          onSelect={() =>
+            onOfflineOrOnlineChange(
+              offlineOrOnline === 'offline' ? '' : 'offline',
+            )
+          }
         />
         <FunnelRadioCardGroup.Option
           title="온라인"
           description="칼바람 나락, 디스코드, 줌 등 온라인으로 친구들을 만나보세요!"
           isSelected={offlineOrOnline === 'online'}
-          onSelect={() => onOfflineOrOnlineChange('online')}
+          onSelect={() =>
+            onOfflineOrOnlineChange(
+              offlineOrOnline === 'online' ? '' : 'online',
+            )
+          }
         />
       </FunnelRadioCardGroup>
     </>
