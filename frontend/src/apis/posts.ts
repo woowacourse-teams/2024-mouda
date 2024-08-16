@@ -92,7 +92,7 @@ export const postPlease = async (please: PleaseInfoInput) => {
 };
 
 export const postNotificationToken = async (currentToken: string) => {
-  await ApiClient.patchWithAuth('notification/register', {
+  await ApiClient.postWithAuth('notification/register', {
     token: currentToken,
   });
 };
