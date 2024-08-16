@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
@@ -15,11 +16,13 @@ import mouda.backend.darakbangmember.repository.repository.DarakbangMemberReposi
 import mouda.backend.member.domain.Member;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class DarakbangMemberService {
 
 	private final DarakbangMemberRepository darakbangMemberRepository;
 
+	@Transactional(readOnly = true)
 	public DarakbangMemberResponses findAllDarakbangMembers(Long darakbangId, Member member) {
 		DarakbangMember darakbangMember = darakbangMemberRepository
 			.findByDarakbangIdAndMemberId(darakbangId, member.getId())
@@ -37,4 +40,5 @@ public class DarakbangMemberService {
 
 		return DarakbangMemberResponses.toResponse(memberResponses);
 	}
+
 }
