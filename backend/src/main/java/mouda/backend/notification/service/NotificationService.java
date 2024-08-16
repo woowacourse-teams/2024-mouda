@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import mouda.backend.notification.domain.FcmToken;
 import mouda.backend.notification.domain.MemberNotification;
 import mouda.backend.notification.domain.MoudaNotification;
+import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.dto.request.FcmTokenSaveRequest;
 import mouda.backend.notification.repository.FcmTokenRepository;
 import mouda.backend.notification.repository.MemberNotificationRepository;
@@ -45,10 +46,13 @@ public class NotificationService {
 
 	public void notifyToMember(MoudaNotification moudaNotification, Long memberId) {
 		MoudaNotification notification = moudaNotificationRepository.save(moudaNotification);
-		memberNotificationRepository.save(MemberNotification.builder()
-			.memberId(memberId)
-			.moudaNotification(notification)
-			.build());
+
+		if (notification.getType() != NotificationType.NEW_CHAT) {
+			memberNotificationRepository.save(MemberNotification.builder()
+				.memberId(memberId)
+				.moudaNotification(notification)
+				.build());
+		}
 
 		String fcmToken = fcmTokenRepository.findFcmTokenByMemberId(memberId)
 			.map(FcmToken::getToken)
@@ -100,12 +104,14 @@ public class NotificationService {
 	public void notifyToMembers(MoudaNotification moudaNotification, List<Long> memberIds) {
 		MoudaNotification notification = moudaNotificationRepository.save(moudaNotification);
 
-		memberNotificationRepository.saveAll(memberIds.stream()
-			.map(memberId -> MemberNotification.builder()
-				.memberId(memberId)
-				.moudaNotification(notification)
-				.build())
-			.toList());
+		if (notification.getType() != NotificationType.NEW_CHAT) {
+			memberNotificationRepository.saveAll(memberIds.stream()
+				.map(memberId -> MemberNotification.builder()
+					.memberId(memberId)
+					.moudaNotification(notification)
+					.build())
+				.toList());
+		}
 
 		List<String> tokens = fcmTokenRepository.findTokensByMemberIds(memberIds);
 
