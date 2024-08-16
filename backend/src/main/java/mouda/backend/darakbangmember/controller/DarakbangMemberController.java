@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import mouda.backend.common.RestResponse;
 import mouda.backend.config.argumentresolver.LoginMember;
 import mouda.backend.darakbangmember.dto.response.DarakbangMemberResponses;
+import mouda.backend.darakbangmember.dto.response.DarakbangMemberRoleResponse;
 import mouda.backend.darakbangmember.service.DarakbangMemberService;
 import mouda.backend.member.domain.Member;
 
@@ -29,5 +30,14 @@ public class DarakbangMemberController implements DarakbangMemberSwagger {
 		DarakbangMemberResponses responses = darakbangMemberService.findAllDarakbangMembers(darakbangId, member);
 
 		return ResponseEntity.ok(new RestResponse<>(responses));
+	}
+
+	@Override
+	@GetMapping("/{darakbangId}/role")
+	public ResponseEntity<RestResponse<DarakbangMemberRoleResponse>> findDarakbangMemberRole(
+		@PathVariable Long darakbangId,
+		@LoginMember Member member
+	) {
+		return null;
 	}
 }
