@@ -16,3 +16,7 @@ security:
     token:
       secret-key: kksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabo
       expire-length: 3600000
+
+oauth:
+  kakao:
+    redirect-uri: http://localhost:8081/kakao-o-auth

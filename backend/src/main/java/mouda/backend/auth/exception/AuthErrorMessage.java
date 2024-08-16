@@ -14,7 +14,8 @@ public enum AuthErrorMessage {
 	KAKAO_VALIDATION_FAILED("카카오 토큰 검증에 실패하였습니다."),
 	MISSING_AUTH_CODE("인증 코드가 누락되었습니다."),
 	INVALID_KAKAO_TOKEN("유효하지 않은 토큰 입니다."),
-	EXPIRED_TOKEN("만료된 토큰입니다.");
+	EXPIRED_TOKEN("만료된 토큰입니다."),
+	KAKAO_CONNECT_TIMEOUT("커넥션 타임아웃 되었습니다.");
 
 	private final String message;
 }
