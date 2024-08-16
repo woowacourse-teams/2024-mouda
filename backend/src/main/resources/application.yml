@@ -12,6 +12,12 @@ security:
 app:
   firebase-config-file: serviceAccountKey.json
 
+
+url:
+  moim: /moim
+  chat: /chat
+  chatroom: /chatting-room
+
 oauth:
   kakao:
     redirect-uri: http://localhost:8081/kakao-o-auth

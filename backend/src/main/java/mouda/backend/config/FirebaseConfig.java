@@ -1,6 +1,6 @@
 package mouda.backend.config;
 
-import java.io.FileInputStream;
+import java.io.InputStream;
 
 import org.springframework.context.annotation.Configuration;
 
@@ -16,8 +16,8 @@ public class FirebaseConfig {
 	@PostConstruct
 	public void init() {
 		try {
-			FileInputStream serviceAccount =
-				new FileInputStream("src/main/resources/firebase/serviceAccountKey.json");
+			InputStream serviceAccount = getClass().getClassLoader()
+				.getResourceAsStream("firebase/serviceAccountKey.json");
 			FirebaseOptions options = new FirebaseOptions.Builder()
 				.setCredentials(GoogleCredentials.fromStream(serviceAccount))
 				.build();

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,9 @@ import mouda.backend.moim.dto.response.MoimFindAllResponses;
 import mouda.backend.moim.exception.MoimErrorMessage;
 import mouda.backend.moim.exception.MoimException;
 import mouda.backend.moim.repository.MoimRepository;
+import mouda.backend.notification.domain.MoudaNotification;
+import mouda.backend.notification.domain.NotificationType;
+import mouda.backend.notification.service.NotificationService;
 import mouda.backend.zzim.domain.Zzim;
 import mouda.backend.zzim.repository.ZzimRepository;
 
@@ -42,11 +46,18 @@ import mouda.backend.zzim.repository.ZzimRepository;
 @RequiredArgsConstructor
 public class MoimService {
 
+	@Value("${url.base}")
+	private String baseUrl;
+
+	@Value("${url.moim}")
+	private String moimUrl;
+
 	private final MoimRepository moimRepository;
 	private final MemberRepository memberRepository;
 	private final ChamyoRepository chamyoRepository;
 	private final ZzimRepository zzimRepository;
 	private final CommentRepository commentRepository;
+	private final NotificationService notificationService;
 
 	public Moim createMoim(MoimCreateRequest moimCreateRequest, Member member) {
 		Moim moim = moimRepository.save(moimCreateRequest.toEntity());
@@ -57,6 +68,14 @@ public class MoimService {
 			.build();
 		chamyoRepository.save(chamyo);
 
+		NotificationType notificationType = NotificationType.MOIM_CREATED;
+		MoudaNotification notification = MoudaNotification.builder()
+			.type(notificationType)
+			.body(notificationType.createMessage(moim.getTitle()))
+			.targetUrl(baseUrl + moimUrl + "/" + moim.getId())
+			.build();
+
+		notificationService.notifyToAllExceptMember(notification, member.getId());
 		return moim;
 	}
 
@@ -144,6 +163,27 @@ public class MoimService {
 		}
 
 		commentRepository.save(commentCreateRequest.toEntity(moim, member));
+
+		sendCommentNotification(moim.getId(), member, parentId);
+	}
+
+	private void sendCommentNotification(Long moimId, Member author, Long parentId) {
+		if (parentId != null) {
+			Long parentCommentAuthorId = commentRepository.findMemberIdByParentId(parentId);
+			MoudaNotification notification = MoudaNotification.builder()
+				.type(NotificationType.NEW_REPLY)
+				.body(NotificationType.NEW_REPLY.createMessage(author.getNickname()))
+				.targetUrl(baseUrl + moimUrl + "/" + moimId)
+				.build();
+			notificationService.notifyToMember(notification, parentCommentAuthorId);
+		}
+
+		MoudaNotification notification = MoudaNotification.builder()
+			.type(NotificationType.NEW_COMMENT)
+			.body(NotificationType.NEW_COMMENT.createMessage(author.getNickname()))
+			.targetUrl(baseUrl + moimUrl + "/" + moimId)
+			.build();
+		notificationService.notifyToMember(notification, chamyoRepository.findMoimerIdByMoimId(moimId));
 	}
 
 	public void completeMoim(Long moimId, Member member) {
@@ -152,6 +192,23 @@ public class MoimService {
 		validateCanCompleteMoim(moim, member);
 
 		moimRepository.updateMoimStatusById(moimId, MoimStatus.COMPLETED);
+
+		sendNotificationWhenMoimStatusChanged(moim, NotificationType.MOIMING_COMPLETED);
+	}
+
+	private void sendNotificationWhenMoimStatusChanged(Moim moim, NotificationType notificationType) {
+		MoudaNotification notification = MoudaNotification.builder()
+			.type(notificationType)
+			.body(notificationType.createMessage(moim.getTitle()))
+			.targetUrl(baseUrl + moimUrl + "/" + moim.getId())
+			.build();
+
+		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
+			.filter(chamyo -> chamyo.getMoimRole() != MoimRole.MOIMER)
+			.map(chamyo -> chamyo.getMember().getId())
+			.toList();
+
+		notificationService.notifyToMembers(notification, membersToSendNotification);
 	}
 
 	private void validateCanCompleteMoim(Moim moim, Member member) {
@@ -171,6 +228,8 @@ public class MoimService {
 		validateCanCancelMoim(moim, member);
 
 		moimRepository.updateMoimStatusById(moimId, MoimStatus.CANCELED);
+
+		sendNotificationWhenMoimStatusChanged(moim, NotificationType.MOIM_CANCELLED);
 	}
 
 	private void validateCanCancelMoim(Moim moim, Member member) {
@@ -186,6 +245,8 @@ public class MoimService {
 		validateCanReopenMoim(moim, member);
 
 		moimRepository.updateMoimStatusById(moimId, MoimStatus.MOIMING);
+
+		sendNotificationWhenMoimStatusChanged(moim, NotificationType.MOINING_REOPENED);
 	}
 
 	private void validateCanReopenMoim(Moim moim, Member member) {
@@ -220,6 +281,8 @@ public class MoimService {
 		moim.update(request.title(), request.date(), request.time(), request.place(), request.maxPeople(),
 			request.description(), chamyoRepository.countByMoim(moim));
 		moimRepository.save(moim);
+
+		sendNotificationWhenMoimStatusChanged(moim, NotificationType.MOIM_MODIFIED);
 	}
 
 	private void validateCanEditMoim(Moim moim, Member member) {
