@@ -85,7 +85,7 @@ public class NotificationService {
 		notifyToMembers(moudaNotification, allMemberId);
 	}
 
-	public void notifyToAllMembersExcept(MoudaNotification moudaNotification, Long exceptMemberId) {
+	public void notifyToAllExceptMember(MoudaNotification moudaNotification, Long exceptMemberId) {
 		List<Long> allMemberId = fcmTokenRepository.findAllMemberId().stream()
 			.filter(memberId -> !Objects.equals(memberId, exceptMemberId))
 			.toList();
@@ -93,7 +93,7 @@ public class NotificationService {
 		notifyToMembers(moudaNotification, allMemberId);
 	}
 
-	public void notifyToAllMembersExcept(MoudaNotification moudaNotification, List<Long> exceptMemberIds) {
+	public void notifyToAllExceptMember(MoudaNotification moudaNotification, List<Long> exceptMemberIds) {
 		List<Long> allMemberId = fcmTokenRepository.findAllMemberId().stream()
 			.filter(memberId -> !exceptMemberIds.contains(memberId))
 			.toList();

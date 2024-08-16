@@ -75,7 +75,7 @@ public class MoimService {
 			.targetUrl(baseUrl + moimUrl + "/" + moim.getId())
 			.build();
 
-		notificationService.notifyToAllMembersExcept(notification, member.getId());
+		notificationService.notifyToAllExceptMember(notification, member.getId());
 		return moim;
 	}
 
