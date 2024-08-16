@@ -59,6 +59,10 @@ public class DarakbangMember {
 		}
 	}
 
+	public boolean isNotManager() {
+		return role != DarakBangMemberRole.MANAGER;
+	}
+
 	public String getDarakbangName() {
 		return darakbang.getName();
 	}

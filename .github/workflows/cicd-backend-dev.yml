@@ -26,6 +26,7 @@ jobs:
 
       - name: Firebase 파일 이동
         run: |
+          mkdir -p src/main/resources/firebase
           echo ${{ secrets.BACKEND_FIREBASE_JSON }} > src/main/resources/firebase/serviceAccountKey.json
 
       - name: gradlew 권한 부여
