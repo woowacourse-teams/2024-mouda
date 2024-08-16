@@ -5,3 +5,6 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: false
+
+url:
+  base: https://dev.mouda.site

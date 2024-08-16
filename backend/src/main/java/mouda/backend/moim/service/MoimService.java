@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,8 @@ import mouda.backend.moim.dto.response.MoimFindAllResponses;
 import mouda.backend.moim.exception.MoimErrorMessage;
 import mouda.backend.moim.exception.MoimException;
 import mouda.backend.moim.repository.MoimRepository;
+import mouda.backend.notification.domain.MoudaNotification;
+import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.zzim.domain.Zzim;
 import mouda.backend.zzim.repository.ZzimRepository;
 
@@ -41,6 +44,12 @@ import mouda.backend.zzim.repository.ZzimRepository;
 @Service
 @RequiredArgsConstructor
 public class MoimService {
+
+	@Value("${url.base}")
+	private String baseUrl;
+
+	@Value("${url.moim}")
+	private String moimUrl;
 
 	private final MoimRepository moimRepository;
 	private final MemberRepository memberRepository;

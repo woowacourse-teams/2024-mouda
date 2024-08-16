@@ -11,3 +11,9 @@ security:
 
 app:
   firebase-config-file: serviceAccountKey.json
+
+
+url:
+  moim: /moim
+  chat: /chat
+  chatroom: /chatting-room
