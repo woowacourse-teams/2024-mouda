@@ -16,6 +16,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 
 import io.restassured.RestAssured;
+import mouda.backend.IgnoreNotificationTest;
 import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.fixture.MemberFixture;
 import mouda.backend.fixture.TokenFixture;
@@ -29,7 +30,7 @@ import mouda.backend.zzim.dto.response.ZzimCheckResponse;
 import mouda.backend.zzim.service.ZzimService;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ZzimControllerTest {
+class ZzimControllerTest extends IgnoreNotificationTest {
 
 	@Autowired
 	private DatabaseCleaner databaseCleaner;

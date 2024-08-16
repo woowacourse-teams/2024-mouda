@@ -16,3 +16,12 @@ security:
     token:
       secret-key: kksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabo
       expire-length: 3600000
+
+app:
+  firebase-config-file: serviceAccountKey.json
+
+url:
+  base: http://localhost:8080
+  moim: /moim
+  chat: /chat
+  chatroom: /chatting-room

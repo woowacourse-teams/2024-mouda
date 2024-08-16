@@ -17,6 +17,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 
 import io.restassured.RestAssured;
+import mouda.backend.IgnoreNotificationTest;
 import mouda.backend.chamyo.dto.request.ChamyoCancelRequest;
 import mouda.backend.chamyo.dto.request.MoimChamyoRequest;
 import mouda.backend.chamyo.service.ChamyoService;
@@ -33,7 +34,7 @@ import mouda.backend.moim.repository.MoimRepository;
 import mouda.backend.moim.service.MoimService;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ChamyoControllerTest {
+class ChamyoControllerTest extends IgnoreNotificationTest {
 
 	@Autowired
 	private ChamyoService chamyoService;
