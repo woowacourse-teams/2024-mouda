@@ -6,31 +6,113 @@ import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import TitleStep from './Steps/TitleStep';
-import OnlineOrOfflineStep from './Steps/OnlineOrOfflineStep';
+import OfflineOrOnlineStep from './Steps/OfflineOrOnlineStep';
+import PlaceStep from './Steps/PlaceStep';
 
-// const steps = [
-//   '이름입력',
-//   '장소선택',
-//   '날짜와시간선택',
-//   '최대인원설정',
-//   '설명입력',
-// ];
+export type MoimCreationStep =
+  | '이름입력'
+  | '오프라인/온라인선택'
+  | '장소선택'
+  | '날짜/시간설정'
+  | '최대인원설정'
+  | '설명입력';
+
+const steps: MoimCreationStep[] = [
+  '이름입력',
+  '오프라인/온라인선택',
+  '장소선택',
+  '날짜/시간설정',
+  '최대인원설정',
+  '설명입력',
+];
 
 export default function MoimCreationPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const currentStep: MoimCreationStep = location.state?.step || steps[0];
+
   const [moimInfo, setMoimInfo] = useState({
     title: '',
+    offlineOrOnline: '',
+    place: '',
     date: '',
     time: '',
     maxPeople: 0,
-    onlineOrOffline: '',
-    place: '',
     description: '',
   });
 
-  const currentStep = location.state?.step || 1;
+  const currentComponents: {
+    main: JSX.Element;
+    footer: JSX.Element;
+  } = { main: <></>, footer: <></> };
+
+  if (currentStep === '이름입력') {
+    currentComponents.main = (
+      <TitleStep
+        title={moimInfo.title}
+        onTitleChange={(title) => setMoimInfo((prev) => ({ ...prev, title }))}
+      />
+    );
+    currentComponents.footer = (
+      <FunnelButton
+        disabled={moimInfo.title === ''}
+        onClick={() => {
+          navigate(ROUTES.addMoim, {
+            state: { step: '오프라인/온라인선택' },
+          });
+        }}
+      >
+        {moimInfo.title === '' ? '모임 이름을 입력해주세요' : '다음으로'}
+      </FunnelButton>
+    );
+  } else if (currentStep === '오프라인/온라인선택') {
+    currentComponents.main = (
+      <OfflineOrOnlineStep
+        offlineOrOnline={moimInfo.offlineOrOnline}
+        onOfflineOrOnlineChange={(offlineOrOnline) =>
+          setMoimInfo((prev) => ({
+            ...prev,
+            offlineOrOnline: offlineOrOnline,
+          }))
+        }
+      />
+    );
+    currentComponents.footer = (
+      <FunnelButton
+        disabled={moimInfo.title === ''}
+        onClick={() => {
+          navigate(ROUTES.addMoim, {
+            state: {
+              step: moimInfo.offlineOrOnline ? '장소선택' : '날짜/시간설정',
+            },
+          });
+        }}
+      >
+        {moimInfo.offlineOrOnline === ''
+          ? '스킵하고 채팅에서 정할게요!'
+          : '다음으로'}
+      </FunnelButton>
+    );
+  } else if (currentStep === '장소선택') {
+    currentComponents.main = (
+      <PlaceStep
+        offlineOrOnline={moimInfo.offlineOrOnline}
+        place={moimInfo.place}
+        onPlaceChange={(place) => setMoimInfo((prev) => ({ ...prev, place }))}
+      />
+    );
+    currentComponents.footer = (
+      <FunnelButton
+        disabled={moimInfo.title === ''}
+        onClick={() => {
+          navigate(ROUTES.addMoim, {
+            state: { step: '날짜/시간설정' },
+          });
+        }}
+      />
+    );
+  }
 
   return (
     <FunnelLayout>
@@ -41,38 +123,11 @@ export default function MoimCreationPage() {
         <FunnelLayout.Header.Center>모임 만들기</FunnelLayout.Header.Center>
       </FunnelLayout.Header>
 
-      <FunnelStepIndicator totalSteps={5} currentStep={currentStep} />
+      <FunnelStepIndicator totalSteps={steps} currentStep={currentStep} />
 
-      <FunnelLayout.Main>
-        {currentStep === 1 ? (
-          <TitleStep
-            title={moimInfo.title}
-            onChange={(title) => setMoimInfo((prev) => ({ ...prev, title }))}
-          />
-        ) : currentStep === 2 ? (
-          <OnlineOrOfflineStep
-            onlineOrOffline={moimInfo.onlineOrOffline}
-            onChange={(onlineOrOffline) =>
-              setMoimInfo((prev) => ({ ...prev, onlineOrOffline }))
-            }
-          />
-        ) : null}
-      </FunnelLayout.Main>
+      <FunnelLayout.Main>{currentComponents?.main}</FunnelLayout.Main>
 
-      <FunnelLayout.Footer>
-        <FunnelButton
-          disabled={currentStep === 1 && moimInfo.title === ''}
-          onClick={() => {
-            navigate(ROUTES.addMoim, { state: { step: currentStep + 1 } });
-          }}
-        >
-          {currentStep === 1 && moimInfo.title === ''
-            ? '모임 이름을 입력해주세요'
-            : currentStep === 2 && moimInfo.onlineOrOffline === ''
-              ? '스킵하고 채팅에서 정할게요!'
-              : '다음으로'}
-        </FunnelButton>
-      </FunnelLayout.Footer>
+      <FunnelLayout.Footer>{currentComponents?.footer}</FunnelLayout.Footer>
     </FunnelLayout>
   );
 }

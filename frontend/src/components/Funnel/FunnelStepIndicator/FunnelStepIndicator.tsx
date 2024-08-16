@@ -1,9 +1,10 @@
 import { useTheme } from '@emotion/react';
 import * as S from './FunnelStepIndicator.style';
+import { MoimCreationStep } from '@_pages/MoimCreationPage/MoimCreationPage';
 
 interface FunnelStepIndicatorProps {
-  totalSteps: number;
-  currentStep: number;
+  totalSteps: MoimCreationStep[];
+  currentStep: MoimCreationStep;
 }
 
 export default function FunnelStepIndicator(props: FunnelStepIndicatorProps) {
@@ -11,7 +12,10 @@ export default function FunnelStepIndicator(props: FunnelStepIndicatorProps) {
 
   const theme = useTheme();
 
-  const progress = (currentStep / totalSteps) * 100;
+  const progress =
+    ((totalSteps.findIndex((step) => step === currentStep) + 1) /
+      totalSteps.length) *
+    100;
 
   return (
     <div css={S.container}>

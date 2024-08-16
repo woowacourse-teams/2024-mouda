@@ -4,11 +4,11 @@ import { MoimInputInfo } from '@_types/index';
 
 interface TitleProps {
   title: MoimInputInfo['title'];
-  onChange: (title: string) => void;
+  onTitleChange: (title: string) => void;
 }
 
 export default function TitleStep(props: TitleProps) {
-  const { title, onChange } = props;
+  const { title, onTitleChange } = props;
 
   return (
     <>
@@ -20,7 +20,7 @@ export default function TitleStep(props: TitleProps) {
       <FunnelInput
         placeholder="모임의 이름을 입력해주세요."
         value={title}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onTitleChange(e.target.value)}
       />
     </>
   );
