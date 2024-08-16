@@ -90,3 +90,9 @@ export const postConfirmPlace = async (moimId: number, place: string) => {
 export const postPlease = async (please: PleaseInfoInput) => {
   await ApiClient.postWithAuth('please', please);
 };
+
+export const postNotificationToken = async (currentToken: string) => {
+  await ApiClient.patchWithAuth('notification/register', {
+    token: currentToken,
+  });
+};

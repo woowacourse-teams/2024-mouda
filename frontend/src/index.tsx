@@ -4,8 +4,21 @@ import { createRoot } from 'react-dom/client';
 import ReactGA from 'react-ga4';
 import * as Sentry from '@sentry/react';
 
+import '@_service/forgroundMessage';
+
 if (process.env.REACT_APP_GOOGLE_ANALYTICS) {
   ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS);
+}
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker
+    .register('/firebase-messaging-sw.js')
+    .then((registration) => {
+      console.log('Service Worker registered with scope:', registration.scope);
+    })
+    .catch((error) => {
+      console.log('Service Worker registration failed:', error);
+    });
 }
 
 Sentry.init({
