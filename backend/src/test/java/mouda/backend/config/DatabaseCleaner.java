@@ -36,11 +36,17 @@ public class DatabaseCleaner {
 		entityManager.createNativeQuery("DELETE FROM PLEASE").executeUpdate();
 		entityManager.createNativeQuery("ALTER TABLE PLEASE alter column id restart with 1").executeUpdate();
 
+		entityManager.createNativeQuery("DELETE FROM DARAKBANG_MEMBER").executeUpdate();
+		entityManager.createNativeQuery("ALTER TABLE DARAKBANG_MEMBER alter column id restart with 1").executeUpdate();
+
 		entityManager.createNativeQuery("DELETE FROM MEMBER").executeUpdate();
 		entityManager.createNativeQuery("ALTER TABLE MEMBER alter column id restart with 1").executeUpdate();
 
 		entityManager.createNativeQuery("DELETE FROM MOIM").executeUpdate();
 		entityManager.createNativeQuery("ALTER TABLE MOIM alter column id restart with 1").executeUpdate();
+
+		entityManager.createNativeQuery("DELETE FROM DARAKBANG").executeUpdate();
+		entityManager.createNativeQuery("ALTER TABLE DARAKBANG alter column id restart with 1").executeUpdate();
 
 		entityManager.clear();
 	}
