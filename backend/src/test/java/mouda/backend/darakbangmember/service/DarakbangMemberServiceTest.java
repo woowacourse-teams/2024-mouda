@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.repository.DarakbangRepository;
-import mouda.backend.darakbangmember.domain.DarakBangMemberRole;
 import mouda.backend.darakbangmember.dto.response.DarakbangMemberRoleResponse;
 import mouda.backend.darakbangmember.exception.DarakbangMemberException;
 import mouda.backend.darakbangmember.repository.repository.DarakbangMemberRepository;
@@ -74,7 +73,7 @@ class DarakbangMemberServiceTest {
 			DarakbangMemberRoleResponse response = darakbangMemberService.findDarakbangMemberRole(
 				darakbang.getId(), hogee);
 
-			assertThat(response.role()).isEqualTo(DarakBangMemberRole.OUTSIDER);
+			assertThat(response.role()).isEqualTo("OUTSIDER");
 		}
 	}
 }

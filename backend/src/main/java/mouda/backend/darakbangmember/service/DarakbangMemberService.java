@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.darakbangmember.domain.DarakBangMemberRole;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.dto.response.DarakbangMemberResponse;
 import mouda.backend.darakbangmember.dto.response.DarakbangMemberResponses;
@@ -49,9 +48,10 @@ public class DarakbangMemberService {
 		Optional<DarakbangMember> optionalDarakbangMember = darakbangMemberRepository.findByDarakbangIdAndMemberId(
 			darakbangId, member.getId());
 
-		DarakBangMemberRole darakBangMemberRole = optionalDarakbangMember.map(DarakbangMember::getRole)
-			.orElse(DarakBangMemberRole.OUTSIDER);
-
-		return DarakbangMemberRoleResponse.toResponse(darakBangMemberRole);
+		if (optionalDarakbangMember.isPresent()) {
+			DarakbangMember darakbangMember = optionalDarakbangMember.get();
+			return DarakbangMemberRoleResponse.toResponse(darakbangMember.getRole());
+		}
+		return DarakbangMemberRoleResponse.toResponse();
 	}
 }

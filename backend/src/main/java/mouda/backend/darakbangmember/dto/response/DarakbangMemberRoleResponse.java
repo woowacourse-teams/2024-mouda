@@ -5,12 +5,19 @@ import mouda.backend.darakbangmember.domain.DarakBangMemberRole;
 
 @Builder
 public record DarakbangMemberRoleResponse(
-	DarakBangMemberRole role
+	String role
 ) {
+	private static final String EMPTY_ROLE = "OUTSIDER";
 
-	public static DarakbangMemberRoleResponse toResponse(DarakBangMemberRole darakBangMemberRole) {
+	public static DarakbangMemberRoleResponse toResponse(DarakBangMemberRole role) {
 		return DarakbangMemberRoleResponse.builder()
-			.role(darakBangMemberRole)
+			.role(role.name())
+			.build();
+	}
+
+	public static DarakbangMemberRoleResponse toResponse() {
+		return DarakbangMemberRoleResponse.builder()
+			.role(EMPTY_ROLE)
 			.build();
 	}
 }
