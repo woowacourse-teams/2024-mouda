@@ -5,6 +5,5 @@ import lombok.Getter;
 @Getter
 public enum DarakBangMemberRole {
 	MANAGER,
-	MEMBER,
-	OUTSIDER
+	MEMBER
 }
