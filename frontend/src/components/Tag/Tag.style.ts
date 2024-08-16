@@ -1,8 +1,9 @@
+import { MoimStatus } from '@_types/index';
 import { css, Theme } from '@emotion/react';
 
 interface TagBoxProps {
   theme: Theme;
-  status: 'MOIMING' | 'COMPLETED' | 'CANCELED';
+  status: MoimStatus;
 }
 export const tagBox = (props: TagBoxProps) => {
   const { theme, status } = props;
