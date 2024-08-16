@@ -2,6 +2,8 @@ package mouda.backend.darakbang.service;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -14,8 +16,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.dto.request.DarakbangCreateRequest;
+import mouda.backend.darakbang.dto.request.DarakbangEnterRequest;
 import mouda.backend.darakbang.exception.DarakbangException;
 import mouda.backend.darakbang.repository.DarakbangRepository;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.exception.DarakbangMemberException;
 import mouda.backend.darakbangmember.repository.repository.DarakbangMemberRepository;
 import mouda.backend.fixture.DarakbangFixture;
@@ -139,6 +143,51 @@ class DarakbangServiceTest {
 			darakbangMemberRepository.save(DarakbangMemberFixture.getDarakbangMemberWithWooteco(darakbang, hogee));
 
 			assertThatThrownBy(() -> darakbangService.findInvitationCode(darakbang.getId(), hogee))
+				.isInstanceOf(DarakbangMemberException.class);
+		}
+	}
+
+	@DisplayName("다락방 참여 테스트")
+	@Nested
+	class DarakbangEnterTest {
+
+		@DisplayName("정상적으로 다락방 가입에 성공한다.")
+		@Test
+		void success() {
+			Member hogee = memberRepository.save(MemberFixture.getHogee());
+			String code = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco()).getCode();
+			DarakbangEnterRequest enterRequest = new DarakbangEnterRequest("호기");
+
+			Darakbang darakbang = darakbangService.enter(code, enterRequest, hogee);
+
+			Optional<DarakbangMember> darakbangMember = darakbangMemberRepository.findByDarakbangIdAndMemberId(
+				darakbang.getId(), hogee.getId());
+			assertThat(darakbangMember).isNotEmpty();
+		}
+
+		@DisplayName("다락방에 이미 가입한 멤버라면 가입에 실패한다.")
+		@Test
+		void failToEnterDarakbangWithDuplicatedNickname() {
+			Member hogee = memberRepository.save(MemberFixture.getHogee());
+			Darakbang darakbang = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
+			darakbangMemberRepository.save(DarakbangMemberFixture.getDarakbangManagerWithWooteco(darakbang, hogee));
+			DarakbangEnterRequest enterRequest = new DarakbangEnterRequest("호호기기");
+
+			assertThatThrownBy(() -> darakbangService.enter(darakbang.getCode(), enterRequest, hogee))
+				.isInstanceOf(DarakbangMemberException.class);
+		}
+
+		@DisplayName("다락방에 해당 닉네임이 이미 존재한다면 가입에 실패한다.")
+		@Test
+		void failToEnterDarakbangWithAlreadyEnteredMember() {
+			Member hogee = memberRepository.save(MemberFixture.getHogee());
+			Darakbang darakbang = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
+			darakbangMemberRepository.save(DarakbangMemberFixture.getDarakbangManagerWithWooteco(darakbang, hogee));
+
+			Member anna = memberRepository.save(MemberFixture.getAnna());
+			DarakbangEnterRequest enterRequest = new DarakbangEnterRequest("호호기기");
+
+			assertThatThrownBy(() -> darakbangService.enter(darakbang.getCode(), enterRequest, anna))
 				.isInstanceOf(DarakbangMemberException.class);
 		}
 	}
