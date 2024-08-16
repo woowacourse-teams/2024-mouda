@@ -9,6 +9,7 @@ import TitleStep from './Steps/TitleStep';
 import OfflineOrOnlineStep from './Steps/OfflineOrOnlineStep';
 import PlaceStep from './Steps/PlaceStep';
 import DateAndTimeStep from './Steps/DateAndTimeStep';
+import MaxPeopleStep from './Steps/MaxPeopleStep';
 
 export type MoimCreationStep =
   | '이름입력'
@@ -106,7 +107,7 @@ export default function MoimCreationPage() {
       <FunnelButton
         onClick={() => {
           navigate(ROUTES.addMoim, {
-            state: { step: '최대인원설정' },
+            state: { step: '날짜/시간설정' },
           });
         }}
       >
@@ -126,7 +127,7 @@ export default function MoimCreationPage() {
       <FunnelButton
         onClick={() => {
           navigate(ROUTES.addMoim, {
-            state: { step: '날짜/시간설정' },
+            state: { step: '최대인원설정' },
           });
         }}
       >
@@ -137,6 +138,27 @@ export default function MoimCreationPage() {
             : moimInfo.time === ''
               ? '시간은 채팅에서 정할게요!'
               : '다음으로'}
+      </FunnelButton>
+    );
+  } else if (currentStep === '최대인원설정') {
+    currentComponents.main = (
+      <MaxPeopleStep
+        maxPeople={moimInfo.maxPeople}
+        onMaxPeopleChange={(maxPeople) =>
+          setMoimInfo((prev) => ({ ...prev, maxPeople }))
+        }
+      />
+    );
+    currentComponents.footer = (
+      <FunnelButton
+        disabled={moimInfo.maxPeople === 0}
+        onClick={() => {
+          navigate(ROUTES.addMoim, {
+            state: { step: '설명입력' },
+          });
+        }}
+      >
+        다음으로
       </FunnelButton>
     );
   }
