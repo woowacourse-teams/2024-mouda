@@ -38,6 +38,8 @@ public class DarakbangMemberController implements DarakbangMemberSwagger {
 		@PathVariable Long darakbangId,
 		@LoginMember Member member
 	) {
-		return null;
+		DarakbangMemberRoleResponse response = darakbangMemberService.findDarakbangMemberRole(darakbangId, member);
+
+		return ResponseEntity.ok(new RestResponse<>(response));
 	}
 }

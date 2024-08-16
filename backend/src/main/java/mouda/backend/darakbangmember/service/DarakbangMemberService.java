@@ -1,15 +1,18 @@
 package mouda.backend.darakbangmember.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.darakbangmember.domain.DarakBangMemberRole;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.dto.response.DarakbangMemberResponse;
 import mouda.backend.darakbangmember.dto.response.DarakbangMemberResponses;
+import mouda.backend.darakbangmember.dto.response.DarakbangMemberRoleResponse;
 import mouda.backend.darakbangmember.exception.DarakbangMemberErrorMessage;
 import mouda.backend.darakbangmember.exception.DarakbangMemberException;
 import mouda.backend.darakbangmember.repository.repository.DarakbangMemberRepository;
@@ -41,4 +44,14 @@ public class DarakbangMemberService {
 		return DarakbangMemberResponses.toResponse(memberResponses);
 	}
 
+	@Transactional(readOnly = true)
+	public DarakbangMemberRoleResponse findDarakbangMemberRole(Long darakbangId, Member member) {
+		Optional<DarakbangMember> optionalDarakbangMember = darakbangMemberRepository.findByDarakbangIdAndMemberId(
+			darakbangId, member.getId());
+
+		DarakBangMemberRole darakBangMemberRole = optionalDarakbangMember.map(DarakbangMember::getRole)
+			.orElse(DarakBangMemberRole.OUTSIDER);
+
+		return DarakbangMemberRoleResponse.toResponse(darakBangMemberRole);
+	}
 }
