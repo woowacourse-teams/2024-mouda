@@ -11,3 +11,7 @@ security:
 
 app:
   firebase-config-file: serviceAccountKey.json
+
+oauth:
+  kakao:
+    redirect-uri: http://localhost:8081/kakao-o-auth
