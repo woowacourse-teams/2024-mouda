@@ -1,5 +1,6 @@
 package mouda.backend.auth.Infrastructure;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,12 @@ import mouda.backend.auth.exception.AuthException;
 @Component
 public class KakaoOauthClient {
 
+	public static final String CLIENT_ID = "ca3adf9a52671fdbb847b809c0fdb980";
+	public static final String GRANT_TYPE = "authorization_code";
+
+	@Value("${oauth.kakao.redirect-uri}")
+	private String redirectUri;
+
 	private final RestClient restClient;
 
 	public KakaoOauthClient(RestClient restClient) {
@@ -24,15 +31,8 @@ public class KakaoOauthClient {
 
 	public String getIdToken(String code) {
 		try {
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-			headers.set(HttpHeaders.ACCEPT_CHARSET, "utf-8");
-
-			MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-			formData.add("code", code);
-			formData.add("client_id", "ca3adf9a52671fdbb847b809c0fdb980");
-			formData.add("grant_type", "authorization_code");
-			formData.add("redirect_uri", "http://localhost:8081/login2");
+			HttpHeaders headers = getHttpHeaders();
+			MultiValueMap<String, String> formData = getFormData(code);
 
 			OauthResponse response = restClient.method(HttpMethod.POST)
 				.uri("/oauth/token")
@@ -43,8 +43,24 @@ public class KakaoOauthClient {
 
 			return response.id_token();
 		} catch (Exception e) {
-			throw new AuthException(HttpStatus.INTERNAL_SERVER_ERROR, AuthErrorMessage.KAKAO_UNAUTHORIZED);
+			throw new AuthException(HttpStatus.BAD_GATEWAY, AuthErrorMessage.KAKAO_UNAUTHORIZED);
 		}
 
+	}
+
+	private HttpHeaders getHttpHeaders() {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		headers.set(HttpHeaders.ACCEPT_CHARSET, "utf-8");
+		return headers;
+	}
+
+	private MultiValueMap<String, String> getFormData(String code) {
+		MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+		formData.add("code", code);
+		formData.add("client_id", CLIENT_ID);
+		formData.add("grant_type", GRANT_TYPE);
+		formData.add("redirect_uri", redirectUri);
+		return formData;
 	}
 }

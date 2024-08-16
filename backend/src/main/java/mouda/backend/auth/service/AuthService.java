@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import mouda.backend.auth.Infrastructure.KakaoOauthClient;
-import mouda.backend.auth.dto.request.LoginRequest;
 import mouda.backend.auth.dto.request.OauthRequest;
 import mouda.backend.auth.dto.response.LoginResponse;
 import mouda.backend.auth.exception.AuthErrorMessage;
@@ -31,20 +30,25 @@ public class AuthService {
 		this.kakaoOauthClient = kakaoOauthClient;
 	}
 
-	public LoginResponse login(LoginRequest loginRequest) {
-		String nickname = loginRequest.nickname();
+	public LoginResponse oauthLogin(OauthRequest oauthRequest) {
+		String kakaoIdToken = kakaoOauthClient.getIdToken(oauthRequest.code());
 
-		return processLogin(nickname);
+		Map<String, String> payload = TokenDecoder.parseKakaoToken(kakaoIdToken);
+		String kakaoId = payload.get("sub");
+
+		return processLogin(Long.parseLong(kakaoId));
 	}
 
-	private LoginResponse processLogin(String nickname) {
-		return memberRepository.findByNickname(nickname)
+	private LoginResponse processLogin(Long kakaoId) {
+		return memberRepository.findByKakaoId(kakaoId)
 			.map(member -> {
 				String token = jwtProvider.createToken(member);
 				return new LoginResponse(token);
 			})
 			.orElseGet(() -> {
-				Member newMember = new Member(nickname);
+				Member newMember = Member.builder()
+					.kakaoId(kakaoId)
+					.build();
 				memberRepository.save(newMember);
 				String token = jwtProvider.createToken(newMember);
 				return new LoginResponse(token);
@@ -60,14 +64,5 @@ public class AuthService {
 
 	public void checkAuthentication(String token) {
 		jwtProvider.validateExpiration(token);
-	}
-
-	public LoginResponse oauthLogin(OauthRequest oauthRequest) {
-		String kakaoIdToken = kakaoOauthClient.getIdToken(oauthRequest.code());
-
-		Map<String, String> payload = TokenDecoder.parseKakaoToken(kakaoIdToken);
-		String nickname = payload.get("nickname");
-
-		return processLogin(nickname);
 	}
 }
