@@ -10,6 +10,7 @@ import OfflineOrOnlineStep from './Steps/OfflineOrOnlineStep';
 import PlaceStep from './Steps/PlaceStep';
 import DateAndTimeStep from './Steps/DateAndTimeStep';
 import MaxPeopleStep from './Steps/MaxPeopleStep';
+import DescriptionStep from './Steps/DescriptionStep';
 
 export type MoimCreationStep =
   | '이름입력'
@@ -159,6 +160,24 @@ export default function MoimCreationPage() {
         }}
       >
         다음으로
+      </FunnelButton>
+    );
+  } else if (currentStep === '설명입력') {
+    currentComponents.main = (
+      <DescriptionStep
+        description={moimInfo.description}
+        onDescriptionChange={(description) =>
+          setMoimInfo((prev) => ({ ...prev, description }))
+        }
+      />
+    );
+    currentComponents.footer = (
+      <FunnelButton
+        onClick={() => {
+          console.log(moimInfo);
+        }}
+      >
+        끗!
       </FunnelButton>
     );
   }
