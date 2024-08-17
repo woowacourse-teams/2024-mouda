@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 type StorageType = 'localStorage' | 'sessionStorage';
 
@@ -18,7 +18,6 @@ export default function useStatePersist<StateType>({
 ] {
   const storageObject =
     storage === 'localStorage' ? window.localStorage : window.sessionStorage;
-  const initialRender = useRef(true);
 
   const getStoredValue = (): StateType => {
     try {
@@ -38,11 +37,6 @@ export default function useStatePersist<StateType>({
   const [state, setState] = useState<StateType>(getStoredValue);
 
   useEffect(() => {
-    if (initialRender.current) {
-      initialRender.current = false;
-      return;
-    }
-
     try {
       storageObject.setItem(key, JSON.stringify(state));
     } catch (error) {
