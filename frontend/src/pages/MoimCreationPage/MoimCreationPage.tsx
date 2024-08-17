@@ -29,21 +29,35 @@ const steps: MoimCreationStep[] = [
   '설명입력',
 ];
 
+type MoimCreationInfo = {
+  title: string;
+  offlineOrOnline: string;
+  place: string;
+  date: string;
+  time: string;
+  maxPeople: number;
+  description: string;
+};
+
 export default function MoimCreationPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
   const currentStep: MoimCreationStep = location.state?.step || steps[0];
 
-  const [moimInfo, setMoimInfo] = useState({
-    title: '',
-    offlineOrOnline: '',
-    place: '',
-    date: '',
-    time: '',
-    maxPeople: 0,
-    description: '',
-  });
+  const [moimInfo, setMoimInfo] = useState(
+    (location.state?.moimInfo as MoimCreationInfo) || {
+      title: '',
+      offlineOrOnline: '',
+      place: '',
+      date: '',
+      time: '',
+      maxPeople: 0,
+      description: '',
+    },
+  );
+  console.log(location.state?.moimInfo);
+  console.log(moimInfo);
 
   const currentComponents: {
     main: JSX.Element;
@@ -62,7 +76,7 @@ export default function MoimCreationPage() {
         disabled={moimInfo.title === ''}
         onClick={() => {
           navigate(ROUTES.addMoim, {
-            state: { step: '오프라인/온라인선택' },
+            state: { step: '오프라인/온라인선택', moimInfo },
           });
         }}
       >
@@ -87,6 +101,7 @@ export default function MoimCreationPage() {
           navigate(ROUTES.addMoim, {
             state: {
               step: moimInfo.offlineOrOnline ? '장소선택' : '날짜/시간설정',
+              moimInfo,
             },
           });
         }}
@@ -108,7 +123,7 @@ export default function MoimCreationPage() {
       <FunnelButton
         onClick={() => {
           navigate(ROUTES.addMoim, {
-            state: { step: '날짜/시간설정' },
+            state: { step: '날짜/시간설정', moimInfo },
           });
         }}
       >
@@ -128,7 +143,7 @@ export default function MoimCreationPage() {
       <FunnelButton
         onClick={() => {
           navigate(ROUTES.addMoim, {
-            state: { step: '최대인원설정' },
+            state: { step: '최대인원설정', moimInfo },
           });
         }}
       >
@@ -155,7 +170,7 @@ export default function MoimCreationPage() {
         disabled={moimInfo.maxPeople === 0}
         onClick={() => {
           navigate(ROUTES.addMoim, {
-            state: { step: '설명입력' },
+            state: { step: '설명입력', moimInfo },
           });
         }}
       >
@@ -186,7 +201,11 @@ export default function MoimCreationPage() {
     <FunnelLayout>
       <FunnelLayout.Header>
         <FunnelLayout.Header.Left>
-          <BackArrowButton onClick={() => navigate(-1)} />
+          <BackArrowButton
+            onClick={() => {
+              navigate(-1);
+            }}
+          />
         </FunnelLayout.Header.Left>
         <FunnelLayout.Header.Center>모임 만들기</FunnelLayout.Header.Center>
       </FunnelLayout.Header>
