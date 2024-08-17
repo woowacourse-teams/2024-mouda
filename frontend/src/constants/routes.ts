@@ -1,20 +1,3 @@
-/**
- * TODO: 라우터 경로 도메인별로 재정의 
-const ROUTES = {
-  main: '/',
-  moim: '/moim',
-  moimCreation: '/moim-create',
-  moimDetail: '/moim/:moimId',
-  moimParticipationComplete: '/moim/:moimId/participation-complete',
-  moimModify: '/moim/:moimId/modify',
-
-  chatting: '/chatting',
-  chattingRoom: '/chatting/:moimId',
-
-  login: '/login',
-};
- */
-
 const ROUTES = {
   main: '/',
   addMoim: '/add-moim',
@@ -27,6 +10,16 @@ const ROUTES = {
   please: '/please',
   addPlease: '/please/creation',
   myPage: '/my-page',
+  darakbangSelectOption: '/darakbang-select-option',
+  darakbangSelect: '/darakbang-select',
+  darakbangCreation: '/darakbang-creation',
+  darakbangEntrance: '/darakbang-entrance',
+  darakbangNickname: '/darakbang-nickname',
+  darakbangLanding: '/darakbang-landing',
+  darakbangManagement: '/darakbang-management',
+  darakbangMembers: '/darakbang-members',
+  darakbangInvitation: '/darakbang-invitation',
+  darakbangInvitationRoute: '/darakbang-invitation-route',
 };
 
 export default ROUTES;
