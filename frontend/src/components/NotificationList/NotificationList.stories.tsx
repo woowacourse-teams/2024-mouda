@@ -14,14 +14,14 @@ export const Default: Story = {
   args: {
     notifications: [
       {
-        type: '아무거나',
-        title: '아무거나',
-        time: '아무거나',
+        type: 'MOIM_CREATED',
+        createdAt: '1시간전',
+        message: '테스트',
       },
       {
-        type: '아무거나',
-        title: '아무거나',
-        time: '아무거나',
+        type: 'MOIM_CREATED',
+        createdAt: '1시간전',
+        message: '테스트',
       },
     ],
   },
