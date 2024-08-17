@@ -5,7 +5,7 @@ export const selectBar = ({ theme }: { theme: Theme }) => css`
   display:flex;
   align-items: center;
 
-  height: 8rem;
+  min-height: 8rem;
   padding: 0 3rem;
 
   background-color: ${theme.colorPalette.orange[50]};
