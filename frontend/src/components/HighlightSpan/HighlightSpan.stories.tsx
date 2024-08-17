@@ -10,5 +10,12 @@ export default meta;
 type Story = StoryObj<typeof HighlightSpan>;
 
 export const Default: Story = {
-  args: { highlightTexts: ['어서오세요'], normalTexts: ['반갑습니다'] },
+  decorators: () => {
+    return (
+      <HighlightSpan>
+        <HighlightSpan.Highlight>안녕하세요</HighlightSpan.Highlight>
+        <HighlightSpan.Normal>{'\n반갑습니다'}</HighlightSpan.Normal>
+      </HighlightSpan>
+    );
+  },
 };

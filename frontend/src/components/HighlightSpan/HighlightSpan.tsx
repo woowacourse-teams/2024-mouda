@@ -1,92 +1,63 @@
 import * as S from './HighlightSpan.style';
 
+import { PropsWithChildren, createContext, useContext } from 'react';
 import { SerializedStyles, useTheme } from '@emotion/react';
 
-import { useMemo } from 'react';
-
-interface HighlightSpanProps {
-  highlightTexts: string[];
-  normalTexts: string[];
-  isFirstHighlight?: boolean;
-  highlightColor?: string;
-  normalColor?: string;
-  font?: SerializedStyles;
+interface HighlightSpanProps extends PropsWithChildren {
+  highlightColor?: SerializedStyles | string;
+  normalColor?: SerializedStyles | string;
+  font?: SerializedStyles | string;
 }
 
-export default function HighlightSpan(props: HighlightSpanProps) {
+interface HighlightSpanContext {
+  highlightColor: SerializedStyles | string;
+  normalColor: SerializedStyles | string;
+  font: SerializedStyles | string;
+}
+const HighlightSpanContext = createContext<HighlightSpanContext | null>(null);
+
+function HighlightSpan(props: HighlightSpanProps) {
   const theme = useTheme();
   const {
-    highlightTexts,
-    normalTexts,
-    isFirstHighlight = false,
     highlightColor = theme.semantic.primary,
     normalColor = theme.colorPalette.black[100],
     font = theme.typography.h5,
+    children,
   } = props;
 
-  const elements = useMemo(() => {
-    let highlightTextIndex = 0;
-    let normalTextIndex = 0;
-
-    const result = [];
-    while (
-      highlightTextIndex < highlightTexts.length ||
-      normalTextIndex < normalTexts.length
-    ) {
-      const nowHighlightText = highlightTexts[highlightTextIndex++];
-      const nowNormalText = normalTexts[normalTextIndex++];
-      if (!isFirstHighlight) {
-        nowNormalText &&
-          result.push(
-            <span
-              key={normalTextIndex + nowNormalText}
-              css={S.text({ color: normalColor, font })}
-            >
-              {nowNormalText}
-            </span>,
-          );
-
-        nowHighlightText &&
-          result.push(
-            <strong
-              key={highlightTextIndex + nowHighlightText}
-              css={S.text({ color: highlightColor, font })}
-            >
-              {nowHighlightText}
-            </strong>,
-          );
-      }
-      if (isFirstHighlight) {
-        nowHighlightText &&
-          result.push(
-            <strong
-              key={highlightTextIndex + nowHighlightText}
-              css={S.text({ color: highlightColor, font })}
-            >
-              {nowHighlightText}
-            </strong>,
-          );
-
-        nowNormalText &&
-          result.push(
-            <span
-              key={normalTextIndex + nowNormalText}
-              css={S.text({ color: normalColor, font })}
-            >
-              {nowNormalText}
-            </span>,
-          );
-      }
-    }
-    return result;
-  }, [
-    font,
-    highlightTexts,
-    normalTexts,
-    highlightColor,
-    normalColor,
-    isFirstHighlight,
-  ]);
-
-  return <span>{elements}</span>;
+  return (
+    <HighlightSpanContext.Provider
+      value={{ highlightColor, normalColor, font }}
+    >
+      {children}
+    </HighlightSpanContext.Provider>
+  );
 }
+
+HighlightSpan.Highlight = function Highlight(props: PropsWithChildren) {
+  const { children } = props;
+  const context = useContext(HighlightSpanContext);
+  if (!context) {
+    throw new Error('HighlightSpan context가 없습니다');
+  }
+  return (
+    <span css={[S.text({ color: context.highlightColor, font: context.font })]}>
+      {children}
+    </span>
+  );
+};
+
+HighlightSpan.Normal = function Normal(props: PropsWithChildren) {
+  const { children } = props;
+  const context = useContext(HighlightSpanContext);
+  if (!context) {
+    throw new Error('HighlightSpan context가 없습니다');
+  }
+  return (
+    <span css={[S.text({ color: context.normalColor, font: context.font })]}>
+      {children}
+    </span>
+  );
+};
+
+export default HighlightSpan;
