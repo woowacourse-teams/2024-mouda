@@ -8,9 +8,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import mouda.backend.common.RestResponse;
 import mouda.backend.config.argumentresolver.LoginMember;
 import mouda.backend.member.domain.Member;
 import mouda.backend.notification.dto.request.FcmTokenSaveRequest;
+import mouda.backend.notification.dto.response.NotificationFindAllResponses;
 
 public interface NotificationSwagger {
 
@@ -23,4 +25,10 @@ public interface NotificationSwagger {
 		@LoginMember Member member,
 		@Valid @RequestBody FcmTokenSaveRequest fcmTokenSaveRequest
 	);
+
+	@Operation(summary = "모든 알림 조회", description = "회원의 모든 알림을 조회합니다.")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "알림 조회 성공!")
+	})
+	ResponseEntity<RestResponse<NotificationFindAllResponses>> findAllMyNotification(@LoginMember Member member);
 }
