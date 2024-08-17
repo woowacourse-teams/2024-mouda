@@ -19,7 +19,12 @@ export const Default: Story = {
         message: '테스트',
       },
       {
-        type: 'MOIM_CREATED',
+        type: 'MOIMING_REOPENED',
+        createdAt: '1시간전',
+        message: '테스트',
+      },
+      {
+        type: 'MOIM_MODIFIED',
         createdAt: '1시간전',
         message: '테스트',
       },
