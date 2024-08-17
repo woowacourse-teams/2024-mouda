@@ -7,6 +7,7 @@ interface HighlightSpanProps extends PropsWithChildren {
   highlightColor?: SerializedStyles | string;
   normalColor?: SerializedStyles | string;
   font?: SerializedStyles | string;
+  isCenterAlign?: boolean;
 }
 
 interface HighlightSpanContext {
@@ -22,6 +23,7 @@ function HighlightSpan(props: HighlightSpanProps) {
     highlightColor = theme.semantic.primary,
     normalColor = theme.colorPalette.black[100],
     font = theme.typography.h5,
+    isCenterAlign = false,
     children,
   } = props;
 
@@ -29,7 +31,9 @@ function HighlightSpan(props: HighlightSpanProps) {
     <HighlightSpanContext.Provider
       value={{ highlightColor, normalColor, font }}
     >
-      <span css={S.text({ color: normalColor, font })}>{children}</span>
+      <span css={S.text({ color: normalColor, font, isCenterAlign })}>
+        {children}
+      </span>
     </HighlightSpanContext.Provider>
   );
 }
