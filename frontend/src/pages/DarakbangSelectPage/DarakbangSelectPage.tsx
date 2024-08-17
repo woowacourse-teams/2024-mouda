@@ -2,9 +2,11 @@ import * as S from './DarakbangSelectPage.style';
 
 import HighlightSpan from '@_components/HighlightSpan/HighlightSpan';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
+import ROUTES from '@_constants/routes';
 import SelectBar from '@_components/SelectBar/SelectBar';
 import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
 import SolidArrow from '@_components/Icons/SolidArrow';
+import { common } from '@_common/common.style';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
 
@@ -34,13 +36,22 @@ export default function DarakbangSelectPage() {
           들어갈까요?
         </HighlightSpan>
         {darakbangs?.length > 0 &&
-          darakbangs.map((name) => <SelectBar key={name}>{name}</SelectBar>)}
+          darakbangs.map((name) => (
+            <SelectBar key={name} onClick={() => {}}>
+              {name}
+            </SelectBar>
+          ))}
         {(!darakbangs || darakbangs.length === 0) && (
           <div css={S.fallbackContainer}>
             <MissingFallback text="참여 중인 다락방이 없어요" />
           </div>
         )}
-        <div css={S.bottom({ theme })}>참여코드로 다락방 들어가기</div>
+        <div
+          css={[S.bottom({ theme }), common.cursorPointer]}
+          onClick={() => navigate(ROUTES.darakbangEntrance)}
+        >
+          참여코드로 다락방 들어가기
+        </div>
       </SelectLayout.ContentContainer>
     </SelectLayout>
   );

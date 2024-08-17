@@ -1,4 +1,5 @@
 import MenuItem from '@_components/MenuItem/MenuItem';
+import ROUTES from '@_constants/routes';
 import SolidArrow from '@_components/Icons/SolidArrow';
 import TriSectionHeader from '@_layouts/components/TriSectionHeader/TriSectionHeader';
 import { useNavigate } from 'react-router-dom';
@@ -13,10 +14,13 @@ export default function DarakbangManagementPage() {
         </TriSectionHeader.Left>
         <TriSectionHeader.Center>다락방 관리</TriSectionHeader.Center>
       </TriSectionHeader>
-      <MenuItem description="멤버 목록" onClick={() => navigate(0)} />
+      <MenuItem
+        description="멤버 목록"
+        onClick={() => navigate(ROUTES.darakbangMembers)}
+      />
       <MenuItem
         description="멤버 초대"
-        onClick={() => navigate(0)}
+        onClick={() => navigate(ROUTES.darakbangInvitation)}
         isLastItem
       />
     </>
