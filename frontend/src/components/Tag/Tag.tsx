@@ -2,9 +2,10 @@ import * as S from '@_components/Tag/Tag.style';
 
 import { HTMLProps } from 'react';
 import { useTheme } from '@emotion/react';
+import { MoimStatus } from '@_types/index';
 
 interface TagProps extends HTMLProps<HTMLDivElement> {
-  status: 'MOIMING' | 'COMPLETED' | 'CANCELED';
+  status: MoimStatus;
 }
 
 export default function Tag(props: TagProps) {

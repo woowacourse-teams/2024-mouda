@@ -10,7 +10,8 @@ import DarakbangMembersPage from '@_pages/DarakbangMembersPage/DarakbangMembersP
 import DarakbangNicknamePage from '@_pages/DarakbangNicknamePage/DarakbangNicknamePage';
 import DarakbangSelectOptionPage from '@_pages/DarakbangSelectOptionPage/DarakbangSelectOptionPage';
 import DarakbangSelectPage from '@_pages/DarakbangSelectPage/DarakbangSelectPage';
-import LoginPage from '@_pages/LoginPage/LoginPage';
+import HomePage from '@_pages/HomePage/HomePage';
+import KakaoOAuthLoginPage from '@_pages/KakaoOAuthLoginPage/KakaoOAuthLoginPage';
 import MainPage from '@_pages/MainPage/MainPage';
 import MoimCreationPage from '@_pages/MoimCreationPage/MoimCreationPage';
 import MoimDetailPage from '@_pages/MoimDetailPage/MoimDetailPage';
@@ -55,8 +56,13 @@ const routesConfig = [
     requiresAuth: true,
   },
   {
-    path: ROUTES.login,
-    element: <LoginPage />,
+    path: ROUTES.home,
+    element: <HomePage />,
+    requiresAuth: false,
+  },
+  {
+    path: ROUTES.kakaoOAuth,
+    element: <KakaoOAuthLoginPage />,
     requiresAuth: false,
   },
   {

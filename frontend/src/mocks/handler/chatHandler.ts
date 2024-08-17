@@ -2,6 +2,7 @@ import { HttpResponse, http } from 'msw';
 
 import { Chat } from '@_types/index';
 import mockedChats from './mockedChats';
+import ENDPOINTS from '@_apis/endPoints';
 
 let nowChatIndex = 0;
 
@@ -25,7 +26,7 @@ export const chatSliceIndexes = [
 ];
 
 export const chatHandler = [
-  http.get(`http://43.202.67.25/v1/chat`, async ({ request }) => {
+  http.get(ENDPOINTS.chat, async ({ request }) => {
     const url = new URL(request.url);
 
     const recentChatId = +(url.searchParams.get('recentChatId') || 0);
