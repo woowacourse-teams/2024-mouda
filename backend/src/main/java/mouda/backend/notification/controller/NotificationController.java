@@ -1,6 +1,7 @@
 package mouda.backend.notification.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +15,7 @@ import mouda.backend.notification.dto.request.FcmTokenSaveRequest;
 import mouda.backend.notification.service.NotificationService;
 
 @RestController
-@RequestMapping("/v1/notification")
+@RequestMapping("/v1/darakbang/{darakbangId}/notification")
 @RequiredArgsConstructor
 public class NotificationController implements NotificationSwagger {
 
@@ -23,6 +24,7 @@ public class NotificationController implements NotificationSwagger {
 	@Override
 	@PostMapping("/register")
 	public ResponseEntity<Void> registerFcmToken(
+		@PathVariable Long darakbangId,
 		@LoginMember Member member,
 		@Valid @RequestBody FcmTokenSaveRequest fcmTokenSaveRequest
 	) {

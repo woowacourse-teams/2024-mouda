@@ -1,6 +1,7 @@
 package mouda.backend.chamyo.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -22,24 +23,38 @@ public interface ChamyoSwagger {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "모임 참여 여부 조회 성공")
 	})
-	ResponseEntity<RestResponse<MoimRoleFindResponse>> findMoimRoleByMember(@RequestParam Long moimId,
-		@LoginMember Member member);
+	ResponseEntity<RestResponse<MoimRoleFindResponse>> findMoimRoleByMember(
+		@PathVariable Long darakbangId,
+		@LoginMember Member member,
+		@RequestParam Long moimId
+	);
 
 	@Operation(summary = "모든 모임 참여자 조회", description = "모임에 참여한 모든 회원을 조회합니다.")
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "모든 모임 참여자 조회 성공")
 	})
-	ResponseEntity<RestResponse<ChamyoFindAllResponses>> findAllChamyoByMoim(@RequestParam Long moimId);
+	ResponseEntity<RestResponse<ChamyoFindAllResponses>> findAllChamyoByMoim(
+		@PathVariable Long darakbangId,
+		@LoginMember Member member,
+		@RequestParam Long moimId
+	);
 
 	@Operation(summary = "모임 참여", description = "모임에 참여합니다.")
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "모임 참여 성공")
 	})
-	ResponseEntity<Void> chamyoMoim(@Valid @RequestBody MoimChamyoRequest request, @LoginMember Member member);
+	ResponseEntity<Void> chamyoMoim(
+		@PathVariable Long darakbangId,
+		@LoginMember Member member,
+		@Valid @RequestBody MoimChamyoRequest request
+	);
 
 	@Operation(summary = "모임 참여 취소", description = "모임 참여를 취소합니다.")
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "모임 참여 취소 성공")
 	})
-	ResponseEntity<Void> cancelChamyo(@Valid @RequestBody ChamyoCancelRequest request, @LoginMember Member member);
+	ResponseEntity<Void> cancelChamyo(
+		@PathVariable Long darakbangId,
+		@LoginMember Member member,
+		@Valid @RequestBody ChamyoCancelRequest request);
 }

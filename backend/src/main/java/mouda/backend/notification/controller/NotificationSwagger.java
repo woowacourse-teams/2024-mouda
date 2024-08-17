@@ -1,6 +1,7 @@
 package mouda.backend.notification.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,6 +19,7 @@ public interface NotificationSwagger {
 		@ApiResponse(responseCode = "200", description = "FCM 토큰 저장 성공")
 	})
 	ResponseEntity<Void> registerFcmToken(
+		@PathVariable Long darakbangId,
 		@LoginMember Member member,
 		@Valid @RequestBody FcmTokenSaveRequest fcmTokenSaveRequest
 	);

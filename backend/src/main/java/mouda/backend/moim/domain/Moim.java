@@ -55,6 +55,8 @@ public class Moim {
 
 	private boolean isChatOpened;
 
+	private Long darakbangId;
+
 	@Builder
 	public Moim(
 		String title,
@@ -62,7 +64,8 @@ public class Moim {
 		LocalTime time,
 		String place,
 		int maxPeople,
-		String description
+		String description,
+		Long darakbangId
 	) {
 		validateTitle(title);
 		validateMoimIsFuture(date, time);
@@ -78,6 +81,7 @@ public class Moim {
 		this.description = description;
 		this.moimStatus = MoimStatus.MOIMING;
 		this.isChatOpened = false;
+		this.darakbangId = darakbangId;
 	}
 
 	private void validateTitle(String title) {

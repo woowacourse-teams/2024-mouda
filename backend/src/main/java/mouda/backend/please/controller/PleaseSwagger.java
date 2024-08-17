@@ -21,6 +21,7 @@ public interface PleaseSwagger {
 		@ApiResponse(responseCode = "200", description = "해주세요 생성 성공!"),
 	})
 	ResponseEntity<RestResponse<Long>> createPlease(
+		@PathVariable Long darakbangId,
 		@LoginMember Member member,
 		@Valid @RequestBody PleaseCreateRequest pleaseCreateRequest
 	);
@@ -29,11 +30,18 @@ public interface PleaseSwagger {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "해주세요 삭제 성공!"),
 	})
-	ResponseEntity<Void> deletePlease(@LoginMember Member member, @PathVariable Long pleaseId);
+	ResponseEntity<Void> deletePlease(
+		@PathVariable Long darakbangId,
+		@LoginMember Member member,
+		@PathVariable Long pleaseId
+	);
 
 	@Operation(summary = "해주세요 목록 조회", description = "해주세요 목록을 조회한다.")
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "해주세요 목록 조회 성공!"),
 	})
-	ResponseEntity<RestResponse<PleaseFindAllResponses>> findAllPlease(@LoginMember Member member);
+	ResponseEntity<RestResponse<PleaseFindAllResponses>> findAllPlease(
+		@PathVariable Long darakbangId,
+		@LoginMember Member member
+	);
 }

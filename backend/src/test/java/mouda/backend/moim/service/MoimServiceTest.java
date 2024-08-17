@@ -8,6 +8,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ import mouda.backend.comment.dto.request.CommentCreateRequest;
 import mouda.backend.comment.exception.CommentException;
 import mouda.backend.comment.repository.CommentRepository;
 import mouda.backend.config.DatabaseCleaner;
+import mouda.backend.darakbang.domain.Darakbang;
+import mouda.backend.darakbang.repository.DarakbangRepository;
+import mouda.backend.fixture.DarakbangFixture;
 import mouda.backend.fixture.MemberFixture;
 import mouda.backend.fixture.MoimFixture;
 import mouda.backend.member.domain.Member;
@@ -36,6 +40,9 @@ class MoimServiceTest extends IgnoreNotificationTest {
 	private MoimService moimService;
 
 	@Autowired
+	private DarakbangRepository darakbangRepository;
+
+	@Autowired
 	private MoimRepository moimRepository;
 
 	@Autowired
@@ -46,6 +53,13 @@ class MoimServiceTest extends IgnoreNotificationTest {
 
 	@Autowired
 	private DatabaseCleaner databaseCleaner;
+
+	private Darakbang darakbang;
+
+	@BeforeEach
+	void setUp() {
+		darakbang = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
+	}
 
 	@AfterEach
 	void cleanUp() {
@@ -61,7 +75,7 @@ class MoimServiceTest extends IgnoreNotificationTest {
 		);
 
 		Member hogee = memberRepository.save(MemberFixture.getHogee());
-		Moim moim = moimService.createMoim(moimCreateRequest, hogee);
+		Moim moim = moimService.createMoim(darakbang.getId(), hogee, moimCreateRequest);
 
 		assertThat(moim.getId()).isEqualTo(1L);
 	}
@@ -75,8 +89,8 @@ class MoimServiceTest extends IgnoreNotificationTest {
 		);
 
 		Member hogee = memberRepository.save(MemberFixture.getHogee());
-		moimService.createMoim(moimCreateRequest, hogee);
-		moimService.createMoim(moimCreateRequest, hogee);
+		moimService.createMoim(darakbang.getId(), hogee, moimCreateRequest);
+		moimService.createMoim(darakbang.getId(), hogee, moimCreateRequest);
 
 		MoimFindAllResponses moimResponses = moimService.findAllMoim(hogee);
 
@@ -91,7 +105,7 @@ class MoimServiceTest extends IgnoreNotificationTest {
 			10, "설명"
 		);
 		Member hogee = memberRepository.save(MemberFixture.getHogee());
-		moimService.createMoim(moimCreateRequest, hogee);
+		moimService.createMoim(darakbang.getId(), hogee, moimCreateRequest);
 
 		MoimDetailsFindResponse moimDetails = moimService.findMoimDetails(1L);
 
@@ -106,7 +120,7 @@ class MoimServiceTest extends IgnoreNotificationTest {
 			10, "설명"
 		);
 		Member hogee = memberRepository.save(MemberFixture.getHogee());
-		Moim moim = moimService.createMoim(moimCreateRequest, hogee);
+		Moim moim = moimService.createMoim(darakbang.getId(), hogee, moimCreateRequest);
 
 		moimService.deleteMoim(moim.getId(), hogee);
 

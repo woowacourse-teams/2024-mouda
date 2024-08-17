@@ -21,7 +21,7 @@ import mouda.backend.please.service.PleaseService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/please")
+@RequestMapping("/v1/darakbang/{darakbangId}/please")
 public class PleaseController implements PleaseSwagger {
 
 	private final PleaseService pleaseService;
@@ -29,6 +29,7 @@ public class PleaseController implements PleaseSwagger {
 	@Override
 	@PostMapping
 	public ResponseEntity<RestResponse<Long>> createPlease(
+		@PathVariable Long darakbangId,
 		@LoginMember Member member,
 		@Valid @RequestBody PleaseCreateRequest pleaseCreateRequest
 	) {
@@ -39,7 +40,10 @@ public class PleaseController implements PleaseSwagger {
 
 	@Override
 	@DeleteMapping("/{pleaseId}")
-	public ResponseEntity<Void> deletePlease(@LoginMember Member member, @PathVariable Long pleaseId) {
+	public ResponseEntity<Void> deletePlease(
+		@PathVariable Long darakbangId,
+		@LoginMember Member member,
+		@PathVariable Long pleaseId) {
 		pleaseService.deletePlease(member, pleaseId);
 
 		return ResponseEntity.ok().build();
@@ -47,7 +51,10 @@ public class PleaseController implements PleaseSwagger {
 
 	@Override
 	@GetMapping
-	public ResponseEntity<RestResponse<PleaseFindAllResponses>> findAllPlease(@LoginMember Member member) {
+	public ResponseEntity<RestResponse<PleaseFindAllResponses>> findAllPlease(
+		@PathVariable Long darakbangId,
+		@LoginMember Member member
+	) {
 		PleaseFindAllResponses responses = pleaseService.findAllPlease(member);
 
 		return ResponseEntity.ok().body(new RestResponse<>(responses));

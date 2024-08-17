@@ -2,6 +2,7 @@ package mouda.backend.member.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,7 +14,7 @@ import mouda.backend.member.dto.response.MemberFindResponse;
 import mouda.backend.member.service.MemberService;
 
 @RestController
-@RequestMapping("/v1/member")
+@RequestMapping("/v1/darakbang/{darakbangId}/member")
 @RequiredArgsConstructor
 public class MemberController implements MemberSwagger {
 
@@ -21,7 +22,10 @@ public class MemberController implements MemberSwagger {
 
 	@Override
 	@GetMapping("/mine")
-	public ResponseEntity<RestResponse<MemberFindResponse>> findMyInfo(@LoginMember Member member) {
+	public ResponseEntity<RestResponse<MemberFindResponse>> findMyInfo(
+		@PathVariable Long darakbangId,
+		@LoginMember Member member
+	) {
 		MemberFindResponse memberFindResponse = memberService.findMyInfo(member);
 
 		return ResponseEntity.ok().body(new RestResponse<>(memberFindResponse));

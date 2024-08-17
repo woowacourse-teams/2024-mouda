@@ -1,6 +1,7 @@
 package mouda.backend.please.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,5 +17,9 @@ public interface InterestSwagger {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "관심 상태 변경 성공!"),
 	})
-	ResponseEntity<Void> updateInterest(@LoginMember Member member, @RequestBody InterestUpdateRequest request);
+	ResponseEntity<Void> updateInterest(
+		@PathVariable Long darakbangId,
+		@LoginMember Member member,
+		@RequestBody InterestUpdateRequest request
+	);
 }

@@ -59,8 +59,8 @@ public class MoimService {
 	private final CommentRepository commentRepository;
 	private final NotificationService notificationService;
 
-	public Moim createMoim(MoimCreateRequest moimCreateRequest, Member member) {
-		Moim moim = moimRepository.save(moimCreateRequest.toEntity());
+	public Moim createMoim(Long darakbangId, Member member, MoimCreateRequest moimCreateRequest) {
+		Moim moim = moimRepository.save(moimCreateRequest.toEntity(darakbangId));
 		Chamyo chamyo = Chamyo.builder()
 			.member(member)
 			.moim(moim)
