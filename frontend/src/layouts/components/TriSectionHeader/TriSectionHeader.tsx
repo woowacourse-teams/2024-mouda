@@ -1,6 +1,7 @@
 import * as S from './TriSectionHeader.style';
 
 import { PropsWithChildren } from 'react';
+import { useTheme } from '@emotion/react';
 
 interface TriSectionHeaderProps extends PropsWithChildren {
   borderBottomColor?: string;
@@ -21,7 +22,10 @@ TriSectionHeader.Left = function Left(props: PropsWithChildren) {
 
 TriSectionHeader.Center = function Center(props: PropsWithChildren) {
   const { children } = props;
-  return <div css={S.centerSectionStyle}>{children}</div>;
+  const theme = useTheme();
+  return (
+    <div css={[S.centerSectionStyle, theme.typography.h5]}>{children}</div>
+  );
 };
 
 TriSectionHeader.Right = function Right(props: PropsWithChildren) {
