@@ -1,43 +1,64 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+
+type StorageType = 'localStorage' | 'sessionStorage';
+
+interface UseStatePersistParams<StateType> {
+  key: string;
+  initialState: StateType | (() => StateType);
+  storage?: StorageType;
+}
 
 export default function useStatePersist<StateType>({
   key,
   initialState,
-}: {
-  key: string;
-  initialState: StateType | (() => StateType);
-}): [StateType, React.Dispatch<React.SetStateAction<StateType>>] {
+  storage = 'sessionStorage',
+}: UseStatePersistParams<StateType>): [
+  StateType,
+  React.Dispatch<React.SetStateAction<StateType>>,
+] {
+  const storageObject =
+    storage === 'localStorage' ? window.localStorage : window.sessionStorage;
+  const initialRender = useRef(true);
+
   const getStoredValue = (): StateType => {
     try {
-      const item = sessionStorage.getItem(key);
-      return item
-        ? JSON.parse(item)
-        : typeof initialState === 'function'
-          ? (initialState as () => StateType)()
-          : initialState;
+      const item = storageObject.getItem(key);
+      if (item !== null) {
+        return JSON.parse(item);
+      }
     } catch (error) {
-      console.error('Error reading from sessionStorage', error);
-      return typeof initialState === 'function'
-        ? (initialState as () => StateType)()
-        : initialState;
+      console.error(`Error reading from ${storage}`, error);
     }
+
+    return typeof initialState === 'function'
+      ? (initialState as () => StateType)()
+      : initialState;
   };
 
   const [state, setState] = useState<StateType>(getStoredValue);
-  const firstRender = useRef(true);
 
   useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
+    if (initialRender.current) {
+      initialRender.current = false;
       return;
     }
 
     try {
-      sessionStorage.setItem(key, JSON.stringify(state));
+      storageObject.setItem(key, JSON.stringify(state));
     } catch (error) {
-      console.error('Error writing to sessionStorage', error);
+      console.error(`Error writing to ${storage}`, error);
     }
-  }, [key, state]);
+  }, [key, state, storageObject, storage]);
+
+  useEffect(() => {
+    return () => {
+      try {
+        storageObject.removeItem(key);
+      } catch (error) {
+        console.error(`Error removing item from ${storage}`, error);
+      }
+    };
+  }, [key, storageObject, storage]);
 
   return [state, setState];
 }

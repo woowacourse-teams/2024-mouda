@@ -46,7 +46,7 @@ export default function MoimCreationPage() {
   const currentStep: MoimCreationStep = location.state?.step || steps[0];
 
   const [moimInfo, setMoimInfo] = useStatePersist<MoimCreationInfo>({
-    key: 'moimCreationInfo',
+    key: location.pathname,
     initialState: {
       title: '',
       offlineOrOnline: '',
@@ -56,6 +56,7 @@ export default function MoimCreationPage() {
       maxPeople: 0,
       description: '',
     },
+    storage: 'sessionStorage',
   });
 
   const currentComponents: {
