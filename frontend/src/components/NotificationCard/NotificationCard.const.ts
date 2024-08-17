@@ -13,7 +13,7 @@ export const notificationTypeColors = (
     NEW_COMMENT: theme.colorPalette.yellow[300],
     NEW_REPLY: theme.colorPalette.yellow[300],
     NEW_CHAT: theme.colorPalette.yellow[300],
-    NEW_MOIMEE_JOINED: theme.colorPalette.yellow[300],
+    NEW_MOIMEE_JOINED: theme.colorPalette.green[300],
     MOIMEE_LEFT: theme.colorPalette.red[500],
     MOIM_PLACE_COMFIRMED: theme.colorPalette.green[300],
     MOIM_TIME_CONFIRMED: theme.colorPalette.green[300],
