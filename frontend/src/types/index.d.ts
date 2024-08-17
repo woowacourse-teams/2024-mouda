@@ -13,7 +13,7 @@ export interface MoimInfo {
   authorNickname: string;
   participants: Participation[];
   description?: string;
-  status: 'MOIMING' | 'COMPLETED' | 'CANCELED';
+  status: MoimStatus;
   comments: Comment[];
   isZzimed: boolean;
 }
@@ -24,6 +24,7 @@ export interface Participation {
   role: Role;
 }
 
+export type MoimStatus = 'MOIMING' | 'COMPLETED' | 'CANCELED';
 export type Role = 'MOIMER' | 'MOIMEE' | 'NON_MOIMEE';
 
 export interface Comment {

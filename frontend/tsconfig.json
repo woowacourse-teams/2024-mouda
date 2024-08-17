@@ -31,7 +31,8 @@
       "@_types/*": ["src/types/*"],
       "@_utils/*": ["src/utils/*"],
       "@_routes/*": ["src/routes/*"],
-      "@_mocks/*": ["src/mocks/*"]
+      "@_mocks/*": ["src/mocks/*"],
+      "@_service/*": ["src/service/*"]
     }
   },
   "ts-node": {

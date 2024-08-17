@@ -1,4 +1,10 @@
-import { Chat, ChattingPreview, MoimInfo, Participation } from '@_types/index';
+import {
+  Chat,
+  ChattingPreview,
+  MoimInfo,
+  Participation,
+  Role,
+} from '@_types/index';
 import {
   GetChamyoAll,
   GetChamyoMine,
@@ -71,9 +77,7 @@ export const getMyMoims = async (): Promise<MoimInfo[]> => {
   return json.data.moims;
 };
 
-export const getChamyoMine = async (
-  moimId: number,
-): Promise<'MOIMER' | 'MOIMEE' | 'NON_MOIMEE'> => {
+export const getChamyoMine = async (moimId: number): Promise<Role> => {
   const response = await ApiClient.getWithAuth(`chamyo/mine?moimId=${moimId}`);
 
   const json: GetChamyoMine = await response.json();

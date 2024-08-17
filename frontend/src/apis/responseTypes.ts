@@ -5,6 +5,7 @@ import {
   Notification,
   Participation,
   Please,
+  Role,
 } from '../types';
 
 export interface GetMoims {
@@ -36,7 +37,7 @@ export interface GetChat {
 
 export interface GetChamyoMine {
   data: {
-    role: 'MOIMER' | 'MOIMEE' | 'NON_MOIMEE';
+    role: Role;
   };
 }
 
