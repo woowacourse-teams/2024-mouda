@@ -29,7 +29,7 @@ function HighlightSpan(props: HighlightSpanProps) {
     <HighlightSpanContext.Provider
       value={{ highlightColor, normalColor, font }}
     >
-      {children}
+      <span>{children}</span>
     </HighlightSpanContext.Provider>
   );
 }
