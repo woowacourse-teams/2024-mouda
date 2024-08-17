@@ -152,11 +152,11 @@ public class NotificationService {
 		List<NotificationFindAllResponse> responses = memberNotificationRepository.findAllByMemberId(member.getId())
 			.stream()
 			.map(MemberNotification::getMoudaNotification)
-			.map(moudaNotification -> new NotificationFindAllResponse(
-				moudaNotification.getBody(),
-				parseTime(moudaNotification.getCreatedAt()),
-				moudaNotification.getType().name()
-			))
+			.map(moudaNotification -> NotificationFindAllResponse.builder()
+				.message(moudaNotification.getBody())
+				.createdAt(parseTime(moudaNotification.getCreatedAt()))
+				.type(moudaNotification.getType().name())
+				.build())
 			.toList();
 
 		return new NotificationFindAllResponses(responses);
