@@ -11,8 +11,8 @@ export default function NotificationCard(props: NotificationCardProps) {
     <div css={S.CardBox}>
       <div>{notification.type}</div>
       <div css={S.TextInfoBox}>
-        <div css={S.Title({ theme })}>{notification.title}</div>
-        <div css={S.SubTitle({ theme })}>{notification.time}</div>
+        <div css={S.Title({ theme })}>{notification.message}</div>
+        <div css={S.SubTitle({ theme })}>{notification.createdAt}</div>
       </div>
     </div>
   );
