@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ import mouda.backend.comment.domain.Comment;
 import mouda.backend.comment.dto.request.CommentCreateRequest;
 import mouda.backend.comment.exception.CommentException;
 import mouda.backend.comment.repository.CommentRepository;
-import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.fixture.MemberFixture;
 import mouda.backend.fixture.MoimFixture;
 import mouda.backend.member.domain.Member;
@@ -43,14 +41,6 @@ class MoimServiceTest extends IgnoreNotificationTest {
 
 	@Autowired
 	private CommentRepository commentRepository;
-
-	@Autowired
-	private DatabaseCleaner databaseCleaner;
-
-	@AfterEach
-	void cleanUp() {
-		databaseCleaner.cleanUp();
-	}
 
 	@DisplayName("모임을 생성한다.")
 	@Test
