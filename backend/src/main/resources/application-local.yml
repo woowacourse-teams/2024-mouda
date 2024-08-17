@@ -19,3 +19,10 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+oauth:
+  kakao:
+    redirect-uri: http://localhost:8081/kakao-o-auth
+
+url:
+  base: http://localhost:8080

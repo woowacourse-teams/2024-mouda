@@ -5,3 +5,10 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: false
+
+url:
+  base: https://dev.mouda.site
+
+oauth:
+  kakao:
+    redirect-uri: https://dev.mouda.site/kakao-o-auth
