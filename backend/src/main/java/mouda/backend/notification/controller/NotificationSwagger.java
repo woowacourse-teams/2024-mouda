@@ -30,5 +30,8 @@ public interface NotificationSwagger {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "알림 조회 성공!")
 	})
-	ResponseEntity<RestResponse<NotificationFindAllResponses>> findAllMyNotification(@LoginMember Member member);
+	ResponseEntity<RestResponse<NotificationFindAllResponses>> findAllMyNotification(
+		@PathVariable Long darakbangId,
+		@LoginMember Member member
+	);
 }

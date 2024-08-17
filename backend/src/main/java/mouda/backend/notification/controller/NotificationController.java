@@ -1,8 +1,8 @@
 package mouda.backend.notification.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +39,9 @@ public class NotificationController implements NotificationSwagger {
 	@Override
 	@GetMapping("/mine")
 	public ResponseEntity<RestResponse<NotificationFindAllResponses>> findAllMyNotification(
-		@LoginMember Member member) {
+		@PathVariable Long darakbangId,
+		@LoginMember Member member
+	) {
 		NotificationFindAllResponses responses = notificationService.findAllMyNotifications(member);
 
 		return ResponseEntity.ok().body(new RestResponse<>(responses));
