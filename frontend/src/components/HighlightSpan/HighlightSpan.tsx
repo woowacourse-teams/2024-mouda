@@ -29,7 +29,7 @@ function HighlightSpan(props: HighlightSpanProps) {
     <HighlightSpanContext.Provider
       value={{ highlightColor, normalColor, font }}
     >
-      <span>{children}</span>
+      <span css={S.text({ color: normalColor, font })}>{children}</span>
     </HighlightSpanContext.Provider>
   );
 }
@@ -42,19 +42,6 @@ HighlightSpan.Highlight = function Highlight(props: PropsWithChildren) {
   }
   return (
     <span css={[S.text({ color: context.highlightColor, font: context.font })]}>
-      {children}
-    </span>
-  );
-};
-
-HighlightSpan.Normal = function Normal(props: PropsWithChildren) {
-  const { children } = props;
-  const context = useContext(HighlightSpanContext);
-  if (!context) {
-    throw new Error('HighlightSpan context가 없습니다');
-  }
-  return (
-    <span css={[S.text({ color: context.normalColor, font: context.font })]}>
       {children}
     </span>
   );

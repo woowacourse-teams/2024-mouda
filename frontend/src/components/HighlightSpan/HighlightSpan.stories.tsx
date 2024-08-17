@@ -14,7 +14,7 @@ export const Default: Story = {
     return (
       <HighlightSpan>
         <HighlightSpan.Highlight>안녕하세요</HighlightSpan.Highlight>
-        <HighlightSpan.Normal>{'반갑습니다'}</HighlightSpan.Normal>
+        {'반갑습니다'}
       </HighlightSpan>
     );
   },
