@@ -1,5 +1,7 @@
 package mouda.backend.notification.service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,11 +18,14 @@ import com.google.firebase.messaging.WebpushFcmOptions;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mouda.backend.member.domain.Member;
 import mouda.backend.notification.domain.FcmToken;
 import mouda.backend.notification.domain.MemberNotification;
 import mouda.backend.notification.domain.MoudaNotification;
 import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.dto.request.FcmTokenSaveRequest;
+import mouda.backend.notification.dto.response.NotificationFindAllResponse;
+import mouda.backend.notification.dto.response.NotificationFindAllResponses;
 import mouda.backend.notification.repository.FcmTokenRepository;
 import mouda.backend.notification.repository.MemberNotificationRepository;
 import mouda.backend.notification.repository.MoudaNotificationRepository;
@@ -141,5 +146,37 @@ public class NotificationService {
 		return WebpushConfig.builder()
 			.setFcmOptions(WebpushFcmOptions.withLink(url))
 			.build();
+	}
+
+	public NotificationFindAllResponses findAllMyNotifications(Member member) {
+		List<NotificationFindAllResponse> responses = memberNotificationRepository.findAllByMemberId(member.getId())
+			.stream()
+			.map(MemberNotification::getMoudaNotification)
+			.map(moudaNotification -> new NotificationFindAllResponse(
+				moudaNotification.getBody(),
+				parseTime(moudaNotification.getCreatedAt()),
+				moudaNotification.getType().name()
+			))
+			.toList();
+
+		return new NotificationFindAllResponses(responses);
+	}
+
+	private String parseTime(LocalDateTime notificationCreatedAt) {
+		LocalDateTime now = LocalDateTime.now();
+		long minutes = notificationCreatedAt.until(now, ChronoUnit.MINUTES);
+		long hours = notificationCreatedAt.until(now, ChronoUnit.HOURS);
+		long days = notificationCreatedAt.until(now, ChronoUnit.DAYS);
+
+		if (minutes == 0) {
+			return "방금 전";
+		}
+		if (minutes < 60) {
+			return minutes + "분 전";
+		}
+		if (hours < 24) {
+			return hours + "시간 전";
+		}
+		return days + "일 전";
 	}
 }
