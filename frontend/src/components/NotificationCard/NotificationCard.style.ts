@@ -1,3 +1,4 @@
+import { theme } from '@_common/theme/theme.style';
 import { css, Theme } from '@emotion/react';
 
 export const CardBox = css`
@@ -11,6 +12,11 @@ export const TextInfoBox = css`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+`;
+
+export const colorDot = (props: { theme: Theme; typeColor: string }) => css`
+  color: ${props.typeColor};
+  ${theme.typography.h1}
 `;
 
 export const Title = (props: { theme: Theme }) => css`
