@@ -2,6 +2,7 @@ import {
   Chat,
   ChattingPreview,
   MoimInfo,
+  Notification,
   Participation,
   Please,
 } from '../types';
@@ -61,5 +62,11 @@ export interface GetMyInfo {
   data: {
     nickname: string;
     profile: string;
+  };
+}
+
+export interface GetNotifications {
+  data: {
+    notifications: Notification[];
   };
 }

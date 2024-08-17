@@ -14,6 +14,7 @@ const QUERY_KEYS = {
   myInfo: 'myinfo',
   please: 'please',
   pleases: 'pleases',
+  notifications: 'notifications',
 };
 
 export default QUERY_KEYS;

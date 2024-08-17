@@ -7,6 +7,7 @@ import {
   GetMoim,
   GetMoims,
   GetMyInfo,
+  GetNotifications,
   GetPleases,
   GetZzimMine,
 } from './responseTypes';
@@ -107,4 +108,11 @@ export const getMyInfo = async () => {
 
   const json: GetMyInfo = await response.json();
   return json.data;
+};
+
+export const getNotifications = async () => {
+  const response = await ApiClient.getWithAuth('notification/mine');
+
+  const json: GetNotifications = await response.json();
+  return json.data.notifications;
 };
