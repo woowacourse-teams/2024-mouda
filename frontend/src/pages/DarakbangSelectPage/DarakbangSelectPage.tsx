@@ -1,6 +1,7 @@
 import * as S from './DarakbangSelectPage.style';
 
 import HighlightSpan from '@_components/HighlightSpan/HighlightSpan';
+import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import SelectBar from '@_components/SelectBar/SelectBar';
 import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
 import SolidArrow from '@_components/Icons/SolidArrow';
@@ -10,6 +11,7 @@ import { useTheme } from '@emotion/react';
 export default function DarakbangSelectPage() {
   const theme = useTheme();
   const navigate = useNavigate();
+  const darakbangs: [] = [];
   return (
     <SelectLayout>
       <SelectLayout.Header>
@@ -31,8 +33,13 @@ export default function DarakbangSelectPage() {
           <HighlightSpan.Highlight>다락방</HighlightSpan.Highlight>에
           들어갈까요?
         </HighlightSpan>
-        <SelectBar>우아한테크코스</SelectBar>
-        <SelectBar>LEETS</SelectBar>
+        {darakbangs?.length > 0 &&
+          darakbangs.map((name) => <SelectBar key={name}>{name}</SelectBar>)}
+        {(!darakbangs || darakbangs.length === 0) && (
+          <div css={S.fallbackContainer}>
+            <MissingFallback text="참여 중인 다락방이 없어요" />
+          </div>
+        )}
         <div css={S.bottom({ theme })}>참여코드로 다락방 들어가기</div>
       </SelectLayout.ContentContainer>
     </SelectLayout>
