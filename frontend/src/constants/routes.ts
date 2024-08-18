@@ -11,6 +11,7 @@ const ROUTES = {
   please: '/please',
   addPlease: '/please/creation',
   myPage: '/my-page',
+  notification: '/notification',
   darakbangSelectOption: '/darakbang-select-option',
   darakbangSelect: '/darakbang-select',
   darakbangCreation: '/darakbang-creation',

@@ -76,3 +76,23 @@ export interface Please {
   isInterested: boolean;
   interestCount: number;
 }
+
+export type NotificationType =
+  | 'MOIM_CREATED'
+  | 'MOIMING_COMPLETED'
+  | 'MOIMING_REOPENED'
+  | 'MOIM_CANCELED'
+  | 'MOIM_MODIFIED'
+  | 'NEW_COMMENT'
+  | 'NEW_REPLY'
+  | 'NEW_CHAT'
+  | 'NEW_MOIMEE_JOINED'
+  | 'MOIMEE_LEFT'
+  | 'MOIM_PLACE_COMFIRMED'
+  | 'MOIM_TIME_CONFIRMED';
+
+export interface Notification {
+  type: NotificationType;
+  message: string;
+  createdAt: string;
+}

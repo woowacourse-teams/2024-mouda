@@ -11,5 +11,6 @@ const ENDPOINTS = {
   zzim: getEndpoint('v1/zzim'),
   interest: getEndpoint('v1/interest'),
   please: getEndpoint('v1/please'),
+  notification: getEndpoint('v1/notification'),
 };
 export default ENDPOINTS;

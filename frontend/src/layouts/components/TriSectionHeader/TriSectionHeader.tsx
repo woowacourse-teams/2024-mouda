@@ -17,15 +17,14 @@ function TriSectionHeader(props: TriSectionHeaderProps) {
 
 TriSectionHeader.Left = function Left(props: PropsWithChildren) {
   const { children } = props;
-  return <div css={S.leftSectionStyle}>{children}</div>;
+  const theme = useTheme();
+  return <div css={S.leftSectionStyle({ theme })}>{children}</div>;
 };
 
 TriSectionHeader.Center = function Center(props: PropsWithChildren) {
   const { children } = props;
   const theme = useTheme();
-  return (
-    <div css={[S.centerSectionStyle, theme.typography.h5]}>{children}</div>
-  );
+  return <div css={S.centerSectionStyle({ theme })}>{children}</div>;
 };
 
 TriSectionHeader.Right = function Right(props: PropsWithChildren) {

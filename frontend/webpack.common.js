@@ -9,7 +9,7 @@ module.exports = {
   entry: './src/index.tsx',
 
   output: {
-    filename: 'bundle.js',
+    filename: '[name].[contenthash].js', // 캐시를 위한 해시 추가
     path: path.resolve(__dirname, 'dist'),
     clean: true,
     publicPath: '/',
