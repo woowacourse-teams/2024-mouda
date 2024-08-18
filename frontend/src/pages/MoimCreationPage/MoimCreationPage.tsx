@@ -10,7 +10,7 @@ import PlaceStep from './Steps/PlaceStep';
 import DateAndTimeStep from './Steps/DateAndTimeStep';
 import MaxPeopleStep from './Steps/MaxPeopleStep';
 import DescriptionStep from './Steps/DescriptionStep';
-import useMoimCreationInfo from './MoimCreatePage.hook';
+import useMoimCreationInfo from './MoimCreationPage.hook';
 import POLICES from '@_constants/poclies';
 
 export type MoimCreationStep =
