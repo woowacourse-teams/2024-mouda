@@ -9,8 +9,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import mouda.backend.common.RestResponse;
-import mouda.backend.config.argumentresolver.LoginMember;
-import mouda.backend.member.domain.Member;
+import mouda.backend.config.argumentresolver.LoginDarakbangMember;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.please.dto.request.PleaseCreateRequest;
 import mouda.backend.please.dto.response.PleaseFindAllResponses;
 
@@ -22,7 +22,7 @@ public interface PleaseSwagger {
 	})
 	ResponseEntity<RestResponse<Long>> createPlease(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@Valid @RequestBody PleaseCreateRequest pleaseCreateRequest
 	);
 
@@ -32,7 +32,7 @@ public interface PleaseSwagger {
 	})
 	ResponseEntity<Void> deletePlease(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@PathVariable Long pleaseId
 	);
 
@@ -42,6 +42,6 @@ public interface PleaseSwagger {
 	})
 	ResponseEntity<RestResponse<PleaseFindAllResponses>> findAllPlease(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member
+		@LoginDarakbangMember DarakbangMember member
 	);
 }

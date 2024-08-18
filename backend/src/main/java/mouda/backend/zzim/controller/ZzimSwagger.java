@@ -10,8 +10,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import mouda.backend.common.RestResponse;
-import mouda.backend.config.argumentresolver.LoginMember;
-import mouda.backend.member.domain.Member;
+import mouda.backend.config.argumentresolver.LoginDarakbangMember;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.zzim.dto.request.ZzimUpdateRequest;
 import mouda.backend.zzim.dto.response.ZzimCheckResponse;
 
@@ -23,7 +23,7 @@ public interface ZzimSwagger {
 	})
 	ResponseEntity<RestResponse<ZzimCheckResponse>> checkZzimByMoimAndMember(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@RequestParam Long moimId
 	);
 
@@ -33,7 +33,7 @@ public interface ZzimSwagger {
 	})
 	ResponseEntity<Void> updateZzim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@Valid @RequestBody ZzimUpdateRequest request
 	);
 }

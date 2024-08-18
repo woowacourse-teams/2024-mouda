@@ -11,12 +11,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import mouda.backend.comment.dto.request.CommentCreateRequest;
 import mouda.backend.common.RestResponse;
-import mouda.backend.config.argumentresolver.LoginMember;
-import mouda.backend.member.domain.Member;
+import mouda.backend.config.argumentresolver.LoginDarakbangMember;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.FilterType;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
 import mouda.backend.moim.dto.request.MoimEditRequest;
-import mouda.backend.moim.dto.request.MoimJoinRequest;
 import mouda.backend.moim.dto.response.MoimDetailsFindResponse;
 import mouda.backend.moim.dto.response.MoimFindAllResponses;
 
@@ -28,7 +27,7 @@ public interface MoimSwagger {
 	})
 	ResponseEntity<RestResponse<Long>> createMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@RequestBody MoimCreateRequest moimCreateRequest
 	);
 
@@ -38,7 +37,7 @@ public interface MoimSwagger {
 	})
 	ResponseEntity<RestResponse<MoimFindAllResponses>> findAllMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member
+		@LoginDarakbangMember DarakbangMember member
 	);
 
 	@Operation(summary = "모임 상세 조회", description = "모임 상세 조회한다.")
@@ -47,17 +46,8 @@ public interface MoimSwagger {
 	})
 	ResponseEntity<RestResponse<MoimDetailsFindResponse>> findMoimDetails(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@PathVariable Long moimId
-	);
-
-	@Operation(summary = "모임 참여", description = "모임에 참여한다.")
-	@ApiResponses({
-		@ApiResponse(responseCode = "200", description = "모임 참여 성공!")
-	})
-	ResponseEntity<Void> joinMoim(
-		@PathVariable Long darakbangId,
-		@RequestBody MoimJoinRequest moimJoinRequest
 	);
 
 	@Operation(summary = "모임 삭제", description = "해당하는 id의 모임을 삭제한다.")
@@ -66,7 +56,7 @@ public interface MoimSwagger {
 	})
 	ResponseEntity<Void> deleteMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@PathVariable Long moimId
 	);
 
@@ -76,7 +66,7 @@ public interface MoimSwagger {
 	})
 	ResponseEntity<Void> completeMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@PathVariable Long moimId
 	);
 
@@ -86,7 +76,7 @@ public interface MoimSwagger {
 	})
 	ResponseEntity<Void> cancelMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@PathVariable Long moimId
 	);
 
@@ -96,7 +86,7 @@ public interface MoimSwagger {
 	})
 	ResponseEntity<Void> reopenMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@PathVariable Long moimId
 	);
 
@@ -106,7 +96,7 @@ public interface MoimSwagger {
 	})
 	ResponseEntity<Void> editMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@Valid @RequestBody MoimEditRequest request
 	);
 
@@ -116,7 +106,7 @@ public interface MoimSwagger {
 	})
 	ResponseEntity<Void> createComment(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@PathVariable Long moimId,
 		@RequestBody CommentCreateRequest commentCreateRequest);
 
@@ -126,7 +116,7 @@ public interface MoimSwagger {
 	})
 	ResponseEntity<RestResponse<MoimFindAllResponses>> findAllMyMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@RequestParam(value = "filter", defaultValue = "ALL") FilterType filter
 	);
 
@@ -136,6 +126,6 @@ public interface MoimSwagger {
 	})
 	ResponseEntity<RestResponse<MoimFindAllResponses>> findAllZzimedMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member
+		@LoginDarakbangMember DarakbangMember member
 	);
 }

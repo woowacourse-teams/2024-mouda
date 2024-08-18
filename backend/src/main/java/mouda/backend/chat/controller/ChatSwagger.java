@@ -15,8 +15,8 @@ import mouda.backend.chat.dto.request.PlaceConfirmRequest;
 import mouda.backend.chat.dto.response.ChatFindUnloadedResponse;
 import mouda.backend.chat.dto.response.ChatPreviewResponses;
 import mouda.backend.common.RestResponse;
-import mouda.backend.config.argumentresolver.LoginMember;
-import mouda.backend.member.domain.Member;
+import mouda.backend.config.argumentresolver.LoginDarakbangMember;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 
 public interface ChatSwagger {
 
@@ -26,7 +26,7 @@ public interface ChatSwagger {
 	})
 	ResponseEntity<Void> createChat(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@RequestBody ChatCreateRequest chatCreateRequest
 	);
 
@@ -36,7 +36,7 @@ public interface ChatSwagger {
 	})
 	ResponseEntity<RestResponse<ChatFindUnloadedResponse>> findUnloadedChats(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@RequestParam Long recentChatId,
 		@RequestParam Long moimId
 	);
@@ -47,7 +47,7 @@ public interface ChatSwagger {
 	})
 	ResponseEntity<Void> confirmPlace(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@RequestBody PlaceConfirmRequest placeConfirmRequest
 	);
 
@@ -57,7 +57,7 @@ public interface ChatSwagger {
 	})
 	ResponseEntity<Void> confirmDateTime(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@RequestBody DateTimeConfirmRequest dateTimeConfirmRequest
 	);
 
@@ -67,7 +67,7 @@ public interface ChatSwagger {
 	})
 	ResponseEntity<RestResponse<ChatPreviewResponses>> findChatPreviews(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member
+		@LoginDarakbangMember DarakbangMember member
 	);
 
 	@Operation(summary = "마지막 읽은 채팅 저장", description = "마지막 읽은 채팅을 저장한다.")
@@ -76,7 +76,7 @@ public interface ChatSwagger {
 	})
 	ResponseEntity<Void> createLastReadChatId(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@RequestBody LastReadChatRequest lastReadChatRequest
 	);
 
@@ -86,7 +86,7 @@ public interface ChatSwagger {
 	})
 	ResponseEntity<Void> openChatRoom(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@RequestParam("moimId") Long moimId
 	);
 }

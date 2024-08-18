@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import mouda.backend.chamyo.domain.Chamyo;
-import mouda.backend.member.domain.Member;
 import mouda.backend.moim.domain.Moim;
 
 public interface ChamyoRepository extends JpaRepository<Chamyo, Long> {
@@ -19,14 +18,16 @@ public interface ChamyoRepository extends JpaRepository<Chamyo, Long> {
 
 	int countByMoim(Moim moim);
 
-	boolean existsByMoimAndMember(Moim moim, Member member);
+	boolean existsByMoimIdAndMemberId(Long moimId, Long memberId);
 
 	List<Chamyo> findAllByMemberId(Long memberId);
 
 	void deleteAllByMoimId(Long moimId);
 
-	void deleteByMoimAndMember(Moim moim, Member member);
+	void deleteByMoimIdAndMemberId(Long moimId, Long memberId);
 
 	@Query("SELECT c.member.id FROM Chamyo c WHERE c.moim.id = :moimId AND c.moimRole = 'MOIMER'")
 	Long findMoimerIdByMoimId(@Param("moimId") Long moimId);
+
+	List<Chamyo> findAllByMemberIdAndMoim_DarakbangId(Long memberId, Long darakbangId);
 }

@@ -10,4 +10,11 @@ public class DarakbangFixture {
 			.code("SOFABABO1")
 			.build();
 	}
+
+	public static Darakbang getDarakbangWithMouda() {
+		return Darakbang.builder()
+			.name("모우다")
+			.code("SOFABAB")
+			.build();
+	}
 }

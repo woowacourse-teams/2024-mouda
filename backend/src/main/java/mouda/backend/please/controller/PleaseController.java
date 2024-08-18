@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.common.RestResponse;
-import mouda.backend.config.argumentresolver.LoginMember;
-import mouda.backend.member.domain.Member;
+import mouda.backend.config.argumentresolver.LoginDarakbangMember;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.please.domain.Please;
 import mouda.backend.please.dto.request.PleaseCreateRequest;
 import mouda.backend.please.dto.response.PleaseFindAllResponses;
@@ -30,10 +30,10 @@ public class PleaseController implements PleaseSwagger {
 	@PostMapping
 	public ResponseEntity<RestResponse<Long>> createPlease(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@Valid @RequestBody PleaseCreateRequest pleaseCreateRequest
 	) {
-		Please please = pleaseService.createPlease(member, pleaseCreateRequest);
+		Please please = pleaseService.createPlease(darakbangId, member, pleaseCreateRequest);
 
 		return ResponseEntity.ok().body(new RestResponse<>(please.getId()));
 	}
@@ -42,9 +42,10 @@ public class PleaseController implements PleaseSwagger {
 	@DeleteMapping("/{pleaseId}")
 	public ResponseEntity<Void> deletePlease(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
-		@PathVariable Long pleaseId) {
-		pleaseService.deletePlease(member, pleaseId);
+		@LoginDarakbangMember DarakbangMember member,
+		@PathVariable Long pleaseId
+	) {
+		pleaseService.deletePlease(darakbangId, pleaseId, member);
 
 		return ResponseEntity.ok().build();
 	}
@@ -53,9 +54,9 @@ public class PleaseController implements PleaseSwagger {
 	@GetMapping
 	public ResponseEntity<RestResponse<PleaseFindAllResponses>> findAllPlease(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member
+		@LoginDarakbangMember DarakbangMember member
 	) {
-		PleaseFindAllResponses responses = pleaseService.findAllPlease(member);
+		PleaseFindAllResponses responses = pleaseService.findAllPlease(darakbangId, member);
 
 		return ResponseEntity.ok().body(new RestResponse<>(responses));
 	}

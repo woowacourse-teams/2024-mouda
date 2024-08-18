@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import mouda.backend.chat.domain.Chat;
 import mouda.backend.chat.domain.ChatType;
-import mouda.backend.member.domain.Member;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
 
 public record PlaceConfirmRequest(
@@ -17,7 +17,7 @@ public record PlaceConfirmRequest(
 	@NotBlank
 	String place
 ) {
-	public Chat toEntity(Moim moim, Member member) {
+	public Chat toEntity(Moim moim, DarakbangMember member) {
 		return Chat.builder()
 			.content(place)
 			.moim(moim)

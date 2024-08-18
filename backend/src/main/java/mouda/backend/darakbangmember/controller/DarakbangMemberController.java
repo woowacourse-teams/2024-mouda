@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.common.RestResponse;
+import mouda.backend.config.argumentresolver.LoginDarakbangMember;
 import mouda.backend.config.argumentresolver.LoginMember;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.dto.response.DarakbangMemberResponses;
 import mouda.backend.darakbangmember.dto.response.DarakbangMemberRoleResponse;
 import mouda.backend.darakbangmember.service.DarakbangMemberService;
@@ -25,7 +27,7 @@ public class DarakbangMemberController implements DarakbangMemberSwagger {
 	@GetMapping("/{darakbangId}/members")
 	public ResponseEntity<RestResponse<DarakbangMemberResponses>> findAllDarakbangMembers(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member
+		@LoginDarakbangMember DarakbangMember member
 	) {
 		DarakbangMemberResponses responses = darakbangMemberService.findAllDarakbangMembers(darakbangId, member);
 

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.common.RestResponse;
-import mouda.backend.config.argumentresolver.LoginMember;
-import mouda.backend.member.domain.Member;
+import mouda.backend.config.argumentresolver.LoginDarakbangMember;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.zzim.dto.request.ZzimUpdateRequest;
 import mouda.backend.zzim.dto.response.ZzimCheckResponse;
 import mouda.backend.zzim.service.ZzimService;
@@ -29,10 +29,10 @@ public class ZzimController implements ZzimSwagger {
 	@GetMapping("/mine")
 	public ResponseEntity<RestResponse<ZzimCheckResponse>> checkZzimByMoimAndMember(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@RequestParam Long moimId
 	) {
-		ZzimCheckResponse zzimCheckResponse = zzimService.checkZzimByMember(moimId, member);
+		ZzimCheckResponse zzimCheckResponse = zzimService.checkZzimByMember(darakbangId, moimId, member);
 
 		return ResponseEntity.ok().body(new RestResponse<>(zzimCheckResponse));
 	}
@@ -41,10 +41,10 @@ public class ZzimController implements ZzimSwagger {
 	@PostMapping
 	public ResponseEntity<Void> updateZzim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@Valid @RequestBody ZzimUpdateRequest request
 	) {
-		zzimService.updateZzim(request, member);
+		zzimService.updateZzim(darakbangId, request.moimId(), member);
 
 		return ResponseEntity.ok().build();
 	}

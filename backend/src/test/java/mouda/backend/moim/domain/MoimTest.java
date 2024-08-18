@@ -10,10 +10,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import mouda.backend.fixture.DarakbangSetUp;
 import mouda.backend.fixture.MoimFixture;
 import mouda.backend.moim.exception.MoimException;
 
-class MoimTest {
+class MoimTest extends DarakbangSetUp {
 
 	private static final String TITLE = "이번 주에 축구하실 분 구함";
 	private static final LocalDate DATE = LocalDate.now().plusDays(1);
@@ -25,7 +26,7 @@ class MoimTest {
 	@DisplayName("모임 객체를 정상적으로 생성한다.")
 	@Test
 	void createMoim() {
-		Assertions.assertDoesNotThrow(MoimFixture::getBasketballMoim);
+		Assertions.assertDoesNotThrow(() -> MoimFixture.getBasketballMoim(darakbang.getId()));
 	}
 
 	@DisplayName("제목 길이가 제한을 초과하면 모임 객체 생성에 실패한다.")

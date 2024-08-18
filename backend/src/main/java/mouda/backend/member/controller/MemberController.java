@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.common.RestResponse;
-import mouda.backend.config.argumentresolver.LoginMember;
-import mouda.backend.member.domain.Member;
+import mouda.backend.config.argumentresolver.LoginDarakbangMember;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.member.dto.response.MemberFindResponse;
 import mouda.backend.member.service.MemberService;
 
@@ -24,7 +24,7 @@ public class MemberController implements MemberSwagger {
 	@GetMapping("/mine")
 	public ResponseEntity<RestResponse<MemberFindResponse>> findMyInfo(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member
+		@LoginDarakbangMember DarakbangMember member
 	) {
 		MemberFindResponse memberFindResponse = memberService.findMyInfo(member);
 

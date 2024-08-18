@@ -15,13 +15,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.comment.dto.request.CommentCreateRequest;
 import mouda.backend.common.RestResponse;
-import mouda.backend.config.argumentresolver.LoginMember;
-import mouda.backend.member.domain.Member;
+import mouda.backend.config.argumentresolver.LoginDarakbangMember;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.FilterType;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.dto.request.MoimCreateRequest;
 import mouda.backend.moim.dto.request.MoimEditRequest;
-import mouda.backend.moim.dto.request.MoimJoinRequest;
 import mouda.backend.moim.dto.response.MoimDetailsFindResponse;
 import mouda.backend.moim.dto.response.MoimFindAllResponses;
 import mouda.backend.moim.service.MoimService;
@@ -37,7 +36,7 @@ public class MoimController implements MoimSwagger {
 	@PostMapping
 	public ResponseEntity<RestResponse<Long>> createMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@Valid @RequestBody MoimCreateRequest moimCreateRequest
 	) {
 		Moim moim = moimService.createMoim(darakbangId, member, moimCreateRequest);
@@ -49,9 +48,9 @@ public class MoimController implements MoimSwagger {
 	@GetMapping
 	public ResponseEntity<RestResponse<MoimFindAllResponses>> findAllMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member
+		@LoginDarakbangMember DarakbangMember member
 	) {
-		MoimFindAllResponses moimFindAllResponses = moimService.findAllMoim(member);
+		MoimFindAllResponses moimFindAllResponses = moimService.findAllMoim(darakbangId, member);
 
 		return ResponseEntity.ok().body(new RestResponse<>(moimFindAllResponses));
 	}
@@ -60,34 +59,22 @@ public class MoimController implements MoimSwagger {
 	@GetMapping("/{moimId}")
 	public ResponseEntity<RestResponse<MoimDetailsFindResponse>> findMoimDetails(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@PathVariable("moimId") Long moimId
 	) {
-		MoimDetailsFindResponse moimDetailsFindResponse = moimService.findMoimDetails(moimId);
+		MoimDetailsFindResponse moimDetailsFindResponse = moimService.findMoimDetails(darakbangId, moimId);
 
 		return ResponseEntity.ok().body(new RestResponse<>(moimDetailsFindResponse));
-	}
-
-	@Deprecated
-	@Override
-	@PostMapping("/join")
-	public ResponseEntity<Void> joinMoim(
-		@PathVariable Long darakbangId,
-		@RequestBody MoimJoinRequest moimJoinRequest
-	) {
-		moimService.joinMoim(moimJoinRequest);
-
-		return ResponseEntity.ok().build();
 	}
 
 	@Override
 	@DeleteMapping("/{moimId}")
 	public ResponseEntity<Void> deleteMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@PathVariable Long moimId
 	) {
-		moimService.deleteMoim(moimId, member);
+		moimService.deleteMoim(darakbangId, moimId, member);
 
 		return ResponseEntity.ok().build();
 	}
@@ -96,10 +83,10 @@ public class MoimController implements MoimSwagger {
 	@PatchMapping("/{moimId}/complete")
 	public ResponseEntity<Void> completeMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@PathVariable Long moimId
 	) {
-		moimService.completeMoim(moimId, member);
+		moimService.completeMoim(darakbangId, moimId, member);
 
 		return ResponseEntity.ok().build();
 	}
@@ -108,10 +95,10 @@ public class MoimController implements MoimSwagger {
 	@PatchMapping("/{moimId}/cancel")
 	public ResponseEntity<Void> cancelMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@PathVariable Long moimId
 	) {
-		moimService.cancelMoim(moimId, member);
+		moimService.cancelMoim(darakbangId, moimId, member);
 
 		return ResponseEntity.ok().build();
 	}
@@ -120,10 +107,10 @@ public class MoimController implements MoimSwagger {
 	@PatchMapping("/{moimId}/reopen")
 	public ResponseEntity<Void> reopenMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@PathVariable Long moimId
 	) {
-		moimService.reopenMoim(moimId, member);
+		moimService.reopenMoim(darakbangId, moimId, member);
 
 		return ResponseEntity.ok().build();
 	}
@@ -132,10 +119,10 @@ public class MoimController implements MoimSwagger {
 	@PatchMapping
 	public ResponseEntity<Void> editMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@Valid @RequestBody MoimEditRequest request
 	) {
-		moimService.editMoim(request, member);
+		moimService.editMoim(darakbangId, request.moimId(), request, member);
 
 		return ResponseEntity.ok().build();
 	}
@@ -144,11 +131,11 @@ public class MoimController implements MoimSwagger {
 	@PostMapping("/{moimId}")
 	public ResponseEntity<Void> createComment(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@PathVariable Long moimId,
 		@RequestBody CommentCreateRequest commentCreateRequest
 	) {
-		moimService.createComment(member, moimId, commentCreateRequest);
+		moimService.createComment(darakbangId, moimId, member, commentCreateRequest);
 
 		return ResponseEntity.ok().build();
 	}
@@ -157,7 +144,7 @@ public class MoimController implements MoimSwagger {
 	@GetMapping("/mine")
 	public ResponseEntity<RestResponse<MoimFindAllResponses>> findAllMyMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@RequestParam(value = "filter", defaultValue = "ALL") FilterType filter
 	) {
 		MoimFindAllResponses moimFindAllResponses = moimService.findAllMyMoim(member, filter);
@@ -169,7 +156,7 @@ public class MoimController implements MoimSwagger {
 	@GetMapping("/zzim")
 	public ResponseEntity<RestResponse<MoimFindAllResponses>> findAllZzimedMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member
+		@LoginDarakbangMember DarakbangMember member
 	) {
 		MoimFindAllResponses moimFindAllResponses = moimService.findZzimedMoim(member);
 

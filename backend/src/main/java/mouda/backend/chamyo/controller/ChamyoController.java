@@ -18,8 +18,8 @@ import mouda.backend.chamyo.dto.response.ChamyoFindAllResponses;
 import mouda.backend.chamyo.dto.response.MoimRoleFindResponse;
 import mouda.backend.chamyo.service.ChamyoService;
 import mouda.backend.common.RestResponse;
-import mouda.backend.config.argumentresolver.LoginMember;
-import mouda.backend.member.domain.Member;
+import mouda.backend.config.argumentresolver.LoginDarakbangMember;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 
 @RestController
 @RequestMapping("/v1/darakbang/{darakbangId}/chamyo")
@@ -32,10 +32,10 @@ public class ChamyoController implements ChamyoSwagger {
 	@GetMapping("/mine")
 	public ResponseEntity<RestResponse<MoimRoleFindResponse>> findMoimRoleByMember(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@RequestParam Long moimId
 	) {
-		MoimRoleFindResponse moimRoleFindResponse = chamyoService.findMoimRole(moimId, member);
+		MoimRoleFindResponse moimRoleFindResponse = chamyoService.findMoimRole(darakbangId, moimId, member);
 
 		return ResponseEntity.ok().body(new RestResponse<>(moimRoleFindResponse));
 	}
@@ -44,10 +44,10 @@ public class ChamyoController implements ChamyoSwagger {
 	@GetMapping("/all")
 	public ResponseEntity<RestResponse<ChamyoFindAllResponses>> findAllChamyoByMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@RequestParam Long moimId
 	) {
-		ChamyoFindAllResponses chamyoFindAllResponses = chamyoService.findAllChamyo(moimId);
+		ChamyoFindAllResponses chamyoFindAllResponses = chamyoService.findAllChamyo(darakbangId, moimId);
 
 		return ResponseEntity.ok().body(new RestResponse<>(chamyoFindAllResponses));
 	}
@@ -56,10 +56,10 @@ public class ChamyoController implements ChamyoSwagger {
 	@PostMapping
 	public ResponseEntity<Void> chamyoMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@Valid @RequestBody MoimChamyoRequest request
 	) {
-		chamyoService.chamyoMoim(request, member);
+		chamyoService.chamyoMoim(darakbangId, request.moimId(), member);
 
 		return ResponseEntity.ok().build();
 	}
@@ -68,10 +68,10 @@ public class ChamyoController implements ChamyoSwagger {
 	@DeleteMapping
 	public ResponseEntity<Void> cancelChamyo(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@Valid @RequestBody ChamyoCancelRequest request
 	) {
-		chamyoService.cancelChamyo(request, member);
+		chamyoService.cancelChamyo(darakbangId, request.moimId(), member);
 
 		return ResponseEntity.ok().build();
 	}

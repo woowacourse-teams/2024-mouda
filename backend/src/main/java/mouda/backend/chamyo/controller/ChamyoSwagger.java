@@ -14,8 +14,8 @@ import mouda.backend.chamyo.dto.request.MoimChamyoRequest;
 import mouda.backend.chamyo.dto.response.ChamyoFindAllResponses;
 import mouda.backend.chamyo.dto.response.MoimRoleFindResponse;
 import mouda.backend.common.RestResponse;
-import mouda.backend.config.argumentresolver.LoginMember;
-import mouda.backend.member.domain.Member;
+import mouda.backend.config.argumentresolver.LoginDarakbangMember;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 
 public interface ChamyoSwagger {
 
@@ -25,7 +25,7 @@ public interface ChamyoSwagger {
 	})
 	ResponseEntity<RestResponse<MoimRoleFindResponse>> findMoimRoleByMember(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@RequestParam Long moimId
 	);
 
@@ -35,7 +35,7 @@ public interface ChamyoSwagger {
 	})
 	ResponseEntity<RestResponse<ChamyoFindAllResponses>> findAllChamyoByMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@RequestParam Long moimId
 	);
 
@@ -45,7 +45,7 @@ public interface ChamyoSwagger {
 	})
 	ResponseEntity<Void> chamyoMoim(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@Valid @RequestBody MoimChamyoRequest request
 	);
 
@@ -55,6 +55,6 @@ public interface ChamyoSwagger {
 	})
 	ResponseEntity<Void> cancelChamyo(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member,
+		@LoginDarakbangMember DarakbangMember member,
 		@Valid @RequestBody ChamyoCancelRequest request);
 }

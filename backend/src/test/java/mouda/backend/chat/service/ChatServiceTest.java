@@ -26,15 +26,13 @@ import mouda.backend.chat.exception.ChatException;
 import mouda.backend.chat.repository.ChatRepository;
 import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.fixture.ChatFixture;
-import mouda.backend.fixture.MemberFixture;
+import mouda.backend.fixture.DarakbangSetUp;
 import mouda.backend.fixture.MoimFixture;
-import mouda.backend.member.domain.Member;
-import mouda.backend.member.repository.MemberRepository;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.repository.MoimRepository;
 
 @SpringBootTest
-class ChatServiceTest {
+class ChatServiceTest extends DarakbangSetUp {
 
 	@Autowired
 	private ChatService chatService;
@@ -44,9 +42,6 @@ class ChatServiceTest {
 
 	@Autowired
 	private MoimRepository moimRepository;
-
-	@Autowired
-	private MemberRepository memberRepository;
 
 	@Autowired
 	private ChamyoRepository chamyoRepository;
@@ -63,18 +58,16 @@ class ChatServiceTest {
 	@Test
 	void createChat() {
 		// given
-		Moim moim = MoimFixture.getSoccerMoim();
-		moimRepository.save(moim);
+		Moim moim = MoimFixture.getSoccerMoim(darakbang.getId());
+		Moim savedMoim = moimRepository.save(moim);
 
-		Member member = MemberFixture.getAnna();
-		memberRepository.save(member);
-		chamyoRepository.save(new Chamyo(moim, member, MoimRole.MOIMER));
+		chamyoRepository.save(new Chamyo(moim, darakbangHogee, MoimRole.MOIMER));
 
 		String content = "아 배고파. 오늘 뭐먹지?";
 		ChatCreateRequest chatCreateRequest = new ChatCreateRequest(1L, content);
 
 		// when
-		chatService.createChat(chatCreateRequest, member);
+		chatService.createChat(darakbang.getId(), savedMoim.getId(), chatCreateRequest, darakbangHogee);
 
 		// then
 		Optional<Chat> chatOptional = chatRepository.findById(1L);
@@ -86,16 +79,13 @@ class ChatServiceTest {
 	@Test
 	void findUnloadedChatsForFirstTime() {
 		// given
-		Moim moim = MoimFixture.getSoccerMoim();
+		Moim moim = MoimFixture.getSoccerMoim(darakbang.getId());
 		moimRepository.save(moim);
 
-		Member member = MemberFixture.getAnna();
-		memberRepository.save(member);
-
-		chamyoRepository.save(new Chamyo(moim, member, MoimRole.MOIMER));
+		chamyoRepository.save(new Chamyo(moim, darakbangHogee, MoimRole.MOIMER));
 
 		// when
-		ChatFindUnloadedResponse unloadedChats = chatService.findUnloadedChats(0L, moim.getId(), member);
+		ChatFindUnloadedResponse unloadedChats = chatService.findUnloadedChats(0L, moim.getId(), darakbangHogee);
 
 		// then
 		assertThat(unloadedChats.chats()).hasSize(0);
@@ -105,20 +95,17 @@ class ChatServiceTest {
 	@Test
 	void findUnloadedChats() {
 		// given
-		Moim moim = MoimFixture.getSoccerMoim();
+		Moim moim = MoimFixture.getSoccerMoim(darakbang.getId());
 		moimRepository.save(moim);
 
-		Member member = MemberFixture.getAnna();
-		memberRepository.save(member);
+		chamyoRepository.save(new Chamyo(moim, darakbangHogee, MoimRole.MOIMER));
 
-		chamyoRepository.save(new Chamyo(moim, member, MoimRole.MOIMER));
-
-		chatRepository.save(ChatFixture.getChatWithMemberAtMoim(member, moim));
-		chatRepository.save(ChatFixture.getChatWithMemberAtMoim(member, moim));
-		chatRepository.save(ChatFixture.getChatWithMemberAtMoim(member, moim));
+		chatRepository.save(ChatFixture.getChatWithMemberAtMoim(darakbangHogee, moim));
+		chatRepository.save(ChatFixture.getChatWithMemberAtMoim(darakbangHogee, moim));
+		chatRepository.save(ChatFixture.getChatWithMemberAtMoim(darakbangHogee, moim));
 
 		// when
-		ChatFindUnloadedResponse unloadedChats = chatService.findUnloadedChats(1L, moim.getId(), member);
+		ChatFindUnloadedResponse unloadedChats = chatService.findUnloadedChats(1L, moim.getId(), darakbangHogee);
 
 		// then
 		assertThat(unloadedChats.chats()).hasSize(2);
@@ -128,19 +115,16 @@ class ChatServiceTest {
 	@Test
 	void confirmPlace() {
 		// given
-		Moim moim = MoimFixture.getSoccerMoim();
+		Moim moim = MoimFixture.getSoccerMoim(darakbang.getId());
 		moimRepository.save(moim);
 
-		Member member = MemberFixture.getAnna();
-		memberRepository.save(member);
-
-		chamyoRepository.save(new Chamyo(moim, member, MoimRole.MOIMER));
+		chamyoRepository.save(new Chamyo(moim, darakbangHogee, MoimRole.MOIMER));
 
 		String place = "서울시 용산구 강원대로 127-10";
 		PlaceConfirmRequest request = new PlaceConfirmRequest(1L, place);
 
 		// when
-		chatService.confirmPlace(request, member);
+		chatService.confirmPlace(darakbang.getId(), 1L, request, darakbangHogee);
 
 		// then
 		Optional<Chat> chatOptional = chatRepository.findById(1L);
@@ -156,13 +140,10 @@ class ChatServiceTest {
 	@Test
 	void cannotConfirmPlaceWhenMemberIsNotMoimer() {
 		// given
-		Moim moim = MoimFixture.getSoccerMoim();
+		Moim moim = MoimFixture.getSoccerMoim(darakbang.getId());
 		moimRepository.save(moim);
 
-		Member member = MemberFixture.getAnna();
-		memberRepository.save(member);
-
-		chamyoRepository.save(new Chamyo(moim, member, MoimRole.MOIMEE));
+		chamyoRepository.save(new Chamyo(moim, darakbangHogee, MoimRole.MOIMEE));
 
 		String place = "서울시 용산구 강원대로 127-10";
 		PlaceConfirmRequest request = new PlaceConfirmRequest(1L, place);
@@ -170,7 +151,7 @@ class ChatServiceTest {
 		// when & then
 		Assertions.assertThrows(
 			ChatException.class,
-			() -> chatService.confirmPlace(request, member)
+			() -> chatService.confirmPlace(darakbang.getId(), 1L, request, darakbangHogee)
 		);
 	}
 
@@ -178,20 +159,17 @@ class ChatServiceTest {
 	@Test
 	void confirmDateTime() {
 		// given
-		Moim moim = MoimFixture.getSoccerMoim();
+		Moim moim = MoimFixture.getSoccerMoim(darakbang.getId());
 		moimRepository.save(moim);
 
-		Member member = MemberFixture.getAnna();
-		memberRepository.save(member);
-
-		chamyoRepository.save(new Chamyo(moim, member, MoimRole.MOIMER));
+		chamyoRepository.save(new Chamyo(moim, darakbangHogee, MoimRole.MOIMER));
 
 		LocalDate date = LocalDate.now().plusDays(1L);
 		LocalTime time = LocalTime.now();
 		DateTimeConfirmRequest request = new DateTimeConfirmRequest(1L, date, time);
 
 		// when
-		chatService.confirmDateTime(request, member);
+		chatService.confirmDateTime(darakbang.getId(), 1L, request, darakbangHogee);
 
 		// then
 		Optional<Chat> chatOptional = chatRepository.findById(1L);
@@ -208,20 +186,37 @@ class ChatServiceTest {
 	@DisplayName("열린 채팅방이 없다면 빈 리스트를 반환한다.")
 	@Test
 	void findChatPreview() {
-		Member hogee = MemberFixture.getHogee();
-		memberRepository.save(hogee);
-
-		Moim basketballMoim = MoimFixture.getBasketballMoim();
+		Moim basketballMoim = MoimFixture.getBasketballMoim(darakbang.getId());
 		moimRepository.save(basketballMoim);
 
 		Chamyo chamyo = Chamyo.builder()
-			.member(hogee)
+			.member(darakbangHogee)
 			.moim(basketballMoim)
 			.moimRole(MoimRole.MOIMEE)
 			.build();
 		chamyoRepository.save(chamyo);
 
-		ChatPreviewResponses chatPreview = chatService.findChatPreview(hogee);
+		ChatPreviewResponses chatPreview = chatService.findChatPreview(darakbangHogee.getId(), darakbangHogee);
 		assertThat(chatPreview.chatPreviewResponses()).isEmpty();
+	}
+
+	@DisplayName("다락방별 채팅을 조회한다.")
+	@Test
+	void readDarakbangChatPreview() {
+		Moim darakbangMoim = MoimFixture.getSoccerMoim(darakbang.getId());
+		moimRepository.save(darakbangMoim);
+		chamyoRepository.save(new Chamyo(darakbangMoim, darakbangHogee, MoimRole.MOIMER));
+		chatService.openChatRoom(darakbang.getId(), darakbangMoim.getId(), darakbangHogee);
+		chatRepository.save(ChatFixture.getChatWithMemberAtMoim(darakbangHogee, darakbangMoim));
+
+		assertThat(chatService.findChatPreview(darakbangMoim.getId(), darakbangHogee).chatPreviewResponses())
+			.hasSize(1);
+
+		Moim moudaMoim = MoimFixture.getSoccerMoim(mouda.getId());
+		moimRepository.save(moudaMoim);
+		chamyoRepository.save(new Chamyo(moudaMoim, moudaHogee, MoimRole.MOIMER));
+
+		assertThat(chatService.findChatPreview(moudaMoim.getId(), moudaHogee).chatPreviewResponses())
+			.hasSize(0);
 	}
 }

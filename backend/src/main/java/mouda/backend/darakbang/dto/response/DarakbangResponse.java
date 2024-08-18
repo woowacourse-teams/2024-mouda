@@ -11,7 +11,7 @@ public record DarakbangResponse(
 
 	public static DarakbangResponse toResponse(DarakbangMember darakbangMember) {
 		return DarakbangResponse.builder()
-			.darakbangId(darakbangMember.getId())
+			.darakbangId(darakbangMember.getDarakbang().getId())
 			.name(darakbangMember.getDarakbangName())
 			.build();
 	}

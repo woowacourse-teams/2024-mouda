@@ -9,7 +9,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import mouda.backend.member.domain.Member;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
 
 @Entity
@@ -27,10 +27,10 @@ public class Zzim {
 
 	@ManyToOne
 	@JoinColumn(nullable = false)
-	private Member member;
+	private DarakbangMember member;
 
 	@Builder
-	public Zzim(Moim moim, Member member) {
+	public Zzim(Moim moim, DarakbangMember member) {
 		this.moim = moim;
 		this.member = member;
 	}
