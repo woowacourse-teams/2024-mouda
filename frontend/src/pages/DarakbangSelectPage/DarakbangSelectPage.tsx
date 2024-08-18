@@ -41,7 +41,12 @@ export default function DarakbangSelectPage() {
         {myDarakbangs &&
           myDarakbangs?.length > 0 &&
           myDarakbangs.map(({ darakbangId, name }) => (
-            <SelectBar key={darakbangId} onClick={() => {}}>
+            <SelectBar
+              key={darakbangId}
+              onClick={() => {
+                navigate(ROUTES.main);
+              }}
+            >
               {name}
             </SelectBar>
           ))}
