@@ -5,30 +5,27 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import mouda.backend.auth.Infrastructure.KakaoOauthClient;
 import mouda.backend.auth.dto.request.OauthRequest;
 import mouda.backend.auth.dto.response.LoginResponse;
 import mouda.backend.auth.exception.AuthErrorMessage;
 import mouda.backend.auth.exception.AuthException;
 import mouda.backend.auth.util.TokenDecoder;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
+import mouda.backend.darakbangmember.repository.repository.DarakbangMemberRepository;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.repository.MemberRepository;
 import mouda.backend.security.JwtProvider;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
 
 	private final JwtProvider jwtProvider;
-
 	private final MemberRepository memberRepository;
-
+	private final DarakbangMemberRepository darakbangMemberRepository;
 	private final KakaoOauthClient kakaoOauthClient;
-
-	public AuthService(JwtProvider jwtProvider, MemberRepository memberRepository, KakaoOauthClient kakaoOauthClient) {
-		this.jwtProvider = jwtProvider;
-		this.memberRepository = memberRepository;
-		this.kakaoOauthClient = kakaoOauthClient;
-	}
 
 	public LoginResponse oauthLogin(OauthRequest oauthRequest) {
 		String kakaoIdToken = kakaoOauthClient.getIdToken(oauthRequest.code());
@@ -60,6 +57,11 @@ public class AuthService {
 		return memberRepository.findById(memberId)
 			.orElseThrow(
 				() -> new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.UNAUTHORIZED));
+	}
+
+	public DarakbangMember findDarakbangMember(long darakbangId, Member member) {
+		return darakbangMemberRepository.findByDarakbangIdAndMemberId(darakbangId, member.getId())
+			.orElseThrow(() -> new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.UNAUTHORIZED));
 	}
 
 	public void checkAuthentication(String token) {
