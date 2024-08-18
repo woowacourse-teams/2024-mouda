@@ -117,7 +117,7 @@ export const postDarakbangEntrance = async ({
   code: string;
   nickname: string;
 }) => {
-  await ApiClient.postWithAuth('darakbang/entrance?' + code, {
+  await ApiClient.postWithAuth('darakbang/entrance?code=' + code, {
     nickname,
   });
 };
