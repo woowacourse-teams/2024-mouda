@@ -7,14 +7,12 @@ interface UseStatePersistParams<StateType> {
   key: string;
   initialState: StateType | (() => StateType);
   storage?: StorageType;
-  clearStorageOnExit?: boolean;
 }
 
 export default function useStatePersist<StateType>({
   key,
   initialState,
   storage = 'sessionStorage',
-  clearStorageOnExit = true,
 }: UseStatePersistParams<StateType>): [
   StateType,
   React.Dispatch<React.SetStateAction<StateType>>,
@@ -56,15 +54,11 @@ export default function useStatePersist<StateType>({
   const [state, setState] = useState<StateType>(getStoredValue);
 
   useBeforeUnload(() => {
-    if (clearStorageOnExit) {
-      setStoredValue(state);
-    }
+    setStoredValue(state);
   });
 
   useEffect(() => {
-    if (clearStorageOnExit) {
-      removeStoredValue();
-    }
+    removeStoredValue();
   }, []);
 
   return [state, setState];

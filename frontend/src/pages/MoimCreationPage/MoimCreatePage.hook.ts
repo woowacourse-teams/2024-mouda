@@ -11,6 +11,7 @@
 import { useLocation, useNavigationType } from 'react-router-dom';
 import { MoimCreationStep, steps } from './MoimCreationPage';
 import useStatePersist from '@_hooks/useStatePersist';
+import { MoimInputInfo } from '@_types/index';
 
 // const useMoimInfoInput = () => {
 //   const [inputData, setInputData] = useState<MoimInputInfo>({
@@ -53,13 +54,8 @@ import useStatePersist from '@_hooks/useStatePersist';
 
 // export default useMoimInfoInput;
 
-type MoimCreationInfo = {
-  title: string;
+type MoimCreationInputInfo = MoimInputInfo & {
   offlineOrOnline: string;
-  place: string;
-  date: string;
-  time: string;
-  maxPeople: number;
   description: string;
 };
 
@@ -74,7 +70,7 @@ const useMoimCreationInfo = () => {
     sessionStorage.removeItem('moimCreationInfo');
   }
 
-  const [moimInfo, setMoimInfo] = useStatePersist<MoimCreationInfo>({
+  const [moimInfo, setMoimInfo] = useStatePersist<MoimCreationInputInfo>({
     key: 'moimCreationInfo',
     initialState: {
       title: '',
@@ -86,7 +82,6 @@ const useMoimCreationInfo = () => {
       description: '',
     },
     storage: 'sessionStorage',
-    clearStorageOnExit: true,
   });
 
   return { currentStep, moimInfo, setMoimInfo };
