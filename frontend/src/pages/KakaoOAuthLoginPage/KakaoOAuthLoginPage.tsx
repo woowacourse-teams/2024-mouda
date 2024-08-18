@@ -1,10 +1,10 @@
-import { kakaoOAuth } from '@_apis/auth';
 import ROUTES from '@_constants/routes';
-import useServeToken from '@_hooks/mutaions/useServeToken';
+import { kakaoOAuth } from '@_apis/auth';
 import { requestPermission } from '@_service/notification';
 import { setToken } from '@_utils/tokenManager';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useServeToken from '@_hooks/mutaions/useServeToken';
 
 export default function KakaoOAuthLoginPage() {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ export default function KakaoOAuthLoginPage() {
       const response = await kakaoOAuth(code);
       setToken(response.data.accessToken);
       requestPermission(mutate);
-      navigate(ROUTES.main);
+      navigate(ROUTES.darakbangSelectOption);
     };
 
     loginKakaoOAuth();
