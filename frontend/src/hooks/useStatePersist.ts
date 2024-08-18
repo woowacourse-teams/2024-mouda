@@ -1,4 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import {
+  useBeforeUnload,
+  useLocation,
+  useNavigationType,
+} from 'react-router-dom';
 
 type StorageType = 'localStorage' | 'sessionStorage';
 
@@ -6,14 +11,14 @@ interface UseStatePersistParams<StateType> {
   key: string;
   initialState: StateType | (() => StateType);
   storage?: StorageType;
-  removeOnUnmount?: boolean;
+  clearStorageOnExit?: boolean;
 }
 
 export default function useStatePersist<StateType>({
   key,
   initialState,
   storage = 'sessionStorage',
-  removeOnUnmount = true,
+  clearStorageOnExit = true,
 }: UseStatePersistParams<StateType>): [
   StateType,
   React.Dispatch<React.SetStateAction<StateType>>,
@@ -21,7 +26,16 @@ export default function useStatePersist<StateType>({
   const storageObject =
     storage === 'localStorage' ? window.localStorage : window.sessionStorage;
 
+  const navigationType = useNavigationType();
+  const location = useLocation();
+
   const getStoredValue = (): StateType => {
+    if (location.state?.step === undefined && navigationType === 'PUSH') {
+      return typeof initialState === 'function'
+        ? (initialState as () => StateType)()
+        : initialState;
+    }
+
     try {
       const item = storageObject.getItem(key);
       if (item !== null) {
@@ -44,6 +58,14 @@ export default function useStatePersist<StateType>({
     }
   };
 
+  const removeStoredValue = () => {
+    try {
+      storageObject.removeItem(key);
+    } catch (error) {
+      console.error(`Error removing item from ${storage}`, error);
+    }
+  };
+
   const [state, setState] = useState<StateType>(getStoredValue);
 
   const setStatePersist = (
@@ -54,20 +76,18 @@ export default function useStatePersist<StateType>({
         ? (newState as (prevState: StateType) => StateType)(state)
         : newState;
 
-    setStoredValue(updatedState);
+    // setStoredValue(updatedState);
     setState(updatedState);
   };
 
+  useBeforeUnload(() => {
+    if (clearStorageOnExit) {
+      setStoredValue(state);
+    }
+  });
+
   useEffect(() => {
-    return () => {
-      if (removeOnUnmount) {
-        try {
-          storageObject.removeItem(key);
-        } catch (error) {
-          console.error(`Error removing item from ${storage}`, error);
-        }
-      }
-    };
+    removeStoredValue();
   }, []);
 
   return [state, setStatePersist];

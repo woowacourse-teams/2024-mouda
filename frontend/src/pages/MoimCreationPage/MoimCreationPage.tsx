@@ -57,7 +57,7 @@ export default function MoimCreationPage() {
       description: '',
     },
     storage: 'sessionStorage',
-    removeOnUnmount: true,
+    clearStorageOnExit: true,
   });
 
   const currentComponents: {
