@@ -3,14 +3,14 @@ import FunnelButton from '@_components/Funnel/FunnelButton/FunnelButton';
 import FunnelStepIndicator from '@_components/Funnel/FunnelStepIndicator/FunnelStepIndicator';
 import ROUTES from '@_constants/routes';
 import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
-import { useLocation, useNavigate, useNavigationType } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import TitleStep from './Steps/TitleStep';
 import OfflineOrOnlineStep from './Steps/OfflineOrOnlineStep';
 import PlaceStep from './Steps/PlaceStep';
 import DateAndTimeStep from './Steps/DateAndTimeStep';
 import MaxPeopleStep from './Steps/MaxPeopleStep';
 import DescriptionStep from './Steps/DescriptionStep';
-import useStatePersist from '@_hooks/useStatePersist';
+import useMoimCreationInfo from './MoimCreatePage.hook';
 
 export type MoimCreationStep =
   | '이름입력'
@@ -20,7 +20,7 @@ export type MoimCreationStep =
   | '최대인원설정'
   | '설명입력';
 
-const steps: MoimCreationStep[] = [
+export const steps: MoimCreationStep[] = [
   '이름입력',
   '오프라인/온라인선택',
   '장소선택',
@@ -29,49 +29,10 @@ const steps: MoimCreationStep[] = [
   '설명입력',
 ];
 
-type MoimCreationInfo = {
-  title: string;
-  offlineOrOnline: string;
-  place: string;
-  date: string;
-  time: string;
-  maxPeople: number;
-  description: string;
-};
-
-const useMoimCreationInfo = (isInitializing: boolean) => {
-  if (isInitializing) {
-    sessionStorage.removeItem('moimCreationInfo');
-  }
-
-  const [moimInfo, setMoimInfo] = useStatePersist<MoimCreationInfo>({
-    key: 'moimCreationInfo',
-    initialState: {
-      title: '',
-      offlineOrOnline: '',
-      place: '',
-      date: '',
-      time: '',
-      maxPeople: 0,
-      description: '',
-    },
-    storage: 'sessionStorage',
-    clearStorageOnExit: true,
-  });
-
-  return { moimInfo, setMoimInfo };
-};
-
 export default function MoimCreationPage() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const navigationType = useNavigationType();
 
-  const currentStep: MoimCreationStep = location.state?.step || steps[0];
-
-  const { moimInfo, setMoimInfo } = useMoimCreationInfo(
-    currentStep === '이름입력' && navigationType === 'PUSH',
-  );
+  const { currentStep, moimInfo, setMoimInfo } = useMoimCreationInfo();
 
   const currentComponents: {
     main: JSX.Element;
