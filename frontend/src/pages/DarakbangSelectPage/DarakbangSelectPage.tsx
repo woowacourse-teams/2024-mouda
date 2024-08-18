@@ -7,13 +7,15 @@ import SelectBar from '@_components/SelectBar/SelectBar';
 import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
 import SolidArrow from '@_components/Icons/SolidArrow';
 import { common } from '@_common/common.style';
+import useMyDarakbangs from '@_hooks/queries/useMyDarakbang';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
 
 export default function DarakbangSelectPage() {
   const theme = useTheme();
   const navigate = useNavigate();
-  const darakbangs: [] = [];
+
+  const { myDarakbangs, isLoading } = useMyDarakbangs();
   return (
     <SelectLayout>
       <SelectLayout.Header>
@@ -35,13 +37,16 @@ export default function DarakbangSelectPage() {
           <HighlightSpan.Highlight>다락방</HighlightSpan.Highlight>에
           들어갈까요?
         </HighlightSpan>
-        {darakbangs?.length > 0 &&
-          darakbangs.map((name) => (
-            <SelectBar key={name} onClick={() => {}}>
+        {isLoading && <>loading...</>}
+        {myDarakbangs &&
+          myDarakbangs?.length > 0 &&
+          myDarakbangs.map(({ darakbangId, name }) => (
+            <SelectBar key={darakbangId} onClick={() => {}}>
               {name}
             </SelectBar>
           ))}
-        {(!darakbangs || darakbangs.length === 0) && (
+
+        {myDarakbangs && myDarakbangs.length === 0 && (
           <div css={S.fallbackContainer}>
             <MissingFallback text="참여 중인 다락방이 없어요" />
           </div>
