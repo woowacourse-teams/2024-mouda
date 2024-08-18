@@ -27,33 +27,32 @@ export default function DarakbangInvitationPage() {
         <div css={theme.typography.s1}>다락방 초대코드</div>
 
         <div css={S.code({ theme })}>{inviteCode}</div>
-
-        <CompleteBottomWrapper>
-          <Button
-            shape="bar"
-            primary
-            onClick={async () => {
-              const url = `${process.env.BASE_URL}${ROUTES.darakbangInvitationRoute}?code=${inviteCode}`;
-              if (navigator.share) {
-                await navigator.share({
-                  title: `${darakbangName} 다락방으로의 초대`,
-                  text: `${darakbangName}으로 초대되었어요~!\n모우다에서 함께 모여보세요~`,
-                  url,
-                });
-                return;
-              }
-
-              if (document.location.protocol === 'https:') {
-                await navigator.clipboard.writeText(url);
-                return;
-              }
-              alert('http를 통해서는 복사할 수 없습니다!');
-            }}
-          >
-            초대링크 공유하기
-          </Button>
-        </CompleteBottomWrapper>
       </div>
+      <CompleteBottomWrapper>
+        <Button
+          shape="bar"
+          primary
+          onClick={async () => {
+            const url = `${process.env.BASE_URL}${ROUTES.darakbangInvitationRoute}?code=${inviteCode}`;
+            if (navigator.share) {
+              await navigator.share({
+                title: `${darakbangName} 다락방으로의 초대`,
+                text: `${darakbangName}으로 초대되었어요~!\n모우다에서 함께 모여보세요~`,
+                url,
+              });
+              return;
+            }
+
+            if (document.location.protocol === 'https:') {
+              await navigator.clipboard.writeText(url);
+              return;
+            }
+            alert('http를 통해서는 복사할 수 없습니다!');
+          }}
+        >
+          초대링크 공유하기
+        </Button>
+      </CompleteBottomWrapper>
     </div>
   );
 }
