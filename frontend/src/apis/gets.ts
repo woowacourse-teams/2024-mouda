@@ -10,6 +10,7 @@ import {
   GetChamyoMine,
   GetChat,
   GetChattingPreview,
+  GetDarakbangInviteCode,
   GetDarakbangMembers,
   GetDarakbangMine,
   GetMoim,
@@ -147,4 +148,13 @@ export const getDarakbangMembers = async (darakbangId: number) => {
 
   const json: GetDarakbangMembers = await response.json();
   return json.data.darakbangMemberResponses;
+};
+
+export const getDarakbangInviteCode = async (darakbangId: number) => {
+  const response = await ApiClient.getWithAuth(
+    'darakbang/' + darakbangId + '/code',
+  );
+
+  const json: GetDarakbangInviteCode = await response.json();
+  return json.data.code;
 };

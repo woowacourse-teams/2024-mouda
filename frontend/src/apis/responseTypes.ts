@@ -95,3 +95,9 @@ export interface GetDarakbangMembers {
     }[];
   };
 }
+
+export interface GetDarakbangInviteCode {
+  data: {
+    code: string;
+  };
+}

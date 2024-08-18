@@ -18,6 +18,7 @@ const QUERY_KEYS = {
   myDarakbangs: 'myDarakbangs',
   myRoleInDarakbang: 'myRoleInDarakbang',
   darakbangMembers: 'darakbangMembers',
+  darakbangInviteCode: 'darakbangInviteCode',
 };
 
 export default QUERY_KEYS;
