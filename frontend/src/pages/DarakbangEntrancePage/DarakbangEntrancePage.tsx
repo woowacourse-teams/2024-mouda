@@ -24,7 +24,7 @@ export default function DarakbangEntrancePage() {
           />
         </SelectLayout.Header.Left>
         <SelectLayout.Header.Center>
-          <h1 css={theme.typography.h5}>다락방 참여코드 입력</h1>
+          <h1 css={theme.typography.s1}>다락방 참여코드 입력</h1>
         </SelectLayout.Header.Center>
       </SelectLayout.Header>
       <SelectLayout.ContentContainer>
