@@ -10,6 +10,7 @@ import {
   GetChamyoMine,
   GetChat,
   GetChattingPreview,
+  GetDarakbangMine,
   GetMoim,
   GetMoims,
   GetMyInfo,
@@ -119,4 +120,11 @@ export const getNotifications = async () => {
 
   const json: GetNotifications = await response.json();
   return json.data.notifications;
+};
+
+export const getMyDarakbangs = async () => {
+  const response = await ApiClient.getWithAuth('darakbang/mine');
+
+  const json: GetDarakbangMine = await response.json();
+  return json.data.darakbangResponses;
 };

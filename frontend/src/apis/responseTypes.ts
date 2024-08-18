@@ -1,6 +1,7 @@
 import {
   Chat,
   ChattingPreview,
+  Darakbang,
   MoimInfo,
   Notification,
   Participation,
@@ -69,5 +70,11 @@ export interface GetMyInfo {
 export interface GetNotifications {
   data: {
     notifications: Notification[];
+  };
+}
+
+export interface GetDarakbangMine {
+  data: {
+    darakbangResponses: Darakbang[];
   };
 }
