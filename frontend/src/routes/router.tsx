@@ -12,7 +12,9 @@ import { createBrowserRouter } from 'react-router-dom';
 import PleasePage from '@_pages/PleasePage/PleasePage';
 import MyPage from '@_pages/Mypage/MyPage';
 import PleaseCreationPage from '@_pages/PleaseCreationPage/PleaseCreationPage';
+import NotificationPage from '@_pages/NotificationPage/NotificationPage';
 import KakaoOAuthLoginPage from '@_pages/KakaoOAuthLoginPage/KakaoOAuthLoginPage';
+
 
 const routesConfig = [
   {
@@ -73,6 +75,11 @@ const routesConfig = [
   {
     path: ROUTES.myPage,
     element: <MyPage />,
+    requiresAuth: true,
+  },
+  {
+    path: ROUTES.notification,
+    element: <NotificationPage />,
     requiresAuth: true,
   },
 ];

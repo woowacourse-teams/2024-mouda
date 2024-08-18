@@ -2,6 +2,7 @@ import {
   Chat,
   ChattingPreview,
   MoimInfo,
+  Notification,
   Participation,
   Please,
   Role,
@@ -62,5 +63,11 @@ export interface GetMyInfo {
   data: {
     nickname: string;
     profile: string;
+  };
+}
+
+export interface GetNotifications {
+  data: {
+    notifications: Notification[];
   };
 }
