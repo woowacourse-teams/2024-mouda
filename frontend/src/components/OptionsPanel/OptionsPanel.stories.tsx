@@ -74,7 +74,7 @@ export const Decorated: Story = {
       },
     ],
     width: '200px',
-    movedWidth: '24px',
+    movedHeight: '24px',
   },
   decorators: function (Story) {
     const [isStoryOpen, setIsStoryOpen] = useState(false);

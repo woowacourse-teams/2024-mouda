@@ -101,3 +101,5 @@ export interface Darakbang {
   darakbangId: number;
   name: string;
 }
+
+export type DarakbangRole = 'MANAGER' | 'MEMBER' | 'OUTSIDER';
