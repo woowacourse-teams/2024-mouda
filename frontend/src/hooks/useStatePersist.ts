@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  useBeforeUnload,
-  useLocation,
-  useNavigationType,
-} from 'react-router-dom';
+import { useBeforeUnload } from 'react-router-dom';
 
 type StorageType = 'localStorage' | 'sessionStorage';
 
@@ -26,16 +22,7 @@ export default function useStatePersist<StateType>({
   const storageObject =
     storage === 'localStorage' ? window.localStorage : window.sessionStorage;
 
-  const navigationType = useNavigationType();
-  const location = useLocation();
-
   const getStoredValue = (): StateType => {
-    if (location.state?.step === undefined && navigationType === 'PUSH') {
-      return typeof initialState === 'function'
-        ? (initialState as () => StateType)()
-        : initialState;
-    }
-
     try {
       const item = storageObject.getItem(key);
       if (item !== null) {
@@ -68,18 +55,6 @@ export default function useStatePersist<StateType>({
 
   const [state, setState] = useState<StateType>(getStoredValue);
 
-  const setStatePersist = (
-    newState: StateType | ((prevState: StateType) => StateType),
-  ) => {
-    const updatedState =
-      typeof newState === 'function'
-        ? (newState as (prevState: StateType) => StateType)(state)
-        : newState;
-
-    // setStoredValue(updatedState);
-    setState(updatedState);
-  };
-
   useBeforeUnload(() => {
     if (clearStorageOnExit) {
       setStoredValue(state);
@@ -87,8 +62,10 @@ export default function useStatePersist<StateType>({
   });
 
   useEffect(() => {
-    removeStoredValue();
+    if (clearStorageOnExit) {
+      removeStoredValue();
+    }
   }, []);
 
-  return [state, setStatePersist];
+  return [state, setState];
 }

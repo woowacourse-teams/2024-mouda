@@ -3,7 +3,7 @@ import FunnelButton from '@_components/Funnel/FunnelButton/FunnelButton';
 import FunnelStepIndicator from '@_components/Funnel/FunnelStepIndicator/FunnelStepIndicator';
 import ROUTES from '@_constants/routes';
 import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useNavigationType } from 'react-router-dom';
 import TitleStep from './Steps/TitleStep';
 import OfflineOrOnlineStep from './Steps/OfflineOrOnlineStep';
 import PlaceStep from './Steps/PlaceStep';
@@ -39,14 +39,13 @@ type MoimCreationInfo = {
   description: string;
 };
 
-export default function MoimCreationPage() {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const currentStep: MoimCreationStep = location.state?.step || steps[0];
+const useMoimCreationInfo = (isInitializing: boolean) => {
+  if (isInitializing) {
+    sessionStorage.removeItem('moimCreationInfo');
+  }
 
   const [moimInfo, setMoimInfo] = useStatePersist<MoimCreationInfo>({
-    key: location.pathname,
+    key: 'moimCreationInfo',
     initialState: {
       title: '',
       offlineOrOnline: '',
@@ -59,6 +58,20 @@ export default function MoimCreationPage() {
     storage: 'sessionStorage',
     clearStorageOnExit: true,
   });
+
+  return { moimInfo, setMoimInfo };
+};
+
+export default function MoimCreationPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const navigationType = useNavigationType();
+
+  const currentStep: MoimCreationStep = location.state?.step || steps[0];
+
+  const { moimInfo, setMoimInfo } = useMoimCreationInfo(
+    currentStep === '이름입력' && navigationType === 'PUSH',
+  );
 
   const currentComponents: {
     main: JSX.Element;
