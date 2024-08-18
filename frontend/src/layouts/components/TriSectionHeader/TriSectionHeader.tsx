@@ -1,7 +1,7 @@
-import { useTheme } from '@emotion/react';
 import * as S from './TriSectionHeader.style';
 
 import { PropsWithChildren } from 'react';
+import { useTheme } from '@emotion/react';
 
 interface TriSectionHeaderProps extends PropsWithChildren {
   borderBottomColor?: string;

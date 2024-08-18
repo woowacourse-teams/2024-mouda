@@ -12,6 +12,16 @@ const ROUTES = {
   addPlease: '/please/creation',
   myPage: '/my-page',
   notification: '/notification',
+  darakbangSelectOption: '/darakbang-select-option',
+  darakbangSelect: '/darakbang-select',
+  darakbangCreation: '/darakbang-creation',
+  darakbangEntrance: '/darakbang-entrance',
+  darakbangNickname: '/darakbang-nickname',
+  darakbangLanding: '/darakbang-landing',
+  darakbangManagement: '/darakbang-management',
+  darakbangMembers: '/darakbang-members',
+  darakbangInvitation: '/darakbang-invitation',
+  darakbangInvitationRoute: '/darakbang-invitation-route',
 };
 
 export default ROUTES;

@@ -22,6 +22,10 @@ const POLICES = {
 
   footerZIndex: 100,
   modalZIndex: 200,
+
+  maxNicknameLength: 10,
+
+  entranceCodeLength: 7,
 };
 
 export default POLICES;
