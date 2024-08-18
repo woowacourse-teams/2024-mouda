@@ -95,11 +95,6 @@ public class NotificationService {
 		}
 
 		List<String> tokens = fcmTokenRepository.findAllTokenByMemberIds(memberIds);
-
-		if (tokens.isEmpty()) {
-			return;
-		}
-
 		sendNotificationToAll(notification, tokens);
 	}
 
