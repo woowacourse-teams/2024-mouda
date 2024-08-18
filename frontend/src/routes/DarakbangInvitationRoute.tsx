@@ -12,10 +12,10 @@ export default function DarakbangInvitationRoute() {
 
   const code = searchParam.get('code');
   const { darakbangName, isLoading } = useDarakbangNameByCode(code || '');
-  const isRightCode = code !== '';
+  const isRightCode = darakbangName !== '';
   if (isLoading) return null;
   if (isRightCode) {
-    navigate(ROUTES.darakbangNickname, { state: { darakbangName } });
+    navigate(ROUTES.darakbangNickname, { state: { code } });
   }
 
   return (
