@@ -10,7 +10,8 @@ import mouda.backend.notification.domain.MoudaNotification;
 public record NotificationFindAllResponse(
 	String message,
 	String createdAt,
-	String type
+	String type,
+	String redirectUrl
 ) {
 
 	public static NotificationFindAllResponse from(MoudaNotification moudaNotification) {
@@ -18,6 +19,7 @@ public record NotificationFindAllResponse(
 			.type(moudaNotification.getType().name())
 			.message(moudaNotification.getBody())
 			.createdAt(parseTime(moudaNotification.getCreatedAt()))
+			.redirectUrl(moudaNotification.getTargetUrl())
 			.build();
 	}
 
