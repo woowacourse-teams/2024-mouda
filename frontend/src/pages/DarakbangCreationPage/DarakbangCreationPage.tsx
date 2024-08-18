@@ -3,19 +3,29 @@ import * as S from './DarakbangCreationPage.style';
 import { ChangeEvent, useState } from 'react';
 
 import Button from '@_components/Button/Button';
+import DarakbangCreationModalContent from './DarakbangCreationModalContent/DarakbangCreationModalContent';
 import ErrorControlledInput from '@_components/ErrorControlledInput/ErrorControlledInput';
 import HighlightSpan from '@_components/HighlightSpan/HighlightSpan';
+import Modal from '@_components/Modal/Modal';
 import POLICES from '@_constants/poclies';
+import ROUTES from '@_constants/routes';
 import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
 import SolidArrow from '@_components/Icons/SolidArrow';
+import useCreateDarakbang from '@_hooks/mutaions/useCreateDarakbang';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
 
 export default function DarakbangCreationPage() {
   const theme = useTheme();
   const navigate = useNavigate();
+  const { mutate: createDarakbang } = useCreateDarakbang(() =>
+    navigate(ROUTES.main),
+  );
+
   const [darakbangName, setDarakbangName] = useState('');
   const [nickname, setNickname] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <SelectLayout>
       <SelectLayout.Header>
@@ -69,10 +79,23 @@ export default function DarakbangCreationPage() {
           shape="bar"
           primary
           disabled={darakbangName === '' || nickname === ''}
+          onClick={() => setIsModalOpen(true)}
         >
           다락방 만들기
         </Button>
       </SelectLayout.BottomButtonWrapper>
+      {isModalOpen && (
+        <Modal onClose={() => setIsModalOpen(false)}>
+          <DarakbangCreationModalContent
+            darakbangName={darakbangName}
+            nickname={nickname}
+            onCancel={() => setIsModalOpen(false)}
+            onConfirm={() => {
+              createDarakbang({ nickname, name: darakbangName });
+            }}
+          />
+        </Modal>
+      )}
     </SelectLayout>
   );
 }
