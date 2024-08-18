@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.firebase.messaging.BatchResponse;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.MulticastMessage;
 import com.google.firebase.messaging.WebpushConfig;
 import com.google.firebase.messaging.WebpushFcmOptions;
@@ -59,29 +58,8 @@ public class NotificationService {
 				.build());
 		}
 
-		String fcmToken = fcmTokenRepository.findFcmTokenByMemberId(memberId)
-			.map(FcmToken::getToken)
-			.orElse(null);
-
-		if (fcmToken == null) {
-			return;
-		}
-
-		sendNotification(notification, fcmToken);
-	}
-
-	private void sendNotification(MoudaNotification moudaNotification, String fcmToken) {
-		try {
-			Message message = Message.builder()
-				.setToken(fcmToken)
-				.setNotification(moudaNotification.toFcmNotification())
-				.setWebpushConfig(getWebpushConfig(moudaNotification.getTargetUrl()))
-				.build();
-
-			FirebaseMessaging.getInstance().send(message);
-		} catch (FirebaseMessagingException e) {
-			log.error("Failed to send message: {}", e.getMessage());
-		}
+		List<String> tokens = fcmTokenRepository.findAllTokenByMemberId(memberId);
+		sendNotificationToAll(notification, tokens);
 	}
 
 	public void notifyToAllMembers(MoudaNotification moudaNotification) {
@@ -118,7 +96,7 @@ public class NotificationService {
 				.toList());
 		}
 
-		List<String> tokens = fcmTokenRepository.findTokensByMemberIds(memberIds);
+		List<String> tokens = fcmTokenRepository.findAllTokenByMemberIds(memberIds);
 
 		if (tokens.isEmpty()) {
 			return;
@@ -128,6 +106,10 @@ public class NotificationService {
 	}
 
 	private void sendNotificationToAll(MoudaNotification notification, List<String> tokens) {
+		if (tokens.isEmpty()) {
+			return;
+		}
+
 		try {
 			MulticastMessage message = MulticastMessage.builder()
 				.addAllTokens(tokens)
