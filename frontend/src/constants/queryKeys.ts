@@ -17,6 +17,7 @@ const QUERY_KEYS = {
   notifications: 'notifications',
   myDarakbangs: 'myDarakbangs',
   myRoleInDarakbang: 'myRoleInDarakbang',
+  darakbangMembers: 'darakbangMembers',
 };
 
 export default QUERY_KEYS;

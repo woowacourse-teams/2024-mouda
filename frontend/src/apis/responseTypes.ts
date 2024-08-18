@@ -85,3 +85,13 @@ export interface GetMyRoleInDarakbang {
     role: DarakbangRole;
   };
 }
+
+export interface GetDarakbangMembers {
+  data: {
+    darakbangMemberResponses: {
+      memberId: number;
+      nickname: string;
+      profile: string;
+    }[];
+  };
+}
