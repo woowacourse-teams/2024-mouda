@@ -14,6 +14,7 @@ import {
   GetMoim,
   GetMoims,
   GetMyInfo,
+  GetMyRoleInDarakbang,
   GetNotifications,
   GetPleases,
   GetZzimMine,
@@ -127,4 +128,13 @@ export const getMyDarakbangs = async () => {
 
   const json: GetDarakbangMine = await response.json();
   return json.data.darakbangResponses;
+};
+
+export const getMyRoleInDarakbang = async (darakbangId: number) => {
+  const response = await ApiClient.getWithAuth(
+    'darakbang/' + darakbangId + '/role',
+  );
+
+  const json: GetMyRoleInDarakbang = await response.json();
+  return json.data.role;
 };

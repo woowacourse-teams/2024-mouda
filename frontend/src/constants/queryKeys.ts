@@ -15,7 +15,8 @@ const QUERY_KEYS = {
   please: 'please',
   pleases: 'pleases',
   notifications: 'notifications',
-  myDarakbangs: 'myDarakbang',
+  myDarakbangs: 'myDarakbangs',
+  myRoleInDarakbang: 'myRoleInDarakbang',
 };
 
 export default QUERY_KEYS;
