@@ -1,12 +1,12 @@
 package mouda.backend.notification.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.firebase.messaging.BatchResponse;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.MulticastMessage;
@@ -103,24 +103,36 @@ public class NotificationService {
 			return;
 		}
 
-		try {
-			MulticastMessage message = MulticastMessage.builder()
-				.addAllTokens(tokens)
+		List<List<String>> chunkedTokens = chunkFcmTokensForMulticast(tokens);
+
+		chunkedTokens.stream()
+			.map(chunk -> MulticastMessage.builder()
 				.setNotification(notification.toFcmNotification())
 				.setWebpushConfig(getWebpushConfig(notification.getTargetUrl()))
-				.build();
-
-			BatchResponse response = FirebaseMessaging.getInstance().sendEachForMulticast(message);
-			log.info("Successfully sent message: {}", response.getSuccessCount());
-		} catch (FirebaseMessagingException e) {
-			log.error("Failed to send message: {}", e.getMessage());
-		}
+				.addAllTokens(chunk)
+				.build())
+			.forEach(message -> {
+				try {
+					FirebaseMessaging.getInstance().sendEachForMulticast(message);
+				} catch (FirebaseMessagingException e) {
+					log.error("Failed to send message: {}", e.getMessage());
+				}
+			});
 	}
 
 	private WebpushConfig getWebpushConfig(String url) {
 		return WebpushConfig.builder()
 			.setFcmOptions(WebpushFcmOptions.withLink(url))
 			.build();
+	}
+
+	private List<List<String>> chunkFcmTokensForMulticast(List<String> tokens) {
+		int defaultChunkSize = 500;
+		List<List<String>> result = new ArrayList<>();
+		for (int i = 0; i < tokens.size(); i += defaultChunkSize) {
+			result.add(tokens.subList(i, Math.min(i + defaultChunkSize, tokens.size())));
+		}
+		return result;
 	}
 
 	public NotificationFindAllResponses findAllMyNotifications(Member member) {
