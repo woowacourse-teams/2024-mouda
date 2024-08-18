@@ -101,3 +101,9 @@ export interface GetDarakbangInviteCode {
     code: string;
   };
 }
+
+export interface GetDarakbangNameByCode {
+  data: {
+    name: string;
+  };
+}

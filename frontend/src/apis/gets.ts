@@ -13,6 +13,7 @@ import {
   GetDarakbangInviteCode,
   GetDarakbangMembers,
   GetDarakbangMine,
+  GetDarakbangNameByCode,
   GetMoim,
   GetMoims,
   GetMyInfo,
@@ -157,4 +158,19 @@ export const getDarakbangInviteCode = async (darakbangId: number) => {
 
   const json: GetDarakbangInviteCode = await response.json();
   return json.data.code;
+};
+
+export const getDarakbangNameByCode = async (code: string) => {
+  const response = await ApiClient.getWithAuth(
+    'darakbang/validation?code=' + code,
+  ).catch(() => {
+    return {
+      json: () => {
+        return { data: { name: '' } };
+      },
+    };
+  });
+
+  const json: GetDarakbangNameByCode = await response.json();
+  return json.data.name;
 };
