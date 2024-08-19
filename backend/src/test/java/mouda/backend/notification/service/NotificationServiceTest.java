@@ -4,14 +4,16 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 
-import io.restassured.RestAssured;
+import mouda.backend.darakbang.domain.Darakbang;
+import mouda.backend.darakbang.repository.DarakbangRepository;
+import mouda.backend.darakbangmember.domain.DarakBangMemberRole;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
+import mouda.backend.darakbangmember.repository.repository.DarakbangMemberRepository;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.repository.MemberRepository;
 import mouda.backend.notification.domain.MemberNotification;
@@ -21,11 +23,17 @@ import mouda.backend.notification.dto.response.NotificationFindAllResponse;
 import mouda.backend.notification.repository.MemberNotificationRepository;
 import mouda.backend.notification.repository.MoudaNotificationRepository;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 class NotificationServiceTest {
 
 	@Autowired
+	private DarakbangRepository darakbangRepository;
+
+	@Autowired
 	private MemberRepository memberRepository;
+
+	@Autowired
+	private DarakbangMemberRepository darakbangMemberRepository;
 
 	@Autowired
 	private MoudaNotificationRepository moudaNotificationRepository;
@@ -36,17 +44,14 @@ class NotificationServiceTest {
 	@Autowired
 	private NotificationService notificationService;
 
-	@LocalServerPort
-	private int port;
-
-	@BeforeEach
-	void setUp() {
-		RestAssured.port = port;
-	}
-
 	@DisplayName("회원의 모든 알림을 조회한다.")
 	@Test
 	void findAllMyNotifications() {
+		Darakbang darakbang = darakbangRepository.save(Darakbang.builder()
+			.name("test")
+			.code("test")
+			.build());
+
 		NotificationType type1 = NotificationType.MOIM_CREATED;
 		MoudaNotification notification1 = moudaNotificationRepository.save(MoudaNotification.builder()
 			.type(type1)
@@ -62,21 +67,30 @@ class NotificationServiceTest {
 			.build());
 
 		Member member = memberRepository.save(Member.builder()
-			.nickname("상돌")
 			.kakaoId(1234L)
 			.build());
 
+		DarakbangMember darakbangMember = darakbangMemberRepository.save(DarakbangMember.builder()
+			.darakbang(darakbang)
+			.member(member)
+			.role(DarakBangMemberRole.MEMBER)
+			.nickname("상돌")
+			.build());
+
 		memberNotificationRepository.save(MemberNotification.builder()
-			.memberId(member.getId())
+			.memberId(darakbangMember.getMember().getId())
 			.moudaNotification(notification1)
+			.darakbangId(darakbang.getId())
 			.build());
 
 		memberNotificationRepository.save(MemberNotification.builder()
-			.memberId(member.getId())
+			.memberId(darakbangMember.getMember().getId())
 			.moudaNotification(notification2)
+			.darakbangId(darakbang.getId())
 			.build());
 
-		List<NotificationFindAllResponse> responses = notificationService.findAllMyNotifications(member)
+		List<NotificationFindAllResponse> responses = notificationService.findAllMyNotifications(member,
+				darakbang.getId())
 			.notifications();
 
 		assertThat(responses).satisfies(res -> {
