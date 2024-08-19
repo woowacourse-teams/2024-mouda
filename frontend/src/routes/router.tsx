@@ -27,7 +27,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 const routesConfig = [
   {
-    path: ROUTES.main,
+    path: ROUTES.darakbangMain,
     element: <MainPage />,
     requiresAuth: true,
   },
