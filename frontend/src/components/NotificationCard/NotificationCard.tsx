@@ -12,7 +12,7 @@ export default function NotificationCard(props: NotificationCardProps) {
   const theme = useTheme();
   const typeColor = notificationTypeColors(theme)[notification.type];
   return (
-    <div css={S.CardBox}>
+    <div css={S.CardBox({ theme })}>
       <div css={S.colorDot({ theme, typeColor })}>{'·'}</div>
       <div css={S.TextInfoBox}>
         <div css={S.Title({ theme })}>{notification.message}</div>
