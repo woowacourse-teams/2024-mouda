@@ -1,10 +1,14 @@
+export interface OptionsPanelOption {
+  description: string;
+  onClick: () => void;
+  hasTopBorder?: boolean;
+}
+
 interface OptionsPanelProps {
-  options: {
-    description: string;
-    onClick: () => void;
-    hasTopBorder?: boolean;
-  }[];
+  options: OptionsPanelOption[];
   onClose: () => void;
+  onAfterSelect: () => void;
+  movedHeight?: string;
   movedWidth?: string;
   width?: string;
 }
@@ -15,7 +19,8 @@ import { useEffect } from 'react';
 import { useTheme } from '@emotion/react';
 
 export default function OptionsPanel(props: OptionsPanelProps) {
-  const { options, onClose, width, movedWidth } = props;
+  const { options, onClose, onAfterSelect, width, movedHeight, movedWidth } =
+    props;
   const theme = useTheme();
 
   useEffect(() => {
@@ -23,14 +28,23 @@ export default function OptionsPanel(props: OptionsPanelProps) {
     return () => document.removeEventListener('click', onClose);
   }, [onClose]);
 
-  console.log(options);
   return (
-    <div css={S.panel(width || '100px', movedWidth || '0px')}>
+    <div
+      css={S.panel({
+        width: width || '100px',
+        movedHeight: movedHeight || '0px',
+        movedWidth: movedWidth || '0px',
+      })}
+    >
       {options.map(({ description, onClick, hasTopBorder }) => {
         return (
           <div
             key={description}
-            onClick={onClick}
+            onClick={(e) => {
+              e.stopPropagation();
+              onClick();
+              onAfterSelect();
+            }}
             css={S.option({ theme, hasTopBorder })}
           >
             <span css={theme.typography.b1}>{description}</span>

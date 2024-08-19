@@ -1,6 +1,8 @@
 import {
   Chat,
   ChattingPreview,
+  Darakbang,
+  DarakbangRole,
   MoimInfo,
   Notification,
   Participation,
@@ -69,5 +71,39 @@ export interface GetMyInfo {
 export interface GetNotifications {
   data: {
     notifications: Notification[];
+  };
+}
+
+export interface GetDarakbangMine {
+  data: {
+    darakbangResponses: Darakbang[];
+  };
+}
+
+export interface GetMyRoleInDarakbang {
+  data: {
+    role: DarakbangRole;
+  };
+}
+
+export interface GetDarakbangMembers {
+  data: {
+    darakbangMemberResponses: {
+      memberId: number;
+      nickname: string;
+      profile: string;
+    }[];
+  };
+}
+
+export interface GetDarakbangInviteCode {
+  data: {
+    code: string;
+  };
+}
+
+export interface GetDarakbangNameByCode {
+  data: {
+    name: string;
   };
 }

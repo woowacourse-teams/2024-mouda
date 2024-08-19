@@ -96,3 +96,28 @@ export const postNotificationToken = async (currentToken: string) => {
     token: currentToken,
   });
 };
+
+export const postDarakbang = async ({
+  name,
+  nickname,
+}: {
+  name: string;
+  nickname: string;
+}) => {
+  await ApiClient.postWithAuth('darakbang', {
+    name,
+    nickname,
+  });
+};
+
+export const postDarakbangEntrance = async ({
+  code,
+  nickname,
+}: {
+  code: string;
+  nickname: string;
+}) => {
+  await ApiClient.postWithAuth('darakbang/entrance?code=' + code, {
+    nickname,
+  });
+};

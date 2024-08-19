@@ -10,9 +10,14 @@ import {
   GetChamyoMine,
   GetChat,
   GetChattingPreview,
+  GetDarakbangInviteCode,
+  GetDarakbangMembers,
+  GetDarakbangMine,
+  GetDarakbangNameByCode,
   GetMoim,
   GetMoims,
   GetMyInfo,
+  GetMyRoleInDarakbang,
   GetNotifications,
   GetPleases,
   GetZzimMine,
@@ -119,4 +124,53 @@ export const getNotifications = async () => {
 
   const json: GetNotifications = await response.json();
   return json.data.notifications;
+};
+
+export const getMyDarakbangs = async () => {
+  const response = await ApiClient.getWithAuth('darakbang/mine');
+
+  const json: GetDarakbangMine = await response.json();
+  return json.data.darakbangResponses;
+};
+
+export const getMyRoleInDarakbang = async (darakbangId: number) => {
+  const response = await ApiClient.getWithAuth(
+    'darakbang/' + darakbangId + '/role',
+  );
+
+  const json: GetMyRoleInDarakbang = await response.json();
+  return json.data.role;
+};
+
+export const getDarakbangMembers = async (darakbangId: number) => {
+  const response = await ApiClient.getWithAuth(
+    'darakbang/' + darakbangId + '/members',
+  );
+
+  const json: GetDarakbangMembers = await response.json();
+  return json.data.darakbangMemberResponses;
+};
+
+export const getDarakbangInviteCode = async (darakbangId: number) => {
+  const response = await ApiClient.getWithAuth(
+    'darakbang/' + darakbangId + '/code',
+  );
+
+  const json: GetDarakbangInviteCode = await response.json();
+  return json.data.code;
+};
+
+export const getDarakbangNameByCode = async (code: string) => {
+  const response = await ApiClient.getWithAuth(
+    'darakbang/validation?code=' + code,
+  ).catch(() => {
+    return {
+      json: () => {
+        return { data: { name: '' } };
+      },
+    };
+  });
+
+  const json: GetDarakbangNameByCode = await response.json();
+  return json.data.name;
 };

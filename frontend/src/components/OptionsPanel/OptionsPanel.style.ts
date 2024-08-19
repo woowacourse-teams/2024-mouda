@@ -1,11 +1,21 @@
 import { Theme } from './../../common/theme/theme.type';
 import { css } from '@emotion/react';
 
-export const panel = (width: string, movedWidth: string) => css`
+export const panel = ({
+  width,
+  movedHeight,
+  movedWidth,
+}: {
+  width: string;
+  movedHeight: string;
+  movedWidth: string;
+}) => css`
   position: absolute;
-  transform: translate(0, ${movedWidth});
+  transform: translateX(${movedWidth}) translateY(${movedHeight});
 
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 
   width: ${width};
 

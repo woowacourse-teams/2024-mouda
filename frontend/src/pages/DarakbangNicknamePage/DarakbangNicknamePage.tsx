@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import Button from '@_components/Button/Button';
 import DarakbangNicknameModalContent from './DarakbangNicknameModalContent/DarakbangNicknameModalContent';
@@ -6,16 +7,33 @@ import ErrorControlledInput from '@_components/ErrorControlledInput/ErrorControl
 import HighlightSpan from '@_components/HighlightSpan/HighlightSpan';
 import Modal from '@_components/Modal/Modal';
 import POLICES from '@_constants/poclies';
+import ROUTES from '@_constants/routes';
 import SolidArrow from '@_components/Icons/SolidArrow';
 import StickyTriSectionHeader from '@_layouts/components/StickyTriSectionHeader/StickyTriSectionHeader';
 import StretchContentLayout from '@_layouts/StretchContentLayout/StretchContentLayout';
-import { useNavigate } from 'react-router-dom';
+import useDarakbangNameByCode from '@_hooks/queries/useDarakbangNameByCode';
+import useEnterDarakbang from '@_hooks/mutaions/useEnterDarakbang';
 
 export default function DarakbangNicknamePage() {
   const navigate = useNavigate();
+
+  const { state } = useLocation();
+  const { code = 'NULL' } = state;
+
+  const { darakbangName = '' } = useDarakbangNameByCode(code);
   const [nickname, setNickName] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const darakbangName = '우아한테크코스';
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const { mutate: enterDarakbang } = useEnterDarakbang({
+    onSuccess: () => {
+      navigate(ROUTES.main);
+    },
+    onError: (string: string) => {
+      setIsModalOpen(false);
+      setErrorMessage(string);
+    },
+  });
 
   return (
     <StretchContentLayout>
@@ -38,7 +56,7 @@ export default function DarakbangNicknamePage() {
         </HighlightSpan>
 
         <ErrorControlledInput
-          errorMessage=""
+          errorMessage={errorMessage}
           maxLength={POLICES.maxNicknameLength}
           placeholder="닉네임을 입력해주세요"
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +78,9 @@ export default function DarakbangNicknamePage() {
         <Modal onClose={() => setIsModalOpen(false)}>
           <DarakbangNicknameModalContent
             onCancel={() => setIsModalOpen(false)}
-            onConfirm={() => {}}
+            onConfirm={() => {
+              enterDarakbang({ code, nickname });
+            }}
             nickname={nickname}
           />
         </Modal>

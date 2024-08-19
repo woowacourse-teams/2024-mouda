@@ -4,13 +4,13 @@ import MemberCard from '@_components/MemberCard/MemberCard';
 import SolidArrow from '@_components/Icons/SolidArrow';
 import StickyTriSectionHeader from '@_layouts/components/StickyTriSectionHeader/StickyTriSectionHeader';
 import TriSectionHeader from '@_layouts/components/TriSectionHeader/TriSectionHeader';
+import useDarakbangMembers from '@_hooks/queries/useDarakbangMembers';
 import { useNavigate } from 'react-router-dom';
 
 export default function DarakbangMembersPage() {
-  const list = new Array(100).fill(null).map((_, i) => {
-    return { name: '소파' + i };
-  });
   const navigate = useNavigate();
+
+  const { members, isLoading } = useDarakbangMembers(1);
   return (
     <>
       <StickyTriSectionHeader>
@@ -19,9 +19,10 @@ export default function DarakbangMembersPage() {
         </TriSectionHeader.Left>
         <TriSectionHeader.Center>멤버목록</TriSectionHeader.Center>
       </StickyTriSectionHeader>
+      {isLoading && <>loading...</>}
       <div css={S.members}>
-        {list.map(({ name }) => (
-          <MemberCard key={name} name={name} />
+        {members?.map(({ nickname, memberId, profile }) => (
+          <MemberCard key={memberId} name={nickname} imageUrl={profile} />
         ))}
       </div>
     </>

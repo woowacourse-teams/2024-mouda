@@ -96,3 +96,10 @@ export interface Notification {
   message: string;
   createdAt: string;
 }
+
+export interface Darakbang {
+  darakbangId: number;
+  name: string;
+}
+
+export type DarakbangRole = 'MANAGER' | 'MEMBER' | 'OUTSIDER';
