@@ -25,7 +25,8 @@ import mouda.backend.chat.dto.response.ChatPreviewResponses;
 import mouda.backend.chat.exception.ChatErrorMessage;
 import mouda.backend.chat.exception.ChatException;
 import mouda.backend.chat.repository.ChatRepository;
-import mouda.backend.member.domain.Member;
+import mouda.backend.common.RequiredDarakbangMoim;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.repository.MoimRepository;
 import mouda.backend.notification.domain.MoudaNotification;
@@ -51,9 +52,10 @@ public class ChatService {
 	private final ChamyoRepository chamyoRepository;
 	private final NotificationService notificationService;
 
-	public void createChat(ChatCreateRequest chatCreateRequest, Member member) {
-		Moim moim = findMoimByMoimId(chatCreateRequest.moimId());
-		findChamyoByMoimIdAndMemberId(chatCreateRequest.moimId(), member.getId());
+	@RequiredDarakbangMoim
+	public void createChat(Long darakbangId, Long moimId, ChatCreateRequest chatCreateRequest, DarakbangMember member) {
+		Moim moim = findMoimByMoimId(moimId);
+		findChamyoByMoimIdAndMemberId(moimId, member.getId());
 
 		Chat chat = chatCreateRequest.toEntity(moim, member);
 		chatRepository.save(chat);
@@ -74,23 +76,27 @@ public class ChatService {
 	}
 
 	@Transactional(readOnly = true)
-	public ChatFindUnloadedResponse findUnloadedChats(long recentChatId, long moimId, Member member) {
+	public ChatFindUnloadedResponse findUnloadedChats(long recentChatId, long moimId, DarakbangMember member) {
 		findMoimByMoimId(moimId);
 		findChamyoByMoimIdAndMemberId(moimId, member.getId());
 		if (recentChatId < 0) {
 			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.INVALID_RECENT_CHAT_ID);
 		}
 
-		List<ChatFindDetailResponse> chats = chatRepository.findAllUnloadedChats(moimId, recentChatId).stream()
+		List<ChatFindDetailResponse> chats = chatRepository.findAllUnloadedChats(moimId, recentChatId)
+			.stream()
 			.map(chat -> ChatFindDetailResponse.toResponse(chat, chat.isMyMessage(member.getId())))
 			.toList();
 
 		return new ChatFindUnloadedResponse(chats);
 	}
 
-	public void confirmPlace(PlaceConfirmRequest placeConfirmRequest, Member member) {
-		Moim moim = findMoimByMoimId(placeConfirmRequest.moimId());
-		Chamyo chamyo = findChamyoByMoimIdAndMemberId(placeConfirmRequest.moimId(), member.getId());
+	@RequiredDarakbangMoim
+	public void confirmPlace(
+		long darakbangId, long moimId, PlaceConfirmRequest placeConfirmRequest, DarakbangMember member
+	) {
+		Moim moim = findMoimByMoimId(moimId);
+		Chamyo chamyo = findChamyoByMoimIdAndMemberId(moimId, member.getId());
 		if (chamyo.getMoimRole() != MoimRole.MOIMER) {
 			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIMER_CAN_CONFIRM_PLACE);
 		}
@@ -117,9 +123,12 @@ public class ChatService {
 		notificationService.notifyToMembers(notification, membersToSendNotification);
 	}
 
-	public void confirmDateTime(DateTimeConfirmRequest dateTimeConfirmRequest, Member member) {
-		Moim moim = findMoimByMoimId(dateTimeConfirmRequest.moimId());
-		Chamyo chamyo = findChamyoByMoimIdAndMemberId(dateTimeConfirmRequest.moimId(), member.getId());
+	@RequiredDarakbangMoim
+	public void confirmDateTime(
+		long darakbangId, long moimId, DateTimeConfirmRequest dateTimeConfirmRequest, DarakbangMember member
+	) {
+		Moim moim = findMoimByMoimId(moimId);
+		Chamyo chamyo = findChamyoByMoimIdAndMemberId(moimId, member.getId());
 		if (chamyo.getMoimRole() != MoimRole.MOIMER) {
 			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIMER_CAN_CONFIRM_DATETIME);
 		}
@@ -131,8 +140,10 @@ public class ChatService {
 		sendNotificationWhenMoimPlaceOrTimeConfirmed(moim, NotificationType.MOIM_TIME_CONFIRMED);
 	}
 
-	public ChatPreviewResponses findChatPreview(Member member) {
-		List<ChatPreviewResponse> chatPreviews = chamyoRepository.findAllByMemberId(member.getId()).stream()
+	public ChatPreviewResponses findChatPreview(Long darakbangId, DarakbangMember member) {
+		List<ChatPreviewResponse> chatPreviews = chamyoRepository
+			.findAllByMemberIdAndMoim_DarakbangId(member.getId(), darakbangId)
+			.stream()
 			.filter(chamyo -> chamyo.getMoim().isChatOpened())
 			.map(this::getChatPreviewResponse)
 			.toList();
@@ -150,13 +161,17 @@ public class ChatService {
 		return ChatPreviewResponse.toResponse(chamyo, currentPeople, lastContent);
 	}
 
-	public void createLastChat(LastReadChatRequest lastReadChatRequest, Member member) {
-		Chamyo chamyo = findChamyoByMoimIdAndMemberId(lastReadChatRequest.moimId(), member.getId());
+	@RequiredDarakbangMoim
+	public void createLastChat(
+		long darakbangId, long moimId, LastReadChatRequest lastReadChatRequest, DarakbangMember member
+	) {
+		Chamyo chamyo = findChamyoByMoimIdAndMemberId(moimId, member.getId());
 
 		chamyo.updateLastChat(lastReadChatRequest.lastReadChatId());
 	}
 
-	public void openChatRoom(Long moimId, Member member) {
+	@RequiredDarakbangMoim
+	public void openChatRoom(Long darakbangId, Long moimId, DarakbangMember member) {
 		Moim moim = findMoimByMoimId(moimId);
 		Chamyo chamyo = findChamyoByMoimIdAndMemberId(moimId, member.getId());
 		if (chamyo.getMoimRole() == MoimRole.MOIMER) {

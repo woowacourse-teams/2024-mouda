@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.repository.DarakbangRepository;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.dto.response.DarakbangMemberRoleResponse;
 import mouda.backend.darakbangmember.exception.DarakbangMemberException;
 import mouda.backend.darakbangmember.repository.repository.DarakbangMemberRepository;
@@ -43,9 +44,10 @@ class DarakbangMemberServiceTest {
 		void failToReadWithoutDarakbangManager() {
 			Member hogee = memberRepository.save(MemberFixture.getHogee());
 			Darakbang darakbang = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
-			darakbangMemberRepository.save(DarakbangMemberFixture.getDarakbangMemberWithWooteco(darakbang, hogee));
+			DarakbangMember darakbangHogee = darakbangMemberRepository.save(
+				DarakbangMemberFixture.getDarakbangMemberWithWooteco(darakbang, hogee));
 
-			assertThatThrownBy(() -> darakbangMemberService.findAllDarakbangMembers(darakbang.getId(), hogee))
+			assertThatThrownBy(() -> darakbangMemberService.findAllDarakbangMembers(darakbang.getId(), darakbangHogee))
 				.isInstanceOf(DarakbangMemberException.class);
 		}
 	}
@@ -58,7 +60,9 @@ class DarakbangMemberServiceTest {
 		@Test
 		void success() {
 			Darakbang darakbang = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
+			Darakbang mouda = darakbangRepository.save(DarakbangFixture.getDarakbangWithMouda());
 			Member hogee = memberRepository.save(MemberFixture.getHogee());
+			darakbangMemberRepository.save(DarakbangMemberFixture.getDarakbangMemberWithWooteco(mouda, hogee));
 
 			DarakbangMemberRoleResponse response = darakbangMemberService.findDarakbangMemberRole(
 				darakbang.getId(), hogee);

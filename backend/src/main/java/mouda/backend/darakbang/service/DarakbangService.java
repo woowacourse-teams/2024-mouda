@@ -72,13 +72,8 @@ public class DarakbangService {
 	}
 
 	@Transactional(readOnly = true)
-	public InvitationCodeResponse findInvitationCode(Long darakbangId, Member member) {
-		DarakbangMember darakbangMember = darakbangMemberRepository
-			.findByDarakbangIdAndMemberId(darakbangId, member.getId())
-			.orElseThrow(
-				() -> new DarakbangMemberException(HttpStatus.NOT_FOUND, DarakbangMemberErrorMessage.MEMBER_NOT_EXIST));
-
-		if (darakbangMember.isNotManager()) {
+	public InvitationCodeResponse findInvitationCode(Long darakbangId, DarakbangMember member) {
+		if (member.isNotManager()) {
 			throw new DarakbangMemberException(HttpStatus.FORBIDDEN, DarakbangMemberErrorMessage.NOT_ALLOWED_TO_READ);
 		}
 

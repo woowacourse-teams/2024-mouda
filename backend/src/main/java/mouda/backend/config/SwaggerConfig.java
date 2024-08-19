@@ -8,6 +8,7 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import mouda.backend.config.argumentresolver.LoginDarakbangMember;
 import mouda.backend.config.argumentresolver.LoginMember;
 
 @Configuration
@@ -15,6 +16,7 @@ public class SwaggerConfig {
 
 	static {
 		SpringDocUtils.getConfig().addAnnotationsToIgnore(LoginMember.class);
+		SpringDocUtils.getConfig().addAnnotationsToIgnore(LoginDarakbangMember.class);
 	}
 
 	@Bean

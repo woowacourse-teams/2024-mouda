@@ -10,15 +10,17 @@ import org.junit.jupiter.api.Test;
 
 import mouda.backend.comment.exception.CommentException;
 import mouda.backend.fixture.CommentFixture;
-import mouda.backend.fixture.MemberFixture;
+import mouda.backend.fixture.DarakbangSetUp;
 import mouda.backend.fixture.MoimFixture;
 
-class CommentTest {
+class CommentTest extends DarakbangSetUp {
 
 	@DisplayName("댓글 객체를 정상적으로 생성한다.")
 	@Test
 	void createMoim() {
-		Assertions.assertDoesNotThrow(CommentFixture::getCommentWithAnnaAtSoccerMoim);
+		Assertions.assertDoesNotThrow(() -> CommentFixture.getCommentWithAnnaAtSoccerMoim(
+			darakbangAnna, MoimFixture.getSoccerMoim(darakbang.getId()))
+		);
 	}
 
 	@DisplayName("내용이 null이면 댓글 객체 생성에 실패한다.")
@@ -26,8 +28,8 @@ class CommentTest {
 	void failToCreateCommentWhenContentIsNull() {
 		assertThrows(CommentException.class, () -> Comment.builder()
 			.content(null)
-			.moim(MoimFixture.getBasketballMoim())
-			.member(MemberFixture.getHogee())
+			.moim(MoimFixture.getBasketballMoim(darakbang.getId()))
+			.member(darakbangAnna)
 			.createdAt(LocalDateTime.now())
 			.parentId(null)
 			.build());
@@ -38,8 +40,8 @@ class CommentTest {
 	void failToCreateCommentWhenContentDoesNotExist() {
 		assertThrows(CommentException.class, () -> Comment.builder()
 			.content("")
-			.moim(MoimFixture.getBasketballMoim())
-			.member(MemberFixture.getHogee())
+			.moim(MoimFixture.getBasketballMoim(darakbang.getId()))
+			.member(darakbangAnna)
 			.createdAt(LocalDateTime.now())
 			.parentId(null)
 			.build());
@@ -51,7 +53,7 @@ class CommentTest {
 		assertThrows(CommentException.class, () -> Comment.builder()
 			.content("댓글댓글")
 			.moim(null)
-			.member(MemberFixture.getHogee())
+			.member(darakbangAnna)
 			.createdAt(LocalDateTime.now())
 			.parentId(null)
 			.build());
@@ -62,7 +64,7 @@ class CommentTest {
 	void failToCreateCommentWhenMemberDoesNotExist() {
 		assertThrows(CommentException.class, () -> Comment.builder()
 			.content("댓글댓글")
-			.moim(MoimFixture.getBasketballMoim())
+			.moim(MoimFixture.getBasketballMoim(darakbang.getId()))
 			.member(null)
 			.createdAt(LocalDateTime.now())
 			.parentId(null)

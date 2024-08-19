@@ -9,12 +9,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import mouda.backend.common.RestResponse;
+import mouda.backend.config.argumentresolver.LoginDarakbangMember;
 import mouda.backend.config.argumentresolver.LoginMember;
 import mouda.backend.darakbang.dto.request.DarakbangCreateRequest;
 import mouda.backend.darakbang.dto.request.DarakbangEnterRequest;
 import mouda.backend.darakbang.dto.response.CodeValidationResponse;
 import mouda.backend.darakbang.dto.response.DarakbangResponses;
 import mouda.backend.darakbang.dto.response.InvitationCodeResponse;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.member.domain.Member;
 
 public interface DarakbangSwagger {
@@ -46,7 +48,7 @@ public interface DarakbangSwagger {
 	})
 	ResponseEntity<RestResponse<InvitationCodeResponse>> findInvitationCode(
 		@PathVariable Long darakbangId,
-		@LoginMember Member member
+		@LoginDarakbangMember DarakbangMember member
 	);
 
 	@Operation(summary = "다락방 초대코드 유효성 검사", description = "다락방 초대코드 유효성을 검사한다.")

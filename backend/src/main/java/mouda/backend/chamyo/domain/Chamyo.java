@@ -12,7 +12,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import mouda.backend.member.domain.Member;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
 
 @Entity
@@ -30,7 +30,7 @@ public class Chamyo {
 
 	@ManyToOne
 	@JoinColumn(nullable = false)
-	private Member member;
+	private DarakbangMember member;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
@@ -39,7 +39,7 @@ public class Chamyo {
 	private long lastReadChatId;
 
 	@Builder
-	public Chamyo(Moim moim, Member member, MoimRole moimRole) {
+	public Chamyo(Moim moim, DarakbangMember member, MoimRole moimRole) {
 		this.moim = moim;
 		this.member = member;
 		this.moimRole = moimRole;

@@ -1,5 +1,7 @@
 package mouda.backend.moim.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +19,8 @@ public interface MoimRepository extends JpaRepository<Moim, Long> {
 		""")
 	@Modifying
 	int updateMoimStatusById(@Param("id") Long moimId, @Param("status") MoimStatus status);
+
+	List<Moim> findAllByDarakbangId(Long darakbangId);
+
+	boolean existsByIdAndDarakbangId(Long moimId, Long darakbangId);
 }

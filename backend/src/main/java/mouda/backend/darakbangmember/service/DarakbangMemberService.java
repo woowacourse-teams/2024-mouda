@@ -25,13 +25,8 @@ public class DarakbangMemberService {
 	private final DarakbangMemberRepository darakbangMemberRepository;
 
 	@Transactional(readOnly = true)
-	public DarakbangMemberResponses findAllDarakbangMembers(Long darakbangId, Member member) {
-		DarakbangMember darakbangMember = darakbangMemberRepository
-			.findByDarakbangIdAndMemberId(darakbangId, member.getId())
-			.orElseThrow(
-				() -> new DarakbangMemberException(HttpStatus.FORBIDDEN, DarakbangMemberErrorMessage.MEMBER_NOT_EXIST));
-
-		if (darakbangMember.isNotManager()) {
+	public DarakbangMemberResponses findAllDarakbangMembers(Long darakbangId, DarakbangMember member) {
+		if (member.isNotManager()) {
 			throw new DarakbangMemberException(HttpStatus.FORBIDDEN, DarakbangMemberErrorMessage.NOT_ALLOWED_TO_READ);
 		}
 

@@ -1,6 +1,7 @@
 package mouda.backend.chat.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -9,13 +10,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import mouda.backend.chat.dto.request.ChatCreateRequest;
 import mouda.backend.chat.dto.request.DateTimeConfirmRequest;
-import mouda.backend.chat.dto.request.PlaceConfirmRequest;
 import mouda.backend.chat.dto.request.LastReadChatRequest;
+import mouda.backend.chat.dto.request.PlaceConfirmRequest;
 import mouda.backend.chat.dto.response.ChatFindUnloadedResponse;
 import mouda.backend.chat.dto.response.ChatPreviewResponses;
 import mouda.backend.common.RestResponse;
-import mouda.backend.config.argumentresolver.LoginMember;
-import mouda.backend.member.domain.Member;
+import mouda.backend.config.argumentresolver.LoginDarakbangMember;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 
 public interface ChatSwagger {
 
@@ -24,8 +25,9 @@ public interface ChatSwagger {
 		@ApiResponse(responseCode = "200", description = "채팅 생성 성공!")
 	})
 	ResponseEntity<Void> createChat(
-		@RequestBody ChatCreateRequest chatCreateRequest,
-		@LoginMember Member member
+		@PathVariable Long darakbangId,
+		@LoginDarakbangMember DarakbangMember member,
+		@RequestBody ChatCreateRequest chatCreateRequest
 	);
 
 	@Operation(summary = "채팅 조회", description = "아직 조회되지 않은 채팅 내역을 조회한다.")
@@ -33,9 +35,10 @@ public interface ChatSwagger {
 		@ApiResponse(responseCode = "200", description = "채팅 조회 성공!")
 	})
 	ResponseEntity<RestResponse<ChatFindUnloadedResponse>> findUnloadedChats(
+		@PathVariable Long darakbangId,
+		@LoginDarakbangMember DarakbangMember member,
 		@RequestParam Long recentChatId,
-		@RequestParam Long moimId,
-		@LoginMember Member member
+		@RequestParam Long moimId
 	);
 
 	@Operation(summary = "장소 확정", description = "작성자가 장소를 확정하는 채팅을 전송합니다.")
@@ -43,8 +46,9 @@ public interface ChatSwagger {
 		@ApiResponse(responseCode = "200", description = "장소 확정 성공!")
 	})
 	ResponseEntity<Void> confirmPlace(
-		@RequestBody PlaceConfirmRequest placeConfirmRequest,
-		@LoginMember Member member
+		@PathVariable Long darakbangId,
+		@LoginDarakbangMember DarakbangMember member,
+		@RequestBody PlaceConfirmRequest placeConfirmRequest
 	);
 
 	@Operation(summary = "날짜 시간 확정", description = "작성자가 날짜와 시간을 확정하는 채팅을 전송합니다.")
@@ -52,16 +56,18 @@ public interface ChatSwagger {
 		@ApiResponse(responseCode = "200", description = "날짜 시간 확정 성공!")
 	})
 	ResponseEntity<Void> confirmDateTime(
-		@RequestBody DateTimeConfirmRequest dateTimeConfirmRequest,
-    @LoginMember Member member
-  );
+		@PathVariable Long darakbangId,
+		@LoginDarakbangMember DarakbangMember member,
+		@RequestBody DateTimeConfirmRequest dateTimeConfirmRequest
+	);
 
-  @Operation(summary = "채팅방 목록 조회", description = "채팅방 목록을 조회한다.")
+	@Operation(summary = "채팅방 목록 조회", description = "채팅방 목록을 조회한다.")
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "채팅방 조회 성공!")
 	})
 	ResponseEntity<RestResponse<ChatPreviewResponses>> findChatPreviews(
-		@LoginMember Member member
+		@PathVariable Long darakbangId,
+		@LoginDarakbangMember DarakbangMember member
 	);
 
 	@Operation(summary = "마지막 읽은 채팅 저장", description = "마지막 읽은 채팅을 저장한다.")
@@ -69,8 +75,9 @@ public interface ChatSwagger {
 		@ApiResponse(responseCode = "200", description = "마지막 채팅 저장 성공!")
 	})
 	ResponseEntity<Void> createLastReadChatId(
-		@RequestBody LastReadChatRequest lastReadChatRequest,
-		@LoginMember Member member
+		@PathVariable Long darakbangId,
+		@LoginDarakbangMember DarakbangMember member,
+		@RequestBody LastReadChatRequest lastReadChatRequest
 	);
 
 	@Operation(summary = "채팅방 열기", description = "채팅방을 연다!")
@@ -78,7 +85,8 @@ public interface ChatSwagger {
 		@ApiResponse(responseCode = "200", description = "채팅방 열기 성공!")
 	})
 	ResponseEntity<Void> openChatRoom(
-		@RequestParam("moimId") Long moimId,
-		@LoginMember Member member
+		@PathVariable Long darakbangId,
+		@LoginDarakbangMember DarakbangMember member,
+		@RequestParam("moimId") Long moimId
 	);
 }

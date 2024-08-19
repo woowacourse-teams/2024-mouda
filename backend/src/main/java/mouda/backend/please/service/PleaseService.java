@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.member.domain.Member;
+import mouda.backend.common.RequiredDarakbangPlease;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.please.domain.Please;
 import mouda.backend.please.dto.request.PleaseCreateRequest;
 import mouda.backend.please.dto.response.PleaseFindAllResponse;
@@ -25,13 +26,14 @@ public class PleaseService {
 	private final PleaseRepository pleaseRepository;
 	private final InterestRepository interestRepository;
 
-	public Please createPlease(Member member, PleaseCreateRequest pleaseCreateRequest) {
-		Please please = pleaseCreateRequest.toEntity(member.getId());
+	public Please createPlease(Long darakbangId, DarakbangMember member, PleaseCreateRequest pleaseCreateRequest) {
+		Please please = pleaseCreateRequest.toEntity(member.getId(), darakbangId);
 
 		return pleaseRepository.save(please);
 	}
 
-	public void deletePlease(Member member, Long pleaseId) {
+	@RequiredDarakbangPlease
+	public void deletePlease(Long darakbangId, Long pleaseId, DarakbangMember member) {
 		Please please = pleaseRepository.findById(pleaseId)
 			.orElseThrow(() -> new PleaseException(HttpStatus.NOT_FOUND, PleaseErrorMessage.NOT_FOUND));
 
@@ -42,8 +44,8 @@ public class PleaseService {
 		pleaseRepository.deleteById(pleaseId);
 	}
 
-	public PleaseFindAllResponses findAllPlease(Member member) {
-		List<Please> pleases = pleaseRepository.findAll();
+	public PleaseFindAllResponses findAllPlease(Long darakbangId, DarakbangMember member) {
+		List<Please> pleases = pleaseRepository.findAllByDarakbangId(darakbangId);
 
 		return new PleaseFindAllResponses(
 			pleases.stream()

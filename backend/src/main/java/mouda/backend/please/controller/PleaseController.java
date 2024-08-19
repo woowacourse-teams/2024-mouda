@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.common.RestResponse;
-import mouda.backend.config.argumentresolver.LoginMember;
-import mouda.backend.member.domain.Member;
+import mouda.backend.config.argumentresolver.LoginDarakbangMember;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.please.domain.Please;
 import mouda.backend.please.dto.request.PleaseCreateRequest;
 import mouda.backend.please.dto.response.PleaseFindAllResponses;
@@ -21,7 +21,7 @@ import mouda.backend.please.service.PleaseService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/please")
+@RequestMapping("/v1/darakbang/{darakbangId}/please")
 public class PleaseController implements PleaseSwagger {
 
 	private final PleaseService pleaseService;
@@ -29,26 +29,34 @@ public class PleaseController implements PleaseSwagger {
 	@Override
 	@PostMapping
 	public ResponseEntity<RestResponse<Long>> createPlease(
-		@LoginMember Member member,
+		@PathVariable Long darakbangId,
+		@LoginDarakbangMember DarakbangMember member,
 		@Valid @RequestBody PleaseCreateRequest pleaseCreateRequest
 	) {
-		Please please = pleaseService.createPlease(member, pleaseCreateRequest);
+		Please please = pleaseService.createPlease(darakbangId, member, pleaseCreateRequest);
 
 		return ResponseEntity.ok().body(new RestResponse<>(please.getId()));
 	}
 
 	@Override
 	@DeleteMapping("/{pleaseId}")
-	public ResponseEntity<Void> deletePlease(@LoginMember Member member, @PathVariable Long pleaseId) {
-		pleaseService.deletePlease(member, pleaseId);
+	public ResponseEntity<Void> deletePlease(
+		@PathVariable Long darakbangId,
+		@LoginDarakbangMember DarakbangMember member,
+		@PathVariable Long pleaseId
+	) {
+		pleaseService.deletePlease(darakbangId, pleaseId, member);
 
 		return ResponseEntity.ok().build();
 	}
 
 	@Override
 	@GetMapping
-	public ResponseEntity<RestResponse<PleaseFindAllResponses>> findAllPlease(@LoginMember Member member) {
-		PleaseFindAllResponses responses = pleaseService.findAllPlease(member);
+	public ResponseEntity<RestResponse<PleaseFindAllResponses>> findAllPlease(
+		@PathVariable Long darakbangId,
+		@LoginDarakbangMember DarakbangMember member
+	) {
+		PleaseFindAllResponses responses = pleaseService.findAllPlease(darakbangId, member);
 
 		return ResponseEntity.ok().body(new RestResponse<>(responses));
 	}
