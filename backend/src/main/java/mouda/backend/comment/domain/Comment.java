@@ -16,7 +16,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mouda.backend.comment.exception.CommentErrorMessage;
 import mouda.backend.comment.exception.CommentException;
-import mouda.backend.member.domain.Member;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
 
 @Entity
@@ -37,7 +37,7 @@ public class Comment {
 
 	@ManyToOne
 	@JoinColumn(nullable = false)
-	private Member member;
+	private DarakbangMember member;
 
 	@Column(nullable = false)
 	private LocalDateTime createdAt;
@@ -45,7 +45,7 @@ public class Comment {
 	private Long parentId;
 
 	@Builder
-	public Comment(String content, Moim moim, Member member, LocalDateTime createdAt, Long parentId) {
+	public Comment(String content, Moim moim, DarakbangMember member, LocalDateTime createdAt, Long parentId) {
 		validateContent(content);
 		validateMoim(moim);
 		validateMember(member);
@@ -68,7 +68,7 @@ public class Comment {
 		}
 	}
 
-	private void validateMember(Member member) {
+	private void validateMember(DarakbangMember member) {
 		if (member == null) {
 			throw new CommentException(HttpStatus.NOT_FOUND, CommentErrorMessage.MEMBER_NOT_FOUND);
 		}

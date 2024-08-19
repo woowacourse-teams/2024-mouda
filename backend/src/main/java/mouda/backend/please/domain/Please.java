@@ -31,13 +31,17 @@ public class Please {
 	@Column(nullable = false)
 	private long authorId;
 
+	@Column(nullable = false)
+	private long darakbangId;
+
 	@Builder
-	public Please(String title, String description, long authorId) {
+	public Please(String title, String description, long authorId, long darakbangId) {
 		validateTitle(title);
 		validateDescription(description);
 		this.title = title;
 		this.description = description;
 		this.authorId = authorId;
+		this.darakbangId = darakbangId;
 	}
 
 	private void validateTitle(String title) {

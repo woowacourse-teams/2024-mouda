@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.Optional;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.dto.request.DarakbangCreateRequest;
 import mouda.backend.darakbang.dto.request.DarakbangEnterRequest;
@@ -44,14 +42,6 @@ class DarakbangServiceTest {
 
 	@Autowired
 	private DarakbangService darakbangService;
-
-	@Autowired
-	private DatabaseCleaner databaseCleaner;
-
-	@AfterEach
-	void cleanUp() {
-		databaseCleaner.cleanUp();
-	}
 
 	@DisplayName("다락방 생성 테스트")
 	@Nested
@@ -131,10 +121,11 @@ class DarakbangServiceTest {
 		void success() {
 			Member hogee = memberRepository.save(MemberFixture.getHogee());
 			Darakbang darakbang = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
-			darakbangMemberRepository.save(DarakbangMemberFixture.getDarakbangManagerWithWooteco(darakbang, hogee));
+			DarakbangMember darakbangHogee = darakbangMemberRepository.save(
+				DarakbangMemberFixture.getDarakbangManagerWithWooteco(darakbang, hogee));
 
 			assertThatNoException()
-				.isThrownBy(() -> darakbangService.findInvitationCode(darakbang.getId(), hogee));
+				.isThrownBy(() -> darakbangService.findInvitationCode(darakbang.getId(), darakbangHogee));
 		}
 
 		@DisplayName("관리자가 아니라면 초대코드 조회에 실패한다.")
@@ -142,9 +133,10 @@ class DarakbangServiceTest {
 		void failToReadByNotManager() {
 			Member hogee = memberRepository.save(MemberFixture.getHogee());
 			Darakbang darakbang = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
-			darakbangMemberRepository.save(DarakbangMemberFixture.getDarakbangMemberWithWooteco(darakbang, hogee));
+			DarakbangMember darakbangHogee = darakbangMemberRepository.save(
+				DarakbangMemberFixture.getDarakbangMemberWithWooteco(darakbang, hogee));
 
-			assertThatThrownBy(() -> darakbangService.findInvitationCode(darakbang.getId(), hogee))
+			assertThatThrownBy(() -> darakbangService.findInvitationCode(darakbang.getId(), darakbangHogee))
 				.isInstanceOf(DarakbangMemberException.class);
 		}
 	}

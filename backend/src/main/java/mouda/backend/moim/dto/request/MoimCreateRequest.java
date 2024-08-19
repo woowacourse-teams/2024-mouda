@@ -23,7 +23,7 @@ public record MoimCreateRequest(
 	String description
 ) {
 
-	public Moim toEntity() {
+	public Moim toEntity(Long darakbangId) {
 		return Moim.builder()
 			.title(title)
 			.date(date)
@@ -31,6 +31,7 @@ public record MoimCreateRequest(
 			.place(place)
 			.maxPeople(maxPeople)
 			.description(description)
+			.darakbangId(darakbangId)
 			.build();
 	}
 }

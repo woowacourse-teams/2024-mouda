@@ -47,6 +47,8 @@ dependencies {
     testImplementation 'io.rest-assured:rest-assured:5.3.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 
     // notification
     implementation 'com.google.firebase:firebase-admin:9.3.0'

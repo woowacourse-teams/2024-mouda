@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -13,11 +12,8 @@ import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import mouda.backend.config.DatabaseCleaner;
-import mouda.backend.fixture.MemberFixture;
+import mouda.backend.fixture.DarakbangSetUp;
 import mouda.backend.fixture.PleaseFixture;
-import mouda.backend.member.domain.Member;
-import mouda.backend.member.repository.MemberRepository;
 import mouda.backend.please.domain.Please;
 import mouda.backend.please.dto.request.InterestUpdateRequest;
 import mouda.backend.please.dto.request.PleaseCreateRequest;
@@ -26,10 +22,7 @@ import mouda.backend.please.exception.PleaseException;
 import mouda.backend.please.repository.PleaseRepository;
 
 @SpringBootTest
-class PleaseServiceTest {
-
-	@Autowired
-	private MemberRepository memberRepository;
+class PleaseServiceTest extends DarakbangSetUp {
 
 	@Autowired
 	private PleaseRepository pleaseRepository;
@@ -40,12 +33,18 @@ class PleaseServiceTest {
 	@Autowired
 	private InterestService interestService;
 
-	@Autowired
-	private DatabaseCleaner databaseCleaner;
+	@DisplayName("해주세요 조회 테스트")
+	@Nested
+	class PleaseFindTest {
 
-	@AfterEach
-	void cleanUp() {
-		databaseCleaner.cleanUp();
+		@DisplayName("다락방별 해주세요를 조회한다.")
+		@Test
+		void success() {
+			pleaseRepository.save(PleaseFixture.getPlease(1L, darakbang.getId()));
+
+			assertThat(pleaseService.findAllPlease(darakbang.getId(), darakbangHogee).pleases()).hasSize(1);
+			assertThat(pleaseService.findAllPlease(mouda.getId(), moudaHogee).pleases()).hasSize(0);
+		}
 	}
 
 	@DisplayName("해주세요 생성 테스트")
@@ -56,9 +55,8 @@ class PleaseServiceTest {
 		@Test
 		void success() {
 			PleaseCreateRequest request = new PleaseCreateRequest("치킨 사주세요", "제발요");
-			Member tebah = memberRepository.save(MemberFixture.getTebah());
 
-			Please please = pleaseService.createPlease(tebah, request);
+			Please please = pleaseService.createPlease(darakbang.getId(), darakbangHogee, request);
 
 			assertThat(please.getId()).isEqualTo(1L);
 		}
@@ -68,9 +66,8 @@ class PleaseServiceTest {
 		@ParameterizedTest
 		void failToCreatePleaseWithoutTitle(String emptyTitle) {
 			PleaseCreateRequest request = new PleaseCreateRequest(emptyTitle, "제발요");
-			Member tebah = memberRepository.save(MemberFixture.getTebah());
 
-			assertThatThrownBy(() -> pleaseService.createPlease(tebah, request))
+			assertThatThrownBy(() -> pleaseService.createPlease(darakbang.getId(), darakbangHogee, request))
 				.isInstanceOf(PleaseException.class);
 		}
 
@@ -79,9 +76,8 @@ class PleaseServiceTest {
 		@ParameterizedTest
 		void failToCreatePleaseWithoutDescription(String emptyDescription) {
 			PleaseCreateRequest request = new PleaseCreateRequest("피자 사주세요", emptyDescription);
-			Member tebah = memberRepository.save(MemberFixture.getTebah());
 
-			assertThatThrownBy(() -> pleaseService.createPlease(tebah, request))
+			assertThatThrownBy(() -> pleaseService.createPlease(darakbang.getId(), darakbangHogee, request))
 				.isInstanceOf(PleaseException.class);
 		}
 	}
@@ -93,10 +89,9 @@ class PleaseServiceTest {
 		@DisplayName("해주세요를 성공적으로 삭제한다.")
 		@Test
 		void success() {
-			Member member = memberRepository.save(MemberFixture.getTebah());
 			Please please = pleaseRepository.save(PleaseFixture.getPlease());
 
-			pleaseService.deletePlease(member, please.getId());
+			pleaseService.deletePlease(darakbang.getId(), please.getId(), darakbangHogee);
 
 			List<Please> pleases = pleaseRepository.findAll();
 			assertThat(pleases).hasSize(0);
@@ -105,36 +100,32 @@ class PleaseServiceTest {
 		@DisplayName("해주세요 작성자가 아니라면 삭제에 실패한다.")
 		@Test
 		void failToDeleteWithNonAuthor() {
-			Member tebah = memberRepository.save(MemberFixture.getTebah());
-			Please please = pleaseRepository.save(PleaseFixture.getPlease(tebah.getId()));
-			Member anna = memberRepository.save(MemberFixture.getAnna());
+			Please please = pleaseRepository.save(PleaseFixture.getPlease(darakbangHogee.getId(), darakbang.getId()));
 
-			assertThatThrownBy(() -> pleaseService.deletePlease(anna, please.getId()))
+			assertThatThrownBy(() -> pleaseService.deletePlease(darakbang.getId(), please.getId(), darakbangAnna))
 				.isInstanceOf(PleaseException.class);
 		}
 
 		@DisplayName("해주세요가 존재하지 않으면 삭제에 실패한다.")
 		@Test
 		void failToDeleteWithNotExistPlease() {
-			Member tebah = memberRepository.save(MemberFixture.getTebah());
-
-			assertThatThrownBy(() -> pleaseService.deletePlease(tebah, 0L))
+			assertThatThrownBy(() -> pleaseService.deletePlease(darakbang.getId(), 0L, darakbangHogee))
 				.isInstanceOf(PleaseException.class);
 		}
 
 		@DisplayName("관심있어요 상태 변경시 변경한 해주세요만 관심여부가 변경된다.")
 		@Test
 		void findAllPlease() {
-			Member tebah = memberRepository.save(MemberFixture.getTebah());
 			PleaseCreateRequest pleaseCreateRequest = new PleaseCreateRequest("치킨 사주세요", "제발요");
 			PleaseCreateRequest pleaseCreateRequest2 = new PleaseCreateRequest("치킨 사줄까요", "제발요요");
-			Please please = pleaseService.createPlease(tebah, pleaseCreateRequest);
-			pleaseService.createPlease(tebah, pleaseCreateRequest2);
+			Please please = pleaseService.createPlease(darakbang.getId(), darakbangHogee, pleaseCreateRequest);
+			pleaseService.createPlease(darakbang.getId(), darakbangHogee, pleaseCreateRequest2);
 
 			InterestUpdateRequest interestUpdateRequest = new InterestUpdateRequest(please.getId(), true);
-			interestService.updateInterest(tebah, interestUpdateRequest);
+			interestService.updateInterest(darakbang.getId(), please.getId(), darakbangHogee, interestUpdateRequest);
 
-			PleaseFindAllResponses pleaseFindAllResponses = pleaseService.findAllPlease(tebah);
+			PleaseFindAllResponses pleaseFindAllResponses = pleaseService.findAllPlease(
+				darakbang.getId(), darakbangHogee);
 			assertThat(pleaseFindAllResponses.pleases().get(0).isInterested()).isTrue();
 			assertThat(pleaseFindAllResponses.pleases().get(1).isInterested()).isFalse();
 		}

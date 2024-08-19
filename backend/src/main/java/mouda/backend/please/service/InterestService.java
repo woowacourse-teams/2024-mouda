@@ -2,9 +2,11 @@ package mouda.backend.please.service;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.member.domain.Member;
+import mouda.backend.common.RequiredDarakbangPlease;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.please.domain.Interest;
 import mouda.backend.please.domain.Please;
 import mouda.backend.please.dto.request.InterestUpdateRequest;
@@ -14,21 +16,23 @@ import mouda.backend.please.repository.InterestRepository;
 import mouda.backend.please.repository.PleaseRepository;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class InterestService {
 
 	private final PleaseRepository pleaseRepository;
 	private final InterestRepository interestRepository;
 
-	public void updateInterest(Member member, InterestUpdateRequest request) {
+	@RequiredDarakbangPlease
+	public void updateInterest(Long darakbangId, Long pleaseId, DarakbangMember member, InterestUpdateRequest request) {
 		if (request.isInterested()) {
-			addInterest(member, request.pleaseId());
+			addInterest(member, pleaseId);
 			return;
 		}
-		removeInterest(member, request.pleaseId());
+		removeInterest(member, pleaseId);
 	}
 
-	private void addInterest(Member member, Long pleaseId) {
+	private void addInterest(DarakbangMember member, Long pleaseId) {
 		boolean isInterestExists = interestRepository.existsByMemberIdAndPleaseId(member.getId(), pleaseId);
 
 		if (!isInterestExists) {
@@ -42,7 +46,7 @@ public class InterestService {
 		}
 	}
 
-	private void removeInterest(Member member, Long pleaseId) {
+	private void removeInterest(DarakbangMember member, Long pleaseId) {
 		interestRepository.findByMemberIdAndPleaseId(member.getId(), pleaseId)
 			.ifPresent(interestRepository::delete);
 	}

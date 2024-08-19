@@ -5,15 +5,12 @@ import java.util.Objects;
 import org.springframework.http.HttpStatus;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.exception.MoimErrorMessage;
 import mouda.backend.moim.exception.MoimException;
 
@@ -32,9 +29,6 @@ public class Member {
 
 	private Long kakaoId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Moim moim;
-
 	@Builder
 	public Member(String nickname, Long kakaoId) {
 		this.kakaoId = kakaoId;
@@ -48,10 +42,6 @@ public class Member {
 		if (nickname.length() >= NICKNAME_MAX_LENGTH) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MEMBER_NICKNAME_TOO_LONG);
 		}
-	}
-
-	public void joinMoim(Moim moim) {
-		this.moim = moim;
 	}
 
 	@Override

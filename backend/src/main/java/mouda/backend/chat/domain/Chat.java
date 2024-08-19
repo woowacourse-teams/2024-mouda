@@ -13,7 +13,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import mouda.backend.member.domain.Member;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
 
 @Entity
@@ -31,7 +31,7 @@ public class Chat {
 	private Moim moim;
 
 	@ManyToOne
-	private Member member;
+	private DarakbangMember member;
 
 	private LocalDate date;
 
@@ -41,7 +41,7 @@ public class Chat {
 	private ChatType chatType;
 
 	@Builder
-	public Chat(String content, Moim moim, Member member, LocalDate date, LocalTime time, ChatType chatType) {
+	public Chat(String content, Moim moim, DarakbangMember member, LocalDate date, LocalTime time, ChatType chatType) {
 		this.content = content;
 		this.moim = moim;
 		this.member = member;

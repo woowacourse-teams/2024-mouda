@@ -8,6 +8,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,12 @@ import mouda.backend.comment.domain.Comment;
 import mouda.backend.comment.dto.request.CommentCreateRequest;
 import mouda.backend.comment.exception.CommentException;
 import mouda.backend.comment.repository.CommentRepository;
-import mouda.backend.config.DatabaseCleaner;
+import mouda.backend.darakbang.domain.Darakbang;
+import mouda.backend.darakbang.repository.DarakbangRepository;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
+import mouda.backend.darakbangmember.repository.repository.DarakbangMemberRepository;
+import mouda.backend.fixture.DarakbangFixture;
+import mouda.backend.fixture.DarakbangMemberFixture;
 import mouda.backend.fixture.MemberFixture;
 import mouda.backend.fixture.MoimFixture;
 import mouda.backend.member.domain.Member;
@@ -36,6 +42,12 @@ class MoimServiceTest extends IgnoreNotificationTest {
 	private MoimService moimService;
 
 	@Autowired
+	private DarakbangRepository darakbangRepository;
+
+	@Autowired
+	private DarakbangMemberRepository darakbangMemberRepository;
+
+	@Autowired
 	private MoimRepository moimRepository;
 
 	@Autowired
@@ -44,12 +56,20 @@ class MoimServiceTest extends IgnoreNotificationTest {
 	@Autowired
 	private CommentRepository commentRepository;
 
-	@Autowired
-	private DatabaseCleaner databaseCleaner;
+	private Darakbang darakbang;
+	private Darakbang mouda;
+	private DarakbangMember darakbangHogee;
+	private DarakbangMember moudaHogee;
 
-	@AfterEach
-	void cleanUp() {
-		databaseCleaner.cleanUp();
+	@BeforeEach
+	void setUp() {
+		darakbang = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
+		mouda = darakbangRepository.save(DarakbangFixture.getDarakbangWithMouda());
+		Member hogee = memberRepository.save(MemberFixture.getHogee());
+		darakbangHogee = darakbangMemberRepository.save(
+			DarakbangMemberFixture.getDarakbangMemberWithWooteco(darakbang, hogee));
+		moudaHogee = darakbangMemberRepository.save(
+			DarakbangMemberFixture.getDarakbangMemberWithWooteco(mouda, hogee));
 	}
 
 	@DisplayName("모임을 생성한다.")
@@ -60,8 +80,7 @@ class MoimServiceTest extends IgnoreNotificationTest {
 			10, "설명"
 		);
 
-		Member hogee = memberRepository.save(MemberFixture.getHogee());
-		Moim moim = moimService.createMoim(moimCreateRequest, hogee);
+		Moim moim = moimService.createMoim(darakbang.getId(), darakbangHogee, moimCreateRequest);
 
 		assertThat(moim.getId()).isEqualTo(1L);
 	}
@@ -74,11 +93,10 @@ class MoimServiceTest extends IgnoreNotificationTest {
 			10, "설명"
 		);
 
-		Member hogee = memberRepository.save(MemberFixture.getHogee());
-		moimService.createMoim(moimCreateRequest, hogee);
-		moimService.createMoim(moimCreateRequest, hogee);
+		moimService.createMoim(darakbang.getId(), darakbangHogee, moimCreateRequest);
+		moimService.createMoim(darakbang.getId(), darakbangHogee, moimCreateRequest);
 
-		MoimFindAllResponses moimResponses = moimService.findAllMoim(hogee);
+		MoimFindAllResponses moimResponses = moimService.findAllMoim(darakbang.getId(), darakbangHogee);
 
 		assertThat(moimResponses.moims()).hasSize(2);
 	}
@@ -90,10 +108,9 @@ class MoimServiceTest extends IgnoreNotificationTest {
 			"title", LocalDate.now().plusDays(1), LocalTime.now(), "place",
 			10, "설명"
 		);
-		Member hogee = memberRepository.save(MemberFixture.getHogee());
-		moimService.createMoim(moimCreateRequest, hogee);
+		moimService.createMoim(darakbang.getId(), darakbangHogee, moimCreateRequest);
 
-		MoimDetailsFindResponse moimDetails = moimService.findMoimDetails(1L);
+		MoimDetailsFindResponse moimDetails = moimService.findMoimDetails(darakbang.getId(), 1L);
 
 		assertThat(moimDetails.title()).isEqualTo("title");
 	}
@@ -105,10 +122,9 @@ class MoimServiceTest extends IgnoreNotificationTest {
 			"title", LocalDate.now().plusDays(1), LocalTime.now(), "place",
 			10, "설명"
 		);
-		Member hogee = memberRepository.save(MemberFixture.getHogee());
-		Moim moim = moimService.createMoim(moimCreateRequest, hogee);
+		Moim moim = moimService.createMoim(darakbang.getId(), darakbangHogee, moimCreateRequest);
 
-		moimService.deleteMoim(moim.getId(), hogee);
+		moimService.deleteMoim(darakbang.getId(), moim.getId(), darakbangHogee);
 
 		List<Moim> moims = moimRepository.findAll();
 		assertThat(moims).hasSize(0);
@@ -117,11 +133,9 @@ class MoimServiceTest extends IgnoreNotificationTest {
 	@DisplayName("댓글을 생성한다.")
 	@Test
 	void createComment() {
-		Moim moim = moimRepository.save(MoimFixture.getBasketballMoim());
-		Member member = memberRepository.save(MemberFixture.getAnna());
-
+		Moim moim = moimRepository.save(MoimFixture.getBasketballMoim(darakbang.getId()));
 		CommentCreateRequest commentCreateRequest = new CommentCreateRequest(null, "댓글부대");
-		moimService.createComment(member, moim.getId(), commentCreateRequest);
+		moimService.createComment(darakbang.getId(), moim.getId(), darakbangHogee, commentCreateRequest);
 
 		List<Comment> comments = commentRepository.findAllByMoimIdOrderByCreatedAt(moim.getId());
 		assertThat(comments).hasSize(1);
@@ -130,12 +144,19 @@ class MoimServiceTest extends IgnoreNotificationTest {
 	@DisplayName("부모 댓글이 없이 대댓글을 생성 시 예외가 발생한다.")
 	@Test
 	void failToCreateChildCommentWhenParentCommentDoesNotExist() {
-		Moim moim = moimRepository.save(MoimFixture.getBasketballMoim());
-		Member member = memberRepository.save(MemberFixture.getAnna());
-
+		Moim moim = moimRepository.save(MoimFixture.getBasketballMoim(darakbang.getId()));
 		CommentCreateRequest commentCreateRequest = new CommentCreateRequest(1L, "댓글부대");
 
 		assertThrows(CommentException.class,
-			() -> moimService.createComment(member, moim.getId(), commentCreateRequest));
+			() -> moimService.createComment(darakbang.getId(), moim.getId(), darakbangHogee, commentCreateRequest));
+	}
+
+	@DisplayName("다락방별 모임을 조회한다.")
+	@Test
+	void success() {
+		moimRepository.save(MoimFixture.getBasketballMoim(darakbang.getId()));
+
+		assertThat(moimService.findAllMoim(darakbang.getId(), darakbangHogee).moims()).hasSize(1);
+		assertThat(moimService.findAllMoim(mouda.getId(), moudaHogee).moims()).hasSize(0);
 	}
 }

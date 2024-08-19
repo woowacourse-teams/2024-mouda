@@ -5,12 +5,12 @@ import java.time.LocalTime;
 
 import mouda.backend.chat.domain.Chat;
 import mouda.backend.chat.domain.ChatType;
-import mouda.backend.member.domain.Member;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
 
 public class ChatFixture {
 
-	public static Chat getChatWithMemberAtMoim(Member member, Moim moim) {
+	public static Chat getChatWithMemberAtMoim(DarakbangMember member, Moim moim) {
 		return Chat.builder()
 			.time(LocalTime.now())
 			.date(LocalDate.now())

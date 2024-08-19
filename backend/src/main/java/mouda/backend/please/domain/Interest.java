@@ -11,7 +11,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import mouda.backend.member.domain.Member;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.please.exception.PleaseErrorMessage;
 import mouda.backend.please.exception.PleaseException;
 
@@ -26,21 +26,21 @@ public class Interest {
 
 	@ManyToOne
 	@JoinColumn(nullable = false)
-	private Member member;
+	private DarakbangMember member;
 
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Please please;
 
 	@Builder
-	public Interest(Member member, Please please) {
+	public Interest(DarakbangMember member, Please please) {
 		validateMember(member);
 		validatePlease(please);
 		this.member = member;
 		this.please = please;
 	}
 
-	private void validateMember(Member member) {
+	private void validateMember(DarakbangMember member) {
 		if (member == null) {
 			throw new PleaseException(HttpStatus.NOT_FOUND, PleaseErrorMessage.MEMBER_NOT_FOUND);
 		}

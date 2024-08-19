@@ -1,53 +1,39 @@
 package mouda.backend.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import jakarta.persistence.EntityManager;
 
-@Component
-public class DatabaseCleaner {
+public abstract class DatabaseCleaner {
+	public static void clear(ApplicationContext applicationContext) {
+		var entityManager = applicationContext.getBean(EntityManager.class);
+		var jdbcTemplate = applicationContext.getBean(JdbcTemplate.class);
+		var transactionTemplate = applicationContext.getBean(TransactionTemplate.class);
 
-	@Autowired
-	private EntityManager entityManager;
-
-	public DatabaseCleaner(EntityManager entityManager) {
-		this.entityManager = entityManager;
+		transactionTemplate.execute(status -> {
+			entityManager.clear();
+			deleteAll(jdbcTemplate, entityManager);
+			return null;
+		});
 	}
 
-	@Transactional
-	public void cleanUp() {
-		entityManager.createNativeQuery("DELETE FROM CHAT").executeUpdate();
-		entityManager.createNativeQuery("ALTER TABLE CHAT alter column id restart with 1").executeUpdate();
+	private static void deleteAll(JdbcTemplate jdbcTemplate, EntityManager entityManager) {
+		entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY FALSE").executeUpdate();
+		for (String tableName : findDatabaseTableNames(jdbcTemplate)) {
+			entityManager.createNativeQuery("DELETE FROM %s".formatted(tableName)).executeUpdate();
+			entityManager.createNativeQuery("ALTER TABLE %s alter column id restart with 1".formatted(tableName))
+				.executeUpdate();
+		}
+		entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
+	}
 
-		entityManager.createNativeQuery("DELETE FROM COMMENT").executeUpdate();
-		entityManager.createNativeQuery("ALTER TABLE COMMENT alter column id restart with 1").executeUpdate();
-
-		entityManager.createNativeQuery("DELETE FROM ZZIM").executeUpdate();
-		entityManager.createNativeQuery("ALTER TABLE ZZIM alter column id restart with 1").executeUpdate();
-
-		entityManager.createNativeQuery("DELETE FROM CHAMYO").executeUpdate();
-		entityManager.createNativeQuery("ALTER TABLE CHAMYO alter column id restart with 1").executeUpdate();
-
-		entityManager.createNativeQuery("DELETE FROM INTEREST").executeUpdate();
-		entityManager.createNativeQuery("ALTER TABLE INTEREST alter column id restart with 1").executeUpdate();
-
-		entityManager.createNativeQuery("DELETE FROM PLEASE").executeUpdate();
-		entityManager.createNativeQuery("ALTER TABLE PLEASE alter column id restart with 1").executeUpdate();
-
-		entityManager.createNativeQuery("DELETE FROM DARAKBANG_MEMBER").executeUpdate();
-		entityManager.createNativeQuery("ALTER TABLE DARAKBANG_MEMBER alter column id restart with 1").executeUpdate();
-
-		entityManager.createNativeQuery("DELETE FROM MEMBER").executeUpdate();
-		entityManager.createNativeQuery("ALTER TABLE MEMBER alter column id restart with 1").executeUpdate();
-
-		entityManager.createNativeQuery("DELETE FROM MOIM").executeUpdate();
-		entityManager.createNativeQuery("ALTER TABLE MOIM alter column id restart with 1").executeUpdate();
-
-		entityManager.createNativeQuery("DELETE FROM DARAKBANG").executeUpdate();
-		entityManager.createNativeQuery("ALTER TABLE DARAKBANG alter column id restart with 1").executeUpdate();
-
-		entityManager.clear();
+	private static List<String> findDatabaseTableNames(JdbcTemplate jdbcTemplate) {
+		return jdbcTemplate
+			.query("SHOW TABLES", (rs, rowNum) -> rs.getString(1))
+			.stream().toList();
 	}
 }
