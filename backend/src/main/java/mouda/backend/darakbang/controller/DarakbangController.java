@@ -85,6 +85,8 @@ public class DarakbangController implements DarakbangSwagger {
 	@Override
 	@GetMapping("/{darakbangId}")
 	public ResponseEntity<RestResponse<DarakbangNameResponse>> findDarakbangName(@PathVariable Long darakbangId) {
-		return null;
+		DarakbangNameResponse darakbangNameResponse = darakbangService.findDarakbangName(darakbangId);
+
+		return ResponseEntity.ok(new RestResponse<>(darakbangNameResponse));
 	}
 }
