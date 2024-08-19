@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import QUERY_KEYS from '@_constants/queryKeys';
+import { getLastDarakbangId } from '@_common/lastDarakbangManager';
 import { patchCancelMoim } from '@_apis/patches';
 
 export default function useCancelMoim() {
@@ -10,7 +11,7 @@ export default function useCancelMoim() {
     mutationFn: patchCancelMoim,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.moim],
+        queryKey: [QUERY_KEYS.darakbang, getLastDarakbangId(), QUERY_KEYS.moim],
       });
     },
   });
