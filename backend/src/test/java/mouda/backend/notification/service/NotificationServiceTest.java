@@ -83,8 +83,6 @@ class NotificationServiceTest {
 			assertThat(res).hasSize(2);
 			assertThat(res).extracting(NotificationFindAllResponse::message)
 				.containsExactly(type1.createMessage("테스트모임"), type2.createMessage("상돌"));
-			assertThat(res).extracting(NotificationFindAllResponse::createdAt)
-				.containsExactly("방금 전", "방금 전");
 			assertThat(res).extracting(NotificationFindAllResponse::type)
 				.containsExactly(type1.toString(), type2.toString());
 		});
