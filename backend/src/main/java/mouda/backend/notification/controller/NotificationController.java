@@ -1,7 +1,9 @@
 package mouda.backend.notification.controller;
 
+import mouda.backend.notification.dto.request.FcmTokenRefreshRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +34,14 @@ public class NotificationController implements NotificationSwagger {
 		@Valid @RequestBody FcmTokenSaveRequest fcmTokenSaveRequest
 	) {
 		notificationService.registerFcmToken(member.getId(), fcmTokenSaveRequest);
+
+		return ResponseEntity.ok().build();
+	}
+
+	@Override
+	@PatchMapping("/refresh")
+	public ResponseEntity<Void> refreshFcmToken(@RequestBody FcmTokenRefreshRequest fcmTokenRefreshRequest) {
+		notificationService.refreshFcmToken(fcmTokenRefreshRequest);
 
 		return ResponseEntity.ok().build();
 	}

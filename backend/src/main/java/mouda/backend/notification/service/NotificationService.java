@@ -8,6 +8,11 @@ import java.util.List;
 import java.util.Objects;
 
 import java.util.stream.IntStream;
+import mouda.backend.notification.dto.request.FcmTokenRefreshRequest;
+import mouda.backend.notification.exception.NotificationErrorMessage;
+import mouda.backend.notification.exception.NotificationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +53,14 @@ public class NotificationService {
 			.build();
 
 		fcmTokenRepository.save(fcmToken);
+	}
+
+	public void refreshFcmToken(FcmTokenRefreshRequest fcmTokenRefreshRequest) {
+		FcmToken fcmToken = fcmTokenRepository.findByToken(fcmTokenRefreshRequest.oldToken())
+				.orElseThrow(() -> new NotificationException(
+						HttpStatus.BAD_REQUEST,
+						NotificationErrorMessage.FCM_TOKEN_NOT_FOUND_BY_TOKEN));
+		fcmToken.refreshToken(fcmTokenRefreshRequest.newToken());
 	}
 
 	public void notifyToMember(MoudaNotification moudaNotification, Long memberId) {
