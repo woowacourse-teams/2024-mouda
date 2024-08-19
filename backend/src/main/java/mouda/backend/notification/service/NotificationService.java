@@ -1,9 +1,13 @@
 package mouda.backend.notification.service;
 
+import com.google.firebase.messaging.BatchResponse;
+import com.google.firebase.messaging.MessagingErrorCode;
+import com.google.firebase.messaging.SendResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import java.util.stream.IntStream;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -113,17 +117,12 @@ public class NotificationService {
 				.build())
 			.forEach(message -> {
 				try {
-					FirebaseMessaging.getInstance().sendEachForMulticast(message);
+					BatchResponse batchResponse = FirebaseMessaging.getInstance().sendEachForMulticast(message);
+					validateFcmTokenByErrorCode(tokens, batchResponse);
 				} catch (FirebaseMessagingException e) {
 					log.error("Failed to send message: {}", e.getMessage());
 				}
 			});
-	}
-
-	private WebpushConfig getWebpushConfig(String url) {
-		return WebpushConfig.builder()
-			.setFcmOptions(WebpushFcmOptions.withLink(url))
-			.build();
 	}
 
 	private List<List<String>> chunkFcmTokensForMulticast(List<String> tokens) {
@@ -133,6 +132,28 @@ public class NotificationService {
 			result.add(tokens.subList(i, Math.min(i + defaultChunkSize, tokens.size())));
 		}
 		return result;
+	}
+
+	private WebpushConfig getWebpushConfig(String url) {
+		return WebpushConfig.builder()
+				.setFcmOptions(WebpushFcmOptions.withLink(url))
+				.build();
+	}
+
+	private void validateFcmTokenByErrorCode(List<String> tokens, BatchResponse batchResponse) {
+		if (batchResponse.getFailureCount() == 0) {
+			return;
+		}
+
+		List<SendResponse> responses = batchResponse.getResponses();
+		IntStream.range(0, responses.size())
+				.filter(index -> isInvalidTokenErrorCode(responses.get(index)))
+				.forEach(index -> fcmTokenRepository.deleteByToken(tokens.get(index)));
+	}
+
+	private boolean isInvalidTokenErrorCode(SendResponse sendResponse) {
+		MessagingErrorCode errorCode = sendResponse.getException().getMessagingErrorCode();
+		return errorCode == MessagingErrorCode.UNREGISTERED || errorCode == MessagingErrorCode.INVALID_ARGUMENT;
 	}
 
 	public NotificationFindAllResponses findAllMyNotifications(Member member) {
