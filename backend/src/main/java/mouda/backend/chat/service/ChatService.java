@@ -76,7 +76,7 @@ public class ChatService {
 	}
 
 	@Transactional(readOnly = true)
-	public ChatFindUnloadedResponse findUnloadedChats(long recentChatId, long moimId, DarakbangMember member) {
+	public ChatFindUnloadedResponse findUnloadedChats(long moimId, long recentChatId, DarakbangMember member) {
 		findMoimByMoimId(moimId);
 		findChamyoByMoimIdAndMemberId(moimId, member.getId());
 		if (recentChatId < 0) {
