@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 export default function DarakbangMembersPage() {
   const navigate = useNavigate();
 
-  const { members, isLoading } = useDarakbangMembers(1);
+  const { members, isLoading } = useDarakbangMembers();
   return (
     <>
       <StickyTriSectionHeader>

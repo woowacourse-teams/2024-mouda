@@ -28,8 +28,7 @@ export default function MainPage() {
 
   const nowDarakbangName = '소파밥';
   const nowDarakbangId = 1;
-  const { myRoleInDarakbang: myRoleInNowDarakbang } =
-    useMyRoleInDarakbang(nowDarakbangId);
+  const { myRoleInDarakbang: myRoleInNowDarakbang } = useMyRoleInDarakbang();
 
   const handleTabClick = (tab: MainPageTab) => {
     setCurrentTab(tab);
