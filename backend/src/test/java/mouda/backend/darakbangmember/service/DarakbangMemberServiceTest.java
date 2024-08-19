@@ -2,14 +2,12 @@ package mouda.backend.darakbangmember.service;
 
 import static org.assertj.core.api.Assertions.*;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.repository.DarakbangRepository;
 import mouda.backend.darakbangmember.dto.response.DarakbangMemberRoleResponse;
@@ -35,14 +33,6 @@ class DarakbangMemberServiceTest {
 
 	@Autowired
 	private DarakbangMemberService darakbangMemberService;
-
-	@Autowired
-	private DatabaseCleaner databaseCleaner;
-
-	@AfterEach
-	void cleanUp() {
-		databaseCleaner.cleanUp();
-	}
 
 	@DisplayName("다락방 멤버 조회 테스트")
 	@Nested

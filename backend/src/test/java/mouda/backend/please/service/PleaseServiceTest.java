@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -13,7 +12,6 @@ import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.fixture.MemberFixture;
 import mouda.backend.fixture.PleaseFixture;
 import mouda.backend.member.domain.Member;
@@ -39,14 +37,6 @@ class PleaseServiceTest {
 
 	@Autowired
 	private InterestService interestService;
-
-	@Autowired
-	private DatabaseCleaner databaseCleaner;
-
-	@AfterEach
-	void cleanUp() {
-		databaseCleaner.cleanUp();
-	}
 
 	@DisplayName("해주세요 생성 테스트")
 	@Nested
