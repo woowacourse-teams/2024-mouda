@@ -5,6 +5,10 @@ import MoimTabBar, { MainPageTab } from '@_components/MoimTabBar/MoimTabBar';
 import OptionsPanel, {
   OptionsPanelOption,
 } from '@_components/OptionsPanel/OptionsPanel';
+import {
+  getLastDarakbangId,
+  setLastDarakbangId,
+} from '@_common/lastDarakbangManager';
 
 import HomeLayout from '@_layouts/HomeLayout.tsx/HomeLayout';
 import HomeMainContent from '@_components/HomeMainContent/HomeMainContent';
@@ -27,7 +31,7 @@ export default function MainPage() {
   const { myDarakbangs, isLoading: isMyDarakbangLoading } = useMyDarakbangs();
 
   const nowDarakbangName = '소파밥';
-  const nowDarakbangId = 1;
+  const nowDarakbangId = getLastDarakbangId();
   const { myRoleInDarakbang: myRoleInNowDarakbang } = useMyRoleInDarakbang();
 
   const handleTabClick = (tab: MainPageTab) => {
@@ -43,17 +47,27 @@ export default function MainPage() {
     const options: OptionsPanelOption[] =
       myDarakbangs?.map(({ name, darakbangId }) => {
         return {
-          onClick: () => navigate(ROUTES.main),
+          onClick: () => {
+            setLastDarakbangId(darakbangId);
+            navigate(ROUTES.main);
+          },
           description:
             name + (darakbangId === nowDarakbangId ? '(현재 다락방)' : ''),
         };
       }) || [];
 
-    options.push({
-      onClick: () => navigate(ROUTES.darakbangEntrance),
-      description: '다른 다락방 들어가기',
-      hasTopBorder: true,
-    });
+    options.push(
+      {
+        onClick: () => navigate(ROUTES.darakbangEntrance),
+        description: '다른 다락방 들어가기',
+        hasTopBorder: true,
+      },
+      {
+        onClick: () => navigate(ROUTES.darakbangCreation),
+        description: '다른 다락방 만들기',
+        hasTopBorder: false,
+      },
+    );
 
     if (myRoleInNowDarakbang === 'MANAGER') {
       options.push({
@@ -63,7 +77,13 @@ export default function MainPage() {
       });
     }
     return options;
-  }, [isMyDarakbangLoading, myDarakbangs, myRoleInNowDarakbang, navigate]);
+  }, [
+    isMyDarakbangLoading,
+    myDarakbangs,
+    myRoleInNowDarakbang,
+    nowDarakbangId,
+    navigate,
+  ]);
 
   const darakbangMenu = useMemo(() => {
     return (
