@@ -2,7 +2,8 @@ import { Notification } from '@_types/index';
 import * as S from '@_components/NotificationCard/NotificationCard.style';
 import { useTheme } from '@emotion/react';
 import { notificationTypeColors } from './NotificationCard.const';
-interface NotificationCardProps {
+import { HTMLProps } from 'react';
+interface NotificationCardProps extends HTMLProps<HTMLDivElement> {
   notification: Notification;
 }
 
