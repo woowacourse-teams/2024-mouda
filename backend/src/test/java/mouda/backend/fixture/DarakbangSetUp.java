@@ -1,11 +1,9 @@
 package mouda.backend.fixture;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.repository.DarakbangRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
@@ -24,9 +22,6 @@ public class DarakbangSetUp {
 
 	@Autowired
 	private MemberRepository memberRepository;
-
-	@Autowired
-	private DatabaseCleaner databaseCleaner;
 
 	protected Darakbang darakbang;
 	protected Darakbang mouda;
@@ -50,10 +45,5 @@ public class DarakbangSetUp {
 		anna = memberRepository.save(MemberFixture.getAnna());
 		darakbangAnna = darakbangMemberRepository.save(
 			DarakbangMemberFixture.getDarakbangMemberWithWooteco(darakbang, anna));
-	}
-
-	@AfterEach
-	void cleanUp() {
-		databaseCleaner.cleanUp();
 	}
 }

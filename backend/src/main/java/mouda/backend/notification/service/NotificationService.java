@@ -1,17 +1,14 @@
 package mouda.backend.notification.service;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.firebase.messaging.BatchResponse;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.MulticastMessage;
 import com.google.firebase.messaging.WebpushConfig;
 import com.google.firebase.messaging.WebpushFcmOptions;
@@ -59,29 +56,8 @@ public class NotificationService {
 				.build());
 		}
 
-		String fcmToken = fcmTokenRepository.findFcmTokenByMemberId(memberId)
-			.map(FcmToken::getToken)
-			.orElse(null);
-
-		if (fcmToken == null) {
-			return;
-		}
-
-		sendNotification(notification, fcmToken);
-	}
-
-	private void sendNotification(MoudaNotification moudaNotification, String fcmToken) {
-		try {
-			Message message = Message.builder()
-				.setToken(fcmToken)
-				.setNotification(moudaNotification.toFcmNotification())
-				.setWebpushConfig(getWebpushConfig(moudaNotification.getTargetUrl()))
-				.build();
-
-			FirebaseMessaging.getInstance().send(message);
-		} catch (FirebaseMessagingException e) {
-			log.error("Failed to send message: {}", e.getMessage());
-		}
+		List<String> tokens = fcmTokenRepository.findAllTokenByMemberId(memberId);
+		sendNotificationToAll(notification, tokens);
 	}
 
 	public void notifyToAllMembers(MoudaNotification moudaNotification) {
@@ -118,28 +94,30 @@ public class NotificationService {
 				.toList());
 		}
 
-		List<String> tokens = fcmTokenRepository.findTokensByMemberIds(memberIds);
-
-		if (tokens.isEmpty()) {
-			return;
-		}
-
+		List<String> tokens = fcmTokenRepository.findAllTokenByMemberIds(memberIds);
 		sendNotificationToAll(notification, tokens);
 	}
 
 	private void sendNotificationToAll(MoudaNotification notification, List<String> tokens) {
-		try {
-			MulticastMessage message = MulticastMessage.builder()
-				.addAllTokens(tokens)
+		if (tokens.isEmpty()) {
+			return;
+		}
+
+		List<List<String>> chunkedTokens = chunkFcmTokensForMulticast(tokens);
+
+		chunkedTokens.stream()
+			.map(chunk -> MulticastMessage.builder()
 				.setNotification(notification.toFcmNotification())
 				.setWebpushConfig(getWebpushConfig(notification.getTargetUrl()))
-				.build();
-
-			BatchResponse response = FirebaseMessaging.getInstance().sendEachForMulticast(message);
-			log.info("Successfully sent message: {}", response.getSuccessCount());
-		} catch (FirebaseMessagingException e) {
-			log.error("Failed to send message: {}", e.getMessage());
-		}
+				.addAllTokens(chunk)
+				.build())
+			.forEach(message -> {
+				try {
+					FirebaseMessaging.getInstance().sendEachForMulticast(message);
+				} catch (FirebaseMessagingException e) {
+					log.error("Failed to send message: {}", e.getMessage());
+				}
+			});
 	}
 
 	private WebpushConfig getWebpushConfig(String url) {
@@ -148,35 +126,22 @@ public class NotificationService {
 			.build();
 	}
 
+	private List<List<String>> chunkFcmTokensForMulticast(List<String> tokens) {
+		int defaultChunkSize = 500;
+		List<List<String>> result = new ArrayList<>();
+		for (int i = 0; i < tokens.size(); i += defaultChunkSize) {
+			result.add(tokens.subList(i, Math.min(i + defaultChunkSize, tokens.size())));
+		}
+		return result;
+	}
+
 	public NotificationFindAllResponses findAllMyNotifications(Member member) {
 		List<NotificationFindAllResponse> responses = memberNotificationRepository.findAllByMemberId(member.getId())
 			.stream()
 			.map(MemberNotification::getMoudaNotification)
-			.map(moudaNotification -> NotificationFindAllResponse.builder()
-				.message(moudaNotification.getBody())
-				.createdAt(parseTime(moudaNotification.getCreatedAt()))
-				.type(moudaNotification.getType().name())
-				.build())
+			.map(NotificationFindAllResponse::from)
 			.toList();
 
 		return new NotificationFindAllResponses(responses);
-	}
-
-	private String parseTime(LocalDateTime notificationCreatedAt) {
-		LocalDateTime now = LocalDateTime.now();
-		long minutes = notificationCreatedAt.until(now, ChronoUnit.MINUTES);
-		long hours = notificationCreatedAt.until(now, ChronoUnit.HOURS);
-		long days = notificationCreatedAt.until(now, ChronoUnit.DAYS);
-
-		if (minutes == 0) {
-			return "방금 전";
-		}
-		if (minutes < 60) {
-			return minutes + "분 전";
-		}
-		if (hours < 24) {
-			return hours + "시간 전";
-		}
-		return days + "일 전";
 	}
 }

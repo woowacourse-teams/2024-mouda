@@ -4,14 +4,12 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import mouda.backend.chat.domain.Chat;
-import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.fixture.ChatFixture;
 import mouda.backend.fixture.DarakbangSetUp;
 import mouda.backend.fixture.MoimFixture;
@@ -26,14 +24,6 @@ class ChatRepositoryTest extends DarakbangSetUp {
 
 	@Autowired
 	private MoimRepository moimRepository;
-
-	@Autowired
-	private DatabaseCleaner databaseCleaner;
-
-	@AfterEach
-	void cleanUp() {
-		databaseCleaner.cleanUp();
-	}
 
 	@DisplayName("모임 아이디가 동일하고 채팅 아이디가 더 큰 채팅 리스트가 조회된다.")
 	@Test

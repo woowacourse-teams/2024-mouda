@@ -11,10 +11,11 @@ import mouda.backend.notification.domain.FcmToken;
 
 public interface FcmTokenRepository extends JpaRepository<FcmToken, Long> {
 
-	Optional<FcmToken> findFcmTokenByMemberId(long memberId);
+	@Query("SELECT f.token FROM FcmToken f WHERE f.memberId = :memberId")
+	List<String> findAllTokenByMemberId(@Param("memberId") Long memberId);
 
 	@Query("SELECT f.token FROM FcmToken f WHERE f.memberId IN :memberIds")
-	List<String> findTokensByMemberIds(@Param("memberIds") List<Long> memberIds);
+	List<String> findAllTokenByMemberIds(@Param("memberIds") List<Long> memberIds);
 
 	@Query("SELECT f.memberId FROM FcmToken f")
 	List<Long> findAllMemberId();

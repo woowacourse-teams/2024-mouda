@@ -19,7 +19,6 @@ import mouda.backend.comment.domain.Comment;
 import mouda.backend.comment.dto.request.CommentCreateRequest;
 import mouda.backend.comment.exception.CommentException;
 import mouda.backend.comment.repository.CommentRepository;
-import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.repository.DarakbangRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
@@ -57,9 +56,6 @@ class MoimServiceTest extends IgnoreNotificationTest {
 	@Autowired
 	private CommentRepository commentRepository;
 
-	@Autowired
-	private DatabaseCleaner databaseCleaner;
-
 	private Darakbang darakbang;
 	private Darakbang mouda;
 	private DarakbangMember darakbangHogee;
@@ -74,11 +70,6 @@ class MoimServiceTest extends IgnoreNotificationTest {
 			DarakbangMemberFixture.getDarakbangMemberWithWooteco(darakbang, hogee));
 		moudaHogee = darakbangMemberRepository.save(
 			DarakbangMemberFixture.getDarakbangMemberWithWooteco(mouda, hogee));
-	}
-
-	@AfterEach
-	void cleanUp() {
-		databaseCleaner.cleanUp();
 	}
 
 	@DisplayName("모임을 생성한다.")

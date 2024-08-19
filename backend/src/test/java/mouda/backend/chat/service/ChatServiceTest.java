@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,6 @@ import mouda.backend.chat.dto.response.ChatFindUnloadedResponse;
 import mouda.backend.chat.dto.response.ChatPreviewResponses;
 import mouda.backend.chat.exception.ChatException;
 import mouda.backend.chat.repository.ChatRepository;
-import mouda.backend.config.DatabaseCleaner;
 import mouda.backend.fixture.ChatFixture;
 import mouda.backend.fixture.DarakbangSetUp;
 import mouda.backend.fixture.MoimFixture;
@@ -45,14 +43,6 @@ class ChatServiceTest extends DarakbangSetUp {
 
 	@Autowired
 	private ChamyoRepository chamyoRepository;
-
-	@Autowired
-	private DatabaseCleaner databaseCleaner;
-
-	@AfterEach
-	void cleanUp() {
-		databaseCleaner.cleanUp();
-	}
 
 	@DisplayName("채팅을 생성한다.")
 	@Test
