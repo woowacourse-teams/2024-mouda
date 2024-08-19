@@ -1,5 +1,6 @@
 const ROUTES = {
   main: '/',
+  darakbangMain: '/darakbang/:darakbangId',
   addMoim: '/add-moim',
   detail: '/moim/:moimId',
   participationComplete: '/moim/participation-complete',
