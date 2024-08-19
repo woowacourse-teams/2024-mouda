@@ -95,6 +95,7 @@ export interface Notification {
   type: NotificationType;
   message: string;
   createdAt: string;
+  redirectUrl: string;
 }
 
 export interface Darakbang {
