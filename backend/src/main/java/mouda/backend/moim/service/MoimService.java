@@ -115,13 +115,13 @@ public class MoimService {
 	}
 
 	@RequiredDarakbangMoim
-	public void deleteMoim(long darakbangId, long id, DarakbangMember member) {
-		Moim moim = moimRepository.findById(id)
+	public void deleteMoim(long darakbangId, long moimId, DarakbangMember member) {
+		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
 		validateCanDeleteMoim(moim, member);
 
-		chamyoRepository.deleteAllByMoimId(id);
-		zzimRepository.deleteAllByMoimId(id);
+		chamyoRepository.deleteAllByMoimId(moimId);
+		zzimRepository.deleteAllByMoimId(moimId);
 		moimRepository.delete(moim);
 	}
 
