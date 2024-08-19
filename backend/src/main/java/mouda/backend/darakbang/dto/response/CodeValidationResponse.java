@@ -1,15 +1,18 @@
 package mouda.backend.darakbang.dto.response;
 
 import lombok.Builder;
+import mouda.backend.darakbang.domain.Darakbang;
 
 @Builder
 public record CodeValidationResponse(
+	Long darakbangId,
 	String name
 ) {
 
-	public static CodeValidationResponse toResponse(String name) {
+	public static CodeValidationResponse toResponse(Darakbang darakbang) {
 		return CodeValidationResponse.builder()
-			.name(name)
+			.darakbangId(darakbang.getId())
+			.name(darakbang.getName())
 			.build();
 	}
 }

@@ -88,7 +88,7 @@ public class DarakbangService {
 		Darakbang darakbang = darakbangRepository.findByCode(code)
 			.orElseThrow(() -> new DarakbangException(HttpStatus.BAD_REQUEST, DarakbangErrorMessage.INVALID_CODE));
 
-		return CodeValidationResponse.toResponse(darakbang.getName());
+		return CodeValidationResponse.toResponse(darakbang);
 	}
 
 	public Darakbang enter(String code, DarakbangEnterRequest request, Member member) {
