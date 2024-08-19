@@ -5,10 +5,10 @@ import { ChangeEvent, useState } from 'react';
 import Button from '@_components/Button/Button';
 import DarakbangCreationModalContent from './DarakbangCreationModalContent/DarakbangCreationModalContent';
 import ErrorControlledInput from '@_components/ErrorControlledInput/ErrorControlledInput';
+import GET_ROUTES from '@_common/getRoutes';
 import HighlightSpan from '@_components/HighlightSpan/HighlightSpan';
 import Modal from '@_components/Modal/Modal';
 import POLICES from '@_constants/poclies';
-import ROUTES from '@_constants/routes';
 import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
 import SolidArrow from '@_components/Icons/SolidArrow';
 import useCreateDarakbang from '@_hooks/mutaions/useCreateDarakbang';
@@ -19,7 +19,7 @@ export default function DarakbangCreationPage() {
   const theme = useTheme();
   const navigate = useNavigate();
   const { mutate: createDarakbang } = useCreateDarakbang(() =>
-    navigate(ROUTES.main),
+    navigate(GET_ROUTES.nowDarakbangMain()),
   );
 
   const [darakbangName, setDarakbangName] = useState('');

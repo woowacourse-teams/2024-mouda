@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import BackLogo from '@_common/assets/back.svg';
 import Button from '@_components/Button/Button';
 import CommentList from '@_components/CommentList/CommentList';
+import GET_ROUTES from '@_common/getRoutes';
 import InformationLayout from '@_layouts/InformationLayout/InformationLayout';
 import KebabMenu from '@_components/KebabMenu/KebabMenu';
 import MoimDescription from '@_components/MoimDescription/MoimDescription';
@@ -62,7 +63,7 @@ export default function MoimDetailPage() {
     <InformationLayout>
       <InformationLayout.Header>
         <InformationLayout.Header.Left>
-          <div onClick={() => navigate(ROUTES.main)}>
+          <div onClick={() => navigate(GET_ROUTES.nowDarakbangMain())}>
             <BackLogo />
           </div>
         </InformationLayout.Header.Left>

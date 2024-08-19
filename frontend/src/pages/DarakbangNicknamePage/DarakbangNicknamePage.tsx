@@ -4,10 +4,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '@_components/Button/Button';
 import DarakbangNicknameModalContent from './DarakbangNicknameModalContent/DarakbangNicknameModalContent';
 import ErrorControlledInput from '@_components/ErrorControlledInput/ErrorControlledInput';
+import GET_ROUTES from '@_common/getRoutes';
 import HighlightSpan from '@_components/HighlightSpan/HighlightSpan';
 import Modal from '@_components/Modal/Modal';
 import POLICES from '@_constants/poclies';
-import ROUTES from '@_constants/routes';
 import SolidArrow from '@_components/Icons/SolidArrow';
 import StickyTriSectionHeader from '@_layouts/components/StickyTriSectionHeader/StickyTriSectionHeader';
 import StretchContentLayout from '@_layouts/StretchContentLayout/StretchContentLayout';
@@ -27,7 +27,7 @@ export default function DarakbangNicknamePage() {
 
   const { mutate: enterDarakbang } = useEnterDarakbang({
     onSuccess: () => {
-      navigate(ROUTES.main);
+      navigate(GET_ROUTES.nowDarakbangMain());
     },
     onError: (string: string) => {
       setIsModalOpen(false);

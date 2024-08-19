@@ -1,5 +1,6 @@
 import * as S from './DarakbangSelectPage.style';
 
+import GET_ROUTES from '@_common/getRoutes';
 import HighlightSpan from '@_components/HighlightSpan/HighlightSpan';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import ROUTES from '@_constants/routes';
@@ -46,7 +47,7 @@ export default function DarakbangSelectPage() {
               key={darakbangId}
               onClick={() => {
                 setLastDarakbangId(darakbangId);
-                navigate(ROUTES.main);
+                navigate(GET_ROUTES.nowDarakbangMain());
               }}
             >
               {name}

@@ -10,6 +10,7 @@ import {
   setLastDarakbangId,
 } from '@_common/lastDarakbangManager';
 
+import GET_ROUTES from '@_common/getRoutes';
 import HomeLayout from '@_layouts/HomeLayout.tsx/HomeLayout';
 import HomeMainContent from '@_components/HomeMainContent/HomeMainContent';
 import NavigationBar from '@_components/NavigationBar/NavigationBar';
@@ -49,7 +50,7 @@ export default function MainPage() {
         return {
           onClick: () => {
             setLastDarakbangId(darakbangId);
-            navigate(ROUTES.main);
+            navigate(GET_ROUTES.nowDarakbangMain());
           },
           description:
             name + (darakbangId === nowDarakbangId ? '(현재 다락방)' : ''),
