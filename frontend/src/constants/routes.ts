@@ -1,4 +1,5 @@
 const ROUTES = {
+  notFound: '/*',
   main: '/',
   addMoim: '/add-moim',
   detail: '/moim/:moimId',

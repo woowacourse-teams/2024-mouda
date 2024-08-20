@@ -24,8 +24,14 @@ import PleasePage from '@_pages/PleasePage/PleasePage';
 import ProtectedRoute from './ProtectedRoute';
 import ROUTES from '@_constants/routes';
 import { createBrowserRouter } from 'react-router-dom';
+import NotFoundPage from '@_pages/NotFoundPage/NotFoundPage';
 
 const routesConfig = [
+  {
+    path: ROUTES.notFound,
+    element: <NotFoundPage />,
+    requiresAuth: false,
+  },
   {
     path: ROUTES.main,
     element: <MainPage />,
