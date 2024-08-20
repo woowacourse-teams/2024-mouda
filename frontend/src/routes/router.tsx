@@ -23,6 +23,7 @@ import PleaseCreationPage from '@_pages/PleaseCreationPage/PleaseCreationPage';
 import PleasePage from '@_pages/PleasePage/PleasePage';
 import ProtectedRoute from './ProtectedRoute';
 import ROUTES from '@_constants/routes';
+import SlashRoute from './SlashRoute';
 import { createBrowserRouter } from 'react-router-dom';
 import NotFoundPage from '@_pages/NotFoundPage/NotFoundPage';
 
@@ -34,6 +35,11 @@ const routesConfig = [
   },
   {
     path: ROUTES.main,
+    element: <SlashRoute />,
+    requiresAuth: false,
+  },
+  {
+    path: ROUTES.darakbangMain,
     element: <MainPage />,
     requiresAuth: true,
   },
@@ -43,7 +49,7 @@ const routesConfig = [
     requiresAuth: true,
   },
   {
-    path: ROUTES.detail,
+    path: ROUTES.moimDetail,
     element: <MoimDetailPage />,
     requiresAuth: true,
   },
