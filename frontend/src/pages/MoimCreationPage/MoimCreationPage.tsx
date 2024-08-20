@@ -26,16 +26,6 @@ const steps: MoimCreationStep[] = [
   '설명입력',
 ];
 
-const inputKeyMapper = {
-  title: '이름입력',
-  // offlineOrOnline: '오프라인/온라인선택',
-  place: '장소선택',
-  date: '날짜설정',
-  time: '시간설정',
-  maxPeople: '최대인원설정',
-  description: '설명입력',
-};
-
 export default function MoimCreationPage() {
   const { Funnel, currentStep, goBack, goNextStep } =
     useFunnel<MoimCreationStep>('이름입력');
@@ -49,6 +39,7 @@ export default function MoimCreationPage() {
     updateTime,
     updateMaxPeople,
     updateDescription,
+    finalValidate,
     createMoim,
   } = useMoimCreationForm(currentStep);
 
@@ -105,17 +96,9 @@ export default function MoimCreationPage() {
               description={formData.description}
               onDescriptionChange={updateDescription}
               onButtonClick={() => {
-                const invalidInputKeys = Object.entries(formValidation)
-                  .filter(([, value]) => !value)
-                  .map(([key]) => key);
-                if (invalidInputKeys.length > 0) {
-                  const invalidKeys = invalidInputKeys
-                    .map(
-                      (key) =>
-                        inputKeyMapper[key as keyof typeof inputKeyMapper],
-                    )
-                    .join(', ');
-                  alert(`${invalidKeys}이 올바르지 않습니다.`);
+                const { isValid, errorMessage } = finalValidate();
+                if (!isValid) {
+                  alert(errorMessage);
                   return;
                 }
                 createMoim(formData);
