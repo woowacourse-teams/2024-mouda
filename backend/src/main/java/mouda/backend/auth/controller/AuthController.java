@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -24,13 +23,6 @@ public class AuthController implements AuthSwagger {
 	@PostMapping("/kakao/oauth")
 	public ResponseEntity<RestResponse<LoginResponse>> loginKakaoOauth(@RequestBody OauthRequest oauthRequest) {
 		LoginResponse response = authService.oauthLogin(oauthRequest);
-
-		return ResponseEntity.ok().body(new RestResponse<>(response));
-	}
-
-	@PostMapping("/login")
-	public ResponseEntity<RestResponse<LoginResponse>> loginKakaoOauth(@RequestParam Long oauthRequest) {
-		LoginResponse response = authService.processLogin(oauthRequest);
 
 		return ResponseEntity.ok().body(new RestResponse<>(response));
 	}
