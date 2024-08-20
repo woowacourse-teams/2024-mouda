@@ -12,22 +12,22 @@ import mouda.backend.moim.domain.Moim;
 
 public interface ChamyoRepository extends JpaRepository<Chamyo, Long> {
 
-	Optional<Chamyo> findByMoimIdAndMemberId(Long moimId, Long id);
+	Optional<Chamyo> findByMoimIdAndDarakbangMemberId(Long moimId, Long darakbangMemberId);
 
 	List<Chamyo> findAllByMoimId(Long moimId);
 
 	int countByMoim(Moim moim);
 
-	boolean existsByMoimIdAndMemberId(Long moimId, Long memberId);
+	boolean existsByMoimIdAndDarakbangMemberId(Long moimId, Long darakbangMemberId);
 
-	List<Chamyo> findAllByMemberId(Long memberId);
+	List<Chamyo> findAllByDarakbangMemberId(Long darakbangMemberId);
 
 	void deleteAllByMoimId(Long moimId);
 
-	void deleteByMoimIdAndMemberId(Long moimId, Long memberId);
+	void deleteByMoimIdAndDarakbangMemberId(Long moimId, Long darakbangMemberId);
 
-	@Query("SELECT c.member.member.id FROM Chamyo c WHERE c.moim.id = :moimId AND c.moimRole = 'MOIMER'")
+	@Query("SELECT c.darakbangMember.memberId FROM Chamyo c WHERE c.moim.id = :moimId AND c.moimRole = 'MOIMER'")
 	Long findMoimerIdByMoimId(@Param("moimId") Long moimId);
 
-	List<Chamyo> findAllByMemberIdAndMoim_DarakbangId(Long memberId, Long darakbangId);
+	List<Chamyo> findAllByDarakbangMemberIdAndMoim_DarakbangId(Long darakbangMemberId, Long darakbangId);
 }

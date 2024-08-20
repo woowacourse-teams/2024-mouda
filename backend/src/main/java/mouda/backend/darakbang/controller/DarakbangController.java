@@ -18,6 +18,7 @@ import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.dto.request.DarakbangCreateRequest;
 import mouda.backend.darakbang.dto.request.DarakbangEnterRequest;
 import mouda.backend.darakbang.dto.response.CodeValidationResponse;
+import mouda.backend.darakbang.dto.response.DarakbangNameResponse;
 import mouda.backend.darakbang.dto.response.DarakbangResponses;
 import mouda.backend.darakbang.dto.response.InvitationCodeResponse;
 import mouda.backend.darakbang.service.DarakbangService;
@@ -79,5 +80,13 @@ public class DarakbangController implements DarakbangSwagger {
 		Darakbang darakbang = darakbangService.enter(code, darakbangEnterRequest, member);
 
 		return ResponseEntity.ok(new RestResponse<>(darakbang.getId()));
+	}
+
+	@Override
+	@GetMapping("/{darakbangId}")
+	public ResponseEntity<RestResponse<DarakbangNameResponse>> findDarakbangName(@PathVariable Long darakbangId) {
+		DarakbangNameResponse darakbangNameResponse = darakbangService.findDarakbangName(darakbangId);
+
+		return ResponseEntity.ok(new RestResponse<>(darakbangNameResponse));
 	}
 }

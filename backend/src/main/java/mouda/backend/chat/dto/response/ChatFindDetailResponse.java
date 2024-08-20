@@ -22,7 +22,7 @@ public record ChatFindDetailResponse(
 			.chatId(chat.getId())
 			.content(chat.getContent())
 			.isMyMessage(isMyMessage)
-			.nickname(chat.getMember().getNickname())
+			.nickname(chat.getDarakbangMember().getNickname())
 			.date(chat.getDate())
 			.time(chat.getTime())
 			.chatType(chat.getChatType())

@@ -122,7 +122,7 @@ class PleaseServiceTest extends DarakbangSetUp {
 			pleaseService.createPlease(darakbang.getId(), darakbangHogee, pleaseCreateRequest2);
 
 			InterestUpdateRequest interestUpdateRequest = new InterestUpdateRequest(please.getId(), true);
-			interestService.updateInterest(darakbang.getId(), please.getId(), darakbangHogee, interestUpdateRequest);
+			interestService.updateInterest(darakbang.getId(), darakbangHogee, interestUpdateRequest);
 
 			PleaseFindAllResponses pleaseFindAllResponses = pleaseService.findAllPlease(
 				darakbang.getId(), darakbangHogee);

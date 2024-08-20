@@ -202,4 +202,8 @@ public class Moim {
 	public void openChat() {
 		this.isChatOpened = true;
 	}
+
+	public boolean inNotDarakbang(Long darakbangId) {
+		return this.darakbangId != darakbangId;
+	}
 }

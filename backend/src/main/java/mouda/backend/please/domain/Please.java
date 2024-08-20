@@ -59,4 +59,8 @@ public class Please {
 	public boolean isNotAuthor(long memberId) {
 		return authorId != memberId;
 	}
+
+	public boolean inNotDarakbang(Long darakbangId) {
+		return this.darakbangId != darakbangId;
+	}
 }

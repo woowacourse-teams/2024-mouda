@@ -19,13 +19,13 @@ public record DateTimeConfirmRequest(
 	@NotNull
 	LocalTime time
 ) {
-	public Chat toEntity(Moim moim, DarakbangMember member) {
+	public Chat toEntity(Moim moim, DarakbangMember darakbangMember) {
 		return Chat.builder()
 			.content(date.toString() + " " + time.toString())
 			.moim(moim)
 			.date(LocalDate.now())
 			.time(LocalTime.now())
-			.member(member)
+			.darakbangMember(darakbangMember)
 			.chatType(ChatType.DATETIME)
 			.build();
 	}

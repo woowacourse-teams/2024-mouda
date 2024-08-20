@@ -27,11 +27,11 @@ public class Zzim {
 
 	@ManyToOne
 	@JoinColumn(nullable = false)
-	private DarakbangMember member;
+	private DarakbangMember darakbangMember;
 
 	@Builder
-	public Zzim(Moim moim, DarakbangMember member) {
+	public Zzim(Moim moim, DarakbangMember darakbangMember) {
 		this.moim = moim;
-		this.member = member;
+		this.darakbangMember = darakbangMember;
 	}
 }

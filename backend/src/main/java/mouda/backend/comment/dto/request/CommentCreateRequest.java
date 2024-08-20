@@ -13,11 +13,11 @@ public record CommentCreateRequest(
 	@NotNull
 	String content
 ) {
-	public Comment toEntity(Moim moim, DarakbangMember member) {
+	public Comment toEntity(Moim moim, DarakbangMember darakbangMember) {
 		return Comment.builder()
 			.content(content)
 			.moim(moim)
-			.member(member)
+			.darakbangMember(darakbangMember)
 			.createdAt(LocalDateTime.now())
 			.parentId(parentId)
 			.build();

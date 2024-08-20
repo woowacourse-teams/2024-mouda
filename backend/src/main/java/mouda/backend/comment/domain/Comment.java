@@ -37,7 +37,7 @@ public class Comment {
 
 	@ManyToOne
 	@JoinColumn(nullable = false)
-	private DarakbangMember member;
+	private DarakbangMember darakbangMember;
 
 	@Column(nullable = false)
 	private LocalDateTime createdAt;
@@ -45,13 +45,13 @@ public class Comment {
 	private Long parentId;
 
 	@Builder
-	public Comment(String content, Moim moim, DarakbangMember member, LocalDateTime createdAt, Long parentId) {
+	public Comment(String content, Moim moim, DarakbangMember darakbangMember, LocalDateTime createdAt, Long parentId) {
 		validateContent(content);
 		validateMoim(moim);
-		validateMember(member);
+		validateMember(darakbangMember);
 		this.content = content;
 		this.moim = moim;
-		this.member = member;
+		this.darakbangMember = darakbangMember;
 		this.createdAt = createdAt;
 		this.parentId = parentId;
 	}
@@ -68,8 +68,8 @@ public class Comment {
 		}
 	}
 
-	private void validateMember(DarakbangMember member) {
-		if (member == null) {
+	private void validateMember(DarakbangMember darakbangMember) {
+		if (darakbangMember == null) {
 			throw new CommentException(HttpStatus.NOT_FOUND, CommentErrorMessage.MEMBER_NOT_FOUND);
 		}
 	}
@@ -83,6 +83,6 @@ public class Comment {
 	}
 
 	public String getAuthorNickname() {
-		return member.getNickname();
+		return darakbangMember.getNickname();
 	}
 }

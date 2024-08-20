@@ -26,22 +26,22 @@ public class Interest {
 
 	@ManyToOne
 	@JoinColumn(nullable = false)
-	private DarakbangMember member;
+	private DarakbangMember darakbangMember;
 
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Please please;
 
 	@Builder
-	public Interest(DarakbangMember member, Please please) {
-		validateMember(member);
+	public Interest(DarakbangMember darakbangMember, Please please) {
+		validateMember(darakbangMember);
 		validatePlease(please);
-		this.member = member;
+		this.darakbangMember = darakbangMember;
 		this.please = please;
 	}
 
-	private void validateMember(DarakbangMember member) {
-		if (member == null) {
+	private void validateMember(DarakbangMember darakbangMember) {
+		if (darakbangMember == null) {
 			throw new PleaseException(HttpStatus.NOT_FOUND, PleaseErrorMessage.MEMBER_NOT_FOUND);
 		}
 	}

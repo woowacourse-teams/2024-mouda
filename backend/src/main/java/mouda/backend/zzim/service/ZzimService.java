@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.common.RequiredDarakbangMoim;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.repository.MoimRepository;
@@ -24,22 +23,29 @@ public class ZzimService {
 	private final MoimRepository moimRepository;
 
 	@Transactional(readOnly = true)
-	@RequiredDarakbangMoim
-	public ZzimCheckResponse checkZzimByMember(Long darakbangId, Long moimId, DarakbangMember member) {
-		boolean isZzimed = zzimRepository.existsByMoimIdAndMemberId(moimId, member.getId());
+	public ZzimCheckResponse checkZzimByMember(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
+		Moim moim = moimRepository.findById(moimId)
+			.orElseThrow(() -> new ZzimException(HttpStatus.NOT_FOUND, ZzimErrorMessage.MOIN_NOT_FOUND));
+		if (moim.inNotDarakbang(darakbangId)) {
+			throw new ZzimException(HttpStatus.BAD_REQUEST, ZzimErrorMessage.MOIN_NOT_FOUND);
+		}
+
+		boolean isZzimed = zzimRepository.existsByMoimIdAndDarakbangMemberId(moimId, darakbangMember.getId());
 
 		return new ZzimCheckResponse(isZzimed);
 	}
 
-	@RequiredDarakbangMoim
-	public void updateZzim(Long darakbangId, Long moimId, DarakbangMember member) {
+	public void updateZzim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new ZzimException(HttpStatus.NOT_FOUND, ZzimErrorMessage.MOIN_NOT_FOUND));
+		if (moim.inNotDarakbang(darakbangId)) {
+			throw new ZzimException(HttpStatus.BAD_REQUEST, ZzimErrorMessage.MOIN_NOT_FOUND);
+		}
 
-		zzimRepository.findByMoimIdAndMemberId(moimId, member.getId())
+		zzimRepository.findByMoimIdAndDarakbangMemberId(moimId, darakbangMember.getId())
 			.ifPresentOrElse(
 				zzimRepository::delete,
-				() -> zzimRepository.save(Zzim.builder().moim(moim).member(member).build())
+				() -> zzimRepository.save(Zzim.builder().moim(moim).darakbangMember(darakbangMember).build())
 			);
 	}
 }

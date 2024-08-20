@@ -27,7 +27,7 @@ public class InterestController implements InterestSwagger {
 		@LoginDarakbangMember DarakbangMember member,
 		@RequestBody InterestUpdateRequest request
 	) {
-		interestService.updateInterest(darakbangId, request.pleaseId(), member, request);
+		interestService.updateInterest(darakbangId, member, request);
 
 		return ResponseEntity.ok().build();
 	}

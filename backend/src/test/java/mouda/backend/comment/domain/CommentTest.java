@@ -29,7 +29,7 @@ class CommentTest extends DarakbangSetUp {
 		assertThrows(CommentException.class, () -> Comment.builder()
 			.content(null)
 			.moim(MoimFixture.getBasketballMoim(darakbang.getId()))
-			.member(darakbangAnna)
+			.darakbangMember(darakbangAnna)
 			.createdAt(LocalDateTime.now())
 			.parentId(null)
 			.build());
@@ -41,7 +41,7 @@ class CommentTest extends DarakbangSetUp {
 		assertThrows(CommentException.class, () -> Comment.builder()
 			.content("")
 			.moim(MoimFixture.getBasketballMoim(darakbang.getId()))
-			.member(darakbangAnna)
+			.darakbangMember(darakbangAnna)
 			.createdAt(LocalDateTime.now())
 			.parentId(null)
 			.build());
@@ -53,7 +53,7 @@ class CommentTest extends DarakbangSetUp {
 		assertThrows(CommentException.class, () -> Comment.builder()
 			.content("댓글댓글")
 			.moim(null)
-			.member(darakbangAnna)
+			.darakbangMember(darakbangAnna)
 			.createdAt(LocalDateTime.now())
 			.parentId(null)
 			.build());
@@ -65,7 +65,7 @@ class CommentTest extends DarakbangSetUp {
 		assertThrows(CommentException.class, () -> Comment.builder()
 			.content("댓글댓글")
 			.moim(MoimFixture.getBasketballMoim(darakbang.getId()))
-			.member(null)
+			.darakbangMember(null)
 			.createdAt(LocalDateTime.now())
 			.parentId(null)
 			.build());

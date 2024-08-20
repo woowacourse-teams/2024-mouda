@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.common.RequiredDarakbangPlease;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.please.domain.Interest;
 import mouda.backend.please.domain.Please;
@@ -23,31 +22,37 @@ public class InterestService {
 	private final PleaseRepository pleaseRepository;
 	private final InterestRepository interestRepository;
 
-	@RequiredDarakbangPlease
-	public void updateInterest(Long darakbangId, Long pleaseId, DarakbangMember member, InterestUpdateRequest request) {
+	public void updateInterest(Long darakbangId, DarakbangMember darakbangMember, InterestUpdateRequest request) {
+		Please please = pleaseRepository.findById(request.pleaseId())
+			.orElseThrow(() -> new PleaseException(HttpStatus.NOT_FOUND, PleaseErrorMessage.NOT_FOUND));
+		if (please.inNotDarakbang(darakbangId)) {
+			throw new PleaseException(HttpStatus.BAD_REQUEST, PleaseErrorMessage.PLEASE_NOT_IN_DARAKBANG);
+		}
+
 		if (request.isInterested()) {
-			addInterest(member, pleaseId);
+			addInterest(darakbangMember, request.pleaseId());
 			return;
 		}
-		removeInterest(member, pleaseId);
+		removeInterest(darakbangMember, request.pleaseId());
 	}
 
-	private void addInterest(DarakbangMember member, Long pleaseId) {
-		boolean isInterestExists = interestRepository.existsByMemberIdAndPleaseId(member.getId(), pleaseId);
+	private void addInterest(DarakbangMember darakbangMember, Long pleaseId) {
+		boolean isInterestExists = interestRepository.existsByDarakbangMemberIdAndPleaseId(darakbangMember.getId(),
+			pleaseId);
 
 		if (!isInterestExists) {
 			Please please = pleaseRepository.findById(pleaseId)
 				.orElseThrow(() -> new PleaseException(HttpStatus.NOT_FOUND, PleaseErrorMessage.NOT_FOUND));
 			Interest newInterest = Interest.builder()
-				.member(member)
+				.darakbangMember(darakbangMember)
 				.please(please)
 				.build();
 			interestRepository.save(newInterest);
 		}
 	}
 
-	private void removeInterest(DarakbangMember member, Long pleaseId) {
-		interestRepository.findByMemberIdAndPleaseId(member.getId(), pleaseId)
+	private void removeInterest(DarakbangMember darakbangMember, Long pleaseId) {
+		interestRepository.findByDarakbangMemberIdAndPleaseId(darakbangMember.getId(), pleaseId)
 			.ifPresent(interestRepository::delete);
 	}
 }

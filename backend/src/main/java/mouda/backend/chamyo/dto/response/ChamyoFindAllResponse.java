@@ -12,7 +12,7 @@ public record ChamyoFindAllResponse(
 
 	public static ChamyoFindAllResponse toResponse(Chamyo chamyo) {
 		return ChamyoFindAllResponse.builder()
-			.nickname(chamyo.getMember().getNickname())
+			.nickname(chamyo.getDarakbangMember().getNickname())
 			.profile("")
 			.role(chamyo.getMoimRole().name())
 			.build();

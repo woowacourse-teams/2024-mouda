@@ -31,7 +31,7 @@ public class Chat {
 	private Moim moim;
 
 	@ManyToOne
-	private DarakbangMember member;
+	private DarakbangMember darakbangMember;
 
 	private LocalDate date;
 
@@ -41,16 +41,17 @@ public class Chat {
 	private ChatType chatType;
 
 	@Builder
-	public Chat(String content, Moim moim, DarakbangMember member, LocalDate date, LocalTime time, ChatType chatType) {
+	public Chat(String content, Moim moim, DarakbangMember darakbangMember, LocalDate date, LocalTime time,
+		ChatType chatType) {
 		this.content = content;
 		this.moim = moim;
-		this.member = member;
+		this.darakbangMember = darakbangMember;
 		this.date = date;
 		this.time = time;
 		this.chatType = chatType;
 	}
 
-	public boolean isMyMessage(long memberId) {
-		return memberId == member.getId();
+	public boolean isMyMessage(long darakbangMemberId) {
+		return darakbangMemberId == darakbangMember.getId();
 	}
 }

@@ -11,6 +11,7 @@ import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.dto.request.DarakbangCreateRequest;
 import mouda.backend.darakbang.dto.request.DarakbangEnterRequest;
 import mouda.backend.darakbang.dto.response.CodeValidationResponse;
+import mouda.backend.darakbang.dto.response.DarakbangNameResponse;
 import mouda.backend.darakbang.dto.response.DarakbangResponse;
 import mouda.backend.darakbang.dto.response.DarakbangResponses;
 import mouda.backend.darakbang.dto.response.InvitationCodeResponse;
@@ -44,7 +45,7 @@ public class DarakbangService {
 
 		DarakbangMember darakbangMember = DarakbangMember.builder()
 			.darakbang(darakbang)
-			.member(member)
+			.memberId(member.getId())
 			.nickname(darakbangCreateRequest.nickname())
 			.role(DarakBangMemberRole.MANAGER)
 			.build();
@@ -88,7 +89,7 @@ public class DarakbangService {
 		Darakbang darakbang = darakbangRepository.findByCode(code)
 			.orElseThrow(() -> new DarakbangException(HttpStatus.BAD_REQUEST, DarakbangErrorMessage.INVALID_CODE));
 
-		return CodeValidationResponse.toResponse(darakbang.getName());
+		return CodeValidationResponse.toResponse(darakbang);
 	}
 
 	public Darakbang enter(String code, DarakbangEnterRequest request, Member member) {
@@ -108,5 +109,13 @@ public class DarakbangService {
 		darakbangMemberRepository.save(entity);
 
 		return darakbang;
+	}
+
+	@Transactional(readOnly = true)
+	public DarakbangNameResponse findDarakbangName(Long darakbangId) {
+		Darakbang darakbang = darakbangRepository.findById(darakbangId)
+			.orElseThrow(() -> new DarakbangException(HttpStatus.NOT_FOUND, DarakbangErrorMessage.DARAKBANG_NOT_FOUND));
+
+		return DarakbangNameResponse.toResponse(darakbang);
 	}
 }

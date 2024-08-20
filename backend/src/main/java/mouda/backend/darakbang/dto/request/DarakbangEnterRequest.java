@@ -13,7 +13,7 @@ public record DarakbangEnterRequest(
 	public DarakbangMember toEntity(Darakbang darakbang, Member member) {
 		return DarakbangMember.builder()
 			.darakbang(darakbang)
-			.member(member)
+			.memberId(member.getId())
 			.nickname(nickname)
 			.role(DarakBangMemberRole.MEMBER)
 			.build();

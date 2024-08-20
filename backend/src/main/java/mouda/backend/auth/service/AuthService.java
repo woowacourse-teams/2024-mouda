@@ -12,6 +12,7 @@ import mouda.backend.auth.dto.response.LoginResponse;
 import mouda.backend.auth.exception.AuthErrorMessage;
 import mouda.backend.auth.exception.AuthException;
 import mouda.backend.auth.util.TokenDecoder;
+import mouda.backend.darakbang.repository.DarakbangRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.repository.repository.DarakbangMemberRepository;
 import mouda.backend.member.domain.Member;
@@ -24,6 +25,7 @@ public class AuthService {
 
 	private final JwtProvider jwtProvider;
 	private final MemberRepository memberRepository;
+	private final DarakbangRepository darakbangRepository;
 	private final DarakbangMemberRepository darakbangMemberRepository;
 	private final KakaoOauthClient kakaoOauthClient;
 
@@ -60,8 +62,11 @@ public class AuthService {
 	}
 
 	public DarakbangMember findDarakbangMember(long darakbangId, Member member) {
+		darakbangRepository.findById(darakbangId)
+			.orElseThrow(() -> new AuthException(HttpStatus.NOT_FOUND, AuthErrorMessage.DARAKBANG_NOT_FOUND));
+
 		return darakbangMemberRepository.findByDarakbangIdAndMemberId(darakbangId, member.getId())
-			.orElseThrow(() -> new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.UNAUTHORIZED));
+			.orElseThrow(() -> new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.DARAKBANG_NOT_ENTERED));
 	}
 
 	public void checkAuthentication(String token) {

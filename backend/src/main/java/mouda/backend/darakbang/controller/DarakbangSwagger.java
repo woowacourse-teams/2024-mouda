@@ -14,6 +14,7 @@ import mouda.backend.config.argumentresolver.LoginMember;
 import mouda.backend.darakbang.dto.request.DarakbangCreateRequest;
 import mouda.backend.darakbang.dto.request.DarakbangEnterRequest;
 import mouda.backend.darakbang.dto.response.CodeValidationResponse;
+import mouda.backend.darakbang.dto.response.DarakbangNameResponse;
 import mouda.backend.darakbang.dto.response.DarakbangResponses;
 import mouda.backend.darakbang.dto.response.InvitationCodeResponse;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
@@ -71,5 +72,14 @@ public interface DarakbangSwagger {
 		@RequestParam String code,
 		@RequestBody DarakbangEnterRequest darakbangEnterRequest,
 		@LoginMember Member member
+	);
+
+	@Operation(summary = "다락방 이름 조회", description = "다락방 이름을 조회한다.")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "다락방 이름 조회 성공!"),
+		@ApiResponse(responseCode = "404", description = "다락방이 존재하지 않습니다.")
+	})
+	ResponseEntity<RestResponse<DarakbangNameResponse>> findDarakbangName(
+		@PathVariable Long darakbangId
 	);
 }

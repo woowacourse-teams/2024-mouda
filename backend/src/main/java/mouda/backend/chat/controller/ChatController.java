@@ -37,7 +37,7 @@ public class ChatController implements ChatSwagger {
 		@LoginDarakbangMember DarakbangMember member,
 		@Valid @RequestBody ChatCreateRequest chatCreateRequest
 	) {
-		chatService.createChat(darakbangId, chatCreateRequest.moimId(), chatCreateRequest, member);
+		chatService.createChat(darakbangId, chatCreateRequest, member);
 
 		return ResponseEntity.ok().build();
 	}
@@ -50,7 +50,8 @@ public class ChatController implements ChatSwagger {
 		@RequestParam("recentChatId") Long recentChatId,
 		@RequestParam("moimId") Long moimId
 	) {
-		ChatFindUnloadedResponse unloadedChats = chatService.findUnloadedChats(moimId, recentChatId, member);
+		ChatFindUnloadedResponse unloadedChats = chatService
+			.findUnloadedChats(darakbangId, recentChatId, moimId, member);
 
 		return ResponseEntity.ok(new RestResponse<>(unloadedChats));
 	}
@@ -85,7 +86,7 @@ public class ChatController implements ChatSwagger {
 		@LoginDarakbangMember DarakbangMember member,
 		@RequestBody DateTimeConfirmRequest dateTimeConfirmRequest
 	) {
-		chatService.confirmDateTime(darakbangId, dateTimeConfirmRequest.moimId(), dateTimeConfirmRequest, member);
+		chatService.confirmDateTime(darakbangId, dateTimeConfirmRequest, member);
 
 		return ResponseEntity.ok().build();
 	}
@@ -97,7 +98,7 @@ public class ChatController implements ChatSwagger {
 		@LoginDarakbangMember DarakbangMember member,
 		@RequestBody PlaceConfirmRequest placeConfirmRequest
 	) {
-		chatService.confirmPlace(darakbangId, placeConfirmRequest.moimId(), placeConfirmRequest, member);
+		chatService.confirmPlace(darakbangId, placeConfirmRequest, member);
 
 		return ResponseEntity.ok().build();
 	}

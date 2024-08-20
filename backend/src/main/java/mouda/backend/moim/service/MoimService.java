@@ -21,7 +21,6 @@ import mouda.backend.comment.dto.response.CommentResponse;
 import mouda.backend.comment.exception.CommentErrorMessage;
 import mouda.backend.comment.exception.CommentException;
 import mouda.backend.comment.repository.CommentRepository;
-import mouda.backend.common.RequiredDarakbangMoim;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.FilterType;
 import mouda.backend.moim.domain.Moim;
@@ -57,10 +56,10 @@ public class MoimService {
 	private final CommentRepository commentRepository;
 	private final NotificationService notificationService;
 
-	public Moim createMoim(Long darakbangId, DarakbangMember member, MoimCreateRequest moimCreateRequest) {
+	public Moim createMoim(Long darakbangId, DarakbangMember darakbangMember, MoimCreateRequest moimCreateRequest) {
 		Moim moim = moimRepository.save(moimCreateRequest.toEntity(darakbangId));
 		Chamyo chamyo = Chamyo.builder()
-			.member(member)
+			.darakbangMember(darakbangMember)
 			.moim(moim)
 			.moimRole(MoimRole.MOIMER)
 			.build();
@@ -73,18 +72,19 @@ public class MoimService {
 			.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moim.getId()))
 			.build();
 
-		notificationService.notifyToAllExceptMember(notification, member.getMember().getId(), darakbangId);
+		notificationService.notifyToAllExceptMember(notification, darakbangMember.getMemberId(), darakbangId);
 		return moim;
 	}
 
 	@Transactional(readOnly = true)
-	public MoimFindAllResponses findAllMoim(Long darakbangId, DarakbangMember member) {
+	public MoimFindAllResponses findAllMoim(Long darakbangId, DarakbangMember darakbangMember) {
 		List<Moim> moims = moimRepository.findAllByDarakbangId(darakbangId);
 		return new MoimFindAllResponses(
 			moims.stream()
 				.map(moim -> {
 					int currentPeople = chamyoRepository.countByMoim(moim);
-					boolean isZzimed = zzimRepository.existsByMoimIdAndMemberId(moim.getId(), member.getId());
+					boolean isZzimed = zzimRepository.existsByMoimIdAndDarakbangMemberId(moim.getId(),
+						darakbangMember.getId());
 					return MoimFindAllResponse.toResponse(moim, currentPeople, isZzimed);
 				})
 				.toList()
@@ -92,10 +92,12 @@ public class MoimService {
 	}
 
 	@Transactional(readOnly = true)
-	@RequiredDarakbangMoim
 	public MoimDetailsFindResponse findMoimDetails(long darakbangId, long moimId) {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
+		if (moim.inNotDarakbang(darakbangId)) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.NOT_FOUND);
+		}
 
 		List<Comment> comments = commentRepository.findAllByMoimIdOrderByCreatedAt(moimId);
 		List<CommentResponse> commentResponses = toCommentResponse(comments);
@@ -114,19 +116,21 @@ public class MoimService {
 			.toList();
 	}
 
-	@RequiredDarakbangMoim
-	public void deleteMoim(long darakbangId, long id, DarakbangMember member) {
-		Moim moim = moimRepository.findById(id)
+	public void deleteMoim(long darakbangId, long moimId, DarakbangMember darakbangMember) {
+		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
-		validateCanDeleteMoim(moim, member);
+		if (moim.inNotDarakbang(darakbangId)) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.NOT_FOUND);
+		}
+		validateCanDeleteMoim(moim, darakbangMember);
 
-		chamyoRepository.deleteAllByMoimId(id);
-		zzimRepository.deleteAllByMoimId(id);
+		chamyoRepository.deleteAllByMoimId(moimId);
+		zzimRepository.deleteAllByMoimId(moimId);
 		moimRepository.delete(moim);
 	}
 
-	private void validateCanDeleteMoim(Moim moim, DarakbangMember member) {
-		MoimRole moimRole = chamyoRepository.findByMoimIdAndMemberId(moim.getId(), member.getId())
+	private void validateCanDeleteMoim(Moim moim, DarakbangMember darakbangMember) {
+		MoimRole moimRole = chamyoRepository.findByMoimIdAndDarakbangMemberId(moim.getId(), darakbangMember.getId())
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND))
 			.getMoimRole();
 
@@ -135,19 +139,23 @@ public class MoimService {
 		}
 	}
 
-	@RequiredDarakbangMoim
-	public void createComment(Long darakbangId, Long moimId, DarakbangMember member, CommentCreateRequest request) {
+	public void createComment(
+		Long darakbangId, Long moimId, DarakbangMember darakbangMember, CommentCreateRequest request
+	) {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
+		if (moim.inNotDarakbang(darakbangId)) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.NOT_FOUND);
+		}
 
 		Long parentId = request.parentId();
 		if (parentId != null && !commentRepository.existsById(parentId)) {
 			throw new CommentException(HttpStatus.BAD_REQUEST, CommentErrorMessage.PARENT_NOT_FOUND);
 		}
 
-		commentRepository.save(request.toEntity(moim, member));
+		commentRepository.save(request.toEntity(moim, darakbangMember));
 
-		sendCommentNotification(moim.getId(), member, parentId, darakbangId);
+		sendCommentNotification(moim.getId(), darakbangMember, parentId, darakbangId);
 	}
 
 	private void sendCommentNotification(Long moimId, DarakbangMember author, Long parentId, Long darakbangId) {
@@ -169,11 +177,13 @@ public class MoimService {
 		notificationService.notifyToMember(notification, chamyoRepository.findMoimerIdByMoimId(moimId), darakbangId);
 	}
 
-	@RequiredDarakbangMoim
-	public void completeMoim(Long darakbangId, Long moimId, DarakbangMember member) {
+	public void completeMoim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
-		validateCanCompleteMoim(moim, member);
+		if (moim.inNotDarakbang(darakbangId)) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.NOT_FOUND);
+		}
+		validateCanCompleteMoim(moim, darakbangMember);
 
 		moimRepository.updateMoimStatusById(moimId, MoimStatus.COMPLETED);
 
@@ -189,14 +199,14 @@ public class MoimService {
 
 		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
 			.filter(chamyo -> chamyo.getMoimRole() != MoimRole.MOIMER)
-			.map(chamyo -> chamyo.getMember().getMember().getId())
+			.map(chamyo -> chamyo.getDarakbangMember().getMemberId())
 			.toList();
 
 		notificationService.notifyToMembers(notification, membersToSendNotification, darakbangId);
 	}
 
-	private void validateCanCompleteMoim(Moim moim, DarakbangMember member) {
-		validateIsMoimerWithErrorMessage(moim, member, MoimErrorMessage.NOT_ALLOWED_TO_COMPLETE);
+	private void validateCanCompleteMoim(Moim moim, DarakbangMember darakbangMember) {
+		validateIsMoimerWithErrorMessage(moim, darakbangMember, MoimErrorMessage.NOT_ALLOWED_TO_COMPLETE);
 		MoimStatus moimStatus = moim.getMoimStatus();
 		if (moimStatus == MoimStatus.COMPLETED) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.ALREADY_COMPLETED);
@@ -206,37 +216,41 @@ public class MoimService {
 		}
 	}
 
-	@RequiredDarakbangMoim
-	public void cancelMoim(Long darakbangId, Long moimId, DarakbangMember member) {
+	public void cancelMoim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
-		validateCanCancelMoim(moim, member);
+		if (moim.inNotDarakbang(darakbangId)) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.NOT_FOUND);
+		}
+		validateCanCancelMoim(moim, darakbangMember);
 
 		moimRepository.updateMoimStatusById(moimId, MoimStatus.CANCELED);
 
 		sendNotificationWhenMoimStatusChanged(moim, NotificationType.MOIM_CANCELLED, darakbangId);
 	}
 
-	private void validateCanCancelMoim(Moim moim, DarakbangMember member) {
-		validateIsMoimerWithErrorMessage(moim, member, MoimErrorMessage.NOT_ALLOWED_TO_CANCEL);
+	private void validateCanCancelMoim(Moim moim, DarakbangMember darakbangMember) {
+		validateIsMoimerWithErrorMessage(moim, darakbangMember, MoimErrorMessage.NOT_ALLOWED_TO_CANCEL);
 		if (moim.getMoimStatus() == MoimStatus.CANCELED) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MOIM_CANCELED);
 		}
 	}
 
-	@RequiredDarakbangMoim
-	public void reopenMoim(Long darakbangId, Long moimId, DarakbangMember member) {
+	public void reopenMoim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
-		validateCanReopenMoim(moim, member);
+		if (moim.inNotDarakbang(darakbangId)) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.NOT_FOUND);
+		}
+		validateCanReopenMoim(moim, darakbangMember);
 
 		moimRepository.updateMoimStatusById(moimId, MoimStatus.MOIMING);
 
 		sendNotificationWhenMoimStatusChanged(moim, NotificationType.MOINING_REOPENED, darakbangId);
 	}
 
-	private void validateCanReopenMoim(Moim moim, DarakbangMember member) {
-		validateIsMoimerWithErrorMessage(moim, member, MoimErrorMessage.NOT_ALLOWED_TO_REOPEN);
+	private void validateCanReopenMoim(Moim moim, DarakbangMember darakbangMember) {
+		validateIsMoimerWithErrorMessage(moim, darakbangMember, MoimErrorMessage.NOT_ALLOWED_TO_REOPEN);
 		int currentPeople = chamyoRepository.countByMoim(moim);
 		if (currentPeople >= moim.getMaxPeople()) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MOIM_FULL_FOR_REOPEN);
@@ -250,8 +264,9 @@ public class MoimService {
 		}
 	}
 
-	private void validateIsMoimerWithErrorMessage(Moim moim, DarakbangMember member, MoimErrorMessage errorMessage) {
-		MoimRole moimRole = chamyoRepository.findByMoimIdAndMemberId(moim.getId(), member.getId())
+	private void validateIsMoimerWithErrorMessage(Moim moim, DarakbangMember darakbangMember,
+		MoimErrorMessage errorMessage) {
+		MoimRole moimRole = chamyoRepository.findByMoimIdAndDarakbangMemberId(moim.getId(), darakbangMember.getId())
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND))
 			.getMoimRole();
 		if (moimRole != MoimRole.MOIMER) {
@@ -259,11 +274,13 @@ public class MoimService {
 		}
 	}
 
-	@RequiredDarakbangMoim
-	public void editMoim(Long darakbangId, Long moimId, MoimEditRequest request, DarakbangMember member) {
-		Moim moim = moimRepository.findById(moimId)
+	public void editMoim(Long darakbangId, MoimEditRequest request, DarakbangMember darakbangMember) {
+		Moim moim = moimRepository.findById(request.moimId())
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
-		validateCanEditMoim(moim, member);
+		if (moim.inNotDarakbang(darakbangId)) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.NOT_FOUND);
+		}
+		validateCanEditMoim(moim, darakbangMember);
 
 		moim.update(request.title(), request.date(), request.time(), request.place(), request.maxPeople(),
 			request.description(), chamyoRepository.countByMoim(moim));
@@ -272,8 +289,8 @@ public class MoimService {
 		sendNotificationWhenMoimStatusChanged(moim, NotificationType.MOIM_MODIFIED, darakbangId);
 	}
 
-	private void validateCanEditMoim(Moim moim, DarakbangMember member) {
-		validateIsMoimerWithErrorMessage(moim, member, MoimErrorMessage.NOT_ALLOWED_TO_EDIT);
+	private void validateCanEditMoim(Moim moim, DarakbangMember darakbangMember) {
+		validateIsMoimerWithErrorMessage(moim, darakbangMember, MoimErrorMessage.NOT_ALLOWED_TO_EDIT);
 		MoimStatus moimStatus = moim.getMoimStatus();
 		if (moimStatus == MoimStatus.COMPLETED) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.ALREADY_COMPLETED);
@@ -283,8 +300,8 @@ public class MoimService {
 		}
 	}
 
-	public MoimFindAllResponses findAllMyMoim(DarakbangMember member, FilterType filter) {
-		Stream<Chamyo> chamyoStream = chamyoRepository.findAllByMemberId(member.getId()).stream();
+	public MoimFindAllResponses findAllMyMoim(DarakbangMember darakbangMember, FilterType filter) {
+		Stream<Chamyo> chamyoStream = chamyoRepository.findAllByDarakbangMemberId(darakbangMember.getId()).stream();
 
 		if (filter == FilterType.PAST) {
 			chamyoStream = chamyoStream.filter(chamyo -> chamyo.getMoim().isPastMoim());
@@ -297,7 +314,8 @@ public class MoimService {
 			.map(chamyo -> {
 				Moim moim = chamyo.getMoim();
 				int currentPeople = chamyoRepository.countByMoim(moim);
-				boolean isZzimed = zzimRepository.existsByMoimIdAndMemberId(moim.getId(), member.getId());
+				boolean isZzimed = zzimRepository.existsByMoimIdAndDarakbangMemberId(moim.getId(),
+					darakbangMember.getId());
 				return MoimFindAllResponse.toResponse(moim, currentPeople, isZzimed);
 			})
 			.toList();
@@ -305,14 +323,15 @@ public class MoimService {
 		return new MoimFindAllResponses(responses);
 	}
 
-	public MoimFindAllResponses findZzimedMoim(DarakbangMember member) {
-		List<Zzim> zzims = zzimRepository.findAllByMemberId(member.getId());
+	public MoimFindAllResponses findZzimedMoim(DarakbangMember darakbangMember) {
+		List<Zzim> zzims = zzimRepository.findAllByDarakbangMemberId(darakbangMember.getId());
 
 		List<MoimFindAllResponse> responses = zzims.stream()
 			.map(zzim -> {
 				Moim moim = zzim.getMoim();
 				int currentPeople = chamyoRepository.countByMoim(moim);
-				boolean zzimed = zzimRepository.existsByMoimIdAndMemberId(moim.getId(), member.getId());
+				boolean zzimed = zzimRepository.existsByMoimIdAndDarakbangMemberId(moim.getId(),
+					darakbangMember.getId());
 				return MoimFindAllResponse.toResponse(zzim.getMoim(), currentPeople, zzimed);
 			}).toList();
 
