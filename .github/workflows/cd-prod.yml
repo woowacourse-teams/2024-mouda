@@ -1,0 +1,15 @@
+name: cd-prod
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    runs-on: prod
+
+    steps:
+      - name: deploy
+        run: |
+          cd ~/deploy && ./deploy.sh
