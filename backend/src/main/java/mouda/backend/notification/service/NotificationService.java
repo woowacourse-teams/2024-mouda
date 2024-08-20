@@ -1,27 +1,21 @@
 package mouda.backend.notification.service;
 
-import com.google.firebase.messaging.BatchResponse;
-import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.MessagingErrorCode;
-import com.google.firebase.messaging.SendResponse;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import java.util.stream.IntStream;
-import mouda.backend.notification.dto.request.FcmTokenRefreshRequest;
-import mouda.backend.notification.exception.NotificationErrorMessage;
-import mouda.backend.notification.exception.NotificationException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.firebase.messaging.BatchResponse;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
+import com.google.firebase.messaging.MessagingErrorCode;
 import com.google.firebase.messaging.MulticastMessage;
+import com.google.firebase.messaging.SendResponse;
 import com.google.firebase.messaging.WebpushConfig;
 import com.google.firebase.messaging.WebpushFcmOptions;
 
@@ -50,31 +44,27 @@ public class NotificationService {
 	private final MemberNotificationRepository memberNotificationRepository;
 
 	public void registerFcmToken(long memberId, FcmTokenSaveRequest fcmTokenSaveRequest) {
-		FcmToken fcmToken = FcmToken.builder()
-			.memberId(memberId)
-			.fcmToken(fcmTokenSaveRequest.token())
-			.build();
-
-		fcmTokenRepository.save(fcmToken);
+		fcmTokenRepository.findByToken(fcmTokenSaveRequest.token())
+			.ifPresentOrElse(
+				FcmToken::refreshTimestamp,
+				() -> {
+					FcmToken fcmToken = FcmToken.builder()
+						.memberId(memberId)
+						.fcmToken(fcmTokenSaveRequest.token())
+						.build();
+					fcmTokenRepository.save(fcmToken);
+				}
+			);
 	}
-
-	public void refreshFcmToken(FcmTokenRefreshRequest fcmTokenRefreshRequest) {
-		FcmToken fcmToken = fcmTokenRepository.findByToken(fcmTokenRefreshRequest.oldToken())
-				.orElseThrow(() -> new NotificationException(
-						HttpStatus.BAD_REQUEST,
-						NotificationErrorMessage.FCM_TOKEN_NOT_FOUND_BY_TOKEN));
-		fcmToken.refreshToken(fcmTokenRefreshRequest.newToken());
-	}
-
 
 	@Scheduled(cron = "0 0 0 1 * *")
 	public void cleanInactiveFcmTokens() {
 		fcmTokenRepository.findAll()
-				.forEach(token -> {
-					if(token.getTimestamp().isBefore(LocalDateTime.now().minusMonths(1L))) {
-						fcmTokenRepository.delete(token);
-					}
-				} );
+			.forEach(token -> {
+				if (token.getTimestamp().isBefore(LocalDateTime.now().minusMonths(1L))) {
+					fcmTokenRepository.delete(token);
+				}
+			});
 	}
 
 	public void notifyToMember(MoudaNotification moudaNotification, Long memberId) {
@@ -163,8 +153,8 @@ public class NotificationService {
 
 	private WebpushConfig getWebpushConfig(String url) {
 		return WebpushConfig.builder()
-				.setFcmOptions(WebpushFcmOptions.withLink(url))
-				.build();
+			.setFcmOptions(WebpushFcmOptions.withLink(url))
+			.build();
 	}
 
 	private void validateFcmTokenByErrorCode(List<String> tokens, BatchResponse batchResponse) {
@@ -174,8 +164,8 @@ public class NotificationService {
 
 		List<SendResponse> responses = batchResponse.getResponses();
 		IntStream.range(0, responses.size())
-				.filter(index -> isInvalidTokenErrorCode(responses.get(index)))
-				.forEach(index -> fcmTokenRepository.deleteByToken(tokens.get(index)));
+			.filter(index -> isInvalidTokenErrorCode(responses.get(index)))
+			.forEach(index -> fcmTokenRepository.deleteByToken(tokens.get(index)));
 	}
 
 	private boolean isInvalidTokenErrorCode(SendResponse sendResponse) {
