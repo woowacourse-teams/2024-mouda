@@ -1,11 +1,12 @@
 package mouda.backend.notification.domain;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,8 +36,7 @@ public class FcmToken {
 		this.timestamp = LocalDateTime.now();
 	}
 
-	public void refreshToken(String newToken) {
-		this.token = newToken;
+	public void refreshTimestamp() {
 		this.timestamp = LocalDateTime.now();
 	}
 }
