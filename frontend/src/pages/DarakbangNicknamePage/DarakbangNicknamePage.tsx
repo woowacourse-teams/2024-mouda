@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { getInviteCode, removeInviteCode } from '@_common/inviteCodeManager';
 
 import Button from '@_components/Button/Button';
 import DarakbangNicknameModalContent from './DarakbangNicknameModalContent/DarakbangNicknameModalContent';
@@ -13,12 +13,12 @@ import StickyTriSectionHeader from '@_layouts/components/StickyTriSectionHeader/
 import StretchContentLayout from '@_layouts/StretchContentLayout/StretchContentLayout';
 import useDarakbangNameByCode from '@_hooks/queries/useDarakbangNameByCode';
 import useEnterDarakbang from '@_hooks/mutaions/useEnterDarakbang';
+import { useNavigate } from 'react-router-dom';
 
 export default function DarakbangNicknamePage() {
   const navigate = useNavigate();
 
-  const { state } = useLocation();
-  const { code = 'NULL' } = state;
+  const code = getInviteCode() || '';
 
   const { darakbangName = '' } = useDarakbangNameByCode(code);
   const [nickname, setNickName] = useState('');
@@ -27,6 +27,7 @@ export default function DarakbangNicknamePage() {
 
   const { mutate: enterDarakbang } = useEnterDarakbang({
     onSuccess: () => {
+      removeInviteCode();
       navigate(GET_ROUTES.nowDarakbang.main());
     },
     onError: (string: string) => {
