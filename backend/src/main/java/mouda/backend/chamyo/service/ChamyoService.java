@@ -44,10 +44,11 @@ public class ChamyoService {
 	public MoimRoleFindResponse findMoimRole(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Optional<Chamyo> chamyoOptional = chamyoRepository.findByMoimIdAndDarakbangMemberId(moimId,
 			darakbangMember.getId());
-
-		chamyoOptional
-			.map(chamyo -> chamyo.getMoim().inNotDarakbang(darakbangId))
-			.orElseThrow(() -> new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_FOUND));
+		chamyoOptional.ifPresent(chamyo -> {
+			if (chamyo.getMoim().inNotDarakbang(darakbangId)) {
+				throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_FOUND);
+			}
+		});
 
 		MoimRole moimRole = chamyoOptional.map(Chamyo::getMoimRole).orElse(MoimRole.NON_MOIMEE);
 
