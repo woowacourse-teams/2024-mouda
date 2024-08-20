@@ -1,10 +1,9 @@
 import { useTheme } from '@emotion/react';
 import * as S from './FunnelStepIndicator.style';
-import { MoimCreationStep } from '@_pages/MoimCreationPage/MoimCreationPage';
 
 interface FunnelStepIndicatorProps {
-  totalSteps: MoimCreationStep[];
-  currentStep: MoimCreationStep;
+  totalSteps: string[];
+  currentStep: string;
 }
 
 export default function FunnelStepIndicator(props: FunnelStepIndicatorProps) {

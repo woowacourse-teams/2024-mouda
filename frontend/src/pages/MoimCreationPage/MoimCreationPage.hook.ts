@@ -12,7 +12,7 @@ import {
 import { useEffect, useState } from 'react';
 
 type MoimCreationInputInfo = MoimInputInfo & {
-  offlineOrOnline: string;
+  // offlineOrOnline: string;
   description: string;
 };
 
@@ -57,7 +57,7 @@ const useMoimCreationInfo = () => {
     key: 'moimCreationInfo',
     initialState: {
       title: '',
-      offlineOrOnline: '',
+      // offlineOrOnline: '',
       place: '',
       date: '',
       time: '',

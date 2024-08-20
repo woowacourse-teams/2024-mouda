@@ -5,17 +5,18 @@ import ROUTES from '@_constants/routes';
 import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
 import { useNavigate } from 'react-router-dom';
 import TitleStep from './Steps/TitleStep';
-import OfflineOrOnlineStep from './Steps/OfflineOrOnlineStep';
+// import OfflineOrOnlineStep from './Steps/OfflineOrOnlineStep';
 import PlaceStep from './Steps/PlaceStep';
 import DateAndTimeStep from './Steps/DateAndTimeStep';
 import MaxPeopleStep from './Steps/MaxPeopleStep';
 import DescriptionStep from './Steps/DescriptionStep';
 import useMoimCreationInfo from './MoimCreationPage.hook';
 import POLICES from '@_constants/poclies';
+import useAddMoim from '@_hooks/mutaions/useAddMoim';
 
 export type MoimCreationStep =
   | '이름입력'
-  | '오프라인/온라인선택'
+  // | '오프라인/온라인선택'
   | '장소선택'
   | '날짜/시간설정'
   | '최대인원설정'
@@ -23,7 +24,7 @@ export type MoimCreationStep =
 
 export const steps: MoimCreationStep[] = [
   '이름입력',
-  '오프라인/온라인선택',
+  // '오프라인/온라인선택',
   '장소선택',
   '날짜/시간설정',
   '최대인원설정',
@@ -32,7 +33,7 @@ export const steps: MoimCreationStep[] = [
 
 const inputKeyMapper = {
   title: '이름입력',
-  offlineOrOnline: '오프라인/온라인선택',
+  // offlineOrOnline: '오프라인/온라인선택',
   place: '장소선택',
   date: '날짜설정',
   time: '시간설정',
@@ -48,13 +49,17 @@ export default function MoimCreationPage() {
     moimInfo,
     moimValidState,
     handleTitleChange,
-    handleOfflineOrOnlineChange,
+    // handleOfflineOrOnlineChange,
     handlePlaceChange,
     handleDateChange,
     handleTimeChange,
     handleMaxPeopleChange,
     handleDescriptionChange,
   } = useMoimCreationInfo();
+
+  const { mutate: addMoim } = useAddMoim((moimId: number) => {
+    navigate(`/moim/${moimId}`);
+  });
 
   const currentComponents: {
     main: JSX.Element;
@@ -70,43 +75,43 @@ export default function MoimCreationPage() {
         disabled={!moimValidState.title}
         onClick={() => {
           navigate(ROUTES.addMoim, {
-            state: { step: '오프라인/온라인선택' },
+            state: { step: '장소선택' },
           });
         }}
       >
         {moimInfo.title === ''
           ? '모임 이름을 입력해주세요'
           : !moimValidState.title
-            ? `❗️ ${POLICES.minimumTitleLength} ~ ${POLICES.maximumTitleLength}글자만 가능해요 ❗️`
+            ? `${POLICES.minimumTitleLength} ~ ${POLICES.maximumTitleLength}글자만 가능해요`
             : '다음으로'}
       </FunnelButton>
     );
-  } else if (currentStep === '오프라인/온라인선택') {
-    currentComponents.main = (
-      <OfflineOrOnlineStep
-        offlineOrOnline={moimInfo.offlineOrOnline}
-        onOfflineOrOnlineChange={handleOfflineOrOnlineChange}
-      />
-    );
-    currentComponents.footer = (
-      <FunnelButton
-        onClick={() => {
-          navigate(ROUTES.addMoim, {
-            state: {
-              step: moimInfo.offlineOrOnline ? '장소선택' : '날짜/시간설정',
-            },
-          });
-        }}
-      >
-        {moimInfo.offlineOrOnline === ''
-          ? '스킵하고 채팅에서 정할게요!'
-          : '다음으로'}
-      </FunnelButton>
-    );
+    // } else if (currentStep === '오프라인/온라인선택') {
+    //   currentComponents.main = (
+    //     <OfflineOrOnlineStep
+    //       offlineOrOnline={moimInfo.offlineOrOnline}
+    //       onOfflineOrOnlineChange={handleOfflineOrOnlineChange}
+    //     />
+    //   );
+    //   currentComponents.footer = (
+    //     <FunnelButton
+    //       onClick={() => {
+    //         navigate(ROUTES.addMoim, {
+    //           state: {
+    //             step: moimInfo.offlineOrOnline ? '장소선택' : '날짜/시간설정',
+    //           },
+    //         });
+    //       }}
+    //     >
+    //       {moimInfo.offlineOrOnline === ''
+    //         ? '스킵하고 채팅에서 정할게요!'
+    //         : '다음으로'}
+    //     </FunnelButton>
+    //   );
   } else if (currentStep === '장소선택') {
     currentComponents.main = (
       <PlaceStep
-        offlineOrOnline={moimInfo.offlineOrOnline}
+        // offlineOrOnline={moimInfo.offlineOrOnline}
         place={moimInfo.place}
         onPlaceChange={handlePlaceChange}
       />
@@ -123,7 +128,7 @@ export default function MoimCreationPage() {
         {moimInfo.place === ''
           ? '스킵하고 채팅에서 정할게요!'
           : !moimValidState.place
-            ? `❗️ ${POLICES.minimumPlaceLength} ~ ${POLICES.maximumPlaceLength}글자만 가능해요 ❗️`
+            ? `${POLICES.minimumPlaceLength} ~ ${POLICES.maximumPlaceLength}글자만 가능해요`
             : '다음으로'}
       </FunnelButton>
     );
@@ -146,11 +151,11 @@ export default function MoimCreationPage() {
         }}
       >
         {!moimValidState.date && !moimValidState.time
-          ? '❗️ 날짜와 시간을 다시 확인해주세요 ❗️'
+          ? '날짜와 시간을 다시 확인해주세요'
           : !moimValidState.date
-            ? '❗️ 날짜를 다시 확인해주세요 ❗️'
+            ? '날짜를 다시 확인해주세요'
             : !moimValidState.time
-              ? '❗️ 시간을 다시 확인해주세요 ❗️'
+              ? '시간을 다시 확인해주세요'
               : moimInfo.date === '' && moimInfo.time === ''
                 ? '스킵하고 채팅에서 정할게요!'
                 : moimInfo.date === ''
@@ -177,7 +182,7 @@ export default function MoimCreationPage() {
         }}
       >
         {!moimValidState.maxPeople
-          ? `❗️ ${POLICES.minimumMaxPeople} ~ ${POLICES.maximumMaxPeople}명만 가능해요 ❗️`
+          ? `${POLICES.minimumMaxPeople} ~ ${POLICES.maximumMaxPeople}명만 가능해요`
           : '다음으로'}
       </FunnelButton>
     );
@@ -201,6 +206,7 @@ export default function MoimCreationPage() {
             alert(`${invalidKeys}이 올바르지 않습니다.`);
             return;
           }
+          addMoim(moimInfo);
         }}
       >
         끗!
