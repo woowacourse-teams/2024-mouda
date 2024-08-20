@@ -81,7 +81,7 @@ public class ChatService {
 		long darakbangId, long recentChatId, long moimId, DarakbangMember member
 	) {
 		findMoimByMoimId(moimId, darakbangId);
-		findChamyoByMoimIdAndMemberId(moimId, member.getId());
+		findChamyoByMoimIdAndMemberId(moimId, member.getMemberId());
 		if (recentChatId < 0) {
 			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.INVALID_RECENT_CHAT_ID);
 		}
