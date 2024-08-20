@@ -11,6 +11,7 @@ import Modal from '@_components/Modal/Modal';
 import POLICES from '@_constants/poclies';
 import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
 import SolidArrow from '@_components/Icons/SolidArrow';
+import { setLastDarakbangId } from '@_common/lastDarakbangManager';
 import useCreateDarakbang from '@_hooks/mutaions/useCreateDarakbang';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
@@ -18,8 +19,11 @@ import { useTheme } from '@emotion/react';
 export default function DarakbangCreationPage() {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { mutate: createDarakbang } = useCreateDarakbang(() =>
-    navigate(GET_ROUTES.nowDarakbang.main()),
+  const { mutate: createDarakbang } = useCreateDarakbang(
+    (darakbangId: number) => {
+      setLastDarakbangId(darakbangId);
+      navigate(GET_ROUTES.nowDarakbang.main());
+    },
   );
 
   const [darakbangName, setDarakbangName] = useState('');

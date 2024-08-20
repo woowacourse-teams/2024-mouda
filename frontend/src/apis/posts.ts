@@ -104,10 +104,14 @@ export const postDarakbang = async ({
   name: string;
   nickname: string;
 }) => {
-  await ApiClient.postWithAuth('darakbang', {
+  const response = await ApiClient.postWithAuth('darakbang', {
     name,
     nickname,
   });
+
+  const json = await response.json();
+
+  return json?.data;
 };
 
 export const postDarakbangEntrance = async ({
