@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import useAddMoim from '@_hooks/mutaions/useAddMoim';
 import { useNavigate, useNavigationType } from 'react-router-dom';
 import { MoimCreationStep } from './MoimCreationPage';
+import GET_ROUTES from '@_common/getRoutes';
 
 const inputKeyMapper = {
   title: '이름입력',
@@ -63,7 +64,7 @@ const useMoimCreationForm = (currentStep: MoimCreationStep) => {
   });
 
   const { mutate: createMoim } = useAddMoim((moimId: number) => {
-    navigate(`/moim/${moimId}`);
+    navigate(GET_ROUTES.nowDarakbang.moimDetail(moimId));
   });
 
   useEffect(() => {
