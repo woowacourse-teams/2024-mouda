@@ -1,6 +1,7 @@
 import useStatePersist from '@_hooks/useStatePersist';
 import { MoimInputInfo } from '@_types/index';
 import {
+  isApprochedByUrl,
   validateDate,
   validateMaxPeople,
   validatePlace,
@@ -8,13 +9,23 @@ import {
   validateTitle,
 } from './MoimCreatePage.util';
 import { useEffect, useState } from 'react';
+import useAddMoim from '@_hooks/mutaions/useAddMoim';
+import { useNavigate, useNavigationType } from 'react-router-dom';
+import { MoimCreationStep } from './MoimCreationPage';
 
 type MoimFormData = MoimInputInfo & {
   // offlineOrOnline: string;
   description: string;
 };
 
-const useMoimCreationForm = (isNewMoimCreation: boolean) => {
+const useMoimCreationForm = (currentStep: MoimCreationStep) => {
+  const navigationType = useNavigationType();
+  const navigate = useNavigate();
+
+  const isNewMoimCreation =
+    currentStep === '이름입력' &&
+    (navigationType === 'PUSH' || isApprochedByUrl());
+
   if (isNewMoimCreation) {
     sessionStorage.removeItem('moimCreationInfo');
   }
@@ -80,6 +91,10 @@ const useMoimCreationForm = (isNewMoimCreation: boolean) => {
     setFormData((prev) => ({ ...prev, description }));
   };
 
+  const { mutate: createMoim } = useAddMoim((moimId: number) => {
+    navigate(`/moim/${moimId}`);
+  });
+
   return {
     formData,
     formValidation,
@@ -90,6 +105,7 @@ const useMoimCreationForm = (isNewMoimCreation: boolean) => {
     updateTime,
     updateMaxPeople,
     updateDescription,
+    createMoim,
   };
 };
 

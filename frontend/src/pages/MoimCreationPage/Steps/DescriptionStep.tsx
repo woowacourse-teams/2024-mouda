@@ -33,7 +33,7 @@ export default function DescriptionStep(props: DescriptionStepProps) {
       </FunnelLayout.Main>
 
       <FunnelLayout.Footer>
-        <FunnelButton onClick={onButtonClick}>끗!</FunnelButton>
+        <FunnelButton onClick={onButtonClick}>모임 만들기 완료!</FunnelButton>
       </FunnelLayout.Footer>
     </>
   );
