@@ -18,16 +18,15 @@ import mouda.backend.notification.dto.response.NotificationFindAllResponses;
 import mouda.backend.notification.service.NotificationService;
 
 @RestController
-@RequestMapping("/v1/darakbang/{darakbangId}/notification")
+@RequestMapping
 @RequiredArgsConstructor
 public class NotificationController implements NotificationSwagger {
 
 	private final NotificationService notificationService;
 
 	@Override
-	@PostMapping("/register")
+	@PostMapping("/v1/notification/register")
 	public ResponseEntity<Void> registerFcmToken(
-		@PathVariable Long darakbangId,
 		@LoginMember Member member,
 		@Valid @RequestBody FcmTokenSaveRequest fcmTokenSaveRequest
 	) {
@@ -37,12 +36,12 @@ public class NotificationController implements NotificationSwagger {
 	}
 
 	@Override
-	@GetMapping("/mine")
+	@GetMapping("/v1/darakbang/{darakbangId}/notification/mine")
 	public ResponseEntity<RestResponse<NotificationFindAllResponses>> findAllMyNotification(
-		@PathVariable Long darakbangId,
-		@LoginMember Member member
+		@LoginMember Member member,
+		@PathVariable Long darakbangId
 	) {
-		NotificationFindAllResponses responses = notificationService.findAllMyNotifications(member);
+		NotificationFindAllResponses responses = notificationService.findAllMyNotifications(member, darakbangId);
 
 		return ResponseEntity.ok().body(new RestResponse<>(responses));
 	}
