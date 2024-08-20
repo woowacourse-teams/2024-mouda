@@ -113,7 +113,7 @@ public class ChatService {
 		MoudaNotification notification = MoudaNotification.builder()
 			.type(notificationType)
 			.body(notificationType.createMessage(moim.getTitle()))
-			.targetUrl(baseUrl + String.format(moimUrl, moim.getId()))
+			.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moim.getId()))
 			.build();
 
 		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
