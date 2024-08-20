@@ -26,7 +26,6 @@ export default function useFunnel<Step extends string | number | symbol>(
   const Funnel = useCallback(
     (props: FunnelProps) => {
       const { step } = props;
-      console.log(currentStep);
       return step[currentStep];
     },
     [currentStep],
