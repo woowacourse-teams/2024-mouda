@@ -7,7 +7,7 @@ import {
   validatePlace,
   validateTime,
   validateTitle,
-} from './MoimCreatePage.util';
+} from './MoimCreationPage.util';
 import { useEffect, useState } from 'react';
 import useAddMoim from '@_hooks/mutaions/useAddMoim';
 import { useNavigate, useNavigationType } from 'react-router-dom';

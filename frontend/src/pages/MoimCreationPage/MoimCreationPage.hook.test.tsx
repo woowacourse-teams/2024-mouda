@@ -2,7 +2,7 @@ import { act, renderHook } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import useMoimCreationForm from './MoimCreationPage.hook';
 import { ReactNode } from 'react';
-import * as utils from './MoimCreatePage.util';
+import * as utils from './MoimCreationPage.util';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 // 세션 스토리지 모킹
