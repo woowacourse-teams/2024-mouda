@@ -6,13 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import ROUTES from '@_constants/routes';
 import { setToken } from '@_utils/tokenManager';
 import { login } from '@_apis/auth';
-import { requestPermission } from '@_service/notification';
-import useServeToken from '@_hooks/mutaions/useServeToken';
 
 // TODO: 로그인 기능 요구사항 변경 예정
 export default function LoginForm() {
   const navigate = useNavigate();
-  const { mutate } = useServeToken();
 
   const [nickname, setNickname] = useState('');
   const [isValid, setIsValid] = useState(false);
@@ -26,7 +23,6 @@ export default function LoginForm() {
 
     const response = await login({ nickname });
     setToken(response.data.accessToken);
-    requestPermission(mutate);
     navigate(ROUTES.main);
   };
 
