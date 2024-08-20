@@ -47,7 +47,7 @@ public class ChamyoService {
 
 		chamyoOptional
 			.map(chamyo -> chamyo.getMoim().inNotDarakbang(darakbangId))
-			.orElseThrow(() -> new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_IN_DARAKBANG));
+			.orElseThrow(() -> new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_FOUND));
 
 		MoimRole moimRole = chamyoOptional.map(Chamyo::getMoimRole).orElse(MoimRole.NON_MOIMEE);
 
@@ -59,7 +59,7 @@ public class ChamyoService {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new ChamyoException(HttpStatus.NOT_FOUND, ChamyoErrorMessage.MOIM_NOT_FOUND));
 		if (moim.inNotDarakbang(darakbangId)) {
-			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_IN_DARAKBANG);
+			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_FOUND);
 		}
 		List<ChamyoFindAllResponse> responses = chamyoRepository.findAllByMoimId(moimId)
 			.stream()
@@ -73,7 +73,7 @@ public class ChamyoService {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new ChamyoException(HttpStatus.NOT_FOUND, ChamyoErrorMessage.MOIM_NOT_FOUND));
 		if (moim.inNotDarakbang(darakbangId)) {
-			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_IN_DARAKBANG);
+			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_FOUND);
 		}
 		validateCanChamyoMoim(moim, darakbangMember);
 
@@ -124,7 +124,7 @@ public class ChamyoService {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new ChamyoException(HttpStatus.NOT_FOUND, ChamyoErrorMessage.MOIM_NOT_FOUND));
 		if (moim.inNotDarakbang(darakbangId)) {
-			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_IN_DARAKBANG);
+			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_FOUND);
 		}
 		validateCanCancelChamyo(moim, darakbangMember);
 
