@@ -22,10 +22,11 @@ import SolidArrow from '@_components/Icons/SolidArrow';
 import useMyDarakbangs from '@_hooks/queries/useMyDarakbang';
 import useMyRoleInDarakbang from '@_hooks/queries/useMyDarakbangRole';
 import { useNavigate } from 'react-router-dom';
-
+import { requestPermission } from '@_service/notification';
+import useServeToken from '@_hooks/mutaions/useServeToken';
 export default function MainPage() {
   const navigate = useNavigate();
-
+  const { mutate } = useServeToken();
   const [currentTab, setCurrentTab] = useState<MainPageTab>('모임목록');
   const [isDarakbangMenuOpened, setIsDarakbangMenuOpened] = useState(false);
 
@@ -41,6 +42,7 @@ export default function MainPage() {
 
   const handleNotification = () => {
     navigate(GET_ROUTES.nowDarakbang.notification());
+    requestPermission(mutate);
   };
 
   const darakbangMenuOption = useMemo(() => {
