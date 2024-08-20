@@ -51,7 +51,7 @@ public class ChatController implements ChatSwagger {
 		@RequestParam("moimId") Long moimId
 	) {
 		ChatFindUnloadedResponse unloadedChats = chatService
-			.findUnloadedChats(darakbangId, moimId, recentChatId, member);
+			.findUnloadedChats(darakbangId, recentChatId, moimId, member);
 
 		return ResponseEntity.ok(new RestResponse<>(unloadedChats));
 	}
