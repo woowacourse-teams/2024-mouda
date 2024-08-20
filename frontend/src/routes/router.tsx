@@ -37,7 +37,7 @@ const routesConfig = [
     requiresAuth: true,
   },
   {
-    path: ROUTES.detail,
+    path: ROUTES.moimDetail,
     element: <MoimDetailPage />,
     requiresAuth: true,
   },

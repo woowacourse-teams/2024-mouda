@@ -19,7 +19,7 @@ export default function DarakbangCreationPage() {
   const theme = useTheme();
   const navigate = useNavigate();
   const { mutate: createDarakbang } = useCreateDarakbang(() =>
-    navigate(GET_ROUTES.nowDarakbangMain()),
+    navigate(GET_ROUTES.nowDarakbang.main()),
   );
 
   const [darakbangName, setDarakbangName] = useState('');

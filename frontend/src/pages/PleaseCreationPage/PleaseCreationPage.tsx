@@ -2,10 +2,10 @@ import * as S from './PleaseCreationPage.style';
 
 import Button from '@_components/Button/Button';
 import FormLayout from '@_layouts/FormLayout/FormLayout';
+import GET_ROUTES from '@_common/getRoutes';
 import LabeledInput from '@_components/Input/MoimInput';
 import LabeledTextArea from '@_components/TextArea/LabeledTextArea';
 import PLEASE_INPUT_INFOS from './PleaseCreationPage.constant';
-import ROUTES from '@_constants/routes';
 import useAddPlease from '@_hooks/mutaions/useAddPlease';
 import { useNavigate } from 'react-router-dom';
 import usePleaseInfoInput from './PleaseCreationPage.hook';
@@ -15,7 +15,7 @@ export default function PleaseCreationPage() {
   const navigate = useNavigate();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { mutate } = useAddPlease(() => {
-    navigate(ROUTES.please);
+    navigate(GET_ROUTES.nowDarakbang.please());
   });
 
   const {

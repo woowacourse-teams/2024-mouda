@@ -40,7 +40,7 @@ export default function MainPage() {
   };
 
   const handleNotification = () => {
-    navigate(ROUTES.notification);
+    navigate(GET_ROUTES.nowDarakbang.notification());
   };
 
   const darakbangMenuOption = useMemo(() => {
@@ -50,7 +50,7 @@ export default function MainPage() {
         return {
           onClick: () => {
             setLastDarakbangId(darakbangId);
-            navigate(GET_ROUTES.nowDarakbangMain());
+            navigate(GET_ROUTES.nowDarakbang.main());
           },
           description:
             name + (darakbangId === nowDarakbangId ? '(현재 다락방)' : ''),
@@ -60,7 +60,7 @@ export default function MainPage() {
     options.push(
       {
         onClick: () => navigate(ROUTES.darakbangEntrance),
-        description: '다른 다락방 들어가기',
+        description: '코드로 다른 다락방 들어가기',
         hasTopBorder: true,
       },
       {
@@ -72,7 +72,7 @@ export default function MainPage() {
 
     if (myRoleInNowDarakbang === 'MANAGER') {
       options.push({
-        onClick: () => navigate(ROUTES.darakbangManagement),
+        onClick: () => navigate(GET_ROUTES.nowDarakbang.darakbangManagement()),
         description: '다락방 관리하기',
         hasTopBorder: true,
       });
@@ -133,7 +133,9 @@ export default function MainPage() {
         </HomeLayout.Main>
 
         <HomeLayout.HomeFixedButtonWrapper>
-          <PlusButton onClick={() => navigate(ROUTES.addMoim)} />
+          <PlusButton
+            onClick={() => navigate(GET_ROUTES.nowDarakbang.addMoim())}
+          />
         </HomeLayout.HomeFixedButtonWrapper>
       </HomeLayout>
 

@@ -47,7 +47,7 @@ export default function DarakbangSelectPage() {
               key={darakbangId}
               onClick={() => {
                 setLastDarakbangId(darakbangId);
-                navigate(GET_ROUTES.nowDarakbangMain());
+                navigate(GET_ROUTES.nowDarakbang.main());
               }}
             >
               {name}

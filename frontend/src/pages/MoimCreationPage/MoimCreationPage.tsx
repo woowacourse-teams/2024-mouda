@@ -2,6 +2,7 @@ import * as S from './MoimCreationPage.style';
 
 import Button from '@_components/Button/Button';
 import FormLayout from '@_layouts/FormLayout/FormLayout';
+import GET_ROUTES from '@_common/getRoutes';
 import LabeledInput from '@_components/Input/MoimInput';
 import LabeledTextArea from '@_components/TextArea/LabeledTextArea';
 import MOIM_INPUT_INFOS from './MoimCreationPage.constant';
@@ -13,7 +14,7 @@ import { useState } from 'react';
 export default function MoimCreationPage() {
   const navigate = useNavigate();
   const { mutate } = useAddMoim((moimId: number) => {
-    navigate(`/moim/${moimId}`);
+    navigate(GET_ROUTES.nowDarakbang.moimDetail(moimId));
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 

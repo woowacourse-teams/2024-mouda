@@ -27,7 +27,7 @@ export default function DarakbangNicknamePage() {
 
   const { mutate: enterDarakbang } = useEnterDarakbang({
     onSuccess: () => {
-      navigate(GET_ROUTES.nowDarakbangMain());
+      navigate(GET_ROUTES.nowDarakbang.main());
     },
     onError: (string: string) => {
       setIsModalOpen(false);

@@ -18,7 +18,7 @@ export default function NotificationPage() {
     <InformationLayout>
       <InformationLayout.Header>
         <InformationLayout.Header.Left>
-          <div onClick={() => navigate(GET_ROUTES.nowDarakbangMain())}>
+          <div onClick={() => navigate(GET_ROUTES.nowDarakbang.main())}>
             <BackLogo />
           </div>
         </InformationLayout.Header.Left>
