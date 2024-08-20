@@ -8,6 +8,7 @@ import {
 } from '../../mocks/handler/chatHandler';
 
 import { renderHook } from '@testing-library/react';
+import { setLastDarakbangId } from '@_common/lastDarakbangManager';
 import useChats from './useChats';
 
 const queryClient = new QueryClient();
@@ -16,6 +17,9 @@ const wrapper = ({ children }: { children: ReactNode }) => (
 );
 
 describe('useChats', () => {
+  beforeEach(() => {
+    setLastDarakbangId(1);
+  });
   afterEach(() => {
     nowChatServerData.length = 0;
     initChatIndex();

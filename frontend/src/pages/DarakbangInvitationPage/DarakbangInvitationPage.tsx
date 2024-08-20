@@ -12,7 +12,7 @@ import { useTheme } from '@emotion/react';
 export default function DarakbangInvitationPage() {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { inviteCode } = useDarakbangInviteCode(1);
+  const { inviteCode } = useDarakbangInviteCode();
   const darakbangName = '우아한테크코스';
 
   return (
