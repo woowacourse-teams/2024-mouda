@@ -3,16 +3,17 @@ import FunnelButton from '@_components/Funnel/FunnelButton/FunnelButton';
 import FunnelStepIndicator from '@_components/Funnel/FunnelStepIndicator/FunnelStepIndicator';
 import ROUTES from '@_constants/routes';
 import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useNavigationType } from 'react-router-dom';
 import TitleStep from './Steps/TitleStep';
 // import OfflineOrOnlineStep from './Steps/OfflineOrOnlineStep';
 import PlaceStep from './Steps/PlaceStep';
 import DateAndTimeStep from './Steps/DateAndTimeStep';
 import MaxPeopleStep from './Steps/MaxPeopleStep';
 import DescriptionStep from './Steps/DescriptionStep';
-import useMoimCreationInfo from './MoimCreationPage.hook';
+import useMoimCreationForm from './MoimCreationPage.hook';
 import POLICES from '@_constants/poclies';
 import useAddMoim from '@_hooks/mutaions/useAddMoim';
+import { isApprochedByUrl } from './MoimCreatePage.util';
 
 export type MoimCreationStep =
   | '이름입력'
@@ -43,19 +44,26 @@ const inputKeyMapper = {
 
 export default function MoimCreationPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const navigationType = useNavigationType();
+
+  const currentStep = location.state?.step || steps[0];
+
+  const isNewMoimCreation =
+    currentStep === '이름입력' &&
+    (navigationType === 'PUSH' || isApprochedByUrl());
 
   const {
-    currentStep,
-    moimInfo,
-    moimValidState,
-    handleTitleChange,
-    // handleOfflineOrOnlineChange,
-    handlePlaceChange,
-    handleDateChange,
-    handleTimeChange,
-    handleMaxPeopleChange,
-    handleDescriptionChange,
-  } = useMoimCreationInfo();
+    formData,
+    formValidation,
+    updateTitle,
+    // updateOfflineOrOnline,
+    updatePlace,
+    updateDate,
+    updateTime,
+    updateMaxPeople,
+    updateDescription,
+  } = useMoimCreationForm(isNewMoimCreation);
 
   const { mutate: addMoim } = useAddMoim((moimId: number) => {
     navigate(`/moim/${moimId}`);
@@ -68,20 +76,20 @@ export default function MoimCreationPage() {
 
   if (currentStep === '이름입력') {
     currentComponents.main = (
-      <TitleStep title={moimInfo.title} onTitleChange={handleTitleChange} />
+      <TitleStep title={formData.title} onTitleChange={updateTitle} />
     );
     currentComponents.footer = (
       <FunnelButton
-        disabled={!moimValidState.title}
+        disabled={!formValidation.title}
         onClick={() => {
           navigate(ROUTES.addMoim, {
             state: { step: '장소선택' },
           });
         }}
       >
-        {moimInfo.title === ''
+        {formData.title === ''
           ? '모임 이름을 입력해주세요'
-          : !moimValidState.title
+          : !formValidation.title
             ? `${POLICES.minimumTitleLength} ~ ${POLICES.maximumTitleLength}글자만 가능해요`
             : '다음으로'}
       </FunnelButton>
@@ -112,22 +120,22 @@ export default function MoimCreationPage() {
     currentComponents.main = (
       <PlaceStep
         // offlineOrOnline={moimInfo.offlineOrOnline}
-        place={moimInfo.place}
-        onPlaceChange={handlePlaceChange}
+        place={formData.place}
+        onPlaceChange={updatePlace}
       />
     );
     currentComponents.footer = (
       <FunnelButton
-        disabled={!moimValidState.place}
+        disabled={!formValidation.place}
         onClick={() => {
           navigate(ROUTES.addMoim, {
             state: { step: '날짜/시간설정' },
           });
         }}
       >
-        {moimInfo.place === ''
+        {formData.place === ''
           ? '스킵하고 채팅에서 정할게요!'
-          : !moimValidState.place
+          : !formValidation.place
             ? `${POLICES.minimumPlaceLength} ~ ${POLICES.maximumPlaceLength}글자만 가능해요`
             : '다음으로'}
       </FunnelButton>
@@ -135,32 +143,32 @@ export default function MoimCreationPage() {
   } else if (currentStep === '날짜/시간설정') {
     currentComponents.main = (
       <DateAndTimeStep
-        date={moimInfo.date}
-        time={moimInfo.time}
-        onDateChange={handleDateChange}
-        onTimeChange={handleTimeChange}
+        date={formData.date}
+        time={formData.time}
+        onDateChange={updateDate}
+        onTimeChange={updateTime}
       />
     );
     currentComponents.footer = (
       <FunnelButton
-        disabled={!moimValidState.date || !moimValidState.time}
+        disabled={!formValidation.date || !formValidation.time}
         onClick={() => {
           navigate(ROUTES.addMoim, {
             state: { step: '최대인원설정' },
           });
         }}
       >
-        {!moimValidState.date && !moimValidState.time
+        {!formValidation.date && !formValidation.time
           ? '날짜와 시간을 다시 확인해주세요'
-          : !moimValidState.date
+          : !formValidation.date
             ? '날짜를 다시 확인해주세요'
-            : !moimValidState.time
+            : !formValidation.time
               ? '시간을 다시 확인해주세요'
-              : moimInfo.date === '' && moimInfo.time === ''
+              : formData.date === '' && formData.time === ''
                 ? '스킵하고 채팅에서 정할게요!'
-                : moimInfo.date === ''
+                : formData.date === ''
                   ? '날짜는 채팅에서 정할게요!'
-                  : moimInfo.time === ''
+                  : formData.time === ''
                     ? '시간은 채팅에서 정할게요!'
                     : '다음으로'}
       </FunnelButton>
@@ -168,20 +176,20 @@ export default function MoimCreationPage() {
   } else if (currentStep === '최대인원설정') {
     currentComponents.main = (
       <MaxPeopleStep
-        maxPeople={moimInfo.maxPeople}
-        onMaxPeopleChange={handleMaxPeopleChange}
+        maxPeople={formData.maxPeople}
+        onMaxPeopleChange={updateMaxPeople}
       />
     );
     currentComponents.footer = (
       <FunnelButton
-        disabled={!moimValidState.maxPeople}
+        disabled={!formValidation.maxPeople}
         onClick={() => {
           navigate(ROUTES.addMoim, {
             state: { step: '설명입력' },
           });
         }}
       >
-        {!moimValidState.maxPeople
+        {!formValidation.maxPeople
           ? `${POLICES.minimumMaxPeople} ~ ${POLICES.maximumMaxPeople}명만 가능해요`
           : '다음으로'}
       </FunnelButton>
@@ -189,14 +197,14 @@ export default function MoimCreationPage() {
   } else if (currentStep === '설명입력') {
     currentComponents.main = (
       <DescriptionStep
-        description={moimInfo.description}
-        onDescriptionChange={handleDescriptionChange}
+        description={formData.description}
+        onDescriptionChange={updateDescription}
       />
     );
     currentComponents.footer = (
       <FunnelButton
         onClick={() => {
-          const invalidInputKeys = Object.entries(moimValidState)
+          const invalidInputKeys = Object.entries(formValidation)
             .filter(([, value]) => !value)
             .map(([key]) => key);
           if (invalidInputKeys.length > 0) {
@@ -206,7 +214,7 @@ export default function MoimCreationPage() {
             alert(`${invalidKeys}이 올바르지 않습니다.`);
             return;
           }
-          addMoim(moimInfo);
+          addMoim(formData);
         }}
       >
         끗!
