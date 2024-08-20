@@ -1,50 +1,40 @@
+import FunnelButton from '@_components/Funnel/FunnelButton/FunnelButton';
 import FunnelQuestion from '@_components/Funnel/FunnelQuestion/FunnelQuestion';
-import { css, Theme, useTheme } from '@emotion/react';
+import FunnelTextArea from '@_components/Funnel/FunnelTextArea/FunnelTextArea';
+import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
 
 interface DescriptionStepProps {
   description: string;
   onDescriptionChange: (description: string) => void;
+  onButtonClick: () => void;
 }
 
 export default function DescriptionStep(props: DescriptionStepProps) {
-  const { description, onDescriptionChange } = props;
-
-  const theme = useTheme();
+  const { description, onDescriptionChange, onButtonClick } = props;
 
   return (
     <>
-      <FunnelQuestion>
-        <FunnelQuestion.Text>모임에 대해</FunnelQuestion.Text>
-        <br />
-        <FunnelQuestion.Highlight>설명하고 싶은 내용</FunnelQuestion.Highlight>
-        <FunnelQuestion.Text>이</FunnelQuestion.Text>
-        <br />
-        <FunnelQuestion.Text>있다면 적어주세요!</FunnelQuestion.Text>
-      </FunnelQuestion>
-      <textarea
-        css={textArea({ theme })}
-        placeholder={'칼바람 한 판 하쉴?'}
-        value={description}
-        onChange={(e) => onDescriptionChange(e.target.value)}
-      />
+      <FunnelLayout.Main>
+        <FunnelQuestion>
+          <FunnelQuestion.Text>모임에 대해</FunnelQuestion.Text>
+          <br />
+          <FunnelQuestion.Highlight>
+            설명하고 싶은 내용
+          </FunnelQuestion.Highlight>
+          <FunnelQuestion.Text>이</FunnelQuestion.Text>
+          <br />
+          <FunnelQuestion.Text>있다면 적어주세요!</FunnelQuestion.Text>
+        </FunnelQuestion>
+        <FunnelTextArea
+          placeholder="칼바람 한 판 하쉴?"
+          value={description}
+          onChange={(e) => onDescriptionChange(e.target.value)}
+        />
+      </FunnelLayout.Main>
+
+      <FunnelLayout.Footer>
+        <FunnelButton onClick={onButtonClick}>끗!</FunnelButton>
+      </FunnelLayout.Footer>
     </>
   );
 }
-
-export const textArea = (props: { theme: Theme }) => css`
-  ${props.theme.typography.b3}
-  resize: none;
-
-  flex-shrink: 0;
-
-  box-sizing: border-box;
-  padding: 0.6rem;
-  width: 100%;
-  height: 24rem;
-
-  font-size: 1.6rem;
-
-  background: ${props.theme.colorPalette.grey[100]};
-  border: 1px solid ${props.theme.colorPalette.grey[300]};
-  border-radius: 0.8rem;
-`;
