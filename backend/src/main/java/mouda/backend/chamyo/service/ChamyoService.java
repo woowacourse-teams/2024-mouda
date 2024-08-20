@@ -84,7 +84,7 @@ public class ChamyoService {
 		MoudaNotification notification = MoudaNotification.builder()
 			.type(notificationType)
 			.body(notificationType.createMessage(member.getNickname()))
-			.targetUrl(baseUrl + moimUrl + "/" + moim.getId())
+			.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moim.getId()))
 			.build();
 
 		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
@@ -127,7 +127,7 @@ public class ChamyoService {
 		MoudaNotification notification = MoudaNotification.builder()
 			.type(notificationType)
 			.body(notificationType.createMessage(member.getNickname()))
-			.targetUrl(baseUrl + moimUrl + "/" + moim.getId())
+			.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moim.getId()))
 			.build();
 
 		Long moimerId = chamyoRepository.findMoimerIdByMoimId(moim.getId());

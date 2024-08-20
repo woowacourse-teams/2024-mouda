@@ -9,11 +9,7 @@ security:
       secret-key: kksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabo
       expire-length: 3600000
 
-app:
-  firebase-config-file: serviceAccountKey.json
-
-
 url:
-  moim: /moim
-  chat: /chat
-  chatroom: /chatting-room
+  moim: /darakbang/%d/moim/%d
+  chat: /darakbang/%d/chat/%d
+  chatroom: /chatting-room/%d
