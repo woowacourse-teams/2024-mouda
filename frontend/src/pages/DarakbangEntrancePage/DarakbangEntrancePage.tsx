@@ -3,6 +3,7 @@ import { ChangeEvent, useState } from 'react';
 import Button from '@_components/Button/Button';
 import ErrorControlledInput from '@_components/ErrorControlledInput/ErrorControlledInput';
 import POLICES from '@_constants/poclies';
+import ROUTES from '@_constants/routes';
 import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
 import SolidArrow from '@_components/Icons/SolidArrow';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +12,7 @@ import { useTheme } from '@emotion/react';
 export default function DarakbangEntrancePage() {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [entranceCode, setEntranceCode] = useState('');
+  const [inviteCode, setInviteCode] = useState('');
   return (
     <SelectLayout>
       <SelectLayout.Header>
@@ -33,7 +34,7 @@ export default function DarakbangEntrancePage() {
           placeholder="참여코드를 입력하세요"
           maxLength={POLICES.entranceCodeLength}
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setEntranceCode(e.target.value.toUpperCase());
+            setInviteCode(e.target.value.toUpperCase());
           }}
           style={{ textTransform: 'uppercase' }}
         />
@@ -42,7 +43,10 @@ export default function DarakbangEntrancePage() {
         <Button
           shape="bar"
           primary
-          disabled={entranceCode.length !== POLICES.entranceCodeLength}
+          disabled={inviteCode.length !== POLICES.entranceCodeLength}
+          onClick={() => {
+            navigate(`${ROUTES.darakbangInvitationRoute}?code=${inviteCode}`);
+          }}
         >
           다락방 참여하기
         </Button>
