@@ -72,7 +72,7 @@ public class MoimService {
 			.targetUrl(baseUrl + moimUrl + "/" + moim.getId())
 			.build();
 
-		notificationService.notifyToAllExceptMember(notification, member.getId());
+		notificationService.notifyToAllExceptMember(notification, member.getMember().getId(), darakbangId);
 		return moim;
 	}
 
@@ -138,10 +138,6 @@ public class MoimService {
 		}
 	}
 
-	public void updateMoimStatusById(long id, MoimStatus status) {
-		moimRepository.updateMoimStatusById(id, status);
-	}
-
 	public void createComment(Long darakbangId, Long moimId, DarakbangMember member, CommentCreateRequest request) {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
@@ -156,10 +152,10 @@ public class MoimService {
 
 		commentRepository.save(request.toEntity(moim, member));
 
-		sendCommentNotification(moim.getId(), member, parentId);
+		sendCommentNotification(moim.getId(), member, parentId, darakbangId);
 	}
 
-	private void sendCommentNotification(Long moimId, DarakbangMember author, Long parentId) {
+	private void sendCommentNotification(Long moimId, DarakbangMember author, Long parentId, Long darakbangId) {
 		if (parentId != null) {
 			Long parentCommentAuthorId = commentRepository.findMemberIdByParentId(parentId);
 			MoudaNotification notification = MoudaNotification.builder()
@@ -167,7 +163,7 @@ public class MoimService {
 				.body(NotificationType.NEW_REPLY.createMessage(author.getNickname()))
 				.targetUrl(baseUrl + moimUrl + "/" + moimId)
 				.build();
-			notificationService.notifyToMember(notification, parentCommentAuthorId);
+			notificationService.notifyToMember(notification, parentCommentAuthorId, darakbangId);
 		}
 
 		MoudaNotification notification = MoudaNotification.builder()
@@ -175,8 +171,7 @@ public class MoimService {
 			.body(NotificationType.NEW_COMMENT.createMessage(author.getNickname()))
 			.targetUrl(baseUrl + moimUrl + "/" + moimId)
 			.build();
-		notificationService.notifyToMember(notification, chamyoRepository.findMoimerIdByMoimId(moimId));
-		notificationService.notifyToMember(notification, chamyoRepository.findMoimerIdByMoimId(moimId));
+		notificationService.notifyToMember(notification, chamyoRepository.findMoimerIdByMoimId(moimId), darakbangId);
 	}
 
 	public void completeMoim(Long darakbangId, Long moimId, DarakbangMember member) {
@@ -189,10 +184,10 @@ public class MoimService {
 
 		moimRepository.updateMoimStatusById(moimId, MoimStatus.COMPLETED);
 
-		sendNotificationWhenMoimStatusChanged(moim, NotificationType.MOIMING_COMPLETED);
+		sendNotificationWhenMoimStatusChanged(moim, NotificationType.MOIMING_COMPLETED, darakbangId);
 	}
 
-	private void sendNotificationWhenMoimStatusChanged(Moim moim, NotificationType notificationType) {
+	private void sendNotificationWhenMoimStatusChanged(Moim moim, NotificationType notificationType, Long darakbangId) {
 		MoudaNotification notification = MoudaNotification.builder()
 			.type(notificationType)
 			.body(notificationType.createMessage(moim.getTitle()))
@@ -201,10 +196,10 @@ public class MoimService {
 
 		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
 			.filter(chamyo -> chamyo.getMoimRole() != MoimRole.MOIMER)
-			.map(chamyo -> chamyo.getMember().getId())
+			.map(chamyo -> chamyo.getMember().getMember().getId())
 			.toList();
 
-		notificationService.notifyToMembers(notification, membersToSendNotification);
+		notificationService.notifyToMembers(notification, membersToSendNotification, darakbangId);
 	}
 
 	private void validateCanCompleteMoim(Moim moim, DarakbangMember member) {
@@ -228,7 +223,7 @@ public class MoimService {
 
 		moimRepository.updateMoimStatusById(moimId, MoimStatus.CANCELED);
 
-		sendNotificationWhenMoimStatusChanged(moim, NotificationType.MOIM_CANCELLED);
+		sendNotificationWhenMoimStatusChanged(moim, NotificationType.MOIM_CANCELLED, darakbangId);
 	}
 
 	private void validateCanCancelMoim(Moim moim, DarakbangMember member) {
@@ -248,7 +243,7 @@ public class MoimService {
 
 		moimRepository.updateMoimStatusById(moimId, MoimStatus.MOIMING);
 
-		sendNotificationWhenMoimStatusChanged(moim, NotificationType.MOINING_REOPENED);
+		sendNotificationWhenMoimStatusChanged(moim, NotificationType.MOINING_REOPENED, darakbangId);
 	}
 
 	private void validateCanReopenMoim(Moim moim, DarakbangMember member) {
@@ -287,7 +282,7 @@ public class MoimService {
 			request.description(), chamyoRepository.countByMoim(moim));
 		moimRepository.save(moim);
 
-		sendNotificationWhenMoimStatusChanged(moim, NotificationType.MOIM_MODIFIED);
+		sendNotificationWhenMoimStatusChanged(moim, NotificationType.MOIM_MODIFIED, darakbangId);
 	}
 
 	private void validateCanEditMoim(Moim moim, DarakbangMember member) {

@@ -31,7 +31,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 		registry.addInterceptor(authenticationCheckInterceptor)
 			.addPathPatterns("/v1/**")
-			.excludePathPatterns("/v1/auth/kakao/oauth");
+			.excludePathPatterns("/v1/auth/**");
 	}
 
 	@Override

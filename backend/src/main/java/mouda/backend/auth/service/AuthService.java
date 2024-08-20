@@ -36,7 +36,7 @@ public class AuthService {
 		return processLogin(Long.parseLong(kakaoId));
 	}
 
-	private LoginResponse processLogin(Long kakaoId) {
+	public LoginResponse processLogin(Long kakaoId) {
 		return memberRepository.findByKakaoId(kakaoId)
 			.map(member -> {
 				String token = jwtProvider.createToken(member);

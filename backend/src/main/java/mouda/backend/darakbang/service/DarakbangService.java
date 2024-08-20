@@ -45,7 +45,7 @@ public class DarakbangService {
 
 		DarakbangMember darakbangMember = DarakbangMember.builder()
 			.darakbang(darakbang)
-			.member(member)
+			.memberId(member.getId())
 			.nickname(darakbangCreateRequest.nickname())
 			.role(DarakBangMemberRole.MANAGER)
 			.build();

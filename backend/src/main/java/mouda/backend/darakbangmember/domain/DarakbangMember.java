@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbangmember.exception.DarakbangMemberErrorMessage;
 import mouda.backend.darakbangmember.exception.DarakbangMemberException;
-import mouda.backend.member.domain.Member;
 
 @Entity
 @Getter
@@ -33,9 +32,8 @@ public class DarakbangMember {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Darakbang darakbang;
 
-	@JoinColumn(nullable = false)
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Member member;
+	@Column(nullable = false)
+	private Long memberId;
 
 	@Column(nullable = false)
 	private String nickname;
@@ -45,10 +43,10 @@ public class DarakbangMember {
 	private DarakBangMemberRole role;
 
 	@Builder
-	public DarakbangMember(Darakbang darakbang, Member member, String nickname, DarakBangMemberRole role) {
+	public DarakbangMember(Darakbang darakbang, Long memberId, String nickname, DarakBangMemberRole role) {
 		validateNickname(nickname);
 		this.darakbang = darakbang;
-		this.member = member;
+		this.memberId = memberId;
 		this.nickname = nickname;
 		this.role = role;
 	}

@@ -10,7 +10,7 @@ public class DarakbangMemberFixture {
 	public static DarakbangMember getDarakbangManagerWithWooteco(Darakbang darakbang, Member member) {
 		return DarakbangMember.builder()
 			.darakbang(darakbang)
-			.member(member)
+			.memberId(member.getId())
 			.nickname("호호기기")
 			.role(DarakBangMemberRole.MANAGER)
 			.build();
@@ -19,7 +19,7 @@ public class DarakbangMemberFixture {
 	public static DarakbangMember getDarakbangMemberWithWooteco(Darakbang darakbang, Member member) {
 		return DarakbangMember.builder()
 			.darakbang(darakbang)
-			.member(member)
+			.memberId(member.getId())
 			.nickname("소소파파")
 			.role(DarakBangMemberRole.MEMBER)
 			.build();

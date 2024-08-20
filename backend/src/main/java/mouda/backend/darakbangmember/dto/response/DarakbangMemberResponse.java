@@ -12,7 +12,7 @@ public record DarakbangMemberResponse(
 
 	public static DarakbangMemberResponse toResponse(DarakbangMember darakbangMember) {
 		return DarakbangMemberResponse.builder()
-			.memberId(darakbangMember.getMember().getId())
+			.memberId(darakbangMember.getMemberId())
 			.nickname(darakbangMember.getNickname())
 			.profile("")
 			.build();
