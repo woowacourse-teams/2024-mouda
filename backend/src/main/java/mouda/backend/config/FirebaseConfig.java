@@ -3,6 +3,7 @@ package mouda.backend.config;
 import java.io.InputStream;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -11,6 +12,7 @@ import com.google.firebase.FirebaseOptions;
 import jakarta.annotation.PostConstruct;
 
 @Configuration
+@Profile("dev")
 public class FirebaseConfig {
 
 	@PostConstruct
@@ -21,7 +23,9 @@ public class FirebaseConfig {
 			FirebaseOptions options = new FirebaseOptions.Builder()
 				.setCredentials(GoogleCredentials.fromStream(serviceAccount))
 				.build();
-			FirebaseApp.initializeApp(options);
+			if (FirebaseApp.getApps().isEmpty()) {
+				FirebaseApp.initializeApp(options);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

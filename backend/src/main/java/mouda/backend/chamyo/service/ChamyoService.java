@@ -88,11 +88,11 @@ public class ChamyoService {
 			.build();
 
 		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
-			.map(c -> c.getMember().getId())
-			.filter(memberId -> !memberId.equals(member.getId()))
+			.map(c -> c.getMember().getMember().getId())
+			.filter(memberId -> !memberId.equals(member.getMember().getId()))
 			.toList();
 
-		notificationService.notifyToMembers(notification, membersToSendNotification);
+		notificationService.notifyToMembers(notification, membersToSendNotification, darakbangId);
 	}
 
 	private void validateCanChamyoMoim(Moim moim, DarakbangMember member) {
@@ -131,7 +131,7 @@ public class ChamyoService {
 			.build();
 
 		Long moimerId = chamyoRepository.findMoimerIdByMoimId(moim.getId());
-		notificationService.notifyToMember(notification, moimerId);
+		notificationService.notifyToMember(notification, moimerId, darakbangId);
 	}
 
 	private void validateCanCancelChamyo(Moim moim, DarakbangMember member) {

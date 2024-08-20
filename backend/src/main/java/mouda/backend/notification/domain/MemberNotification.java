@@ -23,13 +23,17 @@ public class MemberNotification {
 	@Column(nullable = false)
 	private long memberId;
 
+	@Column(nullable = false)
+	private long darakbangId;
+
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private MoudaNotification moudaNotification;
 
 	@Builder
-	public MemberNotification(long memberId, MoudaNotification moudaNotification) {
+	public MemberNotification(long memberId, long darakbangId, MoudaNotification moudaNotification) {
 		this.memberId = memberId;
+		this.darakbangId = darakbangId;
 		this.moudaNotification = moudaNotification;
 	}
 }
