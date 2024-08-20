@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.common.RequiredDarakbangPlease;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.please.domain.Please;
 import mouda.backend.please.dto.request.PleaseCreateRequest;
@@ -32,11 +31,12 @@ public class PleaseService {
 		return pleaseRepository.save(please);
 	}
 
-	@RequiredDarakbangPlease
 	public void deletePlease(Long darakbangId, Long pleaseId, DarakbangMember member) {
 		Please please = pleaseRepository.findById(pleaseId)
 			.orElseThrow(() -> new PleaseException(HttpStatus.NOT_FOUND, PleaseErrorMessage.NOT_FOUND));
-
+		if (please.inNotDarakbang(darakbangId)) {
+			throw new PleaseException(HttpStatus.BAD_REQUEST, PleaseErrorMessage.PLEASE_NOT_IN_DARAKBANG);
+		}
 		if (please.isNotAuthor(member.getId())) {
 			throw new PleaseException(HttpStatus.FORBIDDEN, PleaseErrorMessage.NOT_ALLOWED_TO_DELETE);
 		}

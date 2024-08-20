@@ -13,7 +13,8 @@ public enum ChamyoErrorMessage {
 	MOIMING_CANCLED("모임이 취소됐어요!"),
 	MOIMING_COMPLETE("모집이 완료됐어요!"),
 	MOIM_NOT_JOINED("아직 참여하지 않았어요!"),
-	CANNOT_CANCEL_CHAMYO("취소할 수 없어요!");
+	CANNOT_CANCEL_CHAMYO("취소할 수 없어요!"),
+	MOIM_NOT_IN_DARAKBANG("다락방에 존재하는 모임이 아닙니다.");
 
 	private final String message;
 }

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.common.RequiredDarakbangPlease;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.please.domain.Interest;
 import mouda.backend.please.domain.Please;
@@ -23,13 +22,18 @@ public class InterestService {
 	private final PleaseRepository pleaseRepository;
 	private final InterestRepository interestRepository;
 
-	@RequiredDarakbangPlease
-	public void updateInterest(Long darakbangId, Long pleaseId, DarakbangMember member, InterestUpdateRequest request) {
+	public void updateInterest(Long darakbangId, DarakbangMember member, InterestUpdateRequest request) {
+		Please please = pleaseRepository.findById(request.pleaseId())
+			.orElseThrow(() -> new PleaseException(HttpStatus.NOT_FOUND, PleaseErrorMessage.NOT_FOUND));
+		if (please.inNotDarakbang(darakbangId)) {
+			throw new PleaseException(HttpStatus.BAD_REQUEST, PleaseErrorMessage.PLEASE_NOT_IN_DARAKBANG);
+		}
+
 		if (request.isInterested()) {
-			addInterest(member, pleaseId);
+			addInterest(member, request.pleaseId());
 			return;
 		}
-		removeInterest(member, pleaseId);
+		removeInterest(member, request.pleaseId());
 	}
 
 	private void addInterest(DarakbangMember member, Long pleaseId) {

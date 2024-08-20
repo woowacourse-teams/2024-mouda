@@ -14,7 +14,7 @@ public enum ChatErrorMessage {
 	MOIMER_CAN_CONFIRM_PLACE("모이머만 모임 장소를 확정할 수 있습니다."),
 	MOIMER_CAN_CONFIRM_DATETIME("모이머만 날짜와 시간을 확정할 수 있습니다."),
 	NO_PERMISSION_OPEN_CHAT("채팅은 모이머만 열 수 있습니다"),
-  ;
+	MOIM_NOT_IN_DARAKBANG("다락방에 존재하는 모임이 아닙니다.");
 
 	private final String message;
 }

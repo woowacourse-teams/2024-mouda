@@ -75,7 +75,7 @@ class ChatServiceTest extends DarakbangSetUp {
 		chamyoRepository.save(new Chamyo(moim, darakbangHogee, MoimRole.MOIMER));
 
 		// when
-		ChatFindUnloadedResponse unloadedChats = chatService.findUnloadedChats(0L, moim.getId(), darakbangHogee);
+		ChatFindUnloadedResponse unloadedChats = chatService.findUnloadedChats(1L, 0L, moim.getId(), darakbangHogee);
 
 		// then
 		assertThat(unloadedChats.chats()).hasSize(0);
@@ -95,7 +95,7 @@ class ChatServiceTest extends DarakbangSetUp {
 		chatRepository.save(ChatFixture.getChatWithMemberAtMoim(darakbangHogee, moim));
 
 		// when
-		ChatFindUnloadedResponse unloadedChats = chatService.findUnloadedChats(1L, moim.getId(), darakbangHogee);
+		ChatFindUnloadedResponse unloadedChats = chatService.findUnloadedChats(1L, 1L, moim.getId(), darakbangHogee);
 
 		// then
 		assertThat(unloadedChats.chats()).hasSize(2);
@@ -114,7 +114,7 @@ class ChatServiceTest extends DarakbangSetUp {
 		PlaceConfirmRequest request = new PlaceConfirmRequest(1L, place);
 
 		// when
-		chatService.confirmPlace(darakbang.getId(), 1L, request, darakbangHogee);
+		chatService.confirmPlace(darakbang.getId(), request, darakbangHogee);
 
 		// then
 		Optional<Chat> chatOptional = chatRepository.findById(1L);
@@ -141,7 +141,7 @@ class ChatServiceTest extends DarakbangSetUp {
 		// when & then
 		Assertions.assertThrows(
 			ChatException.class,
-			() -> chatService.confirmPlace(darakbang.getId(), 1L, request, darakbangHogee)
+			() -> chatService.confirmPlace(darakbang.getId(), request, darakbangHogee)
 		);
 	}
 

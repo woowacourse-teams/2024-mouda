@@ -25,9 +25,10 @@ import mouda.backend.chat.dto.response.ChatPreviewResponses;
 import mouda.backend.chat.exception.ChatErrorMessage;
 import mouda.backend.chat.exception.ChatException;
 import mouda.backend.chat.repository.ChatRepository;
-import mouda.backend.common.RequiredDarakbangMoim;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
+import mouda.backend.moim.exception.MoimErrorMessage;
+import mouda.backend.moim.exception.MoimException;
 import mouda.backend.moim.repository.MoimRepository;
 import mouda.backend.notification.domain.MoudaNotification;
 import mouda.backend.notification.domain.NotificationType;
@@ -52,9 +53,11 @@ public class ChatService {
 	private final ChamyoRepository chamyoRepository;
 	private final NotificationService notificationService;
 
-	@RequiredDarakbangMoim
 	public void createChat(Long darakbangId, Long moimId, ChatCreateRequest chatCreateRequest, DarakbangMember member) {
-		Moim moim = findMoimByMoimId(moimId);
+		Moim moim = findMoimByMoimId(moimId, darakbangId);
+		if (moim.inNotDarakbang(darakbangId)) {
+			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIM_NOT_IN_DARAKBANG);
+		}
 		findChamyoByMoimIdAndMemberId(moimId, member.getId());
 
 		Chat chat = chatCreateRequest.toEntity(moim, member);
@@ -76,8 +79,10 @@ public class ChatService {
 	}
 
 	@Transactional(readOnly = true)
-	public ChatFindUnloadedResponse findUnloadedChats(long recentChatId, long moimId, DarakbangMember member) {
-		findMoimByMoimId(moimId);
+	public ChatFindUnloadedResponse findUnloadedChats(
+		long darakbangId, long recentChatId, long moimId, DarakbangMember member
+	) {
+		findMoimByMoimId(moimId, darakbangId);
 		findChamyoByMoimIdAndMemberId(moimId, member.getId());
 		if (recentChatId < 0) {
 			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.INVALID_RECENT_CHAT_ID);
@@ -91,12 +96,9 @@ public class ChatService {
 		return new ChatFindUnloadedResponse(chats);
 	}
 
-	@RequiredDarakbangMoim
-	public void confirmPlace(
-		long darakbangId, long moimId, PlaceConfirmRequest placeConfirmRequest, DarakbangMember member
-	) {
-		Moim moim = findMoimByMoimId(moimId);
-		Chamyo chamyo = findChamyoByMoimIdAndMemberId(moimId, member.getId());
+	public void confirmPlace(long darakbangId, PlaceConfirmRequest placeConfirmRequest, DarakbangMember member) {
+		Moim moim = findMoimByMoimId(placeConfirmRequest.moimId(), darakbangId);
+		Chamyo chamyo = findChamyoByMoimIdAndMemberId(placeConfirmRequest.moimId(), member.getId());
 		if (chamyo.getMoimRole() != MoimRole.MOIMER) {
 			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIMER_CAN_CONFIRM_PLACE);
 		}
@@ -123,11 +125,10 @@ public class ChatService {
 		notificationService.notifyToMembers(notification, membersToSendNotification);
 	}
 
-	@RequiredDarakbangMoim
 	public void confirmDateTime(
 		long darakbangId, long moimId, DateTimeConfirmRequest dateTimeConfirmRequest, DarakbangMember member
 	) {
-		Moim moim = findMoimByMoimId(moimId);
+		Moim moim = findMoimByMoimId(moimId, darakbangId);
 		Chamyo chamyo = findChamyoByMoimIdAndMemberId(moimId, member.getId());
 		if (chamyo.getMoimRole() != MoimRole.MOIMER) {
 			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIMER_CAN_CONFIRM_DATETIME);
@@ -161,7 +162,6 @@ public class ChatService {
 		return ChatPreviewResponse.toResponse(chamyo, currentPeople, lastContent);
 	}
 
-	@RequiredDarakbangMoim
 	public void createLastChat(
 		long darakbangId, long moimId, LastReadChatRequest lastReadChatRequest, DarakbangMember member
 	) {
@@ -170,9 +170,8 @@ public class ChatService {
 		chamyo.updateLastChat(lastReadChatRequest.lastReadChatId());
 	}
 
-	@RequiredDarakbangMoim
 	public void openChatRoom(Long darakbangId, Long moimId, DarakbangMember member) {
-		Moim moim = findMoimByMoimId(moimId);
+		Moim moim = findMoimByMoimId(moimId, darakbangId);
 		Chamyo chamyo = findChamyoByMoimIdAndMemberId(moimId, member.getId());
 		if (chamyo.getMoimRole() == MoimRole.MOIMER) {
 			moim.openChat();
@@ -182,9 +181,13 @@ public class ChatService {
 		}
 	}
 
-	private Moim findMoimByMoimId(long moimId) {
-		return moimRepository.findById(moimId)
+	private Moim findMoimByMoimId(long moimId, long darakbangId) {
+		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIM_NOT_FOUND));
+		if (moim.inNotDarakbang(darakbangId)) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MOIM_NOT_IN_DARAKBANG);
+		}
+		return moim;
 	}
 
 	private Chamyo findChamyoByMoimIdAndMemberId(long moimId, long memberId) {
