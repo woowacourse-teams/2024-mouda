@@ -41,8 +41,9 @@ public class ChamyoService {
 	private final NotificationService notificationService;
 
 	@Transactional(readOnly = true)
-	public MoimRoleFindResponse findMoimRole(Long darakbangId, Long moimId, DarakbangMember member) {
-		Optional<Chamyo> chamyoOptional = chamyoRepository.findByMoimIdAndMemberId(moimId, member.getId());
+	public MoimRoleFindResponse findMoimRole(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
+		Optional<Chamyo> chamyoOptional = chamyoRepository.findByMoimIdAndDarakbangMemberId(moimId,
+			darakbangMember.getId());
 
 		chamyoOptional
 			.map(chamyo -> chamyo.getMoim().inNotDarakbang(darakbangId))
@@ -68,17 +69,17 @@ public class ChamyoService {
 		return new ChamyoFindAllResponses(responses);
 	}
 
-	public void chamyoMoim(Long darakbangId, Long moimId, DarakbangMember member) {
+	public void chamyoMoim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new ChamyoException(HttpStatus.NOT_FOUND, ChamyoErrorMessage.MOIM_NOT_FOUND));
 		if (moim.inNotDarakbang(darakbangId)) {
 			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_IN_DARAKBANG);
 		}
-		validateCanChamyoMoim(moim, member);
+		validateCanChamyoMoim(moim, darakbangMember);
 
 		Chamyo chamyo = Chamyo.builder()
 			.moim(moim)
-			.member(member)
+			.darakbangMember(darakbangMember)
 			.moimRole(MoimRole.MOIMEE)
 			.build();
 		chamyoRepository.save(chamyo);
@@ -91,19 +92,19 @@ public class ChamyoService {
 		NotificationType notificationType = NotificationType.NEW_MOIMEE_JOINED;
 		MoudaNotification notification = MoudaNotification.builder()
 			.type(notificationType)
-			.body(notificationType.createMessage(member.getNickname()))
+			.body(notificationType.createMessage(darakbangMember.getNickname()))
 			.targetUrl(baseUrl + moimUrl + "/" + moim.getId())
 			.build();
 
 		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
-			.map(c -> c.getMember().getMemberId())
-			.filter(memberId -> !memberId.equals(member.getMemberId()))
+			.map(c -> c.getDarakbangMember().getMemberId())
+			.filter(memberId -> !memberId.equals(darakbangMember.getMemberId()))
 			.toList();
 
 		notificationService.notifyToMembers(notification, membersToSendNotification, darakbangId);
 	}
 
-	private void validateCanChamyoMoim(Moim moim, DarakbangMember member) {
+	private void validateCanChamyoMoim(Moim moim, DarakbangMember darakbangMember) {
 		int currentPeople = chamyoRepository.countByMoim(moim);
 		if (currentPeople >= moim.getMaxPeople()) {
 			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_FULL);
@@ -114,20 +115,20 @@ public class ChamyoService {
 		if (moim.getMoimStatus() == MoimStatus.COMPLETED) {
 			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIMING_COMPLETE);
 		}
-		if (chamyoRepository.existsByMoimIdAndMemberId(moim.getId(), member.getId())) {
+		if (chamyoRepository.existsByMoimIdAndDarakbangMemberId(moim.getId(), darakbangMember.getId())) {
 			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_ALREADY_JOINED);
 		}
 	}
 
-	public void cancelChamyo(Long darakbangId, Long moimId, DarakbangMember member) {
+	public void cancelChamyo(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new ChamyoException(HttpStatus.NOT_FOUND, ChamyoErrorMessage.MOIM_NOT_FOUND));
 		if (moim.inNotDarakbang(darakbangId)) {
 			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_IN_DARAKBANG);
 		}
-		validateCanCancelChamyo(moim, member);
+		validateCanCancelChamyo(moim, darakbangMember);
 
-		chamyoRepository.deleteByMoimIdAndMemberId(moim.getId(), member.getId());
+		chamyoRepository.deleteByMoimIdAndDarakbangMemberId(moim.getId(), darakbangMember.getId());
 
 		if (moim.getMoimStatus() != MoimStatus.COMPLETED) {
 			return;
@@ -136,7 +137,7 @@ public class ChamyoService {
 		NotificationType notificationType = NotificationType.MOIMEE_LEFT;
 		MoudaNotification notification = MoudaNotification.builder()
 			.type(notificationType)
-			.body(notificationType.createMessage(member.getNickname()))
+			.body(notificationType.createMessage(darakbangMember.getNickname()))
 			.targetUrl(baseUrl + moimUrl + "/" + moim.getId())
 			.build();
 
@@ -144,8 +145,8 @@ public class ChamyoService {
 		notificationService.notifyToMember(notification, moimerId, darakbangId);
 	}
 
-	private void validateCanCancelChamyo(Moim moim, DarakbangMember member) {
-		MoimRole moimRole = chamyoRepository.findByMoimIdAndMemberId(moim.getId(), member.getId())
+	private void validateCanCancelChamyo(Moim moim, DarakbangMember darakbangMember) {
+		MoimRole moimRole = chamyoRepository.findByMoimIdAndDarakbangMemberId(moim.getId(), darakbangMember.getId())
 			.orElseThrow(() -> new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_JOINED))
 			.getMoimRole();
 

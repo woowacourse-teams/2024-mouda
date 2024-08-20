@@ -23,29 +23,29 @@ public class ZzimService {
 	private final MoimRepository moimRepository;
 
 	@Transactional(readOnly = true)
-	public ZzimCheckResponse checkZzimByMember(Long darakbangId, Long moimId, DarakbangMember member) {
+	public ZzimCheckResponse checkZzimByMember(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new ZzimException(HttpStatus.NOT_FOUND, ZzimErrorMessage.MOIN_NOT_FOUND));
 		if (moim.inNotDarakbang(darakbangId)) {
 			throw new ZzimException(HttpStatus.BAD_REQUEST, ZzimErrorMessage.MOIM_NOT_IN_DARAKBANG);
 		}
 
-		boolean isZzimed = zzimRepository.existsByMoimIdAndMemberId(moimId, member.getId());
+		boolean isZzimed = zzimRepository.existsByMoimIdAndDarakbangMemberId(moimId, darakbangMember.getId());
 
 		return new ZzimCheckResponse(isZzimed);
 	}
 
-	public void updateZzim(Long darakbangId, Long moimId, DarakbangMember member) {
+	public void updateZzim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new ZzimException(HttpStatus.NOT_FOUND, ZzimErrorMessage.MOIN_NOT_FOUND));
 		if (moim.inNotDarakbang(darakbangId)) {
 			throw new ZzimException(HttpStatus.BAD_REQUEST, ZzimErrorMessage.MOIM_NOT_IN_DARAKBANG);
 		}
 
-		zzimRepository.findByMoimIdAndMemberId(moimId, member.getId())
+		zzimRepository.findByMoimIdAndDarakbangMemberId(moimId, darakbangMember.getId())
 			.ifPresentOrElse(
 				zzimRepository::delete,
-				() -> zzimRepository.save(Zzim.builder().moim(moim).member(member).build())
+				() -> zzimRepository.save(Zzim.builder().moim(moim).darakbangMember(darakbangMember).build())
 			);
 	}
 }

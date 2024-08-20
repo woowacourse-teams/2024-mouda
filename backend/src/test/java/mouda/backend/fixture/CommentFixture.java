@@ -12,7 +12,7 @@ public class CommentFixture {
 		return Comment.builder()
 			.content("그냥 댓글")
 			.moim(moim)
-			.member(darakbangMember)
+			.darakbangMember(darakbangMember)
 			.createdAt(LocalDateTime.now())
 			.parentId(null)
 			.build();
@@ -22,7 +22,7 @@ public class CommentFixture {
 		return Comment.builder()
 			.content("그냥 자식 댓글")
 			.moim(moim)
-			.member(darakbangMember)
+			.darakbangMember(darakbangMember)
 			.createdAt(LocalDateTime.now())
 			.parentId(1L)
 			.build();

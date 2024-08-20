@@ -122,7 +122,7 @@ public class MoimController implements MoimSwagger {
 		@LoginDarakbangMember DarakbangMember member,
 		@Valid @RequestBody MoimEditRequest request
 	) {
-		moimService.editMoim(darakbangId, request.moimId(), request, member);
+		moimService.editMoim(darakbangId, request, member);
 
 		return ResponseEntity.ok().build();
 	}

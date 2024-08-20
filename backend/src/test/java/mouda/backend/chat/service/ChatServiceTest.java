@@ -57,7 +57,7 @@ class ChatServiceTest extends DarakbangSetUp {
 		ChatCreateRequest chatCreateRequest = new ChatCreateRequest(1L, content);
 
 		// when
-		chatService.createChat(darakbang.getId(), savedMoim.getId(), chatCreateRequest, darakbangHogee);
+		chatService.createChat(darakbang.getId(), chatCreateRequest, darakbangHogee);
 
 		// then
 		Optional<Chat> chatOptional = chatRepository.findById(1L);
@@ -159,7 +159,7 @@ class ChatServiceTest extends DarakbangSetUp {
 		DateTimeConfirmRequest request = new DateTimeConfirmRequest(1L, date, time);
 
 		// when
-		chatService.confirmDateTime(darakbang.getId(), 1L, request, darakbangHogee);
+		chatService.confirmDateTime(darakbang.getId(), request, darakbangHogee);
 
 		// then
 		Optional<Chat> chatOptional = chatRepository.findById(1L);
@@ -180,7 +180,7 @@ class ChatServiceTest extends DarakbangSetUp {
 		moimRepository.save(basketballMoim);
 
 		Chamyo chamyo = Chamyo.builder()
-			.member(darakbangHogee)
+			.darakbangMember(darakbangHogee)
 			.moim(basketballMoim)
 			.moimRole(MoimRole.MOIMEE)
 			.build();

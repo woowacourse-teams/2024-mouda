@@ -8,11 +8,11 @@ import mouda.backend.please.domain.Interest;
 
 public interface InterestRepository extends JpaRepository<Interest, Long> {
 
-	boolean existsByMemberId(Long id);
+	boolean existsByDarakbangMemberId(Long id);
 
 	long countByPleaseId(Long pleaseId);
 
-	Optional<Interest> findByMemberIdAndPleaseId(long memberId, long pleasedId);
+	Optional<Interest> findByDarakbangMemberIdAndPleaseId(long memberId, long pleasedId);
 
-	boolean existsByMemberIdAndPleaseId(long memberId, long pleaseId);
+	boolean existsByDarakbangMemberIdAndPleaseId(long memberId, long pleaseId);
 }

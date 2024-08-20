@@ -25,33 +25,34 @@ public class PleaseService {
 	private final PleaseRepository pleaseRepository;
 	private final InterestRepository interestRepository;
 
-	public Please createPlease(Long darakbangId, DarakbangMember member, PleaseCreateRequest pleaseCreateRequest) {
-		Please please = pleaseCreateRequest.toEntity(member.getId(), darakbangId);
+	public Please createPlease(Long darakbangId, DarakbangMember darakbangMember,
+		PleaseCreateRequest pleaseCreateRequest) {
+		Please please = pleaseCreateRequest.toEntity(darakbangMember.getId(), darakbangId);
 
 		return pleaseRepository.save(please);
 	}
 
-	public void deletePlease(Long darakbangId, Long pleaseId, DarakbangMember member) {
+	public void deletePlease(Long darakbangId, Long pleaseId, DarakbangMember darakbangMember) {
 		Please please = pleaseRepository.findById(pleaseId)
 			.orElseThrow(() -> new PleaseException(HttpStatus.NOT_FOUND, PleaseErrorMessage.NOT_FOUND));
 		if (please.inNotDarakbang(darakbangId)) {
 			throw new PleaseException(HttpStatus.BAD_REQUEST, PleaseErrorMessage.PLEASE_NOT_IN_DARAKBANG);
 		}
-		if (please.isNotAuthor(member.getId())) {
+		if (please.isNotAuthor(darakbangMember.getId())) {
 			throw new PleaseException(HttpStatus.FORBIDDEN, PleaseErrorMessage.NOT_ALLOWED_TO_DELETE);
 		}
 
 		pleaseRepository.deleteById(pleaseId);
 	}
 
-	public PleaseFindAllResponses findAllPlease(Long darakbangId, DarakbangMember member) {
+	public PleaseFindAllResponses findAllPlease(Long darakbangId, DarakbangMember darakbangMember) {
 		List<Please> pleases = pleaseRepository.findAllByDarakbangId(darakbangId);
 
 		return new PleaseFindAllResponses(
 			pleases.stream()
 				.map(please -> {
 					boolean isInterested = interestRepository
-						.existsByMemberIdAndPleaseId(member.getId(), please.getId());
+						.existsByDarakbangMemberIdAndPleaseId(darakbangMember.getId(), please.getId());
 					long interestCount = interestRepository.countByPleaseId(please.getId());
 					return PleaseFindAllResponse.toResponse(please, isInterested, interestCount);
 				})

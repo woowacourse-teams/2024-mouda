@@ -37,7 +37,7 @@ public class ChatController implements ChatSwagger {
 		@LoginDarakbangMember DarakbangMember member,
 		@Valid @RequestBody ChatCreateRequest chatCreateRequest
 	) {
-		chatService.createChat(darakbangId, chatCreateRequest.moimId(), chatCreateRequest, member);
+		chatService.createChat(darakbangId, chatCreateRequest, member);
 
 		return ResponseEntity.ok().build();
 	}
@@ -86,7 +86,7 @@ public class ChatController implements ChatSwagger {
 		@LoginDarakbangMember DarakbangMember member,
 		@RequestBody DateTimeConfirmRequest dateTimeConfirmRequest
 	) {
-		chatService.confirmDateTime(darakbangId, dateTimeConfirmRequest.moimId(), dateTimeConfirmRequest, member);
+		chatService.confirmDateTime(darakbangId, dateTimeConfirmRequest, member);
 
 		return ResponseEntity.ok().build();
 	}

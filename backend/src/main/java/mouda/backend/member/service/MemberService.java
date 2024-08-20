@@ -13,8 +13,8 @@ import mouda.backend.member.dto.response.MemberFindResponse;
 public class MemberService {
 
 	@Transactional(readOnly = true)
-	public MemberFindResponse findMyInfo(DarakbangMember member) {
+	public MemberFindResponse findMyInfo(DarakbangMember darakbangMember) {
 		String profile = "";
-		return new MemberFindResponse(member.getNickname(), profile);
+		return new MemberFindResponse(darakbangMember.getNickname(), profile);
 	}
 }

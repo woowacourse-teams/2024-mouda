@@ -30,7 +30,7 @@ public class Chamyo {
 
 	@ManyToOne
 	@JoinColumn(nullable = false)
-	private DarakbangMember member;
+	private DarakbangMember darakbangMember;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
@@ -39,9 +39,9 @@ public class Chamyo {
 	private long lastReadChatId;
 
 	@Builder
-	public Chamyo(Moim moim, DarakbangMember member, MoimRole moimRole) {
+	public Chamyo(Moim moim, DarakbangMember darakbangMember, MoimRole moimRole) {
 		this.moim = moim;
-		this.member = member;
+		this.darakbangMember = darakbangMember;
 		this.moimRole = moimRole;
 		this.lastReadChatId = 0L;
 	}

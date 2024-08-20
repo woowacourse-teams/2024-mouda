@@ -17,12 +17,12 @@ public record ChatCreateRequest(
 	@NotBlank
 	String content
 ) {
-	public Chat toEntity(Moim moim, DarakbangMember member) {
+	public Chat toEntity(Moim moim, DarakbangMember darakbangMember) {
 		return Chat.builder()
 			.content(content)
 			.date(LocalDate.now())
 			.time(LocalTime.now())
-			.member(member)
+			.darakbangMember(darakbangMember)
 			.moim(moim)
 			.chatType(ChatType.BASIC)
 			.build();

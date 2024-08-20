@@ -51,26 +51,26 @@ public class ChatService {
 	private final ChamyoRepository chamyoRepository;
 	private final NotificationService notificationService;
 
-	public void createChat(Long darakbangId, Long moimId, ChatCreateRequest chatCreateRequest, DarakbangMember member) {
-		Moim moim = findMoimByMoimId(moimId, darakbangId);
+	public void createChat(Long darakbangId, ChatCreateRequest chatCreateRequest, DarakbangMember darakbangMember) {
+		Moim moim = findMoimByMoimId(chatCreateRequest.moimId(), darakbangId);
 		if (moim.inNotDarakbang(darakbangId)) {
 			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIM_NOT_IN_DARAKBANG);
 		}
-		findChamyoByMoimIdAndMemberId(moimId, member.getId());
+		findChamyoByMoimIdAndMemberId(chatCreateRequest.moimId(), darakbangMember.getId());
 
-		Chat chat = chatCreateRequest.toEntity(moim, member);
+		Chat chat = chatCreateRequest.toEntity(moim, darakbangMember);
 		chatRepository.save(chat);
 
 		NotificationType notificationType = NotificationType.NEW_CHAT;
 		MoudaNotification notification = MoudaNotification.builder()
 			.type(notificationType)
-			.body(notificationType.createMessage(member.getNickname()))
+			.body(notificationType.createMessage(darakbangMember.getNickname()))
 			.targetUrl(baseUrl + chatroomUrl + "/" + moim.getId())
 			.build();
 
 		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
-			.map(chamyo -> chamyo.getMember().getMemberId())
-			.filter(memberId -> !Objects.equals(memberId, member.getMemberId()))
+			.map(chamyo -> chamyo.getDarakbangMember().getMemberId())
+			.filter(memberId -> !Objects.equals(memberId, darakbangMember.getMemberId()))
 			.toList();
 
 		notificationService.notifyToMembers(notification, membersToSendNotification, darakbangId);
@@ -78,38 +78,41 @@ public class ChatService {
 
 	@Transactional(readOnly = true)
 	public ChatFindUnloadedResponse findUnloadedChats(
-		long darakbangId, long recentChatId, long moimId, DarakbangMember member
+		long darakbangId, long recentChatId, long moimId, DarakbangMember darakbangMember
 	) {
 		findMoimByMoimId(moimId, darakbangId);
-		findChamyoByMoimIdAndMemberId(moimId, member.getMemberId());
+		findChamyoByMoimIdAndMemberId(moimId, darakbangMember.getMemberId());
 		if (recentChatId < 0) {
 			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.INVALID_RECENT_CHAT_ID);
 		}
 
 		List<ChatFindDetailResponse> chats = chatRepository.findAllUnloadedChats(moimId, recentChatId)
 			.stream()
-			.map(chat -> ChatFindDetailResponse.toResponse(chat, chat.isMyMessage(member.getId())))
+			.map(chat -> ChatFindDetailResponse.toResponse(chat, chat.isMyMessage(darakbangMember.getId())))
 			.toList();
 
 		return new ChatFindUnloadedResponse(chats);
 	}
 
-	public void confirmPlace(long darakbangId, PlaceConfirmRequest placeConfirmRequest, DarakbangMember member) {
+	public void confirmPlace(
+		long darakbangId, PlaceConfirmRequest placeConfirmRequest, DarakbangMember darakbangMember
+	) {
 		Moim moim = findMoimByMoimId(placeConfirmRequest.moimId(), darakbangId);
-		Chamyo chamyo = findChamyoByMoimIdAndMemberId(placeConfirmRequest.moimId(), member.getId());
+		Chamyo chamyo = findChamyoByMoimIdAndMemberId(placeConfirmRequest.moimId(), darakbangMember.getId());
 		if (chamyo.getMoimRole() != MoimRole.MOIMER) {
 			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIMER_CAN_CONFIRM_PLACE);
 		}
 
-		Chat chat = placeConfirmRequest.toEntity(moim, member);
+		Chat chat = placeConfirmRequest.toEntity(moim, darakbangMember);
 		moim.confirmPlace(placeConfirmRequest.place());
 		chatRepository.save(chat);
 
 		sendNotificationWhenMoimPlaceOrTimeConfirmed(moim, NotificationType.MOIM_PLACE_CONFIRMED, darakbangId);
 	}
 
-	private void sendNotificationWhenMoimPlaceOrTimeConfirmed(Moim moim, NotificationType notificationType,
-		Long darakbangId) {
+	private void sendNotificationWhenMoimPlaceOrTimeConfirmed(
+		Moim moim, NotificationType notificationType, Long darakbangId
+	) {
 		MoudaNotification notification = MoudaNotification.builder()
 			.type(notificationType)
 			.body(notificationType.createMessage(moim.getTitle()))
@@ -118,31 +121,31 @@ public class ChatService {
 
 		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
 			.filter(chamyo -> chamyo.getMoimRole() != MoimRole.MOIMER)
-			.map(chamyo -> chamyo.getMember().getMemberId())
+			.map(chamyo -> chamyo.getDarakbangMember().getMemberId())
 			.toList();
 
 		notificationService.notifyToMembers(notification, membersToSendNotification, darakbangId);
 	}
 
 	public void confirmDateTime(
-		long darakbangId, long moimId, DateTimeConfirmRequest dateTimeConfirmRequest, DarakbangMember member
+		long darakbangId, DateTimeConfirmRequest dateTimeConfirmRequest, DarakbangMember darakbangMember
 	) {
-		Moim moim = findMoimByMoimId(moimId, darakbangId);
-		Chamyo chamyo = findChamyoByMoimIdAndMemberId(moimId, member.getId());
+		Moim moim = findMoimByMoimId(dateTimeConfirmRequest.moimId(), darakbangId);
+		Chamyo chamyo = findChamyoByMoimIdAndMemberId(dateTimeConfirmRequest.moimId(), darakbangMember.getId());
 		if (chamyo.getMoimRole() != MoimRole.MOIMER) {
 			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIMER_CAN_CONFIRM_DATETIME);
 		}
 
-		Chat chat = dateTimeConfirmRequest.toEntity(moim, member);
+		Chat chat = dateTimeConfirmRequest.toEntity(moim, darakbangMember);
 		moim.confirmDateTime(dateTimeConfirmRequest.date(), dateTimeConfirmRequest.time());
 		chatRepository.save(chat);
 
 		sendNotificationWhenMoimPlaceOrTimeConfirmed(moim, NotificationType.MOIM_TIME_CONFIRMED, darakbangId);
 	}
 
-	public ChatPreviewResponses findChatPreview(Long darakbangId, DarakbangMember member) {
+	public ChatPreviewResponses findChatPreview(Long darakbangId, DarakbangMember darakbangMember) {
 		List<ChatPreviewResponse> chatPreviews = chamyoRepository
-			.findAllByMemberIdAndMoim_DarakbangId(member.getId(), darakbangId)
+			.findAllByDarakbangMemberIdAndMoim_DarakbangId(darakbangMember.getId(), darakbangId)
 			.stream()
 			.filter(chamyo -> chamyo.getMoim().isChatOpened())
 			.map(this::getChatPreviewResponse)
@@ -162,16 +165,17 @@ public class ChatService {
 	}
 
 	public void createLastChat(
-		long darakbangId, long moimId, LastReadChatRequest lastReadChatRequest, DarakbangMember member
+		long darakbangId, long moimId, LastReadChatRequest lastReadChatRequest, DarakbangMember darakbangMember
 	) {
-		Chamyo chamyo = findChamyoByMoimIdAndMemberId(moimId, member.getId());
+		findMoimByMoimId(moimId, darakbangId);
+		Chamyo chamyo = findChamyoByMoimIdAndMemberId(moimId, darakbangMember.getId());
 
 		chamyo.updateLastChat(lastReadChatRequest.lastReadChatId());
 	}
 
-	public void openChatRoom(Long darakbangId, Long moimId, DarakbangMember member) {
+	public void openChatRoom(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = findMoimByMoimId(moimId, darakbangId);
-		Chamyo chamyo = findChamyoByMoimIdAndMemberId(moimId, member.getId());
+		Chamyo chamyo = findChamyoByMoimIdAndMemberId(moimId, darakbangMember.getId());
 		if (chamyo.getMoimRole() == MoimRole.MOIMER) {
 			moim.openChat();
 		}
@@ -190,7 +194,7 @@ public class ChatService {
 	}
 
 	private Chamyo findChamyoByMoimIdAndMemberId(long moimId, long memberId) {
-		return chamyoRepository.findByMoimIdAndMemberId(moimId, memberId)
+		return chamyoRepository.findByMoimIdAndDarakbangMemberId(moimId, memberId)
 			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.NOT_PARTICIPANT_TO_FIND));
 	}
 }

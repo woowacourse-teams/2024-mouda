@@ -17,13 +17,13 @@ public record PlaceConfirmRequest(
 	@NotBlank
 	String place
 ) {
-	public Chat toEntity(Moim moim, DarakbangMember member) {
+	public Chat toEntity(Moim moim, DarakbangMember darakbangMember) {
 		return Chat.builder()
 			.content(place)
 			.moim(moim)
 			.date(LocalDate.now())
 			.time(LocalTime.now())
-			.member(member)
+			.darakbangMember(darakbangMember)
 			.chatType(ChatType.PLACE)
 			.build();
 	}
