@@ -1,7 +1,7 @@
 import ApiClient from './apiClient';
 
 export const deleteCancelChamyo = async (moimId: number) => {
-await ApiClient.deleteWithAuth(`chamyo`, {
+  await ApiClient.deleteWithLastDarakbangId(`chamyo`, {
     moimId,
   });
 };

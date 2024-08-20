@@ -7,6 +7,7 @@ import SelectBar from '@_components/SelectBar/SelectBar';
 import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
 import SolidArrow from '@_components/Icons/SolidArrow';
 import { common } from '@_common/common.style';
+import { setLastDarakbangId } from '@_common/lastDarakbangManager';
 import useMyDarakbangs from '@_hooks/queries/useMyDarakbang';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
@@ -44,6 +45,7 @@ export default function DarakbangSelectPage() {
             <SelectBar
               key={darakbangId}
               onClick={() => {
+                setLastDarakbangId(darakbangId);
                 navigate(ROUTES.main);
               }}
             >

@@ -15,6 +15,7 @@ const QUERY_KEYS = {
   please: 'please',
   pleases: 'pleases',
   notifications: 'notifications',
+  darakbang: 'darakbang',
   myDarakbangs: 'myDarakbangs',
   myRoleInDarakbang: 'myRoleInDarakbang',
   darakbangMembers: 'darakbangMembers',

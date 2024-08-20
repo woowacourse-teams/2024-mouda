@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import QUERY_KEYS from '@_constants/queryKeys';
+import { getLastDarakbangId } from '@_common/lastDarakbangManager';
 import { postWriteComment } from '@_apis/posts';
 
 interface WriteCommentParams {
@@ -16,7 +18,12 @@ export default function useWriteComment() {
       postWriteComment(moimId, selectedComment, message),
     onSuccess: (_, { moimId }) => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.moim, moimId],
+        queryKey: [
+          QUERY_KEYS.darakbang,
+          getLastDarakbangId(),
+          QUERY_KEYS.moim,
+          moimId,
+        ],
       });
     },
   });
