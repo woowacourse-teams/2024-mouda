@@ -5,7 +5,7 @@ import {
   validatePlace,
   validateMaxPeople,
   validateAuthorNickname,
-} from './MoimCreatePage.util';
+} from './MoimCreationPage.util';
 
 describe('Validation Tests', () => {
   describe('validateTitle', () => {
