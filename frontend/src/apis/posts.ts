@@ -92,7 +92,7 @@ export const postPlease = async (please: PleaseInfoInput) => {
 };
 
 export const postNotificationToken = async (currentToken: string) => {
-  await ApiClient.postWithLastDarakbangId('notification/register', {
+  await ApiClient.postWithAuth('notification/register', {
     token: currentToken,
   });
 };

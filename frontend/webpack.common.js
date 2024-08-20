@@ -21,6 +21,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './src/index.html'),
+      manifest: path.resolve(__dirname, './public/manifest.json'),
     }),
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env),
