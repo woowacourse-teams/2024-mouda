@@ -6,9 +6,8 @@ import { requestPermission } from '@_service/notification';
 import useServeToken from '@_hooks/mutaions/useServeToken';
 export default function HomePage() {
   const theme = useTheme();
-
+  const { mutate } = useServeToken();
   const kakaoAuthLogin = () => {
-    const { mutate } = useServeToken();
     requestPermission(mutate);
     if (
       !process.env.KAKAO_O_AUTH_CLIENT_ID ||
