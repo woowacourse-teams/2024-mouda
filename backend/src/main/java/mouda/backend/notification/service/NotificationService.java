@@ -67,12 +67,13 @@ public class NotificationService {
 			});
 	}
 
-	public void notifyToMember(MoudaNotification moudaNotification, Long memberId) {
+	public void notifyToMember(MoudaNotification moudaNotification, Long memberId, Long darakbangId) {
 		MoudaNotification notification = moudaNotificationRepository.save(moudaNotification);
 
 		if (notification.getType() != NotificationType.NEW_CHAT) {
 			memberNotificationRepository.save(MemberNotification.builder()
 				.memberId(memberId)
+				.darakbangId(darakbangId)
 				.moudaNotification(notification)
 				.build());
 		}
@@ -81,35 +82,37 @@ public class NotificationService {
 		sendNotificationToAll(notification, tokens);
 	}
 
-	public void notifyToAllMembers(MoudaNotification moudaNotification) {
+	public void notifyToAllMembers(MoudaNotification moudaNotification, Long darakbangId) {
 		List<Long> allMemberId = fcmTokenRepository.findAllMemberId();
 
-		notifyToMembers(moudaNotification, allMemberId);
+		notifyToMembers(moudaNotification, allMemberId, darakbangId);
 	}
 
-	public void notifyToAllExceptMember(MoudaNotification moudaNotification, Long exceptMemberId) {
+	public void notifyToAllExceptMember(MoudaNotification moudaNotification, Long exceptMemberId, Long darakbangId) {
 		List<Long> allMemberId = fcmTokenRepository.findAllMemberId().stream()
 			.filter(memberId -> !Objects.equals(memberId, exceptMemberId))
 			.toList();
 
-		notifyToMembers(moudaNotification, allMemberId);
+		notifyToMembers(moudaNotification, allMemberId, darakbangId);
 	}
 
-	public void notifyToAllExceptMember(MoudaNotification moudaNotification, List<Long> exceptMemberIds) {
+	public void notifyToAllExceptMember(MoudaNotification moudaNotification, List<Long> exceptMemberIds,
+		Long darakbangId) {
 		List<Long> allMemberId = fcmTokenRepository.findAllMemberId().stream()
 			.filter(memberId -> !exceptMemberIds.contains(memberId))
 			.toList();
 
-		notifyToMembers(moudaNotification, allMemberId);
+		notifyToMembers(moudaNotification, allMemberId, darakbangId);
 	}
 
-	public void notifyToMembers(MoudaNotification moudaNotification, List<Long> memberIds) {
+	public void notifyToMembers(MoudaNotification moudaNotification, List<Long> memberIds, Long darakbangId) {
 		MoudaNotification notification = moudaNotificationRepository.save(moudaNotification);
 
 		if (notification.getType() != NotificationType.NEW_CHAT) {
 			memberNotificationRepository.saveAll(memberIds.stream()
 				.map(memberId -> MemberNotification.builder()
 					.memberId(memberId)
+					.darakbangId(darakbangId)
 					.moudaNotification(notification)
 					.build())
 				.toList());
@@ -151,6 +154,17 @@ public class NotificationService {
 		return result;
 	}
 
+	public NotificationFindAllResponses findAllMyNotifications(Member member, Long darakbangId) {
+		List<NotificationFindAllResponse> responses = memberNotificationRepository.findAllByMemberIdAndDarakbangId(
+				member.getId(), darakbangId)
+			.stream()
+			.map(MemberNotification::getMoudaNotification)
+			.map(NotificationFindAllResponse::from)
+			.toList();
+
+		return new NotificationFindAllResponses(responses);
+	}
+
 	private WebpushConfig getWebpushConfig(String url) {
 		return WebpushConfig.builder()
 			.setFcmOptions(WebpushFcmOptions.withLink(url))
@@ -171,15 +185,5 @@ public class NotificationService {
 	private boolean isInvalidTokenErrorCode(SendResponse sendResponse) {
 		MessagingErrorCode errorCode = sendResponse.getException().getMessagingErrorCode();
 		return errorCode == MessagingErrorCode.UNREGISTERED || errorCode == MessagingErrorCode.INVALID_ARGUMENT;
-	}
-
-	public NotificationFindAllResponses findAllMyNotifications(Member member) {
-		List<NotificationFindAllResponse> responses = memberNotificationRepository.findAllByMemberId(member.getId())
-			.stream()
-			.map(MemberNotification::getMoudaNotification)
-			.map(NotificationFindAllResponse::from)
-			.toList();
-
-		return new NotificationFindAllResponses(responses);
 	}
 }

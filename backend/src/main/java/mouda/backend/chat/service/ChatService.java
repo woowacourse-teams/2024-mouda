@@ -68,15 +68,15 @@ public class ChatService {
 			.build();
 
 		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
-			.map(chamyo -> chamyo.getMember().getId())
-			.filter(memberId -> !Objects.equals(memberId, member.getId()))
+			.map(chamyo -> chamyo.getMember().getMember().getId())
+			.filter(memberId -> !Objects.equals(memberId, member.getMember().getId()))
 			.toList();
 
-		notificationService.notifyToMembers(notification, membersToSendNotification);
+		notificationService.notifyToMembers(notification, membersToSendNotification, darakbangId);
 	}
 
 	@Transactional(readOnly = true)
-	public ChatFindUnloadedResponse findUnloadedChats(long recentChatId, long moimId, DarakbangMember member) {
+	public ChatFindUnloadedResponse findUnloadedChats(long moimId, long recentChatId, DarakbangMember member) {
 		findMoimByMoimId(moimId);
 		findChamyoByMoimIdAndMemberId(moimId, member.getId());
 		if (recentChatId < 0) {
@@ -105,10 +105,11 @@ public class ChatService {
 		moim.confirmPlace(placeConfirmRequest.place());
 		chatRepository.save(chat);
 
-		sendNotificationWhenMoimPlaceOrTimeConfirmed(moim, NotificationType.MOIM_PLACE_CONFIRMED);
+		sendNotificationWhenMoimPlaceOrTimeConfirmed(moim, NotificationType.MOIM_PLACE_CONFIRMED, darakbangId);
 	}
 
-	private void sendNotificationWhenMoimPlaceOrTimeConfirmed(Moim moim, NotificationType notificationType) {
+	private void sendNotificationWhenMoimPlaceOrTimeConfirmed(Moim moim, NotificationType notificationType,
+		Long darakbangId) {
 		MoudaNotification notification = MoudaNotification.builder()
 			.type(notificationType)
 			.body(notificationType.createMessage(moim.getTitle()))
@@ -117,10 +118,10 @@ public class ChatService {
 
 		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
 			.filter(chamyo -> chamyo.getMoimRole() != MoimRole.MOIMER)
-			.map(chamyo -> chamyo.getMember().getId())
+			.map(chamyo -> chamyo.getMember().getMember().getId())
 			.toList();
 
-		notificationService.notifyToMembers(notification, membersToSendNotification);
+		notificationService.notifyToMembers(notification, membersToSendNotification, darakbangId);
 	}
 
 	@RequiredDarakbangMoim
@@ -137,7 +138,7 @@ public class ChatService {
 		moim.confirmDateTime(dateTimeConfirmRequest.date(), dateTimeConfirmRequest.time());
 		chatRepository.save(chat);
 
-		sendNotificationWhenMoimPlaceOrTimeConfirmed(moim, NotificationType.MOIM_TIME_CONFIRMED);
+		sendNotificationWhenMoimPlaceOrTimeConfirmed(moim, NotificationType.MOIM_TIME_CONFIRMED, darakbangId);
 	}
 
 	public ChatPreviewResponses findChatPreview(Long darakbangId, DarakbangMember member) {
