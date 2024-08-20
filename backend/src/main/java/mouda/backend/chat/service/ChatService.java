@@ -65,7 +65,7 @@ public class ChatService {
 		MoudaNotification notification = MoudaNotification.builder()
 			.type(notificationType)
 			.body(notificationType.createMessage(darakbangMember.getNickname()))
-			.targetUrl(baseUrl + chatroomUrl + "/" + moim.getId())
+			.targetUrl(baseUrl + String.format(chatroomUrl, moim.getId()))
 			.build();
 
 		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
@@ -116,7 +116,7 @@ public class ChatService {
 		MoudaNotification notification = MoudaNotification.builder()
 			.type(notificationType)
 			.body(notificationType.createMessage(moim.getTitle()))
-			.targetUrl(baseUrl + moimUrl + "/" + moim.getId())
+			.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moim.getId()))
 			.build();
 
 		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()

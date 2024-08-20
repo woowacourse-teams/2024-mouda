@@ -69,7 +69,7 @@ public class MoimService {
 		MoudaNotification notification = MoudaNotification.builder()
 			.type(notificationType)
 			.body(notificationType.createMessage(moim.getTitle()))
-			.targetUrl(baseUrl + moimUrl + "/" + moim.getId())
+			.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moim.getId()))
 			.build();
 
 		notificationService.notifyToAllExceptMember(notification, darakbangMember.getMemberId(), darakbangId);
@@ -164,7 +164,7 @@ public class MoimService {
 			MoudaNotification notification = MoudaNotification.builder()
 				.type(NotificationType.NEW_REPLY)
 				.body(NotificationType.NEW_REPLY.createMessage(author.getNickname()))
-				.targetUrl(baseUrl + moimUrl + "/" + moimId)
+				.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moimId))
 				.build();
 			notificationService.notifyToMember(notification, parentCommentAuthorId, darakbangId);
 		}
@@ -172,7 +172,7 @@ public class MoimService {
 		MoudaNotification notification = MoudaNotification.builder()
 			.type(NotificationType.NEW_COMMENT)
 			.body(NotificationType.NEW_COMMENT.createMessage(author.getNickname()))
-			.targetUrl(baseUrl + moimUrl + "/" + moimId)
+			.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moimId))
 			.build();
 		notificationService.notifyToMember(notification, chamyoRepository.findMoimerIdByMoimId(moimId), darakbangId);
 	}
@@ -194,7 +194,7 @@ public class MoimService {
 		MoudaNotification notification = MoudaNotification.builder()
 			.type(notificationType)
 			.body(notificationType.createMessage(moim.getTitle()))
-			.targetUrl(baseUrl + moimUrl + "/" + moim.getId())
+			.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moim.getId()))
 			.build();
 
 		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
