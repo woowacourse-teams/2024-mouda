@@ -2,13 +2,11 @@ import KakaoOAuthLoginIcon from '@_components/Icons/KakaoOAuthIcon';
 import MainLogoIcon from '@_components/Icons/MainLogoIcon';
 import LoginLayout from '@_layouts/LoginLayout/LoginLayout';
 import { css, useTheme } from '@emotion/react';
-import { requestPermission } from '@_service/notification';
-import useServeToken from '@_hooks/mutaions/useServeToken';
+
 export default function HomePage() {
   const theme = useTheme();
-  const { mutate } = useServeToken();
+
   const kakaoAuthLogin = () => {
-    requestPermission(mutate);
     if (
       !process.env.KAKAO_O_AUTH_CLIENT_ID ||
       !process.env.KAKAO_O_AUTH_REDIRECT_URI
