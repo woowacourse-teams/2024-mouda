@@ -72,7 +72,7 @@ public class MoimService {
 			.targetUrl(baseUrl + moimUrl + "/" + moim.getId())
 			.build();
 
-		notificationService.notifyToAllExceptMember(notification, member.getMember().getId(), darakbangId);
+		notificationService.notifyToAllExceptMember(notification, member.getMemberId(), darakbangId);
 		return moim;
 	}
 
@@ -196,7 +196,7 @@ public class MoimService {
 
 		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
 			.filter(chamyo -> chamyo.getMoimRole() != MoimRole.MOIMER)
-			.map(chamyo -> chamyo.getMember().getMember().getId())
+			.map(chamyo -> chamyo.getMember().getMemberId())
 			.toList();
 
 		notificationService.notifyToMembers(notification, membersToSendNotification, darakbangId);

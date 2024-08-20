@@ -96,8 +96,8 @@ public class ChamyoService {
 			.build();
 
 		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
-			.map(c -> c.getMember().getMember().getId())
-			.filter(memberId -> !memberId.equals(member.getMember().getId()))
+			.map(c -> c.getMember().getMemberId())
+			.filter(memberId -> !memberId.equals(member.getMemberId()))
 			.toList();
 
 		notificationService.notifyToMembers(notification, membersToSendNotification, darakbangId);

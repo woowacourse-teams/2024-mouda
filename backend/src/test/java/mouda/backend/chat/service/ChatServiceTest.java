@@ -75,7 +75,7 @@ class ChatServiceTest extends DarakbangSetUp {
 		chamyoRepository.save(new Chamyo(moim, darakbangHogee, MoimRole.MOIMER));
 
 		// when
-		ChatFindUnloadedResponse unloadedChats = chatService.findUnloadedChats(1L, moim.getId(), 0L, darakbangHogee);
+		ChatFindUnloadedResponse unloadedChats = chatService.findUnloadedChats(1L, 0L, moim.getId(), darakbangHogee);
 
 		// then
 		assertThat(unloadedChats.chats()).hasSize(0);

@@ -72,19 +72,19 @@ class NotificationServiceTest {
 
 		DarakbangMember darakbangMember = darakbangMemberRepository.save(DarakbangMember.builder()
 			.darakbang(darakbang)
-			.member(member)
+			.memberId(member.getId())
 			.role(DarakBangMemberRole.MEMBER)
 			.nickname("상돌")
 			.build());
 
 		memberNotificationRepository.save(MemberNotification.builder()
-			.memberId(darakbangMember.getMember().getId())
+			.memberId(darakbangMember.getMemberId())
 			.moudaNotification(notification1)
 			.darakbangId(darakbang.getId())
 			.build());
 
 		memberNotificationRepository.save(MemberNotification.builder()
-			.memberId(darakbangMember.getMember().getId())
+			.memberId(darakbangMember.getMemberId())
 			.moudaNotification(notification2)
 			.darakbangId(darakbang.getId())
 			.build());

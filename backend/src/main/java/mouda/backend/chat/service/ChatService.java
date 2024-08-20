@@ -27,8 +27,6 @@ import mouda.backend.chat.exception.ChatException;
 import mouda.backend.chat.repository.ChatRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
-import mouda.backend.moim.exception.MoimErrorMessage;
-import mouda.backend.moim.exception.MoimException;
 import mouda.backend.moim.repository.MoimRepository;
 import mouda.backend.notification.domain.MoudaNotification;
 import mouda.backend.notification.domain.NotificationType;
@@ -71,8 +69,8 @@ public class ChatService {
 			.build();
 
 		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
-			.map(chamyo -> chamyo.getMember().getMember().getId())
-			.filter(memberId -> !Objects.equals(memberId, member.getMember().getId()))
+			.map(chamyo -> chamyo.getMember().getMemberId())
+			.filter(memberId -> !Objects.equals(memberId, member.getMemberId()))
 			.toList();
 
 		notificationService.notifyToMembers(notification, membersToSendNotification, darakbangId);
@@ -120,7 +118,7 @@ public class ChatService {
 
 		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
 			.filter(chamyo -> chamyo.getMoimRole() != MoimRole.MOIMER)
-			.map(chamyo -> chamyo.getMember().getMember().getId())
+			.map(chamyo -> chamyo.getMember().getMemberId())
 			.toList();
 
 		notificationService.notifyToMembers(notification, membersToSendNotification, darakbangId);
@@ -182,11 +180,11 @@ public class ChatService {
 		}
 	}
 
-	private Moim findMoimByMoimId(long moimId, long darakbangId) {
+	private Moim findMoimByMoimId(long moimId, long darabangId) {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIM_NOT_FOUND));
-		if (moim.inNotDarakbang(darakbangId)) {
-			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MOIM_NOT_IN_DARAKBANG);
+		if (moim.inNotDarakbang(darabangId)) {
+			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.MOIM_NOT_IN_DARAKBANG);
 		}
 		return moim;
 	}
