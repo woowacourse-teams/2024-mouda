@@ -1,20 +1,21 @@
+import * as S from './PleaseCreationPage.style';
+
 import Button from '@_components/Button/Button';
 import FormLayout from '@_layouts/FormLayout/FormLayout';
+import GET_ROUTES from '@_common/getRoutes';
 import LabeledInput from '@_components/Input/MoimInput';
-import usePleaseInfoInput from './PleaseCreationPage.hook';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import ROUTES from '@_constants/routes';
+import LabeledTextArea from '@_components/TextArea/LabeledTextArea';
 import PLEASE_INPUT_INFOS from './PleaseCreationPage.constant';
 import useAddPlease from '@_hooks/mutaions/useAddPlease';
-import LabeledTextArea from '@_components/TextArea/LabeledTextArea';
-import * as S from './PleaseCreationPage.style';
+import { useNavigate } from 'react-router-dom';
+import usePleaseInfoInput from './PleaseCreationPage.hook';
+import { useState } from 'react';
 
 export default function PleaseCreationPage() {
   const navigate = useNavigate();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { mutate } = useAddPlease(() => {
-    navigate(ROUTES.please);
+    navigate(GET_ROUTES.nowDarakbang.please());
   });
 
   const {
@@ -35,7 +36,7 @@ export default function PleaseCreationPage() {
 
   return (
     <FormLayout>
-      <FormLayout.Header onBackArrowClick={() => navigate(ROUTES.main)}>
+      <FormLayout.Header onBackArrowClick={() => navigate(-1)}>
         해주세요 만들기
       </FormLayout.Header>
 

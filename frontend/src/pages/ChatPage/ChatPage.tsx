@@ -1,5 +1,6 @@
 import ChattingPreview from '@_components/ChattingPreview/ChattingPreview';
 import ChattingPreviewLayout from '@_layouts/ChattingPreviewLayout/ChattingPreviewLayout';
+import GET_ROUTES from '@_common/getRoutes';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import NavigationBar from '@_components/NavigationBar/NavigationBar';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
@@ -24,7 +25,11 @@ export default function ChatPage() {
           chatPreviews?.map((chatPreview) => (
             <ChattingPreview
               chatPreview={chatPreview}
-              onClick={() => navigate('/chatting-room/' + chatPreview.moimId)}
+              onClick={() =>
+                navigate(
+                  GET_ROUTES.nowDarakbang.chattingRoom(chatPreview.moimId),
+                )
+              }
               key={chatPreview.moimId}
             />
           ))

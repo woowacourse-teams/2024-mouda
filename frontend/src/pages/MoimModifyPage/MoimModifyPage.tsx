@@ -1,19 +1,21 @@
+import { MoimInfo, MoimInputInfo } from '@_types/index';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import Button from '@_components/Button/Button';
 import FormLayout from '@_layouts/FormLayout/FormLayout';
+import GET_ROUTES from '@_common/getRoutes';
 import LabeledInput from '@_components/Input/MoimInput';
 import MOIM_INPUT_INFOS from './MoimModifyPage.constant';
-import useMoimInfoInput from './MoimModifyPage.hook';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import useModifyMoim from '@_hooks/mutaions/useModifyMoim';
-import { MoimInfo, MoimInputInfo } from '@_types/index';
+import useMoimInfoInput from './MoimModifyPage.hook';
+import { useState } from 'react';
 
 export default function MoimModifyPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as MoimInfo;
   const { mutate: modifyMoim } = useModifyMoim((moimId: number) => {
-    navigate(`/moim/${moimId}`);
+    navigate(GET_ROUTES.nowDarakbang.moimDetail(moimId));
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 

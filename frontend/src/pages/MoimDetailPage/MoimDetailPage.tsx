@@ -3,13 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import BackLogo from '@_common/assets/back.svg';
 import Button from '@_components/Button/Button';
 import CommentList from '@_components/CommentList/CommentList';
+import GET_ROUTES from '@_common/getRoutes';
 import InformationLayout from '@_layouts/InformationLayout/InformationLayout';
 import KebabMenu from '@_components/KebabMenu/KebabMenu';
 import MoimDescription from '@_components/MoimDescription/MoimDescription';
 import MoimInformation from '@_components/MoimInformation/MoimInformation';
 import MoimSummary from '@_components/MoimSummary/MoimSummary';
 import ProfileList from '@_components/ProfileList/ProfileList';
-import ROUTES from '@_constants/routes';
 import ZzimButton from '@_components/Zzim/ZzimButton';
 import useCancelChamyo from '@_hooks/mutaions/useCancelChamyo';
 import useCancelMoim from '@_hooks/mutaions/useCancelMoim';
@@ -35,7 +35,7 @@ export default function MoimDetailPage() {
   const { participants, chamyoAllIsLoading } = useChamyoAll(moimId);
   const { mutate: changZzim } = useChangeZzim();
   const { mutate } = useJoinMoim(() => {
-    navigate(ROUTES.participationComplete);
+    navigate(GET_ROUTES.nowDarakbang.moimParticipateComplete());
   });
 
   const { mutate: cancelMoim } = useCancelMoim();
@@ -44,7 +44,7 @@ export default function MoimDetailPage() {
   const { mutate: completeMoim } = useCompleteMoin();
   const { mutate: cancelChamyo } = useCancelChamyo();
   const { mutate: openChat } = useOpenChat(() =>
-    navigate(`/chatting-room/${moimId}`),
+    navigate(GET_ROUTES.nowDarakbang.chattingRoom(moimId)),
   );
 
   if (
@@ -62,7 +62,7 @@ export default function MoimDetailPage() {
     <InformationLayout>
       <InformationLayout.Header>
         <InformationLayout.Header.Left>
-          <div onClick={() => navigate(ROUTES.main)}>
+          <div onClick={() => navigate(GET_ROUTES.nowDarakbang.main())}>
             <BackLogo />
           </div>
         </InformationLayout.Header.Left>
@@ -74,7 +74,7 @@ export default function MoimDetailPage() {
                 {
                   name: '모임 수정하기',
                   onClick: () =>
-                    navigate(`/modify/${moimId}`, {
+                    navigate(GET_ROUTES.nowDarakbang.modify(moimId), {
                       state: {
                         ...moim,
                         moimId,
@@ -148,13 +148,15 @@ export default function MoimDetailPage() {
           )
         ) : moim.status === 'MOIMING' ? (
           <Button shape="bar" disabled={true}>
-            기다려 임마
+            방장이 채팅방을 만들지 않았습니다
           </Button>
         ) : (
           <Button
             shape="bar"
             disabled={false}
-            onClick={() => navigate(`/chatting-room/${moimId}`)}
+            onClick={() =>
+              navigate(GET_ROUTES.nowDarakbang.chattingRoom(moimId))
+            }
           >
             채팅방으로 가기
           </Button>

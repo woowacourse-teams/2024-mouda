@@ -1,3 +1,4 @@
+import { removeInviteCode, setInviteCode } from '@_common/inviteCodeManager';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import Button from '@_components/Button/Button';
@@ -15,22 +16,26 @@ export default function DarakbangInvitationRoute() {
   const isRightCode = darakbangName !== '';
   if (isLoading) return null;
   if (isRightCode) {
-    navigate(ROUTES.darakbangNickname, { state: { code } });
+    if (code) setInviteCode(code);
+    navigate(ROUTES.darakbangNickname);
+    return null;
   }
-
-  return (
-    <CompleteLayout>
-      <CompleteLayout.ContentContainer>
-        <MissingFallback text="유효하지 않은 참여코드입니다" />
-      </CompleteLayout.ContentContainer>
-      <CompleteLayout.BottomButtonWrapper>
-        <Button
-          shape="bar"
-          onClick={() => navigate(ROUTES.darakbangSelectOption)}
-        >
-          참여페이지로 돌아가기
-        </Button>
-      </CompleteLayout.BottomButtonWrapper>
-    </CompleteLayout>
-  );
+  if (!isRightCode) {
+    removeInviteCode();
+    return (
+      <CompleteLayout>
+        <CompleteLayout.ContentContainer>
+          <MissingFallback text="유효하지 않은 참여코드입니다" />
+        </CompleteLayout.ContentContainer>
+        <CompleteLayout.BottomButtonWrapper>
+          <Button
+            shape="bar"
+            onClick={() => navigate(ROUTES.darakbangSelectOption)}
+          >
+            참여페이지로 돌아가기
+          </Button>
+        </CompleteLayout.BottomButtonWrapper>
+      </CompleteLayout>
+    );
+  }
 }

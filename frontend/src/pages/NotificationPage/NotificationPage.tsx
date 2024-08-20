@@ -1,9 +1,10 @@
-import ROUTES from '@_constants/routes';
-import InformationLayout from '@_layouts/InformationLayout/InformationLayout';
 import BackLogo from '@_common/assets/back.svg';
-import { useNavigate } from 'react-router-dom';
+import GET_ROUTES from '@_common/getRoutes';
+import InformationLayout from '@_layouts/InformationLayout/InformationLayout';
 import NotificationList from '@_components/NotificationList/NotificationList';
+import { useNavigate } from 'react-router-dom';
 import useNotification from '@_hooks/queries/useNotification';
+
 export default function NotificationPage() {
   const navigate = useNavigate();
   const { notifications, isLoading } = useNotification();
@@ -17,7 +18,7 @@ export default function NotificationPage() {
     <InformationLayout>
       <InformationLayout.Header>
         <InformationLayout.Header.Left>
-          <div onClick={() => navigate(ROUTES.main)}>
+          <div onClick={() => navigate(GET_ROUTES.nowDarakbang.main())}>
             <BackLogo />
           </div>
         </InformationLayout.Header.Left>
