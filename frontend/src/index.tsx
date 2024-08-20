@@ -10,17 +10,6 @@ if (process.env.REACT_APP_GOOGLE_ANALYTICS) {
   ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS);
 }
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker
-    .register(`/firebase-messaging-sw.js`)
-    .then((registration) => {
-      console.log('Service Worker registered with scope:', registration.scope);
-    })
-    .catch((error) => {
-      console.log('Service Worker registration failed:', error);
-    });
-}
-
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
   integrations: [
