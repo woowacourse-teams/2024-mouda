@@ -151,7 +151,6 @@ public class MoimService {
 	}
 
 	private void sendCommentNotification(Long moimId, DarakbangMember author, Long parentId, Long darakbangId) {
-		System.out.println("here : " + baseUrl + String.format(moimUrl, darakbangId, moimId));
 		if (parentId != null) {
 			Long parentCommentAuthorId = commentRepository.findMemberIdByParentId(parentId);
 			MoudaNotification notification = MoudaNotification.builder()
