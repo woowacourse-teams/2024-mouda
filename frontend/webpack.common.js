@@ -9,7 +9,7 @@ module.exports = {
   entry: './src/index.tsx',
 
   output: {
-    filename: 'bundle.js',
+    filename: '[name].[contenthash].js', // 캐시를 위한 해시 추가
     path: path.resolve(__dirname, 'dist'),
     clean: true,
     publicPath: '/',
@@ -40,6 +40,7 @@ module.exports = {
       '@_utils': path.resolve(__dirname, 'src/utils'),
       '@_routes': path.resolve(__dirname, 'src/routes'),
       '@_mocks': path.resolve(__dirname, 'src/mocks'),
+      '@_service': path.resolve(__dirname, 'src/service'),
     },
   },
   module: {

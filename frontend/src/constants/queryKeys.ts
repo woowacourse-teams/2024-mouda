@@ -14,6 +14,13 @@ const QUERY_KEYS = {
   myInfo: 'myinfo',
   please: 'please',
   pleases: 'pleases',
+  notifications: 'notifications',
+  darakbang: 'darakbang',
+  myDarakbangs: 'myDarakbangs',
+  myRoleInDarakbang: 'myRoleInDarakbang',
+  darakbangMembers: 'darakbangMembers',
+  darakbangInviteCode: 'darakbangInviteCode',
+  darakbangNameByCode: 'darakbangNameByCode',
 };
 
 export default QUERY_KEYS;

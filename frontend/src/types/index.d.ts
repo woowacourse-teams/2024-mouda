@@ -13,7 +13,7 @@ export interface MoimInfo {
   authorNickname: string;
   participants: Participation[];
   description?: string;
-  status: 'MOIMING' | 'COMPLETED' | 'CANCELED';
+  status: MoimStatus;
   comments: Comment[];
   isZzimed: boolean;
 }
@@ -24,6 +24,7 @@ export interface Participation {
   role: Role;
 }
 
+export type MoimStatus = 'MOIMING' | 'COMPLETED' | 'CANCELED';
 export type Role = 'MOIMER' | 'MOIMEE' | 'NON_MOIMEE';
 
 export interface Comment {
@@ -75,3 +76,31 @@ export interface Please {
   isInterested: boolean;
   interestCount: number;
 }
+
+export type NotificationType =
+  | 'MOIM_CREATED'
+  | 'MOIMING_COMPLETED'
+  | 'MOIMING_REOPENED'
+  | 'MOIM_CANCELED'
+  | 'MOIM_MODIFIED'
+  | 'NEW_COMMENT'
+  | 'NEW_REPLY'
+  | 'NEW_CHAT'
+  | 'NEW_MOIMEE_JOINED'
+  | 'MOIMEE_LEFT'
+  | 'MOIM_PLACE_COMFIRMED'
+  | 'MOIM_TIME_CONFIRMED';
+
+export interface Notification {
+  type: NotificationType;
+  message: string;
+  createdAt: string;
+  redirectUrl: string;
+}
+
+export interface Darakbang {
+  darakbangId: number;
+  name: string;
+}
+
+export type DarakbangRole = 'MANAGER' | 'MEMBER' | 'OUTSIDER';

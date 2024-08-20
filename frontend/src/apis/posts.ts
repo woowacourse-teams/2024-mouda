@@ -11,20 +11,20 @@ export const postMoim = async (moim: MoimInputInfo): Promise<number> => {
     place: moim.place || undefined,
   };
 
-  const response = await ApiClient.postWithAuth('moim', parsedMoim);
+  const response = await ApiClient.postWithLastDarakbangId('moim', parsedMoim);
 
   const json: PostMoim = await response.json();
   return json.data;
 };
 
 export const postJoinMoim = async (moimId: number) => {
-  await ApiClient.postWithAuth('chamyo', {
+  await ApiClient.postWithLastDarakbangId('chamyo', {
     moimId,
   });
 };
 
 export const postChangeZzim = async (moimId: number) => {
-  await ApiClient.postWithAuth('zzim', {
+  await ApiClient.postWithLastDarakbangId('zzim', {
     moimId,
   });
 };
@@ -34,11 +34,11 @@ export const postWriteComment = async (
   message: string,
 ) => {
   if (selectedComment === 0) {
-    await ApiClient.postWithAuth(`moim/${moimId}`, {
+    await ApiClient.postWithLastDarakbangId(`moim/${moimId}`, {
       content: message,
     });
   } else {
-    await ApiClient.postWithAuth(`moim/${moimId}`, {
+    await ApiClient.postWithLastDarakbangId(`moim/${moimId}`, {
       parentId: selectedComment,
       content: message,
     });
@@ -46,14 +46,14 @@ export const postWriteComment = async (
 };
 
 export const postChat = async (moimId: number, content: string) => {
-  await ApiClient.postWithAuth('chat', {
+  await ApiClient.postWithLastDarakbangId('chat', {
     moimId,
     content,
   });
 };
 
 export const postInterest = async (pleaseId: number, isInterested: boolean) => {
-  await ApiClient.postWithAuth('interest', {
+  await ApiClient.postWithLastDarakbangId('interest', {
     pleaseId,
     isInterested,
   });
@@ -62,7 +62,7 @@ export const postLastReadChatId = async (
   moimId: number,
   lastReadChatId: number,
 ) => {
-  await ApiClient.postWithAuth('chat/last', {
+  await ApiClient.postWithLastDarakbangId('chat/last', {
     moimId,
     lastReadChatId,
   });
@@ -73,7 +73,7 @@ export const postConfirmDatetime = async (
   date: string,
   time: string,
 ) => {
-  await ApiClient.postWithAuth('chat/datetime', {
+  await ApiClient.postWithLastDarakbangId('chat/datetime', {
     moimId,
     date,
     time,
@@ -81,12 +81,43 @@ export const postConfirmDatetime = async (
 };
 
 export const postConfirmPlace = async (moimId: number, place: string) => {
-  await ApiClient.postWithAuth('chat/place', {
+  await ApiClient.postWithLastDarakbangId('chat/place', {
     moimId,
     place,
   });
 };
 
 export const postPlease = async (please: PleaseInfoInput) => {
-  await ApiClient.postWithAuth('please', please);
+  await ApiClient.postWithLastDarakbangId('please', please);
+};
+
+export const postNotificationToken = async (currentToken: string) => {
+  await ApiClient.postWithLastDarakbangId('notification/register', {
+    token: currentToken,
+  });
+};
+
+export const postDarakbang = async ({
+  name,
+  nickname,
+}: {
+  name: string;
+  nickname: string;
+}) => {
+  await ApiClient.postWithAuth('darakbang', {
+    name,
+    nickname,
+  });
+};
+
+export const postDarakbangEntrance = async ({
+  code,
+  nickname,
+}: {
+  code: string;
+  nickname: string;
+}) => {
+  await ApiClient.postWithAuth('darakbang/entrance?code=' + code, {
+    nickname,
+  });
 };

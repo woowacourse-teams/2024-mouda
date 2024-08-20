@@ -61,3 +61,7 @@ export const formatHhmmToKoreanWithPrefix = (
 
   return `오전 ${hour}:${minute.toString().padStart(2, '00')}`;
 };
+
+export const removeBaseUrl = (redirectUrl: string) => {
+  return redirectUrl.replace(`${process.env.BASE_URL}/`, '');
+};

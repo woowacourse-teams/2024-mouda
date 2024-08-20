@@ -1,9 +1,13 @@
 import {
   Chat,
   ChattingPreview,
+  Darakbang,
+  DarakbangRole,
   MoimInfo,
+  Notification,
   Participation,
   Please,
+  Role,
 } from '../types';
 
 export interface GetMoims {
@@ -35,7 +39,7 @@ export interface GetChat {
 
 export interface GetChamyoMine {
   data: {
-    role: 'MOIMER' | 'MOIMEE' | 'NON_MOIMEE';
+    role: Role;
   };
 }
 
@@ -61,5 +65,45 @@ export interface GetMyInfo {
   data: {
     nickname: string;
     profile: string;
+  };
+}
+
+export interface GetNotifications {
+  data: {
+    notifications: Notification[];
+  };
+}
+
+export interface GetDarakbangMine {
+  data: {
+    darakbangResponses: Darakbang[];
+  };
+}
+
+export interface GetMyRoleInDarakbang {
+  data: {
+    role: DarakbangRole;
+  };
+}
+
+export interface GetDarakbangMembers {
+  data: {
+    darakbangMemberResponses: {
+      memberId: number;
+      nickname: string;
+      profile: string;
+    }[];
+  };
+}
+
+export interface GetDarakbangInviteCode {
+  data: {
+    code: string;
+  };
+}
+
+export interface GetDarakbangNameByCode {
+  data: {
+    name: string;
   };
 }

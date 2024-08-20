@@ -4,3 +4,5 @@ dist
 .env
 .env*
 coverage
+
+public/firebaseConfig.js

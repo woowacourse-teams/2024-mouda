@@ -81,7 +81,7 @@ export default function MoimDetailPage() {
                       },
                     }),
                 },
-                { name: '모임 삭제하기', onClick: () => cancelMoim(moimId) },
+                { name: '모임 취소하기', onClick: () => cancelMoim(moimId) },
                 { name: '모임 다시 열기', onClick: () => ReopenMoim(moimId) },
               ]}
             />

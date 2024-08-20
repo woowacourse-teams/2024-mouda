@@ -1,4 +1,5 @@
 import { ApiError } from '@_utils/customError/ApiError';
+import { getLastDarakbangId } from '@_common/lastDarakbangManager';
 import { getToken } from '@_utils/tokenManager';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -9,8 +10,10 @@ const DEFAULT_HEADERS = {
 
 const BASE_URL = `${process.env.BASE_URL}/v1`;
 
-function addBaseUrl(endpoint: string) {
+function addBaseUrl(endpoint: string, isNeedLastDarakbang: boolean = false) {
   if (endpoint[0] !== '/') endpoint = '/' + endpoint;
+  if (isNeedLastDarakbang)
+    endpoint = '/darakbang/' + (getLastDarakbangId() || 0) + endpoint;
   return BASE_URL + endpoint;
 }
 
@@ -29,8 +32,9 @@ async function request(
   data: object = {},
   config: RequestInit = {},
   isRequiredAuth: boolean = false,
+  isRequiredLastDarakbang: boolean = false,
 ) {
-  const url = addBaseUrl(endpoint);
+  const url = addBaseUrl(endpoint, isRequiredLastDarakbang);
 
   const options: RequestInit = {
     method,
@@ -56,8 +60,16 @@ async function get(
   endpoint: string,
   config: RequestInit = {},
   isRequiredAuth: boolean = false,
+  isRequiredLastDarakbang: boolean = false,
 ) {
-  return request('GET', endpoint, {}, config, isRequiredAuth);
+  return request(
+    'GET',
+    endpoint,
+    {},
+    config,
+    isRequiredAuth,
+    isRequiredLastDarakbang,
+  );
 }
 
 async function post(
@@ -65,8 +77,16 @@ async function post(
   data: object = {},
   config: RequestInit = {},
   isRequiredAuth: boolean = false,
+  isRequiredLastDarakbang: boolean = false,
 ) {
-  return request('POST', endpoint, data, config, isRequiredAuth);
+  return request(
+    'POST',
+    endpoint,
+    data,
+    config,
+    isRequiredAuth,
+    isRequiredLastDarakbang,
+  );
 }
 
 async function put(
@@ -74,8 +94,16 @@ async function put(
   data: object = {},
   config: RequestInit = {},
   isRequiredAuth: boolean = false,
+  isRequiredLastDarakbang: boolean = false,
 ) {
-  return request('PUT', endpoint, data, config, isRequiredAuth);
+  return request(
+    'PUT',
+    endpoint,
+    data,
+    config,
+    isRequiredAuth,
+    isRequiredLastDarakbang,
+  );
 }
 
 async function patch(
@@ -83,8 +111,16 @@ async function patch(
   data: object = {},
   config: RequestInit = {},
   isRequiredAuth: boolean = false,
+  isRequiredLastDarakbang: boolean = false,
 ) {
-  return request('PATCH', endpoint, data, config, isRequiredAuth);
+  return request(
+    'PATCH',
+    endpoint,
+    data,
+    config,
+    isRequiredAuth,
+    isRequiredLastDarakbang,
+  );
 }
 
 /**
@@ -95,8 +131,16 @@ async function deleteMethod(
   data: object = {},
   config: RequestInit = {},
   isRequiredAuth: boolean = false,
+  isRequiredLastDarakbang: boolean = false,
 ) {
-  return request('DELETE', endpoint, data, config, isRequiredAuth);
+  return request(
+    'DELETE',
+    endpoint,
+    data,
+    config,
+    isRequiredAuth,
+    isRequiredLastDarakbang,
+  );
 }
 
 const ApiClient = {
@@ -106,14 +150,10 @@ const ApiClient = {
   async getWithAuth(endpoint: string, config: RequestInit = {}) {
     return get(endpoint, config, true);
   },
-
-  async postWithAuth(
-    endpoint: string,
-    data: object = {},
-    config: RequestInit = {},
-  ) {
-    return post(endpoint, data, config, true);
+  async getWithLastDarakbangId(endpoint: string, config: RequestInit = {}) {
+    return get(endpoint, config, true, true);
   },
+
   async postWithoutAuth(
     endpoint: string,
     data: object = {},
@@ -121,14 +161,21 @@ const ApiClient = {
   ) {
     return post(endpoint, data, config, false);
   },
-
-  async putWithAuth(
+  async postWithAuth(
     endpoint: string,
     data: object = {},
     config: RequestInit = {},
   ) {
-    return put(endpoint, data, config, true);
+    return post(endpoint, data, config, true);
   },
+  async postWithLastDarakbangId(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return post(endpoint, data, config, true, true);
+  },
+
   async putWithoutAuth(
     endpoint: string,
     data: object = {},
@@ -136,14 +183,21 @@ const ApiClient = {
   ) {
     return put(endpoint, data, config, false);
   },
-
-  async patchWithAuth(
+  async putWithAuth(
     endpoint: string,
     data: object = {},
     config: RequestInit = {},
   ) {
-    return patch(endpoint, data, config, true);
+    return put(endpoint, data, config, true);
   },
+  async putWithLastDarakbangId(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return put(endpoint, data, config, true, true);
+  },
+
   async patchWithoutAuth(
     endpoint: string,
     data: object = {},
@@ -151,7 +205,28 @@ const ApiClient = {
   ) {
     return patch(endpoint, data, config, false);
   },
+  async patchWithAuth(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return patch(endpoint, data, config, true);
+  },
+  async patchWithLastDarakbangId(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return patch(endpoint, data, config, true, true);
+  },
 
+  async deleteWithoutAuth(
+    endpoint: string,
+    data: object = {},
+    config: RequestInit = {},
+  ) {
+    return deleteMethod(endpoint, data, config, false);
+  },
   async deleteWithAuth(
     endpoint: string,
     data: object = {},
@@ -159,12 +234,12 @@ const ApiClient = {
   ) {
     return deleteMethod(endpoint, data, config, true);
   },
-  async deleteWithoutAuth(
+  async deleteWithLastDarakbangId(
     endpoint: string,
     data: object = {},
     config: RequestInit = {},
   ) {
-    return deleteMethod(endpoint, data, config, false);
+    return deleteMethod(endpoint, data, config, true, true);
   },
 };
 

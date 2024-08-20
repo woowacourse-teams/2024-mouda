@@ -25,13 +25,16 @@ export const chatSliceIndexes = [
 ];
 
 export const chatHandler = [
-  http.get(`http://43.202.67.25/v1/chat`, async ({ request }) => {
-    const url = new URL(request.url);
+  http.get(
+    `${process.env.BASE_URL}/v1/darakbang/1/chat`,
+    async ({ request }) => {
+      const url = new URL(request.url);
 
-    const recentChatId = +(url.searchParams.get('recentChatId') || 0);
+      const recentChatId = +(url.searchParams.get('recentChatId') || 0);
 
-    return HttpResponse.json({
-      data: { chats: nowChatServerData.slice(recentChatId) },
-    });
-  }),
+      return HttpResponse.json({
+        data: { chats: nowChatServerData.slice(recentChatId) },
+      });
+    },
+  ),
 ];
