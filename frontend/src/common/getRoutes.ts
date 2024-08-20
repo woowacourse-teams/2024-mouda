@@ -9,8 +9,8 @@ const getNowDarakbangRoute = () =>
 const GET_ROUTES = {
   nowDarakbang: {
     main: () => getNowDarakbangRoute(),
-    addMoim: () => getNowDarakbangRoute() + '/addMoim',
-    moimDetail: (moimId: number) => getNowDarakbangRoute() + '/moim' + moimId,
+    addMoim: () => getNowDarakbangRoute() + '/add-moim',
+    moimDetail: (moimId: number) => getNowDarakbangRoute() + '/moim/' + moimId,
     moimParticipateComplete: () =>
       getNowDarakbangRoute() + '/moim/participation-complete',
     modify: (moimId: number) => getNowDarakbangRoute() + '/modify/' + moimId,
