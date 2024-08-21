@@ -10,6 +10,7 @@ import DarakbangMembersPage from '@_pages/DarakbangMembersPage/DarakbangMembersP
 import DarakbangNicknamePage from '@_pages/DarakbangNicknamePage/DarakbangNicknamePage';
 import DarakbangSelectOptionPage from '@_pages/DarakbangSelectOptionPage/DarakbangSelectOptionPage';
 import DarakbangSelectPage from '@_pages/DarakbangSelectPage/DarakbangSelectPage';
+import ErrorRoute from './ErrorRoute';
 import HomePage from '@_pages/HomePage/HomePage';
 import KakaoOAuthLoginPage from '@_pages/KakaoOAuthLoginPage/KakaoOAuthLoginPage';
 import MainPage from '@_pages/MainPage/MainPage';
@@ -163,6 +164,7 @@ const router = createBrowserRouter(
     ) : (
       route.element
     ),
+    errorElement: <ErrorRoute />,
   })),
 );
 
