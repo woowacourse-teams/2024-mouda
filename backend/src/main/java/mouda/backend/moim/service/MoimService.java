@@ -95,7 +95,7 @@ public class MoimService {
 	public MoimDetailsFindResponse findMoimDetails(long darakbangId, long moimId) {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
-		if (moim.inNotDarakbang(darakbangId)) {
+		if (moim.isNotInDarakbang(darakbangId)) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.NOT_FOUND);
 		}
 
@@ -119,7 +119,7 @@ public class MoimService {
 	public void deleteMoim(long darakbangId, long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
-		if (moim.inNotDarakbang(darakbangId)) {
+		if (moim.isNotInDarakbang(darakbangId)) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.NOT_FOUND);
 		}
 		validateCanDeleteMoim(moim, darakbangMember);
@@ -144,7 +144,7 @@ public class MoimService {
 	) {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
-		if (moim.inNotDarakbang(darakbangId)) {
+		if (moim.isNotInDarakbang(darakbangId)) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.NOT_FOUND);
 		}
 
@@ -180,7 +180,7 @@ public class MoimService {
 	public void completeMoim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
-		if (moim.inNotDarakbang(darakbangId)) {
+		if (moim.isNotInDarakbang(darakbangId)) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.NOT_FOUND);
 		}
 		validateCanCompleteMoim(moim, darakbangMember);
@@ -219,7 +219,7 @@ public class MoimService {
 	public void cancelMoim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
-		if (moim.inNotDarakbang(darakbangId)) {
+		if (moim.isNotInDarakbang(darakbangId)) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.NOT_FOUND);
 		}
 		validateCanCancelMoim(moim, darakbangMember);
@@ -239,7 +239,7 @@ public class MoimService {
 	public void reopenMoim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
-		if (moim.inNotDarakbang(darakbangId)) {
+		if (moim.isNotInDarakbang(darakbangId)) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.NOT_FOUND);
 		}
 		validateCanReopenMoim(moim, darakbangMember);
@@ -277,7 +277,7 @@ public class MoimService {
 	public void editMoim(Long darakbangId, MoimEditRequest request, DarakbangMember darakbangMember) {
 		Moim moim = moimRepository.findById(request.moimId())
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
-		if (moim.inNotDarakbang(darakbangId)) {
+		if (moim.isNotInDarakbang(darakbangId)) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.NOT_FOUND);
 		}
 		validateCanEditMoim(moim, darakbangMember);

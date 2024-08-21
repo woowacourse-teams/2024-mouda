@@ -60,7 +60,7 @@ public class Please {
 		return authorId != memberId;
 	}
 
-	public boolean inNotDarakbang(Long darakbangId) {
+	public boolean isNotInDarakbang(long darakbangId) {
 		return this.darakbangId != darakbangId;
 	}
 }
