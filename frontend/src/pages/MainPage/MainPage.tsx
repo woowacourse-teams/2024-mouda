@@ -19,6 +19,7 @@ import Notification from '@_common/assets/notification.svg';
 import PlusButton from '@_components/PlusButton/PlusButton';
 import ROUTES from '@_constants/routes';
 import SolidArrow from '@_components/Icons/SolidArrow';
+import { common } from '@_common/common.style';
 import { removeToken } from '@_utils/tokenManager';
 import { requestPermission } from '@_service/notification';
 import useMyDarakbangs from '@_hooks/queries/useMyDarakbang';
@@ -127,14 +128,16 @@ export default function MainPage() {
         <HomeLayout.Header>
           <HomeLayout.Header.Top>
             <HomeLayout.Header.Top.Left>
-              <div css={S.headerLeft}>
+              <div
+                css={[S.headerLeft, common.cursorPointer, common.nonScroll]}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsDarakbangMenuOpened(!isDarakbangMenuOpened);
+                }}
+              >
                 {darakbangName}
                 <SolidArrow
                   direction={isDarakbangMenuOpened ? 'up' : 'down'}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsDarakbangMenuOpened(!isDarakbangMenuOpened);
-                  }}
                   width="15"
                   height="15"
                 />
