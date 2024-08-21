@@ -19,11 +19,13 @@ import Notification from '@_common/assets/notification.svg';
 import PlusButton from '@_components/PlusButton/PlusButton';
 import ROUTES from '@_constants/routes';
 import SolidArrow from '@_components/Icons/SolidArrow';
+import { requestPermission } from '@_service/notification';
 import useMyDarakbangs from '@_hooks/queries/useMyDarakbang';
 import useMyRoleInDarakbang from '@_hooks/queries/useMyDarakbangRole';
 import { useNavigate } from 'react-router-dom';
-import { requestPermission } from '@_service/notification';
+import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import useServeToken from '@_hooks/mutaions/useServeToken';
+
 export default function MainPage() {
   const navigate = useNavigate();
   const { mutate } = useServeToken();
@@ -32,7 +34,7 @@ export default function MainPage() {
 
   const { myDarakbangs, isLoading: isMyDarakbangLoading } = useMyDarakbangs();
 
-  const nowDarakbangName = '소파밥';
+  const { darakbangName = '' } = useNowDarakbangName();
   const nowDarakbangId = getLastDarakbangId();
   const { myRoleInDarakbang: myRoleInNowDarakbang } = useMyRoleInDarakbang();
 
@@ -107,7 +109,7 @@ export default function MainPage() {
           <HomeLayout.Header.Top>
             <HomeLayout.Header.Top.Left>
               <div css={S.headerLeft}>
-                {nowDarakbangName}
+                {darakbangName}
                 <SolidArrow
                   direction={isDarakbangMenuOpened ? 'up' : 'down'}
                   onClick={(e) => {
