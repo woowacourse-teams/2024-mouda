@@ -1,5 +1,7 @@
 package mouda.backend.notification.domain;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,9 +26,17 @@ public class FcmToken {
 	@Column(nullable = false)
 	private String token;
 
+	@Column(nullable = false)
+	private LocalDateTime timestamp;
+
 	@Builder
 	public FcmToken(long memberId, String fcmToken) {
 		this.memberId = memberId;
 		this.token = fcmToken;
+		this.timestamp = LocalDateTime.now();
+	}
+
+	public void refreshTimestamp() {
+		this.timestamp = LocalDateTime.now();
 	}
 }

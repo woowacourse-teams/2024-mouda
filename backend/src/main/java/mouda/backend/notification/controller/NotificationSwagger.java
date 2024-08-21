@@ -18,7 +18,7 @@ public interface NotificationSwagger {
 
 	@Operation(summary = "FCM 토큰을 저장합니다.", description = "알림 허용시 FCM 토큰을 저장합니다.")
 	@ApiResponses({
-		@ApiResponse(responseCode = "200", description = "FCM 토큰 저장 성공")
+		@ApiResponse(responseCode = "200", description = "FCM 토큰 저장 성공!")
 	})
 	ResponseEntity<Void> registerFcmToken(
 		@LoginMember Member member,

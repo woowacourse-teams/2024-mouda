@@ -1,15 +1,21 @@
 package mouda.backend.notification.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.firebase.messaging.BatchResponse;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
+import com.google.firebase.messaging.MessagingErrorCode;
 import com.google.firebase.messaging.MulticastMessage;
+import com.google.firebase.messaging.SendResponse;
 import com.google.firebase.messaging.WebpushConfig;
 import com.google.firebase.messaging.WebpushFcmOptions;
 
@@ -38,12 +44,27 @@ public class NotificationService {
 	private final MemberNotificationRepository memberNotificationRepository;
 
 	public void registerFcmToken(long memberId, FcmTokenSaveRequest fcmTokenSaveRequest) {
-		FcmToken fcmToken = FcmToken.builder()
-			.memberId(memberId)
-			.fcmToken(fcmTokenSaveRequest.token())
-			.build();
+		fcmTokenRepository.findByToken(fcmTokenSaveRequest.token())
+			.ifPresentOrElse(
+				FcmToken::refreshTimestamp,
+				() -> {
+					FcmToken fcmToken = FcmToken.builder()
+						.memberId(memberId)
+						.fcmToken(fcmTokenSaveRequest.token())
+						.build();
+					fcmTokenRepository.save(fcmToken);
+				}
+			);
+	}
 
-		fcmTokenRepository.save(fcmToken);
+	@Scheduled(cron = "0 0 0 1 * *")
+	public void cleanInactiveFcmTokens() {
+		fcmTokenRepository.findAll()
+			.forEach(token -> {
+				if (token.getTimestamp().isBefore(LocalDateTime.now().minusMonths(1L))) {
+					fcmTokenRepository.delete(token);
+				}
+			});
 	}
 
 	public void notifyToMember(MoudaNotification moudaNotification, Long memberId, Long darakbangId) {
@@ -116,17 +137,12 @@ public class NotificationService {
 				.build())
 			.forEach(message -> {
 				try {
-					FirebaseMessaging.getInstance().sendEachForMulticast(message);
+					BatchResponse batchResponse = FirebaseMessaging.getInstance().sendEachForMulticast(message);
+					validateFcmTokenByErrorCode(tokens, batchResponse);
 				} catch (FirebaseMessagingException e) {
 					log.error("Failed to send message: {}", e.getMessage());
 				}
 			});
-	}
-
-	private WebpushConfig getWebpushConfig(String url) {
-		return WebpushConfig.builder()
-			.setFcmOptions(WebpushFcmOptions.withLink(url))
-			.build();
 	}
 
 	private List<List<String>> chunkFcmTokensForMulticast(List<String> tokens) {
@@ -147,5 +163,27 @@ public class NotificationService {
 			.toList();
 
 		return new NotificationFindAllResponses(responses);
+	}
+
+	private WebpushConfig getWebpushConfig(String url) {
+		return WebpushConfig.builder()
+			.setFcmOptions(WebpushFcmOptions.withLink(url))
+			.build();
+	}
+
+	private void validateFcmTokenByErrorCode(List<String> tokens, BatchResponse batchResponse) {
+		if (batchResponse.getFailureCount() == 0) {
+			return;
+		}
+
+		List<SendResponse> responses = batchResponse.getResponses();
+		IntStream.range(0, responses.size())
+			.filter(index -> isInvalidTokenErrorCode(responses.get(index)))
+			.forEach(index -> fcmTokenRepository.deleteByToken(tokens.get(index)));
+	}
+
+	private boolean isInvalidTokenErrorCode(SendResponse sendResponse) {
+		MessagingErrorCode errorCode = sendResponse.getException().getMessagingErrorCode();
+		return errorCode == MessagingErrorCode.UNREGISTERED || errorCode == MessagingErrorCode.INVALID_ARGUMENT;
 	}
 }
