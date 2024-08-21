@@ -9,17 +9,16 @@ import { useTheme } from '@emotion/react';
 
 export type Tab = '홈' | '채팅' | '해주세요' | '마이페이지';
 
-const tabRoutes: Record<Tab, string> = {
-  홈: GET_ROUTES.nowDarakbang.main(),
-  채팅: GET_ROUTES.nowDarakbang.chat(),
-  해주세요: GET_ROUTES.nowDarakbang.addPlease(),
-  마이페이지: GET_ROUTES.nowDarakbang.myPage(),
-};
-
 export default function NavigationBar() {
   const theme = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
+  const tabRoutes: Record<Tab, string> = {
+    홈: GET_ROUTES.nowDarakbang.main(),
+    채팅: GET_ROUTES.nowDarakbang.chat(),
+    해주세요: GET_ROUTES.nowDarakbang.please(),
+    마이페이지: GET_ROUTES.nowDarakbang.myPage(),
+  };
 
   const [currentTab, setCurrentTab] = useState<Tab>(
     Object.keys(tabRoutes).find(
@@ -34,7 +33,7 @@ export default function NavigationBar() {
 
   return (
     <nav css={S.navigationBarContainer({ theme })}>
-      <ul css={S.navigationBarList}>
+      <ul css={[S.navigationBarList]}>
         {Object.keys(tabRoutes).map((tab) => (
           <NavigationBarItem
             key={tab}

@@ -1,8 +1,9 @@
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { removeInviteCode, setInviteCode } from '@_common/inviteCodeManager';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import Button from '@_components/Button/Button';
 import CompleteLayout from '@_layouts/CompleteLayout/CompleteLayout';
+import GET_ROUTES from '@_common/getRoutes';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import ROUTES from '@_constants/routes';
 import useDarakbangNameByCode from '@_hooks/queries/useDarakbangNameByCode';
@@ -13,12 +14,11 @@ export default function DarakbangInvitationRoute() {
 
   const code = searchParam.get('code');
   const { darakbangName, isLoading } = useDarakbangNameByCode(code || '');
-  const isRightCode = darakbangName !== '';
   if (isLoading) return null;
+  const isRightCode = darakbangName && darakbangName !== '';
   if (isRightCode) {
     if (code) setInviteCode(code);
-    navigate(ROUTES.darakbangNickname);
-    return null;
+    return <Navigate to={GET_ROUTES.nowDarakbang.main()} replace />;
   }
   if (!isRightCode) {
     removeInviteCode();

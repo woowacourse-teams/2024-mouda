@@ -7,13 +7,14 @@ import SolidArrow from '@_components/Icons/SolidArrow';
 import StickyTriSectionHeader from '@_layouts/components/StickyTriSectionHeader/StickyTriSectionHeader';
 import useDarakbangInviteCode from '@_hooks/queries/useDarakbangInviteCode';
 import { useNavigate } from 'react-router-dom';
+import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import { useTheme } from '@emotion/react';
 
 export default function DarakbangInvitationPage() {
   const theme = useTheme();
   const navigate = useNavigate();
   const { inviteCode } = useDarakbangInviteCode();
-  const darakbangName = '우아한테크코스';
+  const { darakbangName } = useNowDarakbangName();
 
   return (
     <div css={S.layout}>

@@ -7,9 +7,12 @@ import PleaseList from '@_components/PleaseList/PleaseList';
 import PlusButton from '@_components/PlusButton/PlusButton';
 import { common } from '@_common/common.style';
 import { useNavigate } from 'react-router-dom';
+import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import { useTheme } from '@emotion/react';
 
 export default function PleasePage() {
+  const { darakbangName } = useNowDarakbangName();
+
   const navigate = useNavigate();
   const theme = useTheme();
 
@@ -17,7 +20,7 @@ export default function PleasePage() {
     <Fragment>
       <PleaseLayout>
         <PleaseLayout.Header>
-          <h1 css={[common.nonScroll, theme.typography.h5]}>우아한테크코스</h1>
+          <h1 css={[common.nonScroll, theme.typography.h5]}>{darakbangName}</h1>
         </PleaseLayout.Header>
 
         <PleaseLayout.Main>

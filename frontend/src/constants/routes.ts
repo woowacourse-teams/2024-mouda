@@ -17,6 +17,7 @@ const beforeUsingDarakbangPrefixRoutes = {
   darakbangManagement: '/darakbang-management',
   darakbangMembers: '/darakbang-members',
   darakbangInvitation: '/darakbang-invitation',
+  darakbangLanding: '/darakbang-landing',
 };
 
 const usingDarakbangPrefixRoutes = Object.entries(
@@ -42,7 +43,6 @@ const ROUTES = {
   darakbangCreation: '/darakbang-creation',
   darakbangEntrance: '/darakbang-entrance',
   darakbangNickname: '/darakbang-nickname',
-  darakbangLanding: '/darakbang-landing',
 
   // /darakbang/:darakbangId/[루트] 형식
   ...usingDarakbangPrefixRoutes,
