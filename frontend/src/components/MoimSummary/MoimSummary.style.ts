@@ -1,5 +1,4 @@
-import { common } from '@_common/common.style';
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 
 export const containerStyle = css`
   display: flex;
@@ -7,8 +6,14 @@ export const containerStyle = css`
   gap: 16px;
 `;
 
-export const titleStyle = css`
-  ${common.fontType.title}
+export const titleBox = () => css`
+  display: inline;
+  gap: 1rem;
+  align-items: center;
+`;
+
+export const title = (props: { theme: Theme }) => css`
+  ${props.theme.typography.h4};
 `;
 
 export const contentStyle = css`
@@ -17,7 +22,7 @@ export const contentStyle = css`
   align-items: center;
 `;
 
-export const contentKeyStyle = css`
+export const contentKeyStyle = () => css`
   padding: 2px 6px;
 
   font-size: 12px;

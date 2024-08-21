@@ -13,6 +13,19 @@ const POLICES = {
 
   yyyymmddDashRegex: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/,
   hhmmRegex: /^([01]\d|2[0-3]):([0-5]\d)$/,
+
+  maxMessageLength: 10000,
+  maxUnreadMessageCount: 300,
+
+  minPleaseDescription: 5,
+  maxPleaseDescription: 10000,
+
+  footerZIndex: 100,
+  modalZIndex: 200,
+
+  maxNicknameLength: 10,
+
+  entranceCodeLength: 7,
 };
 
 export default POLICES;

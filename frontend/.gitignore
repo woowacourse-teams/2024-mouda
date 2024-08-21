@@ -2,4 +2,7 @@ node_modules
 dist
 *storybook.log
 .env
+.env*
 coverage
+
+public/firebaseConfig.js

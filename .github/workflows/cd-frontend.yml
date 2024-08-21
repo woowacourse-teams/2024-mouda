@@ -6,81 +6,12 @@ on:
       - develop-frontend
 
 jobs:
-  build_dockerimage_and_push_to_dockerhub:
-    runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./frontend
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          ref: develop-frontend
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20.15.0'
-
-      - name: Install Dependencies
-        run: npm install --frozen-lockfile
-
-      - name: Create .env file
-        run: |
-          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
-
-      - name: Run tests
-        run: npm run test
-
-      - name: Run linter
-        run: npm run lint
-
-      - name: Build static file
-        run: npm run build
-
-      - name: Build Docker image
-        run: |
-          docker buildx build ./ --platform=linux/arm64 -t ${{ secrets.DOCKER_USERNAME }}/mouda-fe:latest
-
-      - name: Log in to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Push Docker image to DockerHub
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/mouda-fe:latest
-
   deploy:
     runs-on: self-hosted
-    needs: build_dockerimage_and_push_to_dockerhub
 
     steps:
-      - name: Log in to Dockerhub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: allow ubuntu to access actions-runner
+      - name: deploy
         run: |
-          sudo chown -R ubuntu:ubuntu ~/actions-runner
+          cd ~/deploy && ./deploy-fe.sh
 
-      - name: grant permission to docker-compose
-        run: |
-          sudo chmod +x ./frontend/docker-compose-fe.yml
 
-      - name: docker compose down
-        run: |
-          docker compose -f ./frontend/docker-compose-fe.yml down
-
-      - name: docker compose pull
-        run: |
-          docker compose -f ./frontend/docker-compose-fe.yml pull 
-
-      - name: docker compose up
-        run: |
-          docker compose -f ./frontend/docker-compose-fe.yml up -d

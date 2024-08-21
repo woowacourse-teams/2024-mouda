@@ -1,24 +1,31 @@
-import { common } from '@_common/common.style';
-import { css } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 
-export const required = css`
-  color: #f00;
+export const required = (props: { theme: Theme }) => css`
+  color: ${props.theme.colorPalette.red[500]};
 `;
 
-export const title = css`
-  ${common.fontType.subtitle};
-  margin: 0 0 10px;
+export const labelWrapper = () => css`
+  width: 100%;
 `;
 
-export const input = css`
+export const title = (props: { theme: Theme }) => css`
+  ${props.theme.typography.b1}
+`;
+// prettier-ignore
+export const input = (props: { theme: Theme }) => css`
+  ${props.theme.typography.b3}
   flex-shrink: 0;
 
+  box-sizing: border-box;
   width: 100%;
   height: 4rem;
+  padding: 0.1rem 0.6rem;
 
   font-size: 1.6rem;
 
-  background: #fff;
-  border: 1px solid #b3b3b3;
+
+  background: ${props.theme.colorPalette.grey[100]};
+  border: 1px solid ${props.theme.colorPalette.grey[300]};
   border-radius: 0.8rem;
+
 `;
