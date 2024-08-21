@@ -11,7 +11,6 @@ const DEFAULT_HEADERS = {
 const BASE_URL = `${process.env.BASE_URL}/v1`;
 
 function addBaseUrl(endpoint: string, isNeedLastDarakbang: boolean = false) {
-  if (endpoint[0] !== '/') endpoint = '/' + endpoint;
   if (isNeedLastDarakbang)
     endpoint = '/darakbang/' + (getLastDarakbangId() || 0) + endpoint;
   return BASE_URL + endpoint;
