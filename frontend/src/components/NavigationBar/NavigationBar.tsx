@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import GET_ROUTES from '@_common/getRoutes';
 import NavigationBarItem from '@_components/NavigationBarItem/NavigationBarItem';
-import { common } from '@_common/common.style';
 import { useState } from 'react';
 import { useTheme } from '@emotion/react';
 
