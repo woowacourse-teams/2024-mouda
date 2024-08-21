@@ -19,6 +19,7 @@ import Notification from '@_common/assets/notification.svg';
 import PlusButton from '@_components/PlusButton/PlusButton';
 import ROUTES from '@_constants/routes';
 import SolidArrow from '@_components/Icons/SolidArrow';
+import { removeToken } from '@_utils/tokenManager';
 import { requestPermission } from '@_service/notification';
 import useMyDarakbangs from '@_hooks/queries/useMyDarakbang';
 import useMyRoleInDarakbang from '@_hooks/queries/useMyDarakbangRole';
@@ -75,12 +76,30 @@ export default function MainPage() {
     );
 
     if (myRoleInNowDarakbang === 'MANAGER') {
-      options.push({
-        onClick: () => navigate(GET_ROUTES.nowDarakbang.darakbangManagement()),
-        description: '다락방 관리하기',
-        hasTopBorder: true,
-      });
+      options.push(
+        {
+          onClick: () =>
+            navigate(GET_ROUTES.nowDarakbang.darakbangManagement()),
+          description: '다락방 관리하기',
+          hasTopBorder: true,
+        },
+        {
+          onClick: () =>
+            navigate(GET_ROUTES.nowDarakbang.darakbangInvitation()),
+          description: '다락방 공유하기',
+        },
+      );
     }
+
+    options.push({
+      onClick: () => {
+        removeToken();
+        navigate(ROUTES.main);
+      },
+      description: '로그아웃',
+      hasTopBorder: true,
+    });
+
     return options;
   }, [
     isMyDarakbangLoading,
