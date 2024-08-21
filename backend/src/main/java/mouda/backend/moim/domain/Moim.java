@@ -203,7 +203,7 @@ public class Moim {
 		this.isChatOpened = true;
 	}
 
-	public boolean inNotDarakbang(Long darakbangId) {
+	public boolean isNotInDarakbang(long darakbangId) {
 		return this.darakbangId != darakbangId;
 	}
 }

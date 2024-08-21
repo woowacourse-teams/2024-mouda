@@ -35,7 +35,7 @@ public class PleaseService {
 	public void deletePlease(Long darakbangId, Long pleaseId, DarakbangMember darakbangMember) {
 		Please please = pleaseRepository.findById(pleaseId)
 			.orElseThrow(() -> new PleaseException(HttpStatus.NOT_FOUND, PleaseErrorMessage.NOT_FOUND));
-		if (please.inNotDarakbang(darakbangId)) {
+		if (please.isNotInDarakbang(darakbangId)) {
 			throw new PleaseException(HttpStatus.BAD_REQUEST, PleaseErrorMessage.PLEASE_NOT_IN_DARAKBANG);
 		}
 		if (please.isNotAuthor(darakbangMember.getId())) {

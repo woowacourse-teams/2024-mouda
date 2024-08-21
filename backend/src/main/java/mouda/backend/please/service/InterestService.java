@@ -25,7 +25,7 @@ public class InterestService {
 	public void updateInterest(Long darakbangId, DarakbangMember darakbangMember, InterestUpdateRequest request) {
 		Please please = pleaseRepository.findById(request.pleaseId())
 			.orElseThrow(() -> new PleaseException(HttpStatus.NOT_FOUND, PleaseErrorMessage.NOT_FOUND));
-		if (please.inNotDarakbang(darakbangId)) {
+		if (please.isNotInDarakbang(darakbangId)) {
 			throw new PleaseException(HttpStatus.BAD_REQUEST, PleaseErrorMessage.PLEASE_NOT_IN_DARAKBANG);
 		}
 

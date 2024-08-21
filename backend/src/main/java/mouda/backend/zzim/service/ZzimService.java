@@ -26,7 +26,7 @@ public class ZzimService {
 	public ZzimCheckResponse checkZzimByMember(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new ZzimException(HttpStatus.NOT_FOUND, ZzimErrorMessage.MOIN_NOT_FOUND));
-		if (moim.inNotDarakbang(darakbangId)) {
+		if (moim.isNotInDarakbang(darakbangId)) {
 			throw new ZzimException(HttpStatus.BAD_REQUEST, ZzimErrorMessage.MOIN_NOT_FOUND);
 		}
 
@@ -38,7 +38,7 @@ public class ZzimService {
 	public void updateZzim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new ZzimException(HttpStatus.NOT_FOUND, ZzimErrorMessage.MOIN_NOT_FOUND));
-		if (moim.inNotDarakbang(darakbangId)) {
+		if (moim.isNotInDarakbang(darakbangId)) {
 			throw new ZzimException(HttpStatus.BAD_REQUEST, ZzimErrorMessage.MOIN_NOT_FOUND);
 		}
 
