@@ -16,6 +16,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
+import mouda.backend.member.domain.Member;
 
 @Aspect
 @Component
@@ -34,7 +36,22 @@ public class RequestLoggingAspect {
 		String queryParameters = getQueryParameters(request);
 		String body = getBody(joinPoint);
 
-		log.info("Request Logging: {} {} body - {} parameters - {}", httpMethod, uri, body, queryParameters);
+		String memberInfo = getMemberInfo(joinPoint);
+
+		log.info("Request Logging: {} {} member - {} body - {} parameters - {}", httpMethod, uri, memberInfo, body,
+			queryParameters);
+	}
+
+	private String getMemberInfo(JoinPoint joinPoint) {
+		for (Object arg : joinPoint.getArgs()) {
+			if (arg instanceof Member) {
+				return "Member ID: " + ((Member)arg).getId();
+			}
+			if (arg instanceof DarakbangMember) {
+				return "DarakbangMember ID: " + ((DarakbangMember)arg).getId();
+			}
+		}
+		return "No member";
 	}
 
 	private HttpServletRequest getHttpServletRequest() {
