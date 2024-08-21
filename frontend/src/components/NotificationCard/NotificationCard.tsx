@@ -8,11 +8,11 @@ interface NotificationCardProps extends HTMLProps<HTMLDivElement> {
 }
 
 export default function NotificationCard(props: NotificationCardProps) {
-  const { notification } = props;
+  const { notification, ...args } = props;
   const theme = useTheme();
   const typeColor = notificationTypeColors(theme)[notification.type];
   return (
-    <div css={S.CardBox({ theme })}>
+    <div css={S.CardBox({ theme })} {...args}>
       <div css={S.colorDot({ theme, typeColor })}>{'·'}</div>
       <div css={S.TextInfoBox}>
         <div css={S.Title({ theme })}>{notification.message}</div>
