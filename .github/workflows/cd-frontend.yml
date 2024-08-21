@@ -1,0 +1,17 @@
+name: frontend-deploy
+
+on:
+  push:
+    branches:
+      - develop-frontend
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: deploy
+        run: |
+          cd ~/deploy && ./deploy-fe.sh
+
+

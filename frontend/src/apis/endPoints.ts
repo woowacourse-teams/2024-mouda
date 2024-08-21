@@ -1,11 +1,16 @@
-import ENV from '@_apis/env';
-
 const getEndpoint = (string: string) => {
-  return `${ENV.baseUrl}/${string}`;
+  return `${process.env.BASE_URL}/${string}`;
 };
 
 const ENDPOINTS = {
   moim: getEndpoint('v1/moim'),
   moims: getEndpoint('v1/moim'),
+  auth: getEndpoint('v1/auth'),
+  chamyo: getEndpoint('v1/chamyo'),
+  chat: getEndpoint('v1/chat'),
+  zzim: getEndpoint('v1/zzim'),
+  interest: getEndpoint('v1/interest'),
+  please: getEndpoint('v1/please'),
+  notification: getEndpoint('v1/notification'),
 };
 export default ENDPOINTS;

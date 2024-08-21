@@ -1,4 +1,6 @@
+import { Configuration } from 'webpack';
 import type { StorybookConfig } from '@storybook/react-webpack5';
+import path from 'path';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -27,5 +29,62 @@ const config: StorybookConfig = {
       },
     },
   }),
+  webpackFinal: async (config: Configuration) => {
+    const { resolve } = config;
+
+    if (resolve) {
+      resolve.alias = {
+        ...resolve.alias,
+        '@_apis': path.resolve(__dirname, '../src/apis'),
+        '@_constants': path.resolve(__dirname, '../src/constants'),
+        '@_common': path.resolve(__dirname, '../src/common'),
+        '@_components': path.resolve(__dirname, '../src/components'),
+        '@_hooks': path.resolve(__dirname, '../src/hooks'),
+        '@_layouts': path.resolve(__dirname, '../src/layouts'),
+        '@_pages': path.resolve(__dirname, '../src/pages'),
+        '@_types': path.resolve(__dirname, '../src/types'),
+        '@_utils': path.resolve(__dirname, '../src/utils'),
+        '@_routes': path.resolve(__dirname, '../src/routes'),
+        '@_mocks': path.resolve(__dirname, '../src/mocks'),
+        '@_service': path.resolve(__dirname, '../src/service'),
+      };
+    }
+
+    config?.module?.rules?.push({
+      test: /\.(ts|tsx)$/,
+      loader: require.resolve('babel-loader'),
+      options: {
+        presets: [require.resolve('@emotion/babel-preset-css-prop')],
+      },
+    });
+    if (config.module?.rules) {
+      config.module = config.module || {};
+      config.module.rules = config.module.rules || [];
+
+      const imageRule = config.module.rules.find((rule) =>
+        rule?.['test']?.test('.svg'),
+      );
+      if (imageRule) {
+        imageRule['exclude'] = /\.svg$/;
+      }
+
+      config.module.rules.push({
+        test: /\.svg$/i,
+        oneOf: [
+          {
+            use: ['@svgr/webpack'],
+            issuer: /\.[jt]sx?$/,
+            resourceQuery: { not: [/url/] },
+          },
+          {
+            type: 'asset/resource',
+            resourceQuery: /url/,
+          },
+        ],
+      });
+    }
+    return config;
+  },
 };
+
 export default config;

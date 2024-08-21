@@ -1,45 +1,125 @@
-import { css } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 
-const font = css`
-  color: #fff;
-  font-family: Pretendard;
-  font-size: 1rem;
-  font-style: normal;
+import { ButtonProps } from './Button';
+
+const defaultFont = css`
+  font-size: 1.6rem;
   font-weight: 700;
+  font-style: normal;
   line-height: normal;
-  letter-spacing: -0.02rem;
+  color: #fff;
+  letter-spacing: -0.032rem;
 `;
-export const shapes = (shape: 'circle' | 'bar', disabled: boolean) => {
+
+type themeStyleArgs = Pick<
+  ButtonProps,
+  'disabled' | 'primary' | 'secondary' | 'reversePrimary'
+> & { theme: Theme };
+
+const themeStyle = ({
+  theme,
+  disabled,
+  primary,
+  secondary,
+  reversePrimary,
+}: themeStyleArgs) => {
+  if (disabled) {
+    return css`
+      pointer-events: none;
+      color: ${theme.colorPalette.white[100]};
+      background-color: ${theme.semantic.disabled};
+    `;
+  }
+  if (primary) {
+    return css`
+      color: ${theme.colorPalette.white[100]};
+      background-color: ${theme.semantic.primary};
+
+      &:active {
+        background-color: ${theme.colorPalette.orange[900]};
+      }
+    `;
+  }
+  if (secondary) {
+    return css`
+      color: ${theme.colorPalette.white[100]};
+      background-color: ${theme.semantic.secondary};
+
+      &:active {
+        background-color: ${theme.colorPalette.yellow[300]};
+      }
+    `;
+  }
+
+  if (reversePrimary) {
+    return css`
+      color: ${theme.semantic.primary};
+      background-color: ${theme.colorPalette.white[100]};
+      border: solid 1px ${theme.semantic.primary};
+
+      &:active {
+        background-color: ${theme.colorPalette.grey[300]};
+      }
+    `;
+  }
+
+  // default:primary
+  return css`
+    color: ${theme.colorPalette.white};
+    background-color: ${theme.semantic.primary};
+
+    &:active {
+      background-color: ${theme.colorPalette.orange[500]};
+    }
+  `;
+};
+
+type shapeStyleArgs = Pick<ButtonProps, 'shape'>;
+
+const shapeStyle = ({ shape }: shapeStyleArgs) => {
   if (shape === 'circle') {
     return css`
-      ${font};
-      flex-shrink: 0;
       border: none;
-      box-shadow: 0px 0px 3px #444;
       border-radius: 50%;
-      background: ${disabled ? '#868e96' : '#ffffff'};
-      &:active {
-        background-color: #868e96;
-      }
+      box-shadow: 0 0 3px #444;
     `;
   }
   if (shape === 'bar') {
     return css`
-      ${font}
-      border: none;
       display: flex;
-      width: 100%;
-      height: 4rem;
-      padding: 1rem 3.6875rem;
-      justify-content: center;
+      gap: 1rem;
       align-items: center;
-      gap: 0.625rem;
-      flex-shrink: 0;
-      border-radius: 1.875rem;
-      background: ${disabled ? '#868e96' : '#477bff'};
-      &:active {
-        background-color: ${disabled ? '#868e96' : '#005bb5'};
-      }
+      justify-content: center;
+
+      width: 100%;
+      height: 6.4rem;
+      padding: 1.6rem 5.9rem;
+
+      border: none;
+      border-radius: 3rem;
     `;
   }
+};
+
+type ShapeArgs = ButtonProps & { theme: Theme };
+export const shapes = ({
+  theme,
+  shape,
+
+  disabled,
+  primary,
+  reversePrimary,
+
+  secondary,
+}: ShapeArgs) => {
+  const defaultStyle = css`
+    user-select: none;
+    flex-shrink: 0;
+  `;
+  return [
+    defaultStyle,
+    defaultFont,
+    shapeStyle({ shape }),
+    themeStyle({ theme, disabled, primary, secondary, reversePrimary }),
+  ];
 };
