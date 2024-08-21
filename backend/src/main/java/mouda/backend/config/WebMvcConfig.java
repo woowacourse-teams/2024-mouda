@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import mouda.backend.config.argumentresolver.LoginDarakbangMemberArgumentResolver;
 import mouda.backend.config.argumentresolver.LoginMemberArgumentResolver;
 import mouda.backend.config.converter.FilterTypeConverter;
-import mouda.backend.config.interceptor.ApiRequestLoggingInterceptor;
 import mouda.backend.config.interceptor.AuthenticationCheckInterceptor;
 
 @Configuration
@@ -22,13 +21,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	private final LoginMemberArgumentResolver loginMemberArgumentResolver;
 	private final LoginDarakbangMemberArgumentResolver loginDarakbangMemberArgumentResolver;
 	private final AuthenticationCheckInterceptor authenticationCheckInterceptor;
-	private final ApiRequestLoggingInterceptor apiRequestLoggingInterceptor;
 	private final FilterTypeConverter filterTypeConverter;
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(apiRequestLoggingInterceptor);
-
 		registry.addInterceptor(authenticationCheckInterceptor)
 			.addPathPatterns("/v1/**")
 			.excludePathPatterns("/v1/auth/kakao/oauth");
