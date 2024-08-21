@@ -25,8 +25,14 @@ import ProtectedRoute from './ProtectedRoute';
 import ROUTES from '@_constants/routes';
 import SlashRoute from './SlashRoute';
 import { createBrowserRouter } from 'react-router-dom';
+import NotFoundPage from '@_pages/NotFoundPage/NotFoundPage';
 
 const routesConfig = [
+  {
+    path: ROUTES.notFound,
+    element: <NotFoundPage />,
+    requiresAuth: false,
+  },
   {
     path: ROUTES.main,
     element: <SlashRoute />,

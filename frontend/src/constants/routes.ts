@@ -31,6 +31,7 @@ const usingDarakbangPrefixRoutes = Object.entries(
 );
 
 const ROUTES = {
+  notFound: '/*',
   main: '/',
   home: '/home',
   kakaoOAuth: '/kakao-o-auth',

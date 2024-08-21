@@ -10,8 +10,8 @@ const meta: Meta<typeof CompleteContentContainer> = {
     return (
       <div
         css={css`
-          border: solid 1px black;
           height: 800px;
+          border: solid 1px black;
         `}
       >
         <Story />
