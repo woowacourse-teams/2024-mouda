@@ -27,7 +27,7 @@ import ApiClient from './apiClient';
 import { Filter } from '@_components/MyMoimListFilters/MyMoimListFilters';
 
 export const getMoims = async (): Promise<MoimInfo[]> => {
-  const response = await ApiClient.getWithLastDarakbangId('moim');
+  const response = await ApiClient.getWithLastDarakbangId('/moim');
 
   const json: GetMoims = await response.json();
   return json.data.moims;
@@ -37,7 +37,7 @@ export const getMyFilteredMoims = async (
   filter: Filter['api'],
 ): Promise<MoimInfo[]> => {
   const response = await ApiClient.getWithLastDarakbangId(
-    `moim/mine?filter=${filter}`,
+    `/moim/mine?filter=${filter}`,
   );
 
   const json: GetMoims = await response.json();
@@ -45,21 +45,21 @@ export const getMyFilteredMoims = async (
 };
 
 export const getMyZzimMoims = async (): Promise<MoimInfo[]> => {
-  const response = await ApiClient.getWithLastDarakbangId('moim/zzim');
+  const response = await ApiClient.getWithLastDarakbangId('/moim/zzim');
 
   const json: GetMoims = await response.json();
   return json.data.moims;
 };
 
 export const getMoim = async (moimId: number): Promise<MoimInfo> => {
-  const response = await ApiClient.getWithLastDarakbangId(`moim/${moimId}`);
+  const response = await ApiClient.getWithLastDarakbangId(`/moim/${moimId}`);
 
   const json: GetMoim = await response.json();
   return json.data;
 };
 
 export const getChatPreview = async (): Promise<ChattingPreview[]> => {
-  const response = await ApiClient.getWithLastDarakbangId(`chat/preview`);
+  const response = await ApiClient.getWithLastDarakbangId(`/chat/preview`);
 
   const json: GetChattingPreview = await response.json();
   return json.data.chatPreviewResponses;
@@ -70,7 +70,7 @@ export const getChat = async (
   recentChatId?: number,
 ): Promise<Chat[]> => {
   const response = await ApiClient.getWithLastDarakbangId(
-    `chat?moimId=${moimId}&recentChatId=${recentChatId || 0}`,
+    `/chat?moimId=${moimId}&recentChatId=${recentChatId || 0}`,
   );
 
   const json: GetChat = await response.json();
@@ -78,7 +78,7 @@ export const getChat = async (
 };
 
 export const getMyMoims = async (): Promise<MoimInfo[]> => {
-  const response = await ApiClient.getWithLastDarakbangId(`moim/mine`);
+  const response = await ApiClient.getWithLastDarakbangId(`/moim/mine`);
 
   const json: GetMoims = await response.json();
   return json.data.moims;
@@ -86,7 +86,7 @@ export const getMyMoims = async (): Promise<MoimInfo[]> => {
 
 export const getChamyoMine = async (moimId: number): Promise<Role> => {
   const response = await ApiClient.getWithLastDarakbangId(
-    `chamyo/mine?moimId=${moimId}`,
+    `/chamyo/mine?moimId=${moimId}`,
   );
 
   const json: GetChamyoMine = await response.json();
@@ -95,7 +95,7 @@ export const getChamyoMine = async (moimId: number): Promise<Role> => {
 
 export const getZzimMine = async (moimId: number): Promise<boolean> => {
   const response = await ApiClient.getWithLastDarakbangId(
-    `zzim/mine?moimId=${moimId}`,
+    `/zzim/mine?moimId=${moimId}`,
   );
 
   const json: GetZzimMine = await response.json();
@@ -106,7 +106,7 @@ export const getChamyoAll = async (
   moimId: number,
 ): Promise<Participation[]> => {
   const response = await ApiClient.getWithLastDarakbangId(
-    `chamyo/all?moimId=${moimId}`,
+    `/chamyo/all?moimId=${moimId}`,
   );
 
   const json: GetChamyoAll = await response.json();
@@ -114,28 +114,28 @@ export const getChamyoAll = async (
 };
 
 export const getPleases = async () => {
-  const response = await ApiClient.getWithLastDarakbangId('please');
+  const response = await ApiClient.getWithLastDarakbangId('/please');
 
   const json: GetPleases = await response.json();
   return json.data.pleases;
 };
 
 export const getMyInfo = async () => {
-  const response = await ApiClient.getWithLastDarakbangId('member/mine');
+  const response = await ApiClient.getWithLastDarakbangId('/member/mine');
 
   const json: GetMyInfo = await response.json();
   return json.data;
 };
 
 export const getNotifications = async () => {
-  const response = await ApiClient.getWithLastDarakbangId('notification/mine');
+  const response = await ApiClient.getWithLastDarakbangId('/notification/mine');
 
   const json: GetNotifications = await response.json();
   return json.data.notifications;
 };
 
 export const getMyDarakbangs = async () => {
-  const response = await ApiClient.getWithAuth('darakbang/mine');
+  const response = await ApiClient.getWithAuth('/darakbang/mine');
 
   const json: GetDarakbangMine = await response.json();
   return json.data.darakbangResponses;
@@ -164,7 +164,7 @@ export const getDarakbangInviteCode = async () => {
 
 export const getDarakbangNameByCode = async (code: string) => {
   const response = await ApiClient.getWithAuth(
-    'darakbang/validation?code=' + code,
+    '/darakbang/validation?code=' + code,
   ).catch(() => {
     return {
       json: () => {
@@ -172,6 +172,13 @@ export const getDarakbangNameByCode = async (code: string) => {
       },
     };
   });
+
+  const json: GetDarakbangNameByCode = await response.json();
+  return json.data.name;
+};
+
+export const getDarakbangNameById = async () => {
+  const response = await ApiClient.getWithLastDarakbangId('');
 
   const json: GetDarakbangNameByCode = await response.json();
   return json.data.name;

@@ -24,6 +24,7 @@ const GET_ROUTES = {
     darakbangManagement: () => getNowDarakbangRoute() + '/darakbang-management',
     darakbangMembers: () => getNowDarakbangRoute() + '/darakbang-members',
     darakbangInvitation: () => getNowDarakbangRoute() + '/darakbang-invitation',
+    darakbangLanding: () => getNowDarakbangRoute() + '/darakbang-landing',
   },
 };
 export default GET_ROUTES;

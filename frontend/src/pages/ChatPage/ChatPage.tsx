@@ -7,17 +7,19 @@ import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/Navi
 import { common } from '@_common/common.style';
 import useChatPreviews from '@_hooks/queries/useChatPreiview';
 import { useNavigate } from 'react-router-dom';
+import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import { useTheme } from '@emotion/react';
 
 export default function ChatPage() {
   const theme = useTheme();
   const { chatPreviews } = useChatPreviews();
+  const { darakbangName } = useNowDarakbangName();
   const navigate = useNavigate();
   return (
     <ChattingPreviewLayout>
       <ChattingPreviewLayout.Header>
         <ChattingPreviewLayout.Header.Left>
-          <h2 css={[theme.typography.h5, common.nonScroll]}>우아한테크코스</h2>
+          <h2 css={[theme.typography.h5, common.nonScroll]}>{darakbangName}</h2>
         </ChattingPreviewLayout.Header.Left>
       </ChattingPreviewLayout.Header>
       <ChattingPreviewLayout.ContentContainer>

@@ -1,10 +1,16 @@
 import Button from '@_components/Button/Button';
 import CompleteLayout from '@_layouts/CompleteLayout/CompleteLayout';
+import GET_ROUTES from '@_common/getRoutes';
 import HighlightSpan from '@_components/HighlightSpan/HighlightSpan';
+import useMyInfo from '@_hooks/queries/useMyInfo';
+import { useNavigate } from 'react-router-dom';
+import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 
 export default function DarakbangLandingPage() {
-  const darakbangName = '우아한테크코스';
-  const nickname = 'hi';
+  const navigate = useNavigate();
+
+  const { darakbangName } = useNowDarakbangName();
+  const { myInfo } = useMyInfo();
   return (
     <CompleteLayout>
       <CompleteLayout.Header>
@@ -14,13 +20,18 @@ export default function DarakbangLandingPage() {
       </CompleteLayout.Header>
       <CompleteLayout.ContentContainer>
         <HighlightSpan isCenterAlign>
-          <HighlightSpan.Highlight>{nickname}</HighlightSpan.Highlight>
+          <HighlightSpan.Highlight>{myInfo?.nickname}</HighlightSpan.Highlight>
           {`님 반가워요~!\n이제 `}
           <HighlightSpan.Highlight>모임</HighlightSpan.Highlight>을
           확인해볼까요?
         </HighlightSpan>{' '}
         <CompleteLayout.BottomButtonWrapper>
-          <Button shape="bar">네~ 좋아요~</Button>
+          <Button
+            shape="bar"
+            onClick={() => navigate(GET_ROUTES.nowDarakbang.main())}
+          >
+            네~ 좋아요~
+          </Button>
         </CompleteLayout.BottomButtonWrapper>
       </CompleteLayout.ContentContainer>
     </CompleteLayout>

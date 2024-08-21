@@ -18,6 +18,7 @@ import MoimCreationPage from '@_pages/MoimCreationPage/MoimCreationPage';
 import MoimDetailPage from '@_pages/MoimDetailPage/MoimDetailPage';
 import MoimModifyPage from '@_pages/MoimModifyPage/MoimModifyPage';
 import MyPage from '@_pages/Mypage/MyPage';
+import NotFoundPage from '@_pages/NotFoundPage/NotFoundPage';
 import NotificationPage from '@_pages/NotificationPage/NotificationPage';
 import ParticipationCompletePage from '@_pages/ParticipationCompletePage/ParticipationCompletePage';
 import PleaseCreationPage from '@_pages/PleaseCreationPage/PleaseCreationPage';
@@ -26,7 +27,6 @@ import ProtectedRoute from './ProtectedRoute';
 import ROUTES from '@_constants/routes';
 import SlashRoute from './SlashRoute';
 import { createBrowserRouter } from 'react-router-dom';
-import NotFoundPage from '@_pages/NotFoundPage/NotFoundPage';
 
 const routesConfig = [
   {
@@ -152,6 +152,11 @@ const routesConfig = [
   {
     path: ROUTES.darakbangInvitationRoute,
     element: <DarakbangInvitationRoute />,
+    requiresAuth: true,
+  },
+  {
+    path: ROUTES.darakbangLanding,
+    element: <DarakbangLandingPage />,
     requiresAuth: true,
   },
 ];

@@ -22,7 +22,7 @@ export default function DarakbangCreationPage() {
   const { mutate: createDarakbang } = useCreateDarakbang(
     (darakbangId: number) => {
       setLastDarakbangId(darakbangId);
-      navigate(GET_ROUTES.nowDarakbang.main());
+      navigate(GET_ROUTES.nowDarakbang.darakbangLanding());
     },
   );
 

@@ -28,7 +28,7 @@ export default function DarakbangNicknamePage() {
   const { mutate: enterDarakbang } = useEnterDarakbang({
     onSuccess: () => {
       removeInviteCode();
-      navigate(GET_ROUTES.nowDarakbang.main());
+      navigate(GET_ROUTES.nowDarakbang.darakbangLanding());
     },
     onError: (string: string) => {
       setIsModalOpen(false);
@@ -40,7 +40,13 @@ export default function DarakbangNicknamePage() {
     <StretchContentLayout>
       <StickyTriSectionHeader>
         <StickyTriSectionHeader.Left>
-          <SolidArrow direction="left" onClick={() => navigate(-1)} />
+          <SolidArrow
+            direction="left"
+            onClick={() => {
+              removeInviteCode();
+              navigate(-1);
+            }}
+          />
         </StickyTriSectionHeader.Left>
         <StickyTriSectionHeader.Center>
           {darakbangName}
