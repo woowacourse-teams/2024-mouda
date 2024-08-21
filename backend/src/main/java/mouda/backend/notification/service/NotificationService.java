@@ -183,6 +183,9 @@ public class NotificationService {
 	}
 
 	private boolean isInvalidTokenErrorCode(SendResponse sendResponse) {
+		if (sendResponse.isSuccessful()) {
+			return false;
+		}
 		MessagingErrorCode errorCode = sendResponse.getException().getMessagingErrorCode();
 		return errorCode == MessagingErrorCode.UNREGISTERED || errorCode == MessagingErrorCode.INVALID_ARGUMENT;
 	}
