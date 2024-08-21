@@ -7,6 +7,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:react/recommended',
     'plugin:storybook/recommended',
+    'plugin:cypress/recommended',
     'prettier',
   ],
   ignorePatterns: [
@@ -18,14 +19,14 @@ module.exports = {
     'webpack.prod.js',
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh', '@emotion', "compat"],
+  plugins: ['react-refresh', '@emotion', 'compat'],
   settings: {
     react: {
       version: 'detect',
     },
   },
   rules: {
-    "compat/compat": "warn",
+    'compat/compat': 'warn',
     'react/react-in-jsx-scope': 'off',
     'react-refresh/only-export-components': [
       'warn',

@@ -34,10 +34,10 @@ public class ChatController implements ChatSwagger {
 	@PostMapping
 	public ResponseEntity<Void> createChat(
 		@PathVariable Long darakbangId,
-		@LoginDarakbangMember DarakbangMember member,
+		@LoginDarakbangMember DarakbangMember darakbangMember,
 		@Valid @RequestBody ChatCreateRequest chatCreateRequest
 	) {
-		chatService.createChat(darakbangId, chatCreateRequest, member);
+		chatService.createChat(darakbangId, chatCreateRequest, darakbangMember);
 
 		return ResponseEntity.ok().build();
 	}
@@ -46,12 +46,12 @@ public class ChatController implements ChatSwagger {
 	@GetMapping
 	public ResponseEntity<RestResponse<ChatFindUnloadedResponse>> findUnloadedChats(
 		@PathVariable Long darakbangId,
-		@LoginDarakbangMember DarakbangMember member,
+		@LoginDarakbangMember DarakbangMember darakbangMember,
 		@RequestParam("recentChatId") Long recentChatId,
 		@RequestParam("moimId") Long moimId
 	) {
 		ChatFindUnloadedResponse unloadedChats = chatService
-			.findUnloadedChats(darakbangId, recentChatId, moimId, member);
+			.findUnloadedChats(darakbangId, recentChatId, moimId, darakbangMember);
 
 		return ResponseEntity.ok(new RestResponse<>(unloadedChats));
 	}
@@ -60,9 +60,9 @@ public class ChatController implements ChatSwagger {
 	@GetMapping("/preview")
 	public ResponseEntity<RestResponse<ChatPreviewResponses>> findChatPreviews(
 		@PathVariable Long darakbangId,
-		@LoginDarakbangMember DarakbangMember member
+		@LoginDarakbangMember DarakbangMember darakbangMember
 	) {
-		ChatPreviewResponses chatPreviewResponses = chatService.findChatPreview(darakbangId, member);
+		ChatPreviewResponses chatPreviewResponses = chatService.findChatPreview(darakbangId, darakbangMember);
 
 		return ResponseEntity.ok(new RestResponse<>(chatPreviewResponses));
 	}
@@ -71,10 +71,10 @@ public class ChatController implements ChatSwagger {
 	@PostMapping("/last")
 	public ResponseEntity<Void> createLastReadChatId(
 		@PathVariable Long darakbangId,
-		@LoginDarakbangMember DarakbangMember member,
+		@LoginDarakbangMember DarakbangMember darakbangMember,
 		@RequestBody LastReadChatRequest lastReadChatRequest
 	) {
-		chatService.createLastChat(darakbangId, lastReadChatRequest.moimId(), lastReadChatRequest, member);
+		chatService.createLastChat(darakbangId, lastReadChatRequest.moimId(), lastReadChatRequest, darakbangMember);
 
 		return ResponseEntity.ok().build();
 	}
@@ -83,10 +83,10 @@ public class ChatController implements ChatSwagger {
 	@PostMapping("/datetime")
 	public ResponseEntity<Void> confirmDateTime(
 		@PathVariable Long darakbangId,
-		@LoginDarakbangMember DarakbangMember member,
+		@LoginDarakbangMember DarakbangMember darakbangMember,
 		@RequestBody DateTimeConfirmRequest dateTimeConfirmRequest
 	) {
-		chatService.confirmDateTime(darakbangId, dateTimeConfirmRequest, member);
+		chatService.confirmDateTime(darakbangId, dateTimeConfirmRequest, darakbangMember);
 
 		return ResponseEntity.ok().build();
 	}
@@ -95,10 +95,10 @@ public class ChatController implements ChatSwagger {
 	@PostMapping("/place")
 	public ResponseEntity<Void> confirmPlace(
 		@PathVariable Long darakbangId,
-		@LoginDarakbangMember DarakbangMember member,
+		@LoginDarakbangMember DarakbangMember darakbangMember,
 		@RequestBody PlaceConfirmRequest placeConfirmRequest
 	) {
-		chatService.confirmPlace(darakbangId, placeConfirmRequest, member);
+		chatService.confirmPlace(darakbangId, placeConfirmRequest, darakbangMember);
 
 		return ResponseEntity.ok().build();
 	}
@@ -106,10 +106,10 @@ public class ChatController implements ChatSwagger {
 	@PatchMapping("/open")
 	public ResponseEntity<Void> openChatRoom(
 		@PathVariable Long darakbangId,
-		@LoginDarakbangMember DarakbangMember member,
+		@LoginDarakbangMember DarakbangMember darakbangMember,
 		@RequestParam("moimId") Long moimId
 	) {
-		chatService.openChatRoom(darakbangId, moimId, member);
+		chatService.openChatRoom(darakbangId, moimId, darakbangMember);
 
 		return ResponseEntity.ok().build();
 	}

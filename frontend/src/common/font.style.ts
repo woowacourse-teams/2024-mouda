@@ -46,7 +46,7 @@ const fonts = css`
     src:
       local('Pretendard Medium'),
       url(${pretendardMediumWoff2}) format('woff2'),
-      url("./woff-subset/Pretendard-Medium.subset.woff") format('woff');
+      url('./woff-subset/Pretendard-Medium.subset.woff') format('woff');
   }
 
   @font-face {

@@ -81,7 +81,7 @@ public class ChatService {
 		long darakbangId, long recentChatId, long moimId, DarakbangMember darakbangMember
 	) {
 		findMoimByMoimId(moimId, darakbangId);
-		findChamyoByMoimIdAndMemberId(moimId, darakbangMember.getMemberId());
+		findChamyoByMoimIdAndMemberId(moimId, darakbangMember.getId());
 		if (recentChatId < 0) {
 			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.INVALID_RECENT_CHAT_ID);
 		}
@@ -193,8 +193,8 @@ public class ChatService {
 		return moim;
 	}
 
-	private Chamyo findChamyoByMoimIdAndMemberId(long moimId, long memberId) {
-		return chamyoRepository.findByMoimIdAndDarakbangMemberId(moimId, memberId)
+	private Chamyo findChamyoByMoimIdAndMemberId(long moimId, long darakbangMemberId) {
+		return chamyoRepository.findByMoimIdAndDarakbangMemberId(moimId, darakbangMemberId)
 			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.NOT_PARTICIPANT_TO_FIND));
 	}
 }
