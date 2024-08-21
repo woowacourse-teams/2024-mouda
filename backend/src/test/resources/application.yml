@@ -4,8 +4,28 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    ddl-auto: create-drop
+    hibernate:
+      ddl-auto: create-drop
     defer-datasource-initialization: true
   sql:
     init:
       data-locations: classpath:test-data.sql
+
+security:
+  jwt:
+    token:
+      secret-key: kksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabo
+      expire-length: 3600000
+
+app:
+  firebase-config-file: serviceAccountKey.json
+
+url:
+  base: http://localhost:8080
+  moim: /darakbang/%d/moim/%d
+  chat: /darakbang/%d/chat/%d
+  chatroom: /chatting-room/%d
+  
+oauth:
+  kakao:
+    redirect-uri: http://localhost:8081/kakao-o-auth

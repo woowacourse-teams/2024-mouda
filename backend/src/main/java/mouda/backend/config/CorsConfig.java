@@ -6,11 +6,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
+
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
-			.allowedOrigins("*")
-			.allowedMethods("*")
-			.allowedHeaders("*");
+			.allowedOrigins("http://localhost:8081", "https://dev.mouda.site")
+			.allowedMethods("GET", "POST", "PATCH", "DELETE", "OPTIONS")
+			.allowedHeaders("Authorization", "Content-Type")
+			.allowCredentials(true)
+			.maxAge(3600);
 	}
 }

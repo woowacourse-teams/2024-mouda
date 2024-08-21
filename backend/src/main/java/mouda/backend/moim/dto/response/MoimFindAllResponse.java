@@ -1,34 +1,38 @@
 package mouda.backend.moim.dto.response;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import static java.time.format.DateTimeFormatter.*;
 
 import lombok.Builder;
 import mouda.backend.moim.domain.Moim;
 
 @Builder
 public record MoimFindAllResponse(
-	long moimId,
+	Long moimId,
 	String title,
-	LocalDate date,
-	LocalTime time,
+	String date,
+	String time,
 	String place,
 	int currentPeople,
 	int maxPeople,
 	String authorNickname,
-	String description
+	String description,
+	boolean isZzimed
 ) {
-	public static MoimFindAllResponse toResponse(Moim moim) {
+
+	public static MoimFindAllResponse toResponse(Moim moim, int currentPeople, boolean isZzimed) {
+		String time = moim.getTime() == null ? "" : moim.getTime().format(ofPattern("HH:mm"));
+		String date = moim.getDate() == null ? "" : moim.getDate().format(ISO_LOCAL_DATE);
+		String place = moim.getPlace() == null ? "" : moim.getPlace();
 		return MoimFindAllResponse.builder()
 			.moimId(moim.getId())
 			.title(moim.getTitle())
-			.date(moim.getDate())
-			.time(moim.getTime())
-			.place(moim.getPlace())
-			.currentPeople(moim.getCurrentPeople())
+			.date(date)
+			.time(time)
+			.place(place)
+			.currentPeople(currentPeople)
 			.maxPeople(moim.getMaxPeople())
-			.authorNickname(moim.getAuthorNickname())
 			.description(moim.getDescription())
+			.isZzimed(isZzimed)
 			.build();
 	}
 }
