@@ -4,25 +4,22 @@ import GET_ROUTES from '@_common/getRoutes';
 import KakaoOAuthLoginIcon from '@_components/Icons/KakaoOAuthIcon';
 import LoginLayout from '@_layouts/LoginLayout/LoginLayout';
 import MainLogoIcon from '@_components/Icons/MainLogoIcon';
+import { Navigate } from 'react-router-dom';
 import ROUTES from '@_constants/routes';
 import { getLastDarakbangId } from '@_common/lastDarakbangManager';
 import { getToken } from '@_utils/tokenManager';
-import { useNavigate } from 'react-router-dom';
 
 export default function HomePage() {
   const theme = useTheme();
-  const navigate = useNavigate();
   const nowToken = getToken();
 
   if (nowToken) {
     const lastDarakbangId = getLastDarakbangId();
     if (lastDarakbangId) {
-      navigate(GET_ROUTES.nowDarakbang.main());
-      return null;
+      return <Navigate to={GET_ROUTES.nowDarakbang.main()} />;
     }
     if (!lastDarakbangId) {
-      navigate(ROUTES.darakbangSelectOption);
-      return null;
+      return <Navigate to={ROUTES.darakbangSelectOption} />;
     }
   }
 
