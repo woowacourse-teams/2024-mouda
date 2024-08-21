@@ -1,10 +1,14 @@
 import Button from '@_components/Button/Button';
 import CompleteLayout from '@_layouts/CompleteLayout/CompleteLayout';
+import GET_ROUTES from '@_common/getRoutes';
 import HighlightSpan from '@_components/HighlightSpan/HighlightSpan';
 import useMyInfo from '@_hooks/queries/useMyInfo';
+import { useNavigate } from 'react-router-dom';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 
 export default function DarakbangLandingPage() {
+  const navigate = useNavigate();
+
   const { darakbangName } = useNowDarakbangName();
   const { myInfo } = useMyInfo();
   return (
@@ -22,7 +26,12 @@ export default function DarakbangLandingPage() {
           확인해볼까요?
         </HighlightSpan>{' '}
         <CompleteLayout.BottomButtonWrapper>
-          <Button shape="bar">네~ 좋아요~</Button>
+          <Button
+            shape="bar"
+            onClick={() => navigate(GET_ROUTES.nowDarakbang.main())}
+          >
+            네~ 좋아요~
+          </Button>
         </CompleteLayout.BottomButtonWrapper>
       </CompleteLayout.ContentContainer>
     </CompleteLayout>
