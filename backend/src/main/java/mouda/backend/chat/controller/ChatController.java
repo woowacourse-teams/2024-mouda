@@ -59,6 +59,7 @@ public class ChatController implements ChatSwagger {
 	}
 
 	@Override
+	@ExceptRequestLogging
 	@GetMapping("/preview")
 	public ResponseEntity<RestResponse<ChatPreviewResponses>> findChatPreviews(
 		@PathVariable Long darakbangId,
