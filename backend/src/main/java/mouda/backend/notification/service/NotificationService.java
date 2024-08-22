@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.firebase.FirebaseException;
 import com.google.firebase.messaging.BatchResponse;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
@@ -36,7 +37,7 @@ import mouda.backend.notification.repository.MoudaNotificationRepository;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(noRollbackFor = FirebaseException.class)
 public class NotificationService {
 
 	private final FcmTokenRepository fcmTokenRepository;
