@@ -2,6 +2,7 @@ package mouda.backend.aop.logging;
 
 import static java.util.stream.Collectors.*;
 
+import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
 import org.aspectj.lang.JoinPoint;
@@ -31,6 +32,13 @@ public class RequestLoggingAspect {
 	@Before("allController()")
 	public void logController(JoinPoint joinPoint) {
 		HttpServletRequest request = getHttpServletRequest();
+
+		MethodSignature signature = (MethodSignature)joinPoint.getSignature();
+		Method method = signature.getMethod();
+		if (method.isAnnotationPresent(ExceptRequestLogging.class)) {
+			return;
+		}
+
 		String uri = request.getRequestURI();
 		String httpMethod = request.getMethod();
 		String queryParameters = getQueryParameters(request);
