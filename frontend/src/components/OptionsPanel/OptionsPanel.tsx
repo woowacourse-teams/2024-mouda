@@ -11,46 +11,52 @@ interface OptionsPanelProps {
   movedHeight?: string;
   movedWidth?: string;
   width?: string;
+  maxHeight?: string;
 }
 
 import * as S from './OptionsPanel.style';
 
-import { useEffect } from 'react';
 import { useTheme } from '@emotion/react';
 
 export default function OptionsPanel(props: OptionsPanelProps) {
-  const { options, onClose, onAfterSelect, width, movedHeight, movedWidth } =
-    props;
+  const {
+    options,
+    onClose,
+    onAfterSelect,
+    width,
+    movedHeight,
+    movedWidth,
+    maxHeight,
+  } = props;
   const theme = useTheme();
 
-  useEffect(() => {
-    document.addEventListener('click', onClose);
-    return () => document.removeEventListener('click', onClose);
-  }, [onClose]);
-
   return (
-    <div
-      css={S.panel({
-        width: width || '100px',
-        movedHeight: movedHeight || '0px',
-        movedWidth: movedWidth || '0px',
-      })}
-    >
-      {options.map(({ description, onClick, hasTopBorder }) => {
-        return (
-          <div
-            key={description}
-            onClick={(e) => {
-              e.stopPropagation();
-              onClick();
-              onAfterSelect();
-            }}
-            css={S.option({ theme, hasTopBorder })}
-          >
-            <span css={theme.typography.b1}>{description}</span>
-          </div>
-        );
-      })}
-    </div>
+    <>
+      <div onClick={onClose} css={S.dimmer} />
+      <div
+        css={S.panel({
+          width: width || '100px',
+          movedHeight: movedHeight || '0px',
+          movedWidth: movedWidth || '0px',
+          maxHeight: maxHeight,
+        })}
+      >
+        {options.map(({ description, onClick, hasTopBorder }) => {
+          return (
+            <div
+              key={description}
+              onClick={(e) => {
+                e.stopPropagation();
+                onClick();
+                onAfterSelect();
+              }}
+              css={S.option({ theme, hasTopBorder })}
+            >
+              <span css={theme.typography.b1}>{description}</span>
+            </div>
+          );
+        })}
+      </div>
+    </>
   );
 }
