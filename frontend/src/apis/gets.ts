@@ -25,6 +25,7 @@ import {
 
 import ApiClient from './apiClient';
 import { Filter } from '@_components/MyMoimListFilters/MyMoimListFilters';
+import { ApiError } from '@_utils/customError/ApiError';
 
 export const getMoims = async (): Promise<MoimInfo[]> => {
   const response = await ApiClient.getWithLastDarakbangId('/moim');
@@ -165,7 +166,10 @@ export const getDarakbangInviteCode = async () => {
 export const getDarakbangNameByCode = async (code: string) => {
   const response = await ApiClient.getWithAuth(
     '/darakbang/validation?code=' + code,
-  ).catch(() => {
+  ).catch((e) => {
+    if (e instanceof ApiError && e.status === 401) {
+      throw e;
+    }
     return {
       json: () => {
         return { data: { name: '' } };

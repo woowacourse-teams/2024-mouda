@@ -1,5 +1,6 @@
 import Button from '@_components/Button/Button';
 import CompleteLayout from '@_layouts/CompleteLayout/CompleteLayout';
+import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
 import GET_ROUTES from '@_common/getRoutes';
 import HighlightSpan from '@_components/HighlightSpan/HighlightSpan';
 import useMyInfo from '@_hooks/queries/useMyInfo';
@@ -15,7 +16,7 @@ export default function DarakbangLandingPage() {
     <CompleteLayout>
       <CompleteLayout.Header>
         <CompleteLayout.Header.Center>
-          {darakbangName}
+          <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
         </CompleteLayout.Header.Center>
       </CompleteLayout.Header>
       <CompleteLayout.ContentContainer>

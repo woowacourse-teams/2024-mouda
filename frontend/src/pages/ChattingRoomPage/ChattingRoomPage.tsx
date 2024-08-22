@@ -34,10 +34,12 @@ export default function ChattingRoomPage() {
   const { chats } = useChats(moimId);
   const { role } = useChamyoMine(moimId);
 
-  const { mutate: confirmDateTime } = useConfirmDateTime();
-  const { mutate: confirmPlace } = useConfirmPlace();
-  const { mutate: handleSendMessage } = useSendMessage(moimId);
-
+  const { mutate: confirmDateTime, isPending: isPendingConfirmDateTime } =
+    useConfirmDateTime();
+  const { mutate: confirmPlace, isPending: isPendingConfirmPlacd } =
+    useConfirmPlace();
+  const { mutate: handleSendMessage, isPending: isPendingSendMessage } =
+    useSendMessage(moimId);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [nowModalContent, setNowModalContent] = useState<ModalContent>('place');
@@ -50,29 +52,40 @@ export default function ChattingRoomPage() {
   const modal = useMemo(() => {
     if (nowModalContent === 'datetime')
       return (
-        <Modal onClose={() => setIsModalOpen(false)}>
-          <DateTimeModalContent
-            onCancel={() => setIsModalOpen(false)}
-            onConfirm={({ date, time }: { date: string; time: string }) => {
-              confirmDateTime({ moimId, date, time });
-              setIsModalOpen(false);
-            }}
-          />
-        </Modal>
+        !isPendingConfirmDateTime && (
+          <Modal onClose={() => setIsModalOpen(false)}>
+            <DateTimeModalContent
+              onCancel={() => setIsModalOpen(false)}
+              onConfirm={({ date, time }: { date: string; time: string }) => {
+                confirmDateTime({ moimId, date, time });
+                setIsModalOpen(false);
+              }}
+            />
+          </Modal>
+        )
       );
     if (nowModalContent === 'place')
       return (
-        <Modal onClose={() => setIsModalOpen(false)}>
-          <PlaceModalContent
-            onCancel={() => setIsModalOpen(false)}
-            onConfirm={(place: string) => {
-              confirmPlace({ moimId, place });
-              setIsModalOpen(false);
-            }}
-          />
-        </Modal>
+        !isPendingConfirmPlacd && (
+          <Modal onClose={() => setIsModalOpen(false)}>
+            <PlaceModalContent
+              onCancel={() => setIsModalOpen(false)}
+              onConfirm={(place: string) => {
+                confirmPlace({ moimId, place });
+                setIsModalOpen(false);
+              }}
+            />
+          </Modal>
+        )
       );
-  }, [nowModalContent, confirmDateTime, confirmPlace, moimId]);
+  }, [
+    nowModalContent,
+    confirmDateTime,
+    confirmPlace,
+    moimId,
+    isPendingConfirmDateTime,
+    isPendingConfirmPlacd,
+  ]);
 
   const menuItems = useMemo(() => {
     if (role === 'MOIMER') {
@@ -120,6 +133,7 @@ export default function ChattingRoomPage() {
       <ChattingRoomLayout.Footer>
         <ChattingFooter
           onSubmit={handleSendMessage}
+          disabled={isPendingSendMessage}
           onMenuClick={() => setIsMenuOpen(!isMenuOpen)}
         />
         {isMenuOpen && menuItems}

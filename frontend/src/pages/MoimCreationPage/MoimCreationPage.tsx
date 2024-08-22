@@ -1,4 +1,3 @@
-
 import BackArrowButton from '@_components/BackArrowButton/BackArrowButton';
 import FunnelStepIndicator from '@_components/Funnel/FunnelStepIndicator/FunnelStepIndicator';
 import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
@@ -42,6 +41,7 @@ export default function MoimCreationPage() {
     updateDescription,
     finalValidate,
     createMoim,
+    isPending,
   } = useMoimCreationForm(currentStep);
 
   return (
@@ -52,7 +52,6 @@ export default function MoimCreationPage() {
         </FunnelLayout.Header.Left>
         <FunnelLayout.Header.Center>모임 만들기</FunnelLayout.Header.Center>
       </FunnelLayout.Header>
-
 
       <FunnelStepIndicator totalSteps={steps} currentStep={currentStep} />
 
@@ -97,6 +96,7 @@ export default function MoimCreationPage() {
             <DescriptionStep
               description={formData.description}
               onDescriptionChange={updateDescription}
+              isValid={!isPending}
               onButtonClick={() => {
                 const { isValid, errorMessage } = finalValidate();
                 if (!isValid) {

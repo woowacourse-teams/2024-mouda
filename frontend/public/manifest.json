@@ -3,10 +3,10 @@
   "background_color": "#ffffff",
   "dir": "ltr",
   "display": "standalone",
-  "name": "dev.mouda",
+  "name": "모우다",
   "orientation": "portrait",
   "scope": "/",
-  "short_name": "dev.mouda",
+  "short_name": "모우다",
   "start_url": "/",
   "theme_color": "#ffffff",
   "icons": [
