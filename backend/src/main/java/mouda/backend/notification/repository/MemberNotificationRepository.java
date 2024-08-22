@@ -8,5 +8,5 @@ import mouda.backend.notification.domain.MemberNotification;
 
 public interface MemberNotificationRepository extends JpaRepository<MemberNotification, Long> {
 
-	List<MemberNotification> findAllByMemberIdAndDarakbangId(Long memberId, Long darakbangId);
+	List<MemberNotification> findAllByMemberIdAndDarakbangIdOrderByIdDesc(Long memberId, Long darakbangId);
 }

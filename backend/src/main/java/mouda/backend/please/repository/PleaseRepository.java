@@ -8,7 +8,5 @@ import mouda.backend.please.domain.Please;
 
 public interface PleaseRepository extends JpaRepository<Please, Long> {
 
-	List<Please> findAllByDarakbangId(Long darakbangId);
-
-	boolean existsByIdAndDarakbangId(Long pleaseId, Long darakbangId);
+	List<Please> findAllByDarakbangIdOrderByIdDesc(Long darakbangId);
 }
