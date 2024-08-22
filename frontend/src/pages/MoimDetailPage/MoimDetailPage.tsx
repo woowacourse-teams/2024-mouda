@@ -34,16 +34,20 @@ export default function MoimDetailPage() {
   const { isZzimed, isZzimMineLoading } = useZzimMine(moimId);
   const { participants, chamyoAllIsLoading } = useChamyoAll(moimId);
   const { mutate: changZzim } = useChangeZzim();
-  const { mutate } = useJoinMoim(() => {
+  const { mutate, isPending: isPendingJoinMoim } = useJoinMoim(() => {
     navigate(GET_ROUTES.nowDarakbang.moimParticipateComplete());
   });
 
-  const { mutate: cancelMoim } = useCancelMoim();
+  const { mutate: cancelMoim, isPending: isPendingCancelMoim } =
+    useCancelMoim();
 
-  const { mutate: ReopenMoim } = useReopenMoim();
-  const { mutate: completeMoim } = useCompleteMoin();
-  const { mutate: cancelChamyo } = useCancelChamyo();
-  const { mutate: openChat } = useOpenChat(() =>
+  const { mutate: ReopenMoim, isPending: isPendingReopenMoim } =
+    useReopenMoim();
+  const { mutate: completeMoim, isPending: isPendingCompleteMoim } =
+    useCompleteMoin();
+  const { mutate: cancelChamyo, isPending: isPendingCancelChamyo } =
+    useCancelChamyo();
+  const { mutate: openChat, isPending: isPendingOpenChat } = useOpenChat(() =>
     navigate(GET_ROUTES.nowDarakbang.chattingRoom(moimId)),
   );
 
@@ -73,6 +77,7 @@ export default function MoimDetailPage() {
               options={[
                 {
                   name: '모임 수정하기',
+                  disabled: false,
                   onClick: () =>
                     navigate(GET_ROUTES.nowDarakbang.modify(moimId), {
                       state: {
@@ -81,14 +86,26 @@ export default function MoimDetailPage() {
                       },
                     }),
                 },
-                { name: '모임 취소하기', onClick: () => cancelMoim(moimId) },
-                { name: '모임 다시 열기', onClick: () => ReopenMoim(moimId) },
+                {
+                  name: '모임 취소하기',
+                  disabled: isPendingCancelMoim,
+                  onClick: () => cancelMoim(moimId),
+                },
+                {
+                  name: '모임 다시 열기',
+                  disabled: isPendingReopenMoim,
+                  onClick: () => ReopenMoim(moimId),
+                },
               ]}
             />
           ) : (
             <KebabMenu
               options={[
-                { name: '참여 취소하기', onClick: () => cancelChamyo(moimId) },
+                {
+                  name: '참여 취소하기',
+                  disabled: isPendingCancelChamyo,
+                  onClick: () => cancelChamyo(moimId),
+                },
               ]}
             />
           )}
@@ -114,7 +131,7 @@ export default function MoimDetailPage() {
           moim.status === 'MOIMING' ? (
             <Button
               shape="bar"
-              disabled={false}
+              disabled={false || isPendingCompleteMoim}
               onClick={() => completeMoim(moimId)}
             >
               모집 완료하기
@@ -126,7 +143,7 @@ export default function MoimDetailPage() {
           ) : (
             <Button
               shape="bar"
-              disabled={false}
+              disabled={false || isPendingOpenChat}
               onClick={() => openChat(moimId)}
             >
               채팅방 열기(이동하기)
@@ -134,7 +151,11 @@ export default function MoimDetailPage() {
           )
         ) : role === 'NON_MOIMEE' ? (
           moim.status === 'MOIMING' ? (
-            <Button shape="bar" disabled={false} onClick={() => mutate(moimId)}>
+            <Button
+              shape="bar"
+              disabled={false || isPendingJoinMoim}
+              onClick={() => mutate(moimId)}
+            >
               참여하기
             </Button>
           ) : moim.status === 'COMPLETED' ? (
