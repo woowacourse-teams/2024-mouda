@@ -96,9 +96,9 @@ class NotificationServiceTest {
 		assertThat(responses).satisfies(res -> {
 			assertThat(res).hasSize(2);
 			assertThat(res).extracting(NotificationFindAllResponse::message)
-				.containsExactly(type1.createMessage("테스트모임"), type2.createMessage("상돌"));
+				.containsExactly(type2.createMessage("상돌"), type1.createMessage("테스트모임"));
 			assertThat(res).extracting(NotificationFindAllResponse::type)
-				.containsExactly(type1.toString(), type2.toString());
+				.containsExactly(type2.toString(), type1.toString());
 		});
 	}
 }
