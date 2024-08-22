@@ -1,3 +1,4 @@
+import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
 import { Fragment } from 'react';
 import GET_ROUTES from '@_common/getRoutes';
 import NavigationBar from '@_components/NavigationBar/NavigationBar';
@@ -20,7 +21,9 @@ export default function PleasePage() {
     <Fragment>
       <PleaseLayout>
         <PleaseLayout.Header>
-          <h1 css={[common.nonScroll, theme.typography.h5]}>{darakbangName}</h1>
+          <h1 css={[common.nonScroll, theme.typography.h5]}>
+            <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
+          </h1>
         </PleaseLayout.Header>
 
         <PleaseLayout.Main>

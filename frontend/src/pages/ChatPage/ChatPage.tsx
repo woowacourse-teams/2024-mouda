@@ -1,5 +1,6 @@
 import ChattingPreview from '@_components/ChattingPreview/ChattingPreview';
 import ChattingPreviewLayout from '@_layouts/ChattingPreviewLayout/ChattingPreviewLayout';
+import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
 import GET_ROUTES from '@_common/getRoutes';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import NavigationBar from '@_components/NavigationBar/NavigationBar';
@@ -19,7 +20,9 @@ export default function ChatPage() {
     <ChattingPreviewLayout>
       <ChattingPreviewLayout.Header>
         <ChattingPreviewLayout.Header.Left>
-          <h2 css={[theme.typography.h5, common.nonScroll]}>{darakbangName}</h2>
+          <h2 css={[theme.typography.h5, common.nonScroll]}>
+            <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
+          </h2>
         </ChattingPreviewLayout.Header.Left>
       </ChattingPreviewLayout.Header>
       <ChattingPreviewLayout.ContentContainer>

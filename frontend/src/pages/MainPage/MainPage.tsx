@@ -10,6 +10,7 @@ import {
   setLastDarakbangId,
 } from '@_common/lastDarakbangManager';
 
+import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
 import GET_ROUTES from '@_common/getRoutes';
 import HomeLayout from '@_layouts/HomeLayout.tsx/HomeLayout';
 import HomeMainContent from '@_components/HomeMainContent/HomeMainContent';
@@ -119,6 +120,7 @@ export default function MainPage() {
         movedHeight="5rem"
         movedWidth="3rem"
         width="80%"
+        maxHeight="50vh"
       />
     );
   }, [darakbangMenuOption]);
@@ -135,7 +137,7 @@ export default function MainPage() {
                   setIsDarakbangMenuOpened(!isDarakbangMenuOpened);
                 }}
               >
-                {darakbangName}
+                <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
                 <SolidArrow
                   direction={isDarakbangMenuOpened ? 'up' : 'down'}
                   width="15"

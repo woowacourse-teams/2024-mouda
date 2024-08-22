@@ -1,3 +1,4 @@
+import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
 import InformationLayout from '@_layouts/InformationLayout/InformationLayout';
 import MineInfoCard from '@_components/MineInfoCard/MineInfoCard';
 import NavigationBar from '@_components/NavigationBar/NavigationBar';
@@ -23,7 +24,7 @@ export default function MyPage() {
       <InformationLayout.Header>
         <InformationLayout.Header.Left>
           <span css={[[theme.typography.h5, common.nonScroll]]}>
-            {darakbangName}
+            <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
           </span>
         </InformationLayout.Header.Left>
       </InformationLayout.Header>
