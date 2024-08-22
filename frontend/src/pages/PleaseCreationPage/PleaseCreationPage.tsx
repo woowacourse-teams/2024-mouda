@@ -14,7 +14,7 @@ import { useState } from 'react';
 export default function PleaseCreationPage() {
   const navigate = useNavigate();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { mutate } = useAddPlease(() => {
+  const { mutate, isPending } = useAddPlease(() => {
     navigate(GET_ROUTES.nowDarakbang.please());
   });
 
@@ -70,7 +70,7 @@ export default function PleaseCreationPage() {
         <Button
           shape="bar"
           onClick={handleRegisterButtonClick}
-          disabled={!isValidPleaseInfoInput}
+          disabled={!isValidPleaseInfoInput || isPending}
         >
           등록하기
         </Button>
