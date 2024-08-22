@@ -3,3 +3,4 @@
 /backend/out
 /frontend/.idea
 /backend/htmlReport
+*.pem

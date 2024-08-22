@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import mouda.backend.aop.logging.ExceptRequestLogging;
 import mouda.backend.chat.dto.request.ChatCreateRequest;
 import mouda.backend.chat.dto.request.DateTimeConfirmRequest;
 import mouda.backend.chat.dto.request.LastReadChatRequest;
@@ -43,6 +44,7 @@ public class ChatController implements ChatSwagger {
 	}
 
 	@Override
+	@ExceptRequestLogging
 	@GetMapping
 	public ResponseEntity<RestResponse<ChatFindUnloadedResponse>> findUnloadedChats(
 		@PathVariable Long darakbangId,
@@ -57,6 +59,7 @@ public class ChatController implements ChatSwagger {
 	}
 
 	@Override
+	@ExceptRequestLogging
 	@GetMapping("/preview")
 	public ResponseEntity<RestResponse<ChatPreviewResponses>> findChatPreviews(
 		@PathVariable Long darakbangId,
