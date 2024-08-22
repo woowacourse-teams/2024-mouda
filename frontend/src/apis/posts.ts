@@ -121,7 +121,14 @@ export const postDarakbangEntrance = async ({
   code: string;
   nickname: string;
 }) => {
-  await ApiClient.postWithAuth('/darakbang/entrance?code=' + code, {
-    nickname,
-  });
+  const data = await ApiClient.postWithAuth(
+    '/darakbang/entrance?code=' + code,
+    {
+      nickname,
+    },
+  );
+
+  const json = await data.json();
+
+  return json.data as number;
 };
