@@ -1,14 +1,17 @@
 import { useTheme } from '@emotion/react';
 import * as S from './FunnelTextArea.style';
-import { forwardRef } from 'react';
+import { forwardRef, Ref, TextareaHTMLAttributes } from 'react';
 
 interface FunnelTextAreaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
+  extends TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
-export default forwardRef(function FunnelTextArea(props: FunnelTextAreaProps) {
+export default forwardRef(function FunnelTextArea(
+  props: FunnelTextAreaProps,
+  ref?: Ref<HTMLTextAreaElement>,
+) {
   const { ...rest } = props;
 
   const theme = useTheme();
 
-  return <textarea css={S.textArea({ theme })} {...rest} />;
+  return <textarea ref={ref} css={S.textArea({ theme })} {...rest} />;
 });

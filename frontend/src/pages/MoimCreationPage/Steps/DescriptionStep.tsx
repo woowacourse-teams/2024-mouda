@@ -14,7 +14,7 @@ interface DescriptionStepProps {
 export default function DescriptionStep(props: DescriptionStepProps) {
   const { description, onDescriptionChange, isValid, onButtonClick } = props;
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (inputRef.current) {
