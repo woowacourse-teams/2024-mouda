@@ -118,7 +118,7 @@ export default function MainPage() {
         onClose={() => setIsDarakbangMenuOpened(false)}
         onAfterSelect={() => setIsDarakbangMenuOpened(false)}
         movedHeight="5rem"
-        movedWidth="3rem"
+        movedWidth="1.8rem"
         width="80%"
         maxHeight="50vh"
       />
