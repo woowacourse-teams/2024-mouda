@@ -60,7 +60,7 @@ export default function MainPage() {
             navigate(GET_ROUTES.nowDarakbang.main());
           },
           description:
-            name + (darakbangId === nowDarakbangId ? '(현재 다락방)' : ''),
+            name + (darakbangId === nowDarakbangId ? ' (현재 다락방)' : ''),
         };
       }) || [];
 
