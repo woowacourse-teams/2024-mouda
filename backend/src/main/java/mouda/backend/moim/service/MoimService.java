@@ -77,7 +77,7 @@ public class MoimService {
 
 		List<Long> darakbangMembersExceptMe = darakbangMemberRepository.findAllByDarakbangId(darakbangId).stream()
 			.filter(member -> !Objects.equals(member.getId(), darakbangMember.getId()))
-			.map(DarakbangMember::getId)
+			.map(DarakbangMember::getMemberId)
 			.toList();
 		notificationService.notifyToMembers(notification, darakbangMembersExceptMe, darakbangId);
 		return moim;
