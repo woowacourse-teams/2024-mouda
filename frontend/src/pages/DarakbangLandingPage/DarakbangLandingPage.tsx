@@ -6,6 +6,8 @@ import HighlightSpan from '@_components/HighlightSpan/HighlightSpan';
 import useMyInfo from '@_hooks/queries/useMyInfo';
 import { useNavigate } from 'react-router-dom';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
+import { theme } from '@_common/theme/theme.style';
+import { common } from '@_common/common.style';
 
 export default function DarakbangLandingPage() {
   const navigate = useNavigate();
@@ -16,7 +18,9 @@ export default function DarakbangLandingPage() {
     <CompleteLayout>
       <CompleteLayout.Header>
         <CompleteLayout.Header.Center>
-          <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
+          <span css={[[theme.typography.h5, common.nonScroll]]}>
+            <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
+          </span>
         </CompleteLayout.Header.Center>
       </CompleteLayout.Header>
       <CompleteLayout.ContentContainer>
