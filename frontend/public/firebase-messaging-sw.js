@@ -50,13 +50,4 @@ const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
   console.log('[firebase-messaging-sw.js] 백그라운드 메시지 수신:', payload);
-  
-  const notificationTitle = payload.notification.title;
-  const notificationOptions = {
-    body: payload.notification.body,
-    data: {
-      click_action: payload.fcmOptions.link, // 이 필드는 밑의 클릭 이벤트 처리에 사용됨
-    },
-  };
-  self.registration.showNotification(notificationTitle, notificationOptions);
 });
