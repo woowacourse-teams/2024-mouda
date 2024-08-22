@@ -78,7 +78,7 @@ public class MoimService {
 
 	@Transactional(readOnly = true)
 	public MoimFindAllResponses findAllMoim(Long darakbangId, DarakbangMember darakbangMember) {
-		List<Moim> moims = moimRepository.findAllByDarakbangId(darakbangId);
+		List<Moim> moims = moimRepository.findAllByDarakbangIdOrderByIdDesc(darakbangId);
 		return new MoimFindAllResponses(
 			moims.stream()
 				.map(moim -> {
@@ -301,7 +301,7 @@ public class MoimService {
 	}
 
 	public MoimFindAllResponses findAllMyMoim(DarakbangMember darakbangMember, FilterType filter) {
-		Stream<Chamyo> chamyoStream = chamyoRepository.findAllByDarakbangMemberId(darakbangMember.getId())
+		Stream<Chamyo> chamyoStream = chamyoRepository.findAllByDarakbangMemberIdOrderByIdDesc(darakbangMember.getId())
 			.stream();
 
 		if (filter == FilterType.PAST) {
