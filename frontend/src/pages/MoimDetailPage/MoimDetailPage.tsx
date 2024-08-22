@@ -112,13 +112,7 @@ export default function MoimDetailPage() {
 
   const button = useMemo(() => {
     return isChamyoMineLoading ? (
-      <Button
-        shape="bar"
-        disabled={false || isPendingCompleteMoim}
-        onClick={() => completeMoim(moimId)}
-      >
-        <SkeletonPiece width="10rem" height="3rem" />
-      </Button>
+      <></>
     ) : role === 'MOIMER' ? (
       moim?.status === 'MOIMING' ? (
         <Button
