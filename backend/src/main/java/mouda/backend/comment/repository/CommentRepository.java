@@ -10,7 +10,7 @@ import mouda.backend.comment.domain.Comment;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-	@Query("SELECT c.darakbangMember.memberId FROM Comment c WHERE c.parentId = :parentId")
+	@Query("SELECT c.darakbangMember.memberId FROM Comment c WHERE c.id = :parentId")
 	Long findMemberIdByParentId(@Param("parentId") long parentId);
 
 	List<Comment> findAllByMoimIdOrderByCreatedAt(long id);
