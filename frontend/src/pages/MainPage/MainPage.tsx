@@ -1,6 +1,6 @@
 import * as S from './MainPage.style';
 
-import { Fragment, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import MoimTabBar, { MainPageTab } from '@_components/MoimTabBar/MoimTabBar';
 import OptionsPanel, {
   OptionsPanelOption,
@@ -28,10 +28,14 @@ import useMyRoleInDarakbang from '@_hooks/queries/useMyDarakbangRole';
 import { useNavigate } from 'react-router-dom';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import useServeToken from '@_hooks/mutaions/useServeToken';
+import Modal from '@_components/Modal/Modal';
+import { useTheme } from '@emotion/react';
+import Button from '@_components/Button/Button';
 
 export default function MainPage() {
   const navigate = useNavigate();
   const { mutate } = useServeToken();
+  const theme = useTheme();
   const [currentTab, setCurrentTab] = useState<MainPageTab>('모임목록');
   const [isDarakbangMenuOpened, setIsDarakbangMenuOpened] = useState(false);
 
@@ -41,6 +45,16 @@ export default function MainPage() {
   const nowDarakbangId = getLastDarakbangId();
   const { myRoleInDarakbang: myRoleInNowDarakbang } = useMyRoleInDarakbang();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  useEffect(() => {
+    if (window.Notification && window.Notification.permission === 'default') {
+      setIsModalOpen(true);
+    }
+  }, []);
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
   const handleTabClick = (tab: MainPageTab) => {
     setCurrentTab(tab);
   };
@@ -169,6 +183,17 @@ export default function MainPage() {
 
       <NavigationBarWrapper>
         <NavigationBar />
+        {isModalOpen && (
+          <Modal onClose={handleModalClose}>
+            <div css={S.ModalContent({ theme })}>
+              알림을 허용하시면 모임에 대한 알림을 받을 수 있습니다.
+              <br /> 우측 상단에 알림 버튼을 눌러주세요
+            </div>
+            <Button shape="bar" onClick={handleModalClose}>
+              닫기
+            </Button>
+          </Modal>
+        )}
       </NavigationBarWrapper>
     </Fragment>
   );
