@@ -3,7 +3,6 @@ import { removeInviteCode, setInviteCode } from '@_common/inviteCodeManager';
 
 import Button from '@_components/Button/Button';
 import CompleteLayout from '@_layouts/CompleteLayout/CompleteLayout';
-import GET_ROUTES from '@_common/getRoutes';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import ROUTES from '@_constants/routes';
 import useDarakbangNameByCode from '@_hooks/queries/useDarakbangNameByCode';
@@ -13,12 +12,12 @@ export default function DarakbangInvitationRoute() {
   const navigate = useNavigate();
 
   const code = searchParam.get('code');
-  const { darakbangName, isLoading } = useDarakbangNameByCode(code || '');
-  if (isLoading) return null;
+  const { darakbangName } = useDarakbangNameByCode(code || '');
   const isRightCode = darakbangName && darakbangName !== '';
+  if (darakbangName === undefined) return null;
   if (isRightCode) {
     if (code) setInviteCode(code);
-    return <Navigate to={GET_ROUTES.nowDarakbang.main()} replace />;
+    return <Navigate to={ROUTES.darakbangNickname} replace />;
   }
   if (!isRightCode) {
     removeInviteCode();
