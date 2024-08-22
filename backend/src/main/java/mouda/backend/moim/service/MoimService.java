@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +23,7 @@ import mouda.backend.comment.exception.CommentErrorMessage;
 import mouda.backend.comment.exception.CommentException;
 import mouda.backend.comment.repository.CommentRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
+import mouda.backend.darakbangmember.repository.repository.DarakbangMemberRepository;
 import mouda.backend.moim.domain.FilterType;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimStatus;
@@ -44,6 +46,7 @@ import mouda.backend.zzim.repository.ZzimRepository;
 @RequiredArgsConstructor
 public class MoimService {
 
+	private final DarakbangMemberRepository darakbangMemberRepository;
 	@Value("${url.base}")
 	private String baseUrl;
 
@@ -72,7 +75,11 @@ public class MoimService {
 			.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moim.getId()))
 			.build();
 
-		notificationService.notifyToAllExceptMember(notification, darakbangMember.getMemberId(), darakbangId);
+		List<Long> darakbangMembersExceptMe = darakbangMemberRepository.findAllByDarakbangId(darakbangId).stream()
+			.filter(member -> !Objects.equals(member.getId(), darakbangMember.getId()))
+			.map(DarakbangMember::getId)
+			.toList();
+		notificationService.notifyToMembers(notification, darakbangMembersExceptMe, darakbangId);
 		return moim;
 	}
 
