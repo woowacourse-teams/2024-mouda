@@ -20,7 +20,7 @@ public interface ChamyoRepository extends JpaRepository<Chamyo, Long> {
 
 	boolean existsByMoimIdAndDarakbangMemberId(Long moimId, Long darakbangMemberId);
 
-	List<Chamyo> findAllByDarakbangMemberId(Long darakbangMemberId);
+	List<Chamyo> findAllByDarakbangMemberIdOrderByIdDesc(Long darakbangMemberId);
 
 	void deleteAllByMoimId(Long moimId);
 

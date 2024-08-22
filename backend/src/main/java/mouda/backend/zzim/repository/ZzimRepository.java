@@ -15,5 +15,5 @@ public interface ZzimRepository extends JpaRepository<Zzim, Long> {
 
 	void deleteAllByMoimId(Long moimId);
 
-	List<Zzim> findAllByDarakbangMemberId(Long darakbangMemberId);
+	List<Zzim> findAllByDarakbangMemberIdOrderByIdDesc(Long darakbangMemberId);
 }
