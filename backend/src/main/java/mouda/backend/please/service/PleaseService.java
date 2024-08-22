@@ -46,7 +46,7 @@ public class PleaseService {
 	}
 
 	public PleaseFindAllResponses findAllPlease(Long darakbangId, DarakbangMember darakbangMember) {
-		List<Please> pleases = pleaseRepository.findAllByDarakbangId(darakbangId);
+		List<Please> pleases = pleaseRepository.findAllByDarakbangIdOrderByIdDesc(darakbangId);
 
 		return new PleaseFindAllResponses(
 			pleases.stream()
