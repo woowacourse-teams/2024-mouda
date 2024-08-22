@@ -186,8 +186,8 @@ export default function MainPage() {
         {isModalOpen && (
           <Modal onClose={handleModalClose}>
             <div css={S.ModalContent({ theme })}>
-              알림을 허용하시면 모임에 대한 알림을 받을 수 있습니다. 우측 상단에
-              알림 버튼을 눌러주세요
+              알림을 허용하시면 모임에 대한 알림을 받을 수 있습니다.
+              <br /> 우측 상단에 알림 버튼을 눌러주세요
             </div>
             <Button shape="bar" onClick={handleModalClose}>
               닫기

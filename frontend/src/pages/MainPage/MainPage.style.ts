@@ -13,6 +13,6 @@ export const headerLeft = css`
 `;
 
 export const ModalContent = (props: { theme: Theme }) => css`
-  ${props.theme.typography.b1}
+  ${props.theme.typography.s1}
   margin: 5rem;
 `;
