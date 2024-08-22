@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 
 export const headerButton = css`
   background: none;
@@ -10,4 +10,9 @@ export const headerLeft = css`
   gap: 0.5rem;
   align-items: center;
   font-size: 100%;
+`;
+
+export const ModalContent = (props: { theme: Theme }) => css`
+  ${props.theme.typography.b1}
+  margin: 5rem;
 `;
