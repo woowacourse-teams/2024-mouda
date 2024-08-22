@@ -7,7 +7,9 @@ export const kebabContainer = (props: { theme: Theme }) => css`
   & button {
     white-space: nowrap;
     background: ${props.theme.colorPalette.white[100]};
+    ${props.theme.typography.ButtonFont}
     border: none;
+    border-bottom: 1px;
   }
 `;
 export const optionBox = (props: { theme: Theme }) => css`
@@ -17,7 +19,14 @@ export const optionBox = (props: { theme: Theme }) => css`
 
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
 
-  box-shadow: ${props.theme.colorPalette.grey[100]} 0 2px 8px 0;
+  padding: 1rem;
+
+  background-color: ${props.theme.colorPalette.white[100]};
+  box-shadow: ${props.theme.colorPalette.black[10]} 0 2px 8px 0;
+
+  & button {
+    padding: 1rem;
+  }
 `;
