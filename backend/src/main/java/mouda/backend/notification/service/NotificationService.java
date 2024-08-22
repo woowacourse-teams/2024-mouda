@@ -155,7 +155,7 @@ public class NotificationService {
 	}
 
 	public NotificationFindAllResponses findAllMyNotifications(Member member, Long darakbangId) {
-		List<NotificationFindAllResponse> responses = memberNotificationRepository.findAllByMemberIdAndDarakbangId(
+		List<NotificationFindAllResponse> responses = memberNotificationRepository.findAllByMemberIdAndDarakbangIdOrderByIdDesc(
 				member.getId(), darakbangId)
 			.stream()
 			.map(MemberNotification::getMoudaNotification)
