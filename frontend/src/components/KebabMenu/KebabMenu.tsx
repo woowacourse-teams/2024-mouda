@@ -3,7 +3,7 @@ import { useRef, useState, FocusEvent } from 'react';
 import KebabButton from '@_common/assets/kebab_menu.svg';
 import { useTheme } from '@emotion/react';
 
-type Option = { name: string; onClick: () => void };
+type Option = { name: string; disabled: boolean; onClick: () => void };
 export interface KebabMenuProps {
   options: Option[];
 }
@@ -45,6 +45,7 @@ export default function KebabMenu(props: KebabMenuProps) {
               <button
                 key={option.name}
                 onClick={() => handleOptionClick(option.onClick)}
+                disabled={option.disabled}
               >
                 {option.name}
               </button>

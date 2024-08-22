@@ -15,10 +15,12 @@ export const Default: Story = {
     options: [
       {
         name: '수정하기',
+        disabled: false,
         onClick: () => {},
       },
       {
         name: '삭제하기',
+        disabled: false,
         onClick: () => {},
       },
     ],

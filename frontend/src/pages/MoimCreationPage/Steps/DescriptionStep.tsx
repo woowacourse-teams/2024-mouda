@@ -7,11 +7,12 @@ import { useEffect, useRef } from 'react';
 interface DescriptionStepProps {
   description: string;
   onDescriptionChange: (description: string) => void;
+  isValid: boolean;
   onButtonClick: () => void;
 }
 
 export default function DescriptionStep(props: DescriptionStepProps) {
-  const { description, onDescriptionChange, onButtonClick } = props;
+  const { description, onDescriptionChange, isValid, onButtonClick } = props;
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -43,7 +44,9 @@ export default function DescriptionStep(props: DescriptionStepProps) {
       </FunnelLayout.Main>
 
       <FunnelLayout.Footer>
-        <FunnelButton onClick={onButtonClick}>모임 만들기 완료!</FunnelButton>
+        <FunnelButton disabled={!isValid} onClick={onButtonClick}>
+          모임 만들기 완료!
+        </FunnelButton>
       </FunnelLayout.Footer>
     </>
   );

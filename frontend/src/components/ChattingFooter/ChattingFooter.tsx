@@ -16,11 +16,12 @@ import { useTheme } from '@emotion/react';
 
 interface ChattingFooterProps {
   onMenuClick: () => void;
+  disabled: boolean;
   onSubmit: (message: string) => void;
 }
 
 export default function ChattingFooter(props: ChattingFooterProps) {
-  const { onSubmit, onMenuClick } = props;
+  const { onSubmit, disabled, onMenuClick } = props;
   const [isMenuClicked, setIsMenuClicked] = useState(false);
   const [message, setMessage] = useState('');
   const theme = useTheme();
@@ -63,7 +64,7 @@ export default function ChattingFooter(props: ChattingFooterProps) {
             textArea.current?.focus();
           }}
         >
-          <SendButton disabled={message === ''} />
+          <SendButton disabled={message === '' || disabled} />
         </button>
       </div>
     </div>

@@ -13,6 +13,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     placeHolder: '댓글을 입력해주세요',
+    disabled: false,
     onSubmit: () => {},
   },
   render: (args) => <MessageInput {...args} />,
