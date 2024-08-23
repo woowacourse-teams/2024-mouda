@@ -19,7 +19,7 @@ export default function MaxPeopleStep(props: MaxPeopleStepProps) {
 
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.focus();
+      // inputRef.current.focus();
     }
   }, []);
 
