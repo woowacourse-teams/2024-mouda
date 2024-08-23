@@ -162,6 +162,9 @@ public class MoimService {
 
 		commentRepository.save(request.toEntity(moim, darakbangMember));
 
+		if (Objects.equals(chamyoRepository.findMoimerIdByMoimId(moimId), darakbangMember.getMemberId())) {
+			return;
+		}
 		sendCommentNotification(moim.getId(), darakbangMember, parentId, darakbangId);
 	}
 
