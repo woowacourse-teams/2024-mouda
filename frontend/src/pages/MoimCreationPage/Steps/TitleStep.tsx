@@ -20,7 +20,7 @@ export default function TitleStep(props: TitleProps) {
 
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.focus();
+      // inputRef.current.focus();
     }
   }, []);
 

@@ -18,7 +18,7 @@ export default function DescriptionStep(props: DescriptionStepProps) {
 
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.focus();
+      // inputRef.current.focus();
     }
   }, []);
 

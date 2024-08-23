@@ -20,7 +20,7 @@ export default function PlaceStep(props: PlaceStepProps) {
 
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.focus();
+      // inputRef.current.focus();
     }
   }, []);
   return (
