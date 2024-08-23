@@ -12,4 +12,4 @@ security:
 url:
   moim: /darakbang/%d/moim/%d
   chat: /darakbang/%d/chat/%d
-  chatroom: /chatting-room/%d
+  chatroom: /darakbang/%d/chatting-room/%d
