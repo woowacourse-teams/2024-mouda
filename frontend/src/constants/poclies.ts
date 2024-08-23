@@ -23,6 +23,8 @@ const POLICES = {
   footerZIndex: 100,
   modalZIndex: 200,
 
+  maxDarakbangName: 40,
+
   maxNicknameLength: 10,
 
   entranceCodeLength: 7,

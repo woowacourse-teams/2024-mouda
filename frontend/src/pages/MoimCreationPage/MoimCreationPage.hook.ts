@@ -63,7 +63,7 @@ const useMoimCreationForm = (currentStep: MoimCreationStep) => {
     maxPeople: false,
   });
 
-  const { mutate: createMoim } = useAddMoim((moimId: number) => {
+  const { mutate: createMoim, isPending } = useAddMoim((moimId: number) => {
     navigate(GET_ROUTES.nowDarakbang.moimDetail(moimId));
   });
 
@@ -139,6 +139,7 @@ const useMoimCreationForm = (currentStep: MoimCreationStep) => {
     updateDescription,
     finalValidate,
     createMoim,
+    isPending,
   };
 };
 

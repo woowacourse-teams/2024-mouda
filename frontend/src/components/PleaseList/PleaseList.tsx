@@ -1,12 +1,13 @@
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import PleaseCardList from '@_components/PleaseCardList/PleaseCardList';
 import usePleases from '@_hooks/queries/usePleases';
+import PleaseCardListSkeleton from './PleaseCardListSkeleton/PleaseCardListSkeleton';
 
 export default function PleaseList() {
   const { pleases, isLoading } = usePleases();
 
   if (isLoading) {
-    return <div>로딩중...</div>;
+    return <PleaseCardListSkeleton />;
   }
 
   return pleases && pleases.length > 0 ? (

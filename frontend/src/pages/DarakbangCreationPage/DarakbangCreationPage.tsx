@@ -59,6 +59,7 @@ export default function DarakbangCreationPage() {
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               setDarakbangName(e.target.value);
             }}
+            maxLength={POLICES.maxDarakbangName}
           />
         </div>
         <div css={S.labeledInput}>

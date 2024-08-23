@@ -4,6 +4,7 @@ import FunnelQuestion from '@_components/Funnel/FunnelQuestion/FunnelQuestion';
 import POLICES from '@_constants/poclies';
 import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
 import { MoimInputInfo } from '@_types/index';
+import { useEffect, useRef } from 'react';
 
 interface TitleProps {
   title: MoimInputInfo['title'];
@@ -15,6 +16,14 @@ interface TitleProps {
 export default function TitleStep(props: TitleProps) {
   const { title, isValid, onTitleChange, onButtonClick } = props;
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      // inputRef.current.focus();
+    }
+  }, []);
+
   return (
     <>
       <FunnelLayout.Main>
@@ -24,8 +33,10 @@ export default function TitleStep(props: TitleProps) {
           <FunnelQuestion.Text>은 무엇인가요?</FunnelQuestion.Text>
         </FunnelQuestion>
         <FunnelInput
+          ref={inputRef}
           placeholder="모임의 이름을 입력해주세요."
           value={title}
+          onKeyUp={(e) => e.key === 'Enter' && isValid && onButtonClick()}
           onChange={(e) => onTitleChange(e.target.value)}
         />
       </FunnelLayout.Main>
