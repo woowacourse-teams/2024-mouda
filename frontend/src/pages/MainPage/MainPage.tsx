@@ -1,6 +1,6 @@
 import * as S from './MainPage.style';
 
-import { Fragment, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import MoimTabBar, { MainPageTab } from '@_components/MoimTabBar/MoimTabBar';
 import OptionsPanel, {
   OptionsPanelOption,
@@ -10,6 +10,7 @@ import {
   setLastDarakbangId,
 } from '@_common/lastDarakbangManager';
 
+import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
 import GET_ROUTES from '@_common/getRoutes';
 import HomeLayout from '@_layouts/HomeLayout.tsx/HomeLayout';
 import HomeMainContent from '@_components/HomeMainContent/HomeMainContent';
@@ -27,10 +28,14 @@ import useMyRoleInDarakbang from '@_hooks/queries/useMyDarakbangRole';
 import { useNavigate } from 'react-router-dom';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import useServeToken from '@_hooks/mutaions/useServeToken';
+import Modal from '@_components/Modal/Modal';
+import { useTheme } from '@emotion/react';
+import Button from '@_components/Button/Button';
 
 export default function MainPage() {
   const navigate = useNavigate();
   const { mutate } = useServeToken();
+  const theme = useTheme();
   const [currentTab, setCurrentTab] = useState<MainPageTab>('모임목록');
   const [isDarakbangMenuOpened, setIsDarakbangMenuOpened] = useState(false);
 
@@ -40,6 +45,16 @@ export default function MainPage() {
   const nowDarakbangId = getLastDarakbangId();
   const { myRoleInDarakbang: myRoleInNowDarakbang } = useMyRoleInDarakbang();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  useEffect(() => {
+    if (window.Notification && window.Notification.permission === 'default') {
+      setIsModalOpen(true);
+    }
+  }, []);
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
   const handleTabClick = (tab: MainPageTab) => {
     setCurrentTab(tab);
   };
@@ -59,7 +74,7 @@ export default function MainPage() {
             navigate(GET_ROUTES.nowDarakbang.main());
           },
           description:
-            name + (darakbangId === nowDarakbangId ? '(현재 다락방)' : ''),
+            name + (darakbangId === nowDarakbangId ? ' (현재 다락방)' : ''),
         };
       }) || [];
 
@@ -117,8 +132,9 @@ export default function MainPage() {
         onClose={() => setIsDarakbangMenuOpened(false)}
         onAfterSelect={() => setIsDarakbangMenuOpened(false)}
         movedHeight="5rem"
-        movedWidth="3rem"
+        movedWidth="1.8rem"
         width="80%"
+        maxHeight="50vh"
       />
     );
   }, [darakbangMenuOption]);
@@ -135,7 +151,7 @@ export default function MainPage() {
                   setIsDarakbangMenuOpened(!isDarakbangMenuOpened);
                 }}
               >
-                {darakbangName}
+                <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
                 <SolidArrow
                   direction={isDarakbangMenuOpened ? 'up' : 'down'}
                   width="15"
@@ -167,6 +183,18 @@ export default function MainPage() {
 
       <NavigationBarWrapper>
         <NavigationBar />
+        {isModalOpen && (
+          <Modal onClose={handleModalClose}>
+            <div css={S.ModalContent({ theme })}>
+              알림을 허용하시면 모임에 대한 알림을 받을 수 있습니다.
+              <br />
+              우측 상단의 알림 버튼을 눌러주세요.
+            </div>
+            <Button shape="bar" onClick={handleModalClose}>
+              닫기
+            </Button>
+          </Modal>
+        )}
       </NavigationBarWrapper>
     </Fragment>
   );

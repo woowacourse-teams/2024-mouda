@@ -1,15 +1,12 @@
 import ROUTES from '@_constants/routes';
 import { getInviteCode } from '@_common/inviteCodeManager';
 import { kakaoOAuth } from '@_apis/auth';
-import { requestPermission } from '@_service/notification';
 import { setToken } from '@_utils/tokenManager';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useServeToken from '@_hooks/mutaions/useServeToken';
 
 export default function KakaoOAuthLoginPage() {
   const navigate = useNavigate();
-  const { mutate: serveToken } = useServeToken();
 
   useEffect(() => {
     const loginKakaoOAuth = async () => {
@@ -23,7 +20,7 @@ export default function KakaoOAuthLoginPage() {
 
       const response = await kakaoOAuth(code);
       setToken(response.data.accessToken);
-      requestPermission(serveToken);
+
       const inviteCode = getInviteCode();
       if (inviteCode) {
         navigate(`${ROUTES.darakbangInvitationRoute}?code=${inviteCode}`);
@@ -34,7 +31,7 @@ export default function KakaoOAuthLoginPage() {
     };
 
     loginKakaoOAuth();
-  }, [navigate, serveToken]);
+  }, [navigate]);
 
   return null;
 }

@@ -122,7 +122,11 @@ export const Default: Story = {
           </ChattingRoomLayout.Header>
           <ChatList chats={chats} />
           <ChattingRoomLayout.Footer>
-            <ChattingFooter onSubmit={() => {}} onMenuClick={() => {}} />
+            <ChattingFooter
+              onSubmit={() => {}}
+              disabled={false}
+              onMenuClick={() => {}}
+            />
           </ChattingRoomLayout.Footer>
         </ChattingRoomLayout>
       </div>

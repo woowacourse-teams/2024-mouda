@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from 'react';
 import { getInviteCode, removeInviteCode } from '@_common/inviteCodeManager';
 
 import Button from '@_components/Button/Button';
+import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
 import DarakbangNicknameModalContent from './DarakbangNicknameModalContent/DarakbangNicknameModalContent';
 import ErrorControlledInput from '@_components/ErrorControlledInput/ErrorControlledInput';
 import GET_ROUTES from '@_common/getRoutes';
@@ -49,7 +50,7 @@ export default function DarakbangNicknamePage() {
           />
         </StickyTriSectionHeader.Left>
         <StickyTriSectionHeader.Center>
-          {darakbangName}
+          <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
         </StickyTriSectionHeader.Center>
       </StickyTriSectionHeader>
       <StretchContentLayout.ContentContainer>

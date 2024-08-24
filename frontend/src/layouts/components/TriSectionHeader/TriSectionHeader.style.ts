@@ -13,7 +13,7 @@ export const getTriSectionHeaderStyle = ({
     justify-content: space-between;
 
     height: 5rem;
-    margin: 0 0 0 2rem;
+    margin: 0 2rem;
 
     ${borderBottomColor && `border-bottom: 1px solid ${borderBottomColor};`}
 
@@ -36,5 +36,5 @@ export const centerSectionStyle = (props: { theme: Theme }) => css`
 `;
 
 export const rightSectionStyle = css`
-  right: 1.6rem;
+  right: 0;
 `;

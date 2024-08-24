@@ -12,7 +12,8 @@ interface CommentListProps extends HTMLProps<HTMLDivElement> {
 
 export default function CommentList(props: CommentListProps) {
   const { moimId, comments } = props;
-  const { mutate: writeComment } = useWriteComment();
+  const { mutate: writeComment, isPending: isPendingWriteComment } =
+    useWriteComment();
   const [selectedComment, setSelectedCommnet] = useState(0);
 
   return (
@@ -35,6 +36,7 @@ export default function CommentList(props: CommentListProps) {
       })}
       <MessageInput
         placeHolder={'메세지를 입력해주세요'}
+        disabled={isPendingWriteComment}
         onSubmit={(message: string) =>
           writeComment({ moimId, message, selectedComment })
         }

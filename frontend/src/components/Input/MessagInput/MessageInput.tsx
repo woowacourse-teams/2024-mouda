@@ -6,11 +6,12 @@ import SubmitButton from '@_common/assets/submit_message_button.svg';
 
 export interface MessageInputProps {
   placeHolder: string;
+  disabled: boolean;
   onSubmit: (message: string) => void;
 }
 
 export default function MessageInput(props: MessageInputProps) {
-  const { placeHolder, onSubmit } = props;
+  const { placeHolder, disabled, onSubmit } = props;
   const [message, setMessage] = useState('');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +35,7 @@ export default function MessageInput(props: MessageInputProps) {
       <button
         css={S.button({ theme })}
         type="submit"
-        disabled={!message.trim()}
+        disabled={!message.trim() || disabled}
       >
         <SubmitButton />
       </button>
