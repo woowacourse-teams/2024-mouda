@@ -172,7 +172,7 @@ public class ChatService {
 				chatRepository.findFirstByMoimIdOrderByIdDesc(chamyo.getMoim().getId())
 					.map(chat -> LocalDateTime.of(chat.getDate(), chat.getTime()))
 					.orElse(null), Comparator.nullsLast(Comparator.reverseOrder()))
-			.thenComparing(Chamyo::getId, Comparator.naturalOrder());
+			.thenComparing(chamyo -> chamyo.getMoim().getId(), Comparator.naturalOrder());
 	}
 
 	public void createLastChat(
