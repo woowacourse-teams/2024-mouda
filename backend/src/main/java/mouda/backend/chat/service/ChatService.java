@@ -168,10 +168,11 @@ public class ChatService {
 	}
 
 	private Comparator<Chamyo> getChatComparatorByLastCreatedAt() {
-		return Comparator.comparing(chamyo ->
-			chatRepository.findFirstByMoimIdOrderByIdDesc(chamyo.getMoim().getId())
-				.map(chat -> LocalDateTime.of(chat.getDate(), chat.getTime()))
-				.orElse(null), Comparator.nullsLast(Comparator.reverseOrder()));
+		return Comparator.<Chamyo, LocalDateTime>comparing(chamyo ->
+				chatRepository.findFirstByMoimIdOrderByIdDesc(chamyo.getMoim().getId())
+					.map(chat -> LocalDateTime.of(chat.getDate(), chat.getTime()))
+					.orElse(null), Comparator.nullsLast(Comparator.reverseOrder()))
+			.thenComparing(Chamyo::getId, Comparator.naturalOrder());
 	}
 
 	public void createLastChat(
