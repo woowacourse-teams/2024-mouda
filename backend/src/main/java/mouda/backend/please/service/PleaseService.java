@@ -1,5 +1,6 @@
 package mouda.backend.please.service;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -56,6 +57,7 @@ public class PleaseService {
 					long interestCount = interestRepository.countByPleaseId(please.getId());
 					return PleaseFindAllResponse.toResponse(please, isInterested, interestCount);
 				})
+				.sorted(Comparator.comparing(PleaseFindAllResponse::interestCount).reversed().thenComparing(PleaseFindAllResponse::pleaseId))
 				.toList());
 	}
 }
