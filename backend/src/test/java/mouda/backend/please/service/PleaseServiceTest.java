@@ -168,7 +168,7 @@ class PleaseServiceTest extends DarakbangSetUp {
 
 			PleaseFindAllResponses pleaseFindAllResponses = pleaseService.findAllPlease(
 				darakbang.getId(), darakbangHogee);
-			assertThat(pleaseFindAllResponses.pleases()).extracting("isInterested").containsExactly(false, true);
+			assertThat(pleaseFindAllResponses.pleases()).extracting("isInterested").containsExactly(true, false);
 		}
 	}
 }
