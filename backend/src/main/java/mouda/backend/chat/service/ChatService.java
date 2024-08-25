@@ -1,5 +1,7 @@
 package mouda.backend.chat.service;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -148,6 +150,7 @@ public class ChatService {
 			.findAllByDarakbangMemberIdAndMoim_DarakbangId(darakbangMember.getId(), darakbangId)
 			.stream()
 			.filter(chamyo -> chamyo.getMoim().isChatOpened())
+			.sorted(getChatComparatorByLastCreatedAt())
 			.map(this::getChatPreviewResponse)
 			.toList();
 
@@ -162,6 +165,13 @@ public class ChatService {
 		String lastContent = lastChat.map(Chat::getContent).orElse("");
 
 		return ChatPreviewResponse.toResponse(chamyo, currentPeople, lastContent);
+	}
+
+	private Comparator<Chamyo> getChatComparatorByLastCreatedAt() {
+		return Comparator.comparing(chamyo ->
+			chatRepository.findFirstByMoimIdOrderByIdDesc(chamyo.getMoim().getId())
+				.map(chat -> LocalDateTime.of(chat.getDate(), chat.getTime()))
+				.orElse(null), Comparator.nullsLast(Comparator.reverseOrder()));
 	}
 
 	public void createLastChat(
