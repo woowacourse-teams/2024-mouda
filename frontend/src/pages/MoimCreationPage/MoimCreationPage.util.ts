@@ -19,7 +19,24 @@ export const validateTime = (time: string) => {
   if (time === '') {
     return true;
   }
-  return POLICIES.hhmmRegex.test(time);
+  if (!POLICIES.hhmmRegex.test(time)) {
+    return false;
+  }
+
+  const now = new Date();
+  const [inputHour, inputMinute] = time.split(':').map(Number);
+  const inputTime = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    inputHour,
+    inputMinute,
+  );
+
+  if (inputTime < now) {
+    return false;
+  }
+  return true;
 };
 
 export const validatePlace = (place: string) => {
