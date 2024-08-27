@@ -71,7 +71,7 @@ public class ChamyoService {
 	}
 
 	public void chamyoMoim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
-		Moim moim = moimRepository.findById(moimId)
+		Moim moim = moimRepository.findByIdForUpdate(moimId)
 			.orElseThrow(() -> new ChamyoException(HttpStatus.NOT_FOUND, ChamyoErrorMessage.MOIM_NOT_FOUND));
 		if (moim.isNotInDarakbang(darakbangId)) {
 			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_FOUND);
