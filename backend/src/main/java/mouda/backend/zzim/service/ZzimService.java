@@ -27,7 +27,7 @@ public class ZzimService {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new ZzimException(HttpStatus.NOT_FOUND, ZzimErrorMessage.MOIN_NOT_FOUND));
 		if (moim.isNotInDarakbang(darakbangId)) {
-			throw new ZzimException(HttpStatus.BAD_REQUEST, ZzimErrorMessage.MOIN_NOT_FOUND);
+			throw new ZzimException(HttpStatus.NOT_FOUND, ZzimErrorMessage.MOIN_NOT_FOUND);
 		}
 
 		boolean isZzimed = zzimRepository.existsByMoimIdAndDarakbangMemberId(moimId, darakbangMember.getId());
@@ -39,7 +39,7 @@ public class ZzimService {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new ZzimException(HttpStatus.NOT_FOUND, ZzimErrorMessage.MOIN_NOT_FOUND));
 		if (moim.isNotInDarakbang(darakbangId)) {
-			throw new ZzimException(HttpStatus.BAD_REQUEST, ZzimErrorMessage.MOIN_NOT_FOUND);
+			throw new ZzimException(HttpStatus.NOT_FOUND, ZzimErrorMessage.MOIN_NOT_FOUND);
 		}
 
 		zzimRepository.findByMoimIdAndDarakbangMemberId(moimId, darakbangMember.getId())

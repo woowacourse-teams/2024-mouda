@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ZzimErrorMessage {
 
-	MOIN_NOT_FOUND("모임이 존재하지 않습니다.");
+	// 404
+	MOIN_NOT_FOUND("모임이 존재하지 않아요!");
 
 	private final String message;
 }
