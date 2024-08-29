@@ -45,6 +45,48 @@ class PleaseServiceTest extends DarakbangSetUp {
 			assertThat(pleaseService.findAllPlease(darakbang.getId(), darakbangHogee).pleases()).hasSize(1);
 			assertThat(pleaseService.findAllPlease(mouda.getId(), moudaHogee).pleases()).hasSize(0);
 		}
+
+		@DisplayName("해주세요 목록 조회시 관심이 많은 순서대로 조회하고, 관심이 같다면 생성된 순서대로 조회한다.")
+		@Test
+		void findAllPlease_isSortedByInterestCount() {
+			Please please1 = pleaseRepository.save(Please.builder()
+				.authorId(1L)
+				.darakbangId(darakbang.getId())
+				.title("해주세요1~~")
+				.description("해주세요1 해줘~~")
+				.build());
+
+			Please please2 = pleaseRepository.save(Please.builder()
+				.authorId(1L)
+				.darakbangId(darakbang.getId())
+				.title("해주세요2~~")
+				.description("해주세요2 해줘~~")
+				.build());
+
+			Please please3 = pleaseRepository.save(Please.builder()
+				.authorId(1L)
+				.darakbangId(darakbang.getId())
+				.title("해주세요3~~")
+				.description("해주세요3 해줘~~")
+				.build());
+
+			interestService.updateInterest(darakbang.getId(), darakbangHogee,
+				new InterestUpdateRequest(please1.getId(), true));
+
+			interestService.updateInterest(darakbang.getId(), darakbangHogee,
+				new InterestUpdateRequest(please2.getId(), true));
+			interestService.updateInterest(darakbang.getId(), darakbangAnna,
+				new InterestUpdateRequest(please2.getId(), true));
+
+			interestService.updateInterest(darakbang.getId(), darakbangHogee,
+				new InterestUpdateRequest(please3.getId(), true));
+
+			PleaseFindAllResponses pleaseFindAllResponses = pleaseService.findAllPlease(
+				darakbang.getId(), darakbangHogee);
+
+			assertThat(pleaseFindAllResponses.pleases()).extracting("pleaseId")
+				.containsExactly(please2.getId(), please1.getId(), please3.getId());
+		}
 	}
 
 	@DisplayName("해주세요 생성 테스트")
@@ -126,7 +168,7 @@ class PleaseServiceTest extends DarakbangSetUp {
 
 			PleaseFindAllResponses pleaseFindAllResponses = pleaseService.findAllPlease(
 				darakbang.getId(), darakbangHogee);
-			assertThat(pleaseFindAllResponses.pleases()).extracting("isInterested").containsExactly(false, true);
+			assertThat(pleaseFindAllResponses.pleases()).extracting("isInterested").containsExactly(true, false);
 		}
 	}
 }

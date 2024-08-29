@@ -1,12 +1,13 @@
 package mouda.backend.chat.service;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import mouda.backend.chat.dto.request.ChatCreateRequest;
 import mouda.backend.chat.dto.request.DateTimeConfirmRequest;
 import mouda.backend.chat.dto.request.PlaceConfirmRequest;
 import mouda.backend.chat.dto.response.ChatFindUnloadedResponse;
+import mouda.backend.chat.dto.response.ChatPreviewResponse;
 import mouda.backend.chat.dto.response.ChatPreviewResponses;
 import mouda.backend.chat.exception.ChatException;
 import mouda.backend.chat.repository.ChatRepository;
@@ -139,7 +141,7 @@ class ChatServiceTest extends DarakbangSetUp {
 		PlaceConfirmRequest request = new PlaceConfirmRequest(1L, place);
 
 		// when & then
-		Assertions.assertThrows(
+		assertThrows(
 			ChatException.class,
 			() -> chatService.confirmPlace(darakbang.getId(), request, darakbangHogee)
 		);
@@ -208,5 +210,44 @@ class ChatServiceTest extends DarakbangSetUp {
 
 		assertThat(chatService.findChatPreview(moudaMoim.getId(), moudaHogee).chatPreviewResponses())
 			.hasSize(0);
+	}
+
+	@DisplayName("가장 최근에 생성된 채팅을 기준으로 채팅방 목록을 조회하고, 채팅이 없는 채팅방은 가장 아래에 위치한다.")
+	@Test
+	void findChatPreview_sortedByLastChatCreatedAt() {
+		Moim soccerMoim = moimRepository.save(MoimFixture.getSoccerMoim(darakbang.getId()));
+		Moim coffeeMoim = moimRepository.save(MoimFixture.getCoffeeMoim(darakbang.getId()));
+		Moim basketballMoim = moimRepository.save(MoimFixture.getBasketballMoim(darakbang.getId()));
+
+		chamyoRepository.save(Chamyo.builder()
+			.moim(soccerMoim)
+			.darakbangMember(darakbangAnna)
+			.moimRole(MoimRole.MOIMER)
+			.build());
+
+		chamyoRepository.save(Chamyo.builder()
+			.moim(coffeeMoim)
+			.darakbangMember(darakbangAnna)
+			.moimRole(MoimRole.MOIMER)
+			.build());
+
+		chamyoRepository.save(Chamyo.builder()
+			.moim(basketballMoim)
+			.darakbangMember(darakbangAnna)
+			.moimRole(MoimRole.MOIMER)
+			.build());
+
+		chatService.openChatRoom(darakbang.getId(), soccerMoim.getId(), darakbangAnna);
+		chatService.openChatRoom(darakbang.getId(), coffeeMoim.getId(), darakbangAnna);
+		chatService.openChatRoom(darakbang.getId(), basketballMoim.getId(), darakbangAnna);
+
+		chatService.createChat(darakbang.getId(), new ChatCreateRequest(soccerMoim.getId(), "1번 채팅"), darakbangAnna);
+		chatService.createChat(darakbang.getId(), new ChatCreateRequest(coffeeMoim.getId(), "2번 채팅"), darakbangAnna);
+
+		List<ChatPreviewResponse> chatPreviewResponses = chatService.findChatPreview(darakbang.getId(), darakbangAnna)
+			.chatPreviewResponses();
+
+		assertThat(chatPreviewResponses).extracting(ChatPreviewResponse::lastContent)
+			.containsExactly("2번 채팅", "1번 채팅", "");
 	}
 }
