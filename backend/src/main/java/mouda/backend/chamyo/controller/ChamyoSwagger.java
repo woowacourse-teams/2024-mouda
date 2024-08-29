@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
@@ -16,12 +18,15 @@ import mouda.backend.chamyo.dto.response.MoimRoleFindResponse;
 import mouda.backend.common.RestResponse;
 import mouda.backend.config.argumentresolver.LoginDarakbangMember;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
+import mouda.backend.exception.ErrorResponse;
 
 public interface ChamyoSwagger {
 
 	@Operation(summary = "모임 참여 여부 조회", description = "현재 로그인된 회원의 모임 참여 여부를 조회합니다.")
 	@ApiResponses({
-		@ApiResponse(responseCode = "200", description = "모임 참여 여부 조회 성공")
+		@ApiResponse(responseCode = "200", description = "모임 참여 여부 조회 성공"),
+		@ApiResponse(responseCode = "404", description = "모임은 존재하지만 입력된 다락방의 모임이 아닌 경우.",
+			content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	ResponseEntity<RestResponse<MoimRoleFindResponse>> findMoimRoleByMember(
 		@PathVariable Long darakbangId,
@@ -31,7 +36,9 @@ public interface ChamyoSwagger {
 
 	@Operation(summary = "모든 모임 참여자 조회", description = "모임에 참여한 모든 회원을 조회합니다.")
 	@ApiResponses({
-		@ApiResponse(responseCode = "200", description = "모든 모임 참여자 조회 성공")
+		@ApiResponse(responseCode = "200", description = "모든 모임 참여자 조회 성공"),
+		@ApiResponse(responseCode = "404", description = "모임이 존재하지 않거나, 모임은 존재하지만 입력된 다락방의 모임이 아닌 경우",
+			content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	ResponseEntity<RestResponse<ChamyoFindAllResponses>> findAllChamyoByMoim(
 		@PathVariable Long darakbangId,
@@ -41,7 +48,11 @@ public interface ChamyoSwagger {
 
 	@Operation(summary = "모임 참여", description = "모임에 참여합니다.")
 	@ApiResponses({
-		@ApiResponse(responseCode = "200", description = "모임 참여 성공")
+		@ApiResponse(responseCode = "200", description = "모임 참여 성공"),
+		@ApiResponse(responseCode = "400", description = "모임에 참여할 수 없는 상태(이미 참여했거나, 모임 취소 등의 이유로 참여할 수 없는 모임인 경우)",
+			content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+		@ApiResponse(responseCode = "404", description = "모임이 존재하지 않거나, 모임은 존재하지만 입력된 다락방의 모임이 아닌 경우",
+			content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	ResponseEntity<Void> chamyoMoim(
 		@PathVariable Long darakbangId,
@@ -51,7 +62,11 @@ public interface ChamyoSwagger {
 
 	@Operation(summary = "모임 참여 취소", description = "모임 참여를 취소합니다.")
 	@ApiResponses({
-		@ApiResponse(responseCode = "200", description = "모임 참여 취소 성공")
+		@ApiResponse(responseCode = "200", description = "모임 참여 취소 성공"),
+		@ApiResponse(responseCode = "400", description = "참여를 취소할 수 없는 상태(모임에 참여하지 않았거나, 방장인 경우)",
+			content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+		@ApiResponse(responseCode = "404", description = "모임이 존재하지 않거나, 모임은 존재하지만 입력된 다락방의 모임이 아닌 경우",
+			content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	ResponseEntity<Void> cancelChamyo(
 		@PathVariable Long darakbangId,

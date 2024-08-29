@@ -46,13 +46,13 @@ public class ChamyoService {
 			darakbangMember.getId());
 		chamyoOptional.ifPresent(chamyo -> {
 			if (chamyo.getMoim().isNotInDarakbang(darakbangId)) {
-				throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_FOUND);
+				throw new ChamyoException(HttpStatus.NOT_FOUND, ChamyoErrorMessage.MOIM_NOT_FOUND);
 			}
 		});
 
 		MoimRole moimRole = chamyoOptional.map(Chamyo::getMoimRole).orElse(MoimRole.NON_MOIMEE);
 
-		return new MoimRoleFindResponse(moimRole.name());
+		return MoimRoleFindResponse.builder().role(moimRole).build();
 	}
 
 	@Transactional(readOnly = true)
@@ -60,7 +60,7 @@ public class ChamyoService {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new ChamyoException(HttpStatus.NOT_FOUND, ChamyoErrorMessage.MOIM_NOT_FOUND));
 		if (moim.isNotInDarakbang(darakbangId)) {
-			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_FOUND);
+			throw new ChamyoException(HttpStatus.NOT_FOUND, ChamyoErrorMessage.MOIM_NOT_FOUND);
 		}
 		List<ChamyoFindAllResponse> responses = chamyoRepository.findAllByMoimId(moimId)
 			.stream()
@@ -74,7 +74,7 @@ public class ChamyoService {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new ChamyoException(HttpStatus.NOT_FOUND, ChamyoErrorMessage.MOIM_NOT_FOUND));
 		if (moim.isNotInDarakbang(darakbangId)) {
-			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_FOUND);
+			throw new ChamyoException(HttpStatus.NOT_FOUND, ChamyoErrorMessage.MOIM_NOT_FOUND);
 		}
 		validateCanChamyoMoim(moim, darakbangMember);
 
@@ -125,7 +125,7 @@ public class ChamyoService {
 		Moim moim = moimRepository.findById(moimId)
 			.orElseThrow(() -> new ChamyoException(HttpStatus.NOT_FOUND, ChamyoErrorMessage.MOIM_NOT_FOUND));
 		if (moim.isNotInDarakbang(darakbangId)) {
-			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_FOUND);
+			throw new ChamyoException(HttpStatus.NOT_FOUND, ChamyoErrorMessage.MOIM_NOT_FOUND);
 		}
 		validateCanCancelChamyo(moim, darakbangMember);
 
