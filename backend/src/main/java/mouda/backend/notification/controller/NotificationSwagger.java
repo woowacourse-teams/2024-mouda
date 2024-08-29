@@ -16,9 +16,9 @@ import mouda.backend.notification.dto.response.NotificationFindAllResponses;
 
 public interface NotificationSwagger {
 
-	@Operation(summary = "FCM 토큰을 저장합니다.", description = "알림 허용시 FCM 토큰을 저장합니다.")
+	@Operation(summary = "FCM 토큰을 저장 및 갱신합니다.", description = "알림 허용시 FCM 토큰을 저장하고, 이미 저장된 토큰이면 갱신합니다.")
 	@ApiResponses({
-		@ApiResponse(responseCode = "200", description = "FCM 토큰 저장 성공!")
+		@ApiResponse(responseCode = "200", description = "FCM 토큰 저장 / 갱신 성공!")
 	})
 	ResponseEntity<Void> registerFcmToken(
 		@LoginMember Member member,

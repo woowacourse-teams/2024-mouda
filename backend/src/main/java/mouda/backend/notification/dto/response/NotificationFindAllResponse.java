@@ -3,20 +3,27 @@ package mouda.backend.notification.dto.response;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import mouda.backend.notification.domain.MoudaNotification;
+import mouda.backend.notification.domain.NotificationType;
 
 @Builder
+@Schema(name = "알림 조회 응답", description = "회원의 알림 조회할 때 사용")
 public record NotificationFindAllResponse(
+	@Schema(description = "알림 내용", example = "새로운 모임이 생성되었습니다.")
 	String message,
+	@Schema(description = "알림 생성 시간", example = "1시간 전")
 	String createdAt,
-	String type,
+	@Schema(description = "알림 타입")
+	NotificationType type,
+	@Schema(description = "알림을 클릭했을 때 이동할 URL", example = "https://example.com/moim/1")
 	String redirectUrl
 ) {
 
 	public static NotificationFindAllResponse from(MoudaNotification moudaNotification) {
 		return NotificationFindAllResponse.builder()
-			.type(moudaNotification.getType().name())
+			.type(moudaNotification.getType())
 			.message(moudaNotification.getBody())
 			.createdAt(parseTime(moudaNotification.getCreatedAt()))
 			.redirectUrl(moudaNotification.getTargetUrl())
