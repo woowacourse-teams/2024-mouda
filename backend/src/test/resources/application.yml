@@ -24,7 +24,7 @@ url:
   base: http://localhost:8080
   moim: /darakbang/%d/moim/%d
   chat: /darakbang/%d/chat/%d
-  chatroom: /chatting-room/%d
+  chatroom: /darakbang/%d/chatting-room/%d
   
 oauth:
   kakao:

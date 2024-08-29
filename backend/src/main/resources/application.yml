@@ -1,3 +1,6 @@
+server:
+  forward-headers-strategy: native
+
 spring:
   profiles:
     active:
@@ -8,8 +11,7 @@ security:
     token:
       secret-key: kksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabo
       expire-length: 3600000
-
 url:
   moim: /darakbang/%d/moim/%d
   chat: /darakbang/%d/chat/%d
-  chatroom: /chatting-room/%d
+  chatroom: /darakbang/%d/chatting-room/%d
