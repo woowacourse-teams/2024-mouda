@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,7 +26,7 @@ public interface PleaseSwagger {
 		@ApiResponse(responseCode = "200", description = "해주세요 생성 성공!"),
 	})
 	ResponseEntity<RestResponse<Long>> createPlease(
-		@PathVariable Long darakbangId,
+		@PathVariable @Parameter(in = ParameterIn.PATH, description = "다락방 ID", required = true) Long darakbangId,
 		@LoginDarakbangMember DarakbangMember member,
 		@Valid @RequestBody PleaseCreateRequest pleaseCreateRequest
 	);
@@ -38,9 +40,9 @@ public interface PleaseSwagger {
 			content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	ResponseEntity<Void> deletePlease(
-		@PathVariable Long darakbangId,
+		@PathVariable @Parameter(in = ParameterIn.PATH, description = "다락방 ID", required = true) Long darakbangId,
 		@LoginDarakbangMember DarakbangMember member,
-		@PathVariable Long pleaseId
+		@PathVariable @Parameter(in = ParameterIn.PATH, description = "해주세요 ID", required = true) Long pleaseId
 	);
 
 	@Operation(summary = "해주세요 목록 조회", description = "해주세요 목록을 조회한다.")
@@ -48,7 +50,7 @@ public interface PleaseSwagger {
 		@ApiResponse(responseCode = "200", description = "해주세요 목록 조회 성공!"),
 	})
 	ResponseEntity<RestResponse<PleaseFindAllResponses>> findAllPlease(
-		@PathVariable Long darakbangId,
+		@PathVariable @Parameter(in = ParameterIn.PATH, description = "다락방 ID", required = true) Long darakbangId,
 		@LoginDarakbangMember DarakbangMember member
 	);
 }

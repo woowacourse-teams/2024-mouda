@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,7 +25,7 @@ public interface InterestSwagger {
 			content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	ResponseEntity<Void> updateInterest(
-		@PathVariable Long darakbangId,
+		@PathVariable @Parameter(in = ParameterIn.PATH, description = "다락방 ID", required = true) Long darakbangId,
 		@LoginDarakbangMember DarakbangMember member,
 		@RequestBody InterestUpdateRequest request
 	);

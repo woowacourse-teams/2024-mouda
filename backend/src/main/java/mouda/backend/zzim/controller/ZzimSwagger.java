@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,9 +29,9 @@ public interface ZzimSwagger {
 			content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	ResponseEntity<RestResponse<ZzimCheckResponse>> checkZzimByMoimAndMember(
-		@PathVariable Long darakbangId,
+		@PathVariable @Parameter(in = ParameterIn.PATH, description = "다락방 ID", required = true) Long darakbangId,
 		@LoginDarakbangMember DarakbangMember member,
-		@RequestParam Long moimId
+		@RequestParam @Parameter(in = ParameterIn.QUERY, description = "모임 ID", required = true) Long moimId
 	);
 
 	@Operation(summary = "모임 찜하기", description = "해당 모임을 찜한다.")
@@ -39,7 +41,7 @@ public interface ZzimSwagger {
 			content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	ResponseEntity<Void> updateZzim(
-		@PathVariable Long darakbangId,
+		@PathVariable @Parameter(in = ParameterIn.PATH, description = "다락방 ID", required = true) Long darakbangId,
 		@LoginDarakbangMember DarakbangMember member,
 		@Valid @RequestBody ZzimUpdateRequest request
 	);
