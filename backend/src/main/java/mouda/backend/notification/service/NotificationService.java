@@ -10,7 +10,9 @@ import com.google.firebase.FirebaseException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.member.domain.Member;
+import mouda.backend.moim.domain.Moim;
 import mouda.backend.notification.domain.MemberNotification;
 import mouda.backend.notification.domain.MoudaNotification;
 import mouda.backend.notification.domain.NotificationType;
@@ -19,7 +21,6 @@ import mouda.backend.notification.dto.response.NotificationFindAllResponse;
 import mouda.backend.notification.dto.response.NotificationFindAllResponses;
 import mouda.backend.notification.repository.FcmTokenRepository;
 import mouda.backend.notification.repository.MemberNotificationRepository;
-import mouda.backend.notification.repository.MoudaNotificationRepository;
 
 @Slf4j
 @Service
@@ -27,67 +28,71 @@ import mouda.backend.notification.repository.MoudaNotificationRepository;
 @Transactional(noRollbackFor = FirebaseException.class)
 public class NotificationService {
 
-	private final FcmTokenRepository fcmTokenRepository;
-	private final MoudaNotificationRepository moudaNotificationRepository;
-	private final MemberNotificationRepository memberNotificationRepository;
+	private final NotificationFactory notificationFactory;
+	private final RecipientFactory recipientFactory;
 	private final FcmService fcmService;
+	private final MemberNotificationRepository memberNotificationRepository;
+	private final FcmTokenRepository fcmTokenRepository;
 
 	public void registerFcmToken(long memberId, FcmTokenSaveRequest fcmTokenSaveRequest) {
 		fcmService.registerToken(memberId, fcmTokenSaveRequest.token());
 	}
 
-	public void notifyToMember(MoudaNotification moudaNotification, Long memberId, Long darakbangId) {
-		MoudaNotification notification = moudaNotificationRepository.save(moudaNotification);
+	public void notifyToMember(NotificationType type, Long darakbangId, Moim moim,
+		DarakbangMember sender, long recipientId) {
+		MoudaNotification notification = notificationFactory.getStrategy(type)
+			.buildNotification(darakbangId, moim, sender);
 
-		if (notification.getType() != NotificationType.NEW_CHAT) {
-			memberNotificationRepository.save(MemberNotification.builder()
-				.memberId(memberId)
-				.darakbangId(darakbangId)
-				.moudaNotification(notification)
-				.build());
-		}
-
-		List<String> tokens = fcmTokenRepository.findAllTokenByMemberId(memberId);
+		List<String> tokens = fcmTokenRepository.findAllTokenByMemberId(recipientId);
 		fcmService.sendNotification(notification, tokens);
 	}
 
-	public void notifyToAllMembers(MoudaNotification moudaNotification, Long darakbangId) {
-		List<Long> allMemberId = fcmTokenRepository.findAllMemberId();
+	public void notifyToAllMembers(NotificationType type, Long darakbangId, Moim moim,
+		DarakbangMember sender) {
+		MoudaNotification notification = notificationFactory.getStrategy(type)
+			.buildNotification(darakbangId, moim, sender);
 
-		notifyToMembers(moudaNotification, allMemberId, darakbangId);
+		List<Long> recipients = fcmTokenRepository.findAllMemberId();
+		List<String> tokens = fcmTokenRepository.findAllTokenByMemberIds(recipients);
+
+		fcmService.sendNotification(notification, tokens);
 	}
 
-	public void notifyToAllExceptMember(MoudaNotification moudaNotification, Long exceptMemberId, Long darakbangId) {
-		List<Long> allMemberId = fcmTokenRepository.findAllMemberId().stream()
+	public void notifyToAllExceptMember(NotificationType type, Long darakbangId, Moim moim,
+		DarakbangMember sender, Long exceptMemberId) {
+		MoudaNotification notification = notificationFactory.getStrategy(type)
+			.buildNotification(darakbangId, moim, sender);
+
+		List<Long> recipients = fcmTokenRepository.findAllMemberId().stream()
 			.filter(memberId -> !Objects.equals(memberId, exceptMemberId))
 			.toList();
+		List<String> tokens = fcmTokenRepository.findAllTokenByMemberIds(recipients);
 
-		notifyToMembers(moudaNotification, allMemberId, darakbangId);
+		fcmService.sendNotification(notification, tokens);
 	}
 
-	public void notifyToAllExceptMember(MoudaNotification moudaNotification, List<Long> exceptMemberIds,
-		Long darakbangId) {
-		List<Long> allMemberId = fcmTokenRepository.findAllMemberId().stream()
+	public void notifyToAllExceptMember(NotificationType type, Long darakbangId, Moim moim,
+		DarakbangMember sender, List<Long> exceptMemberIds
+	) {
+		MoudaNotification notification = notificationFactory.getStrategy(type)
+			.buildNotification(darakbangId, moim, sender);
+
+		List<Long> recipients = fcmTokenRepository.findAllMemberId().stream()
 			.filter(memberId -> !exceptMemberIds.contains(memberId))
 			.toList();
+		List<String> tokens = fcmTokenRepository.findAllTokenByMemberIds(recipients);
 
-		notifyToMembers(moudaNotification, allMemberId, darakbangId);
+		fcmService.sendNotification(notification, tokens);
 	}
 
-	public void notifyToMembers(MoudaNotification moudaNotification, List<Long> memberIds, Long darakbangId) {
-		MoudaNotification notification = moudaNotificationRepository.save(moudaNotification);
+	public void notifyToMembers(NotificationType type, Long darakbangId, Moim moim,
+		DarakbangMember sender) {
+		MoudaNotification notification = notificationFactory.getStrategy(type)
+			.buildNotification(darakbangId, moim, sender);
+		List<Long> recipients = recipientFactory.getStrategy(type)
+			.resolveRecipients(darakbangId, notification, moim, sender);
 
-		if (notification.getType() != NotificationType.NEW_CHAT) {
-			memberNotificationRepository.saveAll(memberIds.stream()
-				.map(memberId -> MemberNotification.builder()
-					.memberId(memberId)
-					.darakbangId(darakbangId)
-					.moudaNotification(notification)
-					.build())
-				.toList());
-		}
-
-		List<String> tokens = fcmTokenRepository.findAllTokenByMemberIds(memberIds);
+		List<String> tokens = fcmTokenRepository.findAllTokenByMemberIds(recipients);
 		fcmService.sendNotification(notification, tokens);
 	}
 

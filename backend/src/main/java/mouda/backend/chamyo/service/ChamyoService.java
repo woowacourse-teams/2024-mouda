@@ -3,7 +3,6 @@ package mouda.backend.chamyo.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +20,6 @@ import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimStatus;
 import mouda.backend.moim.repository.MoimRepository;
-import mouda.backend.notification.domain.MoudaNotification;
 import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.service.NotificationService;
 
@@ -29,12 +27,6 @@ import mouda.backend.notification.service.NotificationService;
 @RequiredArgsConstructor
 @Transactional
 public class ChamyoService {
-
-	@Value("${url.base}")
-	private String baseUrl;
-
-	@Value("${url.moim}")
-	private String moimUrl;
 
 	private final ChamyoRepository chamyoRepository;
 	private final MoimRepository moimRepository;
@@ -90,19 +82,7 @@ public class ChamyoService {
 			moimRepository.updateMoimStatusById(moim.getId(), MoimStatus.COMPLETED);
 		}
 
-		NotificationType notificationType = NotificationType.NEW_MOIMEE_JOINED;
-		MoudaNotification notification = MoudaNotification.builder()
-			.type(notificationType)
-			.body(notificationType.createMessage(darakbangMember.getNickname()))
-			.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moim.getId()))
-			.build();
-
-		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
-			.map(c -> c.getDarakbangMember().getMemberId())
-			.filter(memberId -> !memberId.equals(darakbangMember.getMemberId()))
-			.toList();
-
-		notificationService.notifyToMembers(notification, membersToSendNotification, darakbangId);
+		notificationService.notifyToMembers(NotificationType.NEW_MOIMEE_JOINED, darakbangId, moim, darakbangMember);
 	}
 
 	private void validateCanChamyoMoim(Moim moim, DarakbangMember darakbangMember) {
@@ -135,15 +115,8 @@ public class ChamyoService {
 			return;
 		}
 
-		NotificationType notificationType = NotificationType.MOIMEE_LEFT;
-		MoudaNotification notification = MoudaNotification.builder()
-			.type(notificationType)
-			.body(notificationType.createMessage(darakbangMember.getNickname()))
-			.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moim.getId()))
-			.build();
-
 		Long moimerId = chamyoRepository.findMoimerIdByMoimId(moim.getId());
-		notificationService.notifyToMember(notification, moimerId, darakbangId);
+		notificationService.notifyToMember(NotificationType.MOIMEE_LEFT, darakbangId, moim, darakbangMember, moimerId);
 	}
 
 	private void validateCanCancelChamyo(Moim moim, DarakbangMember darakbangMember) {

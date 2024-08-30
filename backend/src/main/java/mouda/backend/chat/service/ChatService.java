@@ -1,10 +1,8 @@
 package mouda.backend.chat.service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +26,6 @@ import mouda.backend.chat.repository.ChatRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.repository.MoimRepository;
-import mouda.backend.notification.domain.MoudaNotification;
 import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.service.NotificationService;
 
@@ -36,15 +33,6 @@ import mouda.backend.notification.service.NotificationService;
 @Service
 @RequiredArgsConstructor
 public class ChatService {
-
-	@Value("${url.base}")
-	private String baseUrl;
-
-	@Value("${url.moim}")
-	private String moimUrl;
-
-	@Value("${url.chatroom}")
-	private String chatroomUrl;
 
 	private final ChatRepository chatRepository;
 	private final MoimRepository moimRepository;
@@ -61,19 +49,7 @@ public class ChatService {
 		Chat chat = chatCreateRequest.toEntity(moim, darakbangMember);
 		chatRepository.save(chat);
 
-		NotificationType notificationType = NotificationType.NEW_CHAT;
-		MoudaNotification notification = MoudaNotification.builder()
-			.type(notificationType)
-			.body(notificationType.createMessage(darakbangMember.getNickname()))
-			.targetUrl(baseUrl + String.format(chatroomUrl, darakbangId, moim.getId()))
-			.build();
-
-		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
-			.map(chamyo -> chamyo.getDarakbangMember().getMemberId())
-			.filter(memberId -> !Objects.equals(memberId, darakbangMember.getMemberId()))
-			.toList();
-
-		notificationService.notifyToMembers(notification, membersToSendNotification, darakbangId);
+		notificationService.notifyToMembers(NotificationType.NEW_CHAT, darakbangId, moim, darakbangMember);
 	}
 
 	@Transactional(readOnly = true)
@@ -107,24 +83,8 @@ public class ChatService {
 		moim.confirmPlace(placeConfirmRequest.place());
 		chatRepository.save(chat);
 
-		sendNotificationWhenMoimPlaceOrTimeConfirmed(moim, NotificationType.MOIM_PLACE_CONFIRMED, darakbangId);
-	}
+		notificationService.notifyToMembers(NotificationType.MOIM_PLACE_CONFIRMED, darakbangId, moim, darakbangMember);
 
-	private void sendNotificationWhenMoimPlaceOrTimeConfirmed(
-		Moim moim, NotificationType notificationType, Long darakbangId
-	) {
-		MoudaNotification notification = MoudaNotification.builder()
-			.type(notificationType)
-			.body(notificationType.createMessage(moim.getTitle()))
-			.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moim.getId()))
-			.build();
-
-		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
-			.filter(chamyo -> chamyo.getMoimRole() != MoimRole.MOIMER)
-			.map(chamyo -> chamyo.getDarakbangMember().getMemberId())
-			.toList();
-
-		notificationService.notifyToMembers(notification, membersToSendNotification, darakbangId);
 	}
 
 	public void confirmDateTime(
@@ -140,7 +100,7 @@ public class ChatService {
 		moim.confirmDateTime(dateTimeConfirmRequest.date(), dateTimeConfirmRequest.time());
 		chatRepository.save(chat);
 
-		sendNotificationWhenMoimPlaceOrTimeConfirmed(moim, NotificationType.MOIM_TIME_CONFIRMED, darakbangId);
+		notificationService.notifyToMembers(NotificationType.MOIM_TIME_CONFIRMED, darakbangId, moim, darakbangMember);
 	}
 
 	public ChatPreviewResponses findChatPreview(Long darakbangId, DarakbangMember darakbangMember) {
