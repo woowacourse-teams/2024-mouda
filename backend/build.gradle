@@ -1,7 +1,10 @@
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.1'
     id 'io.spring.dependency-management' version '1.1.5'
+    id 'org.openapi.generator' version '7.8.0'
 }
 
 group = 'mouda'
@@ -21,6 +24,46 @@ configurations {
 
 repositories {
     mavenCentral()
+}
+
+sourceSets {
+    main {
+        java.srcDir("$buildDir/generated")
+    }
+}
+
+ext {
+    dirs = [
+            'docs'           : "$rootDir/docs",
+            'openApiGenerate': "$rootDir/docs/swagger"
+    ]
+
+    openApiPackages = ['openapi.api', 'openapi.invoker', 'openapi.model']
+
+    generateOpenApiTasks = fileTree(dirs.get("docs"))
+            .files
+            .findAll { file -> file.name.endsWith('.json') }
+            .collect(file -> createOpenApiGenerateTask(file.name))
+}
+
+def createOpenApiGenerateTask(String fileName) {
+    tasks.register("openApiGenerate_$fileName", GenerateTask) {
+        getGeneratorName().set("spring")
+        getInputSpec().set("${dirs["docs"]}/$fileName")
+        getOutputDir().set(dirs.get("openApiGenerate") as String)
+        getApiPackage().set(openApiPackages[0] as String)
+        getInvokerPackage().set(openApiPackages[1] as String)
+        getModelPackage().set(openApiPackages[2] as String)
+        getConfigOptions().set(
+                [
+                        "dateLibrary"    : "spring",
+                        "useSpringBoot3" : "true",
+                        "useTags"        : "true",
+                        "openApiNullable": "false",
+                        "interfaceOnly"  : "true"
+                ]
+        )
+    }
 }
 
 dependencies {
@@ -52,6 +95,58 @@ dependencies {
 
     // notification
     implementation 'com.google.firebase:firebase-admin:9.3.0'
+}
+
+tasks.named("compileJava") {
+    dependsOn("cleanGeneratedDirectory")
+}
+
+tasks.register("cleanGeneratedDirectory") {
+    doFirst {
+        println("Cleaning generated directory...")
+    }
+    doLast {
+        def openApiGenerateDir = file(dirs.get('openApiGenerate'))
+        if (openApiGenerateDir.exists()) {
+            openApiGenerateDir.deleteDir()
+            println "Directory ${openApiGenerateDir} deleted."
+        } else {
+            println "Directory ${openApiGenerateDir} does not exist."
+        }
+    }
+    dependsOn("moveGeneratedSources")
+}
+
+tasks.register("moveGeneratedSources") {
+    doFirst {
+        println("Moving generated sources...")
+    }
+
+    doLast {
+        openApiPackages.each { packageName ->
+            def packagePath = packageName.replace(".", "/")
+            def originDir = file("${dirs.get('openApiGenerate')}/src/main/java/${packagePath}")
+            def destinationDir = file("$buildDir/generated/${packagePath}")
+            copy {
+                originDir = file("${dirs.get('openApiGenerate')}/src/main/java/${packagePath}")
+                destinationDir = file("$buildDir/generated/${packagePath}")
+                from originDir
+                into destinationDir
+            }
+        }
+        println 'Generated sources moved.'
+    }
+    dependsOn("createOpenApi")
+}
+
+tasks.register("createOpenApi") {
+    doFirst {
+        println("Creating Code By OpenAPI...")
+    }
+    doLast {
+        println("OpenAPI Code created.")
+    }
+    dependsOn(generateOpenApiTasks)
 }
 
 tasks.named('test') {
