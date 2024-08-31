@@ -3,7 +3,6 @@ import GET_ROUTES from '@_common/getRoutes';
 import InformationLayout from '@_layouts/InformationLayout/InformationLayout';
 import NotificationList from '@_components/NotificationList/NotificationList';
 import { useNavigate } from 'react-router-dom';
-import useNotification from '@_hooks/queries/useNotification';
 import { Fragment, useEffect, useState } from 'react';
 import Modal from '@_components/Modal/Modal';
 import Button from '@_components/Button/Button';
@@ -13,7 +12,6 @@ import * as S from './NotificationPage.style';
 export default function NotificationPage() {
   const navigate = useNavigate();
   const theme = useTheme();
-  const { notifications, isLoading } = useNotification();
   const [isModalOpen, setIsModalOpen] = useState(false);
   useEffect(() => {
     if (window.Notification && window.Notification.permission === 'denied') {
@@ -24,12 +22,7 @@ export default function NotificationPage() {
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  if (!notifications) {
-    return <div>Failed to load my information.</div>;
-  }
+
   return (
     <Fragment>
       <InformationLayout>
@@ -44,7 +37,7 @@ export default function NotificationPage() {
           </InformationLayout.Header.Center>
         </InformationLayout.Header>
         <InformationLayout.ContentContainer>
-          <NotificationList notifications={notifications} />
+          <NotificationList />
         </InformationLayout.ContentContainer>
       </InformationLayout>
       {isModalOpen && (
