@@ -1,9 +1,9 @@
 import { PropsWithChildren } from 'react';
-import PleaseHeader from './PleaseHeader/PleaseHeader';
 import PleaseMain from './PleaseMain/PleaseMain';
 import PleaseFixedButtonWrapper from './PleaseFixedButtonWrapper/PleaseFixedButtonWrapper';
 import * as S from './PleaseLayout.style';
 import { useTheme } from '@emotion/react';
+import StickyTriSectionHeader from '@_layouts/components/StickyTriSectionHeader/StickyTriSectionHeader';
 
 function PleaseLayout(props: PropsWithChildren) {
   const { children } = props;
@@ -13,7 +13,7 @@ function PleaseLayout(props: PropsWithChildren) {
   return <div css={S.containerStyle({ theme })}>{children}</div>;
 }
 
-PleaseLayout.Header = PleaseHeader;
+PleaseLayout.Header = StickyTriSectionHeader;
 PleaseLayout.Main = PleaseMain;
 PleaseLayout.HomeFixedButtonWrapper = PleaseFixedButtonWrapper;
 
