@@ -115,8 +115,7 @@ public class ChamyoService {
 			return;
 		}
 
-		Long moimerId = chamyoRepository.findMoimerIdByMoimId(moim.getId());
-		notificationService.notifyToMember(NotificationType.MOIMEE_LEFT, darakbangId, moim, darakbangMember, moimerId);
+		notificationService.notifyToMembers(NotificationType.MOIMEE_LEFT, darakbangId, moim, darakbangMember);
 	}
 
 	private void validateCanCancelChamyo(Moim moim, DarakbangMember darakbangMember) {

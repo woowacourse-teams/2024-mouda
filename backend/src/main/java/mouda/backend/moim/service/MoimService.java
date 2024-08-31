@@ -154,8 +154,7 @@ public class MoimService {
 				parentCommentAuthorId);
 		}
 
-		Long moimerId = chamyoRepository.findMoimerIdByMoimId(moim.getId());
-		notificationService.notifyToMember(NotificationType.NEW_COMMENT, darakbangId, moim, author, moimerId);
+		notificationService.notifyToMembers(NotificationType.NEW_COMMENT, darakbangId, moim, author);
 	}
 
 	public void completeMoim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
