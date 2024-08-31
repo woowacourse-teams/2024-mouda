@@ -32,9 +32,7 @@ const createQueryClient = () => {
 
 const handleApiError = (error: Error) => {
   Sentry.captureException(error);
-  console.log(error);
   if (error instanceof ApiError) {
-    console.log(1);
     if (error.status === 401) {
       removeToken();
       window.location.href = ROUTES.home;
@@ -56,7 +54,6 @@ const handleApiError = (error: Error) => {
   } else {
     alert(error instanceof Error ? error.message : 'An error occurred');
   }
-  console.log(3);
 };
 
 export default createQueryClient;
