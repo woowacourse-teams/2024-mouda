@@ -31,6 +31,7 @@ import useServeToken from '@_hooks/mutaions/useServeToken';
 import Modal from '@_components/Modal/Modal';
 import { useTheme } from '@emotion/react';
 import Button from '@_components/Button/Button';
+import RefreshButton from '@_components/RefreshButton/RefreshButton';
 
 export default function MainPage() {
   const navigate = useNavigate();
@@ -164,6 +165,7 @@ export default function MainPage() {
               <button css={S.headerButton} onClick={handleNotification}>
                 <Notification />
               </button>
+              <RefreshButton />
             </HomeLayout.Header.Top.Right>
           </HomeLayout.Header.Top>
           {isDarakbangMenuOpened && darakbangMenu}

@@ -8,6 +8,7 @@ import Modal from '@_components/Modal/Modal';
 import Button from '@_components/Button/Button';
 import { useTheme } from '@emotion/react';
 import * as S from './NotificationPage.style';
+import RefreshButton from '@_components/RefreshButton/RefreshButton';
 
 export default function NotificationPage() {
   const navigate = useNavigate();
@@ -32,6 +33,9 @@ export default function NotificationPage() {
               <BackLogo />
             </div>
           </InformationLayout.Header.Left>
+          <InformationLayout.Header.Right>
+            <RefreshButton />
+          </InformationLayout.Header.Right>
           <InformationLayout.Header.Center>
             알림
           </InformationLayout.Header.Center>
