@@ -23,7 +23,7 @@ describe('Validation Tests', () => {
   describe('validateDate', () => {
     beforeAll(() => {
       jest.useFakeTimers();
-      jest.setSystemTime(new Date('2024-07-23T00:00:00Z'));
+      jest.setSystemTime(new Date('2024-07-23T10:00:00Z'));
     });
 
     afterAll(() => {
@@ -44,9 +44,17 @@ describe('Validation Tests', () => {
   });
 
   describe('validateTime', () => {
+    beforeAll(() => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date('2024-07-23T10:00:00'));
+    });
+
+    afterAll(() => {
+      jest.useRealTimers();
+    });
     it('00:00 형식이어야 true를 반환한다.', () => {
-      expect(validateTime('12:34')).toBe(true);
-      expect(validateTime('00:00')).toBe(true);
+      expect(validateTime('09:59')).toBe(false); // 현재 시간보다 이전
+      expect(validateTime('10:01')).toBe(true); // 현재 시간보다 이후
       expect(validateTime('23:59')).toBe(true);
     });
 

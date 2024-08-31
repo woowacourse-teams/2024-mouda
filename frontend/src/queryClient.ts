@@ -32,7 +32,6 @@ const createQueryClient = () => {
 
 const handleApiError = (error: Error) => {
   Sentry.captureException(error);
-  console.log(error);
   if (error instanceof ApiError) {
     if (error.status === 401) {
       removeToken();
@@ -49,6 +48,8 @@ const handleApiError = (error: Error) => {
     if (error.message === '모임이 존재하지 않습니다.') {
       window.location.href = GET_ROUTES.nowDarakbang.main();
       return;
+    } else {
+      alert(error.message);
     }
   } else {
     alert(error instanceof Error ? error.message : 'An error occurred');
