@@ -5,9 +5,9 @@ import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
-import mouda.backend.chamyo.repository.ChamyoRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
+import mouda.backend.moim.infrastructure.ChamyoRepository;
 import mouda.backend.notification.domain.MoudaNotification;
 import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.domain.NotificationTypeProvider;

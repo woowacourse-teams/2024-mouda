@@ -1,6 +1,6 @@
 package mouda.backend.auth.exception;
 
-import mouda.backend.exception.MoudaException;
+import mouda.backend.common.exception.MoudaException;
 import org.springframework.http.HttpStatus;
 
 public class AuthException extends MoudaException {
