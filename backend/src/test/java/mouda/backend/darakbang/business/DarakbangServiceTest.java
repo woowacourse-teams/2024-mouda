@@ -13,6 +13,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import mouda.backend.common.fixture.DarakbangFixture;
+import mouda.backend.common.fixture.DarakbangMemberFixture;
+import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.exception.DarakbangException;
 import mouda.backend.darakbang.implement.InvitationCodeGenerator;
@@ -23,9 +26,6 @@ import mouda.backend.darakbang.presentation.response.CodeValidationResponse;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.exception.DarakbangMemberException;
 import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
-import mouda.backend.fixture.DarakbangFixture;
-import mouda.backend.fixture.DarakbangMemberFixture;
-import mouda.backend.fixture.MemberFixture;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.infrastructure.MemberRepository;
 

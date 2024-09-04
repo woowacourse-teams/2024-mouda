@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import mouda.backend.common.response.RestResponse;
 import mouda.backend.common.config.argumentresolver.LoginDarakbangMember;
+import mouda.backend.common.response.RestResponse;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.business.ChamyoService;
 import mouda.backend.moim.presentation.controller.swagger.ChamyoSwagger;
