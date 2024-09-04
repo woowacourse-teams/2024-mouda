@@ -1,4 +1,4 @@
-package mouda.backend.auth.presentation.swagger;
+package mouda.backend.auth.presentation.controller.swagger;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;

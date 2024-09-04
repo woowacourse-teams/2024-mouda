@@ -11,6 +11,7 @@ import mouda.backend.common.config.argumentresolver.LoginDarakbangMember;
 import mouda.backend.common.response.RestResponse;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.member.business.MemberService;
+import mouda.backend.member.presentation.controller.swagger.MemberSwagger;
 import mouda.backend.member.presentation.response.MemberFindResponse;
 
 @RestController

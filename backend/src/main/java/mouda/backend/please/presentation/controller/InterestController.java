@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.common.config.argumentresolver.LoginDarakbangMember;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.please.presentation.request.InterestUpdateRequest;
-import mouda.backend.please.presentation.swagger.InterestSwagger;
 import mouda.backend.please.business.InterestService;
+import mouda.backend.please.presentation.controller.swagger.InterestSwagger;
+import mouda.backend.please.presentation.request.InterestUpdateRequest;
 
 @RestController
 @RequestMapping("/v1/darakbang/{darakbangId}/interest")

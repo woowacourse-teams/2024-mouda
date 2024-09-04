@@ -1,4 +1,4 @@
-package mouda.backend.darakbang.business;
+package mouda.backend.darakbang.implement;
 
 import java.security.SecureRandom;
 

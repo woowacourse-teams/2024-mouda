@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.exception.DarakbangException;
+import mouda.backend.darakbang.implement.InvitationCodeGenerator;
 import mouda.backend.darakbang.infrastructure.DarakbangRepository;
 import mouda.backend.darakbang.presentation.request.DarakbangCreateRequest;
 import mouda.backend.darakbang.presentation.request.DarakbangEnterRequest;

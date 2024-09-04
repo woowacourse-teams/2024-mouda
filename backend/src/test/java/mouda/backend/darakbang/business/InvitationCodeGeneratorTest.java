@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import mouda.backend.darakbang.implement.InvitationCodeGenerator;
+
 @SpringBootTest
 class InvitationCodeGeneratorTest {
 
@@ -18,7 +20,7 @@ class InvitationCodeGeneratorTest {
 	@Test
 	void success() {
 		String invitationCode = invitationCodeGenerator.generate();
-		
+
 		assertThat(invitationCode).hasSize(7);
 	}
 }

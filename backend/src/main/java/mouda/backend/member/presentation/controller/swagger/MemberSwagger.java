@@ -1,4 +1,4 @@
-package mouda.backend.member.presentation.controller;
+package mouda.backend.member.presentation.controller.swagger;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import mouda.backend.common.response.RestResponse;
 import mouda.backend.common.config.argumentresolver.LoginDarakbangMember;
+import mouda.backend.common.response.RestResponse;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.member.presentation.response.MemberFindResponse;
 
