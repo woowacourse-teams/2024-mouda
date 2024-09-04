@@ -8,10 +8,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import mouda.backend.comment.exception.CommentException;
 import mouda.backend.fixture.CommentFixture;
 import mouda.backend.fixture.DarakbangSetUp;
 import mouda.backend.fixture.MoimFixture;
+import mouda.backend.moim.domain.Comment;
+import mouda.backend.moim.exception.CommentException;
 
 class CommentTest extends DarakbangSetUp {
 

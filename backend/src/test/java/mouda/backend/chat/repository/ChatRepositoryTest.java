@@ -9,12 +9,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import mouda.backend.chat.domain.Chat;
 import mouda.backend.fixture.ChatFixture;
 import mouda.backend.fixture.DarakbangSetUp;
 import mouda.backend.fixture.MoimFixture;
+import mouda.backend.moim.domain.Chat;
 import mouda.backend.moim.domain.Moim;
-import mouda.backend.moim.repository.MoimRepository;
+import mouda.backend.moim.infrastructure.ChatRepository;
+import mouda.backend.moim.infrastructure.MoimRepository;
 
 @SpringBootTest
 class ChatRepositoryTest extends DarakbangSetUp {

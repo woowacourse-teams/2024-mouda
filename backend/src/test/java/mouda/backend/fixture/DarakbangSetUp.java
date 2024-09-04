@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import mouda.backend.darakbang.domain.Darakbang;
-import mouda.backend.darakbang.repository.DarakbangRepository;
+import mouda.backend.darakbang.infrastructure.DarakbangRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.darakbangmember.repository.repository.DarakbangMemberRepository;
+import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
 import mouda.backend.member.domain.Member;
-import mouda.backend.member.repository.MemberRepository;
+import mouda.backend.member.infrastructure.MemberRepository;
 
 @SpringBootTest
 public class DarakbangSetUp {

@@ -14,25 +14,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import mouda.backend.IgnoreNotificationTest;
-import mouda.backend.comment.domain.Comment;
-import mouda.backend.comment.dto.request.CommentCreateRequest;
-import mouda.backend.comment.exception.CommentException;
-import mouda.backend.comment.repository.CommentRepository;
 import mouda.backend.darakbang.domain.Darakbang;
-import mouda.backend.darakbang.repository.DarakbangRepository;
+import mouda.backend.darakbang.infrastructure.DarakbangRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.darakbangmember.repository.repository.DarakbangMemberRepository;
+import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
 import mouda.backend.fixture.DarakbangFixture;
 import mouda.backend.fixture.DarakbangMemberFixture;
 import mouda.backend.fixture.MemberFixture;
 import mouda.backend.fixture.MoimFixture;
 import mouda.backend.member.domain.Member;
-import mouda.backend.member.repository.MemberRepository;
+import mouda.backend.member.infrastructure.MemberRepository;
+import mouda.backend.moim.business.MoimService;
+import mouda.backend.moim.domain.Comment;
 import mouda.backend.moim.domain.Moim;
-import mouda.backend.moim.dto.request.MoimCreateRequest;
-import mouda.backend.moim.dto.response.MoimDetailsFindResponse;
-import mouda.backend.moim.dto.response.MoimFindAllResponses;
-import mouda.backend.moim.repository.MoimRepository;
+import mouda.backend.moim.exception.CommentException;
+import mouda.backend.moim.infrastructure.CommentRepository;
+import mouda.backend.moim.infrastructure.MoimRepository;
+import mouda.backend.moim.presentation.request.comment.CommentCreateRequest;
+import mouda.backend.moim.presentation.request.moim.MoimCreateRequest;
+import mouda.backend.moim.presentation.response.moim.MoimDetailsFindResponse;
+import mouda.backend.moim.presentation.response.moim.MoimFindAllResponses;
 
 @SpringBootTest
 class MoimServiceTest extends IgnoreNotificationTest {

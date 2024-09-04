@@ -13,23 +13,24 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import mouda.backend.chamyo.domain.Chamyo;
-import mouda.backend.chamyo.domain.MoimRole;
-import mouda.backend.chamyo.repository.ChamyoRepository;
-import mouda.backend.chat.domain.Chat;
-import mouda.backend.chat.dto.request.ChatCreateRequest;
-import mouda.backend.chat.dto.request.DateTimeConfirmRequest;
-import mouda.backend.chat.dto.request.PlaceConfirmRequest;
-import mouda.backend.chat.dto.response.ChatFindUnloadedResponse;
-import mouda.backend.chat.dto.response.ChatPreviewResponse;
-import mouda.backend.chat.dto.response.ChatPreviewResponses;
-import mouda.backend.chat.exception.ChatException;
-import mouda.backend.chat.repository.ChatRepository;
 import mouda.backend.fixture.ChatFixture;
 import mouda.backend.fixture.DarakbangSetUp;
 import mouda.backend.fixture.MoimFixture;
+import mouda.backend.moim.business.ChatService;
+import mouda.backend.moim.domain.Chamyo;
+import mouda.backend.moim.domain.Chat;
 import mouda.backend.moim.domain.Moim;
-import mouda.backend.moim.repository.MoimRepository;
+import mouda.backend.moim.domain.MoimRole;
+import mouda.backend.moim.exception.ChatException;
+import mouda.backend.moim.infrastructure.ChamyoRepository;
+import mouda.backend.moim.infrastructure.ChatRepository;
+import mouda.backend.moim.infrastructure.MoimRepository;
+import mouda.backend.moim.presentation.request.chat.ChatCreateRequest;
+import mouda.backend.moim.presentation.request.chat.DateTimeConfirmRequest;
+import mouda.backend.moim.presentation.request.chat.PlaceConfirmRequest;
+import mouda.backend.moim.presentation.response.chat.ChatFindUnloadedResponse;
+import mouda.backend.moim.presentation.response.chat.ChatPreviewResponse;
+import mouda.backend.moim.presentation.response.chat.ChatPreviewResponses;
 
 @SpringBootTest
 class ChatServiceTest extends DarakbangSetUp {

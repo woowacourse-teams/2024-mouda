@@ -2,8 +2,8 @@ package mouda.backend.fixture;
 
 import java.time.LocalDateTime;
 
-import mouda.backend.comment.domain.Comment;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
+import mouda.backend.moim.domain.Comment;
 import mouda.backend.moim.domain.Moim;
 
 public class CommentFixture {

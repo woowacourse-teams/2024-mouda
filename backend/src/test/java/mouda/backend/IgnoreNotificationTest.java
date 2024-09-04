@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import mouda.backend.notification.service.NotificationService;
+import mouda.backend.notification.business.NotificationService;
 
 @SpringBootTest
 public class IgnoreNotificationTest {

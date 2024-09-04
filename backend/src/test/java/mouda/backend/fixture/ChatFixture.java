@@ -3,9 +3,9 @@ package mouda.backend.fixture;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import mouda.backend.chat.domain.Chat;
-import mouda.backend.chat.domain.ChatType;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
+import mouda.backend.moim.domain.Chat;
+import mouda.backend.moim.domain.ChatType;
 import mouda.backend.moim.domain.Moim;
 
 public class ChatFixture {
