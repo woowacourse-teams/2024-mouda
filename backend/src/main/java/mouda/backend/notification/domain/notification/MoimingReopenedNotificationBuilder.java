@@ -7,7 +7,7 @@ import mouda.backend.moim.domain.Moim;
 import mouda.backend.notification.domain.MoudaNotification;
 import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.domain.NotificationTypeProvider;
-import mouda.backend.notification.repository.MoudaNotificationRepository;
+import mouda.backend.notification.infrastructure.MoudaNotificationRepository;
 
 @Component
 @NotificationTypeProvider(NotificationType.MOINING_REOPENED)

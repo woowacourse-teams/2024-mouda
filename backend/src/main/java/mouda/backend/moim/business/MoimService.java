@@ -35,9 +35,8 @@ import mouda.backend.moim.presentation.response.comment.CommentResponse;
 import mouda.backend.moim.presentation.response.moim.MoimDetailsFindResponse;
 import mouda.backend.moim.presentation.response.moim.MoimFindAllResponse;
 import mouda.backend.moim.presentation.response.moim.MoimFindAllResponses;
-import mouda.backend.notification.domain.MoudaNotification;
-import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.business.NotificationService;
+import mouda.backend.notification.domain.NotificationType;
 
 @Transactional
 @Service

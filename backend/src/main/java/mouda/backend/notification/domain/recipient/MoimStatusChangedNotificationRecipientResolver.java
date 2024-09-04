@@ -2,13 +2,13 @@ package mouda.backend.notification.domain.recipient;
 
 import java.util.List;
 
-import mouda.backend.chamyo.domain.MoimRole;
-import mouda.backend.chamyo.repository.ChamyoRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.darakbangmember.repository.repository.DarakbangMemberRepository;
+import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
 import mouda.backend.moim.domain.Moim;
+import mouda.backend.moim.domain.MoimRole;
+import mouda.backend.moim.infrastructure.ChamyoRepository;
 import mouda.backend.notification.domain.MoudaNotification;
-import mouda.backend.notification.repository.MemberNotificationRepository;
+import mouda.backend.notification.infrastructure.MemberNotificationRepository;
 
 public abstract class MoimStatusChangedNotificationRecipientResolver extends NoneChatRecipientResolverStrategy {
 

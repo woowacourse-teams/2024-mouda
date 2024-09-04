@@ -21,7 +21,6 @@ import mouda.backend.moim.presentation.response.chamyo.ChamyoFindAllResponse;
 import mouda.backend.moim.presentation.response.chamyo.ChamyoFindAllResponses;
 import mouda.backend.moim.presentation.response.chamyo.MoimRoleFindResponse;
 import mouda.backend.notification.business.NotificationService;
-import mouda.backend.notification.domain.MoudaNotification;
 import mouda.backend.notification.domain.NotificationType;
 
 @Service
