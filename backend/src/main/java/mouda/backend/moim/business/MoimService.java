@@ -7,14 +7,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
 import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.Comment;
 import mouda.backend.moim.domain.FilterType;
@@ -46,13 +44,6 @@ import mouda.backend.notification.business.NotificationService;
 @RequiredArgsConstructor
 public class MoimService {
 
-	private final DarakbangMemberRepository darakbangMemberRepository;
-	@Value("${url.base}")
-	private String baseUrl;
-
-	@Value("${url.moim}")
-	private String moimUrl;
-
 	private final MoimRepository moimRepository;
 	private final ChamyoRepository chamyoRepository;
 	private final ZzimRepository zzimRepository;
@@ -68,18 +59,7 @@ public class MoimService {
 			.build();
 		chamyoRepository.save(chamyo);
 
-		NotificationType notificationType = NotificationType.MOIM_CREATED;
-		MoudaNotification notification = MoudaNotification.builder()
-			.type(notificationType)
-			.body(notificationType.createMessage(moim.getTitle()))
-			.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moim.getId()))
-			.build();
-
-		List<Long> darakbangMembersExceptMe = darakbangMemberRepository.findAllByDarakbangId(darakbangId).stream()
-			.filter(member -> !Objects.equals(member.getId(), darakbangMember.getId()))
-			.map(DarakbangMember::getMemberId)
-			.toList();
-		notificationService.notifyToMembers(notification, darakbangMembersExceptMe, darakbangId);
+		notificationService.notifyToMembers(NotificationType.MOIM_CREATED, darakbangId, moim, darakbangMember);
 		return moim;
 	}
 
@@ -165,26 +145,17 @@ public class MoimService {
 		if (Objects.equals(chamyoRepository.findMoimerIdByMoimId(moimId), darakbangMember.getMemberId())) {
 			return;
 		}
-		sendCommentNotification(moim.getId(), darakbangMember, parentId, darakbangId);
+		sendCommentNotification(moim, darakbangMember, parentId, darakbangId);
 	}
 
-	private void sendCommentNotification(Long moimId, DarakbangMember author, Long parentId, Long darakbangId) {
+	private void sendCommentNotification(Moim moim, DarakbangMember author, Long parentId, Long darakbangId) {
 		if (parentId != null) {
 			Long parentCommentAuthorId = commentRepository.findMemberIdByParentId(parentId);
-			MoudaNotification notification = MoudaNotification.builder()
-				.type(NotificationType.NEW_REPLY)
-				.body(NotificationType.NEW_REPLY.createMessage(author.getNickname()))
-				.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moimId))
-				.build();
-			notificationService.notifyToMember(notification, parentCommentAuthorId, darakbangId);
+			notificationService.notifyToMember(NotificationType.NEW_REPLY, darakbangId, moim, author,
+				parentCommentAuthorId);
 		}
 
-		MoudaNotification notification = MoudaNotification.builder()
-			.type(NotificationType.NEW_COMMENT)
-			.body(NotificationType.NEW_COMMENT.createMessage(author.getNickname()))
-			.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moimId))
-			.build();
-		notificationService.notifyToMember(notification, chamyoRepository.findMoimerIdByMoimId(moimId), darakbangId);
+		notificationService.notifyToMembers(NotificationType.NEW_COMMENT, darakbangId, moim, author);
 	}
 
 	public void completeMoim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
@@ -197,22 +168,7 @@ public class MoimService {
 
 		moimRepository.updateMoimStatusById(moimId, MoimStatus.COMPLETED);
 
-		sendNotificationWhenMoimStatusChanged(moim, NotificationType.MOIMING_COMPLETED, darakbangId);
-	}
-
-	private void sendNotificationWhenMoimStatusChanged(Moim moim, NotificationType notificationType, Long darakbangId) {
-		MoudaNotification notification = MoudaNotification.builder()
-			.type(notificationType)
-			.body(notificationType.createMessage(moim.getTitle()))
-			.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moim.getId()))
-			.build();
-
-		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
-			.filter(chamyo -> chamyo.getMoimRole() != MoimRole.MOIMER)
-			.map(chamyo -> chamyo.getDarakbangMember().getMemberId())
-			.toList();
-
-		notificationService.notifyToMembers(notification, membersToSendNotification, darakbangId);
+		notificationService.notifyToMembers(NotificationType.MOIMING_COMPLETED, darakbangId, moim, darakbangMember);
 	}
 
 	private void validateCanCompleteMoim(Moim moim, DarakbangMember darakbangMember) {
@@ -236,7 +192,7 @@ public class MoimService {
 
 		moimRepository.updateMoimStatusById(moimId, MoimStatus.CANCELED);
 
-		sendNotificationWhenMoimStatusChanged(moim, NotificationType.MOIM_CANCELLED, darakbangId);
+		notificationService.notifyToMembers(NotificationType.MOIM_CANCELLED, darakbangId, moim, darakbangMember);
 	}
 
 	private void validateCanCancelMoim(Moim moim, DarakbangMember darakbangMember) {
@@ -256,7 +212,7 @@ public class MoimService {
 
 		moimRepository.updateMoimStatusById(moimId, MoimStatus.MOIMING);
 
-		sendNotificationWhenMoimStatusChanged(moim, NotificationType.MOINING_REOPENED, darakbangId);
+		notificationService.notifyToMembers(NotificationType.MOINING_REOPENED, darakbangId, moim, darakbangMember);
 	}
 
 	private void validateCanReopenMoim(Moim moim, DarakbangMember darakbangMember) {
@@ -296,7 +252,7 @@ public class MoimService {
 			request.description(), chamyoRepository.countByMoim(moim));
 		moimRepository.save(moim);
 
-		sendNotificationWhenMoimStatusChanged(moim, NotificationType.MOIM_MODIFIED, darakbangId);
+		notificationService.notifyToMembers(NotificationType.MOIM_MODIFIED, darakbangId, moim, darakbangMember);
 	}
 
 	private void validateCanEditMoim(Moim moim, DarakbangMember darakbangMember) {

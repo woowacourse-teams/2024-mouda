@@ -17,10 +17,10 @@ public class IgnoreNotificationTest {
 
 	@BeforeEach
 	void setUp() {
-		doNothing().when(notificationService).notifyToAllExceptMember(any(), anyLong(), anyLong());
-		doNothing().when(notificationService).notifyToAllExceptMember(any(), anyList(), anyLong());
-		doNothing().when(notificationService).notifyToAllMembers(any(), anyLong());
-		doNothing().when(notificationService).notifyToMember(any(), any(), anyLong());
-		doNothing().when(notificationService).notifyToMembers(any(), any(), anyLong());
+		doNothing().when(notificationService).notifyToAllExceptMember(any(), anyLong(), any(), any(), anyLong());
+		doNothing().when(notificationService).notifyToAllExceptMember(any(), anyLong(), any(), any(), anyList());
+		doNothing().when(notificationService).notifyToAllMembers(any(), anyLong(), any(), any());
+		doNothing().when(notificationService).notifyToMember(any(), anyLong(), any(), any(), anyLong());
+		doNothing().when(notificationService).notifyToMembers(any(), anyLong(), any(), any());
 	}
 }

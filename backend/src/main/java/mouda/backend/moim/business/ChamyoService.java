@@ -3,7 +3,6 @@ package mouda.backend.moim.business;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,12 +28,6 @@ import mouda.backend.notification.domain.NotificationType;
 @RequiredArgsConstructor
 @Transactional
 public class ChamyoService {
-
-	@Value("${url.base}")
-	private String baseUrl;
-
-	@Value("${url.moim}")
-	private String moimUrl;
 
 	private final ChamyoRepository chamyoRepository;
 	private final MoimRepository moimRepository;
@@ -90,19 +83,7 @@ public class ChamyoService {
 			moimRepository.updateMoimStatusById(moim.getId(), MoimStatus.COMPLETED);
 		}
 
-		NotificationType notificationType = NotificationType.NEW_MOIMEE_JOINED;
-		MoudaNotification notification = MoudaNotification.builder()
-			.type(notificationType)
-			.body(notificationType.createMessage(darakbangMember.getNickname()))
-			.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moim.getId()))
-			.build();
-
-		List<Long> membersToSendNotification = chamyoRepository.findAllByMoimId(moim.getId()).stream()
-			.map(c -> c.getDarakbangMember().getMemberId())
-			.filter(memberId -> !memberId.equals(darakbangMember.getMemberId()))
-			.toList();
-
-		notificationService.notifyToMembers(notification, membersToSendNotification, darakbangId);
+		notificationService.notifyToMembers(NotificationType.NEW_MOIMEE_JOINED, darakbangId, moim, darakbangMember);
 	}
 
 	private void validateCanChamyoMoim(Moim moim, DarakbangMember darakbangMember) {
@@ -135,15 +116,7 @@ public class ChamyoService {
 			return;
 		}
 
-		NotificationType notificationType = NotificationType.MOIMEE_LEFT;
-		MoudaNotification notification = MoudaNotification.builder()
-			.type(notificationType)
-			.body(notificationType.createMessage(darakbangMember.getNickname()))
-			.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moim.getId()))
-			.build();
-
-		Long moimerId = chamyoRepository.findMoimerIdByMoimId(moim.getId());
-		notificationService.notifyToMember(notification, moimerId, darakbangId);
+		notificationService.notifyToMembers(NotificationType.MOIMEE_LEFT, darakbangId, moim, darakbangMember);
 	}
 
 	private void validateCanCancelChamyo(Moim moim, DarakbangMember darakbangMember) {
