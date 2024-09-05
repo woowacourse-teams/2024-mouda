@@ -74,8 +74,8 @@ public class AuthService {
 	}
 
 	public LoginResponse basicLogin() {
-		Member member = memberRepository.findById(1L)
-			.orElse(new Member());
+		Member member = new Member("nickname", 1L);
+		memberRepository.save(member);
 		return new LoginResponse(jwtProvider.createToken(member));
 	}
 }
