@@ -13,21 +13,22 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import mouda.backend.api.darakbang.business.DarakbangService;
 import mouda.backend.common.fixture.DarakbangFixture;
 import mouda.backend.common.fixture.DarakbangMemberFixture;
 import mouda.backend.common.fixture.MemberFixture;
-import mouda.backend.darakbang.domain.Darakbang;
-import mouda.backend.darakbang.exception.DarakbangException;
-import mouda.backend.darakbang.implement.InvitationCodeGenerator;
-import mouda.backend.darakbang.infrastructure.DarakbangRepository;
-import mouda.backend.darakbang.presentation.request.DarakbangCreateRequest;
-import mouda.backend.darakbang.presentation.request.DarakbangEnterRequest;
-import mouda.backend.darakbang.presentation.response.CodeValidationResponse;
-import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.darakbangmember.exception.DarakbangMemberException;
-import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
-import mouda.backend.member.domain.Member;
-import mouda.backend.member.infrastructure.MemberRepository;
+import mouda.backend.core.domain.darakbang.Darakbang;
+import mouda.backend.api.darakbang.exception.DarakbangException;
+import mouda.backend.api.darakbang.implement.InvitationCodeGenerator;
+import mouda.backend.api.darakbang.infrastructure.DarakbangRepository;
+import mouda.backend.core.dto.darakbang.request.DarakbangCreateRequest;
+import mouda.backend.core.dto.darakbang.request.DarakbangEnterRequest;
+import mouda.backend.core.dto.darakbang.response.CodeValidationResponse;
+import mouda.backend.core.domain.darakbang.DarakbangMember;
+import mouda.backend.api.darakbangmember.exception.DarakbangMemberException;
+import mouda.backend.api.darakbangmember.infrastructure.DarakbangMemberRepository;
+import mouda.backend.core.domain.member.Member;
+import mouda.backend.api.member.infrastructure.MemberRepository;
 
 @SpringBootTest
 class DarakbangServiceTest {

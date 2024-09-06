@@ -3,8 +3,8 @@ package mouda.backend.notification.domain.recipient;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
-import mouda.backend.moim.infrastructure.ChamyoRepository;
+import mouda.backend.api.darakbangmember.infrastructure.DarakbangMemberRepository;
+import mouda.backend.api.moim.infrastructure.ChamyoRepository;
 import mouda.backend.notification.domain.MemberNotification;
 import mouda.backend.notification.domain.MoudaNotification;
 import mouda.backend.notification.infrastructure.MemberNotificationRepository;

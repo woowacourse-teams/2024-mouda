@@ -1,6 +1,6 @@
 package mouda.backend.common.fixture;
 
-import mouda.backend.member.domain.Member;
+import mouda.backend.core.domain.member.Member;
 
 public class MemberFixture {
 

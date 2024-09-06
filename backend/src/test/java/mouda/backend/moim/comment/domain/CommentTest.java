@@ -11,8 +11,8 @@ import org.junit.jupiter.api.Test;
 import mouda.backend.common.fixture.CommentFixture;
 import mouda.backend.common.fixture.DarakbangSetUp;
 import mouda.backend.common.fixture.MoimFixture;
-import mouda.backend.moim.domain.Comment;
-import mouda.backend.moim.exception.CommentException;
+import mouda.backend.core.domain.moim.Comment;
+import mouda.backend.api.moim.exception.CommentException;
 
 class CommentTest extends DarakbangSetUp {
 

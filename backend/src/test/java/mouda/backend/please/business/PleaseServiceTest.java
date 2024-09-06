@@ -12,14 +12,16 @@ import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import mouda.backend.api.please.business.InterestService;
+import mouda.backend.api.please.business.PleaseService;
 import mouda.backend.common.fixture.DarakbangSetUp;
 import mouda.backend.common.fixture.PleaseFixture;
-import mouda.backend.please.domain.Please;
-import mouda.backend.please.exception.PleaseException;
-import mouda.backend.please.infrastructure.PleaseRepository;
-import mouda.backend.please.presentation.request.InterestUpdateRequest;
-import mouda.backend.please.presentation.request.PleaseCreateRequest;
-import mouda.backend.please.presentation.response.PleaseFindAllResponses;
+import mouda.backend.core.domain.please.Please;
+import mouda.backend.api.please.exception.PleaseException;
+import mouda.backend.api.please.infrastructure.PleaseRepository;
+import mouda.backend.core.dto.please.request.InterestUpdateRequest;
+import mouda.backend.core.dto.please.request.PleaseCreateRequest;
+import mouda.backend.core.dto.please.response.PleaseFindAllResponses;
 
 @SpringBootTest
 class PleaseServiceTest extends DarakbangSetUp {

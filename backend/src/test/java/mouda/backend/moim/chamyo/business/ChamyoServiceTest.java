@@ -16,16 +16,16 @@ import mouda.backend.common.fixture.DarakbangFixture;
 import mouda.backend.common.fixture.DarakbangMemberFixture;
 import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.common.fixture.MoimFixture;
-import mouda.backend.darakbang.domain.Darakbang;
-import mouda.backend.darakbang.infrastructure.DarakbangRepository;
-import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
-import mouda.backend.member.domain.Member;
-import mouda.backend.member.infrastructure.MemberRepository;
-import mouda.backend.moim.business.ChamyoService;
-import mouda.backend.moim.domain.Moim;
-import mouda.backend.moim.exception.ChamyoException;
-import mouda.backend.moim.infrastructure.MoimRepository;
+import mouda.backend.core.domain.darakbang.Darakbang;
+import mouda.backend.api.darakbang.infrastructure.DarakbangRepository;
+import mouda.backend.core.domain.darakbang.DarakbangMember;
+import mouda.backend.api.darakbangmember.infrastructure.DarakbangMemberRepository;
+import mouda.backend.core.domain.member.Member;
+import mouda.backend.api.member.infrastructure.MemberRepository;
+import mouda.backend.api.moim.business.ChamyoService;
+import mouda.backend.core.domain.moim.Moim;
+import mouda.backend.api.moim.exception.ChamyoException;
+import mouda.backend.api.moim.infrastructure.MoimRepository;
 
 @SpringBootTest
 class ChamyoServiceTest {

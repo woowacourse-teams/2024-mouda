@@ -17,8 +17,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.member.domain.Member;
+import mouda.backend.core.domain.darakbang.DarakbangMember;
+import mouda.backend.core.domain.member.Member;
 
 @Aspect
 @Component

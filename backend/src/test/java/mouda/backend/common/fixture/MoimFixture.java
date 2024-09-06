@@ -3,7 +3,7 @@ package mouda.backend.common.fixture;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import mouda.backend.moim.domain.Moim;
+import mouda.backend.core.domain.moim.Moim;
 
 public class MoimFixture {
 

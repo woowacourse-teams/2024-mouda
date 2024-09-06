@@ -8,9 +8,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import mouda.backend.common.response.RestResponse;
-import mouda.backend.common.config.argumentresolver.LoginMember;
-import mouda.backend.member.domain.Member;
+import mouda.backend.api.common.config.argumentresolver.LoginMember;
+import mouda.backend.api.common.response.RestResponse;
+import mouda.backend.core.domain.member.Member;
 import mouda.backend.notification.presentation.request.FcmTokenSaveRequest;
 import mouda.backend.notification.presentation.response.NotificationFindAllResponses;
 

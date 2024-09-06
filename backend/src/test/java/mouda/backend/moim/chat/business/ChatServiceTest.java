@@ -16,21 +16,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 import mouda.backend.common.fixture.ChatFixture;
 import mouda.backend.common.fixture.DarakbangSetUp;
 import mouda.backend.common.fixture.MoimFixture;
-import mouda.backend.moim.business.ChatService;
-import mouda.backend.moim.domain.Chamyo;
-import mouda.backend.moim.domain.Chat;
-import mouda.backend.moim.domain.Moim;
-import mouda.backend.moim.domain.MoimRole;
-import mouda.backend.moim.exception.ChatException;
-import mouda.backend.moim.infrastructure.ChamyoRepository;
-import mouda.backend.moim.infrastructure.ChatRepository;
-import mouda.backend.moim.infrastructure.MoimRepository;
-import mouda.backend.moim.presentation.request.chat.ChatCreateRequest;
-import mouda.backend.moim.presentation.request.chat.DateTimeConfirmRequest;
-import mouda.backend.moim.presentation.request.chat.PlaceConfirmRequest;
-import mouda.backend.moim.presentation.response.chat.ChatFindUnloadedResponse;
-import mouda.backend.moim.presentation.response.chat.ChatPreviewResponse;
-import mouda.backend.moim.presentation.response.chat.ChatPreviewResponses;
+import mouda.backend.api.moim.business.ChatService;
+import mouda.backend.core.domain.moim.Chamyo;
+import mouda.backend.core.domain.moim.Chat;
+import mouda.backend.core.domain.moim.Moim;
+import mouda.backend.core.domain.moim.MoimRole;
+import mouda.backend.api.moim.exception.ChatException;
+import mouda.backend.api.moim.infrastructure.ChamyoRepository;
+import mouda.backend.api.moim.infrastructure.ChatRepository;
+import mouda.backend.api.moim.infrastructure.MoimRepository;
+import mouda.backend.core.dto.moim.request.chat.ChatCreateRequest;
+import mouda.backend.core.dto.moim.request.chat.DateTimeConfirmRequest;
+import mouda.backend.core.dto.moim.request.chat.PlaceConfirmRequest;
+import mouda.backend.core.dto.moim.response.chat.ChatFindUnloadedResponse;
+import mouda.backend.core.dto.moim.response.chat.ChatPreviewResponse;
+import mouda.backend.core.dto.moim.response.chat.ChatPreviewResponses;
 
 @SpringBootTest
 class ChatServiceTest extends DarakbangSetUp {

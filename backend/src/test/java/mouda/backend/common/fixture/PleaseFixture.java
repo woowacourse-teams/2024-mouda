@@ -1,6 +1,6 @@
 package mouda.backend.common.fixture;
 
-import mouda.backend.please.domain.Please;
+import mouda.backend.core.domain.please.Please;
 
 public class PleaseFixture {
 

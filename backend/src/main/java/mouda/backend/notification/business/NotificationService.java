@@ -10,9 +10,9 @@ import com.google.firebase.FirebaseException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.member.domain.Member;
-import mouda.backend.moim.domain.Moim;
+import mouda.backend.core.domain.darakbang.DarakbangMember;
+import mouda.backend.core.domain.member.Member;
+import mouda.backend.core.domain.moim.Moim;
 import mouda.backend.notification.domain.MemberNotification;
 import mouda.backend.notification.domain.MoudaNotification;
 import mouda.backend.notification.domain.NotificationType;

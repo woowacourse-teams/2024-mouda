@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import mouda.backend.common.fixture.DarakbangSetUp;
 import mouda.backend.common.fixture.MoimFixture;
-import mouda.backend.moim.domain.Moim;
-import mouda.backend.moim.exception.MoimException;
+import mouda.backend.core.domain.moim.Moim;
+import mouda.backend.api.moim.exception.MoimException;
 
 class MoimTest extends DarakbangSetUp {
 

@@ -8,17 +8,18 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import mouda.backend.api.darakbangmember.business.DarakbangMemberService;
 import mouda.backend.common.fixture.DarakbangFixture;
 import mouda.backend.common.fixture.DarakbangMemberFixture;
 import mouda.backend.common.fixture.MemberFixture;
-import mouda.backend.darakbang.domain.Darakbang;
-import mouda.backend.darakbang.infrastructure.DarakbangRepository;
-import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.darakbangmember.exception.DarakbangMemberException;
-import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
-import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRoleResponse;
-import mouda.backend.member.domain.Member;
-import mouda.backend.member.infrastructure.MemberRepository;
+import mouda.backend.core.domain.darakbang.Darakbang;
+import mouda.backend.api.darakbang.infrastructure.DarakbangRepository;
+import mouda.backend.core.domain.darakbang.DarakbangMember;
+import mouda.backend.api.darakbangmember.exception.DarakbangMemberException;
+import mouda.backend.api.darakbangmember.infrastructure.DarakbangMemberRepository;
+import mouda.backend.core.dto.darakbang.response.DarakbangMemberRoleResponse;
+import mouda.backend.core.domain.member.Member;
+import mouda.backend.api.member.infrastructure.MemberRepository;
 
 @SpringBootTest
 class DarakbangMemberServiceTest {

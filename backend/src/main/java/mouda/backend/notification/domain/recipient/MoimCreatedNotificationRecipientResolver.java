@@ -5,10 +5,10 @@ import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
-import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
-import mouda.backend.moim.domain.Moim;
-import mouda.backend.moim.infrastructure.ChamyoRepository;
+import mouda.backend.core.domain.darakbang.DarakbangMember;
+import mouda.backend.api.darakbangmember.infrastructure.DarakbangMemberRepository;
+import mouda.backend.core.domain.moim.Moim;
+import mouda.backend.api.moim.infrastructure.ChamyoRepository;
 import mouda.backend.notification.domain.MoudaNotification;
 import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.domain.NotificationTypeProvider;

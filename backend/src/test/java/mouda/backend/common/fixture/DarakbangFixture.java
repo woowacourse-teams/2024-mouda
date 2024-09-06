@@ -1,6 +1,6 @@
 package mouda.backend.common.fixture;
 
-import mouda.backend.darakbang.domain.Darakbang;
+import mouda.backend.core.domain.darakbang.Darakbang;
 
 public class DarakbangFixture {
 

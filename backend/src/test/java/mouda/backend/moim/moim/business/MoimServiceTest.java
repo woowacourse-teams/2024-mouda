@@ -18,22 +18,22 @@ import mouda.backend.common.fixture.DarakbangFixture;
 import mouda.backend.common.fixture.DarakbangMemberFixture;
 import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.common.fixture.MoimFixture;
-import mouda.backend.darakbang.domain.Darakbang;
-import mouda.backend.darakbang.infrastructure.DarakbangRepository;
-import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
-import mouda.backend.member.domain.Member;
-import mouda.backend.member.infrastructure.MemberRepository;
-import mouda.backend.moim.business.MoimService;
-import mouda.backend.moim.domain.Comment;
-import mouda.backend.moim.domain.Moim;
-import mouda.backend.moim.exception.CommentException;
-import mouda.backend.moim.infrastructure.CommentRepository;
-import mouda.backend.moim.infrastructure.MoimRepository;
-import mouda.backend.moim.presentation.request.comment.CommentCreateRequest;
-import mouda.backend.moim.presentation.request.moim.MoimCreateRequest;
-import mouda.backend.moim.presentation.response.moim.MoimDetailsFindResponse;
-import mouda.backend.moim.presentation.response.moim.MoimFindAllResponses;
+import mouda.backend.core.domain.darakbang.Darakbang;
+import mouda.backend.api.darakbang.infrastructure.DarakbangRepository;
+import mouda.backend.core.domain.darakbang.DarakbangMember;
+import mouda.backend.api.darakbangmember.infrastructure.DarakbangMemberRepository;
+import mouda.backend.core.domain.member.Member;
+import mouda.backend.api.member.infrastructure.MemberRepository;
+import mouda.backend.api.moim.business.MoimService;
+import mouda.backend.core.domain.moim.Comment;
+import mouda.backend.core.domain.moim.Moim;
+import mouda.backend.api.moim.exception.CommentException;
+import mouda.backend.api.moim.infrastructure.CommentRepository;
+import mouda.backend.api.moim.infrastructure.MoimRepository;
+import mouda.backend.core.dto.moim.request.comment.CommentCreateRequest;
+import mouda.backend.core.dto.moim.request.moim.MoimCreateRequest;
+import mouda.backend.core.dto.moim.response.moim.MoimDetailsFindResponse;
+import mouda.backend.core.dto.moim.response.moim.MoimFindAllResponses;
 
 @SpringBootTest
 class MoimServiceTest extends IgnoreNotificationTest {

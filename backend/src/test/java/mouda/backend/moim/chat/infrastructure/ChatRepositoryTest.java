@@ -12,10 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import mouda.backend.common.fixture.ChatFixture;
 import mouda.backend.common.fixture.DarakbangSetUp;
 import mouda.backend.common.fixture.MoimFixture;
-import mouda.backend.moim.domain.Chat;
-import mouda.backend.moim.domain.Moim;
-import mouda.backend.moim.infrastructure.ChatRepository;
-import mouda.backend.moim.infrastructure.MoimRepository;
+import mouda.backend.core.domain.moim.Chat;
+import mouda.backend.core.domain.moim.Moim;
+import mouda.backend.api.moim.infrastructure.ChatRepository;
+import mouda.backend.api.moim.infrastructure.MoimRepository;
 
 @SpringBootTest
 class ChatRepositoryTest extends DarakbangSetUp {

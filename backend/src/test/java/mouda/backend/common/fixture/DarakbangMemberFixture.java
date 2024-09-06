@@ -1,9 +1,9 @@
 package mouda.backend.common.fixture;
 
-import mouda.backend.darakbang.domain.Darakbang;
-import mouda.backend.darakbangmember.domain.DarakBangMemberRole;
-import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.member.domain.Member;
+import mouda.backend.core.domain.darakbang.Darakbang;
+import mouda.backend.core.domain.darakbang.DarakBangMemberRole;
+import mouda.backend.core.domain.darakbang.DarakbangMember;
+import mouda.backend.core.domain.member.Member;
 
 public class DarakbangMemberFixture {
 
