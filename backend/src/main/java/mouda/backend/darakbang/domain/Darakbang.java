@@ -20,6 +20,7 @@ public class Darakbang {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(unique = true)
 	private Long id;
 
 	@Column(nullable = false)

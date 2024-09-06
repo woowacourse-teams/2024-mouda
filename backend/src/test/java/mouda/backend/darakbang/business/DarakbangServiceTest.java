@@ -3,6 +3,9 @@ package mouda.backend.darakbang.business;
 import static org.assertj.core.api.Assertions.*;
 
 import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -184,6 +187,39 @@ class DarakbangServiceTest {
 
 			assertThatThrownBy(() -> darakbangService.enter(darakbang.getCode(), enterRequest, anna))
 				.isInstanceOf(DarakbangMemberException.class);
+		}
+	}
+
+	@DisplayName("다락방 참여 동시성 테스트")
+	@Nested
+	class DarakbangEnterConcurrencyTest {
+
+		@DisplayName("한 명의 회원이 다락방에 여러 번 참여 시도하면 실패한다.")
+		@Test
+		void failToEnterDarakbangTwoTimes() throws InterruptedException {
+			Member hogee = memberRepository.save(MemberFixture.getHogee());
+			Darakbang darakbang = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
+			darakbangMemberRepository.save(DarakbangMemberFixture.getDarakbangManagerWithWooteco(darakbang, hogee));
+
+			int threadCount = 2;
+			ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
+			CountDownLatch latch = new CountDownLatch(threadCount);
+
+			DarakbangEnterRequest request = new DarakbangEnterRequest("안나");
+			Member member = memberRepository.save(MemberFixture.getAnna());
+			for (int i = 0; i < threadCount; i++) {
+				executorService.execute(() -> {
+					try {
+						darakbangService.enter(darakbang.getCode(), request, member);
+					} finally {
+						latch.countDown();
+					}
+				});
+			}
+			latch.await();
+			executorService.shutdown();
+
+			assertThat(darakbangMemberRepository.findAllByDarakbangId(darakbang.getId())).hasSize(2);
 		}
 	}
 

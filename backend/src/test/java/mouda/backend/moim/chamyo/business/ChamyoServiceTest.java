@@ -91,7 +91,6 @@ class ChamyoServiceTest {
 				.getDarakbangMemberWithWooteco(darakbang, member);
 			darakbangMemberRepository.save(darakbangMember);
 
-			long startTime = System.currentTimeMillis();
 			for (int i = 0; i < threadCount; i++) {
 				executorService.execute(() -> {
 					try {
@@ -103,9 +102,6 @@ class ChamyoServiceTest {
 			}
 			latch.await();
 			executorService.shutdown();
-
-			long endTime = System.currentTimeMillis();
-			System.out.printf("Test time : %d ms\n", endTime - startTime);
 
 			assertThat(chamyoService.findAllChamyo(darakbang.getId(), moim.getId()).chamyos()).hasSize(1);
 		}
