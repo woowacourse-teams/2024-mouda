@@ -9,6 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +19,14 @@ import mouda.backend.darakbangmember.domain.DarakbangMember;
 @Entity
 @Getter
 @NoArgsConstructor
+@Table(
+	name = "chamyo",
+	uniqueConstraints = {
+		@UniqueConstraint(
+			columnNames = {"moim_id", "darakbang_member_id"}
+		)
+	}
+)
 public class Chamyo {
 
 	@Id

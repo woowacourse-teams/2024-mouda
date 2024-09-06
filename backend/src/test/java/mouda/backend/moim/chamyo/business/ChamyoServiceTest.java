@@ -102,7 +102,6 @@ class ChamyoServiceTest {
 			}
 			latch.await();
 			executorService.shutdown();
-
 			assertThat(chamyoService.findAllChamyo(darakbang.getId(), moim.getId()).chamyos()).hasSize(1);
 		}
 	}
