@@ -1,5 +1,7 @@
 package mouda.backend.moim.implement.finder;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -19,14 +21,23 @@ import mouda.backend.moim.infrastructure.ChamyoRepository;
 public class ChamyoFinder {
 
 	private final ChamyoRepository chamyoRepository;
+	private final ChatFinder chatFinder;
 
 	public Chamyo read(Moim moim, DarakbangMember darakbangMember) {
-		return find(moim.getId(), darakbangMember)
+		return read(moim.getId(), darakbangMember);
+	}
+
+	public Chamyo read(long moimId, DarakbangMember darakbangMember) {
+		return find(moimId, darakbangMember)
 			.orElseThrow(() -> new ChamyoException(HttpStatus.NOT_FOUND, ChamyoErrorMessage.NOT_FOUND));
 	}
 
 	private Optional<Chamyo> find(long moimId, DarakbangMember darakbangMember) {
 		return chamyoRepository.findByMoimIdAndDarakbangMemberId(moimId, darakbangMember.getId());
+	}
+
+	public boolean exists(long moimId, DarakbangMember darakbangMember) {
+		return chamyoRepository.existsByMoimIdAndDarakbangMemberId(moimId, darakbangMember.getId());
 	}
 
 	public MoimRole readMoimRole(Moim moim, DarakbangMember darakbangMember) {
@@ -37,5 +48,18 @@ public class ChamyoFinder {
 
 		Chamyo chamyo = chamyoOptional.get();
 		return chamyo.getMoimRole();
+	}
+
+	public List<Chamyo> readAllOrderByLastChat(long darakbangId, DarakbangMember darakbangMember) {
+		return chamyoRepository.findAllByDarakbangMemberIdAndMoim_DarakbangId(darakbangMember.getId(), darakbangId)
+			.stream()
+			.filter(chamyo -> chamyo.getMoim().isChatOpened())
+			.sorted(getChatComparatorByLastCreatedAt())
+			.toList();
+	}
+
+	private Comparator<Chamyo> getChatComparatorByLastCreatedAt() {
+		return Comparator.comparing(chatFinder::readLastChatDateTime, Comparator.nullsLast(Comparator.reverseOrder()))
+			.thenComparing(chamyo -> chamyo.getMoim().getId(), Comparator.naturalOrder());
 	}
 }
