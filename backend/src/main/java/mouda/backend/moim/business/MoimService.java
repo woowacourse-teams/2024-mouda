@@ -24,6 +24,9 @@ import mouda.backend.moim.exception.CommentErrorMessage;
 import mouda.backend.moim.exception.CommentException;
 import mouda.backend.moim.exception.MoimErrorMessage;
 import mouda.backend.moim.exception.MoimException;
+import mouda.backend.moim.implement.finder.MoimFinder;
+import mouda.backend.moim.implement.finder.ZzimFinder;
+import mouda.backend.moim.implement.writer.MoimWriter;
 import mouda.backend.moim.infrastructure.ChamyoRepository;
 import mouda.backend.moim.infrastructure.CommentRepository;
 import mouda.backend.moim.infrastructure.MoimRepository;
@@ -48,33 +51,33 @@ public class MoimService {
 	private final ZzimRepository zzimRepository;
 	private final CommentRepository commentRepository;
 	private final NotificationService notificationService;
+	private final MoimWriter moimWriter;
+	private final MoimFinder moimFinder;
+	private final ZzimFinder zzimFinder;
 
 	public Moim createMoim(Long darakbangId, DarakbangMember darakbangMember, MoimCreateRequest moimCreateRequest) {
-		Moim moim = moimRepository.save(moimCreateRequest.toEntity(darakbangId));
-		Chamyo chamyo = Chamyo.builder()
-			.darakbangMember(darakbangMember)
-			.moim(moim)
-			.moimRole(MoimRole.MOIMER)
-			.build();
-		chamyoRepository.save(chamyo);
+		Moim moim = moimWriter.save(moimCreateRequest.toEntity(darakbangId), darakbangMember);
 
 		notificationService.notifyToMembers(NotificationType.MOIM_CREATED, darakbangId, moim, darakbangMember);
+
 		return moim;
 	}
 
 	@Transactional(readOnly = true)
 	public MoimFindAllResponses findAllMoim(Long darakbangId, DarakbangMember darakbangMember) {
-		List<Moim> moims = moimRepository.findAllByDarakbangIdOrderByIdDesc(darakbangId);
-		return new MoimFindAllResponses(
-			moims.stream()
-				.map(moim -> {
-					int currentPeople = chamyoRepository.countByMoim(moim);
-					boolean isZzimed = zzimRepository.existsByMoimIdAndDarakbangMemberId(moim.getId(),
-						darakbangMember.getId());
-					return MoimFindAllResponse.toResponse(moim, currentPeople, isZzimed);
-				})
-				.toList()
-		);
+		List<Moim> moims = moimFinder.readAll(darakbangId);
+		List<MoimFindAllResponse> responses = moims.stream()
+			.map(moim -> toMoimFindAllResponse(moim, darakbangMember))
+			.toList();
+
+		return MoimFindAllResponses.toResponse(responses);
+	}
+
+	private MoimFindAllResponse toMoimFindAllResponse(Moim moim, DarakbangMember darakbangMember) {
+		int currentPeople = moimFinder.countCurrentPeople(moim);
+		boolean isZzimed = zzimFinder.isMoimZzimedByMember(moim.getId(), darakbangMember);
+
+		return MoimFindAllResponse.toResponse(moim, currentPeople, isZzimed);
 	}
 
 	@Transactional(readOnly = true)
