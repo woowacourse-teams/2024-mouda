@@ -15,7 +15,8 @@ public class MoimValidator {
 	private final MoimRepository moimRepository;
 
 	public void validateMoimExists(long moimId, long darakbangId) {
-		if (!moimRepository.existsByIdAndDarakbangId(moimId, darakbangId)) {
+		boolean isNotExists = !moimRepository.existsByIdAndDarakbangId(moimId, darakbangId);
+		if (isNotExists) {
 			throw new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND);
 		}
 	}

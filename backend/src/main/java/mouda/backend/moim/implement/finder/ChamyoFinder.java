@@ -1,5 +1,6 @@
 package mouda.backend.moim.implement.finder;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimRole;
 import mouda.backend.moim.exception.ChamyoErrorMessage;
 import mouda.backend.moim.exception.ChamyoException;
+import mouda.backend.moim.implement.validator.MoimValidator;
 import mouda.backend.moim.infrastructure.ChamyoRepository;
 
 @Component
@@ -19,6 +21,7 @@ import mouda.backend.moim.infrastructure.ChamyoRepository;
 public class ChamyoFinder {
 
 	private final ChamyoRepository chamyoRepository;
+	private final MoimValidator moimValidator;
 
 	public Chamyo read(Moim moim, DarakbangMember darakbangMember) {
 		return find(moim.getId(), darakbangMember)
@@ -37,5 +40,11 @@ public class ChamyoFinder {
 
 		Chamyo chamyo = chamyoOptional.get();
 		return chamyo.getMoimRole();
+	}
+
+	public List<Chamyo> readAll(Long moimId, Long darakbangId) {
+		moimValidator.validateMoimExists(moimId, darakbangId);
+
+		return chamyoRepository.findAllByMoimId(moimId);
 	}
 }

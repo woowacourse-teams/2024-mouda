@@ -9,7 +9,7 @@ public enum ChamyoErrorMessage {
 
 	NOT_FOUND("참여 정보가 존재하지 않습니다."),
 	MOIM_NOT_FOUND("모임이 존재하지 않습니다."),
-	MOIM_ALREADY_JOINED("이미 참여했어요!"),
+	ALREADY_PARTICIPATED("이미 참여했어요!"),
 	MOIM_FULL("모임이 꽉 찼어요!"),
 	MOIMING_CANCLED("모임이 취소됐어요!"),
 	MOIMING_COMPLETE("모집이 완료됐어요!"),

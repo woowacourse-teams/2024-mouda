@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.exception.MoimErrorMessage;
 import mouda.backend.moim.exception.MoimException;
+import mouda.backend.moim.infrastructure.ChamyoRepository;
 import mouda.backend.moim.infrastructure.MoimRepository;
 
 @Component
@@ -14,9 +15,14 @@ import mouda.backend.moim.infrastructure.MoimRepository;
 public class MoimFinder {
 
 	private final MoimRepository moimRepository;
+	private final ChamyoRepository chamyoRepository;
 
-	public Moim read(long moimId, long darakbangId) {
-		return moimRepository.findByIdAndDarakbangId(moimId, darakbangId)
+	public Moim read(long moimId, long currentDarakbangId) {
+		return moimRepository.findByIdAndDarakbangId(moimId, currentDarakbangId)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
+	}
+
+	public int countCurrentPeople(Moim moim) {
+		return chamyoRepository.countByMoim(moim);
 	}
 }
