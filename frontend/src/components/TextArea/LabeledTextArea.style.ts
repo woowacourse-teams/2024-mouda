@@ -5,6 +5,9 @@ export const required = (props: { theme: Theme }) => css`
 `;
 
 export const labelWrapper = () => css`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   width: 100%;
 `;
 export const title = (props: { theme: Theme }) => css`
@@ -26,4 +29,9 @@ export const textArea = (props: { theme: Theme }) => css`
   background: ${props.theme.colorPalette.grey[100]};
   border: 1px solid ${props.theme.colorPalette.grey[300]};
   border-radius: 0.8rem;
+`;
+
+export const errorMessage = (props: { theme: Theme }) => css`
+  ${props.theme.typography.c2}
+  color: ${props.theme.colorPalette.red[500]};
 `;
