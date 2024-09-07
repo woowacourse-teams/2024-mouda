@@ -2,6 +2,7 @@ package mouda.backend.darakbang.business;
 
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -107,7 +108,12 @@ public class DarakbangService {
 		}
 
 		DarakbangMember entity = request.toEntity(darakbang, member);
-		darakbangMemberRepository.save(entity);
+		try {
+			darakbangMemberRepository.save(entity);
+		} catch (DataIntegrityViolationException exception) {
+			throw new DarakbangMemberException(HttpStatus.BAD_REQUEST,
+				DarakbangMemberErrorMessage.MEMBER_ALREADY_EXIST);
+		}
 
 		return darakbang;
 	}

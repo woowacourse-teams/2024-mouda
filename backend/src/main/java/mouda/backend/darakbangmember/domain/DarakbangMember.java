@@ -12,6 +12,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +24,14 @@ import mouda.backend.darakbangmember.exception.DarakbangMemberException;
 @Entity
 @Getter
 @NoArgsConstructor
+@Table(
+	name = "darakbang_member",
+	uniqueConstraints = {
+		@UniqueConstraint(
+			columnNames = {"member_id", "darakbang_id"}
+		)
+	}
+)
 public class DarakbangMember {
 
 	@Id
