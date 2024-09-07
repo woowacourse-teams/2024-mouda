@@ -51,6 +51,7 @@ export default function PleaseCreationPage() {
                 required={info.required}
                 placeholder={info.placeholder}
                 onChange={handleTextAreaChange}
+                validateFun={info.validate}
               />
             ) : (
               <LabeledInput
@@ -60,6 +61,7 @@ export default function PleaseCreationPage() {
                 required={info.required}
                 placeholder={info.placeholder}
                 onChange={handleInputChange}
+                validateFun={info.validate}
               />
             ),
           )}
