@@ -69,18 +69,6 @@ public class MoimController implements MoimSwagger {
 	}
 
 	@Override
-	@DeleteMapping("/{moimId}")
-	public ResponseEntity<Void> deleteMoim(
-		@PathVariable Long darakbangId,
-		@LoginDarakbangMember DarakbangMember member,
-		@PathVariable Long moimId
-	) {
-		moimService.deleteMoim(darakbangId, moimId, member);
-
-		return ResponseEntity.ok().build();
-	}
-
-	@Override
 	@PatchMapping("/{moimId}/complete")
 	public ResponseEntity<Void> completeMoim(
 		@PathVariable Long darakbangId,

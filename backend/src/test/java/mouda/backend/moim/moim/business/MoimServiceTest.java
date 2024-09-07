@@ -115,21 +115,6 @@ class MoimServiceTest extends IgnoreNotificationTest {
 		assertThat(moimDetails.title()).isEqualTo("title");
 	}
 
-	@DisplayName("모임을 삭제한다.")
-	@Test
-	void deleteMoim() {
-		MoimCreateRequest moimCreateRequest = new MoimCreateRequest(
-			"title", LocalDate.now().plusDays(1), LocalTime.now(), "place",
-			10, "설명"
-		);
-		Moim moim = moimService.createMoim(darakbang.getId(), darakbangHogee, moimCreateRequest);
-
-		moimService.deleteMoim(darakbang.getId(), moim.getId(), darakbangHogee);
-
-		List<Moim> moims = moimRepository.findAll();
-		assertThat(moims).hasSize(0);
-	}
-
 	@DisplayName("댓글을 생성한다.")
 	@Test
 	void createComment() {

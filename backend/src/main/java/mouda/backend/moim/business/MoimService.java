@@ -105,29 +105,6 @@ public class MoimService {
 			.toList();
 	}
 
-	public void deleteMoim(long darakbangId, long moimId, DarakbangMember darakbangMember) {
-		Moim moim = moimRepository.findById(moimId)
-			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
-		if (moim.isNotInDarakbang(darakbangId)) {
-			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.NOT_FOUND);
-		}
-		validateCanDeleteMoim(moim, darakbangMember);
-
-		chamyoRepository.deleteAllByMoimId(moimId);
-		zzimRepository.deleteAllByMoimId(moimId);
-		moimRepository.delete(moim);
-	}
-
-	private void validateCanDeleteMoim(Moim moim, DarakbangMember darakbangMember) {
-		MoimRole moimRole = chamyoRepository.findByMoimIdAndDarakbangMemberId(moim.getId(), darakbangMember.getId())
-			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND))
-			.getMoimRole();
-
-		if (moimRole != MoimRole.MOIMER) {
-			throw new MoimException(HttpStatus.FORBIDDEN, MoimErrorMessage.NOT_ALLOWED_TO_DELETE);
-		}
-	}
-
 	public void createComment(
 		Long darakbangId, Long moimId, DarakbangMember darakbangMember, CommentCreateRequest request
 	) {
