@@ -33,4 +33,6 @@ public interface MoimRepository extends JpaRepository<Moim, Long> {
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	@Query("select m from Moim m where m.id = :moimId")
 	Optional<Moim> findByIdForUpdate(@Param("moimId") Long moimId);
+
+	Optional<Moim> findByMoimIdAndDarakbangId(long moimId, long darakbangId);
 }

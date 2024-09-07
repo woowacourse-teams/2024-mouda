@@ -1,22 +1,23 @@
 package mouda.backend.api.moim.business;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.api.moim.exception.ChamyoErrorMessage;
+import mouda.backend.api.moim.exception.ChamyoException;
+import mouda.backend.api.moim.implement.ChamyoFinder;
+import mouda.backend.api.moim.implement.MoimFinder;
+import mouda.backend.api.moim.infrastructure.ChamyoRepository;
+import mouda.backend.api.moim.infrastructure.MoimRepository;
 import mouda.backend.core.domain.darakbang.DarakbangMember;
 import mouda.backend.core.domain.moim.Chamyo;
 import mouda.backend.core.domain.moim.Moim;
 import mouda.backend.core.domain.moim.MoimRole;
 import mouda.backend.core.domain.moim.MoimStatus;
-import mouda.backend.api.moim.exception.ChamyoErrorMessage;
-import mouda.backend.api.moim.exception.ChamyoException;
-import mouda.backend.api.moim.infrastructure.ChamyoRepository;
-import mouda.backend.api.moim.infrastructure.MoimRepository;
 import mouda.backend.core.dto.moim.response.chamyo.ChamyoFindAllResponse;
 import mouda.backend.core.dto.moim.response.chamyo.ChamyoFindAllResponses;
 import mouda.backend.core.dto.moim.response.chamyo.MoimRoleFindResponse;
@@ -31,18 +32,19 @@ public class ChamyoService {
 	private final ChamyoRepository chamyoRepository;
 	private final MoimRepository moimRepository;
 	private final NotificationService notificationService;
+	private final ChamyoFinder chamyoFinder;
+	private final MoimFinder moimFinder;
 
 	@Transactional(readOnly = true)
 	public MoimRoleFindResponse findMoimRole(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
-		Optional<Chamyo> chamyoOptional = chamyoRepository.findByMoimIdAndDarakbangMemberId(moimId,
-			darakbangMember.getId());
-		chamyoOptional.ifPresent(chamyo -> {
-			if (chamyo.getMoim().isNotInDarakbang(darakbangId)) {
-				throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_FOUND);
-			}
-		});
-
-		MoimRole moimRole = chamyoOptional.map(Chamyo::getMoimRole).orElse(MoimRole.NON_MOIMEE);
+		/*
+		모임이 다락방에 있는지 확인한다.
+		모임에서 자기역할을 찾는다.
+			멤버가 모임에 참여하고 있는지 검증한다. -> 침여가 필요하다.
+		참여에서 역할을 반환한다.
+		 */
+		Moim moim = moimFinder.find(moimId, darakbangId);
+		MoimRole moimRole = chamyoFinder.readMoimRole(moim, darakbangMember);
 
 		return new MoimRoleFindResponse(moimRole.name());
 	}
