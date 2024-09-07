@@ -36,7 +36,6 @@ public class DarakbangMember {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true)
 	private Long id;
 
 	@JoinColumn(nullable = false)
