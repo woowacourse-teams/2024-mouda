@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import mouda.backend.fixture.MemberFixture;
+import mouda.backend.common.fixture.MemberFixture;
 
 class MemberTest {
 

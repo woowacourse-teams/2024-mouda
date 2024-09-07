@@ -130,12 +130,6 @@ public class Moim {
 		}
 	}
 
-	public void validateAlreadyFullMoim(int currentPeople) {
-		if (currentPeople > maxPeople) {
-			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MAX_PEOPLE);
-		}
-	}
-
 	public void update(String title, LocalDate date, LocalTime time, String place, int maxPeople,
 		String description, int currentPeople) {
 		if (!Objects.equals(this.title, title)) {
