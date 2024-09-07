@@ -72,4 +72,10 @@ public class AuthService {
 	public void checkAuthentication(String token) {
 		jwtProvider.validateExpiration(token);
 	}
+
+	public LoginResponse basicLogin() {
+		Member member = new Member("nickname", 1L);
+		memberRepository.save(member);
+		return new LoginResponse(jwtProvider.createToken(member));
+	}
 }

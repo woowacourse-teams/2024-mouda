@@ -17,4 +17,10 @@ public interface AuthSwagger {
 		@ApiResponse(responseCode = "200", description = "로그인 성공!"),
 	})
 	ResponseEntity<RestResponse<LoginResponse>> loginKakaoOauth(@RequestBody OauthRequest oauthRequest);
+
+	@Operation(summary = "테스트 용 로그인", description = "테스트 용 가짜 사용자로 로그인한다(accessToken 발급).")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "로그인 성공!"),
+	})
+	ResponseEntity<RestResponse<LoginResponse>> loginBasicOauth();
 }

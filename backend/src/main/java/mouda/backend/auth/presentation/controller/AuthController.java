@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.aop.logging.ExceptRequestLogging;
 import mouda.backend.auth.business.AuthService;
 import mouda.backend.auth.presentation.controller.swagger.AuthSwagger;
 import mouda.backend.auth.presentation.request.OauthRequest;
@@ -24,6 +25,15 @@ public class AuthController implements AuthSwagger {
 	@PostMapping("/kakao/oauth")
 	public ResponseEntity<RestResponse<LoginResponse>> loginKakaoOauth(@RequestBody OauthRequest oauthRequest) {
 		LoginResponse response = authService.oauthLogin(oauthRequest);
+
+		return ResponseEntity.ok().body(new RestResponse<>(response));
+	}
+
+	@Override
+	@PostMapping("/login")
+	@ExceptRequestLogging
+	public ResponseEntity<RestResponse<LoginResponse>> loginBasicOauth() {
+		LoginResponse response = authService.basicLogin();
 
 		return ResponseEntity.ok().body(new RestResponse<>(response));
 	}
