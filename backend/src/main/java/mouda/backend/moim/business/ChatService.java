@@ -21,7 +21,6 @@ import mouda.backend.moim.implement.finder.MoimFinder;
 import mouda.backend.moim.implement.validator.MoimValidator;
 import mouda.backend.moim.implement.writer.ChatWriter;
 import mouda.backend.moim.infrastructure.ChamyoRepository;
-import mouda.backend.moim.infrastructure.ChatRepository;
 import mouda.backend.moim.presentation.request.chat.ChatCreateRequest;
 import mouda.backend.moim.presentation.request.chat.DateTimeConfirmRequest;
 import mouda.backend.moim.presentation.request.chat.LastReadChatRequest;
@@ -38,7 +37,6 @@ import mouda.backend.notification.domain.NotificationType;
 @RequiredArgsConstructor
 public class ChatService {
 
-	private final ChatRepository chatRepository;
 	private final ChamyoRepository chamyoRepository;
 	private final NotificationService notificationService;
 	private final MoimValidator moimValidator;
@@ -51,7 +49,7 @@ public class ChatService {
 		findChamyoByMoimIdAndMemberId(chatCreateRequest.moimId(), darakbangMember.getId());
 
 		Chat chat = chatCreateRequest.toEntity(moim, darakbangMember);
-		chatRepository.save(chat);
+		chatWriter.save(chat);
 
 		notificationService.notifyToMembers(NotificationType.NEW_CHAT, darakbangId, moim, darakbangMember);
 	}
@@ -83,7 +81,7 @@ public class ChatService {
 
 		Chat chat = placeConfirmRequest.toEntity(moim, darakbangMember);
 		moim.confirmPlace(placeConfirmRequest.place());
-		chatRepository.save(chat);
+		chatWriter.save(chat);
 
 		notificationService.notifyToMembers(NotificationType.MOIM_PLACE_CONFIRMED, darakbangId, moim, darakbangMember);
 	}
@@ -99,7 +97,7 @@ public class ChatService {
 
 		Chat chat = dateTimeConfirmRequest.toEntity(moim, darakbangMember);
 		moim.confirmDateTime(dateTimeConfirmRequest.date(), dateTimeConfirmRequest.time());
-		chatRepository.save(chat);
+		chatWriter.save(chat);
 
 		notificationService.notifyToMembers(NotificationType.MOIM_TIME_CONFIRMED, darakbangId, moim, darakbangMember);
 	}
@@ -119,7 +117,7 @@ public class ChatService {
 	private ChatPreviewResponse getChatPreviewResponse(Chamyo chamyo) {
 		String lastContent = chatFinder.findLastChatContent(chamyo.getMoim().getId());
 		int currentPeople = chamyoRepository.countByMoim(chamyo.getMoim());
-		String lastContent = lastChat.map(Chat::getContent).orElse("");
+		// todo : chamyo implement로 변경
 
 		return ChatPreviewResponse.toResponse(chamyo, currentPeople, lastContent);
 	}
@@ -153,6 +151,7 @@ public class ChatService {
 	}
 
 	private Chamyo findChamyoByMoimIdAndMemberId(long moimId, long darakbangMemberId) {
+		// todo: implement 레이어 사용하도록 변경
 		return chamyoRepository.findByMoimIdAndDarakbangMemberId(moimId, darakbangMemberId)
 			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.NOT_PARTICIPANT_TO_FIND));
 	}
