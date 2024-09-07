@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ChamyoErrorMessage {
 
+	NOT_FOUND("참여 정보가 존재하지 않습니다."),
 	MOIM_NOT_FOUND("모임이 존재하지 않습니다."),
 	MOIM_ALREADY_JOINED("이미 참여했어요!"),
 	MOIM_FULL("모임이 꽉 찼어요!"),

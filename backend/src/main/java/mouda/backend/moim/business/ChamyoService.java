@@ -16,6 +16,8 @@ import mouda.backend.moim.domain.MoimRole;
 import mouda.backend.moim.domain.MoimStatus;
 import mouda.backend.moim.exception.ChamyoErrorMessage;
 import mouda.backend.moim.exception.ChamyoException;
+import mouda.backend.moim.implement.finder.ChamyoFinder;
+import mouda.backend.moim.implement.finder.MoimFinder;
 import mouda.backend.moim.infrastructure.ChamyoRepository;
 import mouda.backend.moim.infrastructure.MoimRepository;
 import mouda.backend.moim.presentation.response.chamyo.ChamyoFindAllResponse;
@@ -32,20 +34,15 @@ public class ChamyoService {
 	private final ChamyoRepository chamyoRepository;
 	private final MoimRepository moimRepository;
 	private final NotificationService notificationService;
+	private final MoimFinder moimFinder;
+	private final ChamyoFinder chamyoFinder;
 
 	@Transactional(readOnly = true)
 	public MoimRoleFindResponse findMoimRole(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
-		Optional<Chamyo> chamyoOptional = chamyoRepository.findByMoimIdAndDarakbangMemberId(moimId,
-			darakbangMember.getId());
-		chamyoOptional.ifPresent(chamyo -> {
-			if (chamyo.getMoim().isNotInDarakbang(darakbangId)) {
-				throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.MOIM_NOT_FOUND);
-			}
-		});
+		Moim moim = moimFinder.read(moimId, darakbangId);
+		MoimRole moimRole = chamyoFinder.readMoimRole(moim, darakbangMember);
 
-		MoimRole moimRole = chamyoOptional.map(Chamyo::getMoimRole).orElse(MoimRole.NON_MOIMEE);
-
-		return new MoimRoleFindResponse(moimRole.name());
+		return MoimRoleFindResponse.toResponse(moimRole);
 	}
 
 	@Transactional(readOnly = true)
