@@ -2,18 +2,18 @@ package mouda.backend.auth.business;
 
 import java.util.Map;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.auth.Infrastructure.KakaoOauthClient;
-import mouda.backend.auth.exception.AuthErrorMessage;
-import mouda.backend.auth.exception.AuthException;
+import mouda.backend.auth.implement.DarakbangFinder;
+import mouda.backend.auth.implement.DarakbangMemberFinder;
 import mouda.backend.auth.implement.JwtProvider;
 import mouda.backend.auth.implement.MemberFinder;
 import mouda.backend.auth.presentation.request.OauthRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
 import mouda.backend.auth.util.TokenDecoder;
+import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.infrastructure.DarakbangRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
@@ -30,6 +30,8 @@ public class AuthService {
 	private final DarakbangMemberRepository darakbangMemberRepository;
 	private final KakaoOauthClient kakaoOauthClient;
 	private final MemberFinder memberFinder;
+	private final DarakbangFinder darakbangFinder;
+	private final DarakbangMemberFinder darakbangMemberFinder;
 
 	public LoginResponse oauthLogin(OauthRequest oauthRequest) {
 		String kakaoIdToken = kakaoOauthClient.getIdToken(oauthRequest.code());
@@ -62,11 +64,8 @@ public class AuthService {
 	}
 
 	public DarakbangMember findDarakbangMember(long darakbangId, Member member) {
-		darakbangRepository.findById(darakbangId)
-			.orElseThrow(() -> new AuthException(HttpStatus.NOT_FOUND, AuthErrorMessage.DARAKBANG_NOT_FOUND));
-
-		return darakbangMemberRepository.findByDarakbangIdAndMemberId(darakbangId, member.getId())
-			.orElseThrow(() -> new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.DARAKBANG_NOT_ENTERED));
+		Darakbang darakbang = darakbangFinder.find(darakbangId);
+		return darakbangMemberFinder.find(darakbang, member);
 	}
 
 	public void checkAuthentication(String token) {
