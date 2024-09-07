@@ -11,15 +11,22 @@ import { MoimInputInfo } from '../../types';
 
 const useMoimInfoInput = (state: MoimInputInfo) => {
   const [inputData, setInputData] = useState<MoimInputInfo>({
-    title: state.title,
-    date: state.date,
-    time: state.time,
-    place: state.place,
-    maxPeople: state.maxPeople,
-    description: state.description,
+    title: state?.title ?? '',
+    date: state?.date ?? '',
+    time: state?.time ?? '',
+    place: state?.place ?? '',
+    maxPeople: state?.maxPeople ?? 0,
+    description: state?.description ?? '',
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputData({
+      ...inputData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInputData({
       ...inputData,
       [e.target.name]: e.target.value,
@@ -35,7 +42,8 @@ const useMoimInfoInput = (state: MoimInputInfo) => {
 
   return {
     inputData,
-    handleChange,
+    handleInputChange,
+    handleTextAreaChange,
     isValidMoimInfoInput,
   };
 };

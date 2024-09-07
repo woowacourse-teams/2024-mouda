@@ -1,4 +1,4 @@
-import { MoimInfo, MoimInputInfo } from '@_types/index';
+import { MoimInfo } from '@_types/index';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Button from '@_components/Button/Button';
@@ -9,6 +9,7 @@ import MOIM_INPUT_INFOS from './MoimModifyPage.constant';
 import useModifyMoim from '@_hooks/mutaions/useModifyMoim';
 import useMoimInfoInput from './MoimModifyPage.hook';
 import { useState } from 'react';
+import LabeledTextArea from '@_components/TextArea/LabeledTextArea';
 
 export default function MoimModifyPage() {
   const navigate = useNavigate();
@@ -19,8 +20,12 @@ export default function MoimModifyPage() {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const { inputData, handleChange, isValidMoimInfoInput } =
-    useMoimInfoInput(state);
+  const {
+    inputData,
+    handleInputChange,
+    handleTextAreaChange,
+    isValidMoimInfoInput,
+  } = useMoimInfoInput(state);
 
   const handleRegisterButtonClick = async () => {
     if (!isValidMoimInfoInput) {
@@ -38,14 +43,25 @@ export default function MoimModifyPage() {
       </FormLayout.Header>
 
       <FormLayout.MainForm>
-        {MOIM_INPUT_INFOS.map((info) => (
-          <LabeledInput
-            {...info}
-            key={info.title}
-            onChange={handleChange}
-            value={inputData[info.name as keyof MoimInputInfo]}
-          />
-        ))}
+        {MOIM_INPUT_INFOS.map((info) =>
+          info.type === 'textarea' ? (
+            <LabeledTextArea
+              {...info}
+              key={info.title}
+              onChange={handleTextAreaChange}
+              value={inputData[info.name]}
+              validateFun={info?.validate}
+            />
+          ) : (
+            <LabeledInput
+              {...info}
+              key={info.title}
+              onChange={handleInputChange}
+              value={inputData[info.name]}
+              validateFun={info?.validate}
+            />
+          ),
+        )}
       </FormLayout.MainForm>
 
       <FormLayout.BottomButtonWrapper>
