@@ -15,7 +15,7 @@ public class MoimFinder {
 
 	private final MoimRepository moimRepository;
 
-	public Moim read(long darakbangId, long moimId) {
+	public Moim read(long moimId, long darakbangId) {
 		return moimRepository.findByIdAndDarakbangId(moimId, darakbangId)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
 	}
