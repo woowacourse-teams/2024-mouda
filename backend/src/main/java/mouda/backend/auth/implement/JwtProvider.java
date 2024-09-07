@@ -1,4 +1,4 @@
-package mouda.backend.auth.util;
+package mouda.backend.auth.implement;
 
 import java.util.Date;
 
