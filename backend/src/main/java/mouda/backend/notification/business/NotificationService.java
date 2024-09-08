@@ -21,8 +21,6 @@ import mouda.backend.notification.infrastructure.MemberNotificationRepository;
 import mouda.backend.notification.presentation.request.FcmTokenSaveRequest;
 import mouda.backend.notification.presentation.response.NotificationFindAllResponse;
 import mouda.backend.notification.presentation.response.NotificationFindAllResponses;
-import mouda.backend.notification.service.FcmService;
-import mouda.backend.notification.service.NotificationFactory;
 
 @Slf4j
 @Service

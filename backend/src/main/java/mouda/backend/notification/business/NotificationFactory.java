@@ -1,4 +1,4 @@
-package mouda.backend.notification.service;
+package mouda.backend.notification.business;
 
 import java.util.List;
 import java.util.Map;
