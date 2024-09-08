@@ -1,7 +1,6 @@
 package mouda.backend.notification.business;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,10 +16,10 @@ import mouda.backend.notification.domain.MemberNotification;
 import mouda.backend.notification.domain.MoudaNotification;
 import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.implement.FcmClient;
+import mouda.backend.notification.implement.FcmTokenFinder;
 import mouda.backend.notification.implement.MemberNotificationFinder;
 import mouda.backend.notification.implement.NotificationFactory;
 import mouda.backend.notification.implement.RecipientFactory;
-import mouda.backend.notification.infrastructure.FcmTokenRepository;
 import mouda.backend.notification.presentation.request.FcmTokenSaveRequest;
 import mouda.backend.notification.presentation.response.NotificationFindAllResponse;
 import mouda.backend.notification.presentation.response.NotificationFindAllResponses;
@@ -35,7 +34,7 @@ public class NotificationService {
 	private final RecipientFactory recipientFactory;
 	private final FcmClient fcmClient;
 	private final MemberNotificationFinder memberNotificationFinder;
-	private final FcmTokenRepository fcmTokenRepository;
+	private final FcmTokenFinder fcmTokenFinder;
 
 	public void registerFcmToken(long memberId, FcmTokenSaveRequest fcmTokenSaveRequest) {
 		fcmClient.registerToken(memberId, fcmTokenSaveRequest.token());
@@ -46,45 +45,7 @@ public class NotificationService {
 		MoudaNotification notification = notificationFactory.getStrategy(type)
 			.buildNotification(darakbangId, moim, sender);
 
-		List<String> tokens = fcmTokenRepository.findAllTokenByMemberId(recipientId);
-		fcmClient.sendNotification(notification, tokens);
-	}
-
-	public void notifyToAllMembers(NotificationType type, Long darakbangId, Moim moim,
-		DarakbangMember sender) {
-		MoudaNotification notification = notificationFactory.getStrategy(type)
-			.buildNotification(darakbangId, moim, sender);
-
-		List<Long> recipients = fcmTokenRepository.findAllMemberId();
-		List<String> tokens = fcmTokenRepository.findAllTokenByMemberIds(recipients);
-
-		fcmClient.sendNotification(notification, tokens);
-	}
-
-	public void notifyToAllExceptMember(NotificationType type, Long darakbangId, Moim moim,
-		DarakbangMember sender, Long exceptMemberId) {
-		MoudaNotification notification = notificationFactory.getStrategy(type)
-			.buildNotification(darakbangId, moim, sender);
-
-		List<Long> recipients = fcmTokenRepository.findAllMemberId().stream()
-			.filter(memberId -> !Objects.equals(memberId, exceptMemberId))
-			.toList();
-		List<String> tokens = fcmTokenRepository.findAllTokenByMemberIds(recipients);
-
-		fcmClient.sendNotification(notification, tokens);
-	}
-
-	public void notifyToAllExceptMember(NotificationType type, Long darakbangId, Moim moim,
-		DarakbangMember sender, List<Long> exceptMemberIds
-	) {
-		MoudaNotification notification = notificationFactory.getStrategy(type)
-			.buildNotification(darakbangId, moim, sender);
-
-		List<Long> recipients = fcmTokenRepository.findAllMemberId().stream()
-			.filter(memberId -> !exceptMemberIds.contains(memberId))
-			.toList();
-		List<String> tokens = fcmTokenRepository.findAllTokenByMemberIds(recipients);
-
+		List<String> tokens = fcmTokenFinder.findAllByRecipientId(recipientId);
 		fcmClient.sendNotification(notification, tokens);
 	}
 
@@ -95,7 +56,7 @@ public class NotificationService {
 		List<Long> recipients = recipientFactory.getStrategy(type)
 			.resolveRecipients(darakbangId, notification, moim, sender);
 
-		List<String> tokens = fcmTokenRepository.findAllTokenByMemberIds(recipients);
+		List<String> tokens = fcmTokenFinder.findAllByRecipients(recipients);
 		fcmClient.sendNotification(notification, tokens);
 	}
 
