@@ -8,25 +8,25 @@ import mouda.backend.auth.implement.DarakbangMemberFinder;
 import mouda.backend.auth.implement.JwtProvider;
 import mouda.backend.auth.implement.LoginManager;
 import mouda.backend.auth.implement.MemberFinder;
+import mouda.backend.auth.implement.MemberWriter;
 import mouda.backend.auth.implement.OauthManager;
 import mouda.backend.auth.presentation.request.OauthRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.member.domain.Member;
-import mouda.backend.member.infrastructure.MemberRepository;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
 	private final JwtProvider jwtProvider;
-	private final MemberRepository memberRepository;
-	private final MemberFinder memberFinder;
-	private final DarakbangFinder darakbangFinder;
-	private final DarakbangMemberFinder darakbangMemberFinder;
 	private final OauthManager oauthManager;
 	private final LoginManager loginManager;
+	private final MemberFinder memberFinder;
+	private final MemberWriter memberWriter;
+	private final DarakbangFinder darakbangFinder;
+	private final DarakbangMemberFinder darakbangMemberFinder;
 
 	public LoginResponse oauthLogin(OauthRequest oauthRequest) {
 		Long kakaoId = oauthManager.getKakaoId(oauthRequest.code());
@@ -50,7 +50,7 @@ public class AuthService {
 
 	public LoginResponse basicLogin() {
 		Member member = new Member("nickname", 1L);
-		memberRepository.save(member);
+		memberWriter.append(member);
 		return new LoginResponse(jwtProvider.createToken(member));
 	}
 }
