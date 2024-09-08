@@ -1,4 +1,4 @@
-package mouda.backend.notification.business;
+package mouda.backend.notification.implement;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import mouda.backend.notification.infrastructure.FcmTokenRepository;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class FcmService {
+public class FcmClient {
 
 	private final FcmTokenRepository fcmTokenRepository;
 
