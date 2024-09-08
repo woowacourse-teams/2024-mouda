@@ -17,10 +17,10 @@ import mouda.backend.notification.domain.MemberNotification;
 import mouda.backend.notification.domain.MoudaNotification;
 import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.implement.FcmClient;
+import mouda.backend.notification.implement.MemberNotificationFinder;
 import mouda.backend.notification.implement.NotificationFactory;
 import mouda.backend.notification.implement.RecipientFactory;
 import mouda.backend.notification.infrastructure.FcmTokenRepository;
-import mouda.backend.notification.infrastructure.MemberNotificationRepository;
 import mouda.backend.notification.presentation.request.FcmTokenSaveRequest;
 import mouda.backend.notification.presentation.response.NotificationFindAllResponse;
 import mouda.backend.notification.presentation.response.NotificationFindAllResponses;
@@ -34,7 +34,7 @@ public class NotificationService {
 	private final NotificationFactory notificationFactory;
 	private final RecipientFactory recipientFactory;
 	private final FcmClient fcmClient;
-	private final MemberNotificationRepository memberNotificationRepository;
+	private final MemberNotificationFinder memberNotificationFinder;
 	private final FcmTokenRepository fcmTokenRepository;
 
 	public void registerFcmToken(long memberId, FcmTokenSaveRequest fcmTokenSaveRequest) {
@@ -100,8 +100,7 @@ public class NotificationService {
 	}
 
 	public NotificationFindAllResponses findAllMyNotifications(Member member, Long darakbangId) {
-		List<NotificationFindAllResponse> responses = memberNotificationRepository.findAllByMemberIdAndDarakbangIdOrderByIdDesc(
-				member.getId(), darakbangId)
+		List<NotificationFindAllResponse> responses = memberNotificationFinder.findAll(member, darakbangId)
 			.stream()
 			.map(MemberNotification::getMoudaNotification)
 			.map(NotificationFindAllResponse::from)
