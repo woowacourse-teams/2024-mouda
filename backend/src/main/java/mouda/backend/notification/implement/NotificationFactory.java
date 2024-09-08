@@ -1,4 +1,4 @@
-package mouda.backend.notification.business;
+package mouda.backend.notification.implement;
 
 import java.util.List;
 import java.util.Map;
@@ -8,13 +8,14 @@ import org.springframework.stereotype.Service;
 
 import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.domain.NotificationTypeProvider;
-import mouda.backend.notification.domain.recipient.RecipientResolverStrategy;
+import mouda.backend.notification.domain.notification.NotificationBuilderStrategy;
 
 @Service
-public class RecipientFactory {
-	private final Map<NotificationType, RecipientResolverStrategy> strategies;
+public class NotificationFactory {
 
-	public RecipientFactory(List<RecipientResolverStrategy> strategyList) {
+	private final Map<NotificationType, NotificationBuilderStrategy> strategies;
+
+	public NotificationFactory(List<NotificationBuilderStrategy> strategyList) {
 		this.strategies = strategyList.stream()
 			.collect(
 				Collectors.toMap(strategy -> {
@@ -23,7 +24,7 @@ public class RecipientFactory {
 					strategy -> strategy));
 	}
 
-	public RecipientResolverStrategy getStrategy(NotificationType type) {
+	public NotificationBuilderStrategy getStrategy(NotificationType type) {
 		return strategies.get(type);
 	}
 }
