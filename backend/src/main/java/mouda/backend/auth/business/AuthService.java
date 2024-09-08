@@ -14,9 +14,7 @@ import mouda.backend.auth.presentation.request.OauthRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
 import mouda.backend.auth.util.TokenDecoder;
 import mouda.backend.darakbang.domain.Darakbang;
-import mouda.backend.darakbang.infrastructure.DarakbangRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.infrastructure.MemberRepository;
 
@@ -26,8 +24,6 @@ public class AuthService {
 
 	private final JwtProvider jwtProvider;
 	private final MemberRepository memberRepository;
-	private final DarakbangRepository darakbangRepository;
-	private final DarakbangMemberRepository darakbangMemberRepository;
 	private final KakaoOauthClient kakaoOauthClient;
 	private final MemberFinder memberFinder;
 	private final DarakbangFinder darakbangFinder;
