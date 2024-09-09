@@ -54,11 +54,11 @@ public class ChamyoFinder {
 		return chamyoRepository.findAllByDarakbangMemberIdAndMoim_DarakbangId(darakbangMember.getId(), darakbangId)
 			.stream()
 			.filter(chamyo -> chamyo.getMoim().isChatOpened())
-			.sorted(getChatComparatorByLastCreatedAt())
+			.sorted(getChamyoComparatorByLastChat())
 			.toList();
 	}
 
-	private Comparator<Chamyo> getChatComparatorByLastCreatedAt() {
+	private Comparator<Chamyo> getChamyoComparatorByLastChat() {
 		return Comparator.comparing(chatFinder::readLastChatDateTime, Comparator.nullsLast(Comparator.reverseOrder()))
 			.thenComparing(chamyo -> chamyo.getMoim().getId(), Comparator.naturalOrder());
 	}

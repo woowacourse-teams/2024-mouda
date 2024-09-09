@@ -27,10 +27,6 @@ public class ChatFinder {
 		return chatRepository.findAllUnloadedChats(moimId, recentChatId);
 	}
 
-	public Optional<Chat> findLastChat(long moimId) {
-		return chatRepository.findFirstByMoimIdOrderByIdDesc(moimId);
-	}
-
 	public String findLastChatContent(long moimId) {
 		return findLastChat(moimId)
 			.map(Chat::getContent)
@@ -41,5 +37,9 @@ public class ChatFinder {
 		return findLastChat(chamyo.getMoim().getId())
 			.map(chat -> LocalDateTime.of(chat.getDate(), chat.getTime()))
 			.orElse(null);
+	}
+
+	private Optional<Chat> findLastChat(long moimId) {
+		return chatRepository.findFirstByMoimIdOrderByIdDesc(moimId);
 	}
 }
