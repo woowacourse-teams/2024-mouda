@@ -1,13 +1,16 @@
 import * as S from '@_components/Input/MoimInput.style';
 import { useTheme } from '@emotion/react';
+import { ChangeEvent, HTMLProps, useState } from 'react';
 
-import { HTMLProps } from 'react';
-
-export interface LabeledInputProps extends HTMLProps<HTMLInputElement> {
+export interface LabeledInputProps<T extends string | number>
+  extends HTMLProps<HTMLInputElement> {
   title: string;
+  validateFun?: (value: T) => boolean;
 }
 
-export default function LabeledInput(props: LabeledInputProps) {
+export default function LabeledInput<T extends string | number>(
+  props: LabeledInputProps<T>,
+) {
   const theme = useTheme();
   const {
     name,
@@ -16,8 +19,32 @@ export default function LabeledInput(props: LabeledInputProps) {
     placeholder,
     required,
     onChange,
+    validateFun,
     ...args
   } = props;
+
+  const [isError, setIsError] = useState(false);
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (onChange) {
+      onChange(e);
+    }
+
+    const value = e.currentTarget.value;
+    const validatedValue = type === 'number' ? Number(value) : value;
+    console.log(validatedValue);
+
+    // validateFun이 존재할 경우
+    if (validateFun) {
+      if (typeof validatedValue === 'string') {
+        const isValid = validateFun(validatedValue as T);
+        setIsError(!isValid);
+      } else if (typeof validatedValue === 'number') {
+        const isValid = validateFun(validatedValue as T); // number에 대한 validate 처리
+        setIsError(!isValid);
+      }
+    }
+  };
 
   return (
     <label htmlFor={title} css={S.labelWrapper}>
@@ -32,9 +59,10 @@ export default function LabeledInput(props: LabeledInputProps) {
         type={type}
         placeholder={placeholder}
         id={title}
-        onChange={onChange}
+        onChange={handleInputChange}
         {...args}
       />
+      <span css={S.errorMessage({ theme })}>{isError && placeholder}</span>
     </label>
   );
 }
