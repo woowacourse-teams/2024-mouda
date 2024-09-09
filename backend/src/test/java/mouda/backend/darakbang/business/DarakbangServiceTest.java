@@ -14,9 +14,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.BDDMockito;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import mouda.backend.common.fixture.DarakbangFixture;
 import mouda.backend.common.fixture.DarakbangMemberFixture;
@@ -49,7 +49,7 @@ class DarakbangServiceTest {
 	@Autowired
 	private DarakbangService darakbangService;
 
-	@Mock
+	@MockBean
 	private InvitationCodeGenerator invitationCodeGenerator;
 
 	@DisplayName("다락방 생성 테스트")
