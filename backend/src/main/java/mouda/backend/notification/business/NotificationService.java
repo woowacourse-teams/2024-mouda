@@ -21,7 +21,6 @@ import mouda.backend.notification.implement.MemberNotificationFinder;
 import mouda.backend.notification.implement.NotificationFactory;
 import mouda.backend.notification.implement.RecipientFactory;
 import mouda.backend.notification.presentation.request.FcmTokenSaveRequest;
-import mouda.backend.notification.presentation.response.NotificationFindAllResponse;
 import mouda.backend.notification.presentation.response.NotificationFindAllResponses;
 
 @Slf4j
@@ -61,12 +60,8 @@ public class NotificationService {
 	}
 
 	public NotificationFindAllResponses findAllMyNotifications(Member member, Long darakbangId) {
-		List<NotificationFindAllResponse> responses = memberNotificationFinder.findAll(member, darakbangId)
-			.stream()
-			.map(MemberNotification::getMoudaNotification)
-			.map(NotificationFindAllResponse::from)
-			.toList();
+		List<MemberNotification> memberNotifications = memberNotificationFinder.findAll(member, darakbangId);
 
-		return new NotificationFindAllResponses(responses);
+		return NotificationFindAllResponses.toResponse(memberNotifications);
 	}
 }
