@@ -1,4 +1,4 @@
-package mouda.backend.notification.domain.notification;
+package mouda.backend.notification.implement.notificationbuilder;
 
 import org.springframework.stereotype.Component;
 
@@ -10,17 +10,17 @@ import mouda.backend.notification.domain.NotificationTypeProvider;
 import mouda.backend.notification.infrastructure.MoudaNotificationRepository;
 
 @Component
-@NotificationTypeProvider(NotificationType.MOIMEE_LEFT)
-public class MoimeeLeftNotificationBuilder extends MoimNotificationBuilder {
+@NotificationTypeProvider(NotificationType.NEW_MOIMEE_JOINED)
+public class NewMoimeeJoinedNotificationBuilder extends MoimNotificationBuilder {
 
-	public MoimeeLeftNotificationBuilder(
+	public NewMoimeeJoinedNotificationBuilder(
 		MoudaNotificationRepository moudaNotificationRepository) {
 		super(moudaNotificationRepository);
 	}
 
 	@Override
 	public MoudaNotification buildNotification(Long darakbangId, Moim moim, DarakbangMember sender) {
-		NotificationType notificationType = NotificationType.MOIMEE_LEFT;
+		NotificationType notificationType = NotificationType.NEW_MOIMEE_JOINED;
 		MoudaNotification notification = MoudaNotification.builder()
 			.type(notificationType)
 			.body(notificationType.createMessage(sender.getNickname()))

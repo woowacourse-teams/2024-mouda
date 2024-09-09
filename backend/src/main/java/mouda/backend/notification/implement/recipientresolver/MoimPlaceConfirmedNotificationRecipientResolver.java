@@ -1,4 +1,4 @@
-package mouda.backend.notification.domain.recipient;
+package mouda.backend.notification.implement.recipientresolver;
 
 import java.util.List;
 
@@ -15,10 +15,9 @@ import mouda.backend.notification.domain.NotificationTypeProvider;
 import mouda.backend.notification.infrastructure.MemberNotificationRepository;
 
 @Component
-@NotificationTypeProvider(NotificationType.MOIM_TIME_CONFIRMED)
-public class MoimTimeConfirmedNotificationRecipientResolver extends NoneChatRecipientResolverStrategy {
-
-	public MoimTimeConfirmedNotificationRecipientResolver(
+@NotificationTypeProvider(NotificationType.MOIM_PLACE_CONFIRMED)
+public class MoimPlaceConfirmedNotificationRecipientResolver extends NoneChatRecipientResolverStrategy {
+	public MoimPlaceConfirmedNotificationRecipientResolver(
 		DarakbangMemberRepository darakbangMemberRepository,
 		MemberNotificationRepository memberNotificationRepository,
 		ChamyoRepository chamyoRepository) {

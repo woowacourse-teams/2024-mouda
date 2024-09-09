@@ -1,4 +1,4 @@
-package mouda.backend.notification.domain.recipient;
+package mouda.backend.notification.implement.recipientresolver;
 
 import java.util.List;
 
@@ -14,10 +14,9 @@ import mouda.backend.notification.domain.NotificationTypeProvider;
 import mouda.backend.notification.infrastructure.MemberNotificationRepository;
 
 @Component
-@NotificationTypeProvider(NotificationType.MOIMEE_LEFT)
-public class MoimeeLeftNotificationRecipientResolver extends NoneChatRecipientResolverStrategy {
-
-	public MoimeeLeftNotificationRecipientResolver(
+@NotificationTypeProvider(NotificationType.NEW_COMMENT)
+public class NewCommentNotificationRecipientResolver extends NoneChatRecipientResolverStrategy {
+	public NewCommentNotificationRecipientResolver(
 		DarakbangMemberRepository darakbangMemberRepository,
 		MemberNotificationRepository memberNotificationRepository,
 		ChamyoRepository chamyoRepository) {

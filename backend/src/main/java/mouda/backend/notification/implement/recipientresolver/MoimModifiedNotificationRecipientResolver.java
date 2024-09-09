@@ -1,4 +1,4 @@
-package mouda.backend.notification.domain.recipient;
+package mouda.backend.notification.implement.recipientresolver;
 
 import org.springframework.stereotype.Component;
 

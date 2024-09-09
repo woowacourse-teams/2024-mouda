@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.domain.NotificationTypeProvider;
-import mouda.backend.notification.domain.notification.NotificationBuilderStrategy;
+import mouda.backend.notification.implement.notificationbuilder.NotificationBuilderStrategy;
 
 @Service
 public class NotificationFactory {

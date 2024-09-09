@@ -1,4 +1,4 @@
-package mouda.backend.notification.domain.notification;
+package mouda.backend.notification.implement.notificationbuilder;
 
 import org.springframework.stereotype.Component;
 
@@ -10,19 +10,19 @@ import mouda.backend.notification.domain.NotificationTypeProvider;
 import mouda.backend.notification.infrastructure.MoudaNotificationRepository;
 
 @Component
-@NotificationTypeProvider(NotificationType.MOIM_PLACE_CONFIRMED)
-public class MoimPlaceConfirmedNotificationBuilder extends MoimNotificationBuilder {
+@NotificationTypeProvider(NotificationType.NEW_COMMENT)
+public class NewCommentNotificationBuilder extends MoimNotificationBuilder {
 
-	public MoimPlaceConfirmedNotificationBuilder(MoudaNotificationRepository moudaNotificationRepository) {
+	public NewCommentNotificationBuilder(
+		MoudaNotificationRepository moudaNotificationRepository) {
 		super(moudaNotificationRepository);
 	}
 
 	@Override
-	public MoudaNotification buildNotification(Long darakbangId, Moim moim, DarakbangMember sender) {
-		NotificationType notificationType = NotificationType.MOIM_PLACE_CONFIRMED;
+	public MoudaNotification buildNotification(Long darakbangId, Moim moim, DarakbangMember author) {
 		MoudaNotification notification = MoudaNotification.builder()
-			.type(notificationType)
-			.body(notificationType.createMessage(moim.getTitle()))
+			.type(NotificationType.NEW_COMMENT)
+			.body(NotificationType.NEW_COMMENT.createMessage(author.getNickname()))
 			.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moim.getId()))
 			.build();
 

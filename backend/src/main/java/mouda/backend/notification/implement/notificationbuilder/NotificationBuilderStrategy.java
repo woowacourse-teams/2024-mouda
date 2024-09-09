@@ -1,4 +1,4 @@
-package mouda.backend.notification.domain.notification;
+package mouda.backend.notification.implement.notificationbuilder;
 
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;

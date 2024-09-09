@@ -1,18 +1,23 @@
-package mouda.backend.notification.domain.recipient;
+package mouda.backend.notification.implement.recipientresolver;
 
 import java.util.List;
+
+import org.springframework.stereotype.Component;
 
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
 import mouda.backend.moim.domain.Moim;
-import mouda.backend.moim.domain.MoimRole;
 import mouda.backend.moim.infrastructure.ChamyoRepository;
 import mouda.backend.notification.domain.MoudaNotification;
+import mouda.backend.notification.domain.NotificationType;
+import mouda.backend.notification.domain.NotificationTypeProvider;
 import mouda.backend.notification.infrastructure.MemberNotificationRepository;
 
-public abstract class MoimStatusChangedNotificationRecipientResolver extends NoneChatRecipientResolverStrategy {
+@Component
+@NotificationTypeProvider(NotificationType.NEW_MOIMEE_JOINED)
+public class NewMoimeeJoinedNotificationRecipientResolver extends NoneChatRecipientResolverStrategy {
 
-	public MoimStatusChangedNotificationRecipientResolver(
+	public NewMoimeeJoinedNotificationRecipientResolver(
 		DarakbangMemberRepository darakbangMemberRepository,
 		MemberNotificationRepository memberNotificationRepository,
 		ChamyoRepository chamyoRepository
@@ -23,9 +28,10 @@ public abstract class MoimStatusChangedNotificationRecipientResolver extends Non
 	@Override
 	public List<Long> resolveRecipients(long darakbangId, MoudaNotification notification, Moim moim,
 		DarakbangMember sender) {
+
 		List<Long> recipientIds = chamyoRepository.findAllByMoimId(moim.getId()).stream()
-			.filter(chamyo -> chamyo.getMoimRole() != MoimRole.MOIMER)
-			.map(chamyo -> chamyo.getDarakbangMember().getMemberId())
+			.map(c -> c.getDarakbangMember().getMemberId())
+			.filter(memberId -> !memberId.equals(sender.getMemberId()))
 			.toList();
 
 		saveNotificationsForMembers(recipientIds, darakbangId, notification);

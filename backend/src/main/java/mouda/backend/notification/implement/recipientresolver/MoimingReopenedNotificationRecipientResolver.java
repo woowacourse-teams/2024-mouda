@@ -1,4 +1,4 @@
-package mouda.backend.notification.domain.recipient;
+package mouda.backend.notification.implement.recipientresolver;
 
 import org.springframework.stereotype.Component;
 
@@ -9,14 +9,13 @@ import mouda.backend.notification.domain.NotificationTypeProvider;
 import mouda.backend.notification.infrastructure.MemberNotificationRepository;
 
 @Component
-@NotificationTypeProvider(NotificationType.MOIMING_COMPLETED)
-public class MoimCompletedNotificationRecipientResolver extends MoimStatusChangedNotificationRecipientResolver {
+@NotificationTypeProvider(NotificationType.MOINING_REOPENED)
+public class MoimingReopenedNotificationRecipientResolver extends MoimStatusChangedNotificationRecipientResolver {
 
-	public MoimCompletedNotificationRecipientResolver(
+	public MoimingReopenedNotificationRecipientResolver(
 		DarakbangMemberRepository darakbangMemberRepository,
 		MemberNotificationRepository memberNotificationRepository,
-		ChamyoRepository chamyoRepository
-	) {
+		ChamyoRepository chamyoRepository) {
 		super(darakbangMemberRepository, memberNotificationRepository, chamyoRepository);
 	}
 }

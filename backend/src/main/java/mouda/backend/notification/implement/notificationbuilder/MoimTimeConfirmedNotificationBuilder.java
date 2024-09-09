@@ -1,4 +1,4 @@
-package mouda.backend.notification.domain.notification;
+package mouda.backend.notification.implement.notificationbuilder;
 
 import org.springframework.stereotype.Component;
 
@@ -10,21 +10,23 @@ import mouda.backend.notification.domain.NotificationTypeProvider;
 import mouda.backend.notification.infrastructure.MoudaNotificationRepository;
 
 @Component
-@NotificationTypeProvider(NotificationType.MOIM_CREATED)
-public class MoimCreatedNotificationBuilder extends MoimNotificationBuilder {
+@NotificationTypeProvider(NotificationType.MOIM_TIME_CONFIRMED)
+public class MoimTimeConfirmedNotificationBuilder extends MoimNotificationBuilder {
 
-	public MoimCreatedNotificationBuilder(MoudaNotificationRepository moudaNotificationRepository) {
+	public MoimTimeConfirmedNotificationBuilder(
+		MoudaNotificationRepository moudaNotificationRepository) {
 		super(moudaNotificationRepository);
 	}
 
 	@Override
 	public MoudaNotification buildNotification(Long darakbangId, Moim moim, DarakbangMember sender) {
-		NotificationType notificationType = NotificationType.MOIM_CREATED;
+		NotificationType notificationType = NotificationType.MOIM_TIME_CONFIRMED;
 		MoudaNotification notification = MoudaNotification.builder()
 			.type(notificationType)
 			.body(notificationType.createMessage(moim.getTitle()))
 			.targetUrl(baseUrl + String.format(moimUrl, darakbangId, moim.getId()))
 			.build();
+
 		return moudaNotificationRepository.save(notification);
 	}
 }

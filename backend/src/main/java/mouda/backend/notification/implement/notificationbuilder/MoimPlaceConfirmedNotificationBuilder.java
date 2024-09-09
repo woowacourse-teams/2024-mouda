@@ -1,4 +1,4 @@
-package mouda.backend.notification.domain.notification;
+package mouda.backend.notification.implement.notificationbuilder;
 
 import org.springframework.stereotype.Component;
 
@@ -10,16 +10,16 @@ import mouda.backend.notification.domain.NotificationTypeProvider;
 import mouda.backend.notification.infrastructure.MoudaNotificationRepository;
 
 @Component
-@NotificationTypeProvider(NotificationType.MOINING_REOPENED)
-public class MoimingReopenedNotificationBuilder extends MoimNotificationBuilder {
+@NotificationTypeProvider(NotificationType.MOIM_PLACE_CONFIRMED)
+public class MoimPlaceConfirmedNotificationBuilder extends MoimNotificationBuilder {
 
-	public MoimingReopenedNotificationBuilder(MoudaNotificationRepository moudaNotificationRepository) {
+	public MoimPlaceConfirmedNotificationBuilder(MoudaNotificationRepository moudaNotificationRepository) {
 		super(moudaNotificationRepository);
 	}
 
 	@Override
 	public MoudaNotification buildNotification(Long darakbangId, Moim moim, DarakbangMember sender) {
-		NotificationType notificationType = NotificationType.MOINING_REOPENED;
+		NotificationType notificationType = NotificationType.MOIM_PLACE_CONFIRMED;
 		MoudaNotification notification = MoudaNotification.builder()
 			.type(notificationType)
 			.body(notificationType.createMessage(moim.getTitle()))
