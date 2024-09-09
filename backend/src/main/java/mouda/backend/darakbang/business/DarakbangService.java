@@ -30,7 +30,6 @@ public class DarakbangService {
 	private final DarakbangFinder darakbangFinder;
 	private final DarakbangValidator darakbangValidator;
 	private final DarakbangMemberWriter darakbangMemberWriter;
-
 	private final MemberValidator memberValidator;
 
 	public Darakbang createDarakbang(DarakbangCreateRequest darakbangCreateRequest, Member member) {

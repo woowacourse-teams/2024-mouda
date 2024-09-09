@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.BDDMockito;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -46,6 +48,9 @@ class DarakbangServiceTest {
 
 	@Autowired
 	private DarakbangService darakbangService;
+
+	@Mock
+	private InvitationCodeGenerator invitationCodeGenerator;
 
 	@DisplayName("다락방 생성 테스트")
 	@Nested
@@ -103,13 +108,7 @@ class DarakbangServiceTest {
 			DarakbangCreateRequest request = new DarakbangCreateRequest("우테코", "테니");
 			darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
 
-			darakbangService = new DarakbangService(darakbangRepository, darakbangMemberRepository,
-				new InvitationCodeGenerator() {
-					@Override
-					public String generate() {
-						return "SOFABABO1";
-					}
-				});
+			BDDMockito.when(invitationCodeGenerator.generate()).thenReturn("SOFABABO1");
 
 			assertThatThrownBy(() -> darakbangService.createDarakbang(request, hogee))
 				.isInstanceOf(DarakbangException.class);
