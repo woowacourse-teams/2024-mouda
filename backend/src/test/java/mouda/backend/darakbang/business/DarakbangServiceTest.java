@@ -108,7 +108,7 @@ class DarakbangServiceTest {
 			DarakbangCreateRequest request = new DarakbangCreateRequest("우테코", "테니");
 			darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
 
-			Mockito.doReturn("SOFABABO1").when(invitationCodeGenerator).generate();
+			Mockito.doReturn("SOFABAC").when(invitationCodeGenerator).generate();
 
 			assertThatThrownBy(() -> darakbangService.createDarakbang(request, hogee))
 				.isInstanceOf(DarakbangException.class);
