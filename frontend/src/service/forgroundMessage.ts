@@ -1,7 +1,10 @@
 import { getMessaging, onMessage } from 'firebase/messaging';
+
 import { app } from './initFirebase';
+import checkCanUseFirebase from '@_utils/checkCanUseFirebase';
 
 function initializeForegroundMessageHandling() {
+  if (!checkCanUseFirebase()) return;
   const messaging = getMessaging(app);
 
   onMessage(messaging, (payload) => {
