@@ -29,6 +29,7 @@ import useOpenChat from '@_hooks/mutaions/useOpenChat';
 import useReopenMoim from '@_hooks/mutaions/useReopenMoim';
 import { useTheme } from '@emotion/react';
 import useZzimMine from '@_hooks/queries/useZzimMine';
+import RefreshButton from '@_components/RefreshButton/RefreshButton';
 
 export default function MoimDetailPage() {
   const navigate = useNavigate();
@@ -112,7 +113,7 @@ export default function MoimDetailPage() {
 
   const button = useMemo(() => {
     return isChamyoMineLoading ? (
-      <></>
+      ''
     ) : role === 'MOIMER' ? (
       moim?.status === 'MOIMING' ? (
         <Button
@@ -198,6 +199,7 @@ export default function MoimDetailPage() {
             />
           )}
           {kebabMenu}
+          <RefreshButton />
         </InformationLayout.Header.Right>
       </InformationLayout.Header>
       <InformationLayout.ContentContainer>
@@ -208,17 +210,17 @@ export default function MoimDetailPage() {
         {participants && <ProfileList participants={participants} />}
 
         {isMoimLoading && (
-          <>
+          <div>
             <span css={theme.typography.s1}>모임정보</span>
             <SkeletonPiece width="100%" height="10rem" />
-          </>
+          </div>
         )}
         {moim && <MoimInformation moimInfo={moim} />}
         {isMoimLoading && (
-          <>
+          <div>
             <SkeletonPiece width="100%" height="10rem" />
             <SkeletonPiece width="100%" height="10rem" />
-          </>
+          </div>
         )}
         {isMoimLoading && <SkeletonPiece width="100%" height="30rem" />}
         {moim?.description && (

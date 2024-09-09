@@ -10,6 +10,7 @@ import { common } from '@_common/common.style';
 import { useNavigate } from 'react-router-dom';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import { useTheme } from '@emotion/react';
+import RefreshButton from '@_components/RefreshButton/RefreshButton';
 
 export default function PleasePage() {
   const { darakbangName } = useNowDarakbangName();
@@ -21,9 +22,14 @@ export default function PleasePage() {
     <Fragment>
       <PleaseLayout>
         <PleaseLayout.Header>
-          <h1 css={[common.nonScroll, theme.typography.h5]}>
-            <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
-          </h1>
+          <PleaseLayout.Header.Left>
+            <h1 css={[common.nonScroll, theme.typography.h5]}>
+              <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
+            </h1>
+          </PleaseLayout.Header.Left>
+          <PleaseLayout.Header.Right>
+            <RefreshButton />
+          </PleaseLayout.Header.Right>
         </PleaseLayout.Header>
 
         <PleaseLayout.Main>
