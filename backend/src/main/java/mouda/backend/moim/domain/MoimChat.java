@@ -6,9 +6,9 @@ import lombok.Getter;
 @Getter
 public class MoimChat {
 
-	Chamyo chamyo;
-	int currentPeople;
-	String lastContent;
+	private final Chamyo chamyo;
+	private final int currentPeople;
+	private final String lastContent;
 
 	@Builder
 	public MoimChat(

@@ -4,9 +4,9 @@ import java.util.List;
 
 public class ChatRoom {
 
-	Chamyo chamyo;
-	List<Chat> chats;
-	int currentPeople;
+	private final Chamyo chamyo;
+	private final List<Chat> chats;
+	private final int currentPeople;
 
 	public ChatRoom(Chamyo chamyo, Chat lastChat, int currentPeople) {
 		this(chamyo, List.of(lastChat), currentPeople);
