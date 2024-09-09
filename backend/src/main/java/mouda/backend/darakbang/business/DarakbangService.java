@@ -1,7 +1,5 @@
 package mouda.backend.darakbang.business;
 
-import java.util.List;
-
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -9,25 +7,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.darakbang.domain.Darakbang;
+import mouda.backend.darakbang.domain.Darakbangs;
 import mouda.backend.darakbang.exception.DarakbangErrorMessage;
 import mouda.backend.darakbang.exception.DarakbangException;
+import mouda.backend.darakbang.implement.DarakbangFinder;
 import mouda.backend.darakbang.implement.DarakbangWriter;
-import mouda.backend.darakbang.implement.InvitationCodeGenerator;
 import mouda.backend.darakbang.infrastructure.DarakbangRepository;
 import mouda.backend.darakbang.inplement.DarakbangValidator;
 import mouda.backend.darakbang.presentation.request.DarakbangCreateRequest;
 import mouda.backend.darakbang.presentation.request.DarakbangEnterRequest;
 import mouda.backend.darakbang.presentation.response.CodeValidationResponse;
 import mouda.backend.darakbang.presentation.response.DarakbangNameResponse;
-import mouda.backend.darakbang.presentation.response.DarakbangResponse;
 import mouda.backend.darakbang.presentation.response.DarakbangResponses;
 import mouda.backend.darakbang.presentation.response.InvitationCodeResponse;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.exception.DarakbangMemberErrorMessage;
 import mouda.backend.darakbangmember.exception.DarakbangMemberException;
-import mouda.backend.darakbangmember.implement.DarakbangMemberWriter;
 import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
 import mouda.backend.member.domain.Member;
+import mouda.backend.member.implement.MemberValidator;
 
 @Service
 @Transactional
@@ -36,48 +34,29 @@ public class DarakbangService {
 
 	private final DarakbangRepository darakbangRepository;
 	private final DarakbangMemberRepository darakbangMemberRepository;
-	private final InvitationCodeGenerator invitationCodeGenerator;
 
 	private final DarakbangValidator darakbangValidator;
-	private final DarakbangMemberWriter darakbangMemberWriter;
 	private final DarakbangWriter darakbangWriter;
+	private final DarakbangFinder darakbangFinder;
+	private final MemberValidator memberValidator;
 
 	public Darakbang createDarakbang(DarakbangCreateRequest darakbangCreateRequest, Member member) {
 		darakbangValidator.validateAlreadyExistsName(darakbangCreateRequest.name());
-		Darakbang entity = darakbangCreateRequest.toEntity(generateInvitationCode());
-		Darakbang darakbang = darakbangWriter.save(entity);
 
-		darakbangMemberWriter.saveManager(darakbang, darakbangCreateRequest.nickname(), member);
-
-		return darakbang;
-	}
-
-	private String generateInvitationCode() {
-		String invitationCode = invitationCodeGenerator.generate();
-		if (darakbangRepository.existsByCode(invitationCode)) {
-			throw new DarakbangException(HttpStatus.INTERNAL_SERVER_ERROR, DarakbangErrorMessage.CODE_ALREADY_EXIST);
-		}
-		return invitationCode;
+		return darakbangWriter.save(darakbangCreateRequest.name(), darakbangCreateRequest.nickname(), member);
 	}
 
 	@Transactional(readOnly = true)
 	public DarakbangResponses findAllMyDarakbangs(Member member) {
-		List<DarakbangMember> darakbangMembers = darakbangMemberRepository.findAllByMemberId(member.getId());
-		List<DarakbangResponse> responses = darakbangMembers.stream()
-			.map(DarakbangResponse::toResponse)
-			.toList();
+		Darakbangs darakbangs = darakbangFinder.findAllMyDarakbangs(member);
 
-		return DarakbangResponses.toResponse(responses);
+		return DarakbangResponses.toResponse(darakbangs);
 	}
 
 	@Transactional(readOnly = true)
 	public InvitationCodeResponse findInvitationCode(Long darakbangId, DarakbangMember member) {
-		if (member.isNotManager()) {
-			throw new DarakbangMemberException(HttpStatus.FORBIDDEN, DarakbangMemberErrorMessage.NOT_ALLOWED_TO_READ);
-		}
-
-		Darakbang darakbang = darakbangRepository.findById(darakbangId)
-			.orElseThrow(() -> new DarakbangException(HttpStatus.NOT_FOUND, DarakbangErrorMessage.DARAKBANG_NOT_FOUND));
+		memberValidator.validateNotManger(member);
+		Darakbang darakbang = darakbangFinder.findById(darakbangId);
 
 		return InvitationCodeResponse.toResponse(darakbang);
 	}
