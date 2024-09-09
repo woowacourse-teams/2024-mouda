@@ -27,7 +27,7 @@ public class ChatFinder {
 		return chatRepository.findAllUnloadedChats(moimId, recentChatId);
 	}
 
-	public String findLastChatContent(long moimId) {
+	public String readLastChatContent(long moimId) {
 		return findLastChat(moimId)
 			.map(Chat::getContent)
 			.orElse("");

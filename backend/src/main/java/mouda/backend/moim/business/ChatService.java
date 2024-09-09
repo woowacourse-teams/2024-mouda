@@ -99,7 +99,7 @@ public class ChatService {
 	}
 
 	private ChatPreviewResponse getChatPreviewResponse(Chamyo chamyo, long darakbangId) {
-		String lastContent = chatFinder.findLastChatContent(chamyo.getMoim().getId());
+		String lastContent = chatFinder.readLastChatContent(chamyo.getMoim().getId());
 		int currentPeople = moimFinder.countCurrentPeople(chamyo.getMoim().getId(), darakbangId);
 
 		return ChatPreviewResponse.toResponse(chamyo, currentPeople, lastContent);
