@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.Chat;
+import mouda.backend.moim.domain.Chats;
 import mouda.backend.moim.domain.EmptyChat;
 import mouda.backend.moim.exception.ChatErrorMessage;
 import mouda.backend.moim.exception.ChatException;
@@ -21,11 +22,12 @@ public class ChatFinder {
 
 	private final ChatRepository chatRepository;
 
-	public List<Chat> readAllUnloadedChats(long moimId, long recentChatId) {
+	public Chats readAllUnloadedChats(long moimId, long recentChatId) {
 		if (recentChatId < 0) {
 			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.INVALID_RECENT_CHAT_ID);
 		}
-		return chatRepository.findAllUnloadedChats(moimId, recentChatId);
+		List<Chat> chats = chatRepository.findAllUnloadedChats(moimId, recentChatId);
+		return new Chats(chats);
 	}
 
 	public String readLastChatContent(long moimId) {

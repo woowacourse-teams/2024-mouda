@@ -10,6 +10,8 @@ import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.Chat;
 import mouda.backend.moim.domain.ChatRooms;
+import mouda.backend.moim.domain.ChatWithAuthor;
+import mouda.backend.moim.domain.Chats;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimChat;
 import mouda.backend.moim.implement.finder.ChamyoFinder;
@@ -23,7 +25,6 @@ import mouda.backend.moim.presentation.request.chat.ChatCreateRequest;
 import mouda.backend.moim.presentation.request.chat.DateTimeConfirmRequest;
 import mouda.backend.moim.presentation.request.chat.LastReadChatRequest;
 import mouda.backend.moim.presentation.request.chat.PlaceConfirmRequest;
-import mouda.backend.moim.presentation.response.chat.ChatFindDetailResponse;
 import mouda.backend.moim.presentation.response.chat.ChatFindUnloadedResponse;
 import mouda.backend.moim.presentation.response.chat.ChatPreviewResponses;
 import mouda.backend.notification.business.NotificationService;
@@ -45,7 +46,7 @@ public class ChatService {
 
 	public void createChat(long darakbangId, ChatCreateRequest chatCreateRequest, DarakbangMember darakbangMember) {
 		Moim moim = moimFinder.read(chatCreateRequest.moimId(), darakbangId);
-		chamyoValidator.exists(moim.getId(), darakbangMember);
+		chamyoValidator.validateMemberChamyoMoim(moim.getId(), darakbangMember);
 
 		Chat chat = chatCreateRequest.toEntity(moim, darakbangMember);
 		chatWriter.save(chat);
@@ -58,12 +59,12 @@ public class ChatService {
 		long darakbangId, long recentChatId, long moimId, DarakbangMember darakbangMember
 	) {
 		moimValidator.validateMoimExists(moimId, darakbangId);
-		chamyoValidator.exists(moimId, darakbangMember);
-		List<Chat> chats = chatFinder.readAllUnloadedChats(moimId, recentChatId);
+		chamyoValidator.validateMemberChamyoMoim(moimId, darakbangMember);
 
-		return new ChatFindUnloadedResponse(chats.stream()
-			.map(chat -> ChatFindDetailResponse.toResponse(chat, chat.isMyMessage(darakbangMember.getId())))
-			.toList());
+		Chats chats = chatFinder.readAllUnloadedChats(moimId, recentChatId);
+		List<ChatWithAuthor> chatWithAuthors = chats.getChatsWithAuthor(darakbangMember);
+
+		return ChatFindUnloadedResponse.toResponse(chatWithAuthors);
 	}
 
 	public void confirmPlace(

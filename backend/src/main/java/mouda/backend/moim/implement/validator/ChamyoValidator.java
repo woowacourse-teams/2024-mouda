@@ -25,7 +25,7 @@ public class ChamyoValidator {
 		}
 	}
 
-	public void exists(Long moimId, DarakbangMember darakbangMember) {
+	public void validateMemberChamyoMoim(Long moimId, DarakbangMember darakbangMember) {
 		if (!chamyoFinder.exists(moimId, darakbangMember)) {
 			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.NOT_FOUND);
 		}

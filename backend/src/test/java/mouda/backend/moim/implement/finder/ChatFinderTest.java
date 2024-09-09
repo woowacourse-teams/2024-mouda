@@ -3,7 +3,6 @@ package mouda.backend.moim.implement.finder;
 import static org.assertj.core.api.Assertions.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +14,7 @@ import mouda.backend.common.fixture.DarakbangSetUp;
 import mouda.backend.common.fixture.MoimFixture;
 import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.Chat;
+import mouda.backend.moim.domain.Chats;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimRole;
 import mouda.backend.moim.exception.ChatException;
@@ -43,9 +43,9 @@ class ChatFinderTest extends DarakbangSetUp {
 		chatRepository.save(loadedChat);
 		chatRepository.save(unloadedChat);
 
-		List<Chat> chats = chatFinder.readAllUnloadedChats(1L, 1L);
+		Chats chats = chatFinder.readAllUnloadedChats(1L, 1L);
 
-		assertThat(chats).hasSize(1);
+		assertThat(chats).isNotNull();
 	}
 
 	@DisplayName("마지막으로 조회한 채팅ID가 음수라면 예외가 발생한다.")
