@@ -22,9 +22,7 @@ public class MoimFinder {
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
 	}
 
-	public int countCurrentPeople(long moimId, long darakbangId) {
-		Moim moim = read(moimId, darakbangId);
-
+	public int countCurrentPeople(Moim moim) {
 		return chamyoRepository.countByMoim(moim);
 	}
 }

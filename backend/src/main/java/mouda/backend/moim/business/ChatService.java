@@ -9,9 +9,12 @@ import lombok.RequiredArgsConstructor;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.Chat;
+import mouda.backend.moim.domain.ChatRooms;
 import mouda.backend.moim.domain.Moim;
+import mouda.backend.moim.domain.MoimChat;
 import mouda.backend.moim.implement.finder.ChamyoFinder;
 import mouda.backend.moim.implement.finder.ChatFinder;
+import mouda.backend.moim.implement.finder.ChatRoomFinder;
 import mouda.backend.moim.implement.finder.MoimFinder;
 import mouda.backend.moim.implement.validator.ChamyoValidator;
 import mouda.backend.moim.implement.validator.MoimValidator;
@@ -22,7 +25,6 @@ import mouda.backend.moim.presentation.request.chat.LastReadChatRequest;
 import mouda.backend.moim.presentation.request.chat.PlaceConfirmRequest;
 import mouda.backend.moim.presentation.response.chat.ChatFindDetailResponse;
 import mouda.backend.moim.presentation.response.chat.ChatFindUnloadedResponse;
-import mouda.backend.moim.presentation.response.chat.ChatPreviewResponse;
 import mouda.backend.moim.presentation.response.chat.ChatPreviewResponses;
 import mouda.backend.notification.business.NotificationService;
 import mouda.backend.notification.domain.NotificationType;
@@ -39,6 +41,7 @@ public class ChatService {
 	private final ChatWriter chatWriter;
 	private final ChamyoValidator chamyoValidator;
 	private final ChamyoFinder chamyoFinder;
+	private final ChatRoomFinder chatRoomFinder;
 
 	public void createChat(long darakbangId, ChatCreateRequest chatCreateRequest, DarakbangMember darakbangMember) {
 		Moim moim = moimFinder.read(chatCreateRequest.moimId(), darakbangId);
@@ -90,19 +93,10 @@ public class ChatService {
 	}
 
 	public ChatPreviewResponses findChatPreview(long darakbangId, DarakbangMember darakbangMember) {
-		List<Chamyo> chamyos = chamyoFinder.readAllOrderByLastChat(darakbangId, darakbangMember);
-		List<ChatPreviewResponse> chatPreviews = chamyos.stream()
-			.map(chamyo -> getChatPreviewResponse(chamyo, darakbangId))
-			.toList();
+		ChatRooms chatRooms = chatRoomFinder.findAll(darakbangId, darakbangMember);
+		List<MoimChat> moimChats = chatRooms.getMoimChats();
 
-		return new ChatPreviewResponses(chatPreviews);
-	}
-
-	private ChatPreviewResponse getChatPreviewResponse(Chamyo chamyo, long darakbangId) {
-		String lastContent = chatFinder.readLastChatContent(chamyo.getMoim().getId());
-		int currentPeople = moimFinder.countCurrentPeople(chamyo.getMoim().getId(), darakbangId);
-
-		return ChatPreviewResponse.toResponse(chamyo, currentPeople, lastContent);
+		return ChatPreviewResponses.toResponse(moimChats);
 	}
 
 	public void createLastChat(

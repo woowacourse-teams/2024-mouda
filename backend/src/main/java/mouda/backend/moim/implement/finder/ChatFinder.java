@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.Chat;
+import mouda.backend.moim.domain.EmptyChat;
 import mouda.backend.moim.exception.ChatErrorMessage;
 import mouda.backend.moim.exception.ChatException;
 import mouda.backend.moim.infrastructure.ChatRepository;
@@ -37,6 +38,11 @@ public class ChatFinder {
 		return findLastChat(chamyo.getMoim().getId())
 			.map(chat -> LocalDateTime.of(chat.getDate(), chat.getTime()))
 			.orElse(null);
+	}
+
+	public Chat readLastChat(long moimId) {
+		return findLastChat(moimId)
+			.orElse(new EmptyChat());
 	}
 
 	private Optional<Chat> findLastChat(long moimId) {
