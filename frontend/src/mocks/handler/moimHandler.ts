@@ -1,9 +1,8 @@
+import { API_URL } from '@_apis/endPoints';
 import { HttpResponse, http } from 'msw';
 
-import ENDPOINTS from '@_apis/endPoints';
-
 export const moimHandler = [
-  http.get(`${ENDPOINTS.moims}`, () => {
+  http.get(API_URL.moim, () => {
     return HttpResponse.json({
       data: {
         moims: [
@@ -146,7 +145,7 @@ export const moimHandler = [
       },
     });
   }),
-  http.get(`${ENDPOINTS.moims}/1`, () => {
+  http.get(`${API_URL.moims}/1`, () => {
     return HttpResponse.json({
       data: {
         moimId: 1,
@@ -215,7 +214,7 @@ export const moimHandler = [
       },
     });
   }),
-  http.get(`${ENDPOINTS.chamyo}/all`, () => {
+  http.get(`${API_URL.chamyo}/all`, () => {
     return HttpResponse.json({
       data: {
         chamyos: [
@@ -238,17 +237,48 @@ export const moimHandler = [
       },
     });
   }),
-  http.get(`${ENDPOINTS.zzim}/mine`, () => {
+  http.get(`${API_URL.zzim}/mine`, () => {
     return HttpResponse.json({
       data: {
         isZzimed: false,
       },
     });
   }),
-  http.get(`${ENDPOINTS.chamyo}/mine`, () => {
+  http.get(`${API_URL.chamyo}/mine`, () => {
     return HttpResponse.json({
       data: {
         role: 'MOIMER',
+      },
+    });
+  }),
+  http.get(API_URL.darakbang.role, () => {
+    return HttpResponse.json({
+      data: {
+        role: 'MANAGE',
+      },
+    });
+  }),
+  http.get(API_URL.darakbang.name, () => {
+    return HttpResponse.json({
+      data: {
+        name: 'sdfada',
+      },
+    });
+  }),
+
+  http.get(API_URL.darakbang.mine, () => {
+    return HttpResponse.json({
+      data: {
+        darakbangResponses: [
+          {
+            darakbandId: 0,
+            name: '우아한테크코스',
+          },
+          {
+            darakbandId: 1,
+            name: 'Leets',
+          },
+        ],
       },
     });
   }),

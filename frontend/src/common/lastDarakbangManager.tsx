@@ -6,6 +6,6 @@ export const setLastDarakbangId = (lastDarakbangId: number): void => {
 
 export const getLastDarakbangId = () => {
   const lastDarakbangId = localStorage.getItem(LAST_DARAKBANG_ID_KEY);
-  if (!lastDarakbangId) return null;
+  if (!lastDarakbangId || process.env.MSW === 'true') return null;
   return +lastDarakbangId;
 };

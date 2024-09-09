@@ -41,8 +41,12 @@ export default function HomePage() {
     };
     const queryString = new URLSearchParams(params).toString();
     const kakaoOAuthUrl = `${requestUrl}?${queryString}`;
-
-    window.location.href = kakaoOAuthUrl;
+    console.log(process.env.MSW);
+    if (process.env.MSW == 'true') {
+      window.location.href = 'http://localhost:8081/kakao-o-auth?code=1';
+    } else {
+      window.location.href = kakaoOAuthUrl;
+    }
   };
 
   return (
