@@ -1,3 +1,4 @@
+import checkCanUseFirebase from '@_utils/checkCanUseFirebase';
 import { initializeApp } from 'firebase/app';
 
 const firebaseConfig = {
@@ -9,4 +10,6 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
-export const app = initializeApp(firebaseConfig);
+export const app = checkCanUseFirebase()
+  ? initializeApp(firebaseConfig)
+  : undefined;

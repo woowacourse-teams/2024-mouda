@@ -1,13 +1,17 @@
 import { getMessaging, getToken } from 'firebase/messaging';
-import { app } from './initFirebase';
 
-const messaging = getMessaging(app);
+import { app } from './initFirebase';
+import checkCanUseFirebase from '@_utils/checkCanUseFirebase';
+
+const messaging = checkCanUseFirebase() ? getMessaging(app) : null;
 
 export function requestPermission(mutationFn: (currentToken: string) => void) {
+  if (!checkCanUseFirebase()) return;
   console.log('권한 요청 중...');
   Notification.requestPermission().then((permission) => {
     if (permission === 'granted') {
       console.log('알림 권한이 허용됨');
+      //@ts-expect-error 파이어베이스가 사용되면 messaging이 존재
       getToken(messaging, {
         vapidKey: process.env.VAPID_KEY,
       })
