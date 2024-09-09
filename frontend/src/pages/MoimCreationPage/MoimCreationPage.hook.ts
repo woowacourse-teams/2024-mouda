@@ -41,6 +41,13 @@ const useMoimCreationForm = (currentStep: MoimCreationStep) => {
     sessionStorage.removeItem('moimCreationInfo');
   }
 
+  useEffect(() => {
+    // 브라우저 뒤로가기를 통해 모임 만들기에 오는 경우 메인 페이지로 이동
+    if (currentStep === '설명입력' && navigationType === 'POP') {
+      navigate(GET_ROUTES.nowDarakbang.main());
+    }
+  }, [currentStep, navigationType, navigate]);
+
   const [formData, setFormData] = useStatePersist<MoimFormData>({
     key: 'moimCreationInfo',
     initialState: {
