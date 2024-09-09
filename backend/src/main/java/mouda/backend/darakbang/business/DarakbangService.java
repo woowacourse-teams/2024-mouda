@@ -11,8 +11,10 @@ import lombok.RequiredArgsConstructor;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.exception.DarakbangErrorMessage;
 import mouda.backend.darakbang.exception.DarakbangException;
+import mouda.backend.darakbang.implement.DarakbangWriter;
 import mouda.backend.darakbang.implement.InvitationCodeGenerator;
 import mouda.backend.darakbang.infrastructure.DarakbangRepository;
+import mouda.backend.darakbang.inplement.DarakbangValidator;
 import mouda.backend.darakbang.presentation.request.DarakbangCreateRequest;
 import mouda.backend.darakbang.presentation.request.DarakbangEnterRequest;
 import mouda.backend.darakbang.presentation.response.CodeValidationResponse;
@@ -20,10 +22,10 @@ import mouda.backend.darakbang.presentation.response.DarakbangNameResponse;
 import mouda.backend.darakbang.presentation.response.DarakbangResponse;
 import mouda.backend.darakbang.presentation.response.DarakbangResponses;
 import mouda.backend.darakbang.presentation.response.InvitationCodeResponse;
-import mouda.backend.darakbangmember.domain.DarakBangMemberRole;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.exception.DarakbangMemberErrorMessage;
 import mouda.backend.darakbangmember.exception.DarakbangMemberException;
+import mouda.backend.darakbangmember.implement.DarakbangMemberWriter;
 import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
 import mouda.backend.member.domain.Member;
 
@@ -36,22 +38,16 @@ public class DarakbangService {
 	private final DarakbangMemberRepository darakbangMemberRepository;
 	private final InvitationCodeGenerator invitationCodeGenerator;
 
+	private final DarakbangValidator darakbangValidator;
+	private final DarakbangMemberWriter darakbangMemberWriter;
+	private final DarakbangWriter darakbangWriter;
+
 	public Darakbang createDarakbang(DarakbangCreateRequest darakbangCreateRequest, Member member) {
-		if (darakbangRepository.existsByName(darakbangCreateRequest.name())) {
-			throw new DarakbangException(HttpStatus.BAD_REQUEST, DarakbangErrorMessage.NAME_ALREADY_EXIST);
-		}
+		darakbangValidator.validateAlreadyExistsName(darakbangCreateRequest.name());
+		Darakbang entity = darakbangCreateRequest.toEntity(generateInvitationCode());
+		Darakbang darakbang = darakbangWriter.save(entity);
 
-		String invitationCode = generateInvitationCode();
-		Darakbang entity = darakbangCreateRequest.toEntity(invitationCode);
-		Darakbang darakbang = darakbangRepository.save(entity);
-
-		DarakbangMember darakbangMember = DarakbangMember.builder()
-			.darakbang(darakbang)
-			.memberId(member.getId())
-			.nickname(darakbangCreateRequest.nickname())
-			.role(DarakBangMemberRole.MANAGER)
-			.build();
-		darakbangMemberRepository.save(darakbangMember);
+		darakbangMemberWriter.saveManager(darakbang, darakbangCreateRequest.nickname(), member);
 
 		return darakbang;
 	}
