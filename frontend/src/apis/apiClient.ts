@@ -1,20 +1,12 @@
 import { ApiError } from '@_utils/customError/ApiError';
-import { getLastDarakbangId } from '@_common/lastDarakbangManager';
 import { getToken } from '@_utils/tokenManager';
+import { addBaseUrl } from './endPoints';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
 const DEFAULT_HEADERS = {
   'Content-Type': 'application/json',
 };
-
-const BASE_URL = `${process.env.BASE_URL}/v1`;
-
-function addBaseUrl(endpoint: string, isNeedLastDarakbang: boolean = false) {
-  if (isNeedLastDarakbang)
-    endpoint = '/darakbang/' + (getLastDarakbangId() || 0) + endpoint;
-  return BASE_URL + endpoint;
-}
 
 function getHeaders(isRequiredAuth: boolean) {
   const headers = new Headers(DEFAULT_HEADERS);
