@@ -2,8 +2,6 @@ package mouda.backend.moim.implement.finder;
 
 import static org.assertj.core.api.Assertions.*;
 
-import java.time.LocalDateTime;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +13,7 @@ import mouda.backend.common.fixture.MoimFixture;
 import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.Chat;
 import mouda.backend.moim.domain.Chats;
+import mouda.backend.moim.domain.EmptyChat;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimRole;
 import mouda.backend.moim.exception.ChatException;
@@ -68,17 +67,17 @@ class ChatFinderTest extends DarakbangSetUp {
 		Chat unloadedChat = ChatFixture.getChatWithMemberAtMoim(darakbangHogee, moim);
 		chatRepository.save(unloadedChat);
 
-		String lastChatContent = chatFinder.readLastChatContent(1L);
+		Chat lastChat = chatFinder.readLastChat(1L);
 
-		assertThat(lastChatContent).isNotEmpty();
+		assertThat(lastChat.getContent()).isEqualTo(unloadedChat.getContent());
 	}
 
-	@DisplayName("채팅이 없다면 빈 문자열을 반환한다.")
+	@DisplayName("채팅이 없다면 EmptyChat을 반환한다.")
 	@Test
 	void readLastChatContentWhenChatAbsent() {
-		String lastChatContent = chatFinder.readLastChatContent(1L);
+		Chat lastChat = chatFinder.readLastChat(1L);
 
-		assertThat(lastChatContent).isEqualTo("");
+		assertThat(lastChat).isInstanceOf(EmptyChat.class);
 	}
 
 	@DisplayName("채팅이 있다면 마지막 채팅의 날짜 시간을 조회한다.")
@@ -86,24 +85,24 @@ class ChatFinderTest extends DarakbangSetUp {
 	void readLastChatDateTime() {
 		Moim moim = MoimFixture.getCoffeeMoim(darakbang.getId());
 		moimRepository.save(moim);
-		Chat chat = ChatFixture.getChatWithMemberAtMoim(darakbangHogee, moim);
-		chatRepository.save(chat);
+		Chat chat1 = ChatFixture.getChatWithMemberAtMoim(darakbangAnna, moim);
+		Chat chat2 = ChatFixture.getChatWithMemberAtMoim(darakbangHogee, moim);
+		chatRepository.save(chat1);
+		chatRepository.save(chat2);
 
-		LocalDateTime lastChatDateTime = chatFinder.readLastChatDateTime(
-			new Chamyo(moim, darakbangHogee, MoimRole.MOIMER));
+		Chat lastChat = chatFinder.readLastChat(new Chamyo(moim, darakbangHogee, MoimRole.MOIMER));
 
-		assertThat(lastChatDateTime).isNotNull();
+		assertThat(lastChat.getId()).isEqualTo(chat2.getId());
 	}
 
-	@DisplayName("채팅이 없다면 null을 반환한다.")
+	@DisplayName("채팅이 없다면 EmptyChat을 반환한다.")
 	@Test
 	void readLastChatDateTimeWhenChatAbsent() {
 		Moim moim = MoimFixture.getCoffeeMoim(darakbang.getId());
 		moimRepository.save(moim);
 
-		LocalDateTime lastChatDateTime = chatFinder.readLastChatDateTime(
-			new Chamyo(moim, darakbangHogee, MoimRole.MOIMER));
+		Chat lastChat = chatFinder.readLastChat(new Chamyo(moim, darakbangHogee, MoimRole.MOIMER));
 
-		assertThat(lastChatDateTime).isNull();
+		assertThat(lastChat).isInstanceOf(EmptyChat.class);
 	}
 }

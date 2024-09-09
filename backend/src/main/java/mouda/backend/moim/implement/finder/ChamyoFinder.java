@@ -1,6 +1,5 @@
 package mouda.backend.moim.implement.finder;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,16 +49,10 @@ public class ChamyoFinder {
 		return chamyo.getMoimRole();
 	}
 
-	public List<Chamyo> readAllOrderByLastChat(long darakbangId, DarakbangMember darakbangMember) {
+	public List<Chamyo> readAllChatOpened(long darakbangId, DarakbangMember darakbangMember) {
 		return chamyoRepository.findAllByDarakbangMemberIdAndMoim_DarakbangId(darakbangMember.getId(), darakbangId)
 			.stream()
 			.filter(chamyo -> chamyo.getMoim().isChatOpened())
-			.sorted(getChamyoComparatorByLastChat())
 			.toList();
-	}
-
-	private Comparator<Chamyo> getChamyoComparatorByLastChat() {
-		return Comparator.comparing(chatFinder::readLastChatDateTime, Comparator.nullsLast(Comparator.reverseOrder()))
-			.thenComparing(chamyo -> chamyo.getMoim().getId(), Comparator.naturalOrder());
 	}
 }

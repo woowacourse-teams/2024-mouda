@@ -1,6 +1,5 @@
 package mouda.backend.moim.implement.finder;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,21 +29,13 @@ public class ChatFinder {
 		return new Chats(chats);
 	}
 
-	public String readLastChatContent(long moimId) {
-		return findLastChat(moimId)
-			.map(Chat::getContent)
-			.orElse("");
-	}
-
-	public LocalDateTime readLastChatDateTime(Chamyo chamyo) {
-		return findLastChat(chamyo.getMoim().getId())
-			.map(chat -> LocalDateTime.of(chat.getDate(), chat.getTime()))
-			.orElse(null);
+	public Chat readLastChat(Chamyo chamyo) {
+		return readLastChat(chamyo.getMoim().getId());
 	}
 
 	public Chat readLastChat(long moimId) {
 		return findLastChat(moimId)
-			.orElse(new EmptyChat());
+			.orElse(new EmptyChat(moimId));
 	}
 
 	private Optional<Chat> findLastChat(long moimId) {

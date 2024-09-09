@@ -94,7 +94,7 @@ public class ChatService {
 	}
 
 	public ChatPreviewResponses findChatPreview(long darakbangId, DarakbangMember darakbangMember) {
-		ChatRooms chatRooms = chatRoomFinder.findAll(darakbangId, darakbangMember);
+		ChatRooms chatRooms = chatRoomFinder.findAllOrderByLastChat(darakbangId, darakbangMember);
 		List<MoimChat> moimChats = chatRooms.getMoimChats();
 
 		return ChatPreviewResponses.toResponse(moimChats);

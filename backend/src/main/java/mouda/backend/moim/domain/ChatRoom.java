@@ -1,8 +1,10 @@
 package mouda.backend.moim.domain;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
-public class ChatRoom {
+public class ChatRoom implements Comparable<ChatRoom> {
 
 	private final Chamyo chamyo;
 	private final List<Chat> chats;
@@ -26,11 +28,23 @@ public class ChatRoom {
 			.build();
 	}
 
+	private LocalDateTime getLastChatDateTime() {
+		return getLastChat().getDateTime();
+	}
+
 	private String getLastChatContent() {
 		return getLastChat().getContent();
 	}
 
 	private Chat getLastChat() {
 		return chats.get(chats.size() - 1);
+	}
+
+	@Override
+	public int compareTo(ChatRoom that) {
+		Comparator<ChatRoom> chatRoomComparator = Comparator.comparing(ChatRoom::getLastChatDateTime,
+				Comparator.nullsLast(Comparator.reverseOrder()))
+			.thenComparing(chatRoom -> chatRoom.chamyo.getMoim().getId());
+		return chatRoomComparator.compare(this, that);
 	}
 }
