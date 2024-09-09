@@ -43,16 +43,35 @@ export default function MoimModifyPage() {
       </FormLayout.Header>
 
       <FormLayout.MainForm>
-        {MOIM_INPUT_INFOS.map((info) =>
-          info.type === 'textarea' ? (
-            <LabeledTextArea
-              {...info}
-              key={info.title}
-              onChange={handleTextAreaChange}
-              value={inputData[info.name]}
-              validateFun={info?.validate}
-            />
-          ) : (
+        {MOIM_INPUT_INFOS.map((info) => {
+          if (info.type === 'textarea') {
+            return (
+              <LabeledTextArea
+                {...info}
+                key={info.title}
+                onChange={handleTextAreaChange}
+                value={inputData[info.name]}
+                validateFun={info?.validate}
+              />
+            );
+          } else if (info.type === 'time') {
+            return (
+              <LabeledInput
+                {...info}
+                key={info.title}
+                type="time"
+                onChange={handleInputChange}
+                value={inputData[info.name]}
+                validateFun={(time: string) => {
+                  return info?.validate
+                    ? info.validate(time, inputData['date'])
+                    : true;
+                }}
+              />
+            );
+          }
+
+          return (
             <LabeledInput
               {...info}
               key={info.title}
@@ -60,8 +79,8 @@ export default function MoimModifyPage() {
               value={inputData[info.name]}
               validateFun={info?.validate}
             />
-          ),
-        )}
+          );
+        })}
       </FormLayout.MainForm>
 
       <FormLayout.BottomButtonWrapper>

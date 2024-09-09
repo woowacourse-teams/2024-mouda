@@ -14,7 +14,7 @@ interface LabeledInputInfo {
   type: string;
   placeholder: string;
   required: boolean;
-  validate?: (value: string) => boolean;
+  validate?: (value1: string, value2?: string) => boolean;
 }
 
 const MOIM_INPUT_INFOS: LabeledInputInfo[] = [
@@ -24,7 +24,7 @@ const MOIM_INPUT_INFOS: LabeledInputInfo[] = [
     type: 'text',
     placeholder: `${POLICES.minimumTitleLength}자 이상 ${POLICES.maximumTitleLength}자 이하로 입력해주세요`,
     required: true,
-    validate: validateTitle, // string 타입
+    validate: validateTitle,
   },
   {
     name: 'date',
@@ -32,7 +32,7 @@ const MOIM_INPUT_INFOS: LabeledInputInfo[] = [
     type: 'date',
     placeholder: '현재 시간 이후로 설정해주세요',
     required: false,
-    validate: validateDate, // string 타입
+    validate: validateDate,
   },
   {
     name: 'time',
@@ -40,7 +40,7 @@ const MOIM_INPUT_INFOS: LabeledInputInfo[] = [
     type: 'time',
     placeholder: '현재 시간 이후로 설정해주세요',
     required: false,
-    validate: validateTime, // string 타입
+    validate: validateTime,
   },
   {
     name: 'place',

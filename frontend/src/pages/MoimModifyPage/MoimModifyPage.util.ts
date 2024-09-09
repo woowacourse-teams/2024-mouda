@@ -13,7 +13,7 @@ export const validateDate = (date: string) => {
   return date >= nowDateYyyymmdd && POLICIES.yyyymmddDashRegex.test(date);
 };
 
-export const validateTime = (time: string) => {
+export const validateTime = (time: string, date?: string) => {
   if (time === '') {
     return true;
   }
@@ -21,18 +21,24 @@ export const validateTime = (time: string) => {
     return false;
   }
 
-  const now = new Date();
-  const [inputHour, inputMinute] = time.split(':').map(Number);
-  const inputTime = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate(),
-    inputHour,
-    inputMinute,
-  );
+  console.log(date);
 
-  if (inputTime < now) {
-    return false;
+  if (date !== '') {
+    const dates = date?.split('-').map(Number);
+
+    const now = new Date();
+    const [inputHour, inputMinute] = time.split(':').map(Number);
+    const inputTime = new Date(
+      dates?.[0] ?? now.getFullYear(), // 년도
+      (dates?.[1] ?? now.getMonth() + 1) - 1, // 월
+      dates?.[2] ?? now.getDate(), // 일
+      inputHour,
+      inputMinute,
+    );
+
+    if (inputTime < now) {
+      return false;
+    }
   }
   return true;
 };
@@ -48,9 +54,9 @@ export const validatePlace = (place: string) => {
 };
 export const validateMaxPeople = (maxPeople: number | string) => {
   if (typeof maxPeople === 'string') {
-    maxPeople = Number(maxPeople); // string을 number로 변환
+    maxPeople = Number(maxPeople);
     if (isNaN(maxPeople)) {
-      return false; // 변환이 실패하면 false 반환
+      return false;
     }
   }
 
