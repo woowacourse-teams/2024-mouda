@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
+import mouda.backend.darakbangmember.domain.DarakbangMembers;
 import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
 import mouda.backend.member.domain.Member;
 
@@ -21,5 +22,9 @@ public class DarakbangMemberFinder {
 			.stream()
 			.map(DarakbangMember::getDarakbang)
 			.toList();
+	}
+
+	public DarakbangMembers findAllByDarakbangId(Long darakbangId) {
+		return new DarakbangMembers(darakbangMemberRepository.findAllByDarakbangId(darakbangId));
 	}
 }
