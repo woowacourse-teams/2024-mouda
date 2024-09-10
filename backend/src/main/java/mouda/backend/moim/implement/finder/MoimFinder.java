@@ -17,8 +17,8 @@ public class MoimFinder {
 	private final MoimRepository moimRepository;
 	private final ChamyoRepository chamyoRepository;
 
-	public Moim read(long moimId, long darakbangId) {
-		return moimRepository.findByIdAndDarakbangId(moimId, darakbangId)
+	public Moim read(long moimId, long currentDarakbangId) {
+		return moimRepository.findByIdAndDarakbangId(moimId, currentDarakbangId)
 			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
 	}
 

@@ -13,6 +13,7 @@ import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimRole;
 import mouda.backend.moim.exception.ChamyoErrorMessage;
 import mouda.backend.moim.exception.ChamyoException;
+import mouda.backend.moim.implement.validator.MoimValidator;
 import mouda.backend.moim.infrastructure.ChamyoRepository;
 
 @Component
@@ -20,7 +21,7 @@ import mouda.backend.moim.infrastructure.ChamyoRepository;
 public class ChamyoFinder {
 
 	private final ChamyoRepository chamyoRepository;
-	private final ChatFinder chatFinder;
+	private final MoimValidator moimValidator;
 
 	public Chamyo read(Moim moim, DarakbangMember darakbangMember) {
 		return read(moim.getId(), darakbangMember);
@@ -47,6 +48,12 @@ public class ChamyoFinder {
 
 		Chamyo chamyo = chamyoOptional.get();
 		return chamyo.getMoimRole();
+	}
+
+	public List<Chamyo> readAll(Long moimId, Long darakbangId) {
+		moimValidator.validateMoimExists(moimId, darakbangId);
+
+		return chamyoRepository.findAllByMoimId(moimId);
 	}
 
 	public List<Chamyo> readAllChatOpened(long darakbangId, DarakbangMember darakbangMember) {
