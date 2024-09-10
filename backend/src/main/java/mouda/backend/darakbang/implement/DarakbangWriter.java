@@ -20,10 +20,4 @@ public class DarakbangWriter {
 			.build();
 		return darakbangRepository.save(entity);
 	}
-
-	private String generateInvitationCode() {
-		String invitationCode = invitationCodeGenerator.generate();
-
-		return invitationCode;
-	}
 }

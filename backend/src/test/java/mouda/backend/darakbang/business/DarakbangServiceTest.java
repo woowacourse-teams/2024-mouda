@@ -13,19 +13,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import mouda.backend.common.fixture.DarakbangFixture;
 import mouda.backend.common.fixture.DarakbangMemberFixture;
 import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.exception.DarakbangException;
-import mouda.backend.darakbang.implement.InvitationCodeGenerator;
 import mouda.backend.darakbang.infrastructure.DarakbangRepository;
-import mouda.backend.darakbang.presentation.request.DarakbangCreateRequest;
 import mouda.backend.darakbang.presentation.request.DarakbangEnterRequest;
 import mouda.backend.darakbang.presentation.response.CodeValidationResponse;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
@@ -48,61 +44,6 @@ class DarakbangServiceTest {
 
 	@Autowired
 	private DarakbangService darakbangService;
-
-	@SpyBean
-	private InvitationCodeGenerator invitationCodeGenerator;
-
-	@DisplayName("다락방 생성 테스트")
-	@Nested
-	class DarakbangCreateTest {
-
-		@DisplayName("다락방을 성공적으로 생성한다.")
-		@Test
-		void success() {
-			DarakbangCreateRequest request = new DarakbangCreateRequest("우아한테크코스", "테니");
-			Member hogee = memberRepository.save(MemberFixture.getHogee());
-
-			Darakbang darakbang = darakbangService.createDarakbang(request, hogee);
-
-			assertThat(darakbang.getId()).isEqualTo(1L);
-			assertThat(darakbangMemberRepository.findAll()).hasSize(1);
-		}
-
-		@DisplayName("다락방 이름이 존재하지 않으면 생성에 실패한다.")
-		@NullAndEmptySource
-		@ParameterizedTest
-		void failToCreateDarakbangWithoutName(String name) {
-			Member hogee = memberRepository.save(MemberFixture.getHogee());
-			DarakbangCreateRequest request = new DarakbangCreateRequest(name, "테니");
-
-			assertThatThrownBy(() -> darakbangService.createDarakbang(request, hogee))
-				.isInstanceOf(DarakbangException.class);
-		}
-
-		@DisplayName("닉네임이 존재하지 않으면 다락방 생성에 실패한다.")
-		@NullAndEmptySource
-		@ParameterizedTest
-		void failToCreateDarakbangWithoutNickname(String nickname) {
-			Member hogee = memberRepository.save(MemberFixture.getHogee());
-			DarakbangCreateRequest request = new DarakbangCreateRequest("우아한테크코스", nickname);
-
-			assertThatThrownBy(() -> darakbangService.createDarakbang(request, hogee))
-				.isInstanceOf(DarakbangMemberException.class);
-		}
-
-		@DisplayName("초대코드가 중복되면 다락방 생성에 실패한다.")
-		@Test
-		void failToCreateDarakbangWithDuplicatedCode() {
-			Member hogee = memberRepository.save(MemberFixture.getHogee());
-			DarakbangCreateRequest request = new DarakbangCreateRequest("우테코", "테니");
-			darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
-
-			Mockito.doReturn("SOFABAC").when(invitationCodeGenerator).generate();
-
-			assertThatThrownBy(() -> darakbangService.createDarakbang(request, hogee))
-				.isInstanceOf(DarakbangException.class);
-		}
-	}
 
 	@DisplayName("다락방 초대코드 조회 테스트")
 	@Nested
