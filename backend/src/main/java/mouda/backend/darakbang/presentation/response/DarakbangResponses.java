@@ -13,10 +13,8 @@ public record DarakbangResponses(
 	public static DarakbangResponses toResponse(Darakbangs darakbangs) {
 		List<DarakbangResponse> responses = darakbangs.getDarakbangs()
 			.stream()
-			.map(darakbang -> DarakbangResponse.builder()
-				.darakbangId(darakbang.getId())
-				.name(darakbang.getName())
-				.build())
+			.map(darakbang -> DarakbangResponse.toResponse(
+				darakbang.getId(), darakbang.getName()))
 			.toList();
 		return new DarakbangResponses(responses);
 	}

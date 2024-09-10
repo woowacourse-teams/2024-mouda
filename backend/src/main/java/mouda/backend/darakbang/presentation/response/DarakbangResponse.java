@@ -1,7 +1,6 @@
 package mouda.backend.darakbang.presentation.response;
 
 import lombok.Builder;
-import mouda.backend.darakbangmember.domain.DarakbangMember;
 
 @Builder
 public record DarakbangResponse(
@@ -9,10 +8,10 @@ public record DarakbangResponse(
 	String name
 ) {
 
-	public static DarakbangResponse toResponse(DarakbangMember darakbangMember) {
+	public static DarakbangResponse toResponse(Long darakbangId, String name) {
 		return DarakbangResponse.builder()
-			.darakbangId(darakbangMember.getDarakbang().getId())
-			.name(darakbangMember.getDarakbangName())
+			.darakbangId(darakbangId)
+			.name(name)
 			.build();
 	}
 }
