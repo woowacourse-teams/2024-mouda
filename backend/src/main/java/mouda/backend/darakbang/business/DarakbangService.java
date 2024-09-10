@@ -34,8 +34,10 @@ public class DarakbangService {
 
 	public Darakbang createDarakbang(DarakbangCreateRequest darakbangCreateRequest, Member member) {
 		darakbangValidator.validateAlreadyExistsName(darakbangCreateRequest.name());
+		Darakbang darakbang = darakbangWriter.save(darakbangCreateRequest.name());
+		darakbangMemberWriter.saveManager(darakbang, darakbangCreateRequest.nickname(), member);
 
-		return darakbangWriter.save(darakbangCreateRequest.name(), darakbangCreateRequest.nickname(), member);
+		return darakbang;
 	}
 
 	@Transactional(readOnly = true)
