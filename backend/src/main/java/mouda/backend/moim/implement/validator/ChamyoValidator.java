@@ -18,13 +18,11 @@ import mouda.backend.moim.infrastructure.ChamyoRepository;
 @RequiredArgsConstructor
 public class ChamyoValidator {
 
-	private final MoimValidator moimValidator;
 	private final MoimFinder moimFinder;
 	private final ChamyoRepository chamyoRepository;
 	private final ChamyoFinder chamyoFinder;
 
 	public void validateCanParticipate(Moim moim, DarakbangMember darakbangMember) {
-		moimValidator.validateMoimExists(moim.getId(), darakbangMember.getDarakbang().getId());
 		validateMoimIsParticipable(moim);
 		validateAlreadyParticipated(moim, darakbangMember);
 	}
@@ -51,9 +49,8 @@ public class ChamyoValidator {
 		}
 	}
 
-	public void validateCanCancel(Moim moim, DarakbangMember darakbangMember) {
-		MoimRole moimRole = chamyoFinder.readMoimRole(moim, darakbangMember);
-		if (moimRole != MoimRole.MOIMEE) {
+	public void validateCanCancel(Chamyo chamyo) {
+		if (chamyo.getMoimRole() != MoimRole.MOIMEE) {
 			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.CANNOT_CANCEL_CHAMYO);
 		}
 	}

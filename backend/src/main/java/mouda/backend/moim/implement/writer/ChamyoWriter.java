@@ -45,8 +45,8 @@ public class ChamyoWriter {
 		}
 	}
 
-	public void delete(Moim moim, DarakbangMember darakbangMember) {
-		chamyoValidator.validateCanCancel(moim, darakbangMember);
-		chamyoRepository.deleteByMoimIdAndDarakbangMemberId(moim.getId(), darakbangMember.getId());
+	public void delete(Chamyo chamyo) {
+		chamyoValidator.validateCanCancel(chamyo);
+		chamyoRepository.delete(chamyo);
 	}
 }

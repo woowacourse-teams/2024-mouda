@@ -56,7 +56,8 @@ public class ChamyoService {
 
 	public void cancelChamyo(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimFinder.read(moimId, darakbangId);
-		chamyoWriter.delete(moim, darakbangMember);
+		Chamyo chamyo = chamyoFinder.read(moim, darakbangMember);
+		chamyoWriter.delete(chamyo);
 
 		sendCancelNotification(darakbangId, darakbangMember, moim);
 	}
