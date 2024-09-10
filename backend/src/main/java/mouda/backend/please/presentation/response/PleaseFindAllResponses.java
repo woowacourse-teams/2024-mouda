@@ -5,4 +5,8 @@ import java.util.List;
 public record PleaseFindAllResponses(
 	List<PleaseFindAllResponse> pleases
 ) {
+
+	public static PleaseFindAllResponses toResponse(List<PleaseFindAllResponse> pleaseFindAllResponses) {
+		return new PleaseFindAllResponses(pleaseFindAllResponses);
+	}
 }
