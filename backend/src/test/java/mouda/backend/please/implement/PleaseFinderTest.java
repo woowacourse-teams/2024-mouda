@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import mouda.backend.common.fixture.DarakbangSetUp;
 import mouda.backend.common.fixture.PleaseFixture;
 import mouda.backend.please.domain.Please;
+import mouda.backend.please.domain.PleaseWithInterests;
 
 @SpringBootTest
 class PleaseFinderTest extends DarakbangSetUp {
@@ -43,6 +44,24 @@ class PleaseFinderTest extends DarakbangSetUp {
 		Please pleaseChicken = pleaseWriter.savePlease(PleaseFixture.getPleaseChicken());
 		Please pleaseHogee = pleaseWriter.savePlease(PleaseFixture.getPleaseHogee());
 
-		assertThat(pleaseFinder.findPleasesDesc(darakbang.getId()).size()).isEqualTo(3);
+		PleaseWithInterests pleasesDesc = pleaseFinder.findPleasesDesc(darakbang.getId(), darakbangHogee);
+		assertThat(pleasesDesc.getPleaseWithInterests().size()).isEqualTo(3);
+	}
+
+	@DisplayName("해주세요 목록 조회시 관심이 많은 순서대로 조회하고, 관심이 같다면 생성된 순서대로 조회한다.")
+	@Test
+	void findAllPlease_isSortedByInterestCount() {
+		Please pleasePizza = pleaseWriter.savePlease(PleaseFixture.getPleasePizza());
+		Please pleaseChicken = pleaseWriter.savePlease(PleaseFixture.getPleaseChicken());
+		Please pleaseHogee = pleaseWriter.savePlease(PleaseFixture.getPleaseHogee());
+
+		interestWriter.changeInterest(pleaseHogee, darakbang.getId(), true, darakbangHogee);
+		interestWriter.changeInterest(pleaseChicken, darakbang.getId(), true, darakbangHogee);
+		interestWriter.changeInterest(pleaseChicken, darakbang.getId(), true, darakbangAnna);
+
+		PleaseWithInterests pleasesDesc = pleaseFinder.findPleasesDesc(darakbang.getId(), darakbangHogee);
+
+		assertThat(pleasesDesc.getPleaseFindAll()).extracting("pleaseId")
+			.containsExactly(pleaseChicken.getId(), pleaseHogee.getId(), pleasePizza.getId());
 	}
 }
