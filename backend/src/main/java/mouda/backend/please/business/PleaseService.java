@@ -30,7 +30,7 @@ public class PleaseService {
 	}
 
 	public void deletePlease(Long darakbangId, Long pleaseId, DarakbangMember darakbangMember) {
-		Please please = pleaseFinder.find(pleaseId);
+		Please please = pleaseFinder.find(pleaseId, darakbangId);
 		pleaseValidator.validate(please, darakbangId, darakbangMember);
 		pleaseWriter.delete(pleaseId);
 	}

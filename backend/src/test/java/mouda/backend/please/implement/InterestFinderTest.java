@@ -30,7 +30,7 @@ class InterestFinderTest extends DarakbangSetUp {
 	@Test
 	void findByDarakBangMemberAndPleaseTest() {
 		Please pleaseChicken = pleaseWriter.savePlease(PleaseFixture.getPleaseChicken());
-		interestWriter.changeInterest(pleaseChicken, darakbang.getId(), true, darakbangHogee);
+		interestWriter.changeInterest(pleaseChicken, true, darakbangHogee);
 
 		Optional<Interest> interest = interestFinder.findInterest(
 			darakbangHogee.getMemberId(),
@@ -44,8 +44,8 @@ class InterestFinderTest extends DarakbangSetUp {
 	@Test
 	void countInterestTest() {
 		Please pleaseChicken = pleaseWriter.savePlease(PleaseFixture.getPleaseChicken());
-		interestWriter.changeInterest(pleaseChicken, darakbang.getId(), true, darakbangHogee);
-		interestWriter.changeInterest(pleaseChicken, darakbang.getId(), true, darakbangAnna);
+		interestWriter.changeInterest(pleaseChicken, true, darakbangHogee);
+		interestWriter.changeInterest(pleaseChicken, true, darakbangAnna);
 
 		assertThat(interestFinder.countInterest(pleaseChicken)).isEqualTo(2);
 	}

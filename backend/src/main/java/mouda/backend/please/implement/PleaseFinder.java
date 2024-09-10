@@ -20,10 +20,14 @@ public class PleaseFinder {
 
 	private final PleaseRepository pleaseRepository;
 	private final InterestFinder interestFinder;
+	private final InterestValidator interestValidator;
 
-	public Please find(Long pleaseId) {
-		return pleaseRepository.findById(pleaseId)
+	public Please find(Long pleaseId, long darakbangId) {
+		Please please = pleaseRepository.findById(pleaseId)
 			.orElseThrow(() -> new PleaseException(HttpStatus.NOT_FOUND, PleaseErrorMessage.NOT_FOUND));
+
+		interestValidator.validate(please, darakbangId);
+		return please;
 	}
 
 	public PleaseWithInterests findPleasesDesc(Long darakbangId, DarakbangMember darakbangMember) {

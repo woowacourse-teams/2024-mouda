@@ -17,8 +17,7 @@ public class InterestWriter {
 	private final PleaseFinder pleaseFinder;
 	private final InterestValidator interestValidator;
 
-	public void changeInterest(Please please, Long darakbangId, boolean isInterested, DarakbangMember darakbangMember) {
-		interestValidator.validate(please, darakbangId, isInterested, darakbangMember);
+	public void changeInterest(Please please, boolean isInterested, DarakbangMember darakbangMember) {
 		if (isInterested) {
 			Interest newInterest = Interest.builder()
 				.darakbangMember(darakbangMember)

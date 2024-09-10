@@ -29,7 +29,7 @@ class InterestWriterTest extends DarakbangSetUp {
 		Please pleaseChicken = pleaseWriter.savePlease(PleaseFixture.getPleaseChicken());
 		Please pleasePizza = pleaseWriter.savePlease(PleaseFixture.getPleasePizza());
 
-		interestWriter.changeInterest(pleaseChicken, 1L, true, darakbangHogee);
+		interestWriter.changeInterest(pleaseChicken, true, darakbangHogee);
 
 		assertThat(interestFinder.findInterest(darakbangHogee.getId(), pleaseChicken.getId())).isNotEmpty();
 	}

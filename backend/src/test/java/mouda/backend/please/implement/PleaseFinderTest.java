@@ -32,7 +32,7 @@ class PleaseFinderTest extends DarakbangSetUp {
 	void findTest() {
 		Please pleaseChicken = PleaseFixture.getPleaseChicken();
 		Please savedPlease = pleaseWriter.savePlease(pleaseChicken);
-		Please findPlease = pleaseFinder.find(savedPlease.getId());
+		Please findPlease = pleaseFinder.find(savedPlease.getId(), darakbang.getId());
 
 		assertThat(findPlease.getId()).isEqualTo(savedPlease.getId());
 	}
@@ -55,9 +55,9 @@ class PleaseFinderTest extends DarakbangSetUp {
 		Please pleaseChicken = pleaseWriter.savePlease(PleaseFixture.getPleaseChicken());
 		Please pleaseHogee = pleaseWriter.savePlease(PleaseFixture.getPleaseHogee());
 
-		interestWriter.changeInterest(pleaseHogee, darakbang.getId(), true, darakbangHogee);
-		interestWriter.changeInterest(pleaseChicken, darakbang.getId(), true, darakbangHogee);
-		interestWriter.changeInterest(pleaseChicken, darakbang.getId(), true, darakbangAnna);
+		interestWriter.changeInterest(pleaseHogee, true, darakbangHogee);
+		interestWriter.changeInterest(pleaseChicken, true, darakbangHogee);
+		interestWriter.changeInterest(pleaseChicken, true, darakbangAnna);
 
 		PleaseWithInterests pleasesDesc = pleaseFinder.findPleasesDesc(darakbang.getId(), darakbangHogee);
 

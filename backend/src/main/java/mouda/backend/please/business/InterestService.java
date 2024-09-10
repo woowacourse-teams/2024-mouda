@@ -19,7 +19,7 @@ public class InterestService {
 	private final InterestWriter interestWriter;
 
 	public void updateInterest(Long darakbangId, DarakbangMember darakbangMember, InterestUpdateRequest request) {
-		Please please = pleaseFinder.find(request.pleaseId());
-		interestWriter.changeInterest(please, darakbangId, request.isInterested(), darakbangMember);
+		Please please = pleaseFinder.find(request.pleaseId(), darakbangId);
+		interestWriter.changeInterest(please, request.isInterested(), darakbangMember);
 	}
 }
