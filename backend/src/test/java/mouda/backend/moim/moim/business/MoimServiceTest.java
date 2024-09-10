@@ -122,7 +122,7 @@ class MoimServiceTest extends IgnoreNotificationTest {
 		CommentCreateRequest commentCreateRequest = new CommentCreateRequest(null, "댓글부대");
 		moimService.createComment(darakbang.getId(), moim.getId(), darakbangHogee, commentCreateRequest);
 
-		List<Comment> comments = commentRepository.findAllByMoimIdOrderByCreatedAt(moim.getId());
+		List<Comment> comments = commentRepository.findAllByMoimOrderByCreatedAt(moim);
 		assertThat(comments).hasSize(1);
 	}
 

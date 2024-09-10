@@ -1,11 +1,7 @@
 package mouda.backend.moim.business;
 
-import static java.util.stream.Collectors.*;
-
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -13,30 +9,27 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.moim.domain.Chamyo;
-import mouda.backend.moim.domain.Comment;
 import mouda.backend.moim.domain.FilterType;
 import mouda.backend.moim.domain.Moim;
+import mouda.backend.moim.domain.MoimOverview;
 import mouda.backend.moim.domain.MoimRole;
 import mouda.backend.moim.domain.MoimStatus;
-import mouda.backend.moim.domain.Zzim;
+import mouda.backend.moim.domain.ParentComment;
 import mouda.backend.moim.exception.CommentErrorMessage;
 import mouda.backend.moim.exception.CommentException;
 import mouda.backend.moim.exception.MoimErrorMessage;
 import mouda.backend.moim.exception.MoimException;
+import mouda.backend.moim.implement.finder.CommentFinder;
 import mouda.backend.moim.implement.finder.MoimFinder;
-import mouda.backend.moim.implement.finder.ZzimFinder;
 import mouda.backend.moim.implement.writer.MoimWriter;
 import mouda.backend.moim.infrastructure.ChamyoRepository;
 import mouda.backend.moim.infrastructure.CommentRepository;
 import mouda.backend.moim.infrastructure.MoimRepository;
-import mouda.backend.moim.infrastructure.ZzimRepository;
 import mouda.backend.moim.presentation.request.comment.CommentCreateRequest;
 import mouda.backend.moim.presentation.request.moim.MoimCreateRequest;
 import mouda.backend.moim.presentation.request.moim.MoimEditRequest;
-import mouda.backend.moim.presentation.response.comment.CommentResponse;
+import mouda.backend.moim.presentation.response.comment.CommentResponses;
 import mouda.backend.moim.presentation.response.moim.MoimDetailsFindResponse;
-import mouda.backend.moim.presentation.response.moim.MoimFindAllResponse;
 import mouda.backend.moim.presentation.response.moim.MoimFindAllResponses;
 import mouda.backend.notification.business.NotificationService;
 import mouda.backend.notification.domain.NotificationType;
@@ -48,12 +41,11 @@ public class MoimService {
 
 	private final MoimRepository moimRepository;
 	private final ChamyoRepository chamyoRepository;
-	private final ZzimRepository zzimRepository;
 	private final CommentRepository commentRepository;
 	private final NotificationService notificationService;
 	private final MoimWriter moimWriter;
 	private final MoimFinder moimFinder;
-	private final ZzimFinder zzimFinder;
+	private final CommentFinder commentFinder;
 
 	public Moim createMoim(Long darakbangId, DarakbangMember darakbangMember, MoimCreateRequest moimCreateRequest) {
 		Moim moim = moimWriter.save(moimCreateRequest.toEntity(darakbangId), darakbangMember);
@@ -64,45 +56,34 @@ public class MoimService {
 	}
 
 	@Transactional(readOnly = true)
-	public MoimFindAllResponses findAllMoim(Long darakbangId, DarakbangMember darakbangMember) {
-		List<Moim> moims = moimFinder.readAll(darakbangId);
-		List<MoimFindAllResponse> responses = moims.stream()
-			.map(moim -> toMoimFindAllResponse(moim, darakbangMember))
-			.toList();
+	public MoimDetailsFindResponse findMoimDetails(long darakbangId, long moimId) {
+		Moim moim = moimFinder.read(moimId, darakbangId);
 
-		return MoimFindAllResponses.toResponse(responses);
-	}
+		List<ParentComment> parentComments = commentFinder.readAllParentComments(moim);
+		CommentResponses commentResponses = CommentResponses.toResponse(parentComments);
 
-	private MoimFindAllResponse toMoimFindAllResponse(Moim moim, DarakbangMember darakbangMember) {
-		int currentPeople = moimFinder.countCurrentPeople(moim);
-		boolean isZzimed = zzimFinder.isMoimZzimedByMember(moim.getId(), darakbangMember);
-
-		return MoimFindAllResponse.toResponse(moim, currentPeople, isZzimed);
+		return MoimDetailsFindResponse.toResponse(moim, moimFinder.countCurrentPeople(moim), commentResponses);
 	}
 
 	@Transactional(readOnly = true)
-	public MoimDetailsFindResponse findMoimDetails(long darakbangId, long moimId) {
-		Moim moim = moimRepository.findById(moimId)
-			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
-		if (moim.isNotInDarakbang(darakbangId)) {
-			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.NOT_FOUND);
-		}
+	public MoimFindAllResponses findAllMoim(Long darakbangId, DarakbangMember darakbangMember) {
+		List<MoimOverview> moimOverviews = moimFinder.readAll(darakbangId, darakbangMember);
 
-		List<Comment> comments = commentRepository.findAllByMoimIdOrderByCreatedAt(moimId);
-		List<CommentResponse> commentResponses = toCommentResponse(comments);
-
-		return MoimDetailsFindResponse.toResponse(moim, chamyoRepository.countByMoim(moim), commentResponses);
+		return MoimFindAllResponses.toResponse(moimOverviews);
 	}
 
-	private List<CommentResponse> toCommentResponse(List<Comment> comments) {
-		Map<Long, List<Comment>> children = comments.stream()
-			.filter(Comment::isChild)
-			.collect(groupingBy(Comment::getParentId));
+	@Transactional(readOnly = true)
+	public MoimFindAllResponses findAllMyMoim(DarakbangMember darakbangMember, FilterType filter) {
+		List<MoimOverview> moimOverviews = moimFinder.readAllMyMoim(darakbangMember, filter);
 
-		return comments.stream()
-			.filter(Comment::isParent)
-			.map(comment -> CommentResponse.toResponse(comment, children.getOrDefault(comment.getId(), List.of())))
-			.toList();
+		return MoimFindAllResponses.toResponse(moimOverviews);
+	}
+
+	@Transactional(readOnly = true)
+	public MoimFindAllResponses findZzimedMoim(DarakbangMember darakbangMember) {
+		List<MoimOverview> moimOverviews = moimFinder.readAllZzimedMoim(darakbangMember);
+
+		return MoimFindAllResponses.toResponse(moimOverviews);
 	}
 
 	public void createComment(
@@ -243,44 +224,5 @@ public class MoimService {
 		if (moimStatus == MoimStatus.CANCELED) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MOIM_CANCELED);
 		}
-	}
-
-	public MoimFindAllResponses findAllMyMoim(DarakbangMember darakbangMember, FilterType filter) {
-		Stream<Chamyo> chamyoStream = chamyoRepository.findAllByDarakbangMemberIdOrderByIdDesc(darakbangMember.getId())
-			.stream();
-
-		if (filter == FilterType.PAST) {
-			chamyoStream = chamyoStream.filter(chamyo -> chamyo.getMoim().isPastMoim());
-		}
-		if (filter == FilterType.UPCOMING) {
-			chamyoStream = chamyoStream.filter(chamyo -> chamyo.getMoim().isUpcomingMoim());
-		}
-
-		List<MoimFindAllResponse> responses = chamyoStream
-			.map(chamyo -> {
-				Moim moim = chamyo.getMoim();
-				int currentPeople = chamyoRepository.countByMoim(moim);
-				boolean isZzimed = zzimRepository.existsByMoimIdAndDarakbangMemberId(moim.getId(),
-					darakbangMember.getId());
-				return MoimFindAllResponse.toResponse(moim, currentPeople, isZzimed);
-			})
-			.toList();
-
-		return new MoimFindAllResponses(responses);
-	}
-
-	public MoimFindAllResponses findZzimedMoim(DarakbangMember darakbangMember) {
-		List<Zzim> zzims = zzimRepository.findAllByDarakbangMemberIdOrderByIdDesc(darakbangMember.getId());
-
-		List<MoimFindAllResponse> responses = zzims.stream()
-			.map(zzim -> {
-				Moim moim = zzim.getMoim();
-				int currentPeople = chamyoRepository.countByMoim(moim);
-				boolean zzimed = zzimRepository.existsByMoimIdAndDarakbangMemberId(moim.getId(),
-					darakbangMember.getId());
-				return MoimFindAllResponse.toResponse(zzim.getMoim(), currentPeople, zzimed);
-			}).toList();
-
-		return new MoimFindAllResponses(responses);
 	}
 }
