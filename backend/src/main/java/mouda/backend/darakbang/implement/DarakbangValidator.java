@@ -1,4 +1,4 @@
-package mouda.backend.darakbang.inplement;
+package mouda.backend.darakbang.implement;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import mouda.backend.member.domain.Member;
 @Component
 @RequiredArgsConstructor
 public class DarakbangValidator {
-	
+
 	private final DarakbangRepository darakbangRepository;
 	private final DarakbangMemberRepository darakbangMemberRepository;
 

@@ -5,7 +5,6 @@ import java.security.SecureRandom;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.darakbang.inplement.DarakbangValidator;
 
 @Component
 @RequiredArgsConstructor
