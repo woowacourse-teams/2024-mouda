@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.domain.Darakbangs;
-import mouda.backend.darakbang.exception.DarakbangErrorMessage;
 import mouda.backend.darakbang.implement.DarakbangFinder;
 import mouda.backend.darakbang.implement.DarakbangValidator;
 import mouda.backend.darakbang.implement.DarakbangWriter;
@@ -57,13 +56,13 @@ public class DarakbangService {
 
 	@Transactional(readOnly = true)
 	public CodeValidationResponse validateCode(String code) {
-		Darakbang darakbang = darakbangFinder.findByCode(code, DarakbangErrorMessage.INVALID_CODE);
+		Darakbang darakbang = darakbangFinder.findByCode(code);
 
 		return CodeValidationResponse.toResponse(darakbang);
 	}
 
 	public Darakbang enter(String code, DarakbangEnterRequest request, Member member) {
-		Darakbang darakbang = darakbangFinder.findByCode(code, DarakbangErrorMessage.DARAKBANG_NOT_FOUND);
+		Darakbang darakbang = darakbangFinder.findByCode(code);
 		darakbangValidator.validateCanEnterDarakbang(darakbang, request.nickname(), member);
 		darakbangMemberWriter.saveMember(darakbang, request.nickname(), member);
 

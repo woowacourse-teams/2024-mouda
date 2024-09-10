@@ -31,8 +31,8 @@ public class DarakbangFinder {
 			.orElseThrow(() -> new DarakbangException(HttpStatus.NOT_FOUND, DarakbangErrorMessage.DARAKBANG_NOT_FOUND));
 	}
 
-	public Darakbang findByCode(String code, DarakbangErrorMessage errorMessage) {
+	public Darakbang findByCode(String code) {
 		return darakbangRepository.findByCode(code)
-			.orElseThrow(() -> new DarakbangException(HttpStatus.NOT_FOUND, errorMessage));
+			.orElseThrow(() -> new DarakbangException(HttpStatus.NOT_FOUND, DarakbangErrorMessage.DARAKBANG_NOT_FOUND));
 	}
 }
