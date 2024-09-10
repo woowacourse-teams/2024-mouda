@@ -10,12 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import mouda.backend.common.fixture.ChatFixture;
 import mouda.backend.common.fixture.DarakbangSetUp;
 import mouda.backend.common.fixture.MoimFixture;
-import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.Chat;
 import mouda.backend.moim.domain.Chats;
 import mouda.backend.moim.domain.EmptyChat;
 import mouda.backend.moim.domain.Moim;
-import mouda.backend.moim.domain.MoimRole;
 import mouda.backend.moim.exception.ChatException;
 import mouda.backend.moim.infrastructure.ChatRepository;
 import mouda.backend.moim.infrastructure.MoimRepository;
@@ -90,7 +88,7 @@ class ChatFinderTest extends DarakbangSetUp {
 		chatRepository.save(chat1);
 		chatRepository.save(chat2);
 
-		Chat lastChat = chatFinder.readLastChat(new Chamyo(moim, darakbangHogee, MoimRole.MOIMER));
+		Chat lastChat = chatFinder.readLastChat(moim.getId());
 
 		assertThat(lastChat.getId()).isEqualTo(chat2.getId());
 	}
@@ -101,7 +99,7 @@ class ChatFinderTest extends DarakbangSetUp {
 		Moim moim = MoimFixture.getCoffeeMoim(darakbang.getId());
 		moimRepository.save(moim);
 
-		Chat lastChat = chatFinder.readLastChat(new Chamyo(moim, darakbangHogee, MoimRole.MOIMER));
+		Chat lastChat = chatFinder.readLastChat(moim.getId());
 
 		assertThat(lastChat).isInstanceOf(EmptyChat.class);
 	}

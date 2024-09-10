@@ -1,13 +1,11 @@
 package mouda.backend.moim.implement.finder;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.Chat;
 import mouda.backend.moim.domain.Chats;
 import mouda.backend.moim.domain.EmptyChat;
@@ -29,16 +27,8 @@ public class ChatFinder {
 		return new Chats(chats);
 	}
 
-	public Chat readLastChat(Chamyo chamyo) {
-		return readLastChat(chamyo.getMoim().getId());
-	}
-
 	public Chat readLastChat(long moimId) {
-		return findLastChat(moimId)
+		return chatRepository.findFirstByMoimIdOrderByIdDesc(moimId)
 			.orElse(new EmptyChat(moimId));
-	}
-
-	private Optional<Chat> findLastChat(long moimId) {
-		return chatRepository.findFirstByMoimIdOrderByIdDesc(moimId);
 	}
 }
