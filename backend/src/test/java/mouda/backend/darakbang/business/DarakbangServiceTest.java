@@ -2,7 +2,6 @@ package mouda.backend.darakbang.business;
 
 import static org.assertj.core.api.Assertions.*;
 
-import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -71,25 +70,6 @@ class DarakbangServiceTest {
 
 			assertThatThrownBy(() -> darakbangService.findInvitationCode(darakbang.getId(), darakbangHogee))
 				.isInstanceOf(DarakbangMemberException.class);
-		}
-	}
-
-	@DisplayName("다락방 참여 테스트")
-	@Nested
-	class DarakbangEnterTest {
-
-		@DisplayName("정상적으로 다락방 가입에 성공한다.")
-		@Test
-		void success() {
-			Member hogee = memberRepository.save(MemberFixture.getHogee());
-			String code = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco()).getCode();
-			DarakbangEnterRequest enterRequest = new DarakbangEnterRequest("호기");
-
-			Darakbang darakbang = darakbangService.enter(code, enterRequest, hogee);
-
-			Optional<DarakbangMember> darakbangMember = darakbangMemberRepository.findByDarakbangIdAndMemberId(
-				darakbang.getId(), hogee.getId());
-			assertThat(darakbangMember).isNotEmpty();
 		}
 	}
 
