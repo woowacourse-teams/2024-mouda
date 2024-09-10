@@ -40,7 +40,8 @@ public class ChamyoService {
 
 	@Transactional(readOnly = true)
 	public ChamyoFindAllResponses findAllChamyo(Long darakbangId, Long moimId) {
-		List<Chamyo> chamyos = chamyoFinder.readAll(moimId, darakbangId);
+		Moim moim = moimFinder.read(moimId, darakbangId);
+		List<Chamyo> chamyos = chamyoFinder.readAll(moim);
 
 		return ChamyoFindAllResponses.toResponse(chamyos);
 	}
