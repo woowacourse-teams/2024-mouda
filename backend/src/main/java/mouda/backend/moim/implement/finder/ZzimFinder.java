@@ -22,5 +22,4 @@ public class ZzimFinder {
 	public boolean isMoimZzimedByMember(long moimId, DarakbangMember darakbangMember) {
 		return zzimRepository.existsByMoimIdAndDarakbangMemberId(moimId, darakbangMember.getId());
 	}
-
 }
