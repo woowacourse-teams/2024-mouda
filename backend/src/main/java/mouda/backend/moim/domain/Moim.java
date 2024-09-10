@@ -213,7 +213,20 @@ public class Moim {
 		return moimStatus == MoimStatus.COMPLETED;
 	}
 
+
+	public boolean isMoiming() {
+		return moimStatus == MoimStatus.MOIMING;
+	}
+
 	public void complete() {
 		this.moimStatus = MoimStatus.COMPLETED;
+	}
+
+	public void cancel() {
+		this.moimStatus = MoimStatus.CANCELED;
+	}
+
+	public void reopen() {
+		this.moimStatus = MoimStatus.MOIMING;
 	}
 }
