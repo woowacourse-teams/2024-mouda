@@ -19,7 +19,6 @@ import mouda.backend.moim.implement.finder.ChatFinder;
 import mouda.backend.moim.implement.finder.ChatRoomFinder;
 import mouda.backend.moim.implement.finder.MoimFinder;
 import mouda.backend.moim.implement.validator.ChamyoValidator;
-import mouda.backend.moim.implement.validator.MoimValidator;
 import mouda.backend.moim.implement.writer.ChatWriter;
 import mouda.backend.moim.implement.writer.MoimWriter;
 import mouda.backend.moim.presentation.request.chat.ChatCreateRequest;
@@ -37,7 +36,6 @@ import mouda.backend.notification.domain.NotificationType;
 public class ChatService {
 
 	private final NotificationService notificationService;
-	private final MoimValidator moimValidator;
 	private final MoimFinder moimFinder;
 	private final MoimWriter moimWriter;
 	private final ChatFinder chatFinder;
@@ -103,14 +101,14 @@ public class ChatService {
 	public void createLastChat(
 		long darakbangId, long moimId, LastReadChatRequest lastReadChatRequest, DarakbangMember darakbangMember
 	) {
-		moimValidator.validateMoimExists(moimId, darakbangId);
-		Chamyo chamyo = chamyoFinder.read(moimId, darakbangMember);
+		Moim moim = moimFinder.read(moimId, darakbangId);
+		Chamyo chamyo = chamyoFinder.read(moim, darakbangMember);
+
 		chamyo.updateLastChat(lastReadChatRequest.lastReadChatId());
 	}
 
 	public void openChatRoom(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimFinder.read(moimId, darakbangId);
-		chamyoValidator.validateMoimer(moim, darakbangMember);
-		moim.openChat();
+		moimWriter.openChatByMoimer(moim, darakbangMember);
 	}
 }

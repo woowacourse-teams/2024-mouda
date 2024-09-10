@@ -44,4 +44,9 @@ public class MoimWriter {
 		chamyoValidator.validateMoimer(moim, darakbangMember);
 		moim.confirmDateTime(date, time);
 	}
+
+	public void openChatByMoimer(Moim moim, DarakbangMember darakbangMember) {
+		chamyoValidator.validateMoimer(moim, darakbangMember);
+		moim.openChat();
+	}
 }

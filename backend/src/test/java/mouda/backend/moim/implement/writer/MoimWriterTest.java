@@ -99,4 +99,27 @@ class MoimWriterTest extends DarakbangSetUp {
 		assertThatThrownBy(() -> moimWriter.confirmDateTime(moim, darakbangHogee, nowDate, nowTime))
 			.isInstanceOf(ChamyoException.class);
 	}
+
+	@DisplayName("모이머는 채팅을 열 수 있다.")
+	@Test
+	void openChatRoom() {
+		Moim moim = moimRepository.save(MoimFixture.getCoffeeMoim(darakbang.getId()));
+		Chamyo chamyo = new Chamyo(moim, darakbangHogee, MoimRole.MOIMER);
+		chamyoRepository.save(chamyo);
+
+		moimWriter.openChatByMoimer(moim, darakbangHogee);
+
+		assertThat(moim.isChatOpened()).isTrue();
+	}
+
+	@DisplayName("모이머가 아니라면 채팅을 열 수 없다.")
+	@Test
+	void failToOpenChatRoomWithoutMoimer() {
+		Moim moim = moimRepository.save(MoimFixture.getCoffeeMoim(darakbang.getId()));
+		Chamyo chamyo = new Chamyo(moim, darakbangHogee, MoimRole.MOIMEE);
+		chamyoRepository.save(chamyo);
+
+		assertThatThrownBy(() -> moimWriter.openChatByMoimer(moim, darakbangHogee))
+			.isInstanceOf(ChamyoException.class);
+	}
 }
