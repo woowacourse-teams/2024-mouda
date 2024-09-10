@@ -1,4 +1,4 @@
-package mouda.backend.notification.service;
+package mouda.backend.notification.business;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
