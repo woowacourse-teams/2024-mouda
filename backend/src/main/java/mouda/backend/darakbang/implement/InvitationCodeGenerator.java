@@ -4,7 +4,11 @@ import java.security.SecureRandom;
 
 import org.springframework.stereotype.Component;
 
+import lombok.RequiredArgsConstructor;
+import mouda.backend.darakbang.inplement.DarakbangValidator;
+
 @Component
+@RequiredArgsConstructor
 public class InvitationCodeGenerator {
 
 	private static final int CODE_LENGTH = 7;
@@ -12,6 +16,7 @@ public class InvitationCodeGenerator {
 	private static final int CHAR_RANDOM_BOUND = 26;
 
 	private final SecureRandom secureRandom = new SecureRandom();
+	private final DarakbangValidator darakbangValidator;
 
 	public String generate() {
 		StringBuilder code = new StringBuilder();
@@ -23,7 +28,7 @@ public class InvitationCodeGenerator {
 				code.append(getRandomUpperAlphabet());
 			}
 		}
-
+		darakbangValidator.validateAlreadyExistsCode(code.toString());
 		return code.toString();
 	}
 

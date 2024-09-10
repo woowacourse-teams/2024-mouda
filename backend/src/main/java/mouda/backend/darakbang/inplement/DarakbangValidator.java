@@ -16,6 +16,7 @@ import mouda.backend.member.domain.Member;
 @Component
 @RequiredArgsConstructor
 public class DarakbangValidator {
+	
 	private final DarakbangRepository darakbangRepository;
 	private final DarakbangMemberRepository darakbangMemberRepository;
 
@@ -33,6 +34,12 @@ public class DarakbangValidator {
 		if (darakbangMemberRepository.existsByDarakbangIdAndMemberId(darakbang.getId(), member.getId())) {
 			throw new DarakbangMemberException(HttpStatus.BAD_REQUEST,
 				DarakbangMemberErrorMessage.MEMBER_ALREADY_EXIST);
+		}
+	}
+
+	public void validateAlreadyExistsCode(String code) {
+		if (darakbangRepository.existsByCode(code.toString())) {
+			throw new DarakbangException(HttpStatus.INTERNAL_SERVER_ERROR, DarakbangErrorMessage.CODE_ALREADY_EXIST);
 		}
 	}
 }
