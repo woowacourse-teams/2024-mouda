@@ -55,7 +55,6 @@ public class ChamyoValidator {
 		MoimRole moimRole = chamyoFinder.readMoimRole(moim, darakbangMember);
 		if (moimRole != MoimRole.MOIMEE) {
 			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.CANNOT_CANCEL_CHAMYO);
-
 		}
 	}
 
@@ -66,8 +65,8 @@ public class ChamyoValidator {
 		}
 	}
 
-	public void validateMemberChamyoMoim(Long moimId, DarakbangMember darakbangMember) {
-		if (!chamyoFinder.exists(moimId, darakbangMember)) {
+	public void validateMemberChamyoMoim(Moim moim, DarakbangMember darakbangMember) {
+		if (!chamyoFinder.exists(moim.getId(), darakbangMember)) {
 			throw new ChamyoException(HttpStatus.BAD_REQUEST, ChamyoErrorMessage.NOT_FOUND);
 		}
 	}

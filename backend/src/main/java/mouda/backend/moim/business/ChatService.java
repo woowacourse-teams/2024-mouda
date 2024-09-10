@@ -21,6 +21,7 @@ import mouda.backend.moim.implement.finder.MoimFinder;
 import mouda.backend.moim.implement.validator.ChamyoValidator;
 import mouda.backend.moim.implement.validator.MoimValidator;
 import mouda.backend.moim.implement.writer.ChatWriter;
+import mouda.backend.moim.implement.writer.MoimWriter;
 import mouda.backend.moim.presentation.request.chat.ChatCreateRequest;
 import mouda.backend.moim.presentation.request.chat.DateTimeConfirmRequest;
 import mouda.backend.moim.presentation.request.chat.LastReadChatRequest;
@@ -38,6 +39,7 @@ public class ChatService {
 	private final NotificationService notificationService;
 	private final MoimValidator moimValidator;
 	private final MoimFinder moimFinder;
+	private final MoimWriter moimWriter;
 	private final ChatFinder chatFinder;
 	private final ChatWriter chatWriter;
 	private final ChamyoValidator chamyoValidator;
@@ -46,7 +48,7 @@ public class ChatService {
 
 	public void createChat(long darakbangId, ChatCreateRequest chatCreateRequest, DarakbangMember darakbangMember) {
 		Moim moim = moimFinder.read(chatCreateRequest.moimId(), darakbangId);
-		chamyoValidator.validateMemberChamyoMoim(moim.getId(), darakbangMember);
+		chamyoValidator.validateMemberChamyoMoim(moim, darakbangMember);
 
 		Chat chat = chatCreateRequest.toEntity(moim, darakbangMember);
 		chatWriter.save(chat);
@@ -58,8 +60,8 @@ public class ChatService {
 	public ChatFindUnloadedResponse findUnloadedChats(
 		long darakbangId, long recentChatId, long moimId, DarakbangMember darakbangMember
 	) {
-		moimValidator.validateMoimExists(moimId, darakbangId);
-		chamyoValidator.validateMemberChamyoMoim(moimId, darakbangMember);
+		Moim moim = moimFinder.read(moimId, darakbangId);
+		chamyoValidator.validateMemberChamyoMoim(moim, darakbangMember);
 
 		Chats chats = chatFinder.readAllUnloadedChats(moimId, recentChatId);
 		List<ChatWithAuthor> chatWithAuthors = chats.getChatsWithAuthor(darakbangMember);
@@ -68,27 +70,25 @@ public class ChatService {
 	}
 
 	public void confirmPlace(
-		long darakbangId, PlaceConfirmRequest placeConfirmRequest, DarakbangMember darakbangMember
+		long darakbangId, PlaceConfirmRequest request, DarakbangMember darakbangMember
 	) {
-		Moim moim = moimFinder.read(placeConfirmRequest.moimId(), darakbangId);
-		chamyoValidator.validateMoimer(moim, darakbangMember);
+		Moim moim = moimFinder.read(request.moimId(), darakbangId);
+		moimWriter.confirmPlace(moim, darakbangMember, request.place());
 
-		Chat chat = placeConfirmRequest.toEntity(moim, darakbangMember);
+		Chat chat = request.toEntity(moim, darakbangMember);
 		chatWriter.save(chat);
-		moim.confirmPlace(placeConfirmRequest.place());
 
 		notificationService.notifyToMembers(NotificationType.MOIM_PLACE_CONFIRMED, darakbangId, moim, darakbangMember);
 	}
 
 	public void confirmDateTime(
-		long darakbangId, DateTimeConfirmRequest dateTimeConfirmRequest, DarakbangMember darakbangMember
+		long darakbangId, DateTimeConfirmRequest request, DarakbangMember darakbangMember
 	) {
-		Moim moim = moimFinder.read(dateTimeConfirmRequest.moimId(), darakbangId);
-		chamyoValidator.validateMoimer(moim, darakbangMember);
+		Moim moim = moimFinder.read(request.moimId(), darakbangId);
+		moimWriter.confirmDateTime(moim, darakbangMember, request.date(), request.time());
 
-		Chat chat = dateTimeConfirmRequest.toEntity(moim, darakbangMember);
+		Chat chat = request.toEntity(moim, darakbangMember);
 		chatWriter.save(chat);
-		moim.confirmDateTime(dateTimeConfirmRequest.date(), dateTimeConfirmRequest.time());
 
 		notificationService.notifyToMembers(NotificationType.MOIM_TIME_CONFIRMED, darakbangId, moim, darakbangMember);
 	}
