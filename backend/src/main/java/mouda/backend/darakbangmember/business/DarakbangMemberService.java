@@ -23,7 +23,7 @@ public class DarakbangMemberService {
 
 	@Transactional(readOnly = true)
 	public DarakbangMemberResponses findAllDarakbangMembers(Long darakbangId, DarakbangMember member) {
-		memberValidator.validateNotManger(member);
+		memberValidator.validateNotManager(member);
 		DarakbangMembers darakbangMembers = darakbangMemberFinder.findAllDarakbangMembers(darakbangId);
 
 		return DarakbangMemberResponses.toResponse(darakbangMembers);

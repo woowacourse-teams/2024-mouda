@@ -12,7 +12,7 @@ import mouda.backend.darakbangmember.exception.DarakbangMemberException;
 @RequiredArgsConstructor
 public class MemberValidator {
 
-	public void validateNotManger(DarakbangMember member) {
+	public void validateNotManager(DarakbangMember member) {
 		if (member.isNotManager()) {
 			throw new DarakbangMemberException(HttpStatus.FORBIDDEN, DarakbangMemberErrorMessage.NOT_ALLOWED_TO_READ);
 		}

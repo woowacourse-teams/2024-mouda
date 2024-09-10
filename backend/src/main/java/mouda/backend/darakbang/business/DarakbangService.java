@@ -47,7 +47,7 @@ public class DarakbangService {
 
 	@Transactional(readOnly = true)
 	public InvitationCodeResponse findInvitationCode(Long darakbangId, DarakbangMember member) {
-		memberValidator.validateNotManger(member);
+		memberValidator.validateNotManager(member);
 		Darakbang darakbang = darakbangFinder.findById(darakbangId);
 
 		return InvitationCodeResponse.toResponse(darakbang);
