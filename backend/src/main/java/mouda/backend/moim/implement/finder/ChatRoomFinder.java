@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
+import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.Chat;
 import mouda.backend.moim.domain.ChatRoom;
 import mouda.backend.moim.domain.ChatRooms;
@@ -20,13 +21,15 @@ public class ChatRoomFinder {
 
 	public ChatRooms findAllOrderByLastChat(long darakbangId, DarakbangMember darakbangMember) {
 		List<ChatRoom> chatRooms = chamyoFinder.readAllChatOpened(darakbangId, darakbangMember).stream()
-			.map(chamyo -> {
-				Chat lastChat = chatFinder.readLastChat(chamyo.getMoim().getId());
-				int currentPeople = moimFinder.countCurrentPeople(chamyo.getMoim());
-				return new ChatRoom(chamyo, lastChat, currentPeople);
-			})
+			.map(this::createChatRoom)
 			.sorted()
 			.toList();
 		return new ChatRooms(chatRooms);
+	}
+
+	private ChatRoom createChatRoom(Chamyo chamyo) {
+		Chat lastChat = chatFinder.readLastChat(chamyo.getMoim().getId());
+		int currentPeople = moimFinder.countCurrentPeople(chamyo.getMoim());
+		return new ChatRoom(chamyo, lastChat, currentPeople);
 	}
 }
