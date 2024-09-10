@@ -1,14 +1,14 @@
 package mouda.backend.member.implement;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.exception.DarakbangMemberErrorMessage;
 import mouda.backend.darakbangmember.exception.DarakbangMemberException;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class MemberValidator {
 

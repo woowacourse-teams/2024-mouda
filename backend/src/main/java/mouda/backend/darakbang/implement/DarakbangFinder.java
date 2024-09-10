@@ -3,7 +3,7 @@ package mouda.backend.darakbang.implement;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.darakbang.domain.Darakbang;
@@ -14,7 +14,7 @@ import mouda.backend.darakbang.infrastructure.DarakbangRepository;
 import mouda.backend.darakbangmember.implement.DarakbangMemberFinder;
 import mouda.backend.member.domain.Member;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class DarakbangFinder {
 
