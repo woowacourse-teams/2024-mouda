@@ -41,19 +41,10 @@ public class MoimService {
 
 	private final MoimRepository moimRepository;
 	private final ChamyoRepository chamyoRepository;
-	private final CommentRepository commentRepository;
 	private final NotificationService notificationService;
 	private final MoimWriter moimWriter;
 	private final MoimFinder moimFinder;
 	private final CommentFinder commentFinder;
-
-	public Moim createMoim(Long darakbangId, DarakbangMember darakbangMember, MoimCreateRequest moimCreateRequest) {
-		Moim moim = moimWriter.save(moimCreateRequest.toEntity(darakbangId), darakbangMember);
-
-		notificationService.notifyToMembers(NotificationType.MOIM_CREATED, darakbangId, moim, darakbangMember);
-
-		return moim;
-	}
 
 	@Transactional(readOnly = true)
 	public MoimDetailsFindResponse findMoimDetails(long darakbangId, long moimId) {
@@ -86,36 +77,12 @@ public class MoimService {
 		return MoimFindAllResponses.toResponse(moimOverviews);
 	}
 
-	public void createComment(
-		Long darakbangId, Long moimId, DarakbangMember darakbangMember, CommentCreateRequest request
-	) {
-		Moim moim = moimRepository.findById(moimId)
-			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.NOT_FOUND));
-		if (moim.isNotInDarakbang(darakbangId)) {
-			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.NOT_FOUND);
-		}
+	public Moim createMoim(Long darakbangId, DarakbangMember darakbangMember, MoimCreateRequest moimCreateRequest) {
+		Moim moim = moimWriter.save(moimCreateRequest.toEntity(darakbangId), darakbangMember);
 
-		Long parentId = request.parentId();
-		if (parentId != null && !commentRepository.existsById(parentId)) {
-			throw new CommentException(HttpStatus.BAD_REQUEST, CommentErrorMessage.PARENT_NOT_FOUND);
-		}
+		notificationService.notifyToMembers(NotificationType.MOIM_CREATED, darakbangId, moim, darakbangMember);
 
-		commentRepository.save(request.toEntity(moim, darakbangMember));
-
-		if (Objects.equals(chamyoRepository.findMoimerIdByMoimId(moimId), darakbangMember.getMemberId())) {
-			return;
-		}
-		sendCommentNotification(moim, darakbangMember, parentId, darakbangId);
-	}
-
-	private void sendCommentNotification(Moim moim, DarakbangMember author, Long parentId, Long darakbangId) {
-		if (parentId != null) {
-			Long parentCommentAuthorId = commentRepository.findMemberIdByParentId(parentId);
-			notificationService.notifyToMember(NotificationType.NEW_REPLY, darakbangId, moim, author,
-				parentCommentAuthorId);
-		}
-
-		notificationService.notifyToMembers(NotificationType.NEW_COMMENT, darakbangId, moim, author);
+		return moim;
 	}
 
 	public void completeMoim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
