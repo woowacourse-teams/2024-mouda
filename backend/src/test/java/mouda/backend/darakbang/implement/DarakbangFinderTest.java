@@ -81,5 +81,4 @@ class DarakbangFinderTest {
 
 		assertThat(darakbang).isEqualTo(wooteco);
 	}
-
 }
