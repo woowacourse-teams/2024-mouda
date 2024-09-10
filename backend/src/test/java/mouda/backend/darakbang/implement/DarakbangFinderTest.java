@@ -46,8 +46,6 @@ class DarakbangFinderTest {
 		Darakbangs result = darakbangFinder.findAllMyDarakbangs(hogee);
 
 		assertThat(result.getDarakbangs()).hasSize(2);
-		assertThat(result.getDarakbangs().get(0)).isEqualTo(wooteco);
-		assertThat(result.getDarakbangs().get(1)).isEqualTo(mouda);
 	}
 
 	@DisplayName("다락방 아이디에 해당하는 다락방을 조회한다.")

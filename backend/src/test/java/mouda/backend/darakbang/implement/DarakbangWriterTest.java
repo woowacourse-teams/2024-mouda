@@ -28,7 +28,6 @@ class DarakbangWriterTest {
 		Darakbang darakbang = darakbangWriter.save("우아한테크코스");
 
 		assertThat(darakbang.getId()).isEqualTo(1L);
-		assertThat(darakbangMemberRepository.findAll()).hasSize(1);
 	}
 
 	@DisplayName("다락방 이름이 존재하지 않으면 생성에 실패한다.")

@@ -75,6 +75,6 @@ class DarakbangValidatorTest {
 		darakbangMemberRepository.save(DarakbangMemberFixture.getDarakbangMemberWithWooteco(wooteco, hogee));
 
 		assertThatThrownBy(() -> darakbangValidator.validateAlreadyExistsCode(wooteco.getCode()))
-			.isInstanceOf(DarakbangMemberException.class);
+			.isInstanceOf(DarakbangException.class);
 	}
 }

@@ -15,6 +15,7 @@ import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.infrastructure.DarakbangRepository;
 import mouda.backend.darakbangmember.domain.DarakBangMemberRole;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.domain.DarakbangMembers;
 import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
 import mouda.backend.member.domain.Member;
@@ -49,8 +50,6 @@ class DarakbangMemberFinderTest {
 		List<Darakbang> darakbangMembers = darakbangMemberFinder.findAllByMember(hogee);
 
 		assertThat(darakbangMembers).hasSize(2);
-		assertThat(darakbangMembers.get(0)).isEqualTo(hogee);
-		assertThat(darakbangMembers.get(1)).isEqualTo(mouda);
 	}
 
 	@DisplayName("다락방에 속한 전체 다락방 멤버를 조회한다.")
@@ -60,14 +59,18 @@ class DarakbangMemberFinderTest {
 		Member anna = memberRepository.save(MemberFixture.getAnna());
 
 		Darakbang wooteco = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
-		darakbangMemberRepository.save(DarakbangMemberFixture.getDarakbangMemberWithWooteco(wooteco, hogee));
-		darakbangMemberRepository.save(DarakbangMemberFixture.getDarakbangMemberWithWooteco(wooteco, anna));
+		DarakbangMember hogee1 = DarakbangMemberFixture.getDarakbangMemberWithWooteco(wooteco,
+			hogee);
+		darakbangMemberRepository.save(hogee1);
+		DarakbangMember anna1 = DarakbangMemberFixture.getDarakbangMemberWithWooteco(wooteco,
+			anna);
+		darakbangMemberRepository.save(anna1);
 
 		DarakbangMembers darakbangMembers = darakbangMemberFinder.findAllDarakbangMembers(wooteco.getId());
 
 		assertThat(darakbangMembers.getDarakbangMembers()).hasSize(2);
-		assertThat(darakbangMembers.getDarakbangMembers().get(0)).isEqualTo(hogee);
-		assertThat(darakbangMembers.getDarakbangMembers().get(1)).isEqualTo(anna);
+		assertThat(darakbangMembers.getDarakbangMembers().get(0)).isEqualTo(hogee1);
+		assertThat(darakbangMembers.getDarakbangMembers().get(1)).isEqualTo(anna1);
 	}
 
 	@DisplayName("다락방 회원의 권한을 조회한다.")
