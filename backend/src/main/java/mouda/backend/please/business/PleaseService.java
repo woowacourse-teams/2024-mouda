@@ -38,6 +38,6 @@ public class PleaseService {
 	public PleaseFindAllResponses findAllPlease(Long darakbangId, DarakbangMember darakbangMember) {
 		PleaseWithInterests pleaseWithInterests = pleaseFinder.findPleasesDesc(darakbangId, darakbangMember);
 
-		return PleaseFindAllResponses.toResponse(pleaseWithInterests.getPleaseFindAll());
+		return PleaseFindAllResponses.toResponse(pleaseWithInterests);
 	}
 }

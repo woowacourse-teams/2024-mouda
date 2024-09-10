@@ -2,6 +2,8 @@ package mouda.backend.please.implement;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import mouda.backend.common.fixture.DarakbangSetUp;
 import mouda.backend.common.fixture.PleaseFixture;
 import mouda.backend.please.domain.Please;
+import mouda.backend.please.domain.PleaseWithInterest;
 import mouda.backend.please.domain.PleaseWithInterests;
 
 @SpringBootTest
@@ -60,8 +63,9 @@ class PleaseFinderTest extends DarakbangSetUp {
 		interestWriter.changeInterest(pleaseChicken, true, darakbangAnna);
 
 		PleaseWithInterests pleasesDesc = pleaseFinder.findPleasesDesc(darakbang.getId(), darakbangHogee);
-
-		assertThat(pleasesDesc.getPleaseFindAll()).extracting("pleaseId")
-			.containsExactly(pleaseChicken.getId(), pleaseHogee.getId(), pleasePizza.getId());
+		List<PleaseWithInterest> pleaseWithInterests = pleasesDesc.getPleaseWithInterests();
+		assertThat(pleaseWithInterests.get(0).getPlease().getId()).isEqualTo(2L);
+		assertThat(pleaseWithInterests.get(1).getPlease().getId()).isEqualTo(3L);
+		assertThat(pleaseWithInterests.get(2).getPlease().getId()).isEqualTo(1L);
 	}
 }

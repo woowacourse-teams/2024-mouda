@@ -1,7 +1,7 @@
 package mouda.backend.please.presentation.response;
 
 import lombok.Builder;
-import mouda.backend.please.domain.Please;
+import mouda.backend.please.domain.PleaseWithInterest;
 
 @Builder
 public record PleaseFindAllResponse(
@@ -11,13 +11,13 @@ public record PleaseFindAllResponse(
 	boolean isInterested,
 	long interestCount
 ) {
-	public static PleaseFindAllResponse toResponse(Please please, boolean isInterested, long interestCount) {
+	public static PleaseFindAllResponse toResponse(PleaseWithInterest pleaseWithInterest) {
 		return PleaseFindAllResponse.builder()
-			.pleaseId(please.getId())
-			.title(please.getTitle())
-			.description(please.getDescription())
-			.isInterested(isInterested)
-			.interestCount(interestCount)
+			.pleaseId(pleaseWithInterest.getPlease().getId())
+			.title(pleaseWithInterest.getPlease().getTitle())
+			.description(pleaseWithInterest.getPlease().getDescription())
+			.isInterested(pleaseWithInterest.isInterested())
+			.interestCount(pleaseWithInterest.getInterestCount())
 			.build();
 	}
 }
