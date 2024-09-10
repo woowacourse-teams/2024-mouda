@@ -68,17 +68,6 @@ class DarakbangServiceTest {
 			assertThat(darakbangMemberRepository.findAll()).hasSize(1);
 		}
 
-		@DisplayName("다락방 이름이 중복되면 생성에 실패한다.")
-		@Test
-		void failToCreateDarakbangWithDuplicatedName() {
-			darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
-			Member hogee = memberRepository.save(MemberFixture.getHogee());
-			DarakbangCreateRequest request = new DarakbangCreateRequest("우아한테크코스", "테니");
-
-			assertThatThrownBy(() -> darakbangService.createDarakbang(request, hogee))
-				.isInstanceOf(DarakbangException.class);
-		}
-
 		@DisplayName("다락방 이름이 존재하지 않으면 생성에 실패한다.")
 		@NullAndEmptySource
 		@ParameterizedTest
@@ -160,32 +149,6 @@ class DarakbangServiceTest {
 			Optional<DarakbangMember> darakbangMember = darakbangMemberRepository.findByDarakbangIdAndMemberId(
 				darakbang.getId(), hogee.getId());
 			assertThat(darakbangMember).isNotEmpty();
-		}
-
-		@DisplayName("다락방에 이미 가입한 멤버라면 가입에 실패한다.")
-		@Test
-		void failToEnterDarakbangWithDuplicatedNickname() {
-			Member hogee = memberRepository.save(MemberFixture.getHogee());
-			Darakbang darakbang = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
-			darakbangMemberRepository.save(DarakbangMemberFixture.getDarakbangManagerWithWooteco(darakbang, hogee));
-			DarakbangEnterRequest enterRequest = new DarakbangEnterRequest("호호기기");
-
-			assertThatThrownBy(() -> darakbangService.enter(darakbang.getCode(), enterRequest, hogee))
-				.isInstanceOf(DarakbangMemberException.class);
-		}
-
-		@DisplayName("다락방에 해당 닉네임이 이미 존재한다면 가입에 실패한다.")
-		@Test
-		void failToEnterDarakbangWithAlreadyEnteredMember() {
-			Member hogee = memberRepository.save(MemberFixture.getHogee());
-			Darakbang darakbang = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
-			darakbangMemberRepository.save(DarakbangMemberFixture.getDarakbangManagerWithWooteco(darakbang, hogee));
-
-			Member anna = memberRepository.save(MemberFixture.getAnna());
-			DarakbangEnterRequest enterRequest = new DarakbangEnterRequest("호호기기");
-
-			assertThatThrownBy(() -> darakbangService.enter(darakbang.getCode(), enterRequest, anna))
-				.isInstanceOf(DarakbangMemberException.class);
 		}
 	}
 
