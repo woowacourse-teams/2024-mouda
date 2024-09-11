@@ -11,16 +11,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.exception.DarakbangException;
-import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
 
 @SpringBootTest
 class DarakbangWriterTest {
 
 	@Autowired
 	private DarakbangWriter darakbangWriter;
-
-	@Autowired
-	private DarakbangMemberRepository darakbangMemberRepository;
 
 	@DisplayName("다락방을 성공적으로 생성한다.")
 	@Test
