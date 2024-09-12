@@ -1,7 +1,7 @@
 import * as S from './MoimSummary.style';
 
 import SkeletonPiece from '@_components/Skeleton/SkeletonPiece';
-import TagSkeleton from '@_components/Tag/TagSkeleton';
+import TagSkeleton from '@_pages/Moim/MoimDetailPage/components/Tag/TagSkeleton';
 
 export default function MoimSummarySkeleton() {
   return (

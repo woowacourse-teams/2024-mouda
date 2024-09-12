@@ -1,8 +1,8 @@
-import ProfileCard from '@_components/Profile/ProfileCard';
 import * as S from './ProfileList.style';
 import { Participation } from '@_types/index';
 import { useTheme } from '@emotion/react';
 import { Fragment } from 'react';
+import ProfileCard from './ProfileCard/ProfileCard';
 
 interface ProfileListProps {
   participants: Participation[];

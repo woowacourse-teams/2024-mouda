@@ -1,5 +1,5 @@
 import { Notification } from '@_types/index';
-import * as S from '@_components/NotificationCard/NotificationCard.style';
+import * as S from './NotificationCard.style';
 import { useTheme } from '@emotion/react';
 import { notificationTypeColors } from './NotificationCard.const';
 import { HTMLProps } from 'react';

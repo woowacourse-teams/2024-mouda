@@ -1,7 +1,7 @@
 import { MoimInfo } from '@_types/index';
 import * as S from './MoimSummary.style';
 import { useTheme } from '@emotion/react';
-import Tag from '@_components/Tag/Tag';
+import Tag from '@_pages/Moim/MoimDetailPage/components/Tag/Tag';
 
 interface MoimSummaryProps {
   moimInfo: Pick<MoimInfo, 'title' | 'status'>;

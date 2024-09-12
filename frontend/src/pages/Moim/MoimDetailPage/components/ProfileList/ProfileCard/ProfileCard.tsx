@@ -1,7 +1,7 @@
-import ProfileFrame from './ProfileFrame';
 import * as S from './ProfileCard.style';
 import { useTheme } from '@emotion/react';
 import { Participation } from '@_types/index';
+import ProfileFrame from '../../../../../../components/ProfileFrame/ProfileFrame';
 
 interface ProfileCardProps {
   info: Participation;

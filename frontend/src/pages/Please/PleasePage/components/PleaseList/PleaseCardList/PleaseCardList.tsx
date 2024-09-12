@@ -1,6 +1,6 @@
-import PleaseCard from '@_components/PleaseCard/PleaseCard';
 import { Please } from '@_types/index';
 import * as S from './PleaseCardList.style';
+import PleaseCard from './PleaseCard/PleaseCard';
 
 interface PleaseCardListProps {
   pleases: Please[];

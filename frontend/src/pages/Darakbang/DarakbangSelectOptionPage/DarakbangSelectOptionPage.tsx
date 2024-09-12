@@ -1,9 +1,9 @@
 import HighlightSpan from '@_components/HighlightSpan/HighlightSpan';
 import ROUTES from '@_constants/routes';
-import SelectBar from '@_components/SelectBar/SelectBar';
 import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
+import SelectBar from '../components/SelectBar/SelectBar';
 
 export default function DarakbangSelectOptionPage() {
   const navigate = useNavigate();

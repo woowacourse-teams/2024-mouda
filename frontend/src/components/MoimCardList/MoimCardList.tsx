@@ -1,7 +1,7 @@
 import * as S from './MoimCardList.style';
 
 import GET_ROUTES from '@_common/getRoutes';
-import MoimCard from '../MoimCard/MoimCard';
+import MoimCard from './MoimCard/MoimCard';
 import { MoimInfo } from '@_types/index';
 import { useNavigate } from 'react-router-dom';
 

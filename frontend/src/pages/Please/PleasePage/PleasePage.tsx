@@ -4,7 +4,7 @@ import GET_ROUTES from '@_common/getRoutes';
 import NavigationBar from '@_components/NavigationBar/NavigationBar';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
 import PleaseLayout from '@_layouts/PleaseLayout/PleaseLayout';
-import PleaseList from '@_components/PleaseList/PleaseList';
+import PleaseList from '@_pages/Please/PleasePage/components/PleaseList/PleaseList';
 import PlusButton from '@_components/PlusButton/PlusButton';
 import { common } from '@_common/common.style';
 import { useNavigate } from 'react-router-dom';

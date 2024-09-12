@@ -1,5 +1,5 @@
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
-import PleaseCardList from '@_components/PleaseCardList/PleaseCardList';
+import PleaseCardList from '@_pages/Please/PleasePage/components/PleaseList/PleaseCardList/PleaseCardList';
 import usePleases from '@_hooks/queries/usePleases';
 import PleaseCardListSkeleton from './PleaseCardListSkeleton/PleaseCardListSkeleton';
 

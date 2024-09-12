@@ -1,9 +1,9 @@
 import * as S from '@_components/MineInfoCard/MineInfoCard.style';
 
-import ProfileFrame from '@_components/Profile/ProfileFrame';
 import { common } from '@_common/common.style';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import { useTheme } from '@emotion/react';
+import ProfileFrame from '@_components/ProfileFrame/ProfileFrame';
 
 interface MineInfoCardProps {
   nickname: string;

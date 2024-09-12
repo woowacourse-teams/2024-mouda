@@ -1,5 +1,5 @@
 import * as S from '@_components/CommentCard/CommentCard.style';
-import ProfileFrame from '@_components/Profile/ProfileFrame';
+import ProfileFrame from '@_components/ProfileFrame/ProfileFrame';
 import { Comment } from '@_types/index';
 import { useTheme } from '@emotion/react';
 

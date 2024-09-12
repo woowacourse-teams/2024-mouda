@@ -1,5 +1,5 @@
-import NotificationCardSkeleton from '@_components/NotificationCard/NotificationCardSkeleton/NotificationCardSkeleton';
-import * as S from '@_components/NotificationList/NotificationList.style';
+import NotificationCardSkeleton from './NotificationCardSkeleton/NotificationCardSkeleton';
+import * as S from '@_pages/Notification/components/NotificationList/NotificationList.style';
 
 export default function NotificationListSkeleton() {
   return (

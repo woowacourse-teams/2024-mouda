@@ -4,7 +4,6 @@ import GET_ROUTES from '@_common/getRoutes';
 import HighlightSpan from '@_components/HighlightSpan/HighlightSpan';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import ROUTES from '@_constants/routes';
-import SelectBar from '@_components/SelectBar/SelectBar';
 import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
 import SolidArrow from '@_components/Icons/SolidArrow';
 import { common } from '@_common/common.style';
@@ -12,6 +11,7 @@ import { setLastDarakbangId } from '@_common/lastDarakbangManager';
 import useMyDarakbangs from '@_hooks/queries/useMyDarakbang';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
+import SelectBar from '../components/SelectBar/SelectBar';
 
 export default function DarakbangSelectPage() {
   const theme = useTheme();

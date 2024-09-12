@@ -1,5 +1,5 @@
 import { useTheme } from '@emotion/react';
-import * as S from '@_components/Zzim/ZzimButton.style';
+import * as S from '@_pages/Moim/MoimDetailPage/components/Zzim/ZzimButton.style';
 import HeartIcon from '@_components/Icons/HeartIcon';
 
 interface ZzimButtonProps {

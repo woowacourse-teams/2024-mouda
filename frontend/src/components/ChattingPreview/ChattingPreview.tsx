@@ -12,7 +12,7 @@ import {
 import ChatBubbleSvg from '@_components/Icons/ChatBubbleSvg';
 import { ChattingPreview as ChattingPreviewType } from '@_types/index';
 import POLICES from '@_constants/poclies';
-import UserPreviewList from '@_components/UserPreviewList/UserPreviewList';
+import UserPreviewList from '@_pages/Chatting/ChatPage/components/UserPreviewList/UserPreviewList';
 import { useMemo } from 'react';
 import { useTheme } from '@emotion/react';
 

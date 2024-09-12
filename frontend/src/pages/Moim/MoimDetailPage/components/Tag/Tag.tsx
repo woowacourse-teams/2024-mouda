@@ -1,4 +1,4 @@
-import * as S from '@_components/Tag/Tag.style';
+import * as S from '@_pages/Moim/MoimDetailPage/components/Tag/Tag.style';
 
 import { HTMLProps } from 'react';
 import { useTheme } from '@emotion/react';

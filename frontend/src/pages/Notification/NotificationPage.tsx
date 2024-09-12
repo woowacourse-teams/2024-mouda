@@ -1,7 +1,7 @@
 import BackLogo from '@_common/assets/back.svg';
 import GET_ROUTES from '@_common/getRoutes';
 import InformationLayout from '@_layouts/InformationLayout/InformationLayout';
-import NotificationList from '@_components/NotificationList/NotificationList';
+import NotificationList from '@_pages/Notification/components/NotificationList/NotificationList';
 import { useNavigate } from 'react-router-dom';
 import { Fragment, useEffect, useState } from 'react';
 import Modal from '@_components/Modal/Modal';
