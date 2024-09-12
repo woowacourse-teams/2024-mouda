@@ -7,7 +7,7 @@ import {
   validateTitle,
 } from './MoimModifyPage.util';
 
-import { MoimInputInfo } from '../../types';
+import { MoimInputInfo } from '../../../types';
 
 const useMoimInfoInput = (state: MoimInputInfo) => {
   const [inputData, setInputData] = useState<MoimInputInfo>({

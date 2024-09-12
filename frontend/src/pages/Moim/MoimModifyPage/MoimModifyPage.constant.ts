@@ -6,7 +6,7 @@ import {
   validateTime,
   validateTitle,
 } from './MoimModifyPage.util';
-import { MoimInputInfo } from '../../types';
+import { MoimInputInfo } from '../../../types';
 
 interface LabeledInputInfo {
   name: keyof MoimInputInfo;
