@@ -1,4 +1,4 @@
-import * as S from '@_components/CommentList/CommentCard/CommentCard.style';
+import * as S from './CommentCard.style';
 
 import { Comment } from '@_types/index';
 import { HTMLProps } from 'react';

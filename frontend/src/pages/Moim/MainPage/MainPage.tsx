@@ -1,7 +1,9 @@
 import * as S from './MainPage.style';
 
 import { Fragment, useEffect, useMemo, useState } from 'react';
-import MoimTabBar, { MainPageTab } from '@_components/MoimTabBar/MoimTabBar';
+import MoimTabBar, {
+  MainPageTab,
+} from '@_pages/Moim/MainPage/components/MoimTabBar/MoimTabBar';
 import OptionsPanel, {
   OptionsPanelOption,
 } from '@_components/OptionsPanel/OptionsPanel';

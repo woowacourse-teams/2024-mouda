@@ -1,6 +1,6 @@
 import * as S from './MyMoimListFilters.style';
 
-import MyMoimListFilterTag from '@_components/MyMoimListFilterTag/MyMoimListFilterTag';
+import MyMoimListFilterTag from '@_pages/Moim/MainPage/components/HomeMainContent/MyMoim/MyMoimListFilters/MyMoimListFilterTag/MyMoimListFilterTag';
 
 export type Filter =
   | {

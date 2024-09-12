@@ -2,13 +2,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import BackLogo from '@_common/assets/back.svg';
 import Button from '@_components/Button/Button';
-import CommentList from '@_components/CommentList/CommentList';
-import CommentListSkeleton from '@_components/CommentList/CommentListSkeleton';
 import GET_ROUTES from '@_common/getRoutes';
 import InformationLayout from '@_layouts/InformationLayout/InformationLayout';
 import KebabMenu from '@_components/KebabMenu/KebabMenu';
 import MoimDescriptionSkeleton from '@_pages/Moim/MoimDetailPage/components/MoimDescription/MoimDescriptionSkeleton';
-import MoimInformation from '@_components/MoimInformation/MoimInformation';
 import MoimSummary from '@_pages/Moim/MoimDetailPage/components/MoimSummary/MoimSummary';
 import MoimSummarySkeleton from '@_pages/Moim/MoimDetailPage/components/MoimSummary/MoimSummarySkeleton';
 import ProfileListSkeleton from '@_pages/Moim/MoimDetailPage/components/ProfileList/ProfileListSkeleton';
@@ -30,6 +27,9 @@ import useZzimMine from '@_hooks/queries/useZzimMine';
 import RefreshButton from '@_components/RefreshButton/RefreshButton';
 import ProfileList from './components/ProfileList/ProfileList';
 import MoimDescription from './components/MoimDescription/MoimDescription';
+import MoimInformation from './components/MoimInformation/MoimInformation';
+import CommentListSkeleton from './components/CommentList/CommentListSkeleton';
+import CommentList from './components/CommentList/CommentList';
 
 export default function MoimDetailPage() {
   const navigate = useNavigate();

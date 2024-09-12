@@ -1,7 +1,7 @@
-import MoimList from '@_components/MoimList/MoimList';
-import { MainPageTab } from '@_components/MoimTabBar/MoimTabBar';
-import MyMoimList from '@_components/MyMoim/MyMoim';
-import MyZzimMoimList from '@_components/MyZzimMoimList/MyZzimMoimList';
+import { MainPageTab } from '@_pages/Moim/MainPage/components/MoimTabBar/MoimTabBar';
+import MoimList from './MoimList/MoimList';
+import MyMoimList from './MyMoim/MyMoim';
+import MyZzimMoimList from './MyZzimMoimList/MyZzimMoimList';
 
 interface MoimMainContentProps {
   currentTab: MainPageTab;

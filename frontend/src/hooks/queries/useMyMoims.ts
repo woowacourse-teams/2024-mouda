@@ -1,4 +1,4 @@
-import { Filter } from '@_components/MyMoimListFilters/MyMoimListFilters';
+import { Filter } from '@_pages/Moim/MainPage/components/HomeMainContent/MyMoim/MyMoimListFilters/MyMoimListFilters';
 import QUERY_KEYS from '@_constants/queryKeys';
 import { getLastDarakbangId } from '@_common/lastDarakbangManager';
 import { getMyFilteredMoims } from '@_apis/gets';

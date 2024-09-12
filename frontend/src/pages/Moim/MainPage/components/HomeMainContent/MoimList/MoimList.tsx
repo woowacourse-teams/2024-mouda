@@ -1,7 +1,7 @@
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
-import MoimCardList from '@_components/MoimCardList/MoimCardList';
-import MoimCardListSkeleton from '@_components/MoimList/MoimCardListSkeleton/MoimCardListSkeleton';
 import useMoims from '@_hooks/queries/useMoims';
+import MoimCardListSkeleton from './MoimCardListSkeleton/MoimCardListSkeleton';
+import MoimCardList from '../MoimCardList/MoimCardList';
 
 export default function MoimList() {
   const { moims, isLoading } = useMoims();

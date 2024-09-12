@@ -1,4 +1,4 @@
-import * as S from '@_components/MineInfoCard/MineInfoCard.style';
+import * as S from './MineInfoCard.style';
 
 import { common } from '@_common/common.style';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';

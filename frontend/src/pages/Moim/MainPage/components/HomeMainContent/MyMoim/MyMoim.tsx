@@ -3,11 +3,11 @@ import * as S from './MyMoim.style';
 import { Fragment, useState } from 'react';
 import MyMoimListFilters, {
   Filter,
-} from '@_components/MyMoimListFilters/MyMoimListFilters';
+} from '@_pages/Moim/MainPage/components/HomeMainContent/MyMoim/MyMoimListFilters/MyMoimListFilters';
 
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
-import MoimCardList from '@_components/MoimCardList/MoimCardList';
 import useMyMoims from '@_hooks/queries/useMyMoims';
+import MoimCardList from '../MoimCardList/MoimCardList';
 
 const getFilterString = (filter: Filter['api']) => {
   if (filter === 'all') return '참가한 모임이 없어요';

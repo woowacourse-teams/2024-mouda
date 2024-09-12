@@ -24,7 +24,7 @@ import {
 } from './responseTypes';
 
 import ApiClient from './apiClient';
-import { Filter } from '@_components/MyMoimListFilters/MyMoimListFilters';
+import { Filter } from '@_pages/Moim/MainPage/components/HomeMainContent/MyMoim/MyMoimListFilters/MyMoimListFilters';
 import { ApiError } from '@_utils/customError/ApiError';
 
 export const getMoims = async (): Promise<MoimInfo[]> => {

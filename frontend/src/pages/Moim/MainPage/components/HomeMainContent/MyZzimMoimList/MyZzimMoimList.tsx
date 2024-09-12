@@ -1,6 +1,6 @@
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
-import MoimCardList from '@_components/MoimCardList/MoimCardList';
 import useMyZzimMoims from '@_hooks/queries/useMyZzimMoim';
+import MoimCardList from '../MoimCardList/MoimCardList';
 
 export default function MyZzimMoimList() {
   const { myZzimMoims, isLoading } = useMyZzimMoims();
