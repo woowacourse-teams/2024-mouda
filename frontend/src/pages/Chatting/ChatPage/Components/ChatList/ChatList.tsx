@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 
-import Chat from '@_pages/Chatting/ChatPage/Components/Chat/Chat';
-import { ChatChildren } from '@_pages/Chatting/ChatPage/Components/ChatBubble/ChatChildren/ChatChildren';
+import Chat from '@_pages/Chatting/ChatPage/components/Chat/Chat';
+import { ChatChildren } from '@_pages/Chatting/ChatPage/components/ChatBubble/ChatChildren/ChatChildren';
 import { Chat as ChatType } from '@_types/index';
 import { list } from './ChatList.style';
 import { useTheme } from '@emotion/react';

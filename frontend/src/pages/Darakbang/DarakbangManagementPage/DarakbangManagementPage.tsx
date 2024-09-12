@@ -1,8 +1,8 @@
 import GET_ROUTES from '@_common/getRoutes';
-import MenuItem from '@_components/MenuItem/MenuItem';
 import SolidArrow from '@_components/Icons/SolidArrow';
 import TriSectionHeader from '@_layouts/components/TriSectionHeader/TriSectionHeader';
 import { useNavigate } from 'react-router-dom';
+import MenuItem from './components/MenuItem/MenuItem';
 
 export default function DarakbangManagementPage() {
   const navigate = useNavigate();

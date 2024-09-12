@@ -1,11 +1,5 @@
 import { ChangeEvent, useRef, useState } from 'react';
-import {
-  footer,
-  menuButton,
-  messageForm,
-  messageTextArea,
-  sendingButton,
-} from './ChattingFooter.style';
+import * as S from './ChattingFooter.style';
 
 import POLICES from '@_constants/poclies';
 import Plus from '@_common/assets/plus.svg';
@@ -28,11 +22,11 @@ export default function ChattingFooter(props: ChattingFooterProps) {
   const textArea = useRef<HTMLTextAreaElement | null>(null);
 
   return (
-    <div css={footer({ theme })}>
+    <div css={S.footer({ theme })}>
       {/* TODO: 현재 Button이 유연하지 않아 html 태그를 사용
          필요한 점: 테마 적용(백그라운드 컬러 설정 어려움)+disabled를 optional로 주기 */}
       <button
-        css={menuButton({ theme })}
+        css={S.menuButton({ theme })}
         onClick={() => {
           onMenuClick();
           setIsMenuClicked(!isMenuClicked);
@@ -41,9 +35,9 @@ export default function ChattingFooter(props: ChattingFooterProps) {
         {isMenuClicked ? <X /> : <Plus />}
       </button>
 
-      <div css={messageForm({ theme })}>
+      <div css={S.messageForm({ theme })}>
         <textarea
-          css={messageTextArea({ theme })}
+          css={S.messageTextArea({ theme })}
           placeholder="메시지를 입력하세요"
           maxLength={POLICES.maxMessageLength}
           onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
@@ -54,7 +48,7 @@ export default function ChattingFooter(props: ChattingFooterProps) {
           ref={textArea}
         />
         <button
-          css={[sendingButton, common.nonScroll]}
+          css={[S.sendingButton, common.nonScroll]}
           disabled={message === ''}
           onClick={(e) => {
             e.preventDefault();

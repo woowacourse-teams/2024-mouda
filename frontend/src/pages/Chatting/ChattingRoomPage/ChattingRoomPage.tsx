@@ -3,12 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import Back from '@_common/assets/back.svg';
 import CalenderClock from '@_components/Icons/CalenderClock';
-import ChatBottomMenu from '@_pages/Chatting/ChatPage/Components/ChatBottomMenu/ChatBottomMenu';
-import ChatList from '@_pages/Chatting/ChatPage/Components/ChatList/ChatList';
-import ChatMenuItem from '@_pages/Chatting/ChatPage/Components/ChatMenuItem/ChatMenuItem';
-import ChattingFooter from '@_pages/Chatting/ChatPage/Components/ChattingFooter/ChattingFooter';
-import ChattingRoomLayout from '@_layouts/ChattingRoomLayout/ChattingRoomLayout';
-import DateTimeModalContent from '../ChatPage/Components/DateTimeModalContent/DateTimeModalContent';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import Modal from '@_components/Modal/Modal';
 import Picker from '@_components/Icons/Picker';
@@ -20,6 +14,12 @@ import useMoims from '@_hooks/queries/useMoims';
 import useSendMessage from '@_hooks/mutaions/useSendMessage';
 import { useTheme } from '@emotion/react';
 import PlaceModalContent from './components/PlaceModalContent/PlaceModalContent';
+import DateTimeModalContent from '../ChatPage/components/DateTimeModalContent/DateTimeModalContent';
+import ChatBottomMenu from '../ChatPage/components/ChatBottomMenu/ChatBottomMenu';
+import ChattingRoomLayout from '@_layouts/ChattingRoomLayout/ChattingRoomLayout';
+import ChatMenuItem from '../ChatPage/components/ChatMenuItem/ChatMenuItem';
+import ChatList from '../ChatPage/components/ChatList/ChatList';
+import ChattingFooter from '../ChatPage/components/ChattingFooter/ChattingFooter';
 
 type ModalContent = 'place' | 'datetime';
 
