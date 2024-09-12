@@ -1,4 +1,3 @@
-import BackArrowButton from '@_components/BackArrowButton/BackArrowButton';
 import FunnelStepIndicator from '@_components/Funnel/FunnelStepIndicator/FunnelStepIndicator';
 import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
 import TitleStep from './components/Steps/TitleStep';
@@ -6,8 +5,9 @@ import PlaceStep from './components/Steps/PlaceStep';
 import DateAndTimeStep from './components/Steps/DateAndTimeStep';
 import MaxPeopleStep from './components/Steps/MaxPeopleStep';
 import DescriptionStep from './components/Steps/DescriptionStep';
-import useMoimCreationForm from './MoimCreationPage.hook';
 import useFunnel from '@_hooks/useFunnel';
+import useMoimCreationForm from './MoimCreationPage.hook';
+import BackArrowButton from '@_components/Icons/BackArrowButton/BackArrowButton';
 
 export type MoimCreationStep =
   | '이름입력'
