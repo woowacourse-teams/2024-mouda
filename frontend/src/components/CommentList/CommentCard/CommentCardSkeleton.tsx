@@ -1,4 +1,4 @@
-import * as S from '@_components/CommentCard/CommentCard.style';
+import * as S from '@_components/CommentList/CommentCard/CommentCard.style';
 
 import SkeletonPiece from '@_components/Skeleton/SkeletonPiece';
 import { useTheme } from '@emotion/react';

@@ -1,4 +1,5 @@
-import ChattingPreview from '@_components/ChattingPreview/ChattingPreview';
+import ChatCardListSkeleton from './ChatListSkeleton/ChatCardListSkeleton';
+import ChattingPreview from '../ChattingRoomPage/ChattingPreview/ChattingPreview';
 import ChattingPreviewLayout from '@_layouts/ChattingPreviewLayout/ChattingPreviewLayout';
 import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
 import GET_ROUTES from '@_common/getRoutes';
@@ -10,7 +11,6 @@ import useChatPreviews from '@_hooks/queries/useChatPreiview';
 import { useNavigate } from 'react-router-dom';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import { useTheme } from '@emotion/react';
-import ChatCardListSkeleton from './ChatListSkeleton/ChatCardListSkeleton';
 
 export default function ChatPage() {
   const theme = useTheme();

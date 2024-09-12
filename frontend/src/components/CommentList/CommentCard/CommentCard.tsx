@@ -1,9 +1,9 @@
-import * as S from '@_components/CommentCard/CommentCard.style';
-import ProfileFrame from '@_components/Profile/ProfileFrame';
-import { Comment } from '@_types/index';
-import { useTheme } from '@emotion/react';
+import * as S from '@_components/CommentList/CommentCard/CommentCard.style';
 
+import { Comment } from '@_types/index';
 import { HTMLProps } from 'react';
+import ProfileFrame from '@_components/Profile/ProfileFrame';
+import { useTheme } from '@emotion/react';
 
 export interface CommentCardProps extends HTMLProps<HTMLDivElement> {
   comment: Comment;

@@ -3,12 +3,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import Back from '@_common/assets/back.svg';
 import CalenderClock from '@_components/Icons/CalenderClock';
-import ChatBottomMenu from '@_components/ChatBottomMenu/ChatBottomMenu';
-import ChatList from '@_components/ChatList/ChatList';
-import ChatMenuItem from '@_components/ChatMenuItem/ChatMenuItem';
-import ChattingFooter from '@_components/ChattingFooter/ChattingFooter';
+import ChatBottomMenu from '@_pages/Chatting/ChatPage/Components/ChatBottomMenu/ChatBottomMenu';
+import ChatList from '@_pages/Chatting/ChatPage/Components/ChatList/ChatList';
+import ChatMenuItem from '@_pages/Chatting/ChatPage/Components/ChatMenuItem/ChatMenuItem';
+import ChattingFooter from '@_pages/Chatting/ChatPage/Components/ChattingFooter/ChattingFooter';
 import ChattingRoomLayout from '@_layouts/ChattingRoomLayout/ChattingRoomLayout';
-import DateTimeModalContent from '@_components/DateTimeModalContent/DateTimeModalContent';
+import DateTimeModalContent from '../ChatPage/Components/DateTimeModalContent/DateTimeModalContent';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import Modal from '@_components/Modal/Modal';
 import Picker from '@_components/Icons/Picker';

@@ -10,15 +10,18 @@ import {
   setLastDarakbangId,
 } from '@_common/lastDarakbangManager';
 
+import Button from '@_components/Button/Button';
 import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
 import GET_ROUTES from '@_common/getRoutes';
 import HomeLayout from '@_layouts/HomeLayout.tsx/HomeLayout';
-import HomeMainContent from '@_components/HomeMainContent/HomeMainContent';
+import HomeMainContent from './components/HomeMainContent/HomeMainContent';
+import Modal from '@_components/Modal/Modal';
 import NavigationBar from '@_components/NavigationBar/NavigationBar';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
 import Notification from '@_common/assets/notification.svg';
 import PlusButton from '@_components/PlusButton/PlusButton';
 import ROUTES from '@_constants/routes';
+import RefreshButton from '@_components/RefreshButton/RefreshButton';
 import SolidArrow from '@_components/Icons/SolidArrow';
 import { common } from '@_common/common.style';
 import { removeToken } from '@_utils/tokenManager';
@@ -28,10 +31,7 @@ import useMyRoleInDarakbang from '@_hooks/queries/useMyDarakbangRole';
 import { useNavigate } from 'react-router-dom';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import useServeToken from '@_hooks/mutaions/useServeToken';
-import Modal from '@_components/Modal/Modal';
 import { useTheme } from '@emotion/react';
-import Button from '@_components/Button/Button';
-import RefreshButton from '@_components/RefreshButton/RefreshButton';
 
 export default function MainPage() {
   const navigate = useNavigate();

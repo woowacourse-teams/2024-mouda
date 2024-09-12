@@ -1,5 +1,6 @@
-import BackArrowIcon from '@_components/Icons/BackArrowIcon';
 import * as S from './BackArrowButton.style';
+
+import BackArrowIcon from '@_components/Icons/BackArrowIcon';
 
 interface BackArrowButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {}

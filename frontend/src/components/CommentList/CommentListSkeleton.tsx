@@ -1,6 +1,6 @@
 import * as S from '@_components/CommentList/ComentList.style';
 
-import CommentCardSkeleton from '@_components/CommentCard/CommentCardSkeleton';
+import CommentCardSkeleton from '@_components/CommentList/CommentCard/CommentCardSkeleton';
 import MessageInput from '@_components/Input/MessagInput/MessageInput';
 
 export default function CommentListSkeleton() {

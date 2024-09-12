@@ -1,9 +1,11 @@
-import CommentCard from '@_components/CommentCard/CommentCard';
 import * as S from '@_components/CommentList/ComentList.style';
+
+import { HTMLProps, useState } from 'react';
+
+import { Comment } from '@_types/index';
+import CommentCard from '@_components/CommentList/CommentCard/CommentCard';
 import MessageInput from '@_components/Input/MessagInput/MessageInput';
 import useWriteComment from '@_hooks/mutaions/useWriteComment';
-import { Comment } from '@_types/index';
-import { HTMLProps, useState } from 'react';
 
 interface CommentListProps extends HTMLProps<HTMLDivElement> {
   moimId: number;
