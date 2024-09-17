@@ -1,0 +1,25 @@
+name: check-nginx-log
+
+on:
+  push:
+    branches:
+      - check-nginx-log
+
+jobs:
+  check-log:
+    runs-on: prod
+
+    steps:
+      - name: check nginx access log
+        run: |
+          echo "Checking nginx access log"
+          cat /var/log/nginx/access.log
+          echo "Check complete"
+
+      - name: check nginx error log
+        run: |
+          echo "Checking nginx error log"
+          cat /var/log/nginx/error.log
+          echo "Check complete"
+          
+  
