@@ -2,8 +2,6 @@
   "preset": "ts-jest",
   "testEnvironment": "jest-environment-jsdom",
 
-
-  
   "moduleNameMapper": {
     "^@_apis/(.*)$": "<rootDir>/src/apis/$1",
     "^@_constants/(.*)$": "<rootDir>/src/constants/$1",
