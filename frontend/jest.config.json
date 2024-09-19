@@ -19,9 +19,5 @@
     "customExportConditions": [""]
   },
   "setupFiles": ["dotenv/config", "./jest.polyfills.js"],
-  "setupFilesAfterEnv": ["<rootDir>/jest.setup.ts"],
-  "transformIgnorePatterns": [
-    "/node_modules/",
-    "<rootDir>/dist/"
-  ]
+  "setupFilesAfterEnv": ["<rootDir>/jest.setup.ts"]
 }

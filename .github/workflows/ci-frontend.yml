@@ -27,7 +27,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "20.15.0"
+          node-version: '20.15.0'
 
       - name: Install Dependencies
         # run: npm install --frozen-lockfile
@@ -39,6 +39,9 @@ jobs:
           echo "REACT_APP_GOOGLE_ANALYTICS=${{ secrets.REACT_APP_GOOGLE_ANALYTICS }}" >> .env
           echo "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}" >> .env
           echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env
+
+      - name: Clear cache
+        run: npx jest --clearCache
 
       - name: Run tests
         run: npm run test
