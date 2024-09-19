@@ -18,20 +18,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # - name: Check Caching
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: ~/.npm
-      #     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+      - name: Check Caching
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.15.0'
+          node-version: "20.15.0"
 
       - name: Install Dependencies
         run: npm install --frozen-lockfile
-        # run: npm i
 
       - name: Create .env file
         run: |
@@ -44,7 +43,6 @@ jobs:
         run: npx jest --clearCache
 
       - name: Run tests
-        # run: npm test -- --config jest.config.json
         run: npm run test
 
       - name: Run linter
