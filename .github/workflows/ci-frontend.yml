@@ -30,8 +30,8 @@ jobs:
           node-version: '20.15.0'
 
       - name: Install Dependencies
-        # run: npm install --frozen-lockfile
-        run: npm ci
+        run: npm install --frozen-lockfile
+        # run: npm i
 
       - name: Create .env file
         run: |
@@ -44,7 +44,8 @@ jobs:
         run: npx jest --clearCache
 
       - name: Run tests
-        run: npm test -- --config jest.config.json
+        # run: npm test -- --config jest.config.json
+        run: npm run test
 
       - name: Run linter
         run: npm run lint
