@@ -8,7 +8,7 @@
     "strict": true,
     "sourceMap": true,
     "removeComments": true,
-    "noEmitOnError": true,
+    "noEmitOnError": false,
     "skipLibCheck": true,
     "allowJs": true,
     "esModuleInterop": true,
