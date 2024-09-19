@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Chat } from '@_types/index';
-import ChatList from '@_components/ChatList/ChatList';
-import ChattingFooter from '@_components/ChattingFooter/ChattingFooter';
+import ChatList from '@_pages/Chatting/ChatPage/components/ChatList/ChatList';
+import ChattingFooter from '@_pages/Chatting/ChatPage/components/ChattingFooter/ChattingFooter';
 import ChattingRoomLayout from './ChattingRoomLayout';
 
 const meta: Meta<typeof ChattingRoomLayout> = {

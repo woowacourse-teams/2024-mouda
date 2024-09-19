@@ -1,12 +1,12 @@
 import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
 import InformationLayout from '@_layouts/InformationLayout/InformationLayout';
-import MineInfoCard from '@_components/MineInfoCard/MineInfoCard';
 import NavigationBar from '@_components/NavigationBar/NavigationBar';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
 import { common } from '@_common/common.style';
 import useMyInfo from '@_hooks/queries/useMyInfo';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import { useTheme } from '@emotion/react';
+import MineInfoCard from './components/MineInfoCard/MineInfoCard';
 
 export default function MyPage() {
   const { myInfo, isLoading } = useMyInfo();
