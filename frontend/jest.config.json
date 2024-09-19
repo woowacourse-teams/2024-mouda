@@ -3,9 +3,12 @@
   "testEnvironment": "jest-environment-jsdom",
 
   "transform": {
-    "^.+\\.(ts|tsx)$": ["ts-jest", {
-      "tsconfig": "tsconfig.jest.json"
-    }]
+    "^.+\\.(ts|tsx)$": [
+      "ts-jest",
+      {
+        "tsconfig": "tsconfig.jest.json"
+      }
+    ]
   },
 
   "moduleNameMapper": {
@@ -28,10 +31,5 @@
 
   "setupFiles": ["dotenv/config", "./jest.polyfills.js"],
 
-  "setupFilesAfterEnv": ["<rootDir>/jest.setup.ts"],
-
-  "transformIgnorePatterns": [
-    "/node_modules/",
-    "<rootDir>/dist/"
-  ]
+  "setupFilesAfterEnv": ["<rootDir>/jest.setup.ts"]
 }
