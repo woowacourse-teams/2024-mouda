@@ -1,8 +1,6 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "noEmit": true, // 파일을 생성하지 않음
-    "isolatedModules": true, // 모듈을 개별적으로 처리
     "noEmitOnError": false
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "jest.setup.ts"],
