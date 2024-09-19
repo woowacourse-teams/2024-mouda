@@ -31,7 +31,7 @@ jobs:
 
       - name: Install Dependencies
         # run: npm install --frozen-lockfile
-        run: npm install
+        run: npm ci
 
       - name: Create .env file
         run: |
@@ -41,7 +41,7 @@ jobs:
           echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env
 
       - name: Run tests
-        run: npm run test
+        run: npm test -- --config jest.config.json
 
       - name: Run linter
         run: npm run lint
