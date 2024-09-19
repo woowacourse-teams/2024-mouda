@@ -33,7 +33,8 @@
       "@_routes/*": ["src/routes/*"],
       "@_mocks/*": ["src/mocks/*"],
       "@_service/*": ["src/service/*"]
-    }
+    },
+    "outDir": "./dist"
   },
   "ts-node": {
     "files": true
