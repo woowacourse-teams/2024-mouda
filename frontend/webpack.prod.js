@@ -3,6 +3,8 @@ const common = require('./webpack.common.js');
 const { sentryWebpackPlugin } = require('@sentry/webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const BundleAnalyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = merge(common, {
   mode: 'production',
@@ -53,5 +55,6 @@ module.exports = merge(common, {
         { from: 'public', to: '' }, // public 폴더의 모든 파일을 dist 폴더의 루트로 복사
       ],
     }),
+    new BundleAnalyzerPlugin(),
   ],
 });
