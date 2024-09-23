@@ -6,12 +6,14 @@ import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/Navi
 import { common } from '@_common/common.style';
 import useMyInfo from '@_hooks/queries/useMyInfo';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
-import { useTheme } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 
 export default function MyPage() {
   const { myInfo, isLoading } = useMyInfo();
-  const theme = useTheme();
   const { darakbangName } = useNowDarakbangName();
+
+  const theme = useTheme();
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -29,10 +31,37 @@ export default function MyPage() {
         </InformationLayout.Header.Left>
       </InformationLayout.Header>
       <InformationLayout.ContentContainer>
-        <MineInfoCard
-          nickname={myInfo.nickname}
-          profile={myInfo.profile}
-        ></MineInfoCard>
+        <MineInfoCard nickname={myInfo.nickname} profile={myInfo.profile} />
+        <div
+          css={css`
+            display: flex;
+            gap: 10px;
+            justify-content: end;
+          `}
+        >
+          <button
+            onClick={() => alert('TODO: 로그아웃')}
+            css={css`
+              ${theme.typography.b2}
+              background: none;
+              border: 1px solid ${theme.colorPalette.grey[200]};
+              border-radius: 4px;
+            `}
+          >
+            로그아웃
+          </button>
+          <button
+            onClick={() => alert('TODO: 회원탈퇴')}
+            css={css`
+              ${theme.typography.b2}
+              background: none;
+              border: 1px solid ${theme.colorPalette.grey[200]};
+              border-radius: 4px;
+            `}
+          >
+            회원탈퇴
+          </button>
+        </div>
       </InformationLayout.ContentContainer>
       <NavigationBarWrapper>
         <NavigationBar />
