@@ -37,7 +37,7 @@ public class JwtProvider {
 
 		return Jwts.builder()
 			.claim("id", member.getId())
-			.claim("kakaoId", member.getKakaoId())
+			.claim("socialLoginId", member.getSocialLoginId())
 			.setIssuedAt(now)
 			.setExpiration(validity)
 			.signWith(SignatureAlgorithm.HS256, secretKey)
@@ -47,11 +47,6 @@ public class JwtProvider {
 	public long extractMemberId(String token) {
 		Claims claims = getPayload(token);
 		return claims.get("id", Long.class);
-	}
-
-	public String extractNickname(String token) {
-		Claims claims = getPayload(token);
-		return claims.get("nickname", String.class);
 	}
 
 	public Claims getPayload(String token) {
