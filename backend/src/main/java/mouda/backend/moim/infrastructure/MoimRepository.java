@@ -26,4 +26,7 @@ public interface MoimRepository extends JpaRepository<Moim, Long> {
 			ORDER BY m.id DESC
 		""")
 	List<Moim> findAllByDarakbangIdOrderByIdDesc(@Param("darakbangId") Long darakbangId);
+
+	List<Moim> findAllByDarakbangId(Long darakbangId);
+
 }

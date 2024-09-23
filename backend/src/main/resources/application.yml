@@ -1,10 +1,27 @@
 server:
   forward-headers-strategy: native
 
+#spring:
+#  profiles:
+#    active:
+#      - local
 spring:
-  profiles:
-    active:
-      - local
+  application:
+    name: backend
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mouda?serverTimezone=Asia/Seoul
+    username: root
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: none
+    defer-datasource-initialization: true
 
 security:
   jwt:
@@ -15,3 +32,8 @@ url:
   moim: /darakbang/%d/moim/%d
   chat: /darakbang/%d/chat/%d
   chatroom: /darakbang/%d/chatting-room/%d
+  base: http://localhost:8081
+
+oauth:
+  kakao:
+    redirect-uri: http://localhost:8081/kakao-o-auth
