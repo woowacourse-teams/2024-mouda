@@ -8,13 +8,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.auth.exception.AuthErrorMessage;
+import mouda.backend.auth.exception.AuthException;
+import mouda.backend.darakbang.infrastructure.DarakbangRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.darakbangmember.presentation.response.DarakbangMemberResponse;
-import mouda.backend.darakbangmember.presentation.response.DarakbangMemberResponses;
-import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRoleResponse;
 import mouda.backend.darakbangmember.exception.DarakbangMemberErrorMessage;
 import mouda.backend.darakbangmember.exception.DarakbangMemberException;
 import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
+import mouda.backend.darakbangmember.presentation.response.DarakbangMemberResponse;
+import mouda.backend.darakbangmember.presentation.response.DarakbangMemberResponses;
+import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRoleResponse;
 import mouda.backend.member.domain.Member;
 
 @Service
@@ -22,6 +25,7 @@ import mouda.backend.member.domain.Member;
 @RequiredArgsConstructor
 public class DarakbangMemberService {
 
+	private final DarakbangRepository darakbangRepository;
 	private final DarakbangMemberRepository darakbangMemberRepository;
 
 	@Transactional(readOnly = true)
@@ -48,5 +52,15 @@ public class DarakbangMemberService {
 			return DarakbangMemberRoleResponse.toResponse(darakbangMember.getRole());
 		}
 		return DarakbangMemberRoleResponse.toResponse();
+	}
+
+	public DarakbangMember findDarakbangMember(long darakbangId, Member member) {
+		darakbangRepository.findById(darakbangId)
+			.orElseThrow(
+				() -> new DarakbangMemberException(HttpStatus.NOT_FOUND,
+					DarakbangMemberErrorMessage.DARAKBANG_NOT_FOUND));
+
+		return darakbangMemberRepository.findByDarakbangIdAndMemberId(darakbangId, member.getId())
+			.orElseThrow(() -> new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.DARAKBANG_NOT_ENTERED));
 	}
 }

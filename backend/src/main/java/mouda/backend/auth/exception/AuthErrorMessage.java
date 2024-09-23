@@ -16,7 +16,6 @@ public enum AuthErrorMessage {
 	INVALID_KAKAO_TOKEN("유효하지 않은 토큰 입니다."),
 	EXPIRED_TOKEN("만료된 토큰입니다."),
 	KAKAO_CONNECT_TIMEOUT("커넥션 타임아웃 되었습니다."),
-	DARAKBANG_NOT_FOUND("다락방이 존재하지 않습니다."),
 	DARAKBANG_NOT_ENTERED("가입한 다락방이 아닙니다.");
 
 	private final String message;
