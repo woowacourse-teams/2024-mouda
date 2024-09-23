@@ -9,10 +9,9 @@ import org.springframework.web.client.RestClient;
 public class RestClientConfig {
 
 	@Bean
-	public RestClient kakaoOauthRestClient() {
+	public RestClient oauthRestClient() {
 		return RestClient.builder()
 			.requestFactory(getClientHttpRequestFactory())
-			.baseUrl("https://kauth.kakao.com")
 			.build();
 	}
 
