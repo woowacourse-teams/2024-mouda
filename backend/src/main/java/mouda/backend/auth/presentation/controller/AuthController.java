@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.aop.logging.ExceptRequestLogging;
-import mouda.backend.auth.business.AuthService;
+import mouda.backend.auth.business.KakaoAuthService;
 import mouda.backend.auth.presentation.controller.swagger.AuthSwagger;
 import mouda.backend.auth.presentation.request.OauthRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
@@ -19,7 +19,7 @@ import mouda.backend.common.response.RestResponse;
 @RequiredArgsConstructor
 public class AuthController implements AuthSwagger {
 
-	private final AuthService authService;
+	private final KakaoAuthService authService;
 
 	@Override
 	@PostMapping("/kakao/oauth")
