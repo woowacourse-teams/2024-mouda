@@ -8,6 +8,7 @@ import { Navigate } from 'react-router-dom';
 import ROUTES from '@_constants/routes';
 import { getLastDarakbangId } from '@_common/lastDarakbangManager';
 import { getToken } from '@_utils/tokenManager';
+import AppleOAuthIcon from '@_components/Icons/AppleOAuthIcon';
 
 export default function HomePage() {
   const theme = useTheme();
@@ -49,6 +50,8 @@ export default function HomePage() {
     }
   };
 
+  const appleAuthLogin = () => {};
+
   return (
     <LoginLayout>
       <LoginLayout.Main>
@@ -74,6 +77,15 @@ export default function HomePage() {
         </div>
       </LoginLayout.Main>
       <LoginLayout.Footer>
+        <button
+          css={{
+            background: 'none',
+            border: 'none',
+          }}
+          onClick={appleAuthLogin}
+        >
+          <AppleOAuthIcon />
+        </button>
         <button
           css={{
             background: 'none',
