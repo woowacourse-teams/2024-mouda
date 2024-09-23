@@ -12,7 +12,7 @@ import mouda.backend.common.response.RestResponse;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.member.business.MemberService;
 import mouda.backend.member.presentation.controller.swagger.MemberSwagger;
-import mouda.backend.member.presentation.response.MemberFindResponse;
+import mouda.backend.member.presentation.response.MemberInfoResponse;
 
 @RestController
 @RequestMapping("/v1/darakbang/{darakbangId}/member")
@@ -23,12 +23,12 @@ public class MemberController implements MemberSwagger {
 
 	@Override
 	@GetMapping("/mine")
-	public ResponseEntity<RestResponse<MemberFindResponse>> findMyInfo(
+	public ResponseEntity<RestResponse<MemberInfoResponse>> findMyInfo(
 		@PathVariable Long darakbangId,
 		@LoginDarakbangMember DarakbangMember member
 	) {
-		MemberFindResponse memberFindResponse = memberService.findMyInfo(member);
+		MemberInfoResponse memberInfoResponse = memberService.findMyInfo(member);
 
-		return ResponseEntity.ok().body(new RestResponse<>(memberFindResponse));
+		return ResponseEntity.ok().body(new RestResponse<>(memberInfoResponse));
 	}
 }

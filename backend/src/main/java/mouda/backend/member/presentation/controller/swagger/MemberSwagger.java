@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import mouda.backend.common.config.argumentresolver.LoginDarakbangMember;
 import mouda.backend.common.response.RestResponse;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.member.presentation.response.MemberFindResponse;
+import mouda.backend.member.presentation.response.MemberInfoResponse;
 
 public interface MemberSwagger {
 
@@ -17,7 +17,7 @@ public interface MemberSwagger {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "조회 성공!"),
 	})
-	ResponseEntity<RestResponse<MemberFindResponse>> findMyInfo(
+	ResponseEntity<RestResponse<MemberInfoResponse>> findMyInfo(
 		@PathVariable Long darakbangId,
 		@LoginDarakbangMember DarakbangMember member
 	);
