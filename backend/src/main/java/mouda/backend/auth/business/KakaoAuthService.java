@@ -13,7 +13,9 @@ import mouda.backend.auth.presentation.request.OauthRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
 import mouda.backend.auth.util.JwtProvider;
 import mouda.backend.auth.util.TokenDecoder;
+import mouda.backend.member.domain.LoginDetail;
 import mouda.backend.member.domain.Member;
+import mouda.backend.member.domain.OauthType;
 import mouda.backend.member.infrastructure.MemberRepository;
 
 @Service
@@ -35,14 +37,14 @@ public class KakaoAuthService implements AuthService {
 	}
 
 	private LoginResponse processLogin(Long kakaoId) {
-		return memberRepository.findByKakaoId(kakaoId)
+		return memberRepository.findByLoginDetail_SocialLoginId(kakaoId)
 			.map(member -> {
 				String token = jwtProvider.createToken(member);
 				return new LoginResponse(token);
 			})
 			.orElseGet(() -> {
 				Member newMember = Member.builder()
-					.kakaoId(kakaoId)
+					.loginDetail(new LoginDetail(OauthType.KAKAO, kakaoId))
 					.build();
 				memberRepository.save(newMember);
 				String token = jwtProvider.createToken(newMember);
@@ -64,7 +66,7 @@ public class KakaoAuthService implements AuthService {
 	}
 
 	public LoginResponse basicLogin() {
-		Member member = new Member("nickname", 1L);
+		Member member = new Member("nickname", new LoginDetail(OauthType.KAKAO, 1L));
 		memberRepository.save(member);
 		return new LoginResponse(jwtProvider.createToken(member));
 	}

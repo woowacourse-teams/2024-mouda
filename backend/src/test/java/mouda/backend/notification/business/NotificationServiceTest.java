@@ -14,7 +14,9 @@ import mouda.backend.darakbang.infrastructure.DarakbangRepository;
 import mouda.backend.darakbangmember.domain.DarakBangMemberRole;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
+import mouda.backend.member.domain.LoginDetail;
 import mouda.backend.member.domain.Member;
+import mouda.backend.member.domain.OauthType;
 import mouda.backend.member.infrastructure.MemberRepository;
 import mouda.backend.notification.domain.MemberNotification;
 import mouda.backend.notification.domain.MoudaNotification;
@@ -67,7 +69,7 @@ class NotificationServiceTest {
 			.build());
 
 		Member member = memberRepository.save(Member.builder()
-			.kakaoId(1234L)
+			.loginDetail(new LoginDetail(OauthType.KAKAO, 1234L))
 			.build());
 
 		DarakbangMember darakbangMember = darakbangMemberRepository.save(DarakbangMember.builder()

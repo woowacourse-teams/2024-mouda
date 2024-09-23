@@ -48,7 +48,7 @@ public class Member {
 	}
 
 	public Long getSocialLoginId() {
-		return loginDetail.getSocialLoinId();
+		return loginDetail.getSocialLoginId();
 	}
 
 	@Override
