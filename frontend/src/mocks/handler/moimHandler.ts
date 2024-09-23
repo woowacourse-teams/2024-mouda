@@ -282,4 +282,11 @@ export const moimHandler = [
       },
     });
   }),
+  http.get(API_URL.kakaoOAuth, () => {
+    return HttpResponse.json({
+      data: {
+        accessToken: 1,
+      },
+    });
+  }),
 ];

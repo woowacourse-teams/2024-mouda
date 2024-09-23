@@ -24,7 +24,9 @@ const API_URL = {
   interest: addBaseUrl('/interest', true),
   please: addBaseUrl('/please', true),
   notification: addBaseUrl('/notification', true),
+  kakaoOAuth: addBaseUrl('/auth/kakao/oauth', false),
 };
+
 const ENDPOINTS = {
   moim: 'moim',
   moims: 'moim',
