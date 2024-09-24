@@ -24,6 +24,10 @@ public class NoTransactionExtension implements BeforeEachCallback {
 	}
 
 	private static void validateTransactionalAnnotationExists(ExtensionContext extensionContext) {
+		if (TestContextAnnotationUtils.hasAnnotation(extensionContext.getRequiredTestClass(), WithTransactionalTest.class)) {
+			return;
+		}
+
 		if (TestContextAnnotationUtils.hasAnnotation(extensionContext.getRequiredTestClass(), Transactional.class) ||
 			TestContextAnnotationUtils.hasAnnotation(extensionContext.getRequiredTestClass(),
 				jakarta.transaction.Transactional.class)) {
