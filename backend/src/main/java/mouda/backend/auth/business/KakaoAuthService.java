@@ -8,7 +8,9 @@ import mouda.backend.auth.implement.LoginManager;
 import mouda.backend.auth.implement.OauthManager;
 import mouda.backend.auth.presentation.request.OauthRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
+import mouda.backend.member.domain.LoginDetail;
 import mouda.backend.member.domain.Member;
+import mouda.backend.member.domain.OauthType;
 import mouda.backend.member.implement.MemberFinder;
 import mouda.backend.member.implement.MemberWriter;
 
@@ -38,7 +40,8 @@ public class KakaoAuthService implements AuthService {
 	}
 
 	public LoginResponse basicLogin() {
-		Member member = new Member("nickname", 1L);
+		Member member = new Member("nickname",
+			new LoginDetail(OauthType.KAKAO, 1L));
 		memberWriter.append(member);
 		return new LoginResponse(jwtProvider.createToken(member));
 	}

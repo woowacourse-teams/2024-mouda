@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.infrastructure.DarakbangRepository;
 import mouda.backend.darakbangmember.domain.DarakBangMemberRole;
@@ -66,15 +67,14 @@ class NotificationServiceTest {
 			.targetUrl("test")
 			.build());
 
-		Member member = memberRepository.save(Member.builder()
-			.kakaoId(1234L)
-			.build());
+		Member member = MemberFixture.getAnna();
+		memberRepository.save(member);
 
 		DarakbangMember darakbangMember = darakbangMemberRepository.save(DarakbangMember.builder()
 			.darakbang(darakbang)
 			.memberId(member.getId())
 			.role(DarakBangMemberRole.MEMBER)
-			.nickname("상돌")
+			.nickname("안나")
 			.build());
 
 		memberNotificationRepository.save(MemberNotification.builder()
