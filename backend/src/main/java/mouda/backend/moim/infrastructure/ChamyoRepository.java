@@ -22,8 +22,6 @@ public interface ChamyoRepository extends JpaRepository<Chamyo, Long> {
 
 	List<Chamyo> findAllByDarakbangMemberIdOrderByIdDesc(Long darakbangMemberId);
 
-	void deleteAllByMoimId(Long moimId);
-
 	void deleteByMoimIdAndDarakbangMemberId(Long moimId, Long darakbangMemberId);
 
 	@Query("SELECT c.darakbangMember.memberId FROM Chamyo c WHERE c.moim.id = :moimId AND c.moimRole = 'MOIMER'")

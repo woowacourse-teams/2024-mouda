@@ -50,16 +50,6 @@ public interface MoimSwagger {
 		@PathVariable Long moimId
 	);
 
-	@Operation(summary = "모임 삭제", description = "해당하는 id의 모임을 삭제한다.")
-	@ApiResponses({
-		@ApiResponse(responseCode = "200", description = "모임 삭제 성공!"),
-	})
-	ResponseEntity<Void> deleteMoim(
-		@PathVariable Long darakbangId,
-		@LoginDarakbangMember DarakbangMember member,
-		@PathVariable Long moimId
-	);
-
 	@Operation(summary = "모집 완료", description = "방장이 모집을 완료합니다.")
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "모집 완료 성공!")

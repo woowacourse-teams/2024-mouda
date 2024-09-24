@@ -7,11 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import mouda.backend.moim.domain.Comment;
+import mouda.backend.moim.domain.Moim;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
 	@Query("SELECT c.darakbangMember.memberId FROM Comment c WHERE c.id = :parentId")
 	Long findMemberIdByParentId(@Param("parentId") long parentId);
 
-	List<Comment> findAllByMoimIdOrderByCreatedAt(long id);
+	List<Comment> findAllByMoimOrderByCreatedAt(Moim moim);
 }

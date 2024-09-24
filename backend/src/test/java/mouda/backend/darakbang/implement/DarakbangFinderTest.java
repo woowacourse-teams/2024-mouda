@@ -6,12 +6,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 
 import mouda.backend.common.fixture.DarakbangFixture;
 import mouda.backend.common.fixture.DarakbangMemberFixture;
 import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.domain.Darakbangs;
+import mouda.backend.darakbang.exception.DarakbangErrorMessage;
+import mouda.backend.darakbang.exception.DarakbangException;
 import mouda.backend.darakbang.infrastructure.DarakbangRepository;
 import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
 import mouda.backend.member.domain.Member;
@@ -62,6 +65,15 @@ class DarakbangFinderTest {
 		Darakbang darakbang = darakbangFinder.findById(wooteco.getId());
 
 		assertThat(darakbang).isEqualTo(wooteco);
+	}
+
+	@Test
+	@DisplayName("Darakbang을 찾지 못한 경우 예외가 발생한다")
+	void findDarakbang_notFound() {
+		assertThatThrownBy(() -> darakbangFinder.findById(1L))
+			.isInstanceOf(DarakbangException.class)
+			.hasMessage(DarakbangErrorMessage.DARAKBANG_NOT_FOUND.getMessage())
+			.hasFieldOrPropertyWithValue("httpStatus", HttpStatus.NOT_FOUND);
 	}
 
 	@DisplayName("다락방 참여 코드 해당하는 다락방을 조회한다.")

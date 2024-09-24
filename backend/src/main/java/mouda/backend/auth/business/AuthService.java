@@ -3,18 +3,18 @@ package mouda.backend.auth.business;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.auth.implement.DarakbangFinder;
-import mouda.backend.auth.implement.DarakbangMemberFinder;
 import mouda.backend.auth.implement.JwtProvider;
 import mouda.backend.auth.implement.LoginManager;
-import mouda.backend.auth.implement.MemberFinder;
-import mouda.backend.auth.implement.MemberWriter;
 import mouda.backend.auth.implement.OauthManager;
 import mouda.backend.auth.presentation.request.OauthRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
 import mouda.backend.darakbang.domain.Darakbang;
+import mouda.backend.darakbang.implement.DarakbangFinder;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
+import mouda.backend.darakbangmember.implement.DarakbangMemberFinder;
 import mouda.backend.member.domain.Member;
+import mouda.backend.member.implement.MemberFinder;
+import mouda.backend.member.implement.MemberWriter;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +40,7 @@ public class AuthService {
 	}
 
 	public DarakbangMember findDarakbangMember(long darakbangId, Member member) {
-		Darakbang darakbang = darakbangFinder.find(darakbangId);
+		Darakbang darakbang = darakbangFinder.findById(darakbangId);
 		return darakbangMemberFinder.find(darakbang, member);
 	}
 

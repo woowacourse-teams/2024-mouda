@@ -1,7 +1,6 @@
 package mouda.backend.moim.presentation.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import mouda.backend.common.config.argumentresolver.LoginDarakbangMember;
 import mouda.backend.common.response.RestResponse;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
+import mouda.backend.moim.business.CommentService;
 import mouda.backend.moim.business.MoimService;
 import mouda.backend.moim.domain.FilterType;
 import mouda.backend.moim.domain.Moim;
@@ -32,6 +32,7 @@ import mouda.backend.moim.presentation.response.moim.MoimFindAllResponses;
 public class MoimController implements MoimSwagger {
 
 	private final MoimService moimService;
+	private final CommentService commentService;
 
 	@Override
 	@PostMapping
@@ -66,18 +67,6 @@ public class MoimController implements MoimSwagger {
 		MoimDetailsFindResponse moimDetailsFindResponse = moimService.findMoimDetails(darakbangId, moimId);
 
 		return ResponseEntity.ok().body(new RestResponse<>(moimDetailsFindResponse));
-	}
-
-	@Override
-	@DeleteMapping("/{moimId}")
-	public ResponseEntity<Void> deleteMoim(
-		@PathVariable Long darakbangId,
-		@LoginDarakbangMember DarakbangMember member,
-		@PathVariable Long moimId
-	) {
-		moimService.deleteMoim(darakbangId, moimId, member);
-
-		return ResponseEntity.ok().build();
 	}
 
 	@Override
@@ -136,7 +125,7 @@ public class MoimController implements MoimSwagger {
 		@PathVariable Long moimId,
 		@RequestBody CommentCreateRequest commentCreateRequest
 	) {
-		moimService.createComment(darakbangId, moimId, member, commentCreateRequest);
+		commentService.createComment(darakbangId, moimId, member, commentCreateRequest);
 
 		return ResponseEntity.ok().build();
 	}

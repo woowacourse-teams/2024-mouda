@@ -1,6 +1,7 @@
 package mouda.backend.moim.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import jakarta.persistence.Entity;
@@ -52,5 +53,9 @@ public class Chat {
 
 	public boolean isMyMessage(long darakbangMemberId) {
 		return darakbangMemberId == darakbangMember.getId();
+	}
+
+	public LocalDateTime getDateTime() {
+		return LocalDateTime.of(date, time);
 	}
 }

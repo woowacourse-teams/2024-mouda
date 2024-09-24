@@ -21,7 +21,7 @@ import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.Chat;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimRole;
-import mouda.backend.moim.exception.ChatException;
+import mouda.backend.moim.exception.ChamyoException;
 import mouda.backend.moim.infrastructure.ChamyoRepository;
 import mouda.backend.moim.infrastructure.ChatRepository;
 import mouda.backend.moim.infrastructure.MoimRepository;
@@ -143,7 +143,7 @@ class ChatServiceTest extends DarakbangSetUp {
 
 		// when & then
 		assertThrows(
-			ChatException.class,
+			ChamyoException.class,
 			() -> chatService.confirmPlace(darakbang.getId(), request, darakbangHogee)
 		);
 	}

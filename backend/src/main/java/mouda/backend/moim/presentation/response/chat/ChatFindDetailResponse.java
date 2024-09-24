@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import lombok.Builder;
 import mouda.backend.moim.domain.Chat;
 import mouda.backend.moim.domain.ChatType;
+import mouda.backend.moim.domain.ChatWithAuthor;
 
 @Builder
 public record ChatFindDetailResponse(
@@ -17,11 +18,12 @@ public record ChatFindDetailResponse(
 	LocalTime time,
 	ChatType chatType
 ) {
-	public static ChatFindDetailResponse toResponse(Chat chat, boolean isMyMessage) {
+	public static ChatFindDetailResponse toResponse(ChatWithAuthor chatWithAuthor) {
+		Chat chat = chatWithAuthor.getChat();
 		return ChatFindDetailResponse.builder()
 			.chatId(chat.getId())
 			.content(chat.getContent())
-			.isMyMessage(isMyMessage)
+			.isMyMessage(chatWithAuthor.isMine())
 			.nickname(chat.getDarakbangMember().getNickname())
 			.date(chat.getDate())
 			.time(chat.getTime())

@@ -31,6 +31,18 @@ public class MoimFixture {
 			.build();
 	}
 
+	public static Moim getAloneMoim(long darakbangId) {
+		return Moim.builder()
+			.title("혼자 놀기")
+			.time(LocalTime.now().plusHours(1))
+			.date(LocalDate.now().plusDays(1))
+			.place("상돌 집")
+			.description("혼자가 좋아")
+			.maxPeople(1)
+			.darakbangId(darakbangId)
+			.build();
+	}
+
 	public static Moim getCoffeeMoim(long darakbangId) {
 		return Moim.builder()
 			.title("커피 마실 사람?")

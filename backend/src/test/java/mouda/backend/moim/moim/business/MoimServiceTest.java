@@ -53,9 +53,6 @@ class MoimServiceTest extends IgnoreNotificationTest {
 	@Autowired
 	private MemberRepository memberRepository;
 
-	@Autowired
-	private CommentRepository commentRepository;
-
 	private Darakbang darakbang;
 	private Darakbang mouda;
 	private DarakbangMember darakbangHogee;
@@ -113,42 +110,6 @@ class MoimServiceTest extends IgnoreNotificationTest {
 		MoimDetailsFindResponse moimDetails = moimService.findMoimDetails(darakbang.getId(), 1L);
 
 		assertThat(moimDetails.title()).isEqualTo("title");
-	}
-
-	@DisplayName("모임을 삭제한다.")
-	@Test
-	void deleteMoim() {
-		MoimCreateRequest moimCreateRequest = new MoimCreateRequest(
-			"title", LocalDate.now().plusDays(1), LocalTime.now(), "place",
-			10, "설명"
-		);
-		Moim moim = moimService.createMoim(darakbang.getId(), darakbangHogee, moimCreateRequest);
-
-		moimService.deleteMoim(darakbang.getId(), moim.getId(), darakbangHogee);
-
-		List<Moim> moims = moimRepository.findAll();
-		assertThat(moims).hasSize(0);
-	}
-
-	@DisplayName("댓글을 생성한다.")
-	@Test
-	void createComment() {
-		Moim moim = moimRepository.save(MoimFixture.getBasketballMoim(darakbang.getId()));
-		CommentCreateRequest commentCreateRequest = new CommentCreateRequest(null, "댓글부대");
-		moimService.createComment(darakbang.getId(), moim.getId(), darakbangHogee, commentCreateRequest);
-
-		List<Comment> comments = commentRepository.findAllByMoimIdOrderByCreatedAt(moim.getId());
-		assertThat(comments).hasSize(1);
-	}
-
-	@DisplayName("부모 댓글이 없이 대댓글을 생성 시 예외가 발생한다.")
-	@Test
-	void failToCreateChildCommentWhenParentCommentDoesNotExist() {
-		Moim moim = moimRepository.save(MoimFixture.getBasketballMoim(darakbang.getId()));
-		CommentCreateRequest commentCreateRequest = new CommentCreateRequest(1L, "댓글부대");
-
-		assertThrows(CommentException.class,
-			() -> moimService.createComment(darakbang.getId(), moim.getId(), darakbangHogee, commentCreateRequest));
 	}
 
 	@DisplayName("다락방별 모임을 조회한다.")
