@@ -11,12 +11,12 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClient;
 
-import mouda.backend.auth.presentation.response.OauthResponse;
 import mouda.backend.auth.exception.AuthErrorMessage;
 import mouda.backend.auth.exception.AuthException;
+import mouda.backend.auth.presentation.response.OauthResponse;
 
 @Component
-public class KakaoOauthClient {
+public class KakaoOauthClient implements OauthClient {
 
 	public static final String CLIENT_ID = "ca3adf9a52671fdbb847b809c0fdb980";
 	public static final String GRANT_TYPE = "authorization_code";
