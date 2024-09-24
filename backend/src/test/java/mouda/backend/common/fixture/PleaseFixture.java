@@ -4,11 +4,29 @@ import mouda.backend.please.domain.Please;
 
 public class PleaseFixture {
 
-	public static Please getPlease() {
+	public static Please getPleaseChicken() {
 		return Please.builder()
 			.title("치킨 사주세요")
 			.description("제발요")
 			.authorId(1L)
+			.darakbangId(1L)
+			.build();
+	}
+
+	public static Please getPleasePizza() {
+		return Please.builder()
+			.title("피자 사주세요")
+			.description("제발요")
+			.authorId(2L)
+			.darakbangId(1L)
+			.build();
+	}
+
+	public static Please getPleaseHogee() {
+		return Please.builder()
+			.title("호기 사주세요")
+			.description("제발요")
+			.authorId(2L)
 			.darakbangId(1L)
 			.build();
 	}
@@ -20,9 +38,5 @@ public class PleaseFixture {
 			.authorId(id)
 			.darakbangId(darakbangId)
 			.build();
-	}
-
-	public static Please getPleaseWithAuthorId1L() {
-		return new Please("이거 해주세요", "아니 그냥 해달라고", 1L, 1L);
 	}
 }
