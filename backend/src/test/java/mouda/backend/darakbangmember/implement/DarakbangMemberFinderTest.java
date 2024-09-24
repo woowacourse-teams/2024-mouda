@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 
 import mouda.backend.common.fixture.DarakbangFixture;
 import mouda.backend.common.fixture.DarakbangMemberFixture;
@@ -17,6 +18,8 @@ import mouda.backend.darakbang.infrastructure.DarakbangRepository;
 import mouda.backend.darakbangmember.domain.DarakBangMemberRole;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.domain.DarakbangMembers;
+import mouda.backend.darakbangmember.exception.DarakbangMemberErrorMessage;
+import mouda.backend.darakbangmember.exception.DarakbangMemberException;
 import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.infrastructure.MemberRepository;
@@ -85,5 +88,30 @@ class DarakbangMemberFinderTest {
 			hogee.getId());
 
 		assertThat(darakbangMemberRole).isEqualTo(DarakBangMemberRole.MEMBER);
+	}
+
+	@Test
+	@DisplayName("DarakbangMember를 정상적으로 찾는 경우")
+	void findDarakbangMember_success() {
+		Member hogee = memberRepository.save(MemberFixture.getHogee());
+		Darakbang wooteco = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
+		DarakbangMember darakbangMember = darakbangMemberRepository.save(
+			DarakbangMemberFixture.getDarakbangMemberWithWooteco(wooteco, hogee));
+
+		DarakbangMember foundDarakbangMember = darakbangMemberFinder.find(wooteco, hogee);
+
+		assertThat(foundDarakbangMember).isEqualTo(darakbangMember);
+	}
+
+	@Test
+	@DisplayName("DarakbangMember를 찾지 못한 경우 예외가 발생한다")
+	void findDarakbangMember_notFound() {
+		Member hogee = memberRepository.save(MemberFixture.getHogee());
+		Darakbang wooteco = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
+
+		assertThatThrownBy(() -> darakbangMemberFinder.find(wooteco, hogee))
+			.isInstanceOf(DarakbangMemberException.class)
+			.hasMessage(DarakbangMemberErrorMessage.MEMBER_NOT_EXIST.getMessage())
+			.hasFieldOrPropertyWithValue("httpStatus", HttpStatus.UNAUTHORIZED);
 	}
 }

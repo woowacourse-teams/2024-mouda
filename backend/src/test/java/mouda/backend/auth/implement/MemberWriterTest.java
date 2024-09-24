@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.member.domain.Member;
+import mouda.backend.member.implement.MemberWriter;
 import mouda.backend.member.infrastructure.MemberRepository;
 
 @SpringBootTest

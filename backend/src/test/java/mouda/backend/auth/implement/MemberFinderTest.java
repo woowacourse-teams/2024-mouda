@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import mouda.backend.auth.exception.AuthException;
 import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.member.domain.Member;
+import mouda.backend.member.implement.MemberFinder;
 import mouda.backend.member.infrastructure.MemberRepository;
 
 @SpringBootTest
