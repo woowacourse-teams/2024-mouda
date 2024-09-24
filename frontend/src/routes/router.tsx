@@ -1,32 +1,83 @@
-import ChatPage from '@_pages/Chatting/ChatPage/ChatPage';
-import ChattingRoomPage from '@_pages/Chatting/ChattingRoomPage/ChattingRoomPage';
-import DarakbangCreationPage from '@_pages/Darakbang/DarakbangCreationPage/DarakbangCreationPage';
-import DarakbangEntrancePage from '@_pages/Darakbang/DarakbangEntrancePage/DarakbangEntrancePage';
-import DarakbangInvitationPage from '@_pages/Darakbang/DarakbangInvitationPage/DarakbangInvitationPage';
-import DarakbangInvitationRoute from '../pages/Navigator/DarakbangInvitationRoute';
-import DarakbangLandingPage from '@_pages/Darakbang/DarakbangLandingPage/DarakbangLandingPage';
-import DarakbangManagementPage from '@_pages/Darakbang/DarakbangManagementPage/DarakbangManagementPage';
-import DarakbangMembersPage from '@_pages/Darakbang/DarakbangMembersPage/DarakbangMembersPage';
-import DarakbangNicknamePage from '@_pages/Darakbang/DarakbangNicknamePage/DarakbangNicknamePage';
-import DarakbangSelectOptionPage from '@_pages/Darakbang/DarakbangSelectOptionPage/DarakbangSelectOptionPage';
-import DarakbangSelectPage from '@_pages/Darakbang/DarakbangSelectPage/DarakbangSelectPage';
 import ErrorRoute from './ErrorRoute';
-import HomePage from '@_pages/Login/HomePage/HomePage';
-import KakaoOAuthLoginPage from '@_pages/Login/KakaoOAuthLoginPage/KakaoOAuthLoginPage';
-import MainPage from '@_pages/Moim/MainPage/MainPage';
-import MoimCreationPage from '@_pages/Moim/MoimCreationPage/MoimCreationPage';
-import MoimDetailPage from '@_pages/Moim/MoimDetailPage/MoimDetailPage';
-import MoimModifyPage from '@_pages/Moim/MoimModifyPage/MoimModifyPage';
-import MyPage from '@_pages/Mypage/MyPage';
-import NotFoundPage from '@_pages/Fallback/NotFoundPage/NotFoundPage';
-import NotificationPage from '@_pages/Notification/NotificationPage';
-import ParticipationCompletePage from '@_pages/Moim/ParticipationCompletePage/ParticipationCompletePage';
-import PleaseCreationPage from '@_pages/Please/PleaseCreationPage/PleaseCreationPage';
-import PleasePage from '@_pages/Please/PleasePage/PleasePage';
+
 import ProtectedRoute from './ProtectedRoute';
+
 import ROUTES from '@_constants/routes';
-import SlashRoute from '../pages/Navigator/SlashRoute';
+
 import { createBrowserRouter } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+
+const MainPage = lazy(() => import('@_pages/Moim/MainPage/MainPage'));
+const MoimCreationPage = lazy(
+  () => import('@_pages/Moim/MoimCreationPage/MoimCreationPage'),
+);
+const MoimDetailPage = lazy(
+  () => import('@_pages/Moim/MoimDetailPage/MoimDetailPage'),
+);
+const ParticipationCompletePage = lazy(
+  () =>
+    import('@_pages/Moim/ParticipationCompletePage/ParticipationCompletePage'),
+);
+const ChatPage = lazy(() => import('@_pages/Chatting/ChatPage/ChatPage'));
+const ChattingRoomPage = lazy(
+  () => import('@_pages/Chatting/ChattingRoomPage/ChattingRoomPage'),
+);
+const HomePage = lazy(() => import('@_pages/Login/HomePage/HomePage'));
+
+const DarakbangCreationPage = lazy(
+  () => import('@_pages/Darakbang/DarakbangCreationPage/DarakbangCreationPage'),
+);
+const DarakbangEntrancePage = lazy(
+  () => import('@_pages/Darakbang/DarakbangEntrancePage/DarakbangEntrancePage'),
+);
+const DarakbangInvitationPage = lazy(
+  () =>
+    import('@_pages/Darakbang/DarakbangInvitationPage/DarakbangInvitationPage'),
+);
+const DarakbangInvitationRoute = lazy(
+  () => import('../pages/Navigator/DarakbangInvitationRoute'),
+);
+const DarakbangLandingPage = lazy(
+  () => import('@_pages/Darakbang/DarakbangLandingPage/DarakbangLandingPage'),
+);
+const DarakbangManagementPage = lazy(
+  () =>
+    import('@_pages/Darakbang/DarakbangManagementPage/DarakbangManagementPage'),
+);
+const DarakbangMembersPage = lazy(
+  () => import('@_pages/Darakbang/DarakbangMembersPage/DarakbangMembersPage'),
+);
+const DarakbangNicknamePage = lazy(
+  () => import('@_pages/Darakbang/DarakbangNicknamePage/DarakbangNicknamePage'),
+);
+const DarakbangSelectOptionPage = lazy(
+  () =>
+    import(
+      '@_pages/Darakbang/DarakbangSelectOptionPage/DarakbangSelectOptionPage'
+    ),
+);
+const DarakbangSelectPage = lazy(
+  () => import('@_pages/Darakbang/DarakbangSelectPage/DarakbangSelectPage'),
+);
+
+const KakaoOAuthLoginPage = lazy(
+  () => import('@_pages/Login/KakaoOAuthLoginPage/KakaoOAuthLoginPage'),
+);
+const MoimModifyPage = lazy(
+  () => import('@_pages/Moim/MoimModifyPage/MoimModifyPage'),
+);
+const MyPage = lazy(() => import('@_pages/Mypage/MyPage'));
+const NotFoundPage = lazy(
+  () => import('@_pages/Fallback/NotFoundPage/NotFoundPage'),
+);
+const NotificationPage = lazy(
+  () => import('@_pages/Notification/NotificationPage'),
+);
+const PleaseCreationPage = lazy(
+  () => import('@_pages/Please/PleaseCreationPage/PleaseCreationPage'),
+);
+const PleasePage = lazy(() => import('@_pages/Please/PleasePage/PleasePage'));
+const SlashRoute = lazy(() => import('../pages/Navigator/SlashRoute'));
 
 const routesConfig = [
   {
@@ -165,11 +216,17 @@ const router = createBrowserRouter(
   routesConfig.map((route) => ({
     path: route.path,
     element: route.requiresAuth ? (
-      <ProtectedRoute>{route.element}</ProtectedRoute>
+      <Suspense fallback={<div>Loading...</div>}>
+        <ProtectedRoute>{route.element}</ProtectedRoute>
+      </Suspense>
     ) : (
       route.element
     ),
-    errorElement: <ErrorRoute />,
+    errorElement: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <ErrorRoute />
+      </Suspense>
+    ),
   })),
 );
 
