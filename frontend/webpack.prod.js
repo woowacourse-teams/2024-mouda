@@ -7,7 +7,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 module.exports = merge(common, {
   mode: 'production',
-  devtool: 'source-map',
+  devtool: 'hidden-source-map',
   module: {
     rules: [
       {
@@ -18,7 +18,6 @@ module.exports = merge(common, {
     ],
   },
   performance: {
-    hints: false,
     maxEntrypointSize: 512000,
     maxAssetSize: 512000,
   },
