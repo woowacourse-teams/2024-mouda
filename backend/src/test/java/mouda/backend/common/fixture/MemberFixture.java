@@ -19,6 +19,7 @@ public class MemberFixture {
 	public static Member getTebah() {
 		return Member.builder()
 			.nickname("tebah")
+			.kakaoId(123L)
 			.build();
 	}
 }
