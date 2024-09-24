@@ -9,9 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import mouda.backend.member.domain.LoginDetail;
+import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.member.domain.Member;
-import mouda.backend.member.domain.OauthType;
 import mouda.backend.member.infrastructure.MemberRepository;
 
 @SpringBootTest
@@ -27,10 +26,7 @@ class LoginManagerTest {
 	@Test
 	void processKakaoLogin() {
 		// given
-		Member member = Member.builder()
-			.nickname("테바") // TODO : 필드 삭제
-			.loginDetail(new LoginDetail(OauthType.KAKAO, 123L))
-			.build();
+		Member member = MemberFixture.getAnna();
 		memberRepository.save(member);
 
 		// when

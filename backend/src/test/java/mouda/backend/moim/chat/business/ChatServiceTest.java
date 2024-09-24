@@ -52,7 +52,7 @@ class ChatServiceTest extends DarakbangSetUp {
 	void createChat() {
 		// given
 		Moim moim = MoimFixture.getSoccerMoim(darakbang.getId());
-		Moim savedMoim = moimRepository.save(moim);
+		moimRepository.save(moim);
 
 		chamyoRepository.save(new Chamyo(moim, darakbangHogee, MoimRole.MOIMER));
 

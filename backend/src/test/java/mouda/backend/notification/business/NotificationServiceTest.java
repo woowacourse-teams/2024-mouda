@@ -9,10 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import mouda.backend.common.fixture.DarakbangFixture;
+import mouda.backend.common.fixture.DarakbangMemberFixture;
 import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.infrastructure.DarakbangRepository;
-import mouda.backend.darakbangmember.domain.DarakBangMemberRole;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
 import mouda.backend.member.domain.Member;
@@ -48,10 +49,8 @@ class NotificationServiceTest {
 	@DisplayName("회원의 모든 알림을 조회한다.")
 	@Test
 	void findAllMyNotifications() {
-		Darakbang darakbang = darakbangRepository.save(Darakbang.builder()
-			.name("test")
-			.code("test")
-			.build());
+		Darakbang darakbang = DarakbangFixture.getDarakbangWithMouda();
+		darakbangRepository.save(darakbang);
 
 		NotificationType type1 = NotificationType.MOIM_CREATED;
 		MoudaNotification notification1 = moudaNotificationRepository.save(MoudaNotification.builder()
@@ -70,12 +69,9 @@ class NotificationServiceTest {
 		Member member = MemberFixture.getAnna();
 		memberRepository.save(member);
 
-		DarakbangMember darakbangMember = darakbangMemberRepository.save(DarakbangMember.builder()
-			.darakbang(darakbang)
-			.memberId(member.getId())
-			.role(DarakBangMemberRole.MEMBER)
-			.nickname("안나")
-			.build());
+		DarakbangMember darakbangMember = DarakbangMemberFixture.getDarakbangMemberWithWooteco(darakbang,
+			member);
+		darakbangMemberRepository.save(darakbangMember);
 
 		memberNotificationRepository.save(MemberNotification.builder()
 			.memberId(darakbangMember.getMemberId())
