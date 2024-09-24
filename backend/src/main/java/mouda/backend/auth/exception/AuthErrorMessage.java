@@ -17,7 +17,8 @@ public enum AuthErrorMessage {
 	EXPIRED_TOKEN("만료된 토큰입니다."),
 	KAKAO_CONNECT_TIMEOUT("커넥션 타임아웃 되었습니다."),
 	DARAKBANG_NOT_FOUND("다락방이 존재하지 않습니다."),
-	DARAKBANG_NOT_ENTERED("가입한 다락방이 아닙니다.");
+	DARAKBANG_NOT_ENTERED("가입한 다락방이 아닙니다."),
+	MEMBER_NOT_FOUND("회원가입 이력을 찾을 수 없습니다.");
 
 	private final String message;
 }
