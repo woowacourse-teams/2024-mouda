@@ -9,7 +9,7 @@ module.exports = {
   entry: './src/index.tsx',
 
   output: {
-    filename: '[name].[contenthash].js', // 캐시를 위한 해시 추가
+    filename: 'scripts/[name].[contenthash].js', // 캐시를 위한 해시 추가
     chunkFilename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
@@ -19,9 +19,9 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     open: true,
-    port:8081
+    port: 8081,
   },
-  
+
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './src/index.html'),
@@ -57,16 +57,25 @@ module.exports = {
             use: ['@svgr/webpack'],
             issuer: /\.[jt]sx?$/,
             resourceQuery: { not: [/url/] },
+            generator: {
+              outputPath: 'svgs/',
+            },
           },
           {
             type: 'asset/resource',
             resourceQuery: /url/,
-          }
-        ]
+            generator: {
+              outputPath: 'svgs/',
+            },
+          },
+        ],
       },
       {
         test: /\.(png|jpe?g|gif|webp|woff2)$/i,
         type: 'asset/resource',
+        generator: {
+          outputPath: 'assets/',
+        },
       },
     ],
   },
