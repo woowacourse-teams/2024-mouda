@@ -8,9 +8,7 @@ import mouda.backend.auth.implement.LoginManager;
 import mouda.backend.auth.implement.OauthManager;
 import mouda.backend.auth.presentation.request.OauthRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
-import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.implement.DarakbangFinder;
-import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.implement.DarakbangMemberFinder;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.implement.MemberFinder;
@@ -37,11 +35,6 @@ public class AuthService {
 	public Member findMember(String token) {
 		long memberId = jwtProvider.extractMemberId(token);
 		return memberFinder.find(memberId);
-	}
-
-	public DarakbangMember findDarakbangMember(long darakbangId, Member member) {
-		Darakbang darakbang = darakbangFinder.findById(darakbangId);
-		return darakbangMemberFinder.find(darakbang, member);
 	}
 
 	public void checkAuthentication(String token) {

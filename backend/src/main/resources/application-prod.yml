@@ -1,12 +1,20 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${MYSQL_URL}
-    username: ${MYSQL_USERNAME}
-    password: ${MYSQL_PASSWORD}
+    master:
+      hikari:
+        username: mouda
+        password: ywLyoeEBLGm8
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://database-project.cluster-cqsc6pyqhwww.ap-northeast-2.rds.amazonaws.com:3306/mouda
+    slave:
+      hikari:
+        username: mouda
+        password: ywLyoeEBLGm8
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://database-project.cluster-ro-cqsc6pyqhwww.ap-northeast-2.rds.amazonaws.com:3306/mouda
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: false
 
 url:
