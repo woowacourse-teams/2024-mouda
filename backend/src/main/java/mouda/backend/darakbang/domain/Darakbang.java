@@ -1,5 +1,7 @@
 package mouda.backend.darakbang.domain;
 
+import java.util.Objects;
+
 import org.springframework.http.HttpStatus;
 
 import jakarta.persistence.Column;
@@ -39,5 +41,20 @@ public class Darakbang {
 		if (name == null || name.isBlank()) {
 			throw new DarakbangException(HttpStatus.BAD_REQUEST, DarakbangErrorMessage.NAME_NOT_EXIST);
 		}
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Darakbang darakbang = (Darakbang)o;
+		return Objects.equals(id, darakbang.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(id);
 	}
 }

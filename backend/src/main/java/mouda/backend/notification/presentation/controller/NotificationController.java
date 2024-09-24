@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import mouda.backend.common.response.RestResponse;
 import mouda.backend.common.config.argumentresolver.LoginMember;
+import mouda.backend.common.response.RestResponse;
 import mouda.backend.member.domain.Member;
+import mouda.backend.notification.business.NotificationService;
+import mouda.backend.notification.presentation.controller.swagger.NotificationSwagger;
 import mouda.backend.notification.presentation.request.FcmTokenSaveRequest;
 import mouda.backend.notification.presentation.response.NotificationFindAllResponses;
-import mouda.backend.notification.presentation.controller.swagger.NotificationSwagger;
-import mouda.backend.notification.business.NotificationService;
 
 @RestController
 @RequestMapping

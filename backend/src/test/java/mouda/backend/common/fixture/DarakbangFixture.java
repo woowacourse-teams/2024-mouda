@@ -7,7 +7,7 @@ public class DarakbangFixture {
 	public static Darakbang getDarakbangWithWooteco() {
 		return Darakbang.builder()
 			.name("우아한테크코스")
-			.code("SOFABABO1")
+			.code("SOFABAC")
 			.build();
 	}
 

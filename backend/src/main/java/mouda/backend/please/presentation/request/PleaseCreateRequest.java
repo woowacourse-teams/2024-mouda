@@ -12,11 +12,11 @@ public record PleaseCreateRequest(
 	String description
 ) {
 
-	public Please toEntity(long memberId, long darakbangId) {
+	public Please toEntity(long darakbangMemberId, long darakbangId) {
 		return Please.builder()
 			.title(title)
 			.description(description)
-			.authorId(memberId)
+			.authorId(darakbangMemberId)
 			.darakbangId(darakbangId)
 			.build();
 	}
