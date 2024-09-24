@@ -12,7 +12,6 @@ public class RestClientConfig {
 	public RestClient kakaoOauthRestClient() {
 		return RestClient.builder()
 			.requestFactory(getClientHttpRequestFactory())
-			.baseUrl("https://kauth.kakao.com")
 			.build();
 	}
 

@@ -11,24 +11,23 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClient;
 
+import lombok.RequiredArgsConstructor;
 import mouda.backend.auth.exception.AuthErrorMessage;
 import mouda.backend.auth.exception.AuthException;
 import mouda.backend.auth.presentation.response.OauthResponse;
 
 @Component
+@RequiredArgsConstructor
 public class KakaoOauthClient implements OauthClient {
 
 	public static final String CLIENT_ID = "ca3adf9a52671fdbb847b809c0fdb980";
 	public static final String GRANT_TYPE = "authorization_code";
+	private static final String KAKAO_API_URL = "https://kauth.kakao.com/oauth/token";
 
 	private final RestClient restClient;
 
 	@Value("${oauth.kakao.redirect-uri}")
 	private String redirectUri;
-
-	public KakaoOauthClient(RestClient restClient) {
-		this.restClient = restClient;
-	}
 
 	public String getIdToken(String code) {
 		try {
@@ -36,7 +35,7 @@ public class KakaoOauthClient implements OauthClient {
 			MultiValueMap<String, String> formData = getFormData(code);
 
 			OauthResponse response = restClient.method(HttpMethod.POST)
-				.uri("/oauth/token")
+				.uri(KAKAO_API_URL)
 				.headers(httpHeaders -> httpHeaders.addAll(headers))
 				.body(formData)
 				.retrieve()
