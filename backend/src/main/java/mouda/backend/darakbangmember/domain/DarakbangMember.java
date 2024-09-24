@@ -1,5 +1,7 @@
 package mouda.backend.darakbangmember.domain;
 
+import java.util.Objects;
+
 import org.springframework.http.HttpStatus;
 
 import jakarta.persistence.Column;
@@ -71,7 +73,18 @@ public class DarakbangMember {
 		return role != DarakBangMemberRole.MANAGER;
 	}
 
-	public String getDarakbangName() {
-		return darakbang.getName();
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		DarakbangMember that = (DarakbangMember)o;
+		return Objects.equals(id, that.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(id);
 	}
 }
