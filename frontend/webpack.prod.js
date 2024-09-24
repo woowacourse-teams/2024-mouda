@@ -3,6 +3,7 @@ const common = require('./webpack.common.js');
 const { sentryWebpackPlugin } = require('@sentry/webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = merge(common, {
   mode: 'production',
@@ -23,7 +24,7 @@ module.exports = merge(common, {
   },
   optimization: {
     minimize: true,
-    minimizer: [
+    minimizer: ['...',
       new TerserPlugin({
         parallel: true, // 병렬 처리 활성화
         terserOptions: {
@@ -34,13 +35,10 @@ module.exports = merge(common, {
       }),
     ],
     splitChunks: {
-      chunks: 'all', // 모든 타입의 청크를 분할
-      maxInitialRequests: 3,
-      maxAsyncRequests: 5,
-      minSize: 30000,
-    },
-    runtimeChunk: 'single', // 런타임 청크를 분리
+      chunks: 'all',
+    }
   },
+  
   plugins: [
     // Put the Sentry Webpack plugin after all other plugins
     sentryWebpackPlugin({
@@ -50,8 +48,9 @@ module.exports = merge(common, {
     }),
     new CopyWebpackPlugin({
       patterns: [
-        { from: 'public', to: '' }, // public 폴더의 모든 파일을 dist 폴더의 루트로 복사
+        { from: 'public', to: '', globOptions: { ignore: ['**/mockServiceWorker.js'] } },
       ],
     }),
+    new BundleAnalyzerPlugin()
   ],
 });
