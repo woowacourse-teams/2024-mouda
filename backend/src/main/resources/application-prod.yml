@@ -1,12 +1,21 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${MYSQL_URL}
-    username: ${MYSQL_USERNAME}
-    password: ${MYSQL_PASSWORD}
+    master:
+      hikari:
+        username: ${MASTER_MYSQL_USERNAME}
+        password: ${MASTER_MYSQL_PASSWORD}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: ${MASTER_MYSQL_URL}
+    slave:
+      hikari:
+        username: ${SLAVE_MYSQL_USERNAME}
+        password: ${SLAVE_MYSQL_PASSWORD}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: ${SLAVE_MYSQL_URL}
+
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: false
 
 url:
