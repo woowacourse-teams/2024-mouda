@@ -3,23 +3,23 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import Back from '@_common/assets/back.svg';
 import CalenderClock from '@_components/Icons/CalenderClock';
+import ChatBottomMenu from '../ChatPage/components/ChatBottomMenu/ChatBottomMenu';
+import ChatList from '../ChatPage/components/ChatList/ChatList';
+import ChatMenuItem from '../ChatPage/components/ChatMenuItem/ChatMenuItem';
+import ChattingFooter from '../ChatPage/components/ChattingFooter/ChattingFooter';
+import ChattingRoomLayout from '@_layouts/ChattingRoomLayout/ChattingRoomLayout';
+import DateTimeModalContent from '../ChatPage/components/DateTimeModalContent/DateTimeModalContent';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import Modal from '@_components/Modal/Modal';
 import Picker from '@_components/Icons/Picker';
+import PlaceModalContent from './components/PlaceModalContent/PlaceModalContent';
 import useChamyoMine from '@_hooks/queries/useChamyoMine';
 import useChats from '@_hooks/queries/useChats';
 import useConfirmDateTime from '@_hooks/mutaions/useConfirmDatetime';
 import useConfirmPlace from '@_hooks/mutaions/useConfirmPlace';
-import useMoims from '@_hooks/queries/useMoims';
+import useMoim from '@_hooks/queries/useMoim';
 import useSendMessage from '@_hooks/mutaions/useSendMessage';
 import { useTheme } from '@emotion/react';
-import PlaceModalContent from './components/PlaceModalContent/PlaceModalContent';
-import DateTimeModalContent from '../ChatPage/components/DateTimeModalContent/DateTimeModalContent';
-import ChatBottomMenu from '../ChatPage/components/ChatBottomMenu/ChatBottomMenu';
-import ChattingRoomLayout from '@_layouts/ChattingRoomLayout/ChattingRoomLayout';
-import ChatMenuItem from '../ChatPage/components/ChatMenuItem/ChatMenuItem';
-import ChatList from '../ChatPage/components/ChatList/ChatList';
-import ChattingFooter from '../ChatPage/components/ChattingFooter/ChattingFooter';
 
 type ModalContent = 'place' | 'datetime';
 
@@ -30,9 +30,9 @@ export default function ChattingRoomPage() {
 
   const moimId = +(params.moimId || '0');
 
-  const { moims } = useMoims();
   const { chats } = useChats(moimId);
   const { role } = useChamyoMine(moimId);
+  const { moim } = useMoim(moimId);
 
   const { mutate: confirmDateTime, isPending: isPendingConfirmDateTime } =
     useConfirmDateTime();
@@ -43,11 +43,6 @@ export default function ChattingRoomPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [nowModalContent, setNowModalContent] = useState<ModalContent>('place');
-
-  const moimTitle = useMemo(
-    () => moims?.find((moim) => moim.moimId === moimId)?.title,
-    [moims, moimId],
-  );
 
   const modal = useMemo(() => {
     if (nowModalContent === 'datetime')
@@ -126,7 +121,7 @@ export default function ChattingRoomPage() {
           </div>
         </ChattingRoomLayout.Header.Left>
         <ChattingRoomLayout.Header.Center>
-          <h2 css={theme.typography.s1}>{moimTitle}</h2>
+          <h2 css={theme.typography.s1}>{moim?.title}</h2>
         </ChattingRoomLayout.Header.Center>
       </ChattingRoomLayout.Header>
       <ChatList chats={chats} />
