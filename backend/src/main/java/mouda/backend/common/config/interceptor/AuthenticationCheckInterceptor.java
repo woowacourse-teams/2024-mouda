@@ -25,9 +25,6 @@ public class AuthenticationCheckInterceptor implements HandlerInterceptor {
 		if (CorsUtils.isPreFlightRequest(request)) {
 			return true;
 		}
-		if (request.getRequestURI().startsWith("/health")) {
-			return true;
-		}
 
 		String authorizationHeader = request.getHeader("Authorization");
 
