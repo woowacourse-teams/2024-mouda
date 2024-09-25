@@ -26,7 +26,11 @@ import PleasePage from '@_pages/Please/PleasePage/PleasePage';
 import ProtectedRoute from './ProtectedRoute';
 import ROUTES from '@_constants/routes';
 import SlashRoute from '../pages/Navigator/SlashRoute';
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Outlet } from 'react-router-dom';
+import BetListPage from '@_pages/Bet/BetListPage/BetListPage';
+import BetDetailPage from '@_pages/Bet/BetDetailPage/BetDetailPage';
+import BetCreationPage from '@_pages/Bet/BetCreationPage/BetCreationPage';
+import BetResultPage from '@_pages/Bet/BetResultPage/BetResultPage';
 
 const routesConfig = [
   {
@@ -159,10 +163,34 @@ const routesConfig = [
     element: <DarakbangLandingPage />,
     requiresAuth: true,
   },
+  {
+    path: ROUTES.bet,
+    element: <Outlet />,
+    children: [
+      {
+        path: '',
+        element: <BetListPage />,
+      },
+      {
+        path: ':betId',
+        element: <BetDetailPage />,
+      },
+      {
+        path: 'creation',
+        element: <BetCreationPage />,
+      },
+      {
+        path: ':betId/result',
+        element: <BetResultPage />,
+      },
+    ],
+    requiresAuth: true,
+  },
 ];
 
 const router = createBrowserRouter(
   routesConfig.map((route) => ({
+    ...route,
     path: route.path,
     element: route.requiresAuth ? (
       <ProtectedRoute>{route.element}</ProtectedRoute>

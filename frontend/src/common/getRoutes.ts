@@ -14,17 +14,24 @@ const GET_ROUTES = {
     moimParticipateComplete: () =>
       getNowDarakbangRoute() + '/moim/participation-complete',
     modify: (moimId: number) => getNowDarakbangRoute() + '/modify/' + moimId,
+
     chat: () => getNowDarakbangRoute() + '/chat',
     chattingRoom: (moimId: number) =>
       getNowDarakbangRoute() + '/chatting-room/' + moimId,
+
     please: () => getNowDarakbangRoute() + '/please',
     addPlease: () => getNowDarakbangRoute() + '/please/creation',
+
     myPage: () => getNowDarakbangRoute() + '/my-page',
+
     notification: () => getNowDarakbangRoute() + '/notification',
+
     darakbangManagement: () => getNowDarakbangRoute() + '/darakbang-management',
     darakbangMembers: () => getNowDarakbangRoute() + '/darakbang-members',
     darakbangInvitation: () => getNowDarakbangRoute() + '/darakbang-invitation',
     darakbangLanding: () => getNowDarakbangRoute() + '/darakbang-landing',
+
+    bet: () => getNowDarakbangRoute() + '/bet',
   },
 };
 export default GET_ROUTES;

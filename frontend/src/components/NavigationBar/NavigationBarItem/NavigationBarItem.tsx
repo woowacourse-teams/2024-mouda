@@ -24,7 +24,8 @@ export default function NavigationBarItem(props: NavigationBarItemProps) {
       <HomeIcon isActive={isActive} />
     ) : tab === '채팅' ? (
       <ChattingIcon isActive={isActive} />
-    ) : tab === '해주세요' ? (
+    ) : tab === '안내면진다' ? (
+      // TODO: 아이콘 변경
       <PleaseIcon isActive={isActive} />
     ) : (
       <MyPageIcon isActive={isActive} />
