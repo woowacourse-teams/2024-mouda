@@ -1,18 +1,19 @@
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import Back from '@_common/assets/back.svg';
 import CalenderClock from '@_components/Icons/CalenderClock';
 import ChatBottomMenu from '../ChatPage/components/ChatBottomMenu/ChatBottomMenu';
 import ChatList from '../ChatPage/components/ChatList/ChatList';
 import ChatMenuItem from '../ChatPage/components/ChatMenuItem/ChatMenuItem';
 import ChattingFooter from '../ChatPage/components/ChattingFooter/ChattingFooter';
 import ChattingRoomLayout from '@_layouts/ChattingRoomLayout/ChattingRoomLayout';
+import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
 import DateTimeModalContent from '../ChatPage/components/DateTimeModalContent/DateTimeModalContent';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import Modal from '@_components/Modal/Modal';
 import Picker from '@_components/Icons/Picker';
 import PlaceModalContent from './components/PlaceModalContent/PlaceModalContent';
+import SolidArrow from '@_components/Icons/SolidArrow';
 import useChamyoMine from '@_hooks/queries/useChamyoMine';
 import useChats from '@_hooks/queries/useChats';
 import useConfirmDateTime from '@_hooks/mutaions/useConfirmDatetime';
@@ -116,12 +117,12 @@ export default function ChattingRoomPage() {
     <ChattingRoomLayout>
       <ChattingRoomLayout.Header>
         <ChattingRoomLayout.Header.Left>
-          <div onClick={() => navigate(-1)}>
-            <Back />
-          </div>
+          <SolidArrow direction="left" onClick={() => navigate(-1)} />
         </ChattingRoomLayout.Header.Left>
         <ChattingRoomLayout.Header.Center>
-          <h2 css={theme.typography.s1}>{moim?.title}</h2>
+          <DarakbangNameWrapper font={theme.typography.s1}>
+            {moim?.title}
+          </DarakbangNameWrapper>
         </ChattingRoomLayout.Header.Center>
       </ChattingRoomLayout.Header>
       <ChatList chats={chats} />
