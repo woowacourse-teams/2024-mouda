@@ -4,7 +4,7 @@ import PlusButton from '@_components/PlusButton/PlusButton';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
 import ListLayout from '@_layouts/ListLayout/ListLayout';
 import { useTheme } from '@emotion/react';
-import { Fragment } from 'react';
+import { Fragment, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BetList from './components/BetList/BetList';
 
@@ -21,7 +21,9 @@ export default function BetListPage() {
         </ListLayout.Header>
 
         <ListLayout.Main>
-          <BetList />
+          <Suspense>
+            <BetList />
+          </Suspense>
         </ListLayout.Main>
 
         <ListLayout.PlusButtonWrapper>
