@@ -4,7 +4,9 @@ export const item = css`
   display: flex;
   flex-direction: column;
   align-items: center;
+
   width: 7rem;
+  height: 100%;
 `;
 
 export const button = ({ theme }: { theme: Theme }) => {
