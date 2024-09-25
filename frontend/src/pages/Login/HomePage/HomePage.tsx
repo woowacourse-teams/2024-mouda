@@ -1,7 +1,7 @@
 import { css, useTheme } from '@emotion/react';
 
 import GET_ROUTES from '@_common/getRoutes';
-import KakaoOAuthLoginIcon from '@_components/Icons/KakaoOAuthIcon';
+import GoogleOAuthIcon from '@_common/assets/googleLogin.svg';
 import LoginLayout from '@_layouts/LoginLayout/LoginLayout';
 import MainLogoIcon from '@_components/Icons/MainLogoIcon';
 import { Navigate } from 'react-router-dom';
@@ -27,7 +27,7 @@ export default function HomePage() {
   const kakaoAuthLogin = () => {
     if (
       !process.env.KAKAO_O_AUTH_CLIENT_ID ||
-      !process.env.KAKAO_O_AUTH_REDIRECT_URI
+      !process.env.OAUTH_REDIRECT_URI
     ) {
       throw new Error('Kakao OAuth 정보가 없습니다.');
     }
@@ -36,13 +36,12 @@ export default function HomePage() {
 
     const params = {
       client_id: process.env.KAKAO_O_AUTH_CLIENT_ID,
-      redirect_uri: process.env.KAKAO_O_AUTH_REDIRECT_URI,
+      redirect_uri: process.env.OAUTH_REDIRECT_URI,
       response_type: 'code',
       scope: 'openid',
     };
     const queryString = new URLSearchParams(params).toString();
     const kakaoOAuthUrl = `${requestUrl}?${queryString}`;
-    console.log(process.env.MSW);
     if (process.env.MSW == 'true') {
       window.location.href = 'http://localhost:8081/kakao-o-auth?code=1';
     } else {
@@ -93,7 +92,7 @@ export default function HomePage() {
           }}
           onClick={kakaoAuthLogin}
         >
-          <KakaoOAuthLoginIcon />
+          <GoogleOAuthIcon />
         </button>
       </LoginLayout.Footer>
     </LoginLayout>
