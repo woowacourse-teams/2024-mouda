@@ -36,12 +36,8 @@ module.exports = merge(common, {
       }),
     ],
     splitChunks: {
-      chunks: 'all', // 모든 타입의 청크를 분할
-      maxInitialRequests: 3,
-      maxAsyncRequests: 5,
-      minSize: 30000,
+      chunks: 'all',
     },
-    runtimeChunk: 'single', // 런타임 청크를 분리
   },
   plugins: [
     // Put the Sentry Webpack plugin after all other plugins
