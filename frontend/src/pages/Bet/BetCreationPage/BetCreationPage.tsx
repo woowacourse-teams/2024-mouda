@@ -5,6 +5,7 @@ import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
 import TitleStep from './components/Steps/TitleStep';
 import { useState } from 'react';
 import { BetInputInfo } from '@_types/index';
+import MaxPeopleStep from './components/Steps/MaxPeopleStep';
 
 type BetCreationStep = '제목' | '몇명' | '언제';
 
@@ -19,8 +20,6 @@ export default function BetCreationPage() {
     maxPeople: 2,
     when: '',
   });
-
-  const createBet = () => {};
 
   return (
     <FunnelLayout>
@@ -43,7 +42,16 @@ export default function BetCreationPage() {
               onButtonClick={() => goNextStep('몇명')}
             />
           ),
-          몇명: <div onClick={createBet}>참여자수입력</div>,
+          몇명: (
+            <MaxPeopleStep
+              maxPeople={state.maxPeople}
+              isValid={true}
+              onMaxPeopleChange={(maxPeople) =>
+                setState({ ...state, maxPeople })
+              }
+              onButtonClick={() => goNextStep('언제')}
+            />
+          ),
           언제: <div>언제</div>,
         }}
       />
