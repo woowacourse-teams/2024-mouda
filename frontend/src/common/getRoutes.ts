@@ -32,6 +32,7 @@ const GET_ROUTES = {
     darakbangLanding: () => getNowDarakbangRoute() + '/darakbang-landing',
 
     bet: () => getNowDarakbangRoute() + '/bet',
+    betCreation: () => getNowDarakbangRoute() + '/bet/creation',
   },
 };
 export default GET_ROUTES;
