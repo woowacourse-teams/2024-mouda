@@ -104,3 +104,9 @@ export interface Darakbang {
 }
 
 export type DarakbangRole = 'MANAGER' | 'MEMBER' | 'OUTSIDER';
+
+export interface BetInputInfo {
+  title: string;
+  maxPeople: number;
+  when: string;
+}
