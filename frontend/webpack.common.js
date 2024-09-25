@@ -59,6 +59,7 @@ module.exports = {
             resourceQuery: { not: [/url/] },
             generator: {
               outputPath: 'svgs/',
+              publicPath: 'svgs/',
             },
           },
           {
@@ -66,6 +67,7 @@ module.exports = {
             resourceQuery: /url/,
             generator: {
               outputPath: 'svgs/',
+              publicPath: 'svgs/',
             },
           },
         ],
@@ -75,6 +77,7 @@ module.exports = {
         type: 'asset/resource',
         generator: {
           outputPath: 'assets/',
+          publicPath: 'assets/',
         },
       },
     ],
