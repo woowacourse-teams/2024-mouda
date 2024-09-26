@@ -2,19 +2,19 @@ spring:
   datasource:
     master:
       hikari:
-        username: mouda
-        password: ywLyoeEBLGm8
+        username: ${MASTER_MYSQL_USERNAME}
+        password: ${MASTER_MYSQL_PASSWORD}
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://database-project.cluster-cqsc6pyqhwww.ap-northeast-2.rds.amazonaws.com:3306/mouda
+        jdbc-url: ${MASTER_MYSQL_URL}
     slave:
       hikari:
-        username: mouda
-        password: ywLyoeEBLGm8
+        username: ${SLAVE_MYSQL_USERNAME}
+        password: ${SLAVE_MYSQL_PASSWORD}
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://database-project.cluster-ro-cqsc6pyqhwww.ap-northeast-2.rds.amazonaws.com:3306/mouda
+        jdbc-url: ${SLAVE_MYSQL_URL}
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: false
 
 url:
