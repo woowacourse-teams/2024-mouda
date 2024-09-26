@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.auth.business.AuthService;
+import mouda.backend.auth.business.KakaoAuthService;
 import mouda.backend.auth.exception.AuthErrorMessage;
 import mouda.backend.auth.exception.AuthException;
 
@@ -18,7 +19,7 @@ public class AuthenticationCheckInterceptor implements HandlerInterceptor {
 
 	private static final String AUTHORIZATION_PREFIX = "Bearer ";
 
-	private final AuthService authService;
+	private final KakaoAuthService authService;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {

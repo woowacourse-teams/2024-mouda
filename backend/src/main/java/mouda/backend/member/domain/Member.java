@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,11 +28,13 @@ public class Member {
 
 	private String nickname;
 
-	private Long kakaoId;
+	@Embedded
+	private LoginDetail loginDetail;
 
 	@Builder
-	public Member(String nickname, Long kakaoId) {
-		this.kakaoId = kakaoId;
+	public Member(String nickname, LoginDetail loginDetail) {
+		this.loginDetail = loginDetail;
+		validateNickname(nickname);
 		this.nickname = nickname;
 	}
 
@@ -42,6 +45,10 @@ public class Member {
 		if (nickname.length() >= NICKNAME_MAX_LENGTH) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MEMBER_NICKNAME_TOO_LONG);
 		}
+	}
+
+	public Long getSocialLoginId() {
+		return loginDetail.getSocialLoginId();
 	}
 
 	@Override

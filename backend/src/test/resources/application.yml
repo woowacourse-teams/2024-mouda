@@ -7,9 +7,9 @@ spring:
     hibernate:
       ddl-auto: create-drop
     defer-datasource-initialization: true
-  sql:
-    init:
-      data-locations: classpath:test-data.sql
+#  sql:
+#    init:
+#      data-locations: classpath:test-data.sql
 
 security:
   jwt:
@@ -25,7 +25,9 @@ url:
   moim: /darakbang/%d/moim/%d
   chat: /darakbang/%d/chat/%d
   chatroom: /darakbang/%d/chatting-room/%d
-  
+
 oauth:
   kakao:
     redirect-uri: http://localhost:8081/kakao-o-auth
+  apple:
+    redirect-uri: http://localhost:8081/apple-o-auth

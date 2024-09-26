@@ -12,7 +12,7 @@ import org.springframework.web.servlet.HandlerMapping;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import mouda.backend.auth.business.AuthService;
+import mouda.backend.darakbangmember.business.DarakbangMemberService;
 import mouda.backend.member.domain.Member;
 
 @Component
@@ -20,7 +20,7 @@ import mouda.backend.member.domain.Member;
 public class LoginDarakbangMemberArgumentResolver implements HandlerMethodArgumentResolver {
 
 	private final LoginMemberArgumentResolver loginMemberArgumentResolver;
-	private final AuthService authService;
+	private final DarakbangMemberService darakbangMemberService;
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
@@ -39,6 +39,6 @@ public class LoginDarakbangMemberArgumentResolver implements HandlerMethodArgume
 		Member member = (Member)loginMemberArgumentResolver.resolveArgument(
 			parameter, mavContainer, webRequest, binderFactory);
 
-		return authService.findDarakbangMember(darakbangId, member);
+		return darakbangMemberService.findDarakbangMember(darakbangId, member);
 	}
 }
