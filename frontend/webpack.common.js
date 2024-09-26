@@ -10,15 +10,18 @@ module.exports = {
 
   output: {
     filename: '[name].[contenthash].js', // 캐시를 위한 해시 추가
+    chunkFilename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
     publicPath: '/',
   },
+
   devServer: {
     historyApiFallback: true,
     open: true,
     port:8081
   },
+  
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './src/index.html'),

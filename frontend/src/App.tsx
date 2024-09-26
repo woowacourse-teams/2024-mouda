@@ -15,9 +15,10 @@ export default function App() {
 
   useEffect(() => {
     window.addEventListener('beforeunload', removeInviteCode);
-
-    return window.removeEventListener('beforeunload', removeInviteCode);
-  });
+    return () => {
+      window.removeEventListener('beforeunload', removeInviteCode);
+    };
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>

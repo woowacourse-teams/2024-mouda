@@ -2,7 +2,7 @@ import * as S from './MissingFallback.style';
 
 import { SerializedStyles, useTheme } from '@emotion/react';
 
-import regretCat from '@_common/assets/regret_cat.png';
+import regretCat from '@_common/assets/regret_cat.webp';
 
 interface MissingFallbackProps {
   text: string;
