@@ -6,6 +6,7 @@ import TitleStep from './components/Steps/TitleStep';
 import { useState } from 'react';
 import { BetInputInfo } from '@_types/index';
 import MaxPeopleStep from './components/Steps/MaxPeopleStep';
+import TimeStep from './components/Steps/TimeStep';
 
 type BetCreationStep = '제목' | '몇명' | '언제';
 
@@ -20,6 +21,10 @@ export default function BetCreationPage() {
     maxPeople: 2,
     when: '',
   });
+
+  const createBet = () => {
+    alert('TODO: 내기 생성!');
+  };
 
   return (
     <FunnelLayout>
@@ -52,7 +57,14 @@ export default function BetCreationPage() {
               onButtonClick={() => goNextStep('언제')}
             />
           ),
-          언제: <div>언제</div>,
+          언제: (
+            <TimeStep
+              when={state.when}
+              isValid={true}
+              onWhenChange={(when: string) => setState({ ...state, when })}
+              onButtonClick={createBet}
+            />
+          ),
         }}
       />
     </FunnelLayout>
