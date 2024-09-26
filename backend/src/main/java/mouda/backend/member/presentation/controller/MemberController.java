@@ -1,6 +1,7 @@
 package mouda.backend.member.presentation.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,5 +31,11 @@ public class MemberController implements MemberSwagger {
 		MemberFindResponse memberFindResponse = memberService.findMyInfo(member);
 
 		return ResponseEntity.ok().body(new RestResponse<>(memberFindResponse));
+	}
+
+	@DeleteMapping("/delete")
+	public ResponseEntity<Void> removeMember(@LoginDarakbangMember DarakbangMember member) {
+		memberService.remove(member);
+		return ResponseEntity.ok().build();
 	}
 }

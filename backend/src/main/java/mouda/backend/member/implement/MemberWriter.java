@@ -15,4 +15,8 @@ public class MemberWriter {
 	public Member append(Member member) {
 		return memberRepository.save(member);
 	}
+
+	public void remove(Member member) {
+		memberRepository.delete(member);
+	}
 }
