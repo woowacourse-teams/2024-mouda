@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: [self-hosted, develop]
+    runs-on: [self-hosted, dev]
 
     steps:
       - name: deploy
