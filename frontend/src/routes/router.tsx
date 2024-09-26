@@ -5,7 +5,6 @@ import ProtectedRoute from './ProtectedRoute';
 import ROUTES from '@_constants/routes';
 
 import { createBrowserRouter } from 'react-router-dom';
-import { Suspense } from 'react';
 import NotFoundPage from '@_pages/Fallback/NotFoundPage/NotFoundPage';
 import SlashRoute from '../pages/Navigator/SlashRoute';
 import MainPage from '@_pages/Moim/MainPage/MainPage';
@@ -169,17 +168,11 @@ const router = createBrowserRouter(
   routesConfig.map((route) => ({
     path: route.path,
     element: route.requiresAuth ? (
-      <Suspense fallback={<div>Loading...</div>}>
-        <ProtectedRoute>{route.element}</ProtectedRoute>
-      </Suspense>
+      <ProtectedRoute>{route.element}</ProtectedRoute>
     ) : (
       route.element
     ),
-    errorElement: (
-      <Suspense fallback={<div>Loading...</div>}>
-        <ErrorRoute />
-      </Suspense>
-    ),
+    errorElement: <ErrorRoute />,
   })),
 );
 
