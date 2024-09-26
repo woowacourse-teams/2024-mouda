@@ -24,6 +24,7 @@ jobs:
 
   deploy-on-prod2:
     runs-on: [self-hosted, runner-prod2]
+    needs: deploy-on-prod1
 
     steps:
       - name: update properties if exists
