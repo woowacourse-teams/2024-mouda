@@ -34,7 +34,7 @@ public class NotificationController implements NotificationSwagger {
 		notificationService.registerFcmToken(member.getId(), fcmTokenSaveRequest);
 
 		return ResponseEntity.ok().build();
-	}
+	}	
 
 	@Override
 	@GetMapping("/v1/darakbang/{darakbangId}/notification/mine")
