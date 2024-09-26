@@ -37,7 +37,7 @@ function initializeForegroundMessageHandling() {
   });
 }
 
-if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator && process.env.MSW !== 'true') {
   navigator.serviceWorker
     .register(`/firebase-messaging-sw.js`)
     .then((registration) => {
