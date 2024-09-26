@@ -1,5 +1,5 @@
 import FunnelStepIndicator from '@_components/Funnel/FunnelStepIndicator/FunnelStepIndicator';
-import BackArrowButton from '@_components/Icons/BackArrowButton/BackArrowButton';
+import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
 import useFunnel from '@_hooks/useFunnel';
 import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
 import TitleStep from './components/Steps/TitleStep';
