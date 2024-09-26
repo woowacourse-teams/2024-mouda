@@ -6,10 +6,35 @@ on:
       - develop
 
 jobs:
-  deploy:
-    runs-on: prod
+  deploy-on-prod1:
+    runs-on: [self-hosted, runner-prod1]
 
     steps:
+      - name: update properties if exists
+        run: |
+          if [ -n "${{ secrets.NEW_PROPERTIES }}" ]; then
+            cd ~/deploy
+            echo "${{ secrets.NEW_PROPERTIES }}" > new_properties
+            ./add-new-properties.sh
+          fi
+
       - name: deploy
         run: |
           cd ~/deploy && ./deploy.sh
+
+  deploy-on-prod2:
+    runs-on: [self-hosted, runner-prod2]
+
+    steps:
+      - name: update properties if exists
+        run: |
+          if [ -n "${{ secrets.NEW_PROPERTIES }}" ]; then
+            cd ~/deploy
+            echo "${{ secrets.NEW_PROPERTIES }}" > new_properties
+            ./update-properties.sh
+          fi
+
+      - name: deploy
+        run: |
+          cd ~/deploy && ./deploy.sh
+    
