@@ -1,20 +1,17 @@
 import ErrorRoute from './ErrorRoute';
-
 import ProtectedRoute from './ProtectedRoute';
-
 import ROUTES from '@_constants/routes';
-
 import { createBrowserRouter } from 'react-router-dom';
 import NotFoundPage from '@_pages/Fallback/NotFoundPage/NotFoundPage';
 import SlashRoute from '../pages/Navigator/SlashRoute';
+import HomePage from '@_pages/Login/HomePage/HomePage';
+import OAuthLoginPage from '@_pages/Login/OAuthLoginPage/OAuthLoginPage';
 import MainPage from '@_pages/Moim/MainPage/MainPage';
 import MoimCreationPage from '@_pages/Moim/MoimCreationPage/MoimCreationPage';
 import MoimDetailPage from '@_pages/Moim/MoimDetailPage/MoimDetailPage';
 import ParticipationCompletePage from '@_pages/Moim/ParticipationCompletePage/ParticipationCompletePage';
 import ChatPage from '@_pages/Chatting/ChatPage/ChatPage';
 import ChattingRoomPage from '@_pages/Chatting/ChattingRoomPage/ChattingRoomPage';
-import HomePage from '@_pages/Login/HomePage/HomePage';
-import KakaoOAuthLoginPage from '@_pages/Login/KakaoOAuthLoginPage/KakaoOAuthLoginPage';
 import MoimModifyPage from '@_pages/Moim/MoimModifyPage/MoimModifyPage';
 import PleasePage from '@_pages/Please/PleasePage/PleasePage';
 import PleaseCreationPage from '@_pages/Please/PleaseCreationPage/PleaseCreationPage';
@@ -79,7 +76,7 @@ const routesConfig = [
   },
   {
     path: ROUTES.kakaoOAuth,
-    element: <KakaoOAuthLoginPage />,
+    element: <OAuthLoginPage />,
     requiresAuth: false,
   },
   {
