@@ -48,7 +48,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: [self-hosted, develop]
+    runs-on: [self-hosted, dev]
 
     steps:
       - name: change permission
