@@ -5,6 +5,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+
 module.exports = merge(common, {
   mode: 'production',
   devtool: 'hidden-source-map',
@@ -35,7 +36,7 @@ module.exports = merge(common, {
     ],
     splitChunks: {
       chunks: 'all',
-    }
+    },
   },
   
   plugins: [
@@ -50,6 +51,6 @@ module.exports = merge(common, {
         { from: 'public', to: '', globOptions: { ignore: ['**/mockServiceWorker.js'] } },
       ],
     }),
-    new BundleAnalyzerPlugin()
+    new BundleAnalyzerPlugin(),
   ],
 });

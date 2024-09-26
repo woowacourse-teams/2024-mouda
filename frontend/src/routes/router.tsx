@@ -1,32 +1,35 @@
-import ChatPage from '@_pages/Chatting/ChatPage/ChatPage';
-import ChattingRoomPage from '@_pages/Chatting/ChattingRoomPage/ChattingRoomPage';
-import DarakbangCreationPage from '@_pages/Darakbang/DarakbangCreationPage/DarakbangCreationPage';
-import DarakbangEntrancePage from '@_pages/Darakbang/DarakbangEntrancePage/DarakbangEntrancePage';
-import DarakbangInvitationPage from '@_pages/Darakbang/DarakbangInvitationPage/DarakbangInvitationPage';
-import DarakbangInvitationRoute from '../pages/Navigator/DarakbangInvitationRoute';
-import DarakbangLandingPage from '@_pages/Darakbang/DarakbangLandingPage/DarakbangLandingPage';
-import DarakbangManagementPage from '@_pages/Darakbang/DarakbangManagementPage/DarakbangManagementPage';
-import DarakbangMembersPage from '@_pages/Darakbang/DarakbangMembersPage/DarakbangMembersPage';
-import DarakbangNicknamePage from '@_pages/Darakbang/DarakbangNicknamePage/DarakbangNicknamePage';
-import DarakbangSelectOptionPage from '@_pages/Darakbang/DarakbangSelectOptionPage/DarakbangSelectOptionPage';
-import DarakbangSelectPage from '@_pages/Darakbang/DarakbangSelectPage/DarakbangSelectPage';
 import ErrorRoute from './ErrorRoute';
-import HomePage from '@_pages/Login/HomePage/HomePage';
-import KakaoOAuthLoginPage from '@_pages/Login/KakaoOAuthLoginPage/KakaoOAuthLoginPage';
+
+import ProtectedRoute from './ProtectedRoute';
+
+import ROUTES from '@_constants/routes';
+
+import { createBrowserRouter } from 'react-router-dom';
+import NotFoundPage from '@_pages/Fallback/NotFoundPage/NotFoundPage';
+import SlashRoute from '../pages/Navigator/SlashRoute';
 import MainPage from '@_pages/Moim/MainPage/MainPage';
 import MoimCreationPage from '@_pages/Moim/MoimCreationPage/MoimCreationPage';
 import MoimDetailPage from '@_pages/Moim/MoimDetailPage/MoimDetailPage';
-import MoimModifyPage from '@_pages/Moim/MoimModifyPage/MoimModifyPage';
-import MyPage from '@_pages/Mypage/MyPage';
-import NotFoundPage from '@_pages/Fallback/NotFoundPage/NotFoundPage';
-import NotificationPage from '@_pages/Notification/NotificationPage';
 import ParticipationCompletePage from '@_pages/Moim/ParticipationCompletePage/ParticipationCompletePage';
-import PleaseCreationPage from '@_pages/Please/PleaseCreationPage/PleaseCreationPage';
+import ChatPage from '@_pages/Chatting/ChatPage/ChatPage';
+import ChattingRoomPage from '@_pages/Chatting/ChattingRoomPage/ChattingRoomPage';
+import HomePage from '@_pages/Login/HomePage/HomePage';
+import KakaoOAuthLoginPage from '@_pages/Login/KakaoOAuthLoginPage/KakaoOAuthLoginPage';
+import MoimModifyPage from '@_pages/Moim/MoimModifyPage/MoimModifyPage';
 import PleasePage from '@_pages/Please/PleasePage/PleasePage';
-import ProtectedRoute from './ProtectedRoute';
-import ROUTES from '@_constants/routes';
-import SlashRoute from '../pages/Navigator/SlashRoute';
-import { createBrowserRouter } from 'react-router-dom';
+import PleaseCreationPage from '@_pages/Please/PleaseCreationPage/PleaseCreationPage';
+import MyPage from '@_pages/Mypage/MyPage';
+import NotificationPage from '@_pages/Notification/NotificationPage';
+import DarakbangSelectOptionPage from '@_pages/Darakbang/DarakbangSelectOptionPage/DarakbangSelectOptionPage';
+import DarakbangSelectPage from '@_pages/Darakbang/DarakbangSelectPage/DarakbangSelectPage';
+import DarakbangCreationPage from '@_pages/Darakbang/DarakbangCreationPage/DarakbangCreationPage';
+import DarakbangEntrancePage from '@_pages/Darakbang/DarakbangEntrancePage/DarakbangEntrancePage';
+import DarakbangNicknamePage from '@_pages/Darakbang/DarakbangNicknamePage/DarakbangNicknamePage';
+import DarakbangLandingPage from '@_pages/Darakbang/DarakbangLandingPage/DarakbangLandingPage';
+import DarakbangManagementPage from '@_pages/Darakbang/DarakbangManagementPage/DarakbangManagementPage';
+import DarakbangMembersPage from '@_pages/Darakbang/DarakbangMembersPage/DarakbangMembersPage';
+import DarakbangInvitationPage from '@_pages/Darakbang/DarakbangInvitationPage/DarakbangInvitationPage';
+import DarakbangInvitationRoute from '@_pages/Navigator/DarakbangInvitationRoute';
 
 const routesConfig = [
   {
