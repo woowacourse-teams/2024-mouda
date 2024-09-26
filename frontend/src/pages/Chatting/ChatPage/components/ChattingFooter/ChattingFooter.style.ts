@@ -39,9 +39,10 @@ export const messageForm = ({ theme }: { theme: Theme }) => css`
 
 export const messageTextArea = ({ theme }: { theme: Theme }) => css`
   ${theme.typography.s2};
-  width: 100%;
 
   resize: none;
+
+  width: 100%;
 
   background: rgb(0 0 0 / 0%);
   border: 0;

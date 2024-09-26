@@ -59,6 +59,7 @@ export default function useStatePersist<StateType>({
 
   useEffect(() => {
     removeStoredValue();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return [state, setState];
