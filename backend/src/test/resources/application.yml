@@ -29,3 +29,6 @@ url:
 oauth:
   kakao:
     redirect-uri: http://localhost:8081/kakao-o-auth
+
+bet:
+  schedule: 1 # 테스트 스케줄러는 1ms 로 동작하도록 함

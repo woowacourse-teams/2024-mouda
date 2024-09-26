@@ -15,3 +15,6 @@ url:
   moim: /darakbang/%d/moim/%d
   chat: /darakbang/%d/chat/%d
   chatroom: /darakbang/%d/chatting-room/%d
+
+bet:
+  schedule: 60000 # 1분

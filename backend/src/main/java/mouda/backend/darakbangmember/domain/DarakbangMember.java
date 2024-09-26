@@ -19,6 +19,7 @@ import jakarta.persistence.UniqueConstraint;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mouda.backend.bet.domain.Participant;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbangmember.exception.DarakbangMemberErrorMessage;
 import mouda.backend.darakbangmember.exception.DarakbangMemberException;
@@ -86,5 +87,9 @@ public class DarakbangMember {
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(id);
+	}
+
+	public Participant toParticipant() {
+		return new Participant(memberId, nickname);
 	}
 }
