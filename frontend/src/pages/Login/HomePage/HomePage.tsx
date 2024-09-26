@@ -24,12 +24,12 @@ export default function HomePage() {
     }
   }
 
-  const kakaoAuthLogin = () => {
+  const appleAuthLogin = () => {
     if (
       !process.env.KAKAO_O_AUTH_CLIENT_ID ||
       !process.env.OAUTH_REDIRECT_URI
     ) {
-      throw new Error('Kakao OAuth 정보가 없습니다.');
+      throw new Error('Apple OAuth 정보가 없습니다.');
     }
 
     const requestUrl = `https://kauth.kakao.com/oauth/authorize`;
@@ -41,15 +41,36 @@ export default function HomePage() {
       scope: 'openid',
     };
     const queryString = new URLSearchParams(params).toString();
-    const kakaoOAuthUrl = `${requestUrl}?${queryString}`;
+    const appleOAuthUrl = `${requestUrl}?${queryString}`;
+    if (process.env.MSW == 'true') {
+      window.location.href = 'http://localhost:8081/kakao-o-auth?code=1';
+    } else {
+      window.location.href = appleOAuthUrl;
+    }
+  };
+
+  const goolgeAuthLogin = () => {
+    if (
+      !process.env.GOOGLE_O_AUTH_CLIENT_ID ||
+      !process.env.OAUTH_REDIRECT_URI
+    ) {
+      throw new Error('Google OAuth 정보가 없습니다.');
+    }
+
+    const params = {
+      client_id: process.env.GOOGLE_O_AUTH_CLIENT_ID,
+      redirect_uri: process.env.OAUTH_REDIRECT_URI,
+      response_type: 'code',
+      scope: 'openid',
+    };
+    const queryString = new URLSearchParams(params).toString();
+    const kakaoOAuthUrl = `${process.env.GOOGLE_REQUEST_URL}?${queryString}`;
     if (process.env.MSW == 'true') {
       window.location.href = 'http://localhost:8081/kakao-o-auth?code=1';
     } else {
       window.location.href = kakaoOAuthUrl;
     }
   };
-
-  const appleAuthLogin = () => {};
 
   return (
     <LoginLayout>
@@ -90,7 +111,7 @@ export default function HomePage() {
             background: 'none',
             border: 'none',
           }}
-          onClick={kakaoAuthLogin}
+          onClick={goolgeAuthLogin}
         >
           <GoogleOAuthIcon />
         </button>

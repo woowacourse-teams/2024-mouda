@@ -7,6 +7,7 @@ import { common } from '@_common/common.style';
 import useMyInfo from '@_hooks/queries/useMyInfo';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import { css, useTheme } from '@emotion/react';
+import { AccountButton } from './MyPage.style';
 
 export default function MyPage() {
   const { myInfo, isLoading } = useMyInfo();
@@ -41,23 +42,13 @@ export default function MyPage() {
         >
           <button
             onClick={() => alert('TODO: 로그아웃')}
-            css={css`
-              ${theme.typography.b2}
-              background: none;
-              border: 1px solid ${theme.colorPalette.grey[200]};
-              border-radius: 4px;
-            `}
+            css={AccountButton({ theme })}
           >
             로그아웃
           </button>
           <button
             onClick={() => alert('TODO: 회원탈퇴')}
-            css={css`
-              ${theme.typography.b2}
-              background: none;
-              border: 1px solid ${theme.colorPalette.grey[200]};
-              border-radius: 4px;
-            `}
+            css={AccountButton({ theme })}
           >
             회원탈퇴
           </button>
