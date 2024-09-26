@@ -51,6 +51,11 @@ module.exports = merge(common, {
         { from: 'public', to: '', globOptions: { ignore: ['**/mockServiceWorker.js'] } },
       ],
     }),
-    new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin(
+      {
+        analyzerMode: 'disabled', // 기본값으로는 'server', 브라우저에서 분석 결과 제공
+        openAnalyzer: false,    // 브라우저가 자동으로 열리지 않도록 설정
+      }
+    ),
   ],
 });
