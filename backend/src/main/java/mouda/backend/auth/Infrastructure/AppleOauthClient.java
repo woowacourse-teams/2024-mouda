@@ -10,8 +10,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.auth.Infrastructure.response.TokenResponse;
 import mouda.backend.auth.implement.JwtProvider;
+import mouda.backend.auth.presentation.response.OauthResponse;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.implement.MemberFinder;
 
@@ -19,10 +19,10 @@ import mouda.backend.member.implement.MemberFinder;
 @RequiredArgsConstructor
 public class AppleOauthClient implements OauthClient {
 
-	private static final String CLIENT_ID = "ca3adf9a52671fdbb847b809c0fdb980";
+	private static final String CLIENT_ID = "site.mouda.backend";
 	private static final String APPLE_API_URL = "https://appleid.apple.com/auth/token";
 	private static final String GRANT_TYPE = "authorization_code";
-	
+
 	private final RestClient restClient;
 	private final JwtProvider jwtProvider;
 	private final MemberFinder memberFinder;
@@ -34,13 +34,13 @@ public class AppleOauthClient implements OauthClient {
 	public String getIdToken(String code) {
 		HttpHeaders headers = getHttpHeaders();
 		MultiValueMap<String, String> formData = getFormData(code);
-		TokenResponse tokenResponse = restClient.method(HttpMethod.POST)
+		OauthResponse oauthResponse = restClient.method(HttpMethod.POST)
 			.uri(APPLE_API_URL)
 			.headers(httpHeaders -> httpHeaders.addAll(headers))
 			.body(formData)
 			.retrieve()
-			.body(TokenResponse.class);
-		return tokenResponse.accessToken();
+			.body(OauthResponse.class);
+		return oauthResponse.id_token();
 	}
 
 	private HttpHeaders getHttpHeaders() {

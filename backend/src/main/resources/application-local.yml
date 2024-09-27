@@ -24,7 +24,7 @@ oauth:
   kakao:
     redirect-uri: http://localhost:8081/kakao-o-auth
   apple:
-    redirect-uri: http://localhost:8081/apple-o-auth
-    
+    redirect-uri: https://mouda.site:8081/oauth
+
 url:
   base: http://localhost:8081
