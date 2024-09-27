@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import mouda.backend.bet.domain.Bet;
+import mouda.backend.bet.domain.Loser;
 import mouda.backend.bet.entity.BetEntity;
 import mouda.backend.bet.infrastructure.BetRepository;
 import mouda.backend.common.fixture.BetEntityFixture;
@@ -19,6 +20,9 @@ class BetFinderTest extends DarakbangSetUp {
 
 	@Autowired
 	BetFinder betFinder;
+
+	@Autowired
+	BetWriter betWriter;
 
 	@Autowired
 	BetRepository betRepository;
@@ -77,5 +81,35 @@ class BetFinderTest extends DarakbangSetUp {
 
 		//then
 		assertThat(bets).hasSize(2);
+	}
+
+	@DisplayName("추첨 결과를 가져온다.")
+	@Test
+	void findBetResult() {
+		// given
+		long darakbangId = darakbang.getId();
+		BetEntity betEntity = BetEntityFixture.getDrawedBetEntity(darakbangId, darakbangAnna.getId());
+		BetEntity savedBetEntity = betRepository.save(betEntity);
+		betWriter.participate(darakbangId, savedBetEntity.getId(), darakbangAnna);
+
+		// when
+		Loser loser = betFinder.findResult(darakbangId, savedBetEntity.getId());
+
+		//then
+		assertThat(loser.getName()).isEqualTo(darakbangAnna.getNickname());
+	}
+
+	@DisplayName("추첨이 진행되지 않은 결과를 조회할 경우 예외가 발생한다.")
+	@Test
+	void findBetResult_beforeDraw() {
+		// given
+		long darakbangId = darakbang.getId();
+		BetEntity betEntity = BetEntityFixture.getBetEntity(darakbangId, darakbangAnna.getId());
+		BetEntity savedBetEntity = betRepository.save(betEntity);
+
+		// when & then
+		assertThatThrownBy(() -> betFinder.findResult(darakbangId, savedBetEntity.getId()))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("아직 추첨이 진행되지 않았습니다."); // TODO : 예외 공통 처리 하면서 없애기
 	}
 }

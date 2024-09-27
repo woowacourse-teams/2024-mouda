@@ -1,6 +1,7 @@
 package mouda.backend.bet.infrastructure;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +16,6 @@ public interface BetDarakbangMemberRepository extends JpaRepository<BetDarakbang
 	List<DarakbangMember> findAllDarakbangMemberByBetId(@Param("betId") Long betId);
 
 	List<BetDarakbangMemberEntity> findAllByBetId(Long id);
+
+	Optional<BetDarakbangMemberEntity> findByDarakbangMemberId(Long loserDarakbangMemberId);
 }

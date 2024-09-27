@@ -3,14 +3,17 @@ package mouda.backend.bet.business;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.domain.Bet;
+import mouda.backend.bet.domain.Loser;
 import mouda.backend.bet.implement.BetFinder;
 import mouda.backend.bet.implement.BetWriter;
 import mouda.backend.bet.presentation.request.BetCreateRequest;
 import mouda.backend.bet.presentation.response.BetFindAllResponses;
 import mouda.backend.bet.presentation.response.BetFindResponse;
+import mouda.backend.bet.presentation.response.BetResultResponse;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 
 @Service
@@ -40,6 +43,12 @@ public class BetService {
 
 	public void participateBet(long darakbangId, long betId, DarakbangMember darakbangMember) {
 		betWriter.participate(darakbangId, betId, darakbangMember);
+	}
+
+	@Transactional(readOnly = true)
+	public BetResultResponse findBetResult(long darakbangId, long betId) {
+		Loser loser = betFinder.findResult(darakbangId, betId);
+		return BetResultResponse.from(loser);
 	}
 }
 
