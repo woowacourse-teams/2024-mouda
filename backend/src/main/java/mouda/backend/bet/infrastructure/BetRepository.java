@@ -2,6 +2,7 @@ package mouda.backend.bet.infrastructure;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,4 +13,6 @@ public interface BetRepository extends JpaRepository<BetEntity, Long> {
 	List<BetEntity> findAllByBettingTime(LocalDateTime currentTime);
 
 	List<BetEntity> findAllByDarakbangId(long darakbangId);
+
+	Optional<BetEntity> findByIdAndDarakbangId(long darakbangId, long betEntityId);
 }

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import mouda.backend.bet.domain.Bet;
 import mouda.backend.bet.domain.BetDetails;
 import mouda.backend.bet.entity.BetEntity;
 import mouda.backend.bet.infrastructure.BetRepository;
@@ -21,6 +22,23 @@ class BetFinderTest extends DarakbangSetUp {
 
 	@Autowired
 	BetRepository betRepository;
+
+	@DisplayName("다락방에 존재하는 안내면진다를 조회한다.")
+	@Test
+	void find() {
+		// given
+		long darakbangId = darakbang.getId();
+		String title = "테니바보";
+		BetEntity betEntity = BetEntityFixture.getBetEntity(title, darakbangId, darakbangAnna.getId());
+		BetEntity savedBetEntity = betRepository.save(betEntity);
+
+		// when
+		Bet bet = betFinder.find(darakbangId, savedBetEntity.getId());
+
+		//then
+		assertThat(bet.getId()).isEqualTo(savedBetEntity.getId());
+		assertThat(bet.getBetDetails().getTitle()).isEqualTo(title);
+	}
 
 	@DisplayName("다락방에 존재하는 모든 안내면진다를 조회한다.")
 	@Test

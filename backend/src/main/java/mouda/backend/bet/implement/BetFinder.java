@@ -22,8 +22,9 @@ public class BetFinder {
 	private final BetRepository betRepository;
 	private final ParticipantFinder participantFinder;
 
-	public Bet find(long betEntityId) {
-		BetEntity betEntity = betRepository.findById(betEntityId).orElseThrow(IllegalArgumentException::new);
+	public Bet find(long darakbangId, long betEntityId) {
+		BetEntity betEntity = betRepository.findByIdAndDarakbangId(betEntityId, darakbangId)
+			.orElseThrow(IllegalArgumentException::new);
 		List<Participant> participants = participantFinder.findAllByBetEntity(betEntity);
 
 		return Bet.builder()

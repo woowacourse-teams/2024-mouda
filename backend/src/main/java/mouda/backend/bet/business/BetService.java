@@ -26,8 +26,8 @@ public class BetService {
 		return BetFindAllResponses.toResponse(betDetails);
 	}
 
-	public BetFindResponse findBet(long betId) {
-		Bet bet = betFinder.find(betId);
+	public BetFindResponse findBet(long darakbangId, long betId) {
+		Bet bet = betFinder.find(darakbangId, betId);
 		return BetFindResponse.toResponse(bet);
 	}
 

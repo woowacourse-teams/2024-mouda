@@ -16,4 +16,15 @@ public class BetEntityFixture {
 			.moimerId(moimerId)
 			.build();
 	}
+
+	public static BetEntity getBetEntity(String title, long darakbangId, long moimerId) {
+		return BetEntity.builder()
+			.title(title)
+			.bettingTime(LocalDateTime.now()
+				.withSecond(0)
+				.withNano(0))
+			.darakbangId(darakbangId)
+			.moimerId(moimerId)
+			.build();
+	}
 }
