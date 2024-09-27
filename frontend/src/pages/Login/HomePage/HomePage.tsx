@@ -26,22 +26,20 @@ export default function HomePage() {
 
   const appleAuthLogin = () => {
     if (
-      !process.env.KAKAO_O_AUTH_CLIENT_ID ||
+      !process.env.APPLE_O_AUTH_CLIENT_ID ||
       !process.env.OAUTH_REDIRECT_URI
     ) {
       throw new Error('Apple OAuth 정보가 없습니다.');
     }
 
-    const requestUrl = `https://kauth.kakao.com/oauth/authorize`;
-
     const params = {
-      client_id: process.env.KAKAO_O_AUTH_CLIENT_ID,
+      client_id: process.env.APPLE_O_AUTH_CLIENT_ID,
       redirect_uri: process.env.OAUTH_REDIRECT_URI,
       response_type: 'code',
       scope: 'openid',
     };
     const queryString = new URLSearchParams(params).toString();
-    const appleOAuthUrl = `${requestUrl}?${queryString}`;
+    const appleOAuthUrl = `${process.env.APPLE_REQUEST_URL}?${queryString}`;
     if (process.env.MSW == 'true') {
       window.location.href = 'http://localhost:8081/kakao-o-auth?code=1';
     } else {
