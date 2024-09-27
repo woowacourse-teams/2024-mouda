@@ -14,6 +14,7 @@ import mouda.backend.bet.presentation.request.BetCreateRequest;
 import mouda.backend.bet.presentation.response.BetCreateResponse;
 import mouda.backend.bet.presentation.response.BetFindAllResponses;
 import mouda.backend.bet.presentation.response.BetFindResponse;
+import mouda.backend.bet.presentation.response.BetResultResponse;
 import mouda.backend.common.config.argumentresolver.LoginDarakbangMember;
 import mouda.backend.common.response.RestResponse;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
@@ -63,5 +64,16 @@ public class BetController {
 		betService.participateBet(darakbangId, betId, darakbangMember);
 
 		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping("/{betId}/result")
+	public ResponseEntity<RestResponse<BetResultResponse>> findBetResult(
+		@PathVariable Long darakbangId,
+		@PathVariable Long betId,
+		@LoginDarakbangMember DarakbangMember darakbangMember
+	) {
+		BetResultResponse response = betService.findBetResult(darakbangId, betId);
+
+		return ResponseEntity.ok(new RestResponse<>(response));
 	}
 }
