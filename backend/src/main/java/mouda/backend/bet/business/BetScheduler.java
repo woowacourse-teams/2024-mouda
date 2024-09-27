@@ -24,7 +24,7 @@ public class BetScheduler {
 
 	@Scheduled(fixedRateString = "${bet.schedule}") // 1분
 	public void performScheduledTask() {
-		List<Bet> bets = betFinder.findAll();
+		List<Bet> bets = betFinder.findAllDrawableBet();
 
 		betWriter.saveAll(new BettingResult(bets));
 	}

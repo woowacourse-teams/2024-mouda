@@ -41,9 +41,13 @@ public class BetFinder {
 			.toList();
 	}
 
-	public List<Bet> findAll() {
+	public List<Bet> findAllDrawableBet() {
 		List<BetEntity> betEntities = betRepository.findAllByBettingTime(LocalDateTime.now().withSecond(0).withNano(0));
 
+		return createBets(betEntities);
+	}
+
+	private List<Bet> createBets(List<BetEntity> betEntities) {
 		return betEntities.stream()
 			.map(betEntity -> {
 				List<DarakbangMember> darakbangMembers = betDarakbangMemberRepository.findAllDarakbangMemberByBetId(betEntity.getId());

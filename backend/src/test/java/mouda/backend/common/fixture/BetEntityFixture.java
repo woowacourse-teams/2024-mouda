@@ -27,4 +27,13 @@ public class BetEntityFixture {
 			.moimerId(moimerId)
 			.build();
 	}
+
+	public static BetEntity getBetEntity(long darakbangId, long moimerId, LocalDateTime bettingTime) {
+		return BetEntity.builder()
+			.title("테바바보")
+			.bettingTime(bettingTime)
+			.darakbangId(darakbangId)
+			.moimerId(moimerId)
+			.build();
+	}
 }

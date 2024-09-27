@@ -2,6 +2,7 @@ package mouda.backend.bet.implement;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -55,5 +56,27 @@ class BetFinderTest extends DarakbangSetUp {
 		//then
 		assertThat(betDetails).hasSize(1);
 		assertThat(emptyBetDetails).hasSize(0);
+	}
+
+	@DisplayName("추첨 가능한 모든 안내면진다를 조회한다.")
+	@Test
+	void findAllDrawableBets() {
+		// given
+		long darakbangId = darakbang.getId();
+		BetEntity betEntity = BetEntityFixture.getBetEntity(darakbangId, darakbangAnna.getId());
+		betRepository.save(betEntity);
+
+		long moudaDarakbangId = mouda.getId();
+		BetEntity betEntity2 = BetEntityFixture.getBetEntity(moudaDarakbangId, darakbangAnna.getId());
+		betRepository.save(betEntity2);
+
+		BetEntity betEntity3 = BetEntityFixture.getBetEntity(moudaDarakbangId, darakbangAnna.getId(), LocalDateTime.now().plusMinutes(10));
+		betRepository.save(betEntity3);
+
+		// when
+		List<Bet> bets = betFinder.findAllDrawableBet();
+
+		//then
+		assertThat(bets).hasSize(2);
 	}
 }
