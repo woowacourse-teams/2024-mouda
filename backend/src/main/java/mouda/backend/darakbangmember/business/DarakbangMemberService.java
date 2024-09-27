@@ -13,20 +13,17 @@ import mouda.backend.darakbangmember.implement.DarakbangMemberFinder;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberResponses;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRoleResponse;
 import mouda.backend.member.domain.Member;
-import mouda.backend.member.implement.MemberValidator;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class DarakbangMemberService {
 
-	private final MemberValidator memberValidator;
 	private final DarakbangMemberFinder darakbangMemberFinder;
 	private final DarakbangFinder darakbangFinder;
 
 	@Transactional(readOnly = true)
 	public DarakbangMemberResponses findAllDarakbangMembers(Long darakbangId, DarakbangMember member) {
-		memberValidator.validateNotManager(member);
 		DarakbangMembers darakbangMembers = darakbangMemberFinder.findAllDarakbangMembers(darakbangId);
 
 		return DarakbangMemberResponses.toResponse(darakbangMembers);

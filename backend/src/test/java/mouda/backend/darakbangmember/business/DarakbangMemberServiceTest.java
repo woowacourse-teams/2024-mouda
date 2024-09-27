@@ -13,8 +13,6 @@ import mouda.backend.common.fixture.DarakbangMemberFixture;
 import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.infrastructure.DarakbangRepository;
-import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.darakbangmember.exception.DarakbangMemberException;
 import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRoleResponse;
 import mouda.backend.member.domain.Member;
@@ -34,23 +32,6 @@ class DarakbangMemberServiceTest {
 
 	@Autowired
 	private DarakbangMemberService darakbangMemberService;
-
-	@DisplayName("다락방 멤버 조회 테스트")
-	@Nested
-	class DarakbangMemberReadTest {
-
-		@DisplayName("다락방 관리자가 아니라면 멤버 조회에 실패한다.")
-		@Test
-		void failToReadWithoutDarakbangManager() {
-			Member hogee = memberRepository.save(MemberFixture.getHogee());
-			Darakbang darakbang = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
-			DarakbangMember darakbangHogee = darakbangMemberRepository.save(
-				DarakbangMemberFixture.getDarakbangMemberWithWooteco(darakbang, hogee));
-
-			assertThatThrownBy(() -> darakbangMemberService.findAllDarakbangMembers(darakbang.getId(), darakbangHogee))
-				.isInstanceOf(DarakbangMemberException.class);
-		}
-	}
 
 	@DisplayName("다락방 멤버 권한 조회 테스트")
 	@Nested
