@@ -76,4 +76,15 @@ public class BetController {
 
 		return ResponseEntity.ok(new RestResponse<>(response));
 	}
+
+	@PostMapping("/{betId}/result")
+	public ResponseEntity<Void> drawBet(
+		@PathVariable Long darakbangId,
+		@PathVariable Long betId,
+		@LoginDarakbangMember DarakbangMember darakbangMember
+	) {
+		betService.drawBet(darakbangId, betId);
+
+		return ResponseEntity.ok().build();
+	}
 }
