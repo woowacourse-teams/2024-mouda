@@ -2,12 +2,12 @@ package mouda.backend.bet.entity;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,6 @@ import mouda.backend.bet.domain.Loser;
 @Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "bet")
 public class BetEntity {
 
@@ -26,27 +25,40 @@ public class BetEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(nullable = false)
 	private String title;
 
+	@Column(nullable = false)
 	private LocalDateTime bettingTime;
 
 	private Long loserDarakbangMemberId;
 
+	@Column(nullable = false, updatable = false)
+	private long darakbangId;
+
+	@Column(nullable = false)
+	private long moimerId;
+
 	@Builder
-	public BetEntity(String title, LocalDateTime bettingTime, Long loserDarakbangMemberId) {
+	private BetEntity(Long id, String title, LocalDateTime bettingTime, Long loserDarakbangMemberId, long darakbangId, long moimerId) {
+		this.id = id;
 		this.title = title;
 		this.bettingTime = bettingTime;
 		this.loserDarakbangMemberId = loserDarakbangMemberId;
+		this.darakbangId = darakbangId;
+		this.moimerId = moimerId;
 	}
 
 	public static BetEntity of(Bet bet, Loser loser) {
 		BetDetails betDetails = bet.getBetDetails();
-		return new BetEntity(
-			bet.getId(),
-			betDetails.getTitle(),
-			betDetails.getBettingTime(),
-			loser.getId()
-		);
+
+		return BetEntity.builder()
+			.id(bet.getId())
+			.title(betDetails.getTitle())
+			.bettingTime(betDetails.getBettingTime())
+			.loserDarakbangMemberId(loser.getId())
+			.moimerId(bet.getMoimerId())
+			.build();
 	}
 
 	public static BetEntity create(BetDetails betDetails) {

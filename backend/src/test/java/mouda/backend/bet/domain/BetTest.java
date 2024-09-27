@@ -32,4 +32,28 @@ class BetTest {
 		//then
 		assertThat(loser).isNotNull();
 	}
+
+	@DisplayName("모이머의 id를 반환한다.")
+	@Test
+	void getMoimerId() {
+		List<Participant> participants = List.of(new Participant(1L, "테바"), new Participant(2L, "테니"));
+		BetDetails betDetails = BetDetails.builder()
+			.id(1L)
+			.title("테바 미안")
+			.bettingTime(LocalDateTime.now().plusMinutes(5L).withSecond(0).withNano(0))
+			.build();
+
+		long expected = 1L;
+		Bet bet = Bet.builder()
+			.betDetails(betDetails)
+			.participants(participants)
+			.moimerId(expected)
+			.build();
+
+		// when
+		long actual = bet.getMoimerId();
+
+		//then
+		assertThat(expected).isEqualTo(actual);
+	}
 }

@@ -11,11 +11,13 @@ public class Bet {
 
 	private final BetDetails betDetails;
 	private final List<Participant> participants;
+	private final long moimerId;
 
 	@Builder
-	public Bet(BetDetails betDetails, List<Participant> participants) {
+	public Bet(BetDetails betDetails, List<Participant> participants, long moimerId) {
 		this.betDetails = betDetails;
 		this.participants = participants;
+		this.moimerId = moimerId;
 	}
 
 	public Loser draw() {

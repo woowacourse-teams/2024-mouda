@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.domain.Bet;
 import mouda.backend.bet.domain.BetDetails;
 import mouda.backend.bet.domain.Participant;
-import mouda.backend.bet.entity.BetDarakbangMemberEntity;
 import mouda.backend.bet.entity.BetEntity;
 import mouda.backend.bet.infrastructure.BetDarakbangMemberRepository;
 import mouda.backend.bet.infrastructure.BetRepository;
@@ -21,16 +20,15 @@ public class BetFinder {
 
 	private final BetDarakbangMemberRepository betDarakbangMemberRepository;
 	private final BetRepository betRepository;
+	private final ParticipantFinder participantFinder;
 
 	public Bet find(long betEntityId) {
 		BetEntity betEntity = betRepository.findById(betEntityId).orElseThrow(IllegalArgumentException::new);
-		List<BetDarakbangMemberEntity> betDarakbangMemberEntities = betDarakbangMemberRepository.findAllByBetId(betEntity.getId());
-		List<Participant> participants = betDarakbangMemberEntities.stream()
-			.map(betDarakbangMemberEntity -> betDarakbangMemberEntity.getDarakbangMember().toParticipant())
-			.toList();
+		List<Participant> participants = participantFinder.findAllByBetEntity(betEntity);
 
 		return Bet.builder()
 			.betDetails(betEntity.toBetDetails())
+			.moimerId(betEntity.getMoimerId())
 			.participants(participants)
 			.build();
 	}
@@ -47,10 +45,13 @@ public class BetFinder {
 
 		return betEntities.stream()
 			.map(betEntity -> {
-				List<DarakbangMember> entities = betDarakbangMemberRepository.findAllDarakbangMemberByBetId(betEntity.getId());
-				List<Participant> participants = entities.stream().map(DarakbangMember::toParticipant).toList();
+				List<DarakbangMember> darakbangMembers = betDarakbangMemberRepository.findAllDarakbangMemberByBetId(betEntity.getId());
+				List<Participant> participants = darakbangMembers.stream()
+					.map(darakbangMember -> new Participant(darakbangMember.getId(), darakbangMember.getNickname()))
+					.toList();
 				return Bet.builder()
 					.betDetails(betEntity.toBetDetails())
+					.moimerId(betEntity.getMoimerId())
 					.participants(participants)
 					.build();
 			}).toList();
