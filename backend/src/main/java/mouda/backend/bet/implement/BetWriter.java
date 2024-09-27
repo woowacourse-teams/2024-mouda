@@ -39,4 +39,8 @@ public class BetWriter {
 		BetDarakbangMemberEntity betDarakbangMemberEntity = new BetDarakbangMemberEntity(darakbangMember, betEntity);
 		betDarakbangMemberRepository.save(betDarakbangMemberEntity);
 	}
+
+	public void updateLoser(Bet bet) {
+		betRepository.save(BetEntity.from(bet));
+	}
 }

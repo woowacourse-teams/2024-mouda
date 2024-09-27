@@ -18,16 +18,19 @@ import mouda.backend.darakbangmember.domain.DarakbangMember;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class BetService {
 
 	private final BetFinder betFinder;
 	private final BetWriter betWriter;
 
+	@Transactional(readOnly = true)
 	public BetFindAllResponses findAllBets(long darakbangId) {
 		List<Bet> bets = betFinder.findAllByDarakbangId(darakbangId);
 		return BetFindAllResponses.toResponse(bets);
 	}
-
+	
+	@Transactional(readOnly = true)
 	public BetFindResponse findBet(long darakbangId, long betId, DarakbangMember darakbangMember) {
 		Bet bet = betFinder.find(darakbangId, betId);
 		return BetFindResponse.toResponse(bet, darakbangMember);
@@ -49,6 +52,12 @@ public class BetService {
 	public BetResultResponse findBetResult(long darakbangId, long betId) {
 		Loser loser = betFinder.findResult(darakbangId, betId);
 		return BetResultResponse.from(loser);
+	}
+
+	public void drawBet(long darakbangId, long betId) {
+		Bet bet = betFinder.find(darakbangId, betId);
+		bet.draw();
+		betWriter.updateLoser(bet);
 	}
 }
 

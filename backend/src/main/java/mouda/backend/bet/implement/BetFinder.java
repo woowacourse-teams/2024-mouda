@@ -43,7 +43,7 @@ public class BetFinder {
 	}
 
 	public List<Bet> findAllDrawableBet() {
-		List<BetEntity> betEntities = betRepository.findAllByBettingTime(LocalDateTime.now().withSecond(0).withNano(0));
+		List<BetEntity> betEntities = betRepository.findAllByBettingTimeAndLoserDarakbangMemberIdIsNull(LocalDateTime.now().withSecond(0).withNano(0));
 
 		return createBets(betEntities);
 	}
