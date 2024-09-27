@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.business.BetService;
+import mouda.backend.bet.presentation.controller.swagger.BetSwagger;
 import mouda.backend.bet.presentation.request.BetCreateRequest;
 import mouda.backend.bet.presentation.response.BetCreateResponse;
 import mouda.backend.bet.presentation.response.BetFindAllResponses;
@@ -22,17 +23,21 @@ import mouda.backend.darakbangmember.domain.DarakbangMember;
 @RestController
 @RequestMapping("/v1/darakbang/{darakbangId}/bet")
 @RequiredArgsConstructor
-public class BetController {
+public class BetController implements BetSwagger {
 
 	private final BetService betService;
 
+	@Override
 	@GetMapping
-	public ResponseEntity<RestResponse<BetFindAllResponses>> findAll(@PathVariable Long darakbangId, @LoginDarakbangMember DarakbangMember darakbangMember) {
+	public ResponseEntity<RestResponse<BetFindAllResponses>> findAll(
+		@PathVariable Long darakbangId,
+		@LoginDarakbangMember DarakbangMember darakbangMember) {
 		BetFindAllResponses responses = betService.findAllBets(darakbangId);
 
 		return ResponseEntity.ok(new RestResponse<>(responses));
 	}
 
+	@Override
 	@GetMapping("/{betId}")
 	public ResponseEntity<RestResponse<BetFindResponse>> findBetDetails(
 		@PathVariable Long darakbangId,
@@ -44,6 +49,7 @@ public class BetController {
 		return ResponseEntity.ok(new RestResponse<>(response));
 	}
 
+	@Override
 	@PostMapping
 	public ResponseEntity<RestResponse<BetCreateResponse>> createBet(
 		@PathVariable Long darakbangId,
@@ -55,8 +61,9 @@ public class BetController {
 		return ResponseEntity.ok(new RestResponse<>(new BetCreateResponse(betId)));
 	}
 
+	@Override
 	@PostMapping("/{betId}")
-	public ResponseEntity<Void> createBet(
+	public ResponseEntity<Void> participateBet(
 		@PathVariable Long darakbangId,
 		@PathVariable Long betId,
 		@LoginDarakbangMember DarakbangMember darakbangMember
@@ -66,6 +73,7 @@ public class BetController {
 		return ResponseEntity.ok().build();
 	}
 
+	@Override
 	@GetMapping("/{betId}/result")
 	public ResponseEntity<RestResponse<BetResultResponse>> findBetResult(
 		@PathVariable Long darakbangId,
@@ -77,6 +85,7 @@ public class BetController {
 		return ResponseEntity.ok(new RestResponse<>(response));
 	}
 
+	@Override
 	@PostMapping("/{betId}/result")
 	public ResponseEntity<Void> drawBet(
 		@PathVariable Long darakbangId,
