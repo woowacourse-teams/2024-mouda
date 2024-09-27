@@ -13,7 +13,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mouda.backend.bet.domain.Bet;
 import mouda.backend.bet.domain.BetDetails;
-import mouda.backend.bet.domain.Loser;
 
 @Entity
 @Getter
@@ -49,14 +48,14 @@ public class BetEntity {
 		this.moimerId = moimerId;
 	}
 
-	public static BetEntity of(Bet bet, Loser loser) {
+	public static BetEntity from(Bet bet) {
 		BetDetails betDetails = bet.getBetDetails();
 
 		return BetEntity.builder()
 			.id(bet.getId())
 			.title(betDetails.getTitle())
 			.bettingTime(betDetails.getBettingTime())
-			.loserDarakbangMemberId(loser.getId())
+			.loserDarakbangMemberId(bet.getLoserId())
 			.moimerId(bet.getMoimerId())
 			.build();
 	}

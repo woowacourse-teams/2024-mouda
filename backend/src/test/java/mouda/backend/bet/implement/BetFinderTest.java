@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import mouda.backend.bet.domain.Bet;
-import mouda.backend.bet.domain.BetDetails;
 import mouda.backend.bet.entity.BetEntity;
 import mouda.backend.bet.infrastructure.BetRepository;
 import mouda.backend.common.fixture.BetEntityFixture;
@@ -50,8 +49,8 @@ class BetFinderTest extends DarakbangSetUp {
 		betRepository.save(betEntity);
 
 		// when
-		List<BetDetails> betDetails = betFinder.findAllDetails(darakbangId);
-		List<BetDetails> emptyBetDetails = betFinder.findAllDetails(123L);
+		List<Bet> betDetails = betFinder.findAllByDarakbangId(darakbangId);
+		List<Bet> emptyBetDetails = betFinder.findAllByDarakbangId(123L);
 
 		//then
 		assertThat(betDetails).hasSize(1);

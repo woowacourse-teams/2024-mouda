@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.domain.Bet;
-import mouda.backend.bet.domain.BetDetails;
 import mouda.backend.bet.domain.Participant;
 import mouda.backend.bet.entity.BetEntity;
 import mouda.backend.bet.infrastructure.BetDarakbangMemberRepository;
@@ -34,11 +33,10 @@ public class BetFinder {
 			.build();
 	}
 
-	public List<BetDetails> findAllDetails(long darakbangId) {
+	public List<Bet> findAllByDarakbangId(long darakbangId) {
 		List<BetEntity> betEntities = betRepository.findAllByDarakbangId(darakbangId);
-		return betEntities.stream()
-			.map(BetEntity::toBetDetails)
-			.toList();
+
+		return createBets(betEntities);
 	}
 
 	public List<Bet> findAllDrawableBet() {

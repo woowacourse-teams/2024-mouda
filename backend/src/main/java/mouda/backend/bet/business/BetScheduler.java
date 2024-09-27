@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.domain.Bet;
-import mouda.backend.bet.domain.BettingResult;
 import mouda.backend.bet.implement.BetFinder;
 import mouda.backend.bet.implement.BetWriter;
 
@@ -26,6 +25,8 @@ public class BetScheduler {
 	public void performScheduledTask() {
 		List<Bet> bets = betFinder.findAllDrawableBet();
 
-		betWriter.saveAll(new BettingResult(bets));
+		bets.forEach(Bet::draw);
+
+		betWriter.saveAll(bets);
 	}
 }

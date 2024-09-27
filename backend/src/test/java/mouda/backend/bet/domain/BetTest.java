@@ -27,10 +27,10 @@ class BetTest {
 			.build();
 
 		// when
-		Loser loser = bet.draw();
+		bet.draw();
 
 		//then
-		assertThat(loser).isNotNull();
+		assertThat(bet.hasLoser()).isTrue();
 	}
 
 	@DisplayName("모이머의 id를 반환한다.")

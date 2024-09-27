@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.domain.Bet;
-import mouda.backend.bet.domain.BetDetails;
 import mouda.backend.bet.implement.BetFinder;
 import mouda.backend.bet.implement.BetWriter;
 import mouda.backend.bet.presentation.request.BetCreateRequest;
@@ -22,8 +21,8 @@ public class BetService {
 	private final BetWriter betWriter;
 
 	public BetFindAllResponses findAllBets(long darakbangId) {
-		List<BetDetails> betDetails = betFinder.findAllDetails(darakbangId);
-		return BetFindAllResponses.toResponse(betDetails);
+		List<Bet> bets = betFinder.findAllByDarakbangId(darakbangId);
+		return BetFindAllResponses.toResponse(bets);
 	}
 
 	public BetFindResponse findBet(long darakbangId, long betId) {
