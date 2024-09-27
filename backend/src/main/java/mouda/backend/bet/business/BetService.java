@@ -22,7 +22,7 @@ public class BetService {
 	private final BetWriter betWriter;
 
 	public BetFindAllResponses findAllBets(long darakbangId) {
-		List<BetDetails> betDetails = betFinder.findAllDetails();
+		List<BetDetails> betDetails = betFinder.findAllDetails(darakbangId);
 		return BetFindAllResponses.toResponse(betDetails);
 	}
 

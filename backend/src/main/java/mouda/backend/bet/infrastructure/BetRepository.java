@@ -10,4 +10,6 @@ import mouda.backend.bet.entity.BetEntity;
 public interface BetRepository extends JpaRepository<BetEntity, Long> {
 
 	List<BetEntity> findAllByBettingTime(LocalDateTime currentTime);
+
+	List<BetEntity> findAllByDarakbangId(long darakbangId);
 }

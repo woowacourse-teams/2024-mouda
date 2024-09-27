@@ -33,8 +33,8 @@ public class BetFinder {
 			.build();
 	}
 
-	public List<BetDetails> findAllDetails() {
-		List<BetEntity> betEntities = betRepository.findAll();
+	public List<BetDetails> findAllDetails(long darakbangId) {
+		List<BetEntity> betEntities = betRepository.findAllByDarakbangId(darakbangId);
 		return betEntities.stream()
 			.map(BetEntity::toBetDetails)
 			.toList();
