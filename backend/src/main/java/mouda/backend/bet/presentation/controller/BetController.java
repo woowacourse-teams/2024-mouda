@@ -3,11 +3,15 @@ package mouda.backend.bet.presentation.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.business.BetService;
+import mouda.backend.bet.presentation.request.BetCreateRequest;
+import mouda.backend.bet.presentation.response.BetCreateResponse;
 import mouda.backend.bet.presentation.response.BetFindAllResponses;
 import mouda.backend.bet.presentation.response.BetFindResponse;
 import mouda.backend.common.config.argumentresolver.LoginDarakbangMember;
@@ -37,5 +41,16 @@ public class BetController {
 		BetFindResponse response = betService.findBet(darakbangId, betId, darakbangMember);
 
 		return ResponseEntity.ok(new RestResponse<>(response));
+	}
+
+	@PostMapping
+	public ResponseEntity<RestResponse<BetCreateResponse>> createBet(
+		@PathVariable Long darakbangId,
+		@RequestBody BetCreateRequest request,
+		@LoginDarakbangMember DarakbangMember darakbangMember
+	) {
+		long betId = betService.createBet(darakbangId, request, darakbangMember);
+
+		return ResponseEntity.ok(new RestResponse<>(new BetCreateResponse(betId)));
 	}
 }
