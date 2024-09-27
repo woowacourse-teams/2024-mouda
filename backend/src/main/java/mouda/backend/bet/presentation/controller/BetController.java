@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.business.BetService;
 import mouda.backend.bet.presentation.response.BetFindAllResponses;
+import mouda.backend.bet.presentation.response.BetFindResponse;
 import mouda.backend.common.config.argumentresolver.LoginDarakbangMember;
 import mouda.backend.common.response.RestResponse;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
@@ -21,9 +22,20 @@ public class BetController {
 	private final BetService betService;
 
 	@GetMapping
-	public ResponseEntity<RestResponse<BetFindAllResponses>> findAll(@PathVariable long darakbangId, @LoginDarakbangMember DarakbangMember darakbangMember) {
+	public ResponseEntity<RestResponse<BetFindAllResponses>> findAll(@PathVariable Long darakbangId, @LoginDarakbangMember DarakbangMember darakbangMember) {
 		BetFindAllResponses responses = betService.findAllBets(darakbangId);
 
 		return ResponseEntity.ok(new RestResponse<>(responses));
+	}
+
+	@GetMapping("/{betId}")
+	public ResponseEntity<RestResponse<BetFindResponse>> findBetDetails(
+		@PathVariable Long darakbangId,
+		@PathVariable Long betId,
+		@LoginDarakbangMember DarakbangMember darakbangMember
+	) {
+		BetFindResponse response = betService.findBet(darakbangId, betId, darakbangMember);
+
+		return ResponseEntity.ok(new RestResponse<>(response));
 	}
 }

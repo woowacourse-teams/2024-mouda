@@ -41,4 +41,19 @@ public class Bet {
 		}
 		return loserId;
 	}
+
+	public BetRole getMyRole(Long id) {
+		if (moimerId == id) {
+			return BetRole.MOIMER;
+		}
+		if (isParticipated(id)) {
+			return BetRole.MOIMEE;
+		}
+		return BetRole.NON_PARTICIPANT;
+	}
+
+	private boolean isParticipated(Long id) {
+		return participants.stream()
+			.anyMatch(participant -> participant.getId() == id);
+	}
 }
