@@ -61,10 +61,12 @@ public class BetEntity {
 			.build();
 	}
 
-	public static BetEntity create(BetDetails betDetails) {
+	public static BetEntity create(Bet bet, long darakbangId) {
 		return BetEntity.builder()
-			.title(betDetails.getTitle())
-			.bettingTime(betDetails.getBettingTime())
+			.title(bet.getBetDetails().getTitle())
+			.bettingTime(bet.getBetDetails().getBettingTime())
+			.moimerId(bet.getMoimerId())
+			.darakbangId(darakbangId)
 			.build();
 	}
 

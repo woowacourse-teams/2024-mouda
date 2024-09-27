@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import mouda.backend.bet.domain.BetDetails;
+import mouda.backend.bet.domain.Bet;
 import mouda.backend.bet.entity.BetDarakbangMemberEntity;
 import mouda.backend.bet.entity.BetEntity;
 import mouda.backend.bet.infrastructure.BetDarakbangMemberRepository;
@@ -39,7 +39,7 @@ class BetServiceTest extends DarakbangSetUp {
 		// given
 		BetCreateRequest betRequest = new BetCreateRequest("테니바보", 10);
 		// when
-		long createdBetId = betService.createBet(betRequest, darakbangHogee);
+		long createdBetId = betService.createBet(1L, betRequest, darakbangHogee);
 		//then
 		assertThat(createdBetId).isEqualTo(1L);
 	}
@@ -48,14 +48,15 @@ class BetServiceTest extends DarakbangSetUp {
 	@Test
 	void participateBet() {
 		// given
+		long darakbangId = 1L;
 		BetCreateRequest betRequest = new BetCreateRequest("테니바보", 10);
-		BetDetails betDetails = betRequest.toBetDetails();
-		BetEntity betEntity = betRepository.save(BetEntity.create(betDetails));
+		Bet bet = betRequest.toBet(2L);
+		BetEntity betEntity = betRepository.save(BetEntity.create(bet, darakbangId));
 
 		long betId = betEntity.getId();
 
 		// when
-		betService.participateBet(betId, darakbangHogee);
+		betService.participateBet(darakbangId, betId, darakbangHogee);
 
 		//then
 		List<BetDarakbangMemberEntity> entities = betDarakbangMemberRepository.findAll();

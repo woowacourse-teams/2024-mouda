@@ -31,15 +31,16 @@ public class BetService {
 		return BetFindResponse.toResponse(bet);
 	}
 
-	public long createBet(BetCreateRequest betRequest, DarakbangMember darakbangMember) {
-		BetDetails betDetails = betRequest.toBetDetails();
-		long betId = betWriter.save(betDetails);
-		betWriter.participate(betId, darakbangMember);
-		return betId;
+	public long createBet(long darakbangId, BetCreateRequest betRequest, DarakbangMember darakbangMember) {
+		Bet bet = betRequest.toBet(darakbangMember.getId());
+		long savedBetId = betWriter.save(darakbangId, bet);
+		betWriter.participate(darakbangId, savedBetId, darakbangMember);
+
+		return savedBetId;
 	}
 
-	public void participateBet(long betId, DarakbangMember darakbangMember) {
-		betWriter.participate(betId, darakbangMember);
+	public void participateBet(long darakbangId, long betId, DarakbangMember darakbangMember) {
+		betWriter.participate(darakbangId, betId, darakbangMember);
 	}
 }
 
