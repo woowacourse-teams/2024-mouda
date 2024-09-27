@@ -1,47 +1,63 @@
 package mouda.backend.bet.business;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.domain.Bet;
-import mouda.backend.bet.domain.BetDetails;
-import mouda.backend.bet.domain.Participant;
+import mouda.backend.bet.domain.Loser;
 import mouda.backend.bet.implement.BetFinder;
 import mouda.backend.bet.implement.BetWriter;
 import mouda.backend.bet.presentation.request.BetCreateRequest;
 import mouda.backend.bet.presentation.response.BetFindAllResponses;
 import mouda.backend.bet.presentation.response.BetFindResponse;
+import mouda.backend.bet.presentation.response.BetResultResponse;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class BetService {
 
 	private final BetFinder betFinder;
 	private final BetWriter betWriter;
 
-	public BetFindAllResponses findAllBets() {
-		List<BetDetails> betDetails = betFinder.findAllDetails();
-		return BetFindAllResponses.toResponse(betDetails);
+	@Transactional(readOnly = true)
+	public BetFindAllResponses findAllBets(long darakbangId) {
+		List<Bet> bets = betFinder.findAllByDarakbangId(darakbangId);
+		return BetFindAllResponses.toResponse(bets);
+	}
+	
+	@Transactional(readOnly = true)
+	public BetFindResponse findBet(long darakbangId, long betId, DarakbangMember darakbangMember) {
+		Bet bet = betFinder.find(darakbangId, betId);
+		return BetFindResponse.toResponse(bet, darakbangMember);
 	}
 
-	public BetFindResponse findBet(long betId) {
-		Bet bet = betFinder.find(betId);
-		return BetFindResponse.toResponse(bet);
+	public long createBet(long darakbangId, BetCreateRequest betRequest, DarakbangMember darakbangMember) {
+		Bet bet = betRequest.toBet(darakbangMember.getId());
+		long savedBetId = betWriter.save(darakbangId, bet);
+		betWriter.participate(darakbangId, savedBetId, darakbangMember);
+
+		return savedBetId;
 	}
 
-	public long createBet(BetCreateRequest betRequest, DarakbangMember darakbangMember) {
-		BetDetails betDetails = betRequest.toBetDetails();
-		long betId = betWriter.save(betDetails);
-		betWriter.participate(betId, darakbangMember);
-		return betId;
+	public void participateBet(long darakbangId, long betId, DarakbangMember darakbangMember) {
+		betWriter.participate(darakbangId, betId, darakbangMember);
 	}
 
-	public void participateBet(long betId, DarakbangMember darakbangMember) {
-		betWriter.participate(betId, darakbangMember);
+	@Transactional(readOnly = true)
+	public BetResultResponse findBetResult(long darakbangId, long betId) {
+		Loser loser = betFinder.findResult(darakbangId, betId);
+		return BetResultResponse.from(loser);
+	}
+
+	public void drawBet(long darakbangId, long betId) {
+		Bet bet = betFinder.find(darakbangId, betId);
+		bet.draw();
+		betWriter.updateLoser(bet);
 	}
 }
 

@@ -34,13 +34,15 @@ class BetSchedulerTest extends DarakbangSetUp {
 	@Test
 	void performScheduledTask() {
 		// given
-		BetEntity betEntity = new BetEntity(
-			"testBet",
-			LocalDateTime.now()
+		BetEntity betEntity = BetEntity.builder()
+			.title("testBet")
+			.bettingTime(LocalDateTime.now()
 				.withSecond(0)
-				.withNano(0),
-			null
-		);
+				.withNano(0))
+			.darakbangId(1L)
+			.moimerId(1L)
+			.build();
+
 		betRepository.save(betEntity);
 
 		betDarakbangMemberRepository.save(new BetDarakbangMemberEntity(darakbangHogee, betEntity));
@@ -50,6 +52,11 @@ class BetSchedulerTest extends DarakbangSetUp {
 		await()
 			.atMost(1, MINUTES)
 			.untilAsserted(() -> assertThat(hasLoser()).isTrue());
+
+		Optional<BetEntity> savedBet = betRepository.findById(1L);
+		assertThat(savedBet).isPresent();
+		assertThat(savedBet.get().getLoserDarakbangMemberId()).isNotNull();
+		assertThat(savedBet.get().getDarakbangId()).isEqualTo(1L);
 	}
 
 	private boolean hasLoser() {

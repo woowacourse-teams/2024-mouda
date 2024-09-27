@@ -1,16 +1,11 @@
 package mouda.backend.bet.implement;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.domain.Bet;
-import mouda.backend.bet.domain.BetDetails;
-import mouda.backend.bet.domain.BettingResult;
-import mouda.backend.bet.domain.Loser;
 import mouda.backend.bet.entity.BetDarakbangMemberEntity;
 import mouda.backend.bet.entity.BetEntity;
 import mouda.backend.bet.infrastructure.BetDarakbangMemberRepository;
@@ -24,24 +19,28 @@ public class BetWriter {
 	private final BetRepository betRepository;
 	private final BetDarakbangMemberRepository betDarakbangMemberRepository;
 
-	public void saveAll(BettingResult bettingResult) {
-		Map<Bet, Loser> results = bettingResult.getResults();
-		List<BetEntity> betEntities = results.keySet().stream()
-			.map(key -> BetEntity.of(key, results.get(key)))
+	public void saveAll(List<Bet> bets) {
+		List<BetEntity> betEntities = bets.stream()
+			.map(BetEntity::from)
 			.toList();
 
 		betRepository.saveAll(betEntities);
 	}
 
-	public long save(BetDetails betDetails) {
-		BetEntity betEntity = betRepository.save(BetEntity.create(betDetails));
+	public long save(long darakbangId, Bet bet) {
+		BetEntity betEntity = betRepository.save(BetEntity.create(bet, darakbangId));
 		return betEntity.getId();
 	}
 
-	public void participate(long betId, DarakbangMember darakbangMember) {
-		BetEntity betEntity = betRepository.findById(betId)
+	public void participate(long darakbangId, long betId, DarakbangMember darakbangMember) {
+		BetEntity betEntity = betRepository.findByIdAndDarakbangId(betId, darakbangId)
 			.orElseThrow(() -> new IllegalArgumentException("no bet"));
+
 		BetDarakbangMemberEntity betDarakbangMemberEntity = new BetDarakbangMemberEntity(darakbangMember, betEntity);
 		betDarakbangMemberRepository.save(betDarakbangMemberEntity);
+	}
+
+	public void updateLoser(Bet bet) {
+		betRepository.save(BetEntity.from(bet));
 	}
 }
