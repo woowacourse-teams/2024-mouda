@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.auth.implement.JwtProvider;
+import mouda.backend.auth.implement.KakaoOauthManager;
 import mouda.backend.auth.implement.LoginManager;
-import mouda.backend.auth.implement.OauthManager;
 import mouda.backend.auth.presentation.request.OauthRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
 import mouda.backend.member.domain.LoginDetail;
@@ -19,7 +19,7 @@ import mouda.backend.member.implement.MemberWriter;
 public class KakaoAuthService implements AuthService {
 
 	private final JwtProvider jwtProvider;
-	private final OauthManager oauthManager;
+	private final KakaoOauthManager oauthManager;
 	private final LoginManager loginManager;
 	private final MemberFinder memberFinder;
 	private final MemberWriter memberWriter;
