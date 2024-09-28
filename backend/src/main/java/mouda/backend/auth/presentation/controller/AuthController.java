@@ -39,4 +39,12 @@ public class AuthController implements AuthSwagger {
 
 		return ResponseEntity.ok().body(new RestResponse<>(response));
 	}
+
+	@Override
+	@PostMapping("/apple/oauth")
+	public ResponseEntity<RestResponse<LoginResponse>> loginAppleOauth(@RequestBody OauthRequest oauthRequest) {
+		LoginResponse response = appleAuthService.oauthLogin(oauthRequest);
+
+		return ResponseEntity.ok().body(new RestResponse<>(response));
+	}
 }
