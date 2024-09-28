@@ -10,22 +10,19 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.auth.implement.JwtProvider;
+import mouda.backend.auth.implement.ClientSecretProvider;
 import mouda.backend.auth.presentation.response.OauthResponse;
-import mouda.backend.member.domain.Member;
-import mouda.backend.member.implement.MemberFinder;
 
 @Component
 @RequiredArgsConstructor
 public class AppleOauthClient implements OauthClient {
 
-	private static final String CLIENT_ID = "site.mouda.backend";
+	private final RestClient restClient;
+	private final ClientSecretProvider clientSecretProvider;
+
+	public static final String CLIENT_ID = "site.mouda.backend";
 	private static final String APPLE_API_URL = "https://appleid.apple.com/auth/token";
 	private static final String GRANT_TYPE = "authorization_code";
-
-	private final RestClient restClient;
-	private final JwtProvider jwtProvider;
-	private final MemberFinder memberFinder;
 
 	@Value("${oauth.apple.redirect-uri}")
 	private String redirectUri;
@@ -34,6 +31,7 @@ public class AppleOauthClient implements OauthClient {
 	public String getIdToken(String code) {
 		HttpHeaders headers = getHttpHeaders();
 		MultiValueMap<String, String> formData = getFormData(code);
+
 		OauthResponse oauthResponse = restClient.method(HttpMethod.POST)
 			.uri(APPLE_API_URL)
 			.headers(httpHeaders -> httpHeaders.addAll(headers))
@@ -52,16 +50,11 @@ public class AppleOauthClient implements OauthClient {
 	private MultiValueMap<String, String> getFormData(String code) {
 		MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
 		formData.add("client_id", CLIENT_ID);
-		formData.add("client_secret", getClientSecret(code));
+		formData.add("client_secret", clientSecretProvider.provide());
 		formData.add("code", code);
 		formData.add("grant_type", GRANT_TYPE);
 		formData.add("redirect_uri", redirectUri);
 		return formData;
 	}
 
-	private String getClientSecret(String code) {
-		long memberId = jwtProvider.extractMemberId(code);
-		Member member = memberFinder.find(memberId);
-		return jwtProvider.createToken(member);
-	}
 }
