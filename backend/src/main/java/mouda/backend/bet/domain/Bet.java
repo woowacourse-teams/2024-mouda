@@ -15,7 +15,7 @@ public class Bet {
 	private Long loserId;
 
 	@Builder
-	public Bet(BetDetails betDetails, List<Participant> participants, long moimerId, long loserId) {
+	public Bet(BetDetails betDetails, List<Participant> participants, long moimerId, Long loserId) {
 		this.betDetails = betDetails;
 		this.participants = participants;
 		this.moimerId = moimerId;
@@ -24,7 +24,8 @@ public class Bet {
 
 	public void draw() {
 		Random random = new Random();
-		this.loserId = random.nextLong(participants.size());
+		int loserIndex = random.nextInt(participants.size());
+		this.loserId = participants.get(loserIndex).getId();
 	}
 
 	public long getId() {

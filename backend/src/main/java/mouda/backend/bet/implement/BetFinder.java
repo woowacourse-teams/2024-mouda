@@ -43,7 +43,8 @@ public class BetFinder {
 	}
 
 	public List<Bet> findAllDrawableBet() {
-		List<BetEntity> betEntities = betRepository.findAllByBettingTimeAndLoserDarakbangMemberIdIsNull(LocalDateTime.now().withSecond(0).withNano(0));
+		List<BetEntity> betEntities = betRepository.findAllByBettingTimeAndLoserDarakbangMemberIdIsNull(
+			LocalDateTime.now().withSecond(0).withNano(0));
 
 		return createBets(betEntities);
 	}
@@ -51,13 +52,15 @@ public class BetFinder {
 	private List<Bet> createBets(List<BetEntity> betEntities) {
 		return betEntities.stream()
 			.map(betEntity -> {
-				List<DarakbangMember> darakbangMembers = betDarakbangMemberRepository.findAllDarakbangMemberByBetId(betEntity.getId());
+				List<DarakbangMember> darakbangMembers = betDarakbangMemberRepository.findAllDarakbangMemberByBetId(
+					betEntity.getId());
 				List<Participant> participants = darakbangMembers.stream()
 					.map(darakbangMember -> new Participant(darakbangMember.getId(), darakbangMember.getNickname()))
 					.toList();
 				return Bet.builder()
 					.betDetails(betEntity.toBetDetails())
 					.moimerId(betEntity.getMoimerId())
+					.loserId(betEntity.getLoserDarakbangMemberId())
 					.participants(participants)
 					.build();
 			}).toList();
@@ -66,7 +69,8 @@ public class BetFinder {
 	@Transactional(readOnly = true)
 	public Loser findResult(long darakbangId, long betId) {
 		// TODO : 예외처리 공통화
-		BetEntity betEntity = betRepository.findByIdAndDarakbangId(betId, darakbangId).orElseThrow(IllegalArgumentException::new);
+		BetEntity betEntity = betRepository.findByIdAndDarakbangId(betId, darakbangId)
+			.orElseThrow(IllegalArgumentException::new);
 
 		// TODO : 리팩토링
 		Long loserDarakbangMemberId = betEntity.getLoserDarakbangMemberId();
@@ -74,7 +78,9 @@ public class BetFinder {
 			throw new IllegalArgumentException("아직 추첨이 진행되지 않았습니다.");
 		}
 
-		BetDarakbangMemberEntity betDarakbangMemberEntity = betDarakbangMemberRepository.findByDarakbangMemberId(loserDarakbangMemberId).orElseThrow(IllegalArgumentException::new);
-		return new Loser(betDarakbangMemberEntity.getDarakbangMember().getId(), betDarakbangMemberEntity.getDarakbangMember().getNickname());
+		BetDarakbangMemberEntity betDarakbangMemberEntity = betDarakbangMemberRepository.findByBetIdAndDarakbangMemberId(
+			betId, loserDarakbangMemberId).orElseThrow(IllegalArgumentException::new);
+		return new Loser(betDarakbangMemberEntity.getDarakbangMember().getId(),
+			betDarakbangMemberEntity.getDarakbangMember().getNickname());
 	}
 }
