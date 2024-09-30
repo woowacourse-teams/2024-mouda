@@ -5,7 +5,9 @@ import Button from '@_components/Button/Button';
 import CompleteLayout from '@_layouts/CompleteLayout/CompleteLayout';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import ROUTES from '@_constants/routes';
+import { setLastDarakbangId } from '@_common/lastDarakbangManager';
 import useDarakbangNameByCode from '@_hooks/queries/useDarakbangNameByCode';
+import useMyDarakbangs from '@_hooks/queries/useMyDarakbang';
 
 export default function DarakbangInvitationRoute() {
   const [searchParam] = useSearchParams();
@@ -13,9 +15,20 @@ export default function DarakbangInvitationRoute() {
 
   const code = searchParam.get('code');
   const { darakbangName } = useDarakbangNameByCode(code || '');
+  const { myDarakbangs } = useMyDarakbangs();
   const isRightCode = darakbangName && darakbangName !== '';
   if (darakbangName === undefined) return null;
+  if (myDarakbangs === undefined) return null;
   if (isRightCode) {
+    const nowDarakbang = myDarakbangs.find(
+      (darakbang) => darakbang.name === darakbangName,
+    );
+    const isParticipated = nowDarakbang !== undefined;
+    if (isParticipated) {
+      alert('이미 참여한 다락방입니다');
+      setLastDarakbangId(nowDarakbang.darakbangId);
+      return <Navigate to={ROUTES.main} replace />;
+    }
     if (code) setInviteCode(code);
     return <Navigate to={ROUTES.darakbangNickname} replace />;
   }
