@@ -19,4 +19,4 @@ url:
   chatroom: /darakbang/%d/chatting-room/%d
 
 bet:
-  schedule: 60000 # 1분
+  schedule: "0 * * * * *" # 매분마다

@@ -15,18 +15,18 @@ import mouda.backend.bet.implement.BetWriter;
 @RequiredArgsConstructor
 public class BetScheduler {
 
-	@Value("${bet.schedule}")
-	private String rate;
+    @Value("${bet.schedule}")
+    private String rate;
 
-	private final BetFinder betFinder;
-	private final BetWriter betWriter;
+    private final BetFinder betFinder;
+    private final BetWriter betWriter;
 
-	@Scheduled(fixedRateString = "${bet.schedule}") // 1분
-	public void performScheduledTask() {
-		List<Bet> bets = betFinder.findAllDrawableBet();
+    @Scheduled(cron = "${bet.schedule}") // 1분
+    public void performScheduledTask() {
+        List<Bet> bets = betFinder.findAllDrawableBet();
 
-		bets.forEach(Bet::draw);
+        bets.forEach(Bet::draw);
 
-		betWriter.saveAll(bets);
-	}
+        betWriter.saveAll(bets);
+    }
 }
