@@ -148,7 +148,7 @@ export default function MainPage() {
           <HomeLayout.Header.Top>
             <HomeLayout.Header.Top.Left>
               <div
-                css={[S.headerLeft, common.cursorPointer, common.nonScroll]}
+                css={[S.headerLeft, common.cursorPointer, common.nonDrag]}
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsDarakbangMenuOpened(!isDarakbangMenuOpened);

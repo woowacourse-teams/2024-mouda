@@ -22,7 +22,7 @@ export default function ChatPage() {
     <ChattingPreviewLayout>
       <ChattingPreviewLayout.Header>
         <ChattingPreviewLayout.Header.Left>
-          <h2 css={[theme.typography.h5, common.nonScroll]}>
+          <h2 css={[theme.typography.h5, common.nonDrag]}>
             <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
           </h2>
         </ChattingPreviewLayout.Header.Left>

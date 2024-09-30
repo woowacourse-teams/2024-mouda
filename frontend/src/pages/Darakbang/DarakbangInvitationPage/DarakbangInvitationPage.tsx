@@ -46,6 +46,7 @@ export default function DarakbangInvitationPage() {
 
             if (document.location.protocol === 'https:') {
               await navigator.clipboard.writeText(url);
+              alert('클립보드에 참여코드가 복사되었습니다!');
               return;
             }
             alert('http를 통해서는 복사할 수 없습니다!');

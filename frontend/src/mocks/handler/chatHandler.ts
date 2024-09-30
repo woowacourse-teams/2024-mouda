@@ -26,7 +26,7 @@ export const chatSliceIndexes = [
 
 export const chatHandler = [
   http.get(
-    `${process.env.BASE_URL}/v1/darakbang/1/chat`,
+    `${process.env.API_URL}/v1/darakbang/1/chat`,
     async ({ request }) => {
       const url = new URL(request.url);
 

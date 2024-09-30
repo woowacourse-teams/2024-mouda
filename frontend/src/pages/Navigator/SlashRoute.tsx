@@ -10,16 +10,16 @@ export default function SlashRoute() {
 
   if (token) {
     if (lastDarakbangId) {
-      return <Navigate to={GET_ROUTES.nowDarakbang.main()} />;
+      return <Navigate to={GET_ROUTES.nowDarakbang.main()} replace />;
     }
     if (!lastDarakbangId) {
-      return <Navigate to={ROUTES.darakbangSelectOption} />;
+      return <Navigate to={ROUTES.darakbangSelectOption} replace />;
     }
   }
 
   if (!token) {
-    return <Navigate to={ROUTES.home} />;
+    return <Navigate to={ROUTES.home} replace />;
   }
 
-  return <Navigate to={ROUTES.home} />;
+  return <Navigate to={ROUTES.home} replace />;
 }
