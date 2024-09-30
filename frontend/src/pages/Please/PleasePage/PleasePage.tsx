@@ -3,7 +3,6 @@ import { Fragment } from 'react';
 import GET_ROUTES from '@_common/getRoutes';
 import NavigationBar from '@_components/NavigationBar/NavigationBar';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
-import PleaseLayout from '@_layouts/PleaseLayout/PleaseLayout';
 import PleaseList from '@_pages/Please/PleasePage/components/PleaseList/PleaseList';
 import PlusButton from '@_components/PlusButton/PlusButton';
 import { common } from '@_common/common.style';
@@ -11,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import { useTheme } from '@emotion/react';
 import RefreshButton from '@_components/RefreshButton/RefreshButton';
+import ListPageLayout from '@_layouts/ListPageLayout/ListPageLayout';
 
 export default function PleasePage() {
   const { darakbangName } = useNowDarakbangName();
@@ -20,28 +20,28 @@ export default function PleasePage() {
 
   return (
     <Fragment>
-      <PleaseLayout>
-        <PleaseLayout.Header>
-          <PleaseLayout.Header.Left>
+      <ListPageLayout>
+        <ListPageLayout.TriHeader>
+          <ListPageLayout.TriHeader.Left>
             <h1 css={[common.nonScroll, theme.typography.h5]}>
               <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
             </h1>
-          </PleaseLayout.Header.Left>
-          <PleaseLayout.Header.Right>
+          </ListPageLayout.TriHeader.Left>
+          <ListPageLayout.TriHeader.Right>
             <RefreshButton />
-          </PleaseLayout.Header.Right>
-        </PleaseLayout.Header>
+          </ListPageLayout.TriHeader.Right>
+        </ListPageLayout.TriHeader>
 
-        <PleaseLayout.Main>
+        <ListPageLayout.Main>
           <PleaseList />
-        </PleaseLayout.Main>
+        </ListPageLayout.Main>
 
-        <PleaseLayout.HomeFixedButtonWrapper>
+        <ListPageLayout.ListPageFixedButtonWrapper>
           <PlusButton
             onClick={() => navigate(GET_ROUTES.nowDarakbang.addPlease())}
           />
-        </PleaseLayout.HomeFixedButtonWrapper>
-      </PleaseLayout>
+        </ListPageLayout.ListPageFixedButtonWrapper>
+      </ListPageLayout>
       <NavigationBarWrapper>
         <NavigationBar />
       </NavigationBarWrapper>

@@ -2,7 +2,7 @@ import { DISPLAY_MAX_WIDTH } from '@_constants/styles';
 import { css } from '@emotion/react';
 
 export const headerStyle = css`
-  position: fixed;
+  position: sticky;
   top: 0;
 
   display: flex;

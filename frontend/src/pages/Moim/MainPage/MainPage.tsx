@@ -15,7 +15,6 @@ import {
 import Button from '@_components/Button/Button';
 import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
 import GET_ROUTES from '@_common/getRoutes';
-import HomeLayout from '@_layouts/HomeLayout.tsx/HomeLayout';
 import HomeMainContent from './components/HomeMainContent/HomeMainContent';
 import Modal from '@_components/Modal/Modal';
 import NavigationBar from '@_components/NavigationBar/NavigationBar';
@@ -34,6 +33,7 @@ import { useNavigate } from 'react-router-dom';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import useServeToken from '@_hooks/mutaions/useServeToken';
 import { useTheme } from '@emotion/react';
+import ListPageLayout from '@_layouts/ListPageLayout/ListPageLayout';
 
 export default function MainPage() {
   const navigate = useNavigate();
@@ -143,10 +143,10 @@ export default function MainPage() {
   }, [darakbangMenuOption]);
   return (
     <Fragment>
-      <HomeLayout>
-        <HomeLayout.Header>
-          <HomeLayout.Header.Top>
-            <HomeLayout.Header.Top.Left>
+      <ListPageLayout>
+        <ListPageLayout.DoubleTriHeader>
+          <ListPageLayout.DoubleTriHeader.Top>
+            <ListPageLayout.DoubleTriHeader.Top.Left>
               <div
                 css={[S.headerLeft, common.cursorPointer, common.nonScroll]}
                 onClick={(e) => {
@@ -161,29 +161,29 @@ export default function MainPage() {
                   height="15"
                 />
               </div>
-            </HomeLayout.Header.Top.Left>
+            </ListPageLayout.DoubleTriHeader.Top.Left>
 
-            <HomeLayout.Header.Top.Right>
+            <ListPageLayout.DoubleTriHeader.Top.Right>
               <button css={S.headerButton} onClick={handleNotification}>
                 <Notification />
               </button>
               <RefreshButton />
-            </HomeLayout.Header.Top.Right>
-          </HomeLayout.Header.Top>
+            </ListPageLayout.DoubleTriHeader.Top.Right>
+          </ListPageLayout.DoubleTriHeader.Top>
           {isDarakbangMenuOpened && darakbangMenu}
           <MoimTabBar currentTab={currentTab} onTabClick={handleTabClick} />
-        </HomeLayout.Header>
+        </ListPageLayout.DoubleTriHeader>
 
-        <HomeLayout.Main>
+        <ListPageLayout.Main>
           <HomeMainContent currentTab={currentTab} />
-        </HomeLayout.Main>
+        </ListPageLayout.Main>
 
-        <HomeLayout.HomeFixedButtonWrapper>
+        <ListPageLayout.ListPageFixedButtonWrapper>
           <PlusButton
             onClick={() => navigate(GET_ROUTES.nowDarakbang.addMoim())}
           />
-        </HomeLayout.HomeFixedButtonWrapper>
-      </HomeLayout>
+        </ListPageLayout.ListPageFixedButtonWrapper>
+      </ListPageLayout>
 
       <NavigationBarWrapper>
         <NavigationBar />

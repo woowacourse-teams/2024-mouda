@@ -1,9 +1,9 @@
+import ListContent from '@_layouts/components/ListContent/ListContent';
 import ChatCardSkeleton from './ChatCardSkeleton/ChatCardSkeleton';
-import * as S from './ChatCardListSkeleton.style';
 
 export default function ChatCardListSkeleton() {
   return (
-    <div css={S.cardListSection}>
+    <ListContent>
       <ChatCardSkeleton />
       <ChatCardSkeleton />
       <ChatCardSkeleton />
@@ -12,6 +12,6 @@ export default function ChatCardListSkeleton() {
       <ChatCardSkeleton />
       <ChatCardSkeleton />
       <ChatCardSkeleton />
-    </div>
+    </ListContent>
   );
 }

@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
-import * as S from './HomeFixedButtonWrapper.style';
+import * as S from './FixedCreationButtonWrapper.style';
 
-export default function HomeFixedButtonWrapper(props: PropsWithChildren) {
+export default function FixedCreateButtonWrapper(props: PropsWithChildren) {
   const { children } = props;
 
   return <div css={S.fixedWrapperStyle}>{children}</div>;

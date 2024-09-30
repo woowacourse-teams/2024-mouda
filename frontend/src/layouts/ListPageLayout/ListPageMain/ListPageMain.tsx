@@ -1,8 +1,8 @@
-import * as S from './HomeMain.style';
+import * as S from './ListPageMain.style';
 
 import { PropsWithChildren } from 'react';
 
-export default function HomeMain(props: PropsWithChildren) {
+export default function ListPageMain(props: PropsWithChildren) {
   const { children } = props;
 
   return <main css={S.mainStyle}>{children}</main>;
