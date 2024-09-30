@@ -6,10 +6,11 @@ export const footer = ({ theme }: { theme: Theme }) => css`
   justify-content: space-around;
 
   padding: 1.3rem 0;
-  /* stylelint-disable */
+  ${navigator.userAgent.toLowerCase().includes('iphone') &&
+  `/* stylelint-disable */
   padding-bottom: constant(safe-area-inset-bottom);
   /* stylelint-enable */
-  padding-bottom: env(safe-area-inset-bottom);
+    'padding-bottom: env(safe-area-inset-bottom);`}
 
   background-color: ${theme.colorPalette.white[100]};
   box-shadow: 0 -10px 15px rgb(0 0 0 / 20%);
@@ -39,7 +40,6 @@ export const messageForm = ({ theme }: { theme: Theme }) => css`
 
 export const messageTextArea = ({ theme }: { theme: Theme }) => css`
   ${theme.typography.s2};
-
   resize: none;
 
   width: 100%;
