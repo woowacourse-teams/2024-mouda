@@ -33,7 +33,7 @@ export const messageForm = ({ theme }: { theme: Theme }) => css`
   max-height: 4rem;
   padding: 1rem 2rem;
 
-  background: ${theme.colorPalette.grey[200]};
+  background: ${theme.colorPalette.grey[100]};
   border-radius: 50px;
 `;
 
@@ -44,7 +44,7 @@ export const messageTextArea = ({ theme }: { theme: Theme }) => css`
 
   width: 100%;
 
-  background: rgb(0 0 0 / 0%);
+  background: ${theme.colorPalette.grey[100]};
   border: 0;
   outline: none;
 
