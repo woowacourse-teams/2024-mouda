@@ -20,7 +20,7 @@ public class LoginManager {
 	private final AccessTokenProvider accessTokenProvider;
 	private final MemberWriter memberWriter;
 
-	public String processSocialLogin(OauthType oauthType, long socialLoginId) {
+	public String processSocialLogin(OauthType oauthType, String socialLoginId) {
 		Optional<Member> member = memberRepository.findByLoginDetail_SocialLoginId(socialLoginId);
 
 		if (member.isPresent()) {

@@ -25,8 +25,9 @@ public class KakaoAuthService implements AuthService {
 	private final MemberWriter memberWriter;
 
 	public LoginResponse oauthLogin(OauthRequest oauthRequest) {
-		Long kakaoId = oauthManager.getKakaoId(oauthRequest.code());
+		String kakaoId = oauthManager.getKakaoId(oauthRequest.code());
 		String token = loginManager.processSocialLogin(OauthType.KAKAO, kakaoId);
+
 		return new LoginResponse(token);
 	}
 
@@ -41,7 +42,7 @@ public class KakaoAuthService implements AuthService {
 
 	public LoginResponse basicLogin() {
 		Member member = new Member("nickname",
-			new LoginDetail(OauthType.KAKAO, 1L));
+			new LoginDetail(OauthType.KAKAO, "1"));
 		memberWriter.append(member);
 		return new LoginResponse(accessTokenProvider.provide(member));
 	}

@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.member.domain.Member;
+import mouda.backend.member.domain.OauthType;
 import mouda.backend.member.infrastructure.MemberRepository;
 
 @SpringBootTest
@@ -30,7 +31,7 @@ class LoginManagerTest {
 		memberRepository.save(member);
 
 		// when
-		String token = loginManager.processSocialLogin(member.getSocialLoginId());
+		String token = loginManager.processSocialLogin(OauthType.KAKAO, member.getSocialLoginId());
 
 		// then
 		assertThat(token).isNotNull();
@@ -43,10 +44,10 @@ class LoginManagerTest {
 	@Test
 	void processSocialLoginWithSignUp() {
 		// given
-		long kakaoId = 456L;
+		String kakaoId = "456";
 
 		// when
-		String token = loginManager.processSocialLogin(kakaoId);
+		String token = loginManager.processSocialLogin(OauthType.KAKAO, kakaoId);
 
 		// then
 		assertThat(token).isNotNull();
