@@ -18,3 +18,6 @@ url:
   moim: /darakbang/%d/moim/%d
   chat: /darakbang/%d/chat/%d
   chatroom: /darakbang/%d/chatting-room/%d
+
+bet:
+  schedule: "0 * * * * *" # 매분마다
