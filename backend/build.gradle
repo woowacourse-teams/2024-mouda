@@ -49,6 +49,7 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.awaitility:awaitility:4.2.0'
 
     // notification
     implementation 'com.google.firebase:firebase-admin:9.3.0'
