@@ -5,16 +5,15 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.auth.Infrastructure.OauthClient;
+import mouda.backend.auth.Infrastructure.AppleOauthClient;
 import mouda.backend.auth.util.TokenDecoder;
 
 @Component
 @RequiredArgsConstructor
-public class OauthManager {
-
+public class AppleOauthManager {
 	private static final String SUB_CLAIM_KEY = "sub";
 
-	private final OauthClient oauthClient;
+	private final AppleOauthClient oauthClient;
 
 	public String getSocialLoginId(String code) {
 		String idToken = oauthClient.getIdToken(code);

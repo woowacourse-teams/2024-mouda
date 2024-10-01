@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class OauthManagerTest {
 
 	@Autowired
-	private OauthManager oauthManager;
+	private AppleOauthManager oauthManager;
 
 	@DisplayName("Resource Server받아온 Identity Token으로 사용자 정보를 추출한다.")
 	@Test
