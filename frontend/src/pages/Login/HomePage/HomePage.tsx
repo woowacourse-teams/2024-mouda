@@ -69,6 +69,28 @@ export default function HomePage() {
     }
   };
 
+  const kakaoAuthLogin = () => {
+    if (
+      !process.env.KAKAO_O_AUTH_CLIENT_ID ||
+      !process.env.KAKAO_OAUTH_REDIRECT_URI
+    ) {
+      throw new Error('Google OAuth 정보가 없습니다.');
+    }
+    const params = {
+      client_id: process.env.KAKAO_O_AUTH_CLIENT_ID,
+      redirect_uri: process.env.KAKAO_OAUTH_REDIRECT_URI,
+      response_type: 'code',
+      scope: 'openid',
+    };
+    const queryString = new URLSearchParams(params).toString();
+    const kakaoOAuthUrl = `${process.env.KAKAO_REQUEST_URL}?${queryString}`;
+    if (process.env.MSW == 'true') {
+      window.location.href = 'http://localhost:8081/kakao-o-auth?code=1';
+    } else {
+      window.location.href = kakaoOAuthUrl;
+    }
+  };
+
   return (
     <LoginLayout>
       <LoginLayout.Main>
@@ -112,6 +134,7 @@ export default function HomePage() {
         >
           <GoogleOAuthIcon />
         </button>
+        <button onClick={kakaoAuthLogin}></button>
       </LoginLayout.Footer>
     </LoginLayout>
   );

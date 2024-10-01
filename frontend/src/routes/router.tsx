@@ -75,7 +75,7 @@ const routesConfig = [
     requiresAuth: false,
   },
   {
-    path: ROUTES.kakaoOAuth,
+    path: ROUTES.oAuth,
     element: <OAuthLoginPage />,
     requiresAuth: false,
   },

@@ -35,7 +35,7 @@ const ROUTES = {
   notFound: '/*',
   main: '/',
   home: '/home',
-  kakaoOAuth: '/kakao-o-auth',
+  oAuth: '/oauth/:provider',
   darakbangInvitationRoute: '/darakbang-invitation-route',
 
   darakbangSelectOption: '/darakbang-select-option',
