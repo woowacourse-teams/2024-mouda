@@ -20,8 +20,8 @@ public class LoginManager {
 	private final AccessTokenProvider accessTokenProvider;
 	private final MemberWriter memberWriter;
 
-	public String processKakaoLogin(long kakaoId) {
-		Optional<Member> member = memberRepository.findByLoginDetail_SocialLoginId(kakaoId);
+	public String processSocialLogin(OauthType oauthType, long socialLoginId) {
+		Optional<Member> member = memberRepository.findByLoginDetail_SocialLoginId(socialLoginId);
 
 		if (member.isPresent()) {
 			return accessTokenProvider.provide(member.get());
@@ -29,7 +29,7 @@ public class LoginManager {
 
 		Member newMember = Member.builder()
 			.nickname("nickname")
-			.loginDetail(new LoginDetail(OauthType.KAKAO, kakaoId))
+			.loginDetail(new LoginDetail(oauthType, socialLoginId))
 			.build();
 		memberWriter.append(newMember);
 

@@ -26,7 +26,7 @@ public class KakaoAuthService implements AuthService {
 
 	public LoginResponse oauthLogin(OauthRequest oauthRequest) {
 		Long kakaoId = oauthManager.getKakaoId(oauthRequest.code());
-		String token = loginManager.processKakaoLogin(kakaoId);
+		String token = loginManager.processSocialLogin(OauthType.KAKAO, kakaoId);
 		return new LoginResponse(token);
 	}
 
