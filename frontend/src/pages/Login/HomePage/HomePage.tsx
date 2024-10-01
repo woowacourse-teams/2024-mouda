@@ -54,19 +54,18 @@ export default function HomePage() {
     ) {
       throw new Error('Google OAuth 정보가 없습니다.');
     }
-
     const params = {
       client_id: process.env.GOOGLE_O_AUTH_CLIENT_ID,
       redirect_uri: process.env.OAUTH_REDIRECT_URI,
       response_type: 'code',
-      scope: 'openid',
+      scope: 'https://www.googleapis.com/auth/userinfo.profile',
     };
     const queryString = new URLSearchParams(params).toString();
-    const kakaoOAuthUrl = `${process.env.GOOGLE_REQUEST_URL}?${queryString}`;
+    const googleOAuthUrl = `${process.env.GOOGLE_REQUEST_URL}?${queryString}`;
     if (process.env.MSW == 'true') {
       window.location.href = 'http://localhost:8081/kakao-o-auth?code=1';
     } else {
-      window.location.href = kakaoOAuthUrl;
+      window.location.href = googleOAuthUrl;
     }
   };
 
