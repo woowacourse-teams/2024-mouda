@@ -17,24 +17,23 @@ import mouda.backend.auth.presentation.response.OauthResponse;
 @RequiredArgsConstructor
 public class AppleOauthClient implements OauthClient {
 
-	private final RestClient restClient;
-	private final ClientSecretProvider clientSecretProvider;
-
 	public static final String CLIENT_ID = "site.mouda.backend";
 	private static final String APPLE_API_URL = "https://appleid.apple.com/auth/token";
 	private static final String GRANT_TYPE = "authorization_code";
+
+	private final RestClient restClient;
+	private final ClientSecretProvider clientSecretProvider;
 
 	@Value("${oauth.apple.redirect-uri}")
 	private String redirectUri;
 
 	@Override
 	public String getIdToken(String code) {
-		HttpHeaders headers = getHttpHeaders();
 		MultiValueMap<String, String> formData = getFormData(code);
 
 		OauthResponse oauthResponse = restClient.method(HttpMethod.POST)
 			.uri(APPLE_API_URL)
-			.headers(httpHeaders -> httpHeaders.addAll(headers))
+			.headers(httpHeaders -> httpHeaders.addAll(getHttpHeaders()))
 			.body(formData)
 			.retrieve()
 			.body(OauthResponse.class);
@@ -42,7 +41,7 @@ public class AppleOauthClient implements OauthClient {
 	}
 
 	private HttpHeaders getHttpHeaders() {
-		HttpHeaders headers = new org.springframework.http.HttpHeaders();
+		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		return headers;
 	}
