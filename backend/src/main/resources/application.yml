@@ -13,6 +13,7 @@ security:
     token:
       secret-key: kksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabo
       expire-length: 3600000
+
 url:
   moim: /darakbang/%d/moim/%d
   chat: /darakbang/%d/chat/%d

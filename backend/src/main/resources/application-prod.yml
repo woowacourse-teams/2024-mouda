@@ -12,10 +12,17 @@ spring:
         password: ${SLAVE_MYSQL_PASSWORD}
         driver-class-name: com.mysql.cj.jdbc.Driver
         jdbc-url: ${SLAVE_MYSQL_URL}
+
   jpa:
     hibernate:
       ddl-auto: none
     show-sql: false
+
+security:
+  jwt:
+    token:
+      secret-key: ${JWT_SECRET_KEY}
+      expire-length: ${JWT_EXPIRE_LENGTH}
 
 url:
   base: https://mouda.site
@@ -23,3 +30,5 @@ url:
 oauth:
   kakao:
     redirect-uri: https://mouda.site/kakao-o-auth
+  apple:
+    redirect-uri: https://mouda.site/apple-o-auth
