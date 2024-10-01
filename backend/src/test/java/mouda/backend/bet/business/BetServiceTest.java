@@ -48,9 +48,9 @@ class BetServiceTest extends DarakbangSetUp {
     void findAll() {
         // given
         long darakbangId = darakbang.getId();
-        BetEntity betEntity1 = BetEntityFixture.getBetEntity(darakbangId, darakbangAnna.getId(), LocalDateTime.now().plusMinutes(5).withSecond(0).withNano(0));
-        BetEntity betEntity2 = BetEntityFixture.getBetEntity(darakbangId, darakbangAnna.getId(), LocalDateTime.now().minusMinutes(3).withSecond(0).withNano(0));
-        BetEntity betEntity3 = BetEntityFixture.getBetEntity(darakbangId, darakbangAnna.getId(), LocalDateTime.now().plusMinutes(10).withSecond(0).withNano(0));
+        BetEntity betEntity1 = BetEntityFixture.getBetEntity(darakbangId, darakbangAnna.getId(), LocalDateTime.now().plusMinutes(5));
+        BetEntity betEntity2 = BetEntityFixture.getBetEntity(darakbangId, darakbangAnna.getId(), LocalDateTime.now().minusMinutes(3));
+        BetEntity betEntity3 = BetEntityFixture.getBetEntity(darakbangId, darakbangAnna.getId(), LocalDateTime.now().plusMinutes(10));
 
         BetEntity savedBetEntity1 = betRepository.save(betEntity1);
         BetEntity savedBetEntity2 = betRepository.save(betEntity2);

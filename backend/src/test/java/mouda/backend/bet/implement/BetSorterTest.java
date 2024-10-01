@@ -54,6 +54,6 @@ public class BetSorterTest {
         List<Bet> sortedBets = betSorter.sort(bets);
 
         // then
-        assertThat(sortedBets).containsExactly(bet2, bet3, bet1);
+        assertThat(sortedBets).containsExactly(bet3, bet2, bet1);
     }
 }

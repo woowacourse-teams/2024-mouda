@@ -32,11 +32,6 @@ public class Bet {
         return loserId != null;
     }
 
-    private boolean isParticipated(Long id) {
-        return participants.stream()
-            .anyMatch(participant -> participant.getId() == id);
-    }
-
     public BetRole getMyRole(Long id) {
         if (moimerId == id) {
             return BetRole.MOIMER;
@@ -45,6 +40,11 @@ public class Bet {
             return BetRole.MOIMEE;
         }
         return BetRole.NON_PARTICIPANT;
+    }
+
+    private boolean isParticipated(Long id) {
+        return participants.stream()
+            .anyMatch(participant -> participant.getId() == id);
     }
 
     public long getLoserId() {
@@ -56,5 +56,9 @@ public class Bet {
 
     public long getId() {
         return betDetails.getId();
+    }
+
+    public long timeDifferenceInMinutesWithNow() {
+        return betDetails.timeDifferenceInMinutesWithNow();
     }
 }
