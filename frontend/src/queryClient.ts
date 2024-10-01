@@ -35,6 +35,9 @@ const handleApiError = (error: Error) => {
   if (error instanceof ApiError) {
     if (error.status === 401) {
       removeToken();
+      if (process.env.MSW === 'true') {
+        return false;
+      }
       window.location.href = ROUTES.home;
       return;
     }
