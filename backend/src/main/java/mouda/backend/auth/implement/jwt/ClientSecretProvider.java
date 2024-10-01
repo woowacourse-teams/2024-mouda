@@ -28,7 +28,12 @@ import mouda.backend.auth.exception.AuthException;
 @Component
 public class ClientSecretProvider {
 
-	private static final String KEY_ID = "4YYCNG8SC9";
+	private static final String ALG_PARAMETER_NAME = "alg";
+	private static final String ALG_PARAMETER_VALUE = "ES256";
+
+	private static final String KEY_ID_PARAMETER_NAME = "kid";
+	private static final String KEY_ID_PARAMETER_VALUE = "4YYCNG8SC9";
+
 	private static final String APPLE_URL = "https://appleid.apple.com";
 	private static final String TEAM_ID = "3D7CZ9274W";
 
@@ -41,8 +46,8 @@ public class ClientSecretProvider {
 			Date validity = new Date(now.getTime() + validityInMilliseconds);
 
 			return Jwts.builder()
-				.setHeaderParam("alg", "ES256")
-				.setHeaderParam("kid", KEY_ID)
+				.setHeaderParam(ALG_PARAMETER_NAME, ALG_PARAMETER_VALUE)
+				.setHeaderParam(KEY_ID_PARAMETER_NAME, KEY_ID_PARAMETER_VALUE)
 				.setSubject(CLIENT_ID)
 				.setIssuer(TEAM_ID)
 				.setAudience(APPLE_URL)
