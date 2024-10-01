@@ -21,7 +21,7 @@ public class BetScheduler {
     private final BetFinder betFinder;
     private final BetWriter betWriter;
 
-    @Scheduled(cron = "${bet.schedule}") // 1분
+    @Scheduled(cron = "${bet.schedule}")
     public void performScheduledTask() {
         List<Bet> bets = betFinder.findAllDrawableBet();
 
