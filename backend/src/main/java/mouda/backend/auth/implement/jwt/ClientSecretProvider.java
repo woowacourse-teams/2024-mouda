@@ -1,4 +1,4 @@
-package mouda.backend.auth.implement;
+package mouda.backend.auth.implement.jwt;
 
 import static mouda.backend.auth.Infrastructure.AppleOauthClient.*;
 

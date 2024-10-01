@@ -10,7 +10,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.auth.implement.ClientSecretProvider;
+import mouda.backend.auth.implement.jwt.ClientSecretProvider;
 import mouda.backend.auth.presentation.response.OauthResponse;
 
 @Component
