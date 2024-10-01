@@ -15,7 +15,7 @@ jobs:
           if [ -n "${{ secrets.NEW_PROPERTIES }}" ]; then
             cd ~/deploy
             echo "${{ secrets.NEW_PROPERTIES }}" > new_properties
-            ./add-new-properties.sh
+            ./update-properties.sh
           fi
 
       - name: deploy
@@ -38,4 +38,3 @@ jobs:
       - name: deploy
         run: |
           cd ~/deploy && ./deploy.sh
-    
