@@ -27,7 +27,7 @@ public class GoogleOauthClient implements OauthClient {
 	@Value("${oauth.google.client-secret}")
 	private String clientSecret;
 
-	@Value("${oauth.google.redirect-url}")
+	@Value("${oauth.google.redirect-uri}")
 	private String redirectUrl;
 
 	private final RestClient restClient;

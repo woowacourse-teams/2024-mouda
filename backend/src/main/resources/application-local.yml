@@ -25,7 +25,7 @@ oauth:
     redirect-uri: http://localhost:8081/oauth/kakao
   google:
     client-secret: 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
-    redirect-url: http://localhost:8081/oauth/google
+    redirect-uri: http://localhost:8081/oauth/google
   apple:
     redirect-uri: https://dev.mouda.site/oauth/apple
 
