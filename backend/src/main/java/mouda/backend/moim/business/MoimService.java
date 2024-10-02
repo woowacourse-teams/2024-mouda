@@ -19,8 +19,8 @@ import mouda.backend.moim.presentation.request.moim.MoimEditRequest;
 import mouda.backend.moim.presentation.response.comment.CommentResponses;
 import mouda.backend.moim.presentation.response.moim.MoimDetailsFindResponse;
 import mouda.backend.moim.presentation.response.moim.MoimFindAllResponses;
-import mouda.backend.notification.business.NotificationService;
-import mouda.backend.notification.domain.NotificationType;
+// import mouda.backend.notification.business.NotificationService;
+// import mouda.backend.notification.domain.NotificationType;
 
 @Transactional
 @Service
@@ -30,7 +30,7 @@ public class MoimService {
 	private final MoimWriter moimWriter;
 	private final MoimFinder moimFinder;
 	private final CommentFinder commentFinder;
-	private final NotificationService notificationService;
+	// private final NotificationService notificationService;
 
 	@Transactional(readOnly = true)
 	public MoimDetailsFindResponse findMoimDetails(long darakbangId, long moimId) {
@@ -67,13 +67,13 @@ public class MoimService {
 		Moim moim = moimFinder.read(moimId, darakbangId);
 		moimWriter.completeMoim(moim, darakbangMember);
 
-		notificationService.notifyToMembers(NotificationType.MOIMING_COMPLETED, darakbangId, moim, darakbangMember);
+		// notificationService.notifyToMembers(NotificationType.MOIMING_COMPLETED, darakbangId, moim, darakbangMember);
 	}
 
 	public Moim createMoim(Long darakbangId, DarakbangMember darakbangMember, MoimCreateRequest moimCreateRequest) {
 		Moim moim = moimWriter.save(moimCreateRequest.toEntity(darakbangId), darakbangMember);
 
-		notificationService.notifyToMembers(NotificationType.MOIM_CREATED, darakbangId, moim, darakbangMember);
+		// notificationService.notifyToMembers(NotificationType.MOIM_CREATED, darakbangId, moim, darakbangMember);
 
 		return moim;
 	}
@@ -82,14 +82,14 @@ public class MoimService {
 		Moim moim = moimFinder.read(moimId, darakbangId);
 		moimWriter.cancelMoim(moim, darakbangMember);
 
-		notificationService.notifyToMembers(NotificationType.MOIM_CANCELLED, darakbangId, moim, darakbangMember);
+		// notificationService.notifyToMembers(NotificationType.MOIM_CANCELLED, darakbangId, moim, darakbangMember);
 	}
 
 	public void reopenMoim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimFinder.read(moimId, darakbangId);
 		moimWriter.reopenMoim(moim, darakbangMember);
 
-		notificationService.notifyToMembers(NotificationType.MOINING_REOPENED, darakbangId, moim, darakbangMember);
+		// notificationService.notifyToMembers(NotificationType.MOINING_REOPENED, darakbangId, moim, darakbangMember);
 	}
 
 	public void editMoim(Long darakbangId, MoimEditRequest request, DarakbangMember darakbangMember) {
@@ -97,6 +97,6 @@ public class MoimService {
 		moimWriter.updateMoim(moim, darakbangMember, request.title(), request.date(), request.time(), request.place(),
 			request.maxPeople(), request.description());
 
-		notificationService.notifyToMembers(NotificationType.MOIM_MODIFIED, darakbangId, moim, darakbangMember);
+		// notificationService.notifyToMembers(NotificationType.MOIM_MODIFIED, darakbangId, moim, darakbangMember);
 	}
 }

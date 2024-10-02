@@ -15,7 +15,6 @@ import mouda.backend.common.fixture.DarakbangFixture;
 import mouda.backend.common.fixture.DarakbangMemberFixture;
 import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.common.fixture.MoimFixture;
-import mouda.backend.common.global.IgnoreNotificationTest;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.infrastructure.DarakbangRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
@@ -31,7 +30,7 @@ import mouda.backend.moim.infrastructure.MoimRepository;
 import mouda.backend.moim.presentation.request.comment.CommentCreateRequest;
 
 @SpringBootTest
-public class CommentServiceTest extends IgnoreNotificationTest {
+public class CommentServiceTest {
 
 	@Autowired
 	private DarakbangRepository darakbangRepository;

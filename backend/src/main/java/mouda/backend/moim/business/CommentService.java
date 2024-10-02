@@ -12,8 +12,8 @@ import mouda.backend.moim.implement.finder.CommentFinder;
 import mouda.backend.moim.implement.finder.MoimFinder;
 import mouda.backend.moim.implement.writer.CommentWriter;
 import mouda.backend.moim.presentation.request.comment.CommentCreateRequest;
-import mouda.backend.notification.business.NotificationService;
-import mouda.backend.notification.domain.NotificationType;
+// import mouda.backend.notification.business.NotificationService;
+// import mouda.backend.notification.domain.NotificationType;
 
 @Transactional
 @Service
@@ -24,7 +24,7 @@ public class CommentService {
 	private final ChamyoFinder chamyoFinder;
 	private final CommentFinder commentFinder;
 	private final CommentWriter commentWriter;
-	private final NotificationService notificationService;
+	// private final NotificationService notificationService;
 
 	public void createComment(
 		Long darakbangId, Long moimId, DarakbangMember darakbangMember, CommentCreateRequest request
@@ -41,10 +41,10 @@ public class CommentService {
 		}
 		if (parentId != null) {
 			Long parentCommentAuthorId = commentFinder.readMemberIdByParentId(parentId);
-			notificationService.notifyToMember(NotificationType.NEW_REPLY, darakbangId, moim, author,
-				parentCommentAuthorId);
+			// notificationService.notifyToMember(NotificationType.NEW_REPLY, darakbangId, moim, author,
+			// 	parentCommentAuthorId);
 		}
 
-		notificationService.notifyToMembers(NotificationType.NEW_COMMENT, darakbangId, moim, author);
+		// notificationService.notifyToMembers(NotificationType.NEW_COMMENT, darakbangId, moim, author);
 	}
 }
