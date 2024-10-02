@@ -26,15 +26,37 @@ export const chatSliceIndexes = [
 
 export const chatHandler = [
   http.get(
-    `${process.env.API_URL}/v1/darakbang/1/chat`,
+    `${process.env.API_BASE_URL}/v1/darakbang/0/chat`,
     async ({ request }) => {
       const url = new URL(request.url);
 
       const recentChatId = +(url.searchParams.get('recentChatId') || 0);
 
+      const moimId = +(url.searchParams.get('moimId') || 0);
+      if (moimId === 1)
+        return HttpResponse.json({
+          data: { chats: nowChatServerData.slice(recentChatId) },
+        });
+
       return HttpResponse.json({
-        data: { chats: nowChatServerData.slice(recentChatId) },
+        data: { chats: mockedChats },
       });
     },
   ),
+  http.get(`${process.env.API_BASE_URL}/v1/darakbang/0/chat/preview`, () => {
+    return HttpResponse.json({
+      data: {
+        chatPreviewResponses: [
+          {
+            moimId: 0,
+            title: 'tmp',
+            currentPeople: 1,
+            isStarted: true,
+            lastContent: 12,
+            unreadContentCount: 12,
+          },
+        ],
+      },
+    });
+  }),
 ];
