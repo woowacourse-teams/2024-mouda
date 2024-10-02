@@ -30,5 +30,8 @@ url:
 oauth:
   kakao:
     redirect-uri: https://mouda.site/kakao-o-auth
+  google:
+    client-secret: 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
+    redirect-url: https://mouda.site/oauth
   apple:
-    redirect-uri: https://mouda.site/apple-o-auth
+    redirect-uri: https://mouda.site/oauth
