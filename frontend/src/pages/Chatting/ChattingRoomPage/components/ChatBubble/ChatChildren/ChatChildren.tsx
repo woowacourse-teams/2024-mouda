@@ -6,7 +6,7 @@ import {
 } from '@_utils/formatters';
 
 import { Chat } from '@_types/index';
-import ChatBubble from '@_pages/Chatting/ChatPage/components/ChatBubble/ChatBubble';
+import ChatBubble from '@_pages/Chatting/ChattingRoomPage/components/ChatBubble/ChatBubble';
 import { useTheme } from '@emotion/react';
 
 interface ChatChildrenProps {

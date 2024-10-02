@@ -2,13 +2,13 @@ import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import CalenderClock from '@_components/Icons/CalenderClock';
-import ChatBottomMenu from '../ChatPage/components/ChatBottomMenu/ChatBottomMenu';
-import ChatList from '../ChatPage/components/ChatList/ChatList';
-import ChatMenuItem from '../ChatPage/components/ChatMenuItem/ChatMenuItem';
-import ChattingFooter from '../ChatPage/components/ChattingFooter/ChattingFooter';
+import ChatBottomMenu from './components/ChatBottomMenu/ChatBottomMenu';
+import ChatList from './components/ChatList/ChatList';
+import ChatMenuItem from './components/ChatMenuItem/ChatMenuItem';
+import ChattingFooter from './components/ChattingFooter/ChattingFooter';
 import ChattingRoomLayout from '@_layouts/ChattingRoomLayout/ChattingRoomLayout';
 import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
-import DateTimeModalContent from '../ChatPage/components/DateTimeModalContent/DateTimeModalContent';
+import DateTimeModalContent from './components/DateTimeModalContent/DateTimeModalContent';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import Modal from '@_components/Modal/Modal';
 import Picker from '@_components/Icons/Picker';
