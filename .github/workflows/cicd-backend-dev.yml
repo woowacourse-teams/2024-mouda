@@ -34,7 +34,7 @@ jobs:
           mkdir -p src/main/resources/auth
           pwd
           ls src/main/resources
-          echo ${{ secrets.APPLE_AUTH_KEY }} > src/main/resources/auth/AuthKey.p8
+          printf "%s" "${{ secrets.APPLE_AUTH_KEY }}" > src/main/resources/auth/AuthKey.p8
           
       - name: gradlew 권한 부여
         run: chmod +x ./gradlew
