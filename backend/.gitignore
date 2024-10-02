@@ -7,4 +7,3 @@ build/
 out
 logs
 src/main/resources/firebase
-src/main/resources/application-prod.yml
