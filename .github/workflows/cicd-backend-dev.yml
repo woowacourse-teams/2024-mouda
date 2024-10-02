@@ -51,10 +51,6 @@ jobs:
     runs-on: [self-hosted, develop]
 
     steps:
-      - name: change permission
-        run: |
-          sudo chown -R ubuntu:ubuntu /home/ubuntu/actions-runner/_work/2024-mouda
-
       - name: DockerHub login
         uses: docker/login-action@v1
         with:
@@ -63,6 +59,7 @@ jobs:
 
       - name: Docker Compose up
         run: |
-          docker compose -f ./backend/docker-compose.yml down mouda-be
-          docker compose -f ./backend/docker-compose.yml pull mouda-be
-          docker compose -f ./backend/docker-compose.yml up -d mouda-be
+          cd ~/deploy
+          docker compose -f docker-compose-be.yml down
+          docker compose -f docker-compose-be.yml pull
+          docker compose -f docker-compose-be.yml up -d 
