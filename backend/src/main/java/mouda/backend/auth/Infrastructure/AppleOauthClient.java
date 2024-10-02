@@ -29,6 +29,7 @@ public class AppleOauthClient implements OauthClient {
 
 	@Override
 	public String getIdToken(String code) {
+		System.out.println("redirectUri = " + redirectUri);
 		MultiValueMap<String, String> formData = getFormData(code);
 
 		OauthResponse oauthResponse = restClient.method(HttpMethod.POST)
