@@ -16,8 +16,8 @@ import mouda.backend.moim.implement.writer.ChamyoWriter;
 import mouda.backend.moim.implement.writer.MoimWriter;
 import mouda.backend.moim.presentation.response.chamyo.ChamyoFindAllResponses;
 import mouda.backend.moim.presentation.response.chamyo.MoimRoleFindResponse;
-import mouda.backend.notification.business.NotificationService;
-import mouda.backend.notification.domain.NotificationType;
+// import mouda.backend.notification.business.NotificationService;
+// import mouda.backend.notification.domain.NotificationType;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +28,7 @@ public class ChamyoService {
 	private final MoimWriter moimWriter;
 	private final ChamyoFinder chamyoFinder;
 	private final ChamyoWriter chamyoWriter;
-	private final NotificationService notificationService;
+	// private final NotificationService notificationService;
 
 	@Transactional(readOnly = true)
 	public MoimRoleFindResponse findMoimRole(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
@@ -51,7 +51,7 @@ public class ChamyoService {
 		chamyoWriter.saveAsMoimee(moim, darakbangMember);
 		moimWriter.updateMoimStatusIfFull(moim);
 
-		notificationService.notifyToMembers(NotificationType.NEW_MOIMEE_JOINED, darakbangId, moim, darakbangMember);
+		// notificationService.notifyToMembers(NotificationType.NEW_MOIMEE_JOINED, darakbangId, moim, darakbangMember);
 	}
 
 	public void cancelChamyo(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
@@ -64,7 +64,7 @@ public class ChamyoService {
 
 	private void sendCancelNotification(Long darakbangId, DarakbangMember darakbangMember, Moim moim) {
 		if (moim.isCompleted()) {
-			notificationService.notifyToMembers(NotificationType.MOIMEE_LEFT, darakbangId, moim, darakbangMember);
+			// notificationService.notifyToMembers(NotificationType.MOIMEE_LEFT, darakbangId, moim, darakbangMember);
 		}
 	}
 }
