@@ -18,3 +18,9 @@ export const headerCenter = ({ theme }: { theme: Theme }) => css`
   text-overflow: ellipsis;
   white-space: pre;
 `;
+
+export const headerBottom = css`
+  position: sticky;
+  top: 5rem;
+  left: -2rem;
+`;
