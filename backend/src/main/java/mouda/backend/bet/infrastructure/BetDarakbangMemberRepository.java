@@ -18,4 +18,6 @@ public interface BetDarakbangMemberRepository extends JpaRepository<BetDarakbang
 	List<BetDarakbangMemberEntity> findAllByBetId(Long id);
 
 	Optional<BetDarakbangMemberEntity> findByBetIdAndDarakbangMemberId(Long betId, Long loserDarakbangMemberId);
+
+	boolean existsByBetIdAndDarakbangMemberId(long betId, long darakbangMemberId);
 }
