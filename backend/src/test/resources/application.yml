@@ -30,7 +30,7 @@ oauth:
   kakao:
     redirect-uri: http://localhost:8081/kakao-o-auth
   apple:
-    redirect-uri: http://localhost:8081/apple-o-auth
-
+    redirect-uri: https://dev.mouda.site/oauth
+    
 bet:
   schedule: "* * * * * *" # 테스트 스케줄러는 매초마다 동작

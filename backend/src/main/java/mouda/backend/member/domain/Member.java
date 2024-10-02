@@ -47,7 +47,7 @@ public class Member {
 		}
 	}
 
-	public Long getSocialLoginId() {
+	public String getSocialLoginId() {
 		return loginDetail.getSocialLoginId();
 	}
 

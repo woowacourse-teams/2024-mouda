@@ -12,3 +12,5 @@ url:
 oauth:
   kakao:
     redirect-uri: https://dev.mouda.site/kakao-o-auth
+  apple:
+    redirect-uri: https://dev.mouda.site/apple-o-auth
