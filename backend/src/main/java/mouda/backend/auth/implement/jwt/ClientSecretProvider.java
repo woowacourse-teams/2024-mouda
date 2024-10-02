@@ -59,7 +59,7 @@ public class ClientSecretProvider {
 		}
 	}
 
-	private static PrivateKey getPrivateKey() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+	private PrivateKey getPrivateKey() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
 		InputStream privateKey = new ClassPathResource("auth/AuthKey.p8").getInputStream();
 
 		String result = new BufferedReader(new InputStreamReader(privateKey)).lines().collect(Collectors.joining("\n"));
