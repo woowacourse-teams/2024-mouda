@@ -27,9 +27,9 @@ export default function TitleStep(props: TitleProps) {
     <>
       <FunnelLayout.Main>
         <FunnelQuestion>
-          <FunnelQuestion.Text>무슨 </FunnelQuestion.Text>
-          <FunnelQuestion.Highlight>내기</FunnelQuestion.Highlight>
-          <FunnelQuestion.Text>를 할까요?</FunnelQuestion.Text>
+          <FunnelQuestion.Text>안내면진다의 </FunnelQuestion.Text>
+          <FunnelQuestion.Highlight>이름</FunnelQuestion.Highlight>
+          <FunnelQuestion.Text>은 무엇인가요?</FunnelQuestion.Text>
         </FunnelQuestion>
         <FunnelInput
           ref={inputRef}

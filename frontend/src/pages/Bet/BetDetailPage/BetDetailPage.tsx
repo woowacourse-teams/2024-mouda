@@ -1,33 +1,84 @@
 import GET_ROUTES from '@_common/getRoutes';
 import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
 import InformationLayout from '@_layouts/InformationLayout/InformationLayout';
-import { PropsWithChildren } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { useTheme } from '@emotion/react';
-
-function InformationItem(props: PropsWithChildren) {
-  const { children } = props;
-
-  return <div>{children}</div>;
-}
-function Title(props: PropsWithChildren) {
-  const { children } = props;
-
-  const theme = useTheme();
-
-  return <h3 css={theme.typography.b2}>{children}</h3>;
-}
-function Content(props: PropsWithChildren) {
-  const { children } = props;
-
-  return children;
-}
-InformationItem.Title = Title;
-InformationItem.Content = Content;
+import useBet from '@_hooks/queries/useBet';
+import * as S from './BetDetailPage.style';
+import Tag from '../components/Tag/Tag';
+import ProfileList from './components/ProfileList/ProfileList';
+import Button from '@_components/Button/Button';
+import useCompleteBet from '@_hooks/mutaions/useCompleteBet';
+import useJoinBet from '@_hooks/mutaions/useJoinBet';
 
 export default function BetDetailPage() {
   const navigate = useNavigate();
+  const params = useParams();
+  const theme = useTheme();
+
+  const betId = Number(params.betId);
+
+  const { bet, isLoading } = useBet(betId);
+
+  const { mutate: completeBet } = useCompleteBet();
+
+  const { mutate: joinBet } = useJoinBet();
+
+  if (isLoading || !bet) {
+    return null;
+  }
+
+  console.log(bet);
+
+  const bottomButton = (() => {
+    if (bet.myRole === 'MOIMER') {
+      return (
+        <Button
+          shape="bar"
+          onClick={() => {
+            if (bet.isAnnounced) {
+              navigate(GET_ROUTES.nowDarakbang.betResult(betId));
+            } else {
+              completeBet(betId);
+            }
+          }}
+        >
+          {bet.isAnnounced ? '결과 보러가기' : '모집 마감하기'}
+        </Button>
+      );
+    }
+    if (bet.myRole === 'MOIMEE') {
+      return (
+        <Button
+          shape="bar"
+          disabled={!bet.isAnnounced}
+          onClick={() => {
+            if (bet.isAnnounced) {
+              navigate(GET_ROUTES.nowDarakbang.betResult(betId));
+            }
+          }}
+        >
+          {bet.isAnnounced ? '결과 보러가기' : '이미 참여했어요'}
+        </Button>
+      );
+    }
+    if (bet.myRole === 'NON_MOIMEE') {
+      return (
+        <Button
+          shape="bar"
+          disabled={bet.isAnnounced}
+          onClick={() => {
+            if (!bet.isAnnounced) {
+              joinBet(betId);
+            }
+          }}
+        >
+          {bet.isAnnounced ? '마감되었어요' : '참여하기'}
+        </Button>
+      );
+    }
+  })();
 
   return (
     <InformationLayout>
@@ -40,32 +91,18 @@ export default function BetDetailPage() {
       </InformationLayout.Header>
 
       <InformationLayout.ContentContainer>
-        <InformationItem>
-          <InformationItem.Title>제목</InformationItem.Title>
-          <InformationItem.Content>
-            <div>커피빵 ㄱㄱ</div>
-          </InformationItem.Content>
-        </InformationItem>
+        <div css={S.containerStyle}>
+          <div css={S.titleBox()}>
+            <h1 css={S.title({ theme })}>{bet.title}</h1>
+            <Tag deadline={bet.deadline}></Tag>
+          </div>
+        </div>
 
-        <InformationItem>
-          <InformationItem.Title>참가인원</InformationItem.Title>
-          <InformationItem.Content>
-            <div>3/5</div>
-          </InformationItem.Content>
-        </InformationItem>
-
-        <InformationItem>
-          <InformationItem.Title>결과 확인 시간</InformationItem.Title>
-          <InformationItem.Content>
-            <div>5분 후</div>
-          </InformationItem.Content>
-        </InformationItem>
+        <ProfileList participants={bet.participants} />
       </InformationLayout.ContentContainer>
 
       <InformationLayout.BottomButtonWrapper>
-        {/* <Button
-          
-        >나는 불나방! ㄱㄱ</Button> */}
+        {bottomButton}
       </InformationLayout.BottomButtonWrapper>
     </InformationLayout>
   );

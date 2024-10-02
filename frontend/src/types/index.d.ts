@@ -105,8 +105,31 @@ export interface Darakbang {
 
 export type DarakbangRole = 'MANAGER' | 'MEMBER' | 'OUTSIDER';
 
+export interface Participant {
+  nickname: string;
+  id: number;
+  profileUrl: string;
+}
+
+export interface BetSummary {
+  id: number;
+  title: string;
+  currentParticipants: number;
+  deadline: `${number}-${number}-${number}T${number}:${number}:${number}`;
+  isAnnounced: boolean;
+}
+
+export interface BetDetail {
+  title: string;
+  currentParticipants: number;
+  deadline: `${number}-${number}-${number}T${number}:${number}:${number}`;
+  isAnnounced: boolean;
+  participants: Participant[];
+  myRole: Role;
+  chatroomId: number | null;
+}
+
 export interface BetInputInfo {
   title: string;
-  maxPeople: number;
-  when: string;
+  waitingMinutes: number;
 }

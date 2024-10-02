@@ -33,6 +33,9 @@ const GET_ROUTES = {
 
     bet: () => getNowDarakbangRoute() + '/bet',
     betCreation: () => getNowDarakbangRoute() + '/bet/creation',
+    betDetail: (betId: number) => getNowDarakbangRoute() + '/bet/' + betId,
+    betResult: (betId: number) =>
+      getNowDarakbangRoute() + '/bet/' + betId + '/result',
   },
 };
 export default GET_ROUTES;

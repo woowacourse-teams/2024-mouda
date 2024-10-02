@@ -6,6 +6,8 @@ import {
   Role,
 } from '@_types/index';
 import {
+  GetBet,
+  GetBets,
   GetChamyoAll,
   GetChamyoMine,
   GetChat,
@@ -186,4 +188,18 @@ export const getDarakbangNameById = async () => {
 
   const json: GetDarakbangNameByCode = await response.json();
   return json.data.name;
+};
+
+export const getBets = async () => {
+  const response = await ApiClient.getWithLastDarakbangId('/bet');
+
+  const json: GetBets = await response.json();
+  return json.data.bets;
+};
+
+export const getBet = async (betId: number) => {
+  const response = await ApiClient.getWithLastDarakbangId(`/bet/${betId}`);
+
+  const json: GetBet = await response.json();
+  return json.data;
 };

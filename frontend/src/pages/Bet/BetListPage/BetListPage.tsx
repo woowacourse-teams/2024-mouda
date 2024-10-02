@@ -4,7 +4,7 @@ import PlusButton from '@_components/PlusButton/PlusButton';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
 import ListLayout from '@_layouts/ListLayout/ListLayout';
 import { useTheme } from '@emotion/react';
-import { Fragment, Suspense } from 'react';
+import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BetList from './components/BetList/BetList';
 
@@ -17,13 +17,11 @@ export default function BetListPage() {
     <Fragment>
       <ListLayout>
         <ListLayout.Header>
-          <h1 css={[theme.typography.h5]}>안내면진거</h1>
+          <h1 css={[theme.typography.h5]}>안내면진다</h1>
         </ListLayout.Header>
 
         <ListLayout.Main>
-          <Suspense>
-            <BetList />
-          </Suspense>
+          <BetList />
         </ListLayout.Main>
 
         <ListLayout.PlusButtonWrapper>

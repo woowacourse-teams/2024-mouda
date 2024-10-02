@@ -5,26 +5,29 @@ import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
 import TitleStep from './components/Steps/TitleStep';
 import { useState } from 'react';
 import { BetInputInfo } from '@_types/index';
-import MaxPeopleStep from './components/Steps/MaxPeopleStep';
-import TimeStep from './components/Steps/TimeStep';
+import WaitingMinutesStep from './components/Steps/WaitingMinutesStep';
+import useAddBet from '@_hooks/mutaions/useAddBet';
+import GET_ROUTES from '@_common/getRoutes';
+import { useNavigate } from 'react-router-dom';
 
-type BetCreationStep = '제목' | '몇명' | '언제';
+type BetCreationStep = '제목' | '추첨시간';
 
-const steps: BetCreationStep[] = ['제목', '몇명', '언제'];
+const steps: BetCreationStep[] = ['제목', '추첨시간'];
 
 export default function BetCreationPage() {
+  const navigate = useNavigate();
+
   const { Funnel, currentStep, goBack, goNextStep } =
     useFunnel<BetCreationStep>('제목');
 
   const [state, setState] = useState<BetInputInfo>({
     title: '',
-    maxPeople: 2,
-    when: '',
+    waitingMinutes: 0,
   });
 
-  const createBet = () => {
-    alert('TODO: 내기 생성!');
-  };
+  const { mutate: createBet } = useAddBet((betId) => {
+    navigate(GET_ROUTES.nowDarakbang.betDetail(betId));
+  });
 
   return (
     <FunnelLayout>
@@ -32,7 +35,9 @@ export default function BetCreationPage() {
         <FunnelLayout.Header.Left>
           <BackArrowButton onClick={goBack} />
         </FunnelLayout.Header.Left>
-        <FunnelLayout.Header.Center>내기 만들기</FunnelLayout.Header.Center>
+        <FunnelLayout.Header.Center>
+          안내면진다 만들기
+        </FunnelLayout.Header.Center>
       </FunnelLayout.Header>
 
       <FunnelStepIndicator totalSteps={steps} currentStep={currentStep} />
@@ -44,25 +49,17 @@ export default function BetCreationPage() {
               title={state.title}
               isValid={true}
               onTitleChange={(title) => setState({ ...state, title })}
-              onButtonClick={() => goNextStep('몇명')}
+              onButtonClick={() => goNextStep('추첨시간')}
             />
           ),
-          몇명: (
-            <MaxPeopleStep
-              maxPeople={state.maxPeople}
+          추첨시간: (
+            <WaitingMinutesStep
+              waitingMinutes={state.waitingMinutes}
               isValid={true}
-              onMaxPeopleChange={(maxPeople) =>
-                setState({ ...state, maxPeople })
+              onWaitingMinutesChange={(waitingMinutes: number) =>
+                setState({ ...state, waitingMinutes })
               }
-              onButtonClick={() => goNextStep('언제')}
-            />
-          ),
-          언제: (
-            <TimeStep
-              when={state.when}
-              isValid={true}
-              onWhenChange={(when: string) => setState({ ...state, when })}
-              onButtonClick={createBet}
+              onButtonClick={() => createBet(state)}
             />
           ),
         }}
