@@ -4,7 +4,7 @@ export const layoutStyle = css`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
 `;
 
 export const headerCenter = ({ theme }: { theme: Theme }) => css`
