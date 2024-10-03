@@ -2,10 +2,10 @@ import GET_ROUTES from '@_common/getRoutes';
 import { Navigate } from 'react-router-dom';
 import ROUTES from '@_constants/routes';
 import { getLastDarakbangId } from '@_common/lastDarakbangManager';
-import { getToken } from '@_utils/tokenManager';
+import { getAccessToken } from '@_utils/tokenManager';
 
 export default function SlashRoute() {
-  const token = getToken();
+  const token = getAccessToken();
   const lastDarakbangId = getLastDarakbangId();
 
   if (token) {

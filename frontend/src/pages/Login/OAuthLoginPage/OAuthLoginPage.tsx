@@ -1,7 +1,7 @@
 import ROUTES from '@_constants/routes';
 import { getInviteCode } from '@_common/inviteCodeManager';
 import { kakaoOAuth, appleOAuth, googleOAuth } from '@_apis/auth';
-import { setToken } from '@_utils/tokenManager';
+import { setAccessToken } from '@_utils/tokenManager';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -21,17 +21,18 @@ export default function OAuthLoginPage() {
         switch (provider) {
           case 'apple': {
             const response = await appleOAuth(code);
-            setToken(response.data.accessToken);
+            setAccessToken(response.data.accessToken);
             break;
           }
           case 'google': {
             const response = await googleOAuth(code);
-            setToken(response.data.accessToken);
+            setAccessToken(response.data.accessToken);
             break;
           }
           case 'kakao': {
             const response = await kakaoOAuth(code);
-            setToken(response.data.accessToken);
+            setAccessToken(response.data.accessToken);
+
             break;
           }
           default: {

@@ -26,7 +26,7 @@ import ROUTES from '@_constants/routes';
 import RefreshButton from '@_components/RefreshButton/RefreshButton';
 import SolidArrow from '@_components/Icons/SolidArrow';
 import { common } from '@_common/common.style';
-import { removeToken } from '@_utils/tokenManager';
+import { removeAccessToken } from '@_utils/tokenManager';
 import { requestPermission } from '@_service/notification';
 import useMyDarakbangs from '@_hooks/queries/useMyDarakbang';
 import useMyRoleInDarakbang from '@_hooks/queries/useMyDarakbangRole';
@@ -112,7 +112,7 @@ export default function MainPage() {
 
     options.push({
       onClick: () => {
-        removeToken();
+        removeAccessToken();
         navigate(ROUTES.main);
       },
       description: '로그아웃',

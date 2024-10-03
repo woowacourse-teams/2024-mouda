@@ -7,12 +7,12 @@ import MainLogoIcon from '@_components/Icons/MainLogoIcon';
 import { Navigate, useNavigate } from 'react-router-dom';
 import ROUTES from '@_constants/routes';
 import { getLastDarakbangId } from '@_common/lastDarakbangManager';
-import { getToken } from '@_utils/tokenManager';
+import { getAccessToken } from '@_utils/tokenManager';
 import AppleOAuthIcon from '@_components/Icons/AppleOAuthIcon';
 
 export default function HomePage() {
   const theme = useTheme();
-  const nowToken = getToken();
+  const nowToken = getAccessToken();
   const navigate = useNavigate();
 
   if (nowToken) {

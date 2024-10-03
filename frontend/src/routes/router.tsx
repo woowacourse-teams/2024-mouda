@@ -27,7 +27,7 @@ import DarakbangManagementPage from '@_pages/Darakbang/DarakbangManagementPage/D
 import DarakbangMembersPage from '@_pages/Darakbang/DarakbangMembersPage/DarakbangMembersPage';
 import DarakbangInvitationPage from '@_pages/Darakbang/DarakbangInvitationPage/DarakbangInvitationPage';
 import DarakbangInvitationRoute from '@_pages/Navigator/DarakbangInvitationRoute';
-import DataMigrationExplanationPage from '@_pages/Login/DataMigrationExplanationPage/DataMigrationExplanationPage';
+import DataMigrationExplanationPage from '@_pages/Login/DataMigrationPage/Explanation/DataMigrationExplanationPage';
 
 const routesConfig = [
   {
