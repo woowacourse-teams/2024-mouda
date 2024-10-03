@@ -12,10 +12,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mouda.backend.auth.exception.AuthException;
-import mouda.backend.auth.presentation.response.OauthResponse;
 
 @Component
 @Slf4j
@@ -40,13 +41,13 @@ public class GoogleOauthClient implements OauthClient {
 			HttpHeaders headers = getHttpHeaders();
 			MultiValueMap<String, String> formData = getFormData(code);
 
-			OauthResponse oauthResponse = restClient.method(HttpMethod.POST)
+			JsonNode oauthResponse = restClient.method(HttpMethod.POST)
 				.uri(GOOGLE_API_URL)
 				.headers(httpHeaders -> httpHeaders.addAll(headers))
 				.body(formData)
 				.retrieve()
-				.body(OauthResponse.class);
-			return oauthResponse.id_token();
+				.body(JsonNode.class);
+			return oauthResponse.get("id_token").asText();
 		} catch (Exception e) {
 			log.warn(e.getMessage());
 			throw new AuthException(HttpStatus.BAD_GATEWAY, TOKEN_ISSUE_FAILED);

@@ -11,11 +11,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClient;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import lombok.RequiredArgsConstructor;
 import mouda.backend.auth.exception.AuthErrorMessage;
 import mouda.backend.auth.exception.AuthException;
+import mouda.backend.auth.presentation.response.OauthResponse;
 
 @Component
 @RequiredArgsConstructor
@@ -35,14 +34,14 @@ public class KakaoOauthClient implements OauthClient {
 			HttpHeaders headers = getHttpHeaders();
 			MultiValueMap<String, String> formData = getFormData(code);
 
-			JsonNode response = restClient.method(HttpMethod.POST)
+			OauthResponse response = restClient.method(HttpMethod.POST)
 				.uri(KAKAO_API_URL)
 				.headers(httpHeaders -> httpHeaders.addAll(headers))
 				.body(formData)
 				.retrieve()
-				.body(JsonNode.class);
+				.body(OauthResponse.class);
 
-			return response.get("id_token").asText();
+			return response.id_token();
 		} catch (ResourceAccessException e) {
 			throw new AuthException(HttpStatus.BAD_GATEWAY, AuthErrorMessage.KAKAO_CONNECT_TIMEOUT);
 		} catch (Exception e) {
