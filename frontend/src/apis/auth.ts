@@ -22,7 +22,7 @@ export const appleOAuth = async (code: string) => {
 };
 
 export const googleOAuth = async (code: string) => {
-  const response = await ApiClient.postWithoutAuth('/auth/apple/oauth', {
+  const response = await ApiClient.postWithoutAuth('/auth/google/oauth', {
     code,
   });
   return response.json();
