@@ -1,7 +1,12 @@
 import ROUTES from '@_constants/routes';
 import { getInviteCode } from '@_common/inviteCodeManager';
 import { kakaoOAuth, appleOAuth, googleOAuth } from '@_apis/auth';
-import { setAccessToken } from '@_utils/tokenManager';
+import {
+  getMemberToken,
+  removeMemberToken,
+  setAccessToken,
+  setMemberToken,
+} from '@_utils/tokenManager';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -20,27 +25,28 @@ export default function OAuthLoginPage() {
         }
         switch (provider) {
           case 'apple': {
-            const response = await appleOAuth(code);
+            const response = await appleOAuth(code, getMemberToken());
             setAccessToken(response.data.accessToken);
             break;
           }
           case 'google': {
-            const response = await googleOAuth(code);
+            const response = await googleOAuth(code, getMemberToken());
             setAccessToken(response.data.accessToken);
             break;
           }
           case 'kakao': {
             const response = await kakaoOAuth(code);
             setAccessToken(response.data.accessToken);
-
-            break;
+            setMemberToken(response.deta.memberId);
+            navigate(ROUTES.oAuthSelection);
+            return null;
           }
           default: {
             alert('지원되지 않는 제공자입니다.');
             navigate(ROUTES.home);
           }
         }
-
+        removeMemberToken();
         const inviteCode = getInviteCode();
         if (inviteCode) {
           navigate(`${ROUTES.darakbangInvitationRoute}?code=${inviteCode}`);
@@ -49,8 +55,11 @@ export default function OAuthLoginPage() {
           navigate(ROUTES.darakbangSelectOption);
         }
       } catch (error) {
-        console.error('OAuth 처리 중 오류 발생:', error);
-        alert('로그인 처리 중 오류가 발생했습니다.');
+        if (error instanceof Error) {
+          console.error('OAuth 처리 중 오류 발생:', error);
+          alert(`로그인 처리 중 오류가 발생했습니다: ${error.message}`);
+          navigate(ROUTES.home);
+        }
       }
     };
 
