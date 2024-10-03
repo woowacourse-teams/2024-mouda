@@ -67,6 +67,7 @@ public class GoogleOauthClient implements OauthClient {
 		formData.add("code", code);
 		formData.add("grant_type", GRANT_TYPE);
 		formData.add("redirect_uri", redirectUrl);
+		formData.add("scope", "openid email profile");
 		return formData;
 	}
 }
