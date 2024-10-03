@@ -8,6 +8,7 @@ export const accordion = css`
   height: 7rem;
   padding: 2rem;
 
+  background-color: white;
   border-radius: 0 0 1rem 1rem;
   box-shadow: 0 4px 5px rgb(0 0 0 / 30%);
 `;

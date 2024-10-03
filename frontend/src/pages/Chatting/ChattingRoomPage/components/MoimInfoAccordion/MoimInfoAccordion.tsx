@@ -31,6 +31,7 @@ export default function MoimInfoAccordion(props: MoimInfoAccordionProps) {
           {time && ' ' + formatHhmmToKoreanWithPrefix(time)}
         </div>
         {place && place}
+        {!date && !time && !place && '아직 정한 모임 정보가 없습니다'}
       </div>
     </section>
   );

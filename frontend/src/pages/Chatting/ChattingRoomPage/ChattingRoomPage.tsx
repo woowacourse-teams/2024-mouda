@@ -11,6 +11,7 @@ import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNam
 import DateTimeModalContent from './components/DateTimeModalContent/DateTimeModalContent';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import Modal from '@_components/Modal/Modal';
+import MoimInfoAccordion from './components/MoimInfoAccordion/MoimInfoAccordion';
 import Picker from '@_components/Icons/Picker';
 import PlaceModalContent from './components/PlaceModalContent/PlaceModalContent';
 import SolidArrow from '@_components/Icons/SolidArrow';
@@ -125,6 +126,14 @@ export default function ChattingRoomPage() {
           </DarakbangNameWrapper>
         </ChattingRoomLayout.Header.Center>
       </ChattingRoomLayout.Header>
+      <ChattingRoomLayout.HeaderBottom>
+        <MoimInfoAccordion
+          status={moim?.status || 'MOIMING'}
+          date={moim?.date}
+          time={moim?.time}
+          place={moim?.place}
+        />
+      </ChattingRoomLayout.HeaderBottom>
       <ChatList chats={chats} />
       <ChattingRoomLayout.Footer>
         <ChattingFooter
