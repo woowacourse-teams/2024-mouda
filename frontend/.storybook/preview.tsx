@@ -1,11 +1,12 @@
+import { Global, ThemeProvider } from '@emotion/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { initialize, mswDecorator } from 'msw-storybook-addon';
+
+import { BrowserRouter } from 'react-router-dom';
 import type { Preview } from '@storybook/react';
 import React from 'react';
 import reset from '../src/common/reset.style';
-import { Global, ThemeProvider } from '@emotion/react';
 import { theme } from '../src/common/theme/theme.style';
-import { initialize, mswDecorator } from 'msw-storybook-addon';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter } from 'react-router-dom';
 
 initialize();
 
@@ -15,7 +16,6 @@ const preview: Preview = {
     controls: {
       matchers: {
         color: /(background|color)$/i,
-        date: /Date$/i,
       },
     },
   },
