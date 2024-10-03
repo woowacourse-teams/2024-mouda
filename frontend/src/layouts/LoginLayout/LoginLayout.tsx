@@ -1,8 +1,9 @@
 import { PropsWithChildren } from 'react';
 import * as S from './LoginLayout.style';
-import LoginHeader from './LoginHeader/LoginHeader';
 import LoginMain from './LoginMain/LoginMain';
-import LoginFooter from './LoginFooter/LoginFooter';
+// import LoginFooter from './LoginFooter/LoginFooter';
+import StickyTriSectionHeader from '@_layouts/components/StickyTriSectionHeader/StickyTriSectionHeader';
+import InformationBottomWrapper from '@_layouts/InformationLayout/InformationBottomWrapper/InformationBottomWrapper';
 
 function LoginLayout(props: PropsWithChildren) {
   const { children } = props;
@@ -10,8 +11,8 @@ function LoginLayout(props: PropsWithChildren) {
   return <div css={S.layoutStyle}>{children}</div>;
 }
 
-LoginLayout.Header = LoginHeader;
+LoginLayout.Header = StickyTriSectionHeader;
 LoginLayout.Main = LoginMain;
-LoginLayout.Footer = LoginFooter;
+LoginLayout.Footer = InformationBottomWrapper;
 
 export default LoginLayout;
