@@ -2,7 +2,20 @@ import LoginLayout from '@_layouts/LoginLayout/LoginLayout';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import AppleOAuthIcon from '@_components/Icons/AppleOAuthIcon';
 import GoogleOAuthIcon from '@_common/assets/googleLogin.svg';
+import { useNavigate } from 'react-router-dom';
+import { getMemberToken } from '@_utils/tokenManager';
+import ROUTES from '@_constants/routes';
+import { useEffect } from 'react';
 export default function OAuthSelectPage() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!getMemberToken()) {
+      console.log('잘못된 접근입니다.');
+      alert('잘못된 접근입니다.');
+      navigate(ROUTES.home);
+    }
+  }, [navigate]);
   const appleAuthLogin = () => {
     if (
       !process.env.APPLE_O_AUTH_CLIENT_ID ||
