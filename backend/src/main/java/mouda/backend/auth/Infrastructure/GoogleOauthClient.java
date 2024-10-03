@@ -1,11 +1,8 @@
 package mouda.backend.auth.Infrastructure;
 
-import static mouda.backend.auth.exception.AuthErrorMessage.*;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -16,7 +13,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mouda.backend.auth.exception.AuthException;
 
 @Component
 @Slf4j
@@ -31,7 +27,7 @@ public class GoogleOauthClient implements OauthClient {
 	private String clientSecret;
 
 	@Value("${oauth.google.redirect-uri}")
-	private String redirectUrl;
+	private String redirectUri;
 
 	private final RestClient restClient;
 
@@ -50,7 +46,8 @@ public class GoogleOauthClient implements OauthClient {
 			return oauthResponse.get("id_token").asText();
 		} catch (Exception e) {
 			log.warn(e.getMessage());
-			throw new AuthException(HttpStatus.BAD_GATEWAY, TOKEN_ISSUE_FAILED);
+			// throw new AuthException(HttpStatus.BAD_GATEWAY, TOKEN_ISSUE_FAILED);
+			throw e;
 		}
 	}
 
@@ -66,7 +63,7 @@ public class GoogleOauthClient implements OauthClient {
 		formData.add("client_secret", clientSecret);
 		formData.add("code", code);
 		formData.add("grant_type", GRANT_TYPE);
-		formData.add("redirect_uri", redirectUrl);
+		formData.add("redirect_uri", redirectUri);
 		formData.add("scope", "openid email profile");
 		return formData;
 	}
