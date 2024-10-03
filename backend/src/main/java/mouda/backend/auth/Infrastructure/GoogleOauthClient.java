@@ -58,13 +58,17 @@ public class GoogleOauthClient implements OauthClient {
 	}
 
 	private MultiValueMap<String, String> getFormData(String code) {
+		String scope = "https://www.googleapis.com/auth/userinfo.email " +
+			"https://www.googleapis.com/auth/userinfo.profile " +
+			"openid";
+
 		MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
 		formData.add("client_id", CLIENT_ID);
 		formData.add("client_secret", clientSecret);
 		formData.add("code", code);
 		formData.add("grant_type", GRANT_TYPE);
 		formData.add("redirect_uri", redirectUri);
-		formData.add("scope", "openid email profile");
+		formData.add("scope", scope);
 		return formData;
 	}
 }
