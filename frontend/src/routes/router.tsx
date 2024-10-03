@@ -28,6 +28,7 @@ import DarakbangMembersPage from '@_pages/Darakbang/DarakbangMembersPage/Darakba
 import DarakbangInvitationPage from '@_pages/Darakbang/DarakbangInvitationPage/DarakbangInvitationPage';
 import DarakbangInvitationRoute from '@_pages/Navigator/DarakbangInvitationRoute';
 import DataMigrationExplanationPage from '@_pages/Login/DataMigrationPage/Explanation/DataMigrationExplanationPage';
+import OAuthSelectPage from '@_pages/Login/DataMigrationPage/Select/OAuthSelectPage';
 
 const routesConfig = [
   {
@@ -78,6 +79,11 @@ const routesConfig = [
   {
     path: ROUTES.oAuthMigration,
     element: <DataMigrationExplanationPage />,
+    requiresAuth: false,
+  },
+  {
+    path: ROUTES.oAuthSelection,
+    element: <OAuthSelectPage />,
     requiresAuth: false,
   },
   {

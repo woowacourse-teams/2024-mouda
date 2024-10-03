@@ -35,7 +35,8 @@ const ROUTES = {
   notFound: '/*',
   main: '/',
   home: '/home',
-  oAuthMigration: '/ouath-migration',
+  oAuthMigration: '/oauth-migration',
+  oAuthSelection: '/oauth-select',
   oAuth: '/oauth/:provider',
   darakbangInvitationRoute: '/darakbang-invitation-route',
 
