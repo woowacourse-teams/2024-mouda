@@ -4,11 +4,13 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.Optional;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import mouda.backend.auth.exception.AuthException;
 import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.domain.OauthType;
@@ -40,18 +42,29 @@ class LoginManagerTest {
 		assertThat(foundMember.get()).isEqualTo(member);
 	}
 
-	@DisplayName("주어진 카카오 id로 로그인을 시도한다 -> 회원가입한 이력이 없는 경우")
+	@DisplayName("이전에 카카오로 가입한 적이 있는 사용자가 카카오 로그인을 시도하면 성공적으로 로그인한다.")
 	@Test
-	void processSocialLoginWithSignUp() {
+	void processSocialLoginWhoSignedUpBefore() {
 		// given
 		String kakaoId = "456";
+		Member anna = MemberFixture.getAnna(kakaoId);
+		memberRepository.save(anna);
 
 		// when
 		String token = loginManager.processSocialLogin(OauthType.KAKAO, kakaoId);
 
 		// then
 		assertThat(token).isNotNull();
-		Optional<Member> newMember = memberRepository.findByLoginDetail_SocialLoginId(kakaoId);
-		assertThat(newMember.isPresent()).isTrue();
+	}
+
+	@DisplayName("이전에 카카오로 가입한 적이 없는 사용자가 카카오 로그인을 시도하면 예외를 발생시킨다.")
+	@Test
+	void processSocialLoginWhoDoesNotSignedUpBefore() {
+		// given
+		String kakaoId = "456";
+
+		// when & then
+		Assertions.assertThatThrownBy(() -> loginManager.processSocialLogin(OauthType.KAKAO, kakaoId))
+			.isInstanceOf(AuthException.class);
 	}
 }
