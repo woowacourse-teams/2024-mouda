@@ -16,7 +16,7 @@ import mouda.backend.member.implement.MemberWriter;
 
 @Service
 @RequiredArgsConstructor
-public class KakaoAuthService implements AuthService {
+public class KakaoAuthService {
 
 	private final AccessTokenProvider accessTokenProvider;
 	private final KakaoOauthManager oauthManager;

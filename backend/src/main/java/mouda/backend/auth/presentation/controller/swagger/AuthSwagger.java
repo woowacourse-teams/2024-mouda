@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import mouda.backend.auth.presentation.request.OauthRequest;
+import mouda.backend.auth.presentation.response.LegacyOauthRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
 import mouda.backend.common.response.RestResponse;
 
@@ -28,11 +29,11 @@ public interface AuthSwagger {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "로그인 성공!"),
 	})
-	ResponseEntity<RestResponse<LoginResponse>> loginAppleOauth(@RequestBody OauthRequest oauthRequest);
+	ResponseEntity<RestResponse<LoginResponse>> loginAppleOauth(@RequestBody LegacyOauthRequest oauthRequest);
 
 	@Operation(summary = "구글 oauth 로그인", description = "구글 Oauth Code 를 사용하여 로그인한다(accessToken 발급).")
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "로그인 성공!"),
 	})
-	ResponseEntity<RestResponse<LoginResponse>> loginGoogleOauth(@RequestBody OauthRequest oauthRequest);
+	ResponseEntity<RestResponse<LoginResponse>> loginGoogleOauth(@RequestBody LegacyOauthRequest oauthRequest);
 }

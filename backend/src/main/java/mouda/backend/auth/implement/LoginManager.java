@@ -12,6 +12,7 @@ import mouda.backend.auth.implement.jwt.AccessTokenProvider;
 import mouda.backend.member.domain.LoginDetail;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.domain.OauthType;
+import mouda.backend.member.implement.MemberFinder;
 import mouda.backend.member.implement.MemberWriter;
 import mouda.backend.member.infrastructure.MemberRepository;
 
@@ -22,6 +23,7 @@ public class LoginManager {
 	private final MemberRepository memberRepository;
 	private final AccessTokenProvider accessTokenProvider;
 	private final MemberWriter memberWriter;
+	private final MemberFinder memberFinder;
 
 	public String processSocialLogin(OauthType oauthType, String socialLoginId) {
 		Optional<Member> member = memberRepository.findByLoginDetail_SocialLoginId(socialLoginId);
@@ -40,5 +42,12 @@ public class LoginManager {
 		memberWriter.append(newMember);
 
 		return accessTokenProvider.provide(newMember);
+	}
+
+	public String updateOauth(long memberId, OauthType oauthType, String socialLoginId) {
+		Member member = memberFinder.find(memberId);
+		memberWriter.updateLoginDetail(memberId, oauthType, socialLoginId);
+
+		return accessTokenProvider.provide(member);
 	}
 }

@@ -13,6 +13,7 @@ import mouda.backend.auth.business.GoogleAuthService;
 import mouda.backend.auth.business.KakaoAuthService;
 import mouda.backend.auth.presentation.controller.swagger.AuthSwagger;
 import mouda.backend.auth.presentation.request.OauthRequest;
+import mouda.backend.auth.presentation.response.LegacyOauthRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
 import mouda.backend.common.response.RestResponse;
 
@@ -44,7 +45,7 @@ public class AuthController implements AuthSwagger {
 
 	@Override
 	@PostMapping("/google/oauth")
-	public ResponseEntity<RestResponse<LoginResponse>> loginGoogleOauth(@RequestBody OauthRequest oauthRequest) {
+	public ResponseEntity<RestResponse<LoginResponse>> loginGoogleOauth(@RequestBody LegacyOauthRequest oauthRequest) {
 		LoginResponse response = googleAuthService.oauthLogin(oauthRequest);
 
 		return ResponseEntity.ok().body(new RestResponse<>(response));
@@ -52,7 +53,7 @@ public class AuthController implements AuthSwagger {
 
 	@Override
 	@PostMapping("/apple/oauth")
-	public ResponseEntity<RestResponse<LoginResponse>> loginAppleOauth(@RequestBody OauthRequest oauthRequest) {
+	public ResponseEntity<RestResponse<LoginResponse>> loginAppleOauth(@RequestBody LegacyOauthRequest oauthRequest) {
 		LoginResponse response = appleAuthService.oauthLogin(oauthRequest);
 
 		return ResponseEntity.ok().body(new RestResponse<>(response));
