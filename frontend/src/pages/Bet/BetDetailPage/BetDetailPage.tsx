@@ -12,6 +12,7 @@ import Button from '@_components/Button/Button';
 import useCompleteBet from '@_hooks/mutaions/useCompleteBet';
 import useJoinBet from '@_hooks/mutaions/useJoinBet';
 import Roulette from './components/Roulette/Roulette';
+import { useState } from 'react';
 
 export default function BetDetailPage() {
   const navigate = useNavigate();
@@ -26,6 +27,8 @@ export default function BetDetailPage() {
 
   const { mutate: joinBet } = useJoinBet();
 
+  const [isRouletteOpen, setIsRouletteOpen] = useState(false);
+
   if (isLoading || !bet) {
     return null;
   }
@@ -37,7 +40,10 @@ export default function BetDetailPage() {
           shape="bar"
           onClick={() => {
             if (bet.isAnnounced) {
-              navigate(GET_ROUTES.nowDarakbang.betResult(betId));
+              setIsRouletteOpen(true);
+              setTimeout(() => {
+                navigate(GET_ROUTES.nowDarakbang.betResult(betId));
+              }, 2500);
             } else {
               completeBet(betId);
             }
@@ -54,7 +60,10 @@ export default function BetDetailPage() {
           disabled={!bet.isAnnounced}
           onClick={() => {
             if (bet.isAnnounced) {
-              navigate(GET_ROUTES.nowDarakbang.betResult(betId));
+              setIsRouletteOpen(true);
+              setTimeout(() => {
+                navigate(GET_ROUTES.nowDarakbang.betResult(betId));
+              }, 2500);
             }
           }}
         >
@@ -99,31 +108,9 @@ export default function BetDetailPage() {
 
         <ProfileList participants={bet.participants} />
 
-        <Roulette
-          participants={[
-            ...bet.participants,
-            {
-              id: 0,
-              nickname: '테니',
-              profileUrl: '',
-            },
-            {
-              id: 1,
-              nickname: '테바',
-              profileUrl: '',
-            },
-            {
-              id: 123,
-              nickname: '소파',
-              profileUrl: '',
-            },
-            {
-              id: 1234,
-              nickname: '테니',
-              profileUrl: '',
-            },
-          ]}
-        />
+        {bet.participants.length > 1 && (
+          <Roulette isFast={isRouletteOpen} participants={bet.participants} />
+        )}
       </InformationLayout.ContentContainer>
 
       <InformationLayout.BottomButtonWrapper>
