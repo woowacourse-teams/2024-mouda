@@ -3,10 +3,10 @@ import * as S from './NavigationBarItem.style';
 import ChattingIcon from '@_components/Icons/ChattingIcon';
 import HomeIcon from '@_components/Icons/HomeIcon';
 import MyPageIcon from '@_components/Icons/MyPageIcon';
-import PleaseIcon from '@_components/Icons/PleaseIcon';
 import { Tab } from '@_components/NavigationBar/NavigationBar';
 import { common } from '@_common/common.style';
 import { useTheme } from '@emotion/react';
+import ScissorsIcon from '@_components/Icons/ScissorsIcon';
 
 interface NavigationBarItemProps {
   tab: Tab;
@@ -25,8 +25,7 @@ export default function NavigationBarItem(props: NavigationBarItemProps) {
     ) : tab === '채팅' ? (
       <ChattingIcon isActive={isActive} />
     ) : tab === '안내면진다' ? (
-      // TODO: 아이콘 변경
-      <PleaseIcon isActive={isActive} />
+      <ScissorsIcon isActive={isActive} />
     ) : (
       <MyPageIcon isActive={isActive} />
     );
