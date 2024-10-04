@@ -4,14 +4,13 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import jakarta.validation.constraints.NotNull;
+import mouda.backend.chat.entity.ChatEntity;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.moim.domain.Chat;
 import mouda.backend.moim.domain.ChatType;
-import mouda.backend.moim.domain.Moim;
 
 public record DateTimeConfirmRequest(
 	@NotNull
-	Long moimId,
+	Long chatRoomId,
 
 	@NotNull
 	LocalDate date,
@@ -19,10 +18,10 @@ public record DateTimeConfirmRequest(
 	@NotNull
 	LocalTime time
 ) {
-	public Chat toEntity(Moim moim, DarakbangMember darakbangMember) {
-		return Chat.builder()
+	public ChatEntity toEntity(long chatRoomId, DarakbangMember darakbangMember) {
+		return ChatEntity.builder()
 			.content(date.toString() + " " + time.toString())
-			.moim(moim)
+			.chatRoomId(chatRoomId)
 			.date(LocalDate.now())
 			.time(LocalTime.now())
 			.darakbangMember(darakbangMember)

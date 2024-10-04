@@ -5,22 +5,21 @@ import java.time.LocalTime;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import mouda.backend.chat.entity.ChatEntity;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.moim.domain.Chat;
 import mouda.backend.moim.domain.ChatType;
-import mouda.backend.moim.domain.Moim;
 
 public record PlaceConfirmRequest(
 	@NotNull
-	Long moimId,
+	Long chatRoomId,
 
 	@NotBlank
 	String place
 ) {
-	public Chat toEntity(Moim moim, DarakbangMember darakbangMember) {
-		return Chat.builder()
+	public ChatEntity toEntity(long chatRoomId, DarakbangMember darakbangMember) {
+		return ChatEntity.builder()
 			.content(place)
-			.moim(moim)
+			.chatRoomId(chatRoomId)
 			.date(LocalDate.now())
 			.time(LocalTime.now())
 			.darakbangMember(darakbangMember)

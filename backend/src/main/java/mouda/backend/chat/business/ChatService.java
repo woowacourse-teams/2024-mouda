@@ -14,6 +14,8 @@ import mouda.backend.chat.domain.ChatRoomType;
 import mouda.backend.chat.domain.ChatWithAuthor;
 import mouda.backend.chat.entity.ChatEntity;
 import mouda.backend.chat.entity.ChatRoomEntity;
+import mouda.backend.chat.exception.ChatErrorMessage;
+import mouda.backend.chat.exception.ChatException;
 import mouda.backend.chat.infrastructure.ChatRepository;
 import mouda.backend.chat.infrastructure.ChatRoomRepository;
 import mouda.backend.chat.presentation.request.ChatCreateRequest;
@@ -23,12 +25,14 @@ import mouda.backend.chat.presentation.request.PlaceConfirmRequest;
 import mouda.backend.chat.presentation.response.ChatFindUnloadedResponse;
 import mouda.backend.chat.presentation.response.ChatPreviewResponses;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
+import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.ChatType;
-import mouda.backend.moim.exception.ChatErrorMessage;
-import mouda.backend.moim.exception.ChatException;
+import mouda.backend.moim.domain.Moim;
+import mouda.backend.moim.domain.MoimRole;
 import mouda.backend.moim.infrastructure.ChamyoRepository;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ChatService {
 
@@ -118,27 +122,54 @@ public class ChatService {
 		}
 	}
 
-	public void confirmPlace(
-		long darakbangId, PlaceConfirmRequest request, DarakbangMember darakbangMember
-	) {
-		// Moim moim = moimFinder.read(request.moimId(), darakbangId);
-		// moimWriter.confirmPlace(moim, darakbangMember, request.place());
-		//
-		// Chat chat = request.toEntity(moim, darakbangMember);
-		// chatWriter.save(chat);
-		//
+	public void confirmPlace(long darakbangId, PlaceConfirmRequest request, DarakbangMember darakbangMember) {
+		ChatRoomEntity chatRoomEntity = chatRoomRepository.findByIdAndDarakbangId(request.chatRoomId(), darakbangId)
+			.orElseThrow(() -> new ChatException(HttpStatus.NOT_FOUND, ChatErrorMessage.CHATROOM_NOT_FOUND));
+
+		ChatRoomType type = chatRoomEntity.getType();
+		if (type.isNotMoim()) {
+			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.INVALID_CHATROOM_TYPE);
+		}
+
+		Chamyo chamyo = chamyoRepository.findByMoimIdAndDarakbangMemberId(
+				chatRoomEntity.getTargetId(), darakbangMember.getId())
+			.orElseThrow(() -> new ChatException(HttpStatus.UNAUTHORIZED, ChatErrorMessage.UNAUTHORIZED));
+
+		if (chamyo.getMoimRole() != MoimRole.MOIMER) {
+			throw new ChatException(HttpStatus.UNAUTHORIZED, ChatErrorMessage.UNAUTHORIZED_MOIMER);
+		}
+
+		Moim moim = chamyo.getMoim();
+		moim.confirmPlace(request.place());
+
+		ChatEntity chatEntity = request.toEntity(request.chatRoomId(), darakbangMember);
+		chatRepository.save(chatEntity);
+
 		// notificationService.notifyToMembers(NotificationType.MOIM_PLACE_CONFIRMED, darakbangId, moim, darakbangMember);
 	}
 
-	public void confirmDateTime(
-		long darakbangId, DateTimeConfirmRequest request, DarakbangMember darakbangMember
-	) {
-		// Moim moim = moimFinder.read(request.moimId(), darakbangId);
-		// moimWriter.confirmDateTime(moim, darakbangMember, request.date(), request.time());
-		//
-		// Chat chat = request.toEntity(moim, darakbangMember);
-		// chatWriter.save(chat);
-		//
+	public void confirmDateTime(long darakbangId, DateTimeConfirmRequest request, DarakbangMember darakbangMember) {
+		ChatRoomEntity chatRoomEntity = chatRoomRepository.findByIdAndDarakbangId(request.chatRoomId(), darakbangId)
+			.orElseThrow(() -> new ChatException(HttpStatus.NOT_FOUND, ChatErrorMessage.CHATROOM_NOT_FOUND));
+
+		ChatRoomType type = chatRoomEntity.getType();
+		if (type.isNotMoim()) {
+			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.INVALID_CHATROOM_TYPE);
+		}
+
+		Chamyo chamyo = chamyoRepository.findByMoimIdAndDarakbangMemberId(
+				chatRoomEntity.getTargetId(), darakbangMember.getId())
+			.orElseThrow(() -> new ChatException(HttpStatus.UNAUTHORIZED, ChatErrorMessage.UNAUTHORIZED));
+
+		if (chamyo.getMoimRole() != MoimRole.MOIMER) {
+			throw new ChatException(HttpStatus.UNAUTHORIZED, ChatErrorMessage.UNAUTHORIZED_MOIMER);
+		}
+
+		Moim moim = chamyo.getMoim();
+		moim.confirmDateTime(request.date(), request.time());
+
+		ChatEntity chatEntity = request.toEntity(request.chatRoomId(), darakbangMember);
+		chatRepository.save(chatEntity);
 		// notificationService.notifyToMembers(NotificationType.MOIM_TIME_CONFIRMED, darakbangId, moim, darakbangMember);
 	}
 
