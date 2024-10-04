@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import mouda.backend.auth.presentation.request.GoogleOauthReqeust;
 import mouda.backend.auth.presentation.request.LegacyOauthRequest;
 import mouda.backend.auth.presentation.request.OauthRequest;
 import mouda.backend.auth.presentation.response.KakaoLoginResponse;
@@ -36,5 +37,5 @@ public interface AuthSwagger {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "로그인 성공!"),
 	})
-	ResponseEntity<RestResponse<LoginResponse>> loginGoogleOauth(@RequestBody LegacyOauthRequest oauthRequest);
+	ResponseEntity<RestResponse<LoginResponse>> loginGoogleOauth(@RequestBody GoogleOauthReqeust googleOauthReqeust);
 }
