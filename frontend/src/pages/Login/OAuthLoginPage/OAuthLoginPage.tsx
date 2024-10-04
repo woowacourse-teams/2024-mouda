@@ -37,7 +37,7 @@ export default function OAuthLoginPage() {
           case 'kakao': {
             const response = await kakaoOAuth(code);
             setAccessToken(response.data.accessToken);
-            setMemberToken(response.deta.memberId);
+            setMemberToken(response.data.memberId);
             navigate(ROUTES.oAuthSelection);
             return null;
           }
