@@ -23,7 +23,7 @@ export default function ChattingFooter(props: ChattingFooterProps) {
   const textArea = useRef<HTMLTextAreaElement | null>(null);
 
   return (
-    <div css={S.footer({ theme })}>
+    <div css={[S.footer({ theme }), common.iphoneBottom]}>
       {/* TODO: 현재 Button이 유연하지 않아 html 태그를 사용
          필요한 점: 테마 적용(백그라운드 컬러 설정 어려움)+disabled를 optional로 주기 */}
       <button
