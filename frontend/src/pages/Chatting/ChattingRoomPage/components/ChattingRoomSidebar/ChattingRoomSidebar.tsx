@@ -2,6 +2,7 @@ import * as S from './ChattingRoomSidebar.style';
 
 import MemberCard from '@_components/MemberCard/MemberCard';
 import { Participation } from '@_types/index';
+import { useEffect } from 'react';
 import { useTheme } from '@emotion/react';
 
 interface ChattingRoomSidebarProps {
@@ -14,8 +15,20 @@ export default function ChattingRoomSidebar(props: ChattingRoomSidebarProps) {
   const { members, isOpen, onClose } = props;
   const theme = useTheme();
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    }
+    if (!isOpen) {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   if (isOpen) {
-    document.body.style.overflow = 'hidden';
     return (
       <div>
         <div css={S.dimmer} onClick={onClose} />
@@ -39,7 +52,6 @@ export default function ChattingRoomSidebar(props: ChattingRoomSidebarProps) {
     );
   }
   if (!isOpen) {
-    document.body.style.overflow = 'auto';
     return null;
   }
 }
