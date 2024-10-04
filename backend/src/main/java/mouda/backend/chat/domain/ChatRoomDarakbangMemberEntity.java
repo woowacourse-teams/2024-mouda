@@ -11,6 +11,20 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+// 사용보류!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+// 사용보류!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+// 사용보류!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+// 사용보류!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+// 사용보류!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+// 사용보류!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+// 사용보류!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+// 사용보류!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+// 사용보류!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+// 사용보류!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+// 사용보류!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+// 사용보류!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+// 사용보류!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+// 사용보류!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,9 +40,13 @@ public class ChatRoomDarakbangMemberEntity { // TODO: 복합 유니크 키 걸�
 	@Column(name = "darakbang_member_id")
 	private long darakbangMemberId;
 
+	@Column(name = "last_read_chat_id")
+	private long lastReadChatId;
+
 	@Builder
-	public ChatRoomDarakbangMemberEntity(long chatRoomId, long darakbangMemberId) {
+	public ChatRoomDarakbangMemberEntity(long chatRoomId, long darakbangMemberId, long lastReadChatId) {
 		this.chatRoomId = chatRoomId;
 		this.darakbangMemberId = darakbangMemberId;
+		this.lastReadChatId = lastReadChatId;
 	}
 }

@@ -36,4 +36,8 @@ public class BetDarakbangMemberEntity {
 		this.darakbangMember = darakbangMember;
 		this.bet = bet;
 	}
+
+	public void updateLastChat(Long lastReadChatId) {
+		this.lastReadChatId = lastReadChatId;
+	}
 }
