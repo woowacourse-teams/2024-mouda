@@ -53,6 +53,9 @@ dependencies {
 
     // notification
     implementation 'com.google.firebase:firebase-admin:9.3.0'
+
+    //Google Oauth
+    implementation 'com.google.api-client:google-api-client:1.32.1'
 }
 
 tasks.named('test') {
