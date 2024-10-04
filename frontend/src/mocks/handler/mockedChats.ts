@@ -6,7 +6,7 @@ const mockedChats: Chat[] = [
     content: '안녕하세요!',
     isMyMessage: true,
     nickname: '내닉네임',
-    date: '2024-08-08',
+    date: '2024-08-07',
     time: '10:00',
     chatType: 'BASIC',
   },
