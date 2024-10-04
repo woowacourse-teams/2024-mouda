@@ -14,7 +14,7 @@ export default function BetResultPage() {
   const params = useParams();
   const betId = Number(params.betId);
 
-  const { betResult, isLoading } = useBetResult(betId);
+  const { betResult } = useBetResult(betId);
 
   const theme = useTheme();
 
@@ -30,9 +30,7 @@ export default function BetResultPage() {
 
       <div css={containerStyle}>
         <div css={starContainerStyle}>
-          <div css={theme.typography.s1}>
-            {isLoading ? '당첨자는...' : betResult} !
-          </div>
+          <div css={theme.typography.s1}>{betResult} !</div>
 
           <div css={[starOneStyle, rotateAnimation]}>
             <StarOneIcon />
