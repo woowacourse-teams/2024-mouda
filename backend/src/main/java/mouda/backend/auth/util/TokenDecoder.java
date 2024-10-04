@@ -16,7 +16,7 @@ public class TokenDecoder {
 		try {
 			String[] parts = idToken.split("\\.");
 			if (parts.length != 3) {
-				throw new AuthException(HttpStatus.INTERNAL_SERVER_ERROR, AuthErrorMessage.INVALID_KAKAO_TOKEN);
+				throw new AuthException(HttpStatus.INTERNAL_SERVER_ERROR, AuthErrorMessage.INVALID_TOKEN);
 			}
 			String payload = parts[1];
 			byte[] decodedBytes = Base64.getUrlDecoder().decode(payload);
