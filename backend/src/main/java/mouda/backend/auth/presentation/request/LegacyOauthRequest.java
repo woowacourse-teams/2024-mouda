@@ -1,10 +1,10 @@
-package mouda.backend.auth.presentation.response;
+package mouda.backend.auth.presentation.request;
 
 import jakarta.validation.constraints.NotNull;
 
 public record LegacyOauthRequest(
 	Long memberId,
-	
+
 	@NotNull
 	String code
 ) {

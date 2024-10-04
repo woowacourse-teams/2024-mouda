@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import mouda.backend.auth.implement.AppleOauthManager;
-import mouda.backend.auth.presentation.response.LegacyOauthRequest;
+import mouda.backend.auth.presentation.request.LegacyOauthRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
 import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.member.domain.LoginDetail;

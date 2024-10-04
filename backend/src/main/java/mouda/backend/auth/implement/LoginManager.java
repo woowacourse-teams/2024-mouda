@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.auth.business.result.LoginProcessResult;
 import mouda.backend.auth.exception.AuthErrorMessage;
 import mouda.backend.auth.exception.AuthException;
 import mouda.backend.auth.implement.jwt.AccessTokenProvider;
@@ -25,11 +26,11 @@ public class LoginManager {
 	private final MemberWriter memberWriter;
 	private final MemberFinder memberFinder;
 
-	public String processSocialLogin(OauthType oauthType, String socialLoginId) {
+	public LoginProcessResult processSocialLogin(OauthType oauthType, String socialLoginId) {
 		Optional<Member> member = memberRepository.findByLoginDetail_SocialLoginId(socialLoginId);
 
 		if (member.isPresent()) {
-			return accessTokenProvider.provide(member.get());
+			return new LoginProcessResult(member.get().getId(), accessTokenProvider.provide(member.get()));
 		}
 
 		if (oauthType == OauthType.KAKAO) {
@@ -41,7 +42,7 @@ public class LoginManager {
 			.build();
 		memberWriter.append(newMember);
 
-		return accessTokenProvider.provide(newMember);
+		return new LoginProcessResult(newMember.getId(), accessTokenProvider.provide(newMember));
 	}
 
 	public String updateOauth(long memberId, OauthType oauthType, String socialLoginId) {

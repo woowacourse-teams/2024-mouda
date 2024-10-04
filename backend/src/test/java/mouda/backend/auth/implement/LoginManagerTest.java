@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import mouda.backend.auth.business.result.LoginProcessResult;
 import mouda.backend.auth.exception.AuthException;
 import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.member.domain.Member;
@@ -33,10 +34,12 @@ class LoginManagerTest {
 		memberRepository.save(member);
 
 		// when
-		String token = loginManager.processSocialLogin(OauthType.KAKAO, member.getSocialLoginId());
+		LoginProcessResult loginProcessResult = loginManager.processSocialLogin(OauthType.KAKAO,
+			member.getSocialLoginId());
 
 		// then
-		assertThat(token).isNotNull();
+		assertThat(loginProcessResult.accessToken()).isNotNull();
+		assertThat(loginProcessResult.memberId()).isEqualTo(member.getId());
 		Optional<Member> foundMember = memberRepository.findByLoginDetail_SocialLoginId(member.getSocialLoginId());
 		assertThat(foundMember.isPresent()).isTrue();
 		assertThat(foundMember.get()).isEqualTo(member);
@@ -51,10 +54,10 @@ class LoginManagerTest {
 		memberRepository.save(anna);
 
 		// when
-		String token = loginManager.processSocialLogin(OauthType.KAKAO, kakaoId);
+		LoginProcessResult loginProcessResult = loginManager.processSocialLogin(OauthType.KAKAO, kakaoId);
 
 		// then
-		assertThat(token).isNotNull();
+		assertThat(loginProcessResult.accessToken()).isNotNull();
 	}
 
 	@DisplayName("이전에 카카오로 가입한 적이 없는 사용자가 카카오 로그인을 시도하면 예외를 발생시킨다.")
