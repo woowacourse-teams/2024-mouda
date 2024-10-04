@@ -1,4 +1,5 @@
 import {
+  chatLine,
   chatMessageStyle,
   messageContainer,
   senderStyle,
@@ -25,10 +26,12 @@ export default function Chat(props: ChatMessageProps) {
       <UserPreview imageUrl={''} />
       <div css={messageContainer({ isMyMessage })}>
         <span css={senderStyle({ theme })}>{nickname}</span>
-        {children}
-        <span css={timeStyle({ theme })}>
-          {formatHhmmToKoreanWithPrefix(time)}
-        </span>
+        <div css={chatLine({ isMyMessage })}>
+          {children}
+          <span css={timeStyle({ theme })}>
+            {formatHhmmToKoreanWithPrefix(time)}
+          </span>
+        </div>
       </div>
     </div>
   );
