@@ -163,6 +163,9 @@ export default function ChattingRoomPage() {
           onSubmit={handleSendMessage}
           disabled={isPendingSendMessage}
           onMenuClick={() => setIsMenuOpen(!isMenuOpen)}
+          onTextAreaFocus={() => {
+            setIsMenuOpen(false);
+          }}
         />
         {isMenuOpen && menuItems}
       </ChattingRoomLayout.Footer>

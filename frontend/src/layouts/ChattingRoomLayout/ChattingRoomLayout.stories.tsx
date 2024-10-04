@@ -126,6 +126,7 @@ export const Default: Story = {
               onSubmit={() => {}}
               disabled={false}
               onMenuClick={() => {}}
+              onTextAreaFocus={() => {}}
             />
           </ChattingRoomLayout.Footer>
         </ChattingRoomLayout>

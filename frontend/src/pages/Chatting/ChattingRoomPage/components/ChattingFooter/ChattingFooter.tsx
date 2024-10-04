@@ -13,10 +13,11 @@ interface ChattingFooterProps {
   onMenuClick: () => void;
   disabled: boolean;
   onSubmit: (message: string) => void;
+  onTextAreaFocus: () => void;
 }
 
 export default function ChattingFooter(props: ChattingFooterProps) {
-  const { onSubmit, disabled, onMenuClick } = props;
+  const { onSubmit, disabled, onMenuClick, onTextAreaFocus } = props;
   const [isMenuClicked, setIsMenuClicked] = useState(false);
   const [message, setMessage] = useState('');
   const theme = useTheme();
@@ -47,6 +48,7 @@ export default function ChattingFooter(props: ChattingFooterProps) {
           rows={1}
           required
           ref={textArea}
+          onFocus={onTextAreaFocus}
         />
         <button
           css={[S.sendingButton, common.nonDrag]}
