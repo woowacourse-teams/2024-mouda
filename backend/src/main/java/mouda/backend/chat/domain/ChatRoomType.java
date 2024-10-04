@@ -1,5 +1,9 @@
 package mouda.backend.chat.domain;
 
 public enum ChatRoomType {
-	MOIM, BET
+	MOIM, BET;
+
+	public boolean isNotMoim() {
+		return this != MOIM;
+	}
 }
