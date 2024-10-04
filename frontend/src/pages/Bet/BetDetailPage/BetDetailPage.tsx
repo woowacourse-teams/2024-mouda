@@ -92,7 +92,7 @@ export default function BetDetailPage() {
         <div css={S.containerStyle}>
           <div css={S.titleBox()}>
             <h1 css={S.title({ theme })}>{bet.title}</h1>
-            <Tag deadline={bet.deadline}></Tag>
+            <Tag isAnnounced={bet.isAnnounced} deadline={bet.deadline}></Tag>
           </div>
         </div>
 
