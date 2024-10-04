@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.bet.entity.BetDarakbangMemberEntity;
 import mouda.backend.bet.infrastructure.BetDarakbangMemberRepository;
 import mouda.backend.chat.domain.ChatRoomType;
 import mouda.backend.chat.domain.ChatWithAuthor;
@@ -42,6 +43,7 @@ public class ChatService {
 	private final BetDarakbangMemberRepository betDarakbangMemberRepository;
 
 	public void createChatRoom(long darakbangId, ChatRoomType chatRoomType, long targetId) {
+		// 채팅방을 생성한다.
 		ChatRoomEntity chatRoomEntity = ChatRoomEntity.builder()
 			.darakbangId(darakbangId)
 			.targetId(targetId)
@@ -173,25 +175,57 @@ public class ChatService {
 		// notificationService.notifyToMembers(NotificationType.MOIM_TIME_CONFIRMED, darakbangId, moim, darakbangMember);
 	}
 
-	public ChatPreviewResponses findChatPreview(long darakbangId, DarakbangMember darakbangMember) {
+	public ChatPreviewResponses findChatPreview(long darakbangId, DarakbangMember darakbangMember, ChatRoomType chatRoomType) {
 		// ChatRooms chatRooms = chatRoomFinder.findAllOrderByLastChat(darakbangId, darakbangMember);
 		// List<MoimChat> moimChats = chatRooms.getMoimChats();
 		//
 		// return ChatPreviewResponses.toResponse(moimChats);
+
+		// 모임에서 만들어진 프리뷰
+		// 안내문진다에서 만들어진 프리뷰
+
+		// 채팅방에 다락방 멤버 정보가 없어서
+		// 채팅방에 참여하고 있는지 참여테이블이나 벳다락방그긴 머시기 에서 찾아야함
+		// 이거 너무 오바
+
+		// 참여하고 있는 채팅방 다가져와
+		List<ChatRoomEntity> chatRooms = chatRoomRepository.findAllByDarakbangIdAndType(darakbangId, chatRoomType);
+
+		// 참여 테이블에서 참여 전체 가져와
+		// 참여 중 moimId 가 chatRoom의 targetId가 같은거만 필터링해
+		// 만들어
+
+		// 참여 테이블에서 참여 전체 가져와
+		// 참여 중 moimId 가 chatRoom의 targetId가 같은거만 필터링해
+		// 만들어
 		return null;
 	}
 
 	public void createLastChat(
-		long darakbangId, long moimId, LastReadChatRequest lastReadChatRequest, DarakbangMember darakbangMember
+		long darakbangId, long chatRoomId, LastReadChatRequest lastReadChatRequest, DarakbangMember darakbangMember
 	) {
-		// Moim moim = moimFinder.read(moimId, darakbangId);
-		// Chamyo chamyo = chamyoFinder.read(moim, darakbangMember);
-		//
-		// chamyo.updateLastChat(lastReadChatRequest.lastReadChatId());
+		ChatRoomEntity chatRoomEntity = chatRoomRepository.findByIdAndDarakbangId(chatRoomId, darakbangId)
+			.orElseThrow(() -> new ChatException(HttpStatus.NOT_FOUND, ChatErrorMessage.MOIM_NOT_FOUND));// TODO: 예외 메시지 수정
+
+		ChatRoomType type = chatRoomEntity.getType();
+
+		if (type == ChatRoomType.MOIM) {
+			Chamyo chamyo = chamyoRepository.findByMoimIdAndDarakbangMemberId(chatRoomEntity.getTargetId(), darakbangMember.getId())
+				.orElseThrow(() -> new IllegalArgumentException("no chamyo"));
+			chamyo.updateLastChat(lastReadChatRequest.lastReadChatId());
+		}
+		if (type == ChatRoomType.BET) {
+			BetDarakbangMemberEntity betDarakbangMemberEntity = betDarakbangMemberRepository.findByBetIdAndDarakbangMemberId(chatRoomEntity.getTargetId(), darakbangMember.getId())
+				.orElseThrow(() -> new IllegalArgumentException("no bet and darakbang"));
+			betDarakbangMemberEntity.updateLastChat(lastReadChatRequest.lastReadChatId());
+		}
 	}
 
 	public void openChatRoom(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
-		// Moim moim = moimFinder.read(moimId, darakbangId);
-		// moimWriter.openChatByMoimer(moim, darakbangMember);
+		boolean isParticipated = chamyoRepository.existsByMoimIdAndDarakbangMemberId(moimId, darakbangMember.getId());
+		if (isParticipated) {
+			ChatRoomEntity chatRoomEntity = new ChatRoomEntity(moimId, darakbangId, ChatRoomType.MOIM);
+			chatRoomRepository.save(chatRoomEntity);
+		}
 	}
 }
