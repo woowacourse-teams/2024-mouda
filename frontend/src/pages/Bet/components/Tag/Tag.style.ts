@@ -19,12 +19,12 @@ export const tagBox = (props: TagBoxProps) => {
     color: ${theme.colorPalette.white[100]};
 
     background-color: ${isAnnounced || minutesUntilDeadline < 0
-      ? theme.colorPalette.grey[300]
+      ? theme.colorPalette.grey[400]
       : minutesUntilDeadline < 5
-        ? theme.colorPalette.red[400]
+        ? theme.colorPalette.red[500]
         : minutesUntilDeadline < 10
-          ? theme.colorPalette.yellow[200]
-          : theme.colorPalette.green[200]};
+          ? theme.colorPalette.yellow[700]
+          : theme.colorPalette.green[300]};
     border-radius: 1rem;
   `;
 };
