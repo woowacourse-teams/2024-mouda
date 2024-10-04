@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import mouda.backend.auth.presentation.request.AppleOauthRequest;
 import mouda.backend.auth.presentation.request.GoogleOauthRequest;
-import mouda.backend.auth.presentation.request.LegacyOauthRequest;
 import mouda.backend.auth.presentation.request.OauthRequest;
 import mouda.backend.auth.presentation.response.KakaoLoginResponse;
 import mouda.backend.auth.presentation.response.LoginResponse;
@@ -31,7 +31,7 @@ public interface AuthSwagger {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "로그인 성공!"),
 	})
-	ResponseEntity<RestResponse<LoginResponse>> loginAppleOauth(@RequestBody LegacyOauthRequest oauthRequest);
+	ResponseEntity<RestResponse<LoginResponse>> loginAppleOauth(@RequestBody AppleOauthRequest oauthRequest);
 
 	@Operation(summary = "구글 oauth 로그인", description = "구글 Oauth Code 를 사용하여 로그인한다(accessToken 발급).")
 	@ApiResponses({

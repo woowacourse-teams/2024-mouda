@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import mouda.backend.auth.implement.AppleOauthManager;
-import mouda.backend.auth.presentation.request.LegacyOauthRequest;
+import mouda.backend.auth.presentation.request.AppleOauthRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
 import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.member.domain.LoginDetail;
@@ -38,7 +38,7 @@ class AppleAuthServiceTest {
 	@Disabled("실제 Resource Server에게 요청을 보내는 테스트이다. 프론트 서버를 켜서 코드르 발급 받아 필요할 때만 테스트한다.")
 	void oauthLogin() {
 		String code = "";
-		LegacyOauthRequest oauthRequest = new LegacyOauthRequest(1L, code);
+		AppleOauthRequest oauthRequest = new AppleOauthRequest(1L, code);
 
 		LoginResponse loginResponse = appleAuthService.oauthLogin(oauthRequest);
 
@@ -53,7 +53,7 @@ class AppleAuthServiceTest {
 		Member anna = memberRepository.save(MemberFixture.getAnna());
 
 		Long kakaoMemberId = anna.getId();
-		LoginResponse loginResponse = appleAuthService.oauthLogin(new LegacyOauthRequest(kakaoMemberId, "code"));
+		LoginResponse loginResponse = appleAuthService.oauthLogin(new AppleOauthRequest(kakaoMemberId, "code"));
 
 		assertThat(loginResponse).isNotNull();
 		Optional<Member> memberOptional = memberRepository.findById(kakaoMemberId);
