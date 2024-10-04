@@ -7,14 +7,17 @@ import ChatList from './components/ChatList/ChatList';
 import ChatMenuItem from './components/ChatMenuItem/ChatMenuItem';
 import ChattingFooter from './components/ChattingFooter/ChattingFooter';
 import ChattingRoomLayout from '@_layouts/ChattingRoomLayout/ChattingRoomLayout';
+import ChattingRoomSidebar from './components/ChattingRoomSidebar/ChattingRoomSidebar';
 import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
 import DateTimeModalContent from './components/DateTimeModalContent/DateTimeModalContent';
+import Hamburger from '@_components/Icons/Hamburger';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import Modal from '@_components/Modal/Modal';
 import MoimInfoAccordion from './components/MoimInfoAccordion/MoimInfoAccordion';
 import Picker from '@_components/Icons/Picker';
 import PlaceModalContent from './components/PlaceModalContent/PlaceModalContent';
 import SolidArrow from '@_components/Icons/SolidArrow';
+import useChamyoAll from '@_hooks/queries/useChamyoAll';
 import useChamyoMine from '@_hooks/queries/useChamyoMine';
 import useChats from '@_hooks/queries/useChats';
 import useConfirmDateTime from '@_hooks/mutaions/useConfirmDatetime';
@@ -35,6 +38,7 @@ export default function ChattingRoomPage() {
   const { chats } = useChats(moimId);
   const { role } = useChamyoMine(moimId);
   const { moim } = useMoim(moimId);
+  const { participants } = useChamyoAll(moimId);
 
   const { mutate: confirmDateTime, isPending: isPendingConfirmDateTime } =
     useConfirmDateTime();
@@ -44,6 +48,7 @@ export default function ChattingRoomPage() {
     useSendMessage(moimId);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [nowModalContent, setNowModalContent] = useState<ModalContent>('place');
 
   const modal = useMemo(() => {
@@ -125,7 +130,15 @@ export default function ChattingRoomPage() {
             {moim?.title}
           </DarakbangNameWrapper>
         </ChattingRoomLayout.Header.Center>
+        <ChattingRoomLayout.Header.Right>
+          <Hamburger onClick={() => setIsSidebarOpen(true)} />
+        </ChattingRoomLayout.Header.Right>
       </ChattingRoomLayout.Header>
+      <ChattingRoomSidebar
+        members={participants || []}
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+      />
       <ChattingRoomLayout.HeaderBottom>
         <MoimInfoAccordion
           status={moim?.status || 'MOIMING'}

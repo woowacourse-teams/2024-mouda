@@ -1,12 +1,16 @@
+import { DISPLAY_MAX_WIDTH } from '@_constants/styles';
 import { css } from '@emotion/react';
 
 export const sidebar = css`
-  position: absolute;
+  position: fixed;
+  z-index: 10;
+  top: 0;
   right: 0;
 
   overflow-y: scroll;
 
   width: 80%;
+  max-width: calc(${DISPLAY_MAX_WIDTH} * 0.8);
   height: 100vh;
 
   background-color: white;
@@ -27,6 +31,7 @@ export const sidebarHeader = css`
 
 export const dimmer = css`
   position: fixed;
+  z-index: 9;
   top: 0;
   left: 0;
 
