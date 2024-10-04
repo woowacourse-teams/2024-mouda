@@ -11,5 +11,6 @@ export const headerStyle = css`
 
   width: 100%;
   max-width: ${DISPLAY_MAX_WIDTH};
+
   background-color: white;
 `;

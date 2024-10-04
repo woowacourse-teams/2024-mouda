@@ -20,8 +20,8 @@ export const textArea = (props: { theme: Theme }) => css`
 
   flex-shrink: 0;
 
-  padding: 0.6rem;
   height: 8rem;
+  padding: 0.6rem;
 
   font-size: 1.6rem;
 

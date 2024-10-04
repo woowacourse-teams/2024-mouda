@@ -1,10 +1,15 @@
 import { css } from '@emotion/react';
 
 export const common = {
-  nonScroll: css`
+  nonDrag: css`
     user-select: none;
   `,
   cursorPointer: css`
     cursor: pointer;
+  `,
+  nonScroll: css`
+    &::-webkit-scrollbar {
+      display: none;
+    }
   `,
 };

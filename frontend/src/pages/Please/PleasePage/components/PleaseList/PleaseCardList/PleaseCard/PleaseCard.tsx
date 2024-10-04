@@ -38,9 +38,7 @@ export default function PleaseCard(props: PleaseCardProps) {
           <div css={S.actionIconWrapper({ theme })}>
             <InterestingIcon isActive={please.isInterested} />
           </div>
-          <div css={[S.actionText({ theme }), common.nonScroll]}>
-            관심있어요
-          </div>
+          <div css={[S.actionText({ theme }), common.nonDrag]}>관심있어요</div>
         </button>
       </div>
     </div>

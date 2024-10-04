@@ -1,3 +1,4 @@
+/* eslint-disable compat/compat */
 import { getMessaging, getToken } from 'firebase/messaging';
 
 import { app } from './initFirebase';

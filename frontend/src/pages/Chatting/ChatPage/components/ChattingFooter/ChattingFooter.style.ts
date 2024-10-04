@@ -6,6 +6,10 @@ export const footer = ({ theme }: { theme: Theme }) => css`
   justify-content: space-around;
 
   padding: 1.3rem 0;
+  /* stylelint-disable */
+  padding-bottom: constant(safe-area-inset-bottom);
+  /* stylelint-enable */
+  padding-bottom: env(safe-area-inset-bottom);
 
   background-color: ${theme.colorPalette.white[100]};
   box-shadow: 0 -10px 15px rgb(0 0 0 / 20%);
@@ -35,9 +39,10 @@ export const messageForm = ({ theme }: { theme: Theme }) => css`
 
 export const messageTextArea = ({ theme }: { theme: Theme }) => css`
   ${theme.typography.s2};
-  width: 100%;
 
   resize: none;
+
+  width: 100%;
 
   background: rgb(0 0 0 / 0%);
   border: 0;

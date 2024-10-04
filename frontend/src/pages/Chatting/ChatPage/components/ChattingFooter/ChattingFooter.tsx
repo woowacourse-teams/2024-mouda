@@ -1,5 +1,6 @@
-import { ChangeEvent, useRef, useState } from 'react';
 import * as S from './ChattingFooter.style';
+
+import { ChangeEvent, useRef, useState } from 'react';
 
 import POLICES from '@_constants/poclies';
 import Plus from '@_common/assets/plus.svg';
@@ -48,7 +49,7 @@ export default function ChattingFooter(props: ChattingFooterProps) {
           ref={textArea}
         />
         <button
-          css={[S.sendingButton, common.nonScroll]}
+          css={[S.sendingButton, common.nonDrag]}
           disabled={message === ''}
           onClick={(e) => {
             e.preventDefault();
