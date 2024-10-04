@@ -11,6 +11,7 @@ import ProfileList from './components/ProfileList/ProfileList';
 import Button from '@_components/Button/Button';
 import useCompleteBet from '@_hooks/mutaions/useCompleteBet';
 import useJoinBet from '@_hooks/mutaions/useJoinBet';
+import Roulette from './components/Roulette/Roulette';
 
 export default function BetDetailPage() {
   const navigate = useNavigate();
@@ -97,6 +98,32 @@ export default function BetDetailPage() {
         </div>
 
         <ProfileList participants={bet.participants} />
+
+        <Roulette
+          participants={[
+            ...bet.participants,
+            {
+              id: 0,
+              nickname: '테니',
+              profileUrl: '',
+            },
+            {
+              id: 1,
+              nickname: '테바',
+              profileUrl: '',
+            },
+            {
+              id: 123,
+              nickname: '소파',
+              profileUrl: '',
+            },
+            {
+              id: 1234,
+              nickname: '테니',
+              profileUrl: '',
+            },
+          ]}
+        />
       </InformationLayout.ContentContainer>
 
       <InformationLayout.BottomButtonWrapper>
