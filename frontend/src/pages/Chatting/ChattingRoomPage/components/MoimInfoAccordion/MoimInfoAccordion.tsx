@@ -1,7 +1,6 @@
 import * as S from './MoimInfoAccordion.styles';
 
 import { MoimStatus } from '@_types/index';
-import Tag from '@_pages/Moim/MoimDetailPage/components/Tag/Tag';
 import { formatHhmmToKoreanWithPrefix } from '@_utils/formatters';
 import { useTheme } from '@emotion/react';
 
@@ -17,7 +16,9 @@ export default function MoimInfoAccordion(props: MoimInfoAccordionProps) {
   const theme = useTheme();
   return (
     <section css={S.accordion}>
-      <Tag status={status} />
+      <div css={S.tag({ theme, isStarted: status === 'COMPLETED' })}>
+        {status === 'COMPLETED' ? '모임 후' : '모임 전'}
+      </div>
       <div
         css={[
           S.textArea,

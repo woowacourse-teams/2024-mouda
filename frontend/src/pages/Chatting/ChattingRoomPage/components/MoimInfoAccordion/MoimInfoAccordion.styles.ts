@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 
 export const accordion = css`
   display: flex;
@@ -17,4 +17,29 @@ export const textArea = css`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+`;
+
+export const tag = ({
+  theme,
+  isStarted,
+}: {
+  theme: Theme;
+  isStarted: boolean;
+}) => css`
+  ${theme.typography.small}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 24px;
+  padding: 0.2rem 0.6rem;
+
+  color: ${isStarted
+    ? theme.colorPalette.yellow[800]
+    : theme.colorPalette.white[100]};
+
+  background-color: ${isStarted
+    ? theme.colorPalette.yellow[50]
+    : theme.colorPalette.orange[100]};
+  border-radius: 1rem;
 `;
