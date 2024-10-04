@@ -1,3 +1,4 @@
+import { css, useTheme } from '@emotion/react';
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -24,7 +25,6 @@ import useConfirmDateTime from '@_hooks/mutaions/useConfirmDatetime';
 import useConfirmPlace from '@_hooks/mutaions/useConfirmPlace';
 import useMoim from '@_hooks/queries/useMoim';
 import useSendMessage from '@_hooks/mutaions/useSendMessage';
-import { useTheme } from '@emotion/react';
 
 type ModalContent = 'place' | 'datetime';
 
@@ -129,6 +129,16 @@ export default function ChattingRoomPage() {
           <DarakbangNameWrapper font={theme.typography.s1}>
             {moim?.title}
           </DarakbangNameWrapper>
+          <span
+            css={[
+              css`
+                margin: 1px 0 0 2px;
+              `,
+              theme.coloredTypography.s1(theme.colorPalette.grey[400]),
+            ]}
+          >
+            {' ' + moim?.currentPeople}
+          </span>
         </ChattingRoomLayout.Header.Center>
         <ChattingRoomLayout.Header.Right>
           <Hamburger onClick={() => setIsSidebarOpen(true)} />
