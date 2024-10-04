@@ -42,7 +42,7 @@ const ROUTES = {
   notFound: '/*',
   main: '/',
   home: '/home',
-  kakaoOAuth: '/kakao-o-auth',
+  kakaoOAuth: '/oauth/kakao',
   darakbangInvitationRoute: '/darakbang-invitation-route',
 
   darakbangSelectOption: '/darakbang-select-option',

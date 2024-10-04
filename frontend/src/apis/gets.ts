@@ -203,3 +203,12 @@ export const getBet = async (betId: number) => {
   const json: GetBet = await response.json();
   return json.data;
 };
+
+export const getBetResult = async (betId: number) => {
+  const response = await ApiClient.getWithLastDarakbangId(
+    `/bet/${betId}/result`,
+  );
+
+  const json = await response.json();
+  return json.data.nickname;
+};

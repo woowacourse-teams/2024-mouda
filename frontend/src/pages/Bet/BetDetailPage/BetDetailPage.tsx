@@ -29,8 +29,6 @@ export default function BetDetailPage() {
     return null;
   }
 
-  console.log(bet);
-
   const bottomButton = (() => {
     if (bet.myRole === 'MOIMER') {
       return (

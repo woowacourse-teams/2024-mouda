@@ -23,6 +23,7 @@ const QUERY_KEYS = {
   darakbangNameByCode: 'darakbangNameByCode',
   bets: 'bets',
   bet: 'bet',
+  betResult: 'betResult',
 };
 
 export default QUERY_KEYS;
