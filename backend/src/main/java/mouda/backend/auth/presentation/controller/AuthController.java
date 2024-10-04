@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.aop.logging.ExceptRequestLogging;
 import mouda.backend.auth.business.AppleAuthService;
+import mouda.backend.auth.business.GoogleAuthService;
 import mouda.backend.auth.business.KakaoAuthService;
 import mouda.backend.auth.presentation.controller.swagger.AuthSwagger;
+import mouda.backend.auth.presentation.request.GoogleOauthReqeust;
 import mouda.backend.auth.presentation.request.OauthRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
 import mouda.backend.common.response.RestResponse;
@@ -22,6 +24,7 @@ public class AuthController implements AuthSwagger {
 
 	private final KakaoAuthService kakaoAuthService;
 	private final AppleAuthService appleAuthService;
+	private final GoogleAuthService googleAuthService;
 
 	@Override
 	@PostMapping("/kakao/oauth")
@@ -36,6 +39,23 @@ public class AuthController implements AuthSwagger {
 	@ExceptRequestLogging
 	public ResponseEntity<RestResponse<LoginResponse>> loginBasicOauth() {
 		LoginResponse response = kakaoAuthService.basicLogin();
+
+		return ResponseEntity.ok().body(new RestResponse<>(response));
+	}
+
+	@Override
+	@PostMapping("/google/oauth")
+	public ResponseEntity<RestResponse<LoginResponse>> loginGoogleOauth(
+		@RequestBody GoogleOauthReqeust googleOauthReqeust) {
+		LoginResponse response = googleAuthService.oauthLogin(googleOauthReqeust);
+
+		return ResponseEntity.ok().body(new RestResponse<>(response));
+	}
+
+	@Override
+	@PostMapping("/apple/oauth")
+	public ResponseEntity<RestResponse<LoginResponse>> loginAppleOauth(@RequestBody OauthRequest oauthRequest) {
+		LoginResponse response = appleAuthService.oauthLogin(oauthRequest);
 
 		return ResponseEntity.ok().body(new RestResponse<>(response));
 	}

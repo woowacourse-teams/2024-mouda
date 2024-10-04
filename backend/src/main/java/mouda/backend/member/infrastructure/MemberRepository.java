@@ -8,5 +8,5 @@ import mouda.backend.member.domain.Member;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-	Optional<Member> findByLoginDetail_SocialLoginId(Long socialLoginId);
+	Optional<Member> findByLoginDetail_SocialLoginId(String socialLoginId);
 }

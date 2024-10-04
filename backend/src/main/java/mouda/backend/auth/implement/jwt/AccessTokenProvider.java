@@ -1,4 +1,4 @@
-package mouda.backend.auth.implement;
+package mouda.backend.auth.implement.jwt;
 
 import java.util.Date;
 
@@ -15,7 +15,10 @@ import mouda.backend.auth.exception.AuthException;
 import mouda.backend.member.domain.Member;
 
 @Component
-public class JwtProvider {
+public class AccessTokenProvider {
+
+	public static final String MEMBER_ID_CLAIM_KEY = "id";
+	public static final String SOCIAL_LOGIN_ID_CLAIM_KEY = "socialLoginId";
 
 	@Value("${security.jwt.token.secret-key}")
 	private String secretKey;
@@ -23,21 +26,13 @@ public class JwtProvider {
 	@Value("${security.jwt.token.expire-length}")
 	private long validityInMilliseconds;
 
-	public JwtProvider(
-		@Value("${security.jwt.token.secret-key}") String secretKey,
-		@Value("${security.jwt.token.expire-length}") long validityInMilliseconds
-	) {
-		this.secretKey = secretKey;
-		this.validityInMilliseconds = validityInMilliseconds;
-	}
-
-	public String createToken(Member member) {
+	public String provide(Member member) {
 		Date now = new Date();
 		Date validity = new Date(now.getTime() + validityInMilliseconds);
 
 		return Jwts.builder()
-			.claim("id", member.getId())
-			.claim("socialLoginId", member.getSocialLoginId())
+			.claim(MEMBER_ID_CLAIM_KEY, member.getId())
+			.claim(SOCIAL_LOGIN_ID_CLAIM_KEY, member.getSocialLoginId())
 			.setIssuedAt(now)
 			.setExpiration(validity)
 			.signWith(SignatureAlgorithm.HS256, secretKey)
@@ -46,7 +41,7 @@ public class JwtProvider {
 
 	public long extractMemberId(String token) {
 		Claims claims = getPayload(token);
-		return claims.get("id", Long.class);
+		return claims.get(MEMBER_ID_CLAIM_KEY, Long.class);
 	}
 
 	public Claims getPayload(String token) {

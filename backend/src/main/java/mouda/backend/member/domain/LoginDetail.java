@@ -11,13 +11,13 @@ public class LoginDetail {
 
 	@Enumerated(EnumType.STRING)
 	private OauthType oauthType;
-	
-	private Long socialLoginId;
+
+	private String socialLoginId;
 
 	protected LoginDetail() {
 	}
 
-	public LoginDetail(OauthType oauthType, Long socialLoginId) {
+	public LoginDetail(OauthType oauthType, String socialLoginId) {
 		this.oauthType = oauthType;
 		this.socialLoginId = socialLoginId;
 	}

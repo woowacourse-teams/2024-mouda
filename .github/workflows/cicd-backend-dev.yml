@@ -29,6 +29,11 @@ jobs:
           mkdir -p src/main/resources/firebase
           echo ${{ secrets.BACKEND_FIREBASE_JSON }} > src/main/resources/firebase/serviceAccountKey.json
 
+      - name: Apple Auth Key 파일 이동
+        run: |
+          mkdir -p src/main/resources/auth
+          printf "%s" "${{ secrets.APPLE_AUTH_KEY }}" > src/main/resources/auth/AuthKey.p8
+          
       - name: gradlew 권한 부여
         run: chmod +x ./gradlew
 
@@ -48,13 +53,9 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: [self-hosted, dev]
+    runs-on: [self-hosted, develop]
 
     steps:
-      - name: change permission
-        run: |
-          sudo chown -R ubuntu:ubuntu /home/ubuntu/actions-runner/_work/2024-mouda
-
       - name: DockerHub login
         uses: docker/login-action@v1
         with:
@@ -63,6 +64,7 @@ jobs:
 
       - name: Docker Compose up
         run: |
-          docker compose -f ./backend/docker-compose.yml down mouda-be
-          docker compose -f ./backend/docker-compose.yml pull mouda-be
-          docker compose -f ./backend/docker-compose.yml up -d mouda-be
+          cd ~/deploy
+          docker compose -f docker-compose-be.yml down
+          docker compose -f docker-compose-be.yml pull
+          docker compose -f docker-compose-be.yml up -d 
