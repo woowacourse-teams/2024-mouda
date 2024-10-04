@@ -1,11 +1,11 @@
 import * as S from './DarakbangMembersPage.style';
 
+import MemberCard from '../../../components/MemberCard/MemberCard';
 import SolidArrow from '@_components/Icons/SolidArrow';
 import StickyTriSectionHeader from '@_layouts/components/StickyTriSectionHeader/StickyTriSectionHeader';
 import TriSectionHeader from '@_layouts/components/TriSectionHeader/TriSectionHeader';
 import useDarakbangMembers from '@_hooks/queries/useDarakbangMembers';
 import { useNavigate } from 'react-router-dom';
-import MemberCard from './components/MemberCard/MemberCard';
 
 export default function DarakbangMembersPage() {
   const navigate = useNavigate();
