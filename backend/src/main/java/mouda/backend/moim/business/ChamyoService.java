@@ -2,6 +2,7 @@ package mouda.backend.moim.business;
 
 import java.util.List;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,14 +11,14 @@ import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimRole;
+import mouda.backend.moim.domain.event.ChamyoEvent;
 import mouda.backend.moim.implement.finder.ChamyoFinder;
 import mouda.backend.moim.implement.finder.MoimFinder;
 import mouda.backend.moim.implement.writer.ChamyoWriter;
 import mouda.backend.moim.implement.writer.MoimWriter;
 import mouda.backend.moim.presentation.response.chamyo.ChamyoFindAllResponses;
 import mouda.backend.moim.presentation.response.chamyo.MoimRoleFindResponse;
-// import mouda.backend.notification.business.NotificationService;
-// import mouda.backend.notification.domain.NotificationType;
+import mouda.backend.notification.domain.NotificationType;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class ChamyoService {
 	private final MoimWriter moimWriter;
 	private final ChamyoFinder chamyoFinder;
 	private final ChamyoWriter chamyoWriter;
-	// private final NotificationService notificationService;
+	private final ApplicationEventPublisher eventPublisher;
 
 	@Transactional(readOnly = true)
 	public MoimRoleFindResponse findMoimRole(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
@@ -48,10 +49,10 @@ public class ChamyoService {
 
 	public void chamyoMoim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimFinder.read(moimId, darakbangId);
-		chamyoWriter.saveAsMoimee(moim, darakbangMember);
+		Chamyo chamyo = chamyoWriter.saveAsMoimee(moim, darakbangMember);
 		moimWriter.updateMoimStatusIfFull(moim);
 
-		// notificationService.notifyToMembers(NotificationType.NEW_MOIMEE_JOINED, darakbangId, moim, darakbangMember);
+		publishChamyoEvent(chamyo, NotificationType.NEW_MOIMEE_JOINED, darakbangMember);
 	}
 
 	public void cancelChamyo(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
@@ -59,12 +60,16 @@ public class ChamyoService {
 		Chamyo chamyo = chamyoFinder.read(moim, darakbangMember);
 		chamyoWriter.delete(chamyo);
 
-		sendCancelNotification(darakbangId, darakbangMember, moim);
+		publishChamyoEvent(chamyo, NotificationType.MOIMEE_LEFT, darakbangMember);
 	}
 
-	private void sendCancelNotification(Long darakbangId, DarakbangMember darakbangMember, Moim moim) {
-		if (moim.isCompleted()) {
-			// notificationService.notifyToMembers(NotificationType.MOIMEE_LEFT, darakbangId, moim, darakbangMember);
-		}
+	private void publishChamyoEvent(Chamyo chamyo, NotificationType notificationType, DarakbangMember darakbangMember) {
+		ChamyoEvent event = ChamyoEvent.builder()
+			.moim(chamyo.getMoim())
+			.notificationType(notificationType)
+			.updatedMember(darakbangMember)
+			.build();
+
+		eventPublisher.publishEvent(event);
 	}
 }
