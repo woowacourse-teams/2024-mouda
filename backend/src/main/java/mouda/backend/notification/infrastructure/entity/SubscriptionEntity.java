@@ -41,6 +41,10 @@ public class SubscriptionEntity {
 		this.chats = chats;
 	}
 
+	public boolean isSubscribedMoimCreate() {
+		return moimCreate;
+	}
+
 	@Override
 	public String toString() {
 		return "SubscriptionEntity{" +

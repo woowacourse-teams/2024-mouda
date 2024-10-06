@@ -1,4 +1,4 @@
-package mouda.backend.notification.infrastructure;
+package mouda.backend.notification.infrastructure.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,7 +40,7 @@ public class FcmTokenEntity {
         this.lastUpdated = LocalDateTime.now();
     }
 
-    public void active() {
+    public void activate() {
         this.isActive = true;
     }
 

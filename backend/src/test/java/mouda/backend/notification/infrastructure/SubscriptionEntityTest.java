@@ -49,7 +49,7 @@ public class SubscriptionEntityTest {
 		// JSON 데이터 비교
 		List<ChatRoomSubscription> retrievedSubscriptions = retrievedEntity.getChats();
 		assertThat(retrievedSubscriptions).hasSize(2);
-		assertThat(retrievedSubscriptions.get(0).getId()).isEqualTo(1L);
+		assertThat(retrievedSubscriptions.get(0).getDarakbangId()).isEqualTo(1L);
 		assertThat(retrievedSubscriptions.get(0).getChatRoomIds()).containsExactly(1L, 2L, 3L);
 	}
 }
