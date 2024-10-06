@@ -2,6 +2,7 @@ package mouda.backend.moim.implement.finder;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
@@ -35,5 +36,13 @@ public class CommentFinder {
 
 	public Long readMemberIdByParentId(Long parentId) {
 		return commentRepository.findMemberIdByParentId(parentId);
+	}
+
+	public Optional<Comment> findByParentId(Long parentId) {
+		if (parentId == null) {
+			return Optional.empty();
+		}
+
+		return commentRepository.findByParentId(parentId);
 	}
 }
