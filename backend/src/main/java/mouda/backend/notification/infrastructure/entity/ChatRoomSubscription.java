@@ -10,13 +10,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class ChatRoomSubscription {
-	private long id;
+
+	private long darakbangId;
 	private List<Long> chatRoomIds;
 
 	@Override
 	public String toString() {
 		return "ChatRoomSubscription{" +
-			"id=" + id +
+			"darakbangId=" + darakbangId +
 			", chatRoomIds=" + chatRoomIds +
 			'}';
 	}
