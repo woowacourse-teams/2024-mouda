@@ -78,6 +78,7 @@ export const postConfirmDatetime = async (
     date,
     time,
   });
+  return moimId;
 };
 
 export const postConfirmPlace = async (moimId: number, place: string) => {
@@ -85,6 +86,7 @@ export const postConfirmPlace = async (moimId: number, place: string) => {
     moimId,
     place,
   });
+  return moimId;
 };
 
 export const postPlease = async (please: PleaseInfoInput) => {
