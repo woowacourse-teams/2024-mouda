@@ -18,7 +18,12 @@ export default function useModifyMoim(onSuccess: (moimId: number) => void) {
       patchModifyMoim(moimId, state),
     onSuccess: (_, { moimId }) => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.darakbang, getLastDarakbangId(), QUERY_KEYS.moim],
+        queryKey: [
+          QUERY_KEYS.darakbang,
+          getLastDarakbangId(),
+          QUERY_KEYS.moim,
+          moimId,
+        ],
       });
       onSuccess(moimId);
     },

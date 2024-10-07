@@ -29,3 +29,10 @@ export const timeStyle = ({ theme }: { theme: Theme }) => css`
   ${theme.typography.c3}
   color:${theme.colorPalette.grey[400]};
 `;
+
+export const chatLine = ({ isMyMessage }: { isMyMessage: boolean }) => css`
+  display: flex;
+  flex-direction: ${isMyMessage ? 'row-reverse' : 'row'};
+  gap: 0.5rem;
+  align-items: flex-end;
+`;

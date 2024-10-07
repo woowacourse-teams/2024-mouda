@@ -1,5 +1,5 @@
 import ChatCardListSkeleton from './ChatListSkeleton/ChatCardListSkeleton';
-import ChattingPreview from '../ChattingRoomPage/ChattingPreview/ChattingPreview';
+import ChattingPreview from './components/ChattingPreview/ChattingPreview';
 import ChattingPreviewLayout from '@_layouts/ChattingPreviewLayout/ChattingPreviewLayout';
 import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
 import GET_ROUTES from '@_common/getRoutes';

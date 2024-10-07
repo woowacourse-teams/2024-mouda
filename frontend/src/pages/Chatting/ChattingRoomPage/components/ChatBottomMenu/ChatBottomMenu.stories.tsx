@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import ChatBottomMenu from './ChatBottomMenu';
-import ChatMenuItem from '@_pages/Chatting/ChatPage/components/ChatMenuItem/ChatMenuItem';
+import ChatMenuItem from '@_pages/Chatting/ChattingRoomPage/components/ChatMenuItem/ChatMenuItem';
 import { Fragment } from 'react';
 import Plus from '@_common/assets/plus.svg';
 import { css } from '@emotion/react';

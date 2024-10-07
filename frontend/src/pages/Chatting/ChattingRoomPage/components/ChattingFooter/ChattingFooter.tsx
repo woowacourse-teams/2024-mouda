@@ -13,17 +13,18 @@ interface ChattingFooterProps {
   onMenuClick: () => void;
   disabled: boolean;
   onSubmit: (message: string) => void;
+  onTextAreaFocus: () => void;
 }
 
 export default function ChattingFooter(props: ChattingFooterProps) {
-  const { onSubmit, disabled, onMenuClick } = props;
+  const { onSubmit, disabled, onMenuClick, onTextAreaFocus } = props;
   const [isMenuClicked, setIsMenuClicked] = useState(false);
   const [message, setMessage] = useState('');
   const theme = useTheme();
   const textArea = useRef<HTMLTextAreaElement | null>(null);
 
   return (
-    <div css={S.footer({ theme })}>
+    <div css={[S.footer({ theme }), common.iphoneBottom]}>
       {/* TODO: 현재 Button이 유연하지 않아 html 태그를 사용
          필요한 점: 테마 적용(백그라운드 컬러 설정 어려움)+disabled를 optional로 주기 */}
       <button
@@ -47,6 +48,7 @@ export default function ChattingFooter(props: ChattingFooterProps) {
           rows={1}
           required
           ref={textArea}
+          onFocus={onTextAreaFocus}
         />
         <button
           css={[S.sendingButton, common.nonDrag]}
