@@ -1,24 +1,27 @@
 import ROUTES from '@_constants/routes';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function GoogleLoginButton() {
   const navigate = useNavigate();
+  const g_sso = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    // 구글 로그인 버튼 초기화
-    if (window.google) {
+    if (g_sso.current) {
       window.google.accounts.id.initialize({
-        client_id: 'YOUR_GOOGLE_CLIENT_ID',
+        client_id: process.env.GOOGLE_O_AUTH_CLIENT_ID,
         callback: handleGoogleSignIn,
         ux_mode: 'popup',
       });
 
-      window.google.accounts.id.renderButton(
-        document.getElementById('g_id_signin'),
-        { theme: 'outline', size: 'large', width: 269 },
-      );
+      window.google.accounts.id.renderButton(g_sso.current, {
+        theme: 'outline',
+        size: 'large',
+        width: 269,
+      });
     }
-  }, []); // 빈 배열을 넘겨서 이 effect가 컴포넌트가 처음 렌더링될 때만 실행되도록 설정
+  }, [g_sso]);
+
   const handleGoogleSignIn = (response: {
     credential: string;
     error: string;
@@ -31,7 +34,7 @@ function GoogleLoginButton() {
     navigate(`${ROUTES.oAuthGoogle}/google?code=${response.credential}`);
   };
 
-  return <div id="g_id_signin"></div>; // 구글 로그인 버튼을 그릴 div
+  return <div ref={g_sso}></div>;
 }
 
 export default GoogleLoginButton;
