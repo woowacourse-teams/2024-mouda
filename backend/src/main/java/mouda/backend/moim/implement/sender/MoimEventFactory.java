@@ -1,4 +1,4 @@
-package mouda.backend.moim.implement.event;
+package mouda.backend.moim.implement.sender;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
