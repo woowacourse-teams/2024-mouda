@@ -1,11 +1,11 @@
 import LoginLayout from '@_layouts/LoginLayout/LoginLayout';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import AppleOAuthIcon from '@_components/Icons/AppleOAuthIcon';
-import GoogleOAuthIcon from '@_common/assets/googleLogin.svg';
 import { useNavigate } from 'react-router-dom';
 import { getMemberToken } from '@_utils/tokenManager';
 import ROUTES from '@_constants/routes';
 import { useEffect } from 'react';
+import GoogleLoginButton from '@_components/GoogleLoginButton/GoogleLoginButton';
 export default function OAuthSelectPage() {
   const navigate = useNavigate();
 
@@ -39,27 +39,6 @@ export default function OAuthSelectPage() {
     }
   };
 
-  const goolgeAuthLogin = () => {
-    if (
-      !process.env.GOOGLE_O_AUTH_CLIENT_ID ||
-      !process.env.GOOGLE_OAUTH_REDIRECT_URI
-    ) {
-      throw new Error('Google OAuth 정보가 없습니다.');
-    }
-    const params = {
-      client_id: process.env.GOOGLE_O_AUTH_CLIENT_ID,
-      redirect_uri: process.env.GOOGLE_OAUTH_REDIRECT_URI,
-      response_type: 'code',
-      scope: 'openid profile',
-    };
-    const queryString = new URLSearchParams(params).toString();
-    const googleOAuthUrl = `${process.env.GOOGLE_REQUEST_URL}?${queryString}`;
-    if (process.env.MSW == 'true') {
-      window.location.href = 'http://localhost:8081/kakao-o-auth?code=1';
-    } else {
-      window.location.href = googleOAuthUrl;
-    }
-  };
   return (
     <LoginLayout>
       <LoginLayout.Header></LoginLayout.Header>
@@ -78,15 +57,7 @@ export default function OAuthSelectPage() {
         >
           <AppleOAuthIcon />
         </button>
-        <button
-          css={{
-            background: 'none',
-            border: 'none',
-          }}
-          onClick={goolgeAuthLogin}
-        >
-          <GoogleOAuthIcon />
-        </button>
+        <GoogleLoginButton />
       </LoginLayout.Footer>
     </LoginLayout>
   );

@@ -1,13 +1,13 @@
 import { css, useTheme } from '@emotion/react';
-
+import { Navigate, useNavigate } from 'react-router-dom';
 import GET_ROUTES from '@_common/getRoutes';
 import LoginLayout from '@_layouts/LoginLayout/LoginLayout';
 import MainLogoIcon from '@_components/Icons/MainLogoIcon';
-import { Navigate, useNavigate } from 'react-router-dom';
+import AppleOAuthIcon from '@_components/Icons/AppleOAuthIcon';
 import ROUTES from '@_constants/routes';
 import { getLastDarakbangId } from '@_common/lastDarakbangManager';
 import { getAccessToken } from '@_utils/tokenManager';
-import AppleOAuthIcon from '@_components/Icons/AppleOAuthIcon';
+import GoogleLoginButton from '@_components/GoogleLoginButton/GoogleLoginButton';
 
 export default function HomePage() {
   const theme = useTheme();
@@ -40,23 +40,11 @@ export default function HomePage() {
     };
     const queryString = new URLSearchParams(params).toString();
     const appleOAuthUrl = `${process.env.APPLE_REQUEST_URL}?${queryString}`;
-    if (process.env.MSW == 'true') {
+    if (process.env.MSW === 'true') {
       window.location.href = 'http://localhost:8081/kakao-o-auth?code=1';
     } else {
       window.location.href = appleOAuthUrl;
     }
-  };
-
-  window.handleGoogleSignIn = (response: {
-    credential: string;
-    error: string;
-  }) => {
-    if (response.error && response.error === 'AbortError') {
-      console.error('요청이 중단되었습니다. 다시 시도하세요.');
-      return;
-    }
-    console.log('Google JWT Token: ', response.credential);
-    navigate(`${ROUTES.oAuthGoogle}/google?code=${response.credential}`);
   };
 
   const handleDataMigraionLink = () => {
@@ -101,25 +89,8 @@ export default function HomePage() {
             gap: '1rem',
           }}
         >
-          <div
-            id="g_id_onload"
-            data-client_id="630308965506-4eiek02jh2a5fbj7as1o84l4mks3s2tu.apps.googleusercontent.com"
-            data-context="signin"
-            data-ux_mode="popup"
-            data-callback="handleGoogleSignIn"
-            data-itp_support="true"
-          ></div>
+          <GoogleLoginButton />
 
-          <div
-            className="g_id_signin"
-            data-type="standard"
-            data-shape="rectangular"
-            data-theme="outline"
-            data-text="signin_with"
-            data-size="large"
-            data-logo_alignment="left"
-            data-width="269"
-          ></div>
           <button
             css={{
               background: 'none',
@@ -129,15 +100,6 @@ export default function HomePage() {
           >
             <AppleOAuthIcon />
           </button>
-          {/* <button
-          css={{
-            background: 'none',
-            border: 'none',
-          }}
-          onClick={googleAuthLogin}
-        >
-          <GoogleOAuthIcon />
-        </button> */}
         </div>
         <button
           css={{
