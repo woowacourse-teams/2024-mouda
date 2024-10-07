@@ -20,7 +20,7 @@ public class ChamyoRecipientFinder {
 		List<Chamyo> chamyos = chamyoRepository.findAllByMoimId(moimId);
 		return chamyos.stream()
 			.filter(chamyo -> chamyo.getDarakbangMember().getId() != darakbangMember.getId())
-			.map(chamyo -> new Recipient(chamyo.getDarakbangMember().getMemberId()))
+			.map(chamyo -> new Recipient(chamyo.getDarakbangMember().getMemberId(), chamyo.getDarakbangMember().getId()))
 			.toList();
 	}
 }

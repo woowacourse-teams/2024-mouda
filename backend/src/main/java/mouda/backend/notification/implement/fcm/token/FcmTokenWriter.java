@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.notification.infrastructure.entity.FcmTokenEntity;
 import mouda.backend.notification.infrastructure.repository.FcmTokenRepository;
 import mouda.backend.notification.presentation.request.FcmTokenRequest;
 
@@ -16,8 +15,8 @@ public class FcmTokenWriter {
 
 	public void registerToken(DarakbangMember darakbangMember, FcmTokenRequest tokenRequest) {
 		String token = tokenRequest.token();
-		fcmTokenRepository.findByToken(token).ifPresentOrElse(
-
-		);
+		// fcmTokenRepository.findByToken(token).ifPresentOrElse(
+		//
+		// );
 	}
 }

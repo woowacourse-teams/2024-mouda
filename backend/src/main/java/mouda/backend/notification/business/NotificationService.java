@@ -2,72 +2,34 @@ package mouda.backend.notification.business;
 
 import java.util.List;
 
-import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.event.TransactionalEventListener;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.notification.domain.event.ChatNotificationEvent;
-import mouda.backend.notification.domain.CommonNotification;
-import mouda.backend.notification.domain.event.MoimCreateNotificationEvent;
-import mouda.backend.notification.domain.event.MultipleMemberNotificationEvent;
-import mouda.backend.notification.domain.event.SingleMemberNotificationEvent;
+import mouda.backend.notification.domain.NotificationEvent;
+import mouda.backend.notification.domain.Recipient;
+import mouda.backend.notification.implement.NotificationSender;
 import mouda.backend.notification.implement.NotificationWriter;
+import mouda.backend.notification.implement.filter.SubscriptionFilter;
+import mouda.backend.notification.implement.filter.SubscriptionFilterRegistry;
 
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
 
 	private final NotificationWriter notificationWriter;
-	private final ApplicationEventPublisher eventPublisher;
+	private final SubscriptionFilterRegistry subscriptionFilterRegistry;
+	private final NotificationSender notificationSender;
 
-	@TransactionalEventListener
-	public void sendNotification(CommonNotification notification, DarakbangMember darakbangMember) {
-		notificationWriter.saveMemberNotification(notification, darakbangMember);
+	@EventListener
+	public void sendNotification(NotificationEvent notificationEvent) {
+		notificationWriter.saveAllMemberNotification(notificationEvent.toCommonNotification(), notificationEvent.getRecipients());
 
-		SingleMemberNotificationEvent event = SingleMemberNotificationEvent.builder()
-			.notification(notification)
-			.darakbangMember(darakbangMember)
-			.build();
+		SubscriptionFilter subscriptionFilter = subscriptionFilterRegistry.getFilter(notificationEvent.getNotificationType());
+		List<Recipient> filteredRecipients = subscriptionFilter.filter(notificationEvent);
 
-		eventPublisher.publishEvent(event);
-	}
-
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void sendNotification(CommonNotification notification, List<DarakbangMember> darakbangMembers) {
-		notificationWriter.saveAllMemberNotification(notification, darakbangMembers);
-
-		MultipleMemberNotificationEvent event = MultipleMemberNotificationEvent.builder()
-			.notification(notification)
-			.members(darakbangMembers)
-			.build();
-
-		eventPublisher.publishEvent(event);
-	}
-
-	@Transactional
-	public void sendMoimCreateNotification(CommonNotification notification, List<DarakbangMember> darakbangMembers) {
-		notificationWriter.saveAllMemberNotification(notification, darakbangMembers);
-
-		MoimCreateNotificationEvent event = MoimCreateNotificationEvent.builder()
-			.notification(notification)
-			.members(darakbangMembers)
-			.build();
-
-		eventPublisher.publishEvent(event);
-	}
-
-	public void sendChatNotification(CommonNotification notification, List<DarakbangMember> members, long chatRoomId) {
-		ChatNotificationEvent event = ChatNotificationEvent.builder()
-			.notification(notification)
-			.members(members)
-			.chatRoomId(chatRoomId)
-			.build();
-
-		eventPublisher.publishEvent(event);
+		// TODO : 알림 보내기
+		
 	}
 }
 

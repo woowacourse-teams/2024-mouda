@@ -24,7 +24,7 @@ public class MoimRecipientFinder {
 
 		return darakbangMembers.stream()
 			.filter(darakbangMember -> darakbangMember.getId() != authorId) // TODO: 모임 만들어진 알림을 정말 만든 사람이 몰라야 하나?
-			.map(darakbangMember -> new Recipient(darakbangMember.getMemberId()))
+			.map(darakbangMember -> new Recipient(darakbangMember.getMemberId(), darakbangMember.getId()))
 			.toList();
 	}
 
@@ -33,7 +33,7 @@ public class MoimRecipientFinder {
 
 		return chamyos.stream()
 			.filter(chamyo -> chamyo.getMoimRole() != MoimRole.MOIMER) // TODO: 모임 상태의 변화도 알림을 정말 만든 사람이 몰라야 하나?
-			.map(chamyo -> new Recipient(chamyo.getDarakbangMember().getMemberId()))
+			.map(chamyo -> new Recipient(chamyo.getDarakbangMember().getMemberId(), chamyo.getDarakbangMember().getId()))
 			.toList();
 	}
 }

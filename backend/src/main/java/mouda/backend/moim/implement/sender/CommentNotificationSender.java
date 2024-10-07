@@ -27,7 +27,7 @@ public class CommentNotificationSender {
 		} else {
 			recipients = commentRecipientFinder.getNewReplyNotificationRecipients(comment);
 		}
-		NotificationEvent notificationEvent = new NotificationEvent(comment.getMoim().getTitle(), notificationType.createMessage(author.getNickname()), recipients);
+		NotificationEvent notificationEvent = new NotificationEvent(notificationType, comment.getMoim().getTitle(), notificationType.createMessage(author.getNickname()), recipients);
 
 		eventPublisher.publishEvent(notificationEvent);
 	}

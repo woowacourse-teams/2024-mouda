@@ -21,4 +21,8 @@ public class ChatRoomSubscription {
 			", chatRoomIds=" + chatRoomIds +
 			'}';
 	}
+
+	public boolean isSubscribed(long darakbangId, long chatRoomId) {
+		return this.darakbangId == darakbangId && chatRoomIds.contains(chatRoomId);
+	}
 }

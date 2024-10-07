@@ -27,15 +27,14 @@ public class MoimNotificationSender {
 	public void sendMoimCreatedNotification(Moim moim, DarakbangMember author, NotificationType notificationType) {
 		List<Recipient> recipients = moimRecipientFinder.getMoimCreatedNotificationRecipients(moim.getDarakbangId(), author.getId());
 		Darakbang darakbang = darakbangRepository.findById(moim.getDarakbangId()).orElseThrow(IllegalArgumentException::new);
-		NotificationEvent notificationEvent = new NotificationEvent(darakbang.getName(), notificationType.createMessage(moim.getTitle()), recipients);
-
+		NotificationEvent notificationEvent = new NotificationEvent(notificationType, darakbang.getName(), notificationType.createMessage(moim.getTitle()), recipients);
 		eventPublisher.publishEvent(notificationEvent);
 	}
 
 	public void sendMoimStatusChangedNotification(Moim moim, NotificationType notificationType) {
 		List<Recipient> recipients = moimRecipientFinder.getMoimStatusChangedNotificationRecipients(moim.getId());
 		Darakbang darakbang = darakbangRepository.findById(moim.getDarakbangId()).orElseThrow(IllegalArgumentException::new);
-		NotificationEvent notificationEvent = new NotificationEvent(darakbang.getName(), notificationType.createMessage(moim.getTitle()), recipients);
+		NotificationEvent notificationEvent = new NotificationEvent(notificationType, darakbang.getName(), notificationType.createMessage(moim.getTitle()), recipients);
 
 		eventPublisher.publishEvent(notificationEvent);
 	}

@@ -45,6 +45,15 @@ public class SubscriptionEntity {
 		return moimCreate;
 	}
 
+	public boolean isSubscribedChatRoom(long darakbangId, long chatRoomId) {
+		for (ChatRoomSubscription chat : chats) {
+			if (chat.isSubscribed(darakbangId, chatRoomId)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	public String toString() {
 		return "SubscriptionEntity{" +

@@ -21,7 +21,7 @@ public class ChamyoNotificationSender {
 
 	public void sendChamyoNotification(long moimId, DarakbangMember updatedMember, NotificationType notificationType) {
 		List<Recipient> recipients = chamyoRecipientFinder.getChamyoNotificationRecipients(moimId, updatedMember);
-		NotificationEvent notificationEvent = new NotificationEvent(updatedMember.getDarakbang().getName(), notificationType.createMessage(updatedMember.getNickname()), recipients);
+		NotificationEvent notificationEvent = new NotificationEvent(notificationType, updatedMember.getDarakbang().getName(), notificationType.createMessage(updatedMember.getNickname()), recipients);
 
 		eventPublisher.publishEvent(notificationEvent);
 	}
