@@ -11,20 +11,26 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import mouda.backend.bet.entity.BetDarakbangMemberEntity;
 import mouda.backend.bet.entity.BetEntity;
+import mouda.backend.bet.infrastructure.BetDarakbangMemberRepository;
 import mouda.backend.bet.infrastructure.BetRepository;
+import mouda.backend.chat.domain.ChatRoomType;
 import mouda.backend.chat.entity.ChatEntity;
 import mouda.backend.chat.entity.ChatRoomEntity;
 import mouda.backend.chat.exception.ChatException;
 import mouda.backend.chat.infrastructure.ChatRepository;
 import mouda.backend.chat.infrastructure.ChatRoomRepository;
 import mouda.backend.chat.presentation.request.DateTimeConfirmRequest;
+import mouda.backend.chat.presentation.request.LastReadChatRequest;
 import mouda.backend.chat.presentation.request.PlaceConfirmRequest;
+import mouda.backend.chat.presentation.response.ChatPreviewResponses;
 import mouda.backend.common.fixture.BetEntityFixture;
 import mouda.backend.common.fixture.ChatRoomEntityFixture;
 import mouda.backend.common.fixture.DarakbangSetUp;
 import mouda.backend.common.fixture.MoimFixture;
 import mouda.backend.moim.domain.Chamyo;
+import mouda.backend.moim.domain.ChatType;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimRole;
 import mouda.backend.moim.infrastructure.ChamyoRepository;
@@ -50,6 +56,9 @@ class ChatServiceTest extends DarakbangSetUp {
 
 	@Autowired
 	BetRepository betRepository;
+
+	@Autowired
+	BetDarakbangMemberRepository betDarakbangMemberRepository;
 
 	@DisplayName("장소 확정 채팅에 성공한다.")
 	@Test
@@ -89,8 +98,8 @@ class ChatServiceTest extends DarakbangSetUp {
 
 		// when & then
 		assertThatThrownBy(() -> chatService.confirmPlace(darakbang.getId(), request, darakbangHogee))
-			.isInstanceOf(IllegalArgumentException.class)
-			.hasMessage("모임 채팅이 아닙니다.");
+			.isInstanceOf(ChatException.class)
+			.hasMessage("잘못된 채팅 방 타입입니다.");
 	}
 
 	@DisplayName("날짜 확정 채팅에 성공한다.")
@@ -135,8 +144,8 @@ class ChatServiceTest extends DarakbangSetUp {
 
 		// when & then
 		assertThatThrownBy(() -> chatService.confirmDateTime(darakbang.getId(), request, darakbangHogee))
-			.isInstanceOf(IllegalArgumentException.class)
-			.hasMessage("모임 채팅이 아닙니다.");
+			.isInstanceOf(ChatException.class)
+			.hasMessage("잘못된 채팅 방 타입입니다.");
 	}
 
 	@DisplayName("작성자가 아닌 회원이 장소를 확정을 요청하면 실패한다.")
@@ -158,5 +167,95 @@ class ChatServiceTest extends DarakbangSetUp {
 		assertThatThrownBy(() -> chatService.confirmPlace(darakbang.getId(), request, darakbangHogee))
 			.isInstanceOf(ChatException.class)
 			.hasMessage("모이머 권한이 없습니다.");
+	}
+
+	@DisplayName("마지막 채팅을 저장한다.")
+	@Test
+	void updateLastReadChat() {
+		// given
+		Moim moim = MoimFixture.getSoccerMoim(darakbang.getId());
+		Moim savedMoim = moimRepository.save(moim);
+
+		Chamyo chamyo = chamyoRepository.save(new Chamyo(moim, darakbangHogee, MoimRole.MOIMEE));
+
+		LastReadChatRequest request = new LastReadChatRequest(1L);
+
+		ChatRoomEntity chatRoomEntity = new ChatRoomEntity(savedMoim.getId(), darakbang.getId(), ChatRoomType.MOIM);
+		ChatRoomEntity savedChatRoom = chatRoomRepository.save(chatRoomEntity);
+
+		// when
+		chatService.updateLastReadChat(darakbang.getId(), savedChatRoom.getId(), request, darakbangHogee);
+
+		// then
+		Optional<Chamyo> optionalChamyo = chamyoRepository.findById(chamyo.getId());
+		assertThat(optionalChamyo.isPresent()).isTrue();
+		assertThat(optionalChamyo.get().getLastReadChatId()).isEqualTo(1L);
+	}
+
+	@DisplayName("모임 채팅 미리보기를 조회한다.")
+	@Test
+	void findMoimChatPreview() {
+		// given
+		Moim moim = MoimFixture.getBasketballMoim(darakbang.getId());
+		Moim savedMoim = moimRepository.save(moim);
+
+		Chamyo chamyo = chamyoRepository.save(new Chamyo(moim, darakbangHogee, MoimRole.MOIMEE));
+		chamyoRepository.save(chamyo);
+
+		ChatRoomEntity chatRoomEntity = ChatRoomEntityFixture.getChatRoomEntityOfMoim(savedMoim.getId(),
+			darakbang.getId());
+		ChatRoomEntity chatRoom = enterChatRoom(chatRoomEntity);
+		savedMoim.openChat();
+
+		sendChat(chatRoom);
+
+		// when
+		ChatPreviewResponses moimChatPreviews = chatService.findChatPreview(darakbang.getId(), darakbangHogee,
+			ChatRoomType.MOIM);
+
+		// then
+		assertThat(moimChatPreviews.chatPreviewResponses().size()).isEqualTo(1);
+		assertThat(moimChatPreviews.chatPreviewResponses().get(0).lastContent()).isEqualTo("안녕하세요");
+		assertThat(moimChatPreviews.chatPreviewResponses().get(0).lastReadChatId()).isEqualTo(0);
+		assertThat(moimChatPreviews.chatPreviewResponses().get(0).currentPeople()).isEqualTo(1);
+	}
+
+	@DisplayName("안내면진다 채팅 미리보기를 조회한다.")
+	@Test
+	void findBetChatPreview() {
+		// given
+		BetEntity betEntity = BetEntityFixture.getBetEntity(darakbang.getId(), darakbangHogee.getId());
+		BetEntity savedBetEntity = betRepository.save(betEntity);
+
+		BetDarakbangMemberEntity betDarakbangMemberEntity = new BetDarakbangMemberEntity(darakbangHogee,
+			savedBetEntity);
+		betDarakbangMemberRepository.save(betDarakbangMemberEntity);
+
+		ChatRoomEntity chatRoomEntity = ChatRoomEntityFixture.getChatRoomEntityOfBet(betEntity.getId(),
+			darakbang.getId());
+		ChatRoomEntity chatRoom = enterChatRoom(chatRoomEntity);
+
+		sendChat(chatRoom);
+
+		// when
+		ChatPreviewResponses betChatPreviews = chatService.findChatPreview(darakbang.getId(), darakbangHogee,
+			ChatRoomType.BET);
+
+		// then
+		assertThat(betChatPreviews.chatPreviewResponses().size()).isEqualTo(1);
+		assertThat(betChatPreviews.chatPreviewResponses().get(0).lastContent()).isEqualTo("안녕하세요");
+		assertThat(betChatPreviews.chatPreviewResponses().get(0).lastReadChatId()).isEqualTo(0);
+		assertThat(betChatPreviews.chatPreviewResponses().get(0).currentPeople()).isEqualTo(1);
+	}
+
+	private void sendChat(ChatRoomEntity savedChatRoom) {
+		ChatEntity chatEntity = new ChatEntity("안녕하세요", savedChatRoom.getId(), darakbangHogee, LocalDate.now(),
+			LocalTime.now(), ChatType.BASIC);
+		chatRepository.save(chatEntity);
+	}
+
+	private ChatRoomEntity enterChatRoom(ChatRoomEntity chatRoomEntity) {
+		// 채팅방 저장
+		return chatRoomRepository.save(chatRoomEntity);
 	}
 }

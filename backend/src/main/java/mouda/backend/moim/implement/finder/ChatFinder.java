@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.chat.entity.ChatRoomEntity;
+import mouda.backend.chat.infrastructure.ChatRoomRepository;
 import mouda.backend.moim.domain.Chat;
 import mouda.backend.moim.domain.Chats;
 import mouda.backend.moim.domain.EmptyChat;
@@ -18,6 +20,7 @@ import mouda.backend.moim.infrastructure.ChatRepository;
 public class ChatFinder {
 
 	private final ChatRepository chatRepository;
+	private final ChatRoomRepository chatRoomRepository;
 
 	public Chats readAllUnloadedChats(long moimId, long recentChatId) {
 		if (recentChatId < 0) {
@@ -30,5 +33,9 @@ public class ChatFinder {
 	public Chat readLastChat(long moimId) {
 		return chatRepository.findFirstByMoimIdOrderByIdDesc(moimId)
 			.orElse(new EmptyChat(moimId));
+	}
+
+	public ChatRoomEntity readLastChat(long chatRoomId, long darakangId) {
+		return chatRoomRepository.findByIdAndDarakbangId(chatRoomId, darakangId).orElseThrow();
 	}
 }

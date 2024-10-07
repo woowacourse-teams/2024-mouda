@@ -12,4 +12,6 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoomEntity, Long> 
 	Optional<ChatRoomEntity> findByIdAndDarakbangId(Long chatRoomId, long darakbangId);
 
 	List<ChatRoomEntity> findAllByDarakbangIdAndType(long darakbangId, ChatRoomType chatRoomType);
+
+	Optional<ChatRoomEntity> findByTargetId(Long id);
 }

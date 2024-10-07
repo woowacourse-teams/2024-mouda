@@ -31,7 +31,7 @@ import mouda.backend.notification.business.NotificationService;
 import mouda.backend.notification.domain.NotificationType;
 
 @Transactional
-@Service
+@Service(value = "oldChatService")
 @RequiredArgsConstructor
 public class ChatService {
 

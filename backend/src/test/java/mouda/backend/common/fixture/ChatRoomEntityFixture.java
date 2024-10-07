@@ -13,9 +13,9 @@ public class ChatRoomEntityFixture {
 			.build();
 	}
 
-	public static ChatRoomEntity getChatRoomEntityOfBet(long moimId, long darakbangId) {
+	public static ChatRoomEntity getChatRoomEntityOfBet(long betId, long darakbangId) {
 		return ChatRoomEntity.builder()
-			.targetId(moimId)
+			.targetId(betId)
 			.darakbangId(darakbangId)
 			.type(ChatRoomType.BET)
 			.build();

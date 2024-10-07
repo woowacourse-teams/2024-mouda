@@ -1,7 +1,6 @@
 package mouda.backend.chat.business;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -10,13 +9,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.entity.BetDarakbangMemberEntity;
+import mouda.backend.bet.entity.BetEntity;
 import mouda.backend.bet.infrastructure.BetDarakbangMemberRepository;
+import mouda.backend.chat.domain.ChatPreview;
 import mouda.backend.chat.domain.ChatRoomType;
-import mouda.backend.chat.domain.ChatWithAuthor;
 import mouda.backend.chat.entity.ChatEntity;
 import mouda.backend.chat.entity.ChatRoomEntity;
 import mouda.backend.chat.exception.ChatErrorMessage;
 import mouda.backend.chat.exception.ChatException;
+import mouda.backend.chat.implement.ChatRoomFinder;
+import mouda.backend.chat.implement.ChatWriter;
 import mouda.backend.chat.infrastructure.ChatRepository;
 import mouda.backend.chat.infrastructure.ChatRoomRepository;
 import mouda.backend.chat.presentation.request.ChatCreateRequest;
@@ -24,12 +26,13 @@ import mouda.backend.chat.presentation.request.DateTimeConfirmRequest;
 import mouda.backend.chat.presentation.request.LastReadChatRequest;
 import mouda.backend.chat.presentation.request.PlaceConfirmRequest;
 import mouda.backend.chat.presentation.response.ChatFindUnloadedResponse;
+import mouda.backend.chat.presentation.response.ChatPreviewResponse;
 import mouda.backend.chat.presentation.response.ChatPreviewResponses;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Chamyo;
-import mouda.backend.moim.domain.ChatType;
 import mouda.backend.moim.domain.Moim;
-import mouda.backend.moim.domain.MoimRole;
+import mouda.backend.moim.implement.finder.MoimFinder;
+import mouda.backend.moim.implement.writer.MoimWriter;
 import mouda.backend.moim.infrastructure.ChamyoRepository;
 
 @Service
@@ -41,6 +44,10 @@ public class ChatService {
 	private final ChatRepository chatRepository;
 	private final ChamyoRepository chamyoRepository;
 	private final BetDarakbangMemberRepository betDarakbangMemberRepository;
+	private final MoimFinder moimFinder;
+	private final ChatRoomFinder chatRoomFinder;
+	private final ChatWriter chatWriter;
+	private final MoimWriter moimWriter;
 
 	public void createChatRoom(long darakbangId, ChatRoomType chatRoomType, long targetId) {
 		// 채팅방을 생성한다.
@@ -54,37 +61,9 @@ public class ChatService {
 	}
 
 	public void createChat(long darakbangId, ChatCreateRequest request, DarakbangMember darakbangMember) {
-		ChatRoomEntity chatRoomEntity = chatRoomRepository.findByIdAndDarakbangId(request.chatRoomId(), darakbangId)
-			.orElseThrow(() -> new ChatException(HttpStatus.NOT_FOUND, ChatErrorMessage.MOIM_NOT_FOUND));// TODO: 예외 메시지 수정
+		ChatRoomEntity chatRoomEntity = chatRoomFinder.read(darakbangId, request.chatRoomId(), darakbangMember);
 
-		ChatRoomType type = chatRoomEntity.getType();
-
-		boolean isParticipated = false;
-		if (type == ChatRoomType.MOIM) {
-			// 모임에 다락방멤버가 참여하고 있는지 검증한다.
-			isParticipated = chamyoRepository.existsByMoimIdAndDarakbangMemberId(chatRoomEntity.getTargetId(), darakbangMember.getId());
-		}
-		if (type == ChatRoomType.BET) {
-			// 안내면진다에 다락방멤버가 참여하고 있는지 검증한다.
-			isParticipated = betDarakbangMemberRepository.existsByBetIdAndDarakbangMemberId(chatRoomEntity.getTargetId(), darakbangMember.getId());
-		}
-
-		if (isParticipated) {
-
-			// 챗을 저장한다.
-			ChatEntity chatEntity = ChatEntity.builder()
-				.chatRoomId(request.chatRoomId())
-				.content(request.content())
-				.date(LocalDate.now())
-				.time(LocalTime.now())
-				.darakbangMember(darakbangMember)
-				.chatType(ChatType.BASIC)
-				.build();
-			chatRepository.save(chatEntity);
-		} else {
-			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.NOT_PARTICIPANT_TO_SEND); // TODO: 메시지 바꿔
-		}
-
+		chatWriter.appendPlaceTypeChat(chatRoomEntity.getId(), request.content(), darakbangMember);
 		// 알림을 발생한다.
 	}
 
@@ -92,131 +71,93 @@ public class ChatService {
 	public ChatFindUnloadedResponse findUnloadedChats(
 		long darakbangId, long recentChatId, long chatRoomId, DarakbangMember darakbangMember
 	) {
-		// Moim moim = moimFinder.read(moimId, darakbangId);
-		// chamyoValidator.validateMemberChamyoMoim(moim, darakbangMember);
-		//
-		// Chats chats = chatFinder.readAllUnloadedChats(moimId, recentChatId);
-		// List<ChatWithAuthor> chatWithAuthors = chats.getChatsWithAuthor(darakbangMember);
-		//
-		// return ChatFindUnloadedResponse.toResponse(chatWithAuthors);
-		ChatRoomEntity chatRoomEntity = chatRoomRepository.findByIdAndDarakbangId(chatRoomId, darakbangId)
-			.orElseThrow(() -> new ChatException(HttpStatus.NOT_FOUND, ChatErrorMessage.MOIM_NOT_FOUND));// TODO: 예외 메시지 수정
+		ChatRoomEntity chatRoomEntity = chatRoomFinder.read(darakbangId, chatRoomId, darakbangMember);
+		List<ChatEntity> chats = chatRepository.findAllUnloadedChats(chatRoomEntity.getId(), recentChatId);
 
-		ChatRoomType type = chatRoomEntity.getType();
-		boolean isParticipated = false;
-		if (type == ChatRoomType.MOIM) {
-			// 모임에 다락방멤버가 참여하고 있는지 검증한다.
-			isParticipated = chamyoRepository.existsByMoimIdAndDarakbangMemberId(chatRoomEntity.getTargetId(), darakbangMember.getId());
-		}
-		if (type == ChatRoomType.BET) {
-			// 안내면진다에 다락방멤버가 참여하고 있는지 검증한다.
-			isParticipated = betDarakbangMemberRepository.existsByBetIdAndDarakbangMemberId(chatRoomEntity.getTargetId(), darakbangMember.getId());
-		}
-		if (isParticipated) {
-			List<ChatEntity> chats = chatRepository.findAllUnloadedChats(chatRoomId, recentChatId);
-			List<ChatWithAuthor> chatWithAuthors = chats.stream()
-				.map(chat -> new ChatWithAuthor(chat, chat.isMyMessage(darakbangMember.getId())))
-				.toList();
-
-			return ChatFindUnloadedResponse.toResponse(chatWithAuthors);
-		} else {
-			throw new IllegalArgumentException();
-		}
+		return ChatFindUnloadedResponse.toResponse(chats, darakbangMember.getId());
 	}
 
 	public void confirmPlace(long darakbangId, PlaceConfirmRequest request, DarakbangMember darakbangMember) {
-		ChatRoomEntity chatRoomEntity = chatRoomRepository.findByIdAndDarakbangId(request.chatRoomId(), darakbangId)
-			.orElseThrow(() -> new ChatException(HttpStatus.NOT_FOUND, ChatErrorMessage.CHATROOM_NOT_FOUND));
+		ChatRoomEntity chatRoomEntity = chatRoomFinder.readMoimChatRoom(darakbangId, request.chatRoomId());
 
-		ChatRoomType type = chatRoomEntity.getType();
-		if (type.isNotMoim()) {
-			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.INVALID_CHATROOM_TYPE);
-		}
+		moimWriter.confirmPlace(chatRoomEntity.getTargetId(), darakbangMember, request.place());
 
-		Chamyo chamyo = chamyoRepository.findByMoimIdAndDarakbangMemberId(
-				chatRoomEntity.getTargetId(), darakbangMember.getId())
-			.orElseThrow(() -> new ChatException(HttpStatus.UNAUTHORIZED, ChatErrorMessage.UNAUTHORIZED));
-
-		if (chamyo.getMoimRole() != MoimRole.MOIMER) {
-			throw new ChatException(HttpStatus.UNAUTHORIZED, ChatErrorMessage.UNAUTHORIZED_MOIMER);
-		}
-
-		Moim moim = chamyo.getMoim();
-		moim.confirmPlace(request.place());
-
-		ChatEntity chatEntity = request.toEntity(request.chatRoomId(), darakbangMember);
-		chatRepository.save(chatEntity);
-
+		chatWriter.appendPlaceTypeChat(chatRoomEntity.getId(), request.place(), darakbangMember);
 		// notificationService.notifyToMembers(NotificationType.MOIM_PLACE_CONFIRMED, darakbangId, moim, darakbangMember);
 	}
 
 	public void confirmDateTime(long darakbangId, DateTimeConfirmRequest request, DarakbangMember darakbangMember) {
-		ChatRoomEntity chatRoomEntity = chatRoomRepository.findByIdAndDarakbangId(request.chatRoomId(), darakbangId)
-			.orElseThrow(() -> new ChatException(HttpStatus.NOT_FOUND, ChatErrorMessage.CHATROOM_NOT_FOUND));
+		ChatRoomEntity chatRoomEntity = chatRoomFinder.readMoimChatRoom(darakbangId, request.chatRoomId());
 
-		ChatRoomType type = chatRoomEntity.getType();
-		if (type.isNotMoim()) {
-			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.INVALID_CHATROOM_TYPE);
-		}
+		moimWriter.confirmDateTime(chatRoomEntity.getTargetId(), darakbangMember, request.date(), request.time());
 
-		Chamyo chamyo = chamyoRepository.findByMoimIdAndDarakbangMemberId(
-				chatRoomEntity.getTargetId(), darakbangMember.getId())
-			.orElseThrow(() -> new ChatException(HttpStatus.UNAUTHORIZED, ChatErrorMessage.UNAUTHORIZED));
+		chatWriter.appendDateTimeTypeChat(chatRoomEntity.getId(), request.date(), request.time(), darakbangMember);
 
-		if (chamyo.getMoimRole() != MoimRole.MOIMER) {
-			throw new ChatException(HttpStatus.UNAUTHORIZED, ChatErrorMessage.UNAUTHORIZED_MOIMER);
-		}
-
-		Moim moim = chamyo.getMoim();
-		moim.confirmDateTime(request.date(), request.time());
-
-		ChatEntity chatEntity = request.toEntity(request.chatRoomId(), darakbangMember);
-		chatRepository.save(chatEntity);
 		// notificationService.notifyToMembers(NotificationType.MOIM_TIME_CONFIRMED, darakbangId, moim, darakbangMember);
 	}
 
-	public ChatPreviewResponses findChatPreview(long darakbangId, DarakbangMember darakbangMember, ChatRoomType chatRoomType) {
-		// ChatRooms chatRooms = chatRoomFinder.findAllOrderByLastChat(darakbangId, darakbangMember);
-		// List<MoimChat> moimChats = chatRooms.getMoimChats();
-		//
-		// return ChatPreviewResponses.toResponse(moimChats);
+	public ChatPreviewResponses findChatPreview(long darakbangId, DarakbangMember darakbangMember,
+		ChatRoomType chatRoomType) {
 
-		// 모임에서 만들어진 프리뷰
-		// 안내문진다에서 만들어진 프리뷰
+		// 내가 참여한 모임
+		// 각 모임의 채팅룸
+		// 채팅룸의 마지막 채팅
+		if (chatRoomType == ChatRoomType.MOIM) {
+			// 내가 참여한 모임
+			List<Moim> moims = moimFinder.readAllMyMoims(darakbangMember);
 
-		// 채팅방에 다락방 멤버 정보가 없어서
-		// 채팅방에 참여하고 있는지 참여테이블이나 벳다락방그긴 머시기 에서 찾아야함
-		// 이거 너무 오바
+			List<ChatPreviewResponse> chatPreviewResponses = new ArrayList<>();
+			for (Moim moim : moims) {
+				ChatPreview chatPreview = chatRoomFinder.readByMyMoim(moim.getId());
+				chatPreviewResponses.add(ChatPreviewResponse.toResponse(moim, chatPreview));
+			}
 
-		// 참여하고 있는 채팅방 다가져와
-		List<ChatRoomEntity> chatRooms = chatRoomRepository.findAllByDarakbangIdAndType(darakbangId, chatRoomType);
+			return ChatPreviewResponses.toResponse(chatPreviewResponses);
+		}
 
-		// 참여 테이블에서 참여 전체 가져와
-		// 참여 중 moimId 가 chatRoom의 targetId가 같은거만 필터링해
-		// 만들어
+		if (chatRoomType == ChatRoomType.BET) {
+			List<ChatPreviewResponse> chatPreviewResponses = new ArrayList<>();
 
-		// 참여 테이블에서 참여 전체 가져와
-		// 참여 중 moimId 가 chatRoom의 targetId가 같은거만 필터링해
-		// 만들어
-		return null;
+			List<BetDarakbangMemberEntity> participatedBets = betDarakbangMemberRepository.findAllByDarakbangMemberId(
+				darakbangMember.getId());
+
+			for (BetDarakbangMemberEntity participatedBet : participatedBets) {
+				BetEntity betEntity = participatedBet.getBet();
+				ChatRoomEntity chatRoom = chatRoomRepository.findByTargetId(betEntity.getId()).orElseThrow();
+				ChatEntity lastChatEntity = chatRepository.findFirstByChatRoomIdOrderByIdDesc(chatRoom.getId())
+					.orElse(new ChatEntity());
+
+				long participantSize = betDarakbangMemberRepository.countByBetId(betEntity.getId());
+
+				chatPreviewResponses.add(
+					ChatPreviewResponse.toResponse(betEntity, lastChatEntity, (int)participantSize,
+						participatedBet.getLastReadChatId()));
+			}
+
+			return new ChatPreviewResponses(chatPreviewResponses);
+		}
+		throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.INVALID_CHATROOM_TYPE);
 	}
 
-	public void createLastChat(
+	public void updateLastReadChat(
 		long darakbangId, long chatRoomId, LastReadChatRequest lastReadChatRequest, DarakbangMember darakbangMember
 	) {
 		ChatRoomEntity chatRoomEntity = chatRoomRepository.findByIdAndDarakbangId(chatRoomId, darakbangId)
-			.orElseThrow(() -> new ChatException(HttpStatus.NOT_FOUND, ChatErrorMessage.MOIM_NOT_FOUND));// TODO: 예외 메시지 수정
+			.orElseThrow(() -> new ChatException(HttpStatus.NOT_FOUND, ChatErrorMessage.CHATROOM_NOT_FOUND));
 
 		ChatRoomType type = chatRoomEntity.getType();
 
 		if (type == ChatRoomType.MOIM) {
-			Chamyo chamyo = chamyoRepository.findByMoimIdAndDarakbangMemberId(chatRoomEntity.getTargetId(), darakbangMember.getId())
-				.orElseThrow(() -> new IllegalArgumentException("no chamyo"));
+			Chamyo chamyo = chamyoRepository.findByMoimIdAndDarakbangMemberId(
+					chatRoomEntity.getTargetId(), darakbangMember.getId())
+				.orElseThrow(() -> new ChatException(HttpStatus.NOT_FOUND, ChatErrorMessage.CHAMYO_NOT_FOUND));
 			chamyo.updateLastChat(lastReadChatRequest.lastReadChatId());
 		}
 		if (type == ChatRoomType.BET) {
-			BetDarakbangMemberEntity betDarakbangMemberEntity = betDarakbangMemberRepository.findByBetIdAndDarakbangMemberId(chatRoomEntity.getTargetId(), darakbangMember.getId())
-				.orElseThrow(() -> new IllegalArgumentException("no bet and darakbang"));
+			BetDarakbangMemberEntity betDarakbangMemberEntity = betDarakbangMemberRepository
+				.findByBetIdAndDarakbangMemberId(chatRoomEntity.getTargetId(), darakbangMember.getId())
+				.orElseThrow(
+					() -> new ChatException(HttpStatus.NOT_FOUND, ChatErrorMessage.BET_DARAKBANG_MEMBER_NOT_FOUND));
 			betDarakbangMemberEntity.updateLastChat(lastReadChatRequest.lastReadChatId());
 		}
 	}
