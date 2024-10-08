@@ -37,13 +37,10 @@ public class ChatRoomFinder {
 
 		boolean isParticipated = false;
 		if (type == ChatRoomType.MOIM) {
-			// 모임에 다락방멤버가 참여하고 있는지 검증한다.
 			isParticipated = chamyoRepository.existsByMoimIdAndDarakbangMemberId(chatRoomEntity.getTargetId(),
 				darakbangMember.getId());
-
 		}
 		if (type == ChatRoomType.BET) {
-			// 안내면진다에 다락방멤버가 참여하고 있는지 검증한다.
 			isParticipated = betDarakbangMemberRepository.existsByBetIdAndDarakbangMemberId(
 				chatRoomEntity.getTargetId(), darakbangMember.getId());
 		}
@@ -67,7 +64,7 @@ public class ChatRoomFinder {
 
 	public ChatRoom readChatRoomByTargetId(long targetId, ChatRoomType chatRoomType) {
 		ChatRoomEntity chatRoomEntity = chatRoomRepository.findByTargetIdAndType(targetId, chatRoomType)
-			.orElseThrow();
+			.orElseThrow(() -> new ChatException(HttpStatus.NOT_FOUND, ChatErrorMessage.CHATROOM_NOT_FOUND));
 
 		ChatEntity lastChat = chatRepository.findFirstByChatRoomIdOrderByIdDesc(chatRoomEntity.getId())
 			.orElse(ChatEntity.empty());

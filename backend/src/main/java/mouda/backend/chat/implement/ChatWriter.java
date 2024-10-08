@@ -60,8 +60,7 @@ public class ChatWriter {
 		chatRepository.save(chatEntity);
 	}
 
-	public void updateLastReadChat(ChatRoom chatRoom, DarakbangMember darakbangMember,
-		long lastReadChatId) {
+	public void updateLastReadChat(ChatRoom chatRoom, DarakbangMember darakbangMember, long lastReadChatId) {
 		ChatRoomType type = chatRoom.getType();
 		if (type == ChatRoomType.MOIM) {
 			chamyoWriter.updateLastReadChat(chatRoom.getTargetId(), darakbangMember, lastReadChatId);

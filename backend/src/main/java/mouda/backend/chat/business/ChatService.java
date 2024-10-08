@@ -11,13 +11,11 @@ import mouda.backend.chat.domain.ChatRoom;
 import mouda.backend.chat.domain.ChatRoomType;
 import mouda.backend.chat.domain.ChatWithAuthor;
 import mouda.backend.chat.domain.Chats;
-import mouda.backend.chat.entity.ChatRoomEntity;
 import mouda.backend.chat.implement.ChatPreviewManager;
 import mouda.backend.chat.implement.ChatPreviewManagerRegistry;
 import mouda.backend.chat.implement.ChatRoomFinder;
 import mouda.backend.chat.implement.ChatRoomWriter;
 import mouda.backend.chat.implement.ChatWriter;
-import mouda.backend.chat.infrastructure.ChatRoomRepository;
 import mouda.backend.chat.presentation.request.ChatCreateRequest;
 import mouda.backend.chat.presentation.request.DateTimeConfirmRequest;
 import mouda.backend.chat.presentation.request.LastReadChatRequest;
@@ -34,24 +32,12 @@ import mouda.backend.moim.implement.writer.MoimWriter;
 @RequiredArgsConstructor
 public class ChatService {
 
-	private final ChatRoomRepository chatRoomRepository;
 	private final ChatRoomFinder chatRoomFinder;
 	private final ChatWriter chatWriter;
 	private final MoimWriter moimWriter;
 	private final ChatPreviewManagerRegistry chatPreviewManagerRegistry;
 	private final MoimFinder moimFinder;
 	private final ChatRoomWriter chatRoomWriter;
-
-	public void createChatRoom(long darakbangId, ChatRoomType chatRoomType, long targetId) {
-		// 채팅방을 생성한다.
-		ChatRoomEntity chatRoomEntity = ChatRoomEntity.builder()
-			.darakbangId(darakbangId)
-			.targetId(targetId)
-			.type(chatRoomType)
-			.build();
-
-		chatRoomRepository.save(chatRoomEntity);
-	}
 
 	public void createChat(
 		long darakbangId,
