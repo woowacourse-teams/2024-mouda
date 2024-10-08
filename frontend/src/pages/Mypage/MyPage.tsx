@@ -6,7 +6,7 @@ import useMyInfo from '@_hooks/queries/useMyInfo';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import { useTheme } from '@emotion/react';
 import MineInfoCard from './components/MineInfoCard/MineInfoCard';
-import ListPageLayout from '@_layouts/ListPageLayout/ListPageLayout';
+import DefaultPageLayout from '@_layouts/DefaultPageLayout/DefaultPageLayout';
 import { Fragment } from 'react';
 
 export default function MyPage() {
@@ -18,23 +18,23 @@ export default function MyPage() {
   }
   return (
     <Fragment>
-      <ListPageLayout>
-        <ListPageLayout.TriHeader>
-          <ListPageLayout.TriHeader.Left>
+      <DefaultPageLayout>
+        <DefaultPageLayout.TriHeader>
+          <DefaultPageLayout.TriHeader.Left>
             <span css={[[theme.typography.h5, common.nonScroll]]}>
               <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
             </span>
-          </ListPageLayout.TriHeader.Left>
-        </ListPageLayout.TriHeader>
-        <ListPageLayout.Main>
+          </DefaultPageLayout.TriHeader.Left>
+        </DefaultPageLayout.TriHeader>
+        <DefaultPageLayout.Main>
           {myInfo && (
             <MineInfoCard
               nickname={myInfo.nickname}
               profile={myInfo.profile}
             ></MineInfoCard>
           )}
-        </ListPageLayout.Main>
-      </ListPageLayout>
+        </DefaultPageLayout.Main>
+      </DefaultPageLayout>
       <NavigationBarWrapper>
         <NavigationBar />
       </NavigationBarWrapper>

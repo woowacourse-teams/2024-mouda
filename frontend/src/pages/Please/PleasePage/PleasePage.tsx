@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import { useTheme } from '@emotion/react';
 import RefreshButton from '@_components/RefreshButton/RefreshButton';
-import ListPageLayout from '@_layouts/ListPageLayout/ListPageLayout';
+import DefaultPageLayout from '@_layouts/DefaultPageLayout/DefaultPageLayout';
 
 export default function PleasePage() {
   const { darakbangName } = useNowDarakbangName();
@@ -20,28 +20,28 @@ export default function PleasePage() {
 
   return (
     <Fragment>
-      <ListPageLayout>
-        <ListPageLayout.TriHeader>
-          <ListPageLayout.TriHeader.Left>
+      <DefaultPageLayout>
+        <DefaultPageLayout.TriHeader>
+          <DefaultPageLayout.TriHeader.Left>
             <h1 css={[common.nonScroll, theme.typography.h5]}>
               <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
             </h1>
-          </ListPageLayout.TriHeader.Left>
-          <ListPageLayout.TriHeader.Right>
+          </DefaultPageLayout.TriHeader.Left>
+          <DefaultPageLayout.TriHeader.Right>
             <RefreshButton />
-          </ListPageLayout.TriHeader.Right>
-        </ListPageLayout.TriHeader>
+          </DefaultPageLayout.TriHeader.Right>
+        </DefaultPageLayout.TriHeader>
 
-        <ListPageLayout.Main>
+        <DefaultPageLayout.Main>
           <PleaseList />
-        </ListPageLayout.Main>
+        </DefaultPageLayout.Main>
 
-        <ListPageLayout.ListPageFixedButtonWrapper>
+        <DefaultPageLayout.ListPageFixedButtonWrapper>
           <PlusButton
             onClick={() => navigate(GET_ROUTES.nowDarakbang.addPlease())}
           />
-        </ListPageLayout.ListPageFixedButtonWrapper>
-      </ListPageLayout>
+        </DefaultPageLayout.ListPageFixedButtonWrapper>
+      </DefaultPageLayout>
       <NavigationBarWrapper>
         <NavigationBar />
       </NavigationBarWrapper>

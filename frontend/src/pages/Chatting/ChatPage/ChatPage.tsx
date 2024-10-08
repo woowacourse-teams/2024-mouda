@@ -12,7 +12,7 @@ import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import { useTheme } from '@emotion/react';
 import { Fragment } from 'react';
 import ListContent from '@_layouts/components/ListContent/ListContent';
-import ListPageLayout from '@_layouts/ListPageLayout/ListPageLayout';
+import DefaultPageLayout from '@_layouts/DefaultPageLayout/DefaultPageLayout';
 
 export default function ChatPage() {
   const theme = useTheme();
@@ -22,16 +22,16 @@ export default function ChatPage() {
 
   return (
     <Fragment>
-      <ListPageLayout>
-        <ListPageLayout.TriHeader>
-          <ListPageLayout.TriHeader.Left>
+      <DefaultPageLayout>
+        <DefaultPageLayout.TriHeader>
+          <DefaultPageLayout.TriHeader.Left>
             <h2 css={[theme.typography.h5, common.nonScroll]}>
               <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
             </h2>
-          </ListPageLayout.TriHeader.Left>
-        </ListPageLayout.TriHeader>
+          </DefaultPageLayout.TriHeader.Left>
+        </DefaultPageLayout.TriHeader>
 
-        <ListPageLayout.Main>
+        <DefaultPageLayout.Main>
           <ListContent>
             {isLoading ? (
               <ChatCardListSkeleton />
@@ -51,8 +51,8 @@ export default function ChatPage() {
               <MissingFallback text="아직 열린 채팅방이 없습니다" />
             )}
           </ListContent>
-        </ListPageLayout.Main>
-      </ListPageLayout>
+        </DefaultPageLayout.Main>
+      </DefaultPageLayout>
       <NavigationBarWrapper>
         <NavigationBar />
       </NavigationBarWrapper>
