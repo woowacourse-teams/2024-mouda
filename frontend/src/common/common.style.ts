@@ -12,4 +12,12 @@ export const common = {
       display: none;
     }
   `,
+  iphoneBottom: css`
+    ${navigator.userAgent.toLowerCase().includes('iphone')
+      ? `/* stylelint-disable */
+    padding-bottom: constant(safe-area-inset-bottom);
+    /* stylelint-enable */
+      'padding-bottom: env(safe-area-inset-bottom);`
+      : ''}
+  `,
 };

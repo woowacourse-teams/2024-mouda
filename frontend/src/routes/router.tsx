@@ -1,7 +1,7 @@
 import ErrorRoute from './ErrorRoute';
 import ProtectedRoute from './ProtectedRoute';
 import ROUTES from '@_constants/routes';
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Outlet } from 'react-router-dom';
 import NotFoundPage from '@_pages/Fallback/NotFoundPage/NotFoundPage';
 import SlashRoute from '../pages/Navigator/SlashRoute';
 import HomePage from '@_pages/Login/HomePage/HomePage';
@@ -29,6 +29,10 @@ import DarakbangInvitationPage from '@_pages/Darakbang/DarakbangInvitationPage/D
 import DarakbangInvitationRoute from '@_pages/Navigator/DarakbangInvitationRoute';
 import DataMigrationExplanationPage from '@_pages/Login/DataMigrationPage/Explanation/DataMigrationExplanationPage';
 import OAuthSelectPage from '@_pages/Login/DataMigrationPage/Select/OAuthSelectPage';
+import BetListPage from '@_pages/Bet/BetListPage/BetListPage';
+import BetDetailPage from '@_pages/Bet/BetDetailPage/BetDetailPage';
+import BetCreationPage from '@_pages/Bet/BetCreationPage/BetCreationPage';
+import BetResultPage from '@_pages/Bet/BetResultPage/BetResultPage';
 
 const routesConfig = [
   {
@@ -171,10 +175,34 @@ const routesConfig = [
     element: <DarakbangLandingPage />,
     requiresAuth: true,
   },
+  {
+    path: ROUTES.bet,
+    element: <Outlet />,
+    children: [
+      {
+        path: '',
+        element: <BetListPage />,
+      },
+      {
+        path: ':betId',
+        element: <BetDetailPage />,
+      },
+      {
+        path: 'creation',
+        element: <BetCreationPage />,
+      },
+      {
+        path: ':betId/result',
+        element: <BetResultPage />,
+      },
+    ],
+    requiresAuth: true,
+  },
 ];
 
 const router = createBrowserRouter(
   routesConfig.map((route) => ({
+    ...route,
     path: route.path,
     element: route.requiresAuth ? (
       <ProtectedRoute>{route.element}</ProtectedRoute>

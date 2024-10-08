@@ -25,6 +25,11 @@ export const chatSliceIndexes = [
 ];
 
 export const chatHandler = [
+  http.get(`${process.env.API_BASE_URL}/v1/darakbang/0/chat`, async () => {
+    return HttpResponse.json({
+      data: { chats: mockedChats },
+    });
+  }),
   http.get(
     `${process.env.API_BASE_URL}/v1/darakbang/1/chat`,
     async ({ request }) => {
@@ -37,4 +42,20 @@ export const chatHandler = [
       });
     },
   ),
+  http.get(`${process.env.API_BASE_URL}/v1/darakbang/0/chat/preview`, () => {
+    return HttpResponse.json({
+      data: {
+        chatPreviewResponses: [
+          {
+            moimId: 0,
+            title: 'tmp',
+            currentPeople: 1,
+            isStarted: true,
+            lastContent: 12,
+            unreadContentCount: 12,
+          },
+        ],
+      },
+    });
+  }),
 ];

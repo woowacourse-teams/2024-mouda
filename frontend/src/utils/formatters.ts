@@ -1,6 +1,7 @@
 export const formatYyyymmddToKorean = (
   yyyymmdd: string,
   seperator: string = '-',
+  hasYear: boolean = false,
 ) => {
   const yyyymmddArray = yyyymmdd.split(seperator).map(Number);
   if (yyyymmddArray.length !== 3) {
@@ -13,7 +14,7 @@ export const formatYyyymmddToKorean = (
   const [year, month, date] = yyyymmddArray;
   const nowYear = new Date().getFullYear();
   const result = `${month}월 ${date}일`;
-  if (year !== nowYear) {
+  if (hasYear || year !== nowYear) {
     return `${year}년 ${result}`;
   }
   return result;

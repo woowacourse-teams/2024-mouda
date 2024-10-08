@@ -7,16 +7,17 @@ import NavigationBarItem from '@_components/NavigationBar/NavigationBarItem/Navi
 import { useState } from 'react';
 import { useTheme } from '@emotion/react';
 
-export type Tab = '홈' | '채팅' | '해주세요' | '마이페이지';
+export type Tab = '홈' | '채팅' | '안내면진다' | '마이페이지';
 
 export default function NavigationBar() {
   const theme = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
+
   const tabRoutes: Record<Tab, string> = {
     홈: GET_ROUTES.nowDarakbang.main(),
     채팅: GET_ROUTES.nowDarakbang.chat(),
-    해주세요: GET_ROUTES.nowDarakbang.please(),
+    안내면진다: GET_ROUTES.nowDarakbang.bet(),
     마이페이지: GET_ROUTES.nowDarakbang.myPage(),
   };
 

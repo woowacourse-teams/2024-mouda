@@ -2,10 +2,15 @@ import { PropsWithChildren } from 'react';
 import * as S from './FunnelRadioCardGroup.style';
 import FunnelRadioCardGroupOption from './FunnelRadioCardGroupOption/FunnelRadioCardGroupOption';
 
-function FunnelRadioCardGroup(props: PropsWithChildren) {
-  const { children } = props;
+interface FunnelRadioCardGroupProps {
+  columns?: number;
+}
+function FunnelRadioCardGroup(
+  props: PropsWithChildren<FunnelRadioCardGroupProps>,
+) {
+  const { children, columns = 1 } = props;
 
-  return <div css={S.container}>{children}</div>;
+  return <div css={S.container({ columns })}>{children}</div>;
 }
 
 FunnelRadioCardGroup.Option = FunnelRadioCardGroupOption;
