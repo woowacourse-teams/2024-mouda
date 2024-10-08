@@ -19,14 +19,14 @@ public class GoogleAuthService {
 	private final LoginManager loginManager;
 
 	public LoginResponse oauthLogin(GoogleOauthRequest googleOauthRequest) {
-		String memberName = googleOauthManager.getMemberName(googleOauthRequest.idToken());
+		String name = googleOauthManager.getMemberName(googleOauthRequest.idToken());
 		String socialLoginId = googleOauthManager.getSocialLoginId(googleOauthRequest.idToken());
 		if (googleOauthRequest.memberId() != null) {
 			String accessToken = loginManager.updateOauth(googleOauthRequest.memberId(), OauthType.GOOGLE,
 				socialLoginId);
 			return new LoginResponse(accessToken);
 		}
-		LoginProcessResult loginProcessResult = loginManager.processSocialLogin(OauthType.GOOGLE, socialLoginId);
+		LoginProcessResult loginProcessResult = loginManager.processSocialLogin(OauthType.GOOGLE, socialLoginId, name);
 		return new LoginResponse(loginProcessResult.accessToken());
 	}
 

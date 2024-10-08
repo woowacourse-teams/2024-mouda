@@ -25,7 +25,8 @@ public class AppleAuthService implements AuthService {
 			String accessToken = loginManager.updateOauth(oauthRequest.memberId(), OauthType.APPLE, socialLoginId);
 			return new LoginResponse(accessToken);
 		}
-		LoginProcessResult loginProcessResult = loginManager.processSocialLogin(OauthType.APPLE, socialLoginId);
+		LoginProcessResult loginProcessResult = loginManager.processSocialLogin(
+			OauthType.APPLE, socialLoginId, oauthRequest.name());
 		return new LoginResponse(loginProcessResult.accessToken());
 	}
 
