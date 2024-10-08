@@ -12,20 +12,20 @@ public class ChatRoom {
 	private final Long id;
 	private final long targetId;
 	private final ChatRoomType type;
-	private final ChatEntity lastChat;
+	private final LastChat lastChat;
 
 	public ChatRoom(ChatRoomEntity chatRoomEntity, ChatEntity lastChat) {
 		this.id = chatRoomEntity.getId();
 		this.targetId = chatRoomEntity.getTargetId();
 		this.type = chatRoomEntity.getType();
-		this.lastChat = lastChat;
+		this.lastChat = new LastChat(lastChat.getDateTime(), lastChat.getContent());
 	}
 
 	public ChatRoom(ChatRoomEntity chatRoomEntity) {
 		this.id = chatRoomEntity.getId();
 		this.targetId = chatRoomEntity.getTargetId();
 		this.type = chatRoomEntity.getType();
-		this.lastChat = ChatEntity.empty();
+		this.lastChat = LastChat.empty();
 	}
 
 	public boolean isMoim() {
