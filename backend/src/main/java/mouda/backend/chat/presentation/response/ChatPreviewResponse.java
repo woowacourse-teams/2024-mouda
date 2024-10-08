@@ -19,6 +19,7 @@ public record ChatPreviewResponse(
 		return ChatPreviewResponse.builder()
 			.targetId(target.getTargetId())
 			.title(target.getTitle())
+			.isStarted(target.isStarted())
 			.currentPeople(chatPreview.getCurrentPeople())
 			.lastContent(chatPreview.getLastContent())
 			.lastReadChatId(chatPreview.getLastReadChatId())

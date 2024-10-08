@@ -14,7 +14,7 @@ public class Target {
 	public Target(Moim moim) {
 		this.targetId = moim.getId();
 		this.title = moim.getTitle();
-		this.isStarted = moim.isChatOpened();
+		this.isStarted = moim.isPastMoim();
 	}
 
 	public Target(BetDetails bet) {
