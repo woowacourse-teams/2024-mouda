@@ -28,4 +28,15 @@ public class DarakbangMemberFixture {
 			.role(DarakBangMemberRole.MEMBER)
 			.build();
 	}
+
+	public static DarakbangMember getDarakbangOutsiderWithWooteco(Darakbang darakbang, Member member) {
+		return DarakbangMember.builder()
+			.darakbang(darakbang)
+			.memberId(member.getId())
+			.nickname("치코치코니")
+			.profile("profile")
+			.description("description")
+			.role(DarakBangMemberRole.OUTSIDER)
+			.build();
+	}
 }

@@ -27,6 +27,13 @@ public class MemberFixture {
 			.build();
 	}
 
+	public static Member getChico() {
+		return Member.builder()
+			.name("chico")
+			.loginDetail(new LoginDetail(OauthType.KAKAO, "socialLoginId"))
+			.build();
+	}
+
 	public static Member getTebah() {
 		return Member.builder()
 			.name("tebah")
