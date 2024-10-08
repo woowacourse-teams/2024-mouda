@@ -23,3 +23,4 @@ aws:
     static: ap-northeast-2
   s3:
     bucket: arn:aws:s3:::techcourse-project-2024/mouda/dev/profile/
+    prefix: https://dev.mouda.site/
