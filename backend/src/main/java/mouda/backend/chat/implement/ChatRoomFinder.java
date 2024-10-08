@@ -1,12 +1,15 @@
 package mouda.backend.chat.implement;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.infrastructure.BetDarakbangMemberRepository;
-import mouda.backend.chat.domain.ChatPreview;
+import mouda.backend.chat.domain.ChatRoom;
 import mouda.backend.chat.domain.ChatRoomType;
+import mouda.backend.chat.domain.Chats;
 import mouda.backend.chat.entity.ChatEntity;
 import mouda.backend.chat.entity.ChatRoomEntity;
 import mouda.backend.chat.exception.ChatErrorMessage;
@@ -24,9 +27,8 @@ public class ChatRoomFinder {
 	private final ChatRoomRepository chatRoomRepository;
 	private final ChamyoRepository chamyoRepository;
 	private final BetDarakbangMemberRepository betDarakbangMemberRepository;
-	private final ChatRoomFinder chatRoomFinder;
 
-	public ChatRoomEntity read(long darakbangId, long chatRoomId, DarakbangMember darakbangMember) {
+	public ChatRoom read(long darakbangId, long chatRoomId, DarakbangMember darakbangMember) {
 		ChatRoomEntity chatRoomEntity = chatRoomRepository.findByIdAndDarakbangId(chatRoomId, darakbangId)
 			.orElseThrow(() -> new ChatException(HttpStatus.NOT_FOUND, ChatErrorMessage.CHATROOM_NOT_FOUND));
 
@@ -48,10 +50,10 @@ public class ChatRoomFinder {
 		if (!isParticipated) {
 			throw new ChatException(HttpStatus.FORBIDDEN, ChatErrorMessage.UNAUTHORIZED);
 		}
-		return chatRoomEntity;
+		return new ChatRoom(chatRoomEntity);
 	}
 
-	public ChatRoomEntity readMoimChatRoom(long darakbangId, long chatRoomId) {
+	public ChatRoom readMoimChatRoom(long darakbangId, long chatRoomId) {
 		ChatRoomEntity chatRoomEntity = chatRoomRepository.findByIdAndDarakbangId(chatRoomId, darakbangId)
 			.orElseThrow(() -> new ChatException(HttpStatus.NOT_FOUND, ChatErrorMessage.CHATROOM_NOT_FOUND));
 
@@ -59,26 +61,21 @@ public class ChatRoomFinder {
 		if (type.isNotMoim()) {
 			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.INVALID_CHATROOM_TYPE);
 		}
-		return chatRoomEntity;
+		return new ChatRoom(chatRoomEntity);
 	}
 
-	public ChatEntity readLastChatByMoimId(long moimId) {
-		ChatRoomEntity chatRoom = chatRoomRepository.findByTargetId(moimId)
+	public ChatRoom readChatRoomByTargetId(long targetId) {
+		ChatRoomEntity chatRoomEntity = chatRoomRepository.findByTargetId(targetId)
 			.orElseThrow();
 
-		return chatRepository.findFirstByChatRoomIdOrderByIdDesc(chatRoom.getId())
-			.orElse(new ChatEntity());
+		ChatEntity lastChat = chatRepository.findFirstByChatRoomIdOrderByIdDesc(chatRoomEntity.getId())
+			.orElse(new ChatEntity("", 1L, null, null, null, null));
+
+		return new ChatRoom(chatRoomEntity, lastChat);
 	}
 
-	public ChatPreview readByMyMoim(long moimId) {
-		ChatEntity chatEntity = chatRoomFinder.readLastChatByMoimId(moimId);
-		long lastReadChatId = chamyoRepository.findLastReadChatIdByMoimId(moimId);
-		int currentPeople = chamyoRepository.countByMoimId(moimId);
-
-		return ChatPreview.builder()
-			.chatEntity(chatEntity)
-			.lastReadChatId(lastReadChatId)
-			.currentPeople(currentPeople)
-			.build();
+	public Chats findAllUnloadedChats(long chatRoomId, long recentChatId) {
+		List<ChatEntity> chats = chatRepository.findAllUnloadedChats(chatRoomId, recentChatId);
+		return new Chats(chats);
 	}
 }

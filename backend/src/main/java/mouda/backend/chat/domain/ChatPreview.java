@@ -2,23 +2,24 @@ package mouda.backend.chat.domain;
 
 import lombok.Builder;
 import lombok.Getter;
-import mouda.backend.chat.entity.ChatEntity;
 
 @Getter
 public class ChatPreview {
 
-	private final ChatEntity chatEntity;
+	private final ChatRoom chatRoom;
+	private final Target target;
 	private final long lastReadChatId;
 	private final int currentPeople;
 
 	@Builder
-	public ChatPreview(ChatEntity chatEntity, long lastReadChatId, int currentPeople) {
-		this.chatEntity = chatEntity;
+	public ChatPreview(ChatRoom chatRoom, Target target, long lastReadChatId, int currentPeople) {
+		this.chatRoom = chatRoom;
+		this.target = target;
 		this.lastReadChatId = lastReadChatId;
 		this.currentPeople = currentPeople;
 	}
 
 	public String getLastContent() {
-		return chatEntity.getContent();
+		return chatRoom.getLastContent();
 	}
 }
