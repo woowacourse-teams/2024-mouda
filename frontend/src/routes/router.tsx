@@ -4,14 +4,14 @@ import ROUTES from '@_constants/routes';
 import { createBrowserRouter, Outlet } from 'react-router-dom';
 import NotFoundPage from '@_pages/Fallback/NotFoundPage/NotFoundPage';
 import SlashRoute from '../pages/Navigator/SlashRoute';
+import HomePage from '@_pages/Login/HomePage/HomePage';
+import OAuthLoginPage from '@_pages/Login/OAuthLoginPage/OAuthLoginPage';
 import MainPage from '@_pages/Moim/MainPage/MainPage';
 import MoimCreationPage from '@_pages/Moim/MoimCreationPage/MoimCreationPage';
 import MoimDetailPage from '@_pages/Moim/MoimDetailPage/MoimDetailPage';
 import ParticipationCompletePage from '@_pages/Moim/ParticipationCompletePage/ParticipationCompletePage';
 import ChatPage from '@_pages/Chatting/ChatPage/ChatPage';
 import ChattingRoomPage from '@_pages/Chatting/ChattingRoomPage/ChattingRoomPage';
-import HomePage from '@_pages/Login/HomePage/HomePage';
-import KakaoOAuthLoginPage from '@_pages/Login/KakaoOAuthLoginPage/KakaoOAuthLoginPage';
 import MoimModifyPage from '@_pages/Moim/MoimModifyPage/MoimModifyPage';
 import PleasePage from '@_pages/Please/PleasePage/PleasePage';
 import PleaseCreationPage from '@_pages/Please/PleaseCreationPage/PleaseCreationPage';
@@ -27,6 +27,8 @@ import DarakbangManagementPage from '@_pages/Darakbang/DarakbangManagementPage/D
 import DarakbangMembersPage from '@_pages/Darakbang/DarakbangMembersPage/DarakbangMembersPage';
 import DarakbangInvitationPage from '@_pages/Darakbang/DarakbangInvitationPage/DarakbangInvitationPage';
 import DarakbangInvitationRoute from '@_pages/Navigator/DarakbangInvitationRoute';
+import DataMigrationExplanationPage from '@_pages/Login/DataMigrationPage/Explanation/DataMigrationExplanationPage';
+import OAuthSelectPage from '@_pages/Login/DataMigrationPage/Select/OAuthSelectPage';
 import BetListPage from '@_pages/Bet/BetListPage/BetListPage';
 import BetDetailPage from '@_pages/Bet/BetDetailPage/BetDetailPage';
 import BetCreationPage from '@_pages/Bet/BetCreationPage/BetCreationPage';
@@ -79,8 +81,18 @@ const routesConfig = [
     requiresAuth: false,
   },
   {
-    path: ROUTES.kakaoOAuth,
-    element: <KakaoOAuthLoginPage />,
+    path: ROUTES.oAuthMigration,
+    element: <DataMigrationExplanationPage />,
+    requiresAuth: false,
+  },
+  {
+    path: ROUTES.oAuthSelection,
+    element: <OAuthSelectPage />,
+    requiresAuth: false,
+  },
+  {
+    path: ROUTES.oAuth,
+    element: <OAuthLoginPage />,
     requiresAuth: false,
   },
   {

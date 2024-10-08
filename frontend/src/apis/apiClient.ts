@@ -1,5 +1,5 @@
 import { ApiError } from '@_utils/customError/ApiError';
-import { getToken } from '@_utils/tokenManager';
+import { getAccessToken } from '@_utils/tokenManager';
 import { addBaseUrl } from './endPoints';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -11,7 +11,7 @@ const DEFAULT_HEADERS = {
 function getHeaders(isRequiredAuth: boolean) {
   const headers = new Headers(DEFAULT_HEADERS);
   if (isRequiredAuth) {
-    const token = getToken();
+    const token = getAccessToken();
     headers.append('Authorization', `Bearer ${token}`);
   }
   return headers;
