@@ -35,6 +35,7 @@ public class BetFinder {
 			.betDetails(betEntity.toBetDetails())
 			.moimerId(betEntity.getMoimerId())
 			.participants(participants)
+			.loserId(betEntity.getLoserDarakbangMemberId())
 			.build();
 	}
 

@@ -2,8 +2,13 @@ package mouda.backend.auth.presentation.request;
 
 import jakarta.validation.constraints.NotNull;
 
-public record OauthRequest(
+public record AppleOauthRequest(
+	Long memberId,
+
 	@NotNull
-	String code
+	String code,
+
+	@NotNull
+	String name
 ) {
 }
