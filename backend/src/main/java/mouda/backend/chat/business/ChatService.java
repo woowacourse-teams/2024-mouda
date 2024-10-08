@@ -53,8 +53,13 @@ public class ChatService {
 		chatRoomRepository.save(chatRoomEntity);
 	}
 
-	public void createChat(long darakbangId, ChatCreateRequest request, DarakbangMember darakbangMember) {
-		ChatRoom chatRoom = chatRoomFinder.read(darakbangId, request.chatRoomId(), darakbangMember);
+	public void createChat(
+		long darakbangId,
+		long chatRoomId,
+		ChatCreateRequest request,
+		DarakbangMember darakbangMember
+	) {
+		ChatRoom chatRoom = chatRoomFinder.read(darakbangId, chatRoomId, darakbangMember);
 
 		chatWriter.append(chatRoom.getId(), request.content(), darakbangMember);
 		// 알림을 발생한다.
@@ -111,6 +116,6 @@ public class ChatService {
 	public void openChatRoom(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimFinder.read(moimId, darakbangId);
 		moimWriter.openChatByMoimer(moim, darakbangMember);
-		chatRoomWriter.append(moimId, darakbangId);
+		chatRoomWriter.append(moimId, darakbangId, ChatRoomType.MOIM);
 	}
 }
