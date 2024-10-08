@@ -79,10 +79,10 @@ class ChatServiceTest extends DarakbangSetUp {
 			ChatRoomEntityFixture.getChatRoomEntityOfMoim(savedMoim.getId(), darakbang.getId()));
 
 		String content = "아 배고파. 오늘 뭐먹지?";
-		ChatCreateRequest chatCreateRequest = new ChatCreateRequest(1L, content);
+		ChatCreateRequest chatCreateRequest = new ChatCreateRequest(content);
 
 		// when
-		chatService.createChat(chatRoom.getId(), chatCreateRequest, darakbangHogee);
+		chatService.createChat(darakbang.getId(), chatRoom.getId(), chatCreateRequest, darakbangHogee);
 
 		// then
 		Optional<ChatEntity> chatOptional = chatRepository.findById(1L);
@@ -394,8 +394,8 @@ class ChatServiceTest extends DarakbangSetUp {
 		chatService.openChatRoom(darakbang.getId(), coffeeMoim.getId(), darakbangAnna);
 		chatService.openChatRoom(darakbang.getId(), basketballMoim.getId(), darakbangAnna);
 
-		chatService.createChat(darakbang.getId(), new ChatCreateRequest(soccerMoim.getId(), "1번 채팅"), darakbangAnna);
-		chatService.createChat(darakbang.getId(), new ChatCreateRequest(coffeeMoim.getId(), "2번 채팅"), darakbangAnna);
+		chatService.createChat(darakbang.getId(), 1L, new ChatCreateRequest("1번 채팅"), darakbangAnna);
+		chatService.createChat(darakbang.getId(), 2L, new ChatCreateRequest("2번 채팅"), darakbangAnna);
 
 		List<ChatPreviewResponse> chatPreviewResponses = chatService.findChatPreview(darakbangAnna, ChatRoomType.MOIM)
 			.chatPreviewResponses();
