@@ -2,6 +2,7 @@ package mouda.backend.darakbangmember.presentation.controller.swagger;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -10,6 +11,7 @@ import mouda.backend.common.config.argumentresolver.LoginDarakbangMember;
 import mouda.backend.common.config.argumentresolver.LoginMember;
 import mouda.backend.common.response.RestResponse;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
+import mouda.backend.darakbangmember.presentation.request.DarakbangMemberInfoRequest;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberResponses;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRoleResponse;
 import mouda.backend.member.domain.Member;
@@ -37,12 +39,21 @@ public interface DarakbangMemberSwagger {
 		@LoginMember Member member
 	);
 
-	@Operation(summary = "다락방 멤버 권한 조회", description = "다락방 멤버 권한을 조회한다.")
+	@Operation(summary = "마이페이지 조회", description = "마이페이지에 표시될 내 정보를 조회한다.")
 	@ApiResponses({
-		@ApiResponse(responseCode = "200", description = "다락방 멤버 권한 조회 성공!")
+		@ApiResponse(responseCode = "200", description = "마이페이지 조회 성공!")
 	})
 	ResponseEntity<RestResponse<DarakbangMemberInfoResponse>> findMyInfo(
 		@PathVariable Long darakbangId,
 		@LoginDarakbangMember DarakbangMember member
+	);
+
+	@Operation(summary = "마이페이지 수정", description = "마이페이지에 표시될 내 정보를 수정한다.")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "마이페이지 수정 성공!")
+	})
+	ResponseEntity<Void> updateMyInfo(
+		@LoginDarakbangMember DarakbangMember member,
+		@RequestBody DarakbangMemberInfoRequest request
 	);
 }
