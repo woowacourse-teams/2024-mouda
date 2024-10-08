@@ -16,11 +16,18 @@ function Header(props: PropsWithChildren) {
   return <StickyTriSectionHeader>{children}</StickyTriSectionHeader>;
 }
 
+function HeaderBottom(props: PropsWithChildren) {
+  const { children } = props;
+
+  return <div css={S.headerBottom}>{children}</div>;
+}
+
 Header.Left = StickyTriSectionHeader.Left;
 Header.Right = StickyTriSectionHeader.Right;
 Header.Center = StickyTriSectionHeader.Center;
 
 ChattingRoomLayout.Header = Header;
 ChattingRoomLayout.Footer = ChattingRoomFooter;
+ChattingRoomLayout.HeaderBottom = HeaderBottom;
 
 export default ChattingRoomLayout;

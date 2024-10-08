@@ -11,8 +11,10 @@ import { Fragment } from 'react';
 
 export default function MyPage() {
   const { myInfo, isLoading } = useMyInfo();
-  const theme = useTheme();
   const { darakbangName } = useNowDarakbangName();
+
+  const theme = useTheme();
+
   if (isLoading) {
     return <div>Loading...</div>;
   }

@@ -1,14 +1,15 @@
 import { getLastDarakbangId } from '@_common/lastDarakbangManager';
 
-const BASE_URL = `${process.env.BASE_URL}/v1`;
+const API_BASE_URL = `${process.env.API_BASE_URL}/v1`;
 export function addBaseUrl(
   endpoint: string,
   isNeedLastDarakbang: boolean = false,
 ) {
   if (isNeedLastDarakbang)
     endpoint = '/darakbang/' + (getLastDarakbangId() || 0) + endpoint;
-  return BASE_URL + endpoint;
+  return API_BASE_URL + endpoint;
 }
+
 const API_URL = {
   darakbang: {
     role: addBaseUrl('/role', true),
@@ -24,6 +25,13 @@ const API_URL = {
   interest: addBaseUrl('/interest', true),
   please: addBaseUrl('/please', true),
   notification: addBaseUrl('/notification', true),
+  bet: {
+    all: addBaseUrl('/bet', true),
+    detail: (betId: number) => addBaseUrl(`/bet/${betId}`, true),
+    create: addBaseUrl('/bet', true),
+    participate: (betId: number) => addBaseUrl(`/bet/${betId}`, true),
+    result: (betId: number) => addBaseUrl(`/bet/${betId}/result`, true),
+  },
   kakaoOAuth: addBaseUrl('/auth/kakao/oauth', false),
 };
 
@@ -37,5 +45,7 @@ const ENDPOINTS = {
   interest: 'interest',
   please: 'please',
   notification: 'notification',
+  bet: 'bet',
 };
+
 export { ENDPOINTS, API_URL };

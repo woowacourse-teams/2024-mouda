@@ -1,5 +1,5 @@
-import { MoimInputInfo, PleaseInfoInput } from '@_types/index';
-import { PostMoim, PostMoimBody } from './responseTypes';
+import { BetInputInfo, MoimInputInfo, PleaseInfoInput } from '@_types/index';
+import { PostBet, PostMoim, PostMoimBody } from './responseTypes';
 
 import ApiClient from './apiClient';
 
@@ -78,6 +78,7 @@ export const postConfirmDatetime = async (
     date,
     time,
   });
+  return moimId;
 };
 
 export const postConfirmPlace = async (moimId: number, place: string) => {
@@ -85,6 +86,7 @@ export const postConfirmPlace = async (moimId: number, place: string) => {
     moimId,
     place,
   });
+  return moimId;
 };
 
 export const postPlease = async (please: PleaseInfoInput) => {
@@ -131,4 +133,19 @@ export const postDarakbangEntrance = async ({
   const json = await data.json();
 
   return json.data as number;
+};
+
+export const postBet = async (bet: BetInputInfo) => {
+  const data = await ApiClient.postWithLastDarakbangId('/bet', bet);
+
+  const json: PostBet = await data.json();
+  return json.data.betId;
+};
+
+export const postBetResult = async (betId: number) => {
+  await ApiClient.postWithLastDarakbangId(`/bet/${betId}/result`);
+};
+
+export const postJoinBet = async (betId: number) => {
+  await ApiClient.postWithLastDarakbangId(`/bet/${betId}`);
 };

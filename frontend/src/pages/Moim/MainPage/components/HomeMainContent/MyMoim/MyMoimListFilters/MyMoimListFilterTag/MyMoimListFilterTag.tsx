@@ -15,10 +15,7 @@ export default function MyMoimListFilterTag(props: MyMoimListFilterTagProps) {
   const theme = useTheme();
 
   return (
-    <div
-      css={[S.tag({ theme, isSelected }), common.nonScroll]}
-      onClick={onClick}
-    >
+    <div css={[S.tag({ theme, isSelected }), common.nonDrag]} onClick={onClick}>
       {label}
     </div>
   );

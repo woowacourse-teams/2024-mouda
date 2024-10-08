@@ -1,17 +1,29 @@
 import ApiClient from './apiClient';
 
-export const login = async (loginInputInfo: { nickname: string }) => {
-  const response = await ApiClient.postWithoutAuth(
-    '/auth/login',
-    loginInputInfo,
-  );
-  return response.json();
-};
-
 export const kakaoOAuth = async (code: string) => {
   const response = await ApiClient.postWithoutAuth('/auth/kakao/oauth', {
     code,
   });
-  console.log(response);
+  return response.json();
+};
+export const appleOAuth = async (
+  code: string,
+  memberId: string | null = null,
+) => {
+  const response = await ApiClient.postWithoutAuth('/auth/apple/oauth', {
+    code,
+    memberId,
+  });
+  return response.json();
+};
+
+export const googleOAuth = async (
+  idToken: string,
+  memberId: string | null = null,
+) => {
+  const response = await ApiClient.postWithoutAuth('/auth/google/oauth', {
+    idToken,
+    memberId,
+  });
   return response.json();
 };

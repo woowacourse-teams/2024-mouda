@@ -3,11 +3,11 @@ import CompleteLayout from '@_layouts/CompleteLayout/CompleteLayout';
 import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
 import GET_ROUTES from '@_common/getRoutes';
 import HighlightSpan from '@_components/HighlightSpan/HighlightSpan';
+import { common } from '@_common/common.style';
+import { theme } from '@_common/theme/theme.style';
 import useMyInfo from '@_hooks/queries/useMyInfo';
 import { useNavigate } from 'react-router-dom';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
-import { theme } from '@_common/theme/theme.style';
-import { common } from '@_common/common.style';
 
 export default function DarakbangLandingPage() {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ export default function DarakbangLandingPage() {
     <CompleteLayout>
       <CompleteLayout.Header>
         <CompleteLayout.Header.Center>
-          <span css={[[theme.typography.h5, common.nonScroll]]}>
+          <span css={[[theme.typography.h5, common.nonDrag]]}>
             <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
           </span>
         </CompleteLayout.Header.Center>

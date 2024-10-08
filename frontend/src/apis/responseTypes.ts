@@ -1,4 +1,6 @@
 import {
+  BetDetail,
+  BetSummary,
   Chat,
   ChattingPreview,
   Darakbang,
@@ -105,5 +107,19 @@ export interface GetDarakbangInviteCode {
 export interface GetDarakbangNameByCode {
   data: {
     name: string;
+  };
+}
+
+export interface GetBets {
+  data: { bets: BetSummary[] };
+}
+
+export interface GetBet {
+  data: BetDetail;
+}
+
+export interface PostBet {
+  data: {
+    betId: number;
   };
 }

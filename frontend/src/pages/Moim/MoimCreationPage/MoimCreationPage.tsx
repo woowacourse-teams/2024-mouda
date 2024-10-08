@@ -7,7 +7,7 @@ import MaxPeopleStep from './components/Steps/MaxPeopleStep';
 import DescriptionStep from './components/Steps/DescriptionStep';
 import useFunnel from '@_hooks/useFunnel';
 import useMoimCreationForm from './MoimCreationPage.hook';
-import BackArrowButton from '@_components/Icons/BackArrowButton/BackArrowButton';
+import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
 
 export type MoimCreationStep =
   | '이름입력'

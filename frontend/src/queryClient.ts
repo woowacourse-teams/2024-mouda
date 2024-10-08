@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/react';
 import { QueryCache, QueryClient } from '@tanstack/react-query';
 
 import { ApiError } from '@_utils/customError/ApiError';
-import { removeToken } from '@_utils/tokenManager';
+import { removeAccessToken } from '@_utils/tokenManager';
 import ROUTES from '@_constants/routes';
 import GET_ROUTES from '@_common/getRoutes';
 
@@ -34,7 +34,10 @@ const handleApiError = (error: Error) => {
   Sentry.captureException(error);
   if (error instanceof ApiError) {
     if (error.status === 401) {
-      removeToken();
+      removeAccessToken();
+      if (process.env.MSW === 'true') {
+        return false;
+      }
       window.location.href = ROUTES.home;
       return;
     }

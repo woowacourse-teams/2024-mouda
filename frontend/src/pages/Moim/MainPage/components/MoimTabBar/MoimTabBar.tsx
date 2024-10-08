@@ -24,7 +24,7 @@ export default function MoimTabBar(props: MoimTabBarProps) {
           key={index}
           css={[
             S.tabItemStyle({ theme, isTurnedOn: currentTab === tab }),
-            common.nonScroll,
+            common.nonDrag,
           ]}
           onClick={() => onTabClick(tab)}
         >
