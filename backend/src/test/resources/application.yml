@@ -37,3 +37,10 @@ oauth:
 
 bet:
   schedule: "* * * * * *" # 테스트 스케줄러는 매초마다 동작
+
+aws:
+  region:
+    static: ap-northeast-2
+  s3:
+    bucket: arn:aws:s3:::techcourse-project-2024/mouda/dev/
+    prefix: https://dev.mouda.site/

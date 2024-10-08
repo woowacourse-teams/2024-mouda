@@ -11,6 +11,8 @@ import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.domain.DarakbangMembers;
 import mouda.backend.darakbangmember.implement.DarakbangMemberFinder;
 import mouda.backend.darakbangmember.implement.DarakbangMemberWriter;
+import mouda.backend.darakbangmember.implement.ImageParser;
+import mouda.backend.darakbangmember.implement.S3Client;
 import mouda.backend.darakbangmember.presentation.request.DarakbangMemberInfoRequest;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberResponses;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRoleResponse;
@@ -27,6 +29,8 @@ public class DarakbangMemberService {
 	private final DarakbangFinder darakbangFinder;
 	private final MemberFinder memberFinder;
 	private final DarakbangMemberWriter darakbangMemberWriter;
+	private final S3Client s3Client;
+	private final ImageParser imageParser;
 
 	@Transactional(readOnly = true)
 	public DarakbangMemberResponses findAllDarakbangMembers(Long darakbangId, DarakbangMember member) {
@@ -56,7 +60,8 @@ public class DarakbangMemberService {
 	}
 
 	public void updateMyInfo(DarakbangMember darakbangMember, DarakbangMemberInfoRequest request) {
-		darakbangMemberWriter.updateMyInfo(darakbangMember, request.nickname(), request.description(),
-			request.profile());
+		String url = s3Client.uploadFile(request.file());
+		String profile = imageParser.parse(url);
+		darakbangMemberWriter.updateMyInfo(darakbangMember, request.nickname(), request.description(), profile);
 	}
 }
