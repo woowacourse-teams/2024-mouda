@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
@@ -21,11 +22,15 @@ import mouda.backend.chat.entity.ChatRoomEntity;
 import mouda.backend.chat.exception.ChatException;
 import mouda.backend.chat.infrastructure.ChatRepository;
 import mouda.backend.chat.infrastructure.ChatRoomRepository;
+import mouda.backend.chat.presentation.request.ChatCreateRequest;
 import mouda.backend.chat.presentation.request.DateTimeConfirmRequest;
 import mouda.backend.chat.presentation.request.LastReadChatRequest;
 import mouda.backend.chat.presentation.request.PlaceConfirmRequest;
+import mouda.backend.chat.presentation.response.ChatFindUnloadedResponse;
+import mouda.backend.chat.presentation.response.ChatPreviewResponse;
 import mouda.backend.chat.presentation.response.ChatPreviewResponses;
 import mouda.backend.common.fixture.BetEntityFixture;
+import mouda.backend.common.fixture.ChatEntityFixture;
 import mouda.backend.common.fixture.ChatRoomEntityFixture;
 import mouda.backend.common.fixture.DarakbangSetUp;
 import mouda.backend.common.fixture.MoimFixture;
@@ -33,6 +38,7 @@ import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.ChatType;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimRole;
+import mouda.backend.moim.exception.ChamyoException;
 import mouda.backend.moim.infrastructure.ChamyoRepository;
 import mouda.backend.moim.infrastructure.MoimRepository;
 
@@ -59,6 +65,50 @@ class ChatServiceTest extends DarakbangSetUp {
 
 	@Autowired
 	BetDarakbangMemberRepository betDarakbangMemberRepository;
+
+	@DisplayName("채팅을 생성한다.")
+	@Test
+	void createChat() {
+		// given
+		Moim moim = MoimFixture.getSoccerMoim(darakbang.getId());
+		Moim savedMoim = moimRepository.save(moim);
+
+		chamyoRepository.save(new Chamyo(moim, darakbangHogee, MoimRole.MOIMER));
+
+		ChatRoomEntity chatRoom = chatRoomRepository.save(
+			ChatRoomEntityFixture.getChatRoomEntityOfMoim(savedMoim.getId(), darakbang.getId()));
+
+		String content = "아 배고파. 오늘 뭐먹지?";
+		ChatCreateRequest chatCreateRequest = new ChatCreateRequest(1L, content);
+
+		// when
+		chatService.createChat(chatRoom.getId(), chatCreateRequest, darakbangHogee);
+
+		// then
+		Optional<ChatEntity> chatOptional = chatRepository.findById(1L);
+		assertThat(chatOptional.isPresent()).isTrue();
+		assertThat(chatOptional.get().getContent()).isEqualTo(content);
+	}
+
+	@DisplayName("아무런 채팅이 없는 모임인 경우 빈 값을 반환한다.")
+	@Test
+	void findUnloadedChatsForFirstTime() {
+		// given
+		Moim moim = MoimFixture.getSoccerMoim(darakbang.getId());
+		Moim savedMoim = moimRepository.save(moim);
+
+		chamyoRepository.save(new Chamyo(moim, darakbangHogee, MoimRole.MOIMER));
+
+		ChatRoomEntity chatRoom = chatRoomRepository.save(
+			ChatRoomEntityFixture.getChatRoomEntityOfMoim(savedMoim.getId(), darakbang.getId()));
+
+		// when
+		ChatFindUnloadedResponse unloadedChats = chatService.findUnloadedChats(1L, 0L, chatRoom.getId(),
+			darakbangHogee);
+
+		// then
+		assertThat(unloadedChats.chats()).hasSize(0);
+	}
 
 	@DisplayName("장소 확정 채팅에 성공한다.")
 	@Test
@@ -165,8 +215,8 @@ class ChatServiceTest extends DarakbangSetUp {
 
 		// when & then
 		assertThatThrownBy(() -> chatService.confirmPlace(darakbang.getId(), request, darakbangHogee))
-			.isInstanceOf(ChatException.class)
-			.hasMessage("모이머 권한이 없습니다.");
+			.isInstanceOf(ChamyoException.class)
+			.hasMessage("모이머가 아닙니다.");
 	}
 
 	@DisplayName("마지막 채팅을 저장한다.")
@@ -192,11 +242,75 @@ class ChatServiceTest extends DarakbangSetUp {
 		assertThat(optionalChamyo.get().getLastReadChatId()).isEqualTo(1L);
 	}
 
+	@DisplayName("최근에 조회한 채팅에서 새롭게 생성된 채팅 내역을 반환한다.")
+	@Test
+	void findUnloadedChats() {
+		// given
+		Moim moim = MoimFixture.getSoccerMoim(darakbang.getId());
+		Moim savedMoim = moimRepository.save(moim);
+
+		chamyoRepository.save(new Chamyo(moim, darakbangHogee, MoimRole.MOIMER));
+
+		ChatRoomEntity chatRoom = chatRoomRepository.save(
+			ChatRoomEntityFixture.getChatRoomEntityOfMoim(savedMoim.getId(), darakbang.getId()));
+
+		chatRepository.save(ChatEntityFixture.getChatEntity(darakbangHogee));
+		chatRepository.save(ChatEntityFixture.getChatEntity(darakbangHogee));
+		chatRepository.save(ChatEntityFixture.getChatEntity(darakbangHogee));
+
+		// when
+		ChatFindUnloadedResponse unloadedChats = chatService.findUnloadedChats(1L, 1L, chatRoom.getId(),
+			darakbangHogee);
+
+		// then
+		assertThat(unloadedChats.chats()).hasSize(2);
+	}
+
+	@DisplayName("열린 채팅방이 없다면 빈 리스트를 반환한다.")
+	@Test
+	void findChatPreview() {
+		Moim basketballMoim = MoimFixture.getBasketballMoim(darakbang.getId());
+		moimRepository.save(basketballMoim);
+
+		Chamyo chamyo = Chamyo.builder()
+			.darakbangMember(darakbangHogee)
+			.moim(basketballMoim)
+			.moimRole(MoimRole.MOIMEE)
+			.build();
+		chamyoRepository.save(chamyo);
+
+		ChatPreviewResponses chatPreview = chatService.findChatPreview(darakbangHogee, ChatRoomType.MOIM);
+		assertThat(chatPreview.chatPreviewResponses()).isEmpty();
+	}
+
+	@DisplayName("다락방별 채팅을 조회한다.")
+	@Test
+	void readDarakbangChatPreview() {
+		Moim darakbangMoim = MoimFixture.getSoccerMoim(darakbang.getId());
+		moimRepository.save(darakbangMoim);
+		chamyoRepository.save(new Chamyo(darakbangMoim, darakbangHogee, MoimRole.MOIMER));
+		chatService.openChatRoom(darakbang.getId(), darakbangMoim.getId(), darakbangHogee);
+		chatRepository.save(ChatEntityFixture.getChatEntity(darakbangHogee));
+
+		ChatPreviewResponses chatPreview = chatService.findChatPreview(darakbangHogee, ChatRoomType.MOIM);
+		assertThat(chatPreview.chatPreviewResponses())
+			.hasSize(1);
+
+		Moim moudaMoim = MoimFixture.getSoccerMoim(mouda.getId());
+		moimRepository.save(moudaMoim);
+		chamyoRepository.save(new Chamyo(moudaMoim, moudaHogee, MoimRole.MOIMER));
+
+		ChatPreviewResponses emptyChatPreview = chatService.findChatPreview(moudaHogee, ChatRoomType.MOIM);
+		assertThat(emptyChatPreview.chatPreviewResponses())
+			.hasSize(0);
+	}
+
 	@DisplayName("모임 채팅 미리보기를 조회한다.")
 	@Test
 	void findMoimChatPreview() {
 		// given
 		Moim moim = MoimFixture.getBasketballMoim(darakbang.getId());
+		moim.openChat();
 		Moim savedMoim = moimRepository.save(moim);
 
 		Chamyo chamyo = chamyoRepository.save(new Chamyo(moim, darakbangHogee, MoimRole.MOIMEE));
@@ -204,17 +318,15 @@ class ChatServiceTest extends DarakbangSetUp {
 
 		ChatRoomEntity chatRoomEntity = ChatRoomEntityFixture.getChatRoomEntityOfMoim(savedMoim.getId(),
 			darakbang.getId());
-		ChatRoomEntity chatRoom = enterChatRoom(chatRoomEntity);
-		savedMoim.openChat();
+		ChatRoomEntity chatRoom = chatRoomRepository.save(chatRoomEntity);
 
 		sendChat(chatRoom);
 
 		// when
-		ChatPreviewResponses moimChatPreviews = chatService.findChatPreview(darakbang.getId(), darakbangHogee,
-			ChatRoomType.MOIM);
+		ChatPreviewResponses moimChatPreviews = chatService.findChatPreview(darakbangHogee, ChatRoomType.MOIM);
 
 		// then
-		assertThat(moimChatPreviews.chatPreviewResponses().size()).isEqualTo(1);
+		assertThat(moimChatPreviews.chatPreviewResponses()).hasSize(1);
 		assertThat(moimChatPreviews.chatPreviewResponses().get(0).lastContent()).isEqualTo("안녕하세요");
 		assertThat(moimChatPreviews.chatPreviewResponses().get(0).lastReadChatId()).isEqualTo(0);
 		assertThat(moimChatPreviews.chatPreviewResponses().get(0).currentPeople()).isEqualTo(1);
@@ -233,13 +345,12 @@ class ChatServiceTest extends DarakbangSetUp {
 
 		ChatRoomEntity chatRoomEntity = ChatRoomEntityFixture.getChatRoomEntityOfBet(betEntity.getId(),
 			darakbang.getId());
-		ChatRoomEntity chatRoom = enterChatRoom(chatRoomEntity);
+		ChatRoomEntity chatRoom = chatRoomRepository.save(chatRoomEntity);
 
 		sendChat(chatRoom);
 
 		// when
-		ChatPreviewResponses betChatPreviews = chatService.findChatPreview(darakbang.getId(), darakbangHogee,
-			ChatRoomType.BET);
+		ChatPreviewResponses betChatPreviews = chatService.findChatPreview(darakbangHogee, ChatRoomType.BET);
 
 		// then
 		assertThat(betChatPreviews.chatPreviewResponses().size()).isEqualTo(1);
@@ -254,8 +365,42 @@ class ChatServiceTest extends DarakbangSetUp {
 		chatRepository.save(chatEntity);
 	}
 
-	private ChatRoomEntity enterChatRoom(ChatRoomEntity chatRoomEntity) {
-		// 채팅방 저장
-		return chatRoomRepository.save(chatRoomEntity);
+	@DisplayName("가장 최근에 생성된 채팅을 기준으로 채팅방 목록을 조회하고, 채팅이 없는 채팅방은 가장 아래에 위치한다.")
+	@Test
+	void findChatPreview_sortedByLastChatCreatedAt() {
+		Moim soccerMoim = moimRepository.save(MoimFixture.getSoccerMoim(darakbang.getId()));
+		Moim coffeeMoim = moimRepository.save(MoimFixture.getCoffeeMoim(darakbang.getId()));
+		Moim basketballMoim = moimRepository.save(MoimFixture.getBasketballMoim(darakbang.getId()));
+
+		chamyoRepository.save(Chamyo.builder()
+			.moim(soccerMoim)
+			.darakbangMember(darakbangAnna)
+			.moimRole(MoimRole.MOIMER)
+			.build());
+
+		chamyoRepository.save(Chamyo.builder()
+			.moim(coffeeMoim)
+			.darakbangMember(darakbangAnna)
+			.moimRole(MoimRole.MOIMER)
+			.build());
+
+		chamyoRepository.save(Chamyo.builder()
+			.moim(basketballMoim)
+			.darakbangMember(darakbangAnna)
+			.moimRole(MoimRole.MOIMER)
+			.build());
+
+		chatService.openChatRoom(darakbang.getId(), soccerMoim.getId(), darakbangAnna);
+		chatService.openChatRoom(darakbang.getId(), coffeeMoim.getId(), darakbangAnna);
+		chatService.openChatRoom(darakbang.getId(), basketballMoim.getId(), darakbangAnna);
+
+		chatService.createChat(darakbang.getId(), new ChatCreateRequest(soccerMoim.getId(), "1번 채팅"), darakbangAnna);
+		chatService.createChat(darakbang.getId(), new ChatCreateRequest(coffeeMoim.getId(), "2번 채팅"), darakbangAnna);
+
+		List<ChatPreviewResponse> chatPreviewResponses = chatService.findChatPreview(darakbangAnna, ChatRoomType.MOIM)
+			.chatPreviewResponses();
+
+		assertThat(chatPreviewResponses).extracting(ChatPreviewResponse::lastContent)
+			.containsExactly("2번 채팅", "1번 채팅", "");
 	}
 }

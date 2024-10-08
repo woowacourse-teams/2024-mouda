@@ -1,6 +1,7 @@
 package mouda.backend.chat.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import jakarta.persistence.Entity;
@@ -43,7 +44,8 @@ public class ChatEntity {
 	private ChatType chatType;
 
 	@Builder
-	public ChatEntity(String content, long chatRoomId, DarakbangMember darakbangMember, LocalDate date, LocalTime time, ChatType chatType) {
+	public ChatEntity(String content, long chatRoomId, DarakbangMember darakbangMember, LocalDate date, LocalTime time,
+		ChatType chatType) {
 		this.content = content;
 		this.chatRoomId = chatRoomId;
 		this.darakbangMember = darakbangMember;
@@ -52,7 +54,20 @@ public class ChatEntity {
 		this.chatType = chatType;
 	}
 
+	public static ChatEntity empty() {
+		return ChatEntity.builder()
+			.content("")
+			.build();
+	}
+
 	public boolean isMyMessage(Long darakbangMemberId) {
 		return darakbangMemberId == darakbangMember.getId();
+	}
+
+	public LocalDateTime getDateTime() {
+		if (date == null || time == null) {
+			return null;
+		}
+		return LocalDateTime.of(date, time);
 	}
 }

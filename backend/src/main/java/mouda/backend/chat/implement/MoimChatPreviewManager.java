@@ -28,6 +28,7 @@ public class MoimChatPreviewManager implements ChatPreviewManager {
 		return myMoims.stream()
 			.filter(Moim::isChatOpened)
 			.map(this::getChatPreview)
+			.sorted()
 			.toList();
 	}
 

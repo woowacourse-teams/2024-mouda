@@ -27,6 +27,7 @@ public class BetChatPreviewManager implements ChatPreviewManager {
 
 		return myBets.stream()
 			.map(this::getChatPreview)
+			.sorted()
 			.toList();
 	}
 

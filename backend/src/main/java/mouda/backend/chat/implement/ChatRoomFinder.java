@@ -69,7 +69,7 @@ public class ChatRoomFinder {
 			.orElseThrow();
 
 		ChatEntity lastChat = chatRepository.findFirstByChatRoomIdOrderByIdDesc(chatRoomEntity.getId())
-			.orElse(new ChatEntity("", 1L, null, null, null, null));
+			.orElse(ChatEntity.empty());
 
 		return new ChatRoom(chatRoomEntity, lastChat);
 	}
