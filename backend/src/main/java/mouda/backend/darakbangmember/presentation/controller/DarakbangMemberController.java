@@ -54,7 +54,6 @@ public class DarakbangMemberController implements DarakbangMemberSwagger {
 	@Override
 	@GetMapping("/{darakbangId}/member/mine")
 	public ResponseEntity<RestResponse<DarakbangMemberInfoResponse>> findMyInfo(
-		@PathVariable Long darakbangId,
 		@LoginDarakbangMember DarakbangMember darakbangMember
 	) {
 		DarakbangMemberInfoResponse darakbangMemberInfoResponse = darakbangMemberService.findMyInfo(darakbangMember);

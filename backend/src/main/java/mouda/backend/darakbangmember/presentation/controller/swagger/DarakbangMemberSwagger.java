@@ -44,7 +44,6 @@ public interface DarakbangMemberSwagger {
 		@ApiResponse(responseCode = "200", description = "마이페이지 조회 성공!")
 	})
 	ResponseEntity<RestResponse<DarakbangMemberInfoResponse>> findMyInfo(
-		@PathVariable Long darakbangId,
 		@LoginDarakbangMember DarakbangMember member
 	);
 

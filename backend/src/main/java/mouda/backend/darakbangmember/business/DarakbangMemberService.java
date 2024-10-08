@@ -55,8 +55,7 @@ public class DarakbangMemberService {
 	public DarakbangMemberInfoResponse findMyInfo(DarakbangMember darakbangMember) {
 		Member member = memberFinder.find(darakbangMember.getMemberId());
 		return new DarakbangMemberInfoResponse(member.getName(), darakbangMember.getNickname(),
-			darakbangMember.getProfile(),
-			darakbangMember.getDescription());
+			darakbangMember.getProfile(), darakbangMember.getDescription());
 	}
 
 	public void updateMyInfo(DarakbangMember darakbangMember, DarakbangMemberInfoRequest request) {
