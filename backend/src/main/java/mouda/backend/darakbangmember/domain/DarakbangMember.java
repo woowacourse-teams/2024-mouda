@@ -50,16 +50,23 @@ public class DarakbangMember {
 	@Column(nullable = false)
 	private String nickname;
 
+	private String profile;
+
+	private String description;
+
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private DarakBangMemberRole role;
 
 	@Builder
-	public DarakbangMember(Darakbang darakbang, Long memberId, String nickname, DarakBangMemberRole role) {
+	public DarakbangMember(Darakbang darakbang, Long memberId, String nickname, String profile, String description,
+		DarakBangMemberRole role) {
 		validateNickname(nickname);
 		this.darakbang = darakbang;
 		this.memberId = memberId;
 		this.nickname = nickname;
+		this.profile = profile;
+		this.description = description;
 		this.role = role;
 	}
 
@@ -71,6 +78,14 @@ public class DarakbangMember {
 
 	public boolean isNotManager() {
 		return role != DarakBangMemberRole.MANAGER;
+	}
+
+	public DarakbangMember updateMyInfo(String nickname, String description, String profile) {
+		this.nickname = nickname;
+		this.description = description;
+		this.profile = profile;
+
+		return this;
 	}
 
 	@Override

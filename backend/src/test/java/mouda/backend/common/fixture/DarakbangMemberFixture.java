@@ -12,6 +12,8 @@ public class DarakbangMemberFixture {
 			.darakbang(darakbang)
 			.memberId(member.getId())
 			.nickname("호호기기")
+			.profile("profile")
+			.description("description")
 			.role(DarakBangMemberRole.MANAGER)
 			.build();
 	}
@@ -21,7 +23,20 @@ public class DarakbangMemberFixture {
 			.darakbang(darakbang)
 			.memberId(member.getId())
 			.nickname("소소파파")
+			.profile("profile")
+			.description("description")
 			.role(DarakBangMemberRole.MEMBER)
+			.build();
+	}
+
+	public static DarakbangMember getDarakbangOutsiderWithWooteco(Darakbang darakbang, Member member) {
+		return DarakbangMember.builder()
+			.darakbang(darakbang)
+			.memberId(member.getId())
+			.nickname("치코치코니")
+			.profile("profile")
+			.description("description")
+			.role(DarakBangMemberRole.OUTSIDER)
 			.build();
 	}
 }

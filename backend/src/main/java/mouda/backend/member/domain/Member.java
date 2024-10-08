@@ -20,30 +20,30 @@ import mouda.backend.moim.exception.MoimException;
 @NoArgsConstructor
 public class Member {
 
-	private static final int NICKNAME_MAX_LENGTH = 10;
+	private static final int NAME_MAX_LENGTH = 10;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String nickname;
+	private String name;
 
 	@Embedded
 	private LoginDetail loginDetail;
 
 	@Builder
-	public Member(String nickname, LoginDetail loginDetail) {
+	public Member(String name, LoginDetail loginDetail) {
 		this.loginDetail = loginDetail;
-		validateNickname(nickname);
-		this.nickname = nickname;
+		validateName(name);
+		this.name = name;
 	}
 
-	private void validateNickname(String nickname) {
-		if (nickname.isBlank()) {
-			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MEMBER_NICKNAME_NOT_EXISTS);
+	private void validateName(String name) {
+		if (name.isBlank()) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MEMBER_NAME_NOT_EXISTS);
 		}
-		if (nickname.length() >= NICKNAME_MAX_LENGTH) {
-			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MEMBER_NICKNAME_TOO_LONG);
+		if (name.length() >= NAME_MAX_LENGTH) {
+			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MEMBER_NAME_TOO_LONG);
 		}
 	}
 

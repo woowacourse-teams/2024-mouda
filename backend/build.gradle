@@ -56,6 +56,9 @@ dependencies {
 
     //Google Oauth
     implementation 'com.google.api-client:google-api-client:1.32.1'
+
+    // S3
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.773'
 }
 
 tasks.named('test') {

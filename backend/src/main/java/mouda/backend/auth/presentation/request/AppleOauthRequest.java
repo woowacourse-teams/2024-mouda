@@ -6,6 +6,9 @@ public record AppleOauthRequest(
 	Long memberId,
 
 	@NotNull
-	String code
+	String code,
+
+	@NotNull
+	String name
 ) {
 }
