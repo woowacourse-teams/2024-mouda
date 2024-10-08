@@ -11,8 +11,8 @@ import com.google.firebase.messaging.MulticastMessage;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.notification.domain.CommonNotification;
+import mouda.backend.notification.domain.Recipient;
 import mouda.backend.notification.implement.NotificationSender;
 import mouda.backend.notification.implement.fcm.token.FcmTokenFinder;
 
@@ -26,27 +26,8 @@ public class FcmNotificationSender implements NotificationSender {
 	private final FcmResponseHandler fcmResponseHandler;
 
 	@Override
-	public void sendNotification(CommonNotification notification, DarakbangMember receiver) {
-		List<String> tokens = fcmTokenFinder.findAllTokensByMember(receiver);
-		sendAllMulticastMessage(notification, tokens);
-	}
-
-	@Override
-	public void sendNotification(CommonNotification notification, List<DarakbangMember> receivers) {
-		List<String> tokens = fcmTokenFinder.findAllTokensByMembers(receivers);
-		sendAllMulticastMessage(notification, tokens);
-	}
-
-	@Override
-	public void sendMoimCreateNotification(CommonNotification notification, List<DarakbangMember> receivers) {
-		List<String> tokens = fcmTokenFinder.findAllTokensByMembersSubscribedMoimCreate(receivers);
-		sendAllMulticastMessage(notification, tokens);
-	}
-
-	@Override
-	public void sendChatNotification(CommonNotification notification, List<DarakbangMember> receivers,
-		long chatRoomId) {
-		List<String> tokens = fcmTokenFinder.findAllTokensByMembersSubscribedChat(chatRoomId, receivers);
+	public void sendNotification(CommonNotification notification, List<Recipient> recipients) {
+		List<String> tokens = fcmTokenFinder.findAllTokensByMember(recipients);
 		sendAllMulticastMessage(notification, tokens);
 	}
 

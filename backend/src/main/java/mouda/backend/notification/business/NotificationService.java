@@ -6,6 +6,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.notification.domain.CommonNotification;
 import mouda.backend.notification.domain.NotificationEvent;
 import mouda.backend.notification.domain.Recipient;
 import mouda.backend.notification.implement.NotificationSender;
@@ -23,13 +24,13 @@ public class NotificationService {
 
 	@EventListener
 	public void sendNotification(NotificationEvent notificationEvent) {
-		notificationWriter.saveAllMemberNotification(notificationEvent.toCommonNotification(), notificationEvent.getRecipients());
+		CommonNotification commonNotification = notificationEvent.toCommonNotification();
+		notificationWriter.saveAllMemberNotification(commonNotification, notificationEvent.getRecipients());
 
 		SubscriptionFilter subscriptionFilter = subscriptionFilterRegistry.getFilter(notificationEvent.getNotificationType());
 		List<Recipient> filteredRecipients = subscriptionFilter.filter(notificationEvent);
 
-		// TODO : 알림 보내기
-		
+		notificationSender.sendNotification(commonNotification, filteredRecipients);
 	}
 }
 
