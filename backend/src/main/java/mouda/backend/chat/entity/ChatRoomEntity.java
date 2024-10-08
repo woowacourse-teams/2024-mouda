@@ -26,8 +26,6 @@ public class ChatRoomEntity {
 
 	private ChatRoomType type;
 
-	private long lastReadChatId;
-
 	@Builder
 	public ChatRoomEntity(long targetId, long darakbangId, ChatRoomType type) {
 		this.targetId = targetId;

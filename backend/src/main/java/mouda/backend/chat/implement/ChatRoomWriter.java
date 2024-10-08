@@ -14,7 +14,11 @@ public class ChatRoomWriter {
 	private final ChatRoomRepository chatRoomRepository;
 
 	public void append(long targetId, long darakbangId, ChatRoomType chatRoomType) {
-		ChatRoomEntity chatRoomEntity = new ChatRoomEntity(targetId, darakbangId, chatRoomType);
+		ChatRoomEntity chatRoomEntity = ChatRoomEntity.builder()
+			.targetId(targetId)
+			.darakbangId(darakbangId)
+			.type(chatRoomType)
+			.build();
 		chatRoomRepository.save(chatRoomEntity);
 	}
 }
