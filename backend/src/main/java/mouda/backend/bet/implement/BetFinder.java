@@ -18,6 +18,7 @@ import mouda.backend.bet.infrastructure.BetRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 
 @Component
+@Transactional
 @RequiredArgsConstructor
 public class BetFinder {
 
