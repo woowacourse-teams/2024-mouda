@@ -2,6 +2,8 @@ package mouda.backend.member.presentation.response;
 
 public record MemberFindResponse(
 	String name,
-	String profile
+	String nickname,
+	String profile,
+	String description
 ) {
 }

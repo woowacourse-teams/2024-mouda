@@ -16,6 +16,7 @@ import mouda.backend.darakbangmember.presentation.controller.swagger.DarakbangMe
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberResponses;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRoleResponse;
 import mouda.backend.member.domain.Member;
+import mouda.backend.member.presentation.response.MemberFindResponse;
 
 @RestController
 @RequestMapping("/v1/darakbang")
@@ -44,5 +45,16 @@ public class DarakbangMemberController implements DarakbangMemberSwagger {
 		DarakbangMemberRoleResponse response = darakbangMemberService.findDarakbangMemberRole(darakbangId, member);
 
 		return ResponseEntity.ok(new RestResponse<>(response));
+	}
+
+	@Override
+	@GetMapping("/{darakbangId}/member/mine")
+	public ResponseEntity<RestResponse<MemberFindResponse>> findMyInfo(
+		@PathVariable Long darakbangId,
+		@LoginDarakbangMember DarakbangMember member
+	) {
+		MemberFindResponse memberFindResponse = darakbangMemberService.findMyInfo(member);
+
+		return ResponseEntity.ok().body(new RestResponse<>(memberFindResponse));
 	}
 }

@@ -12,6 +12,8 @@ public class DarakbangMemberFixture {
 			.darakbang(darakbang)
 			.memberId(member.getId())
 			.nickname("호호기기")
+			.profile("profile")
+			.description("description")
 			.role(DarakBangMemberRole.MANAGER)
 			.build();
 	}
@@ -21,6 +23,8 @@ public class DarakbangMemberFixture {
 			.darakbang(darakbang)
 			.memberId(member.getId())
 			.nickname("소소파파")
+			.profile("profile")
+			.description("description")
 			.role(DarakBangMemberRole.MEMBER)
 			.build();
 	}

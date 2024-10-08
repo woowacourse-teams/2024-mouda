@@ -13,6 +13,8 @@ import mouda.backend.darakbangmember.implement.DarakbangMemberFinder;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberResponses;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRoleResponse;
 import mouda.backend.member.domain.Member;
+import mouda.backend.member.implement.MemberFinder;
+import mouda.backend.member.presentation.response.MemberFindResponse;
 
 @Service
 @Transactional
@@ -21,6 +23,7 @@ public class DarakbangMemberService {
 
 	private final DarakbangMemberFinder darakbangMemberFinder;
 	private final DarakbangFinder darakbangFinder;
+	private final MemberFinder memberFinder;
 
 	@Transactional(readOnly = true)
 	public DarakbangMemberResponses findAllDarakbangMembers(Long darakbangId, DarakbangMember member) {
@@ -39,5 +42,12 @@ public class DarakbangMemberService {
 	public DarakbangMember findDarakbangMember(long darakbangId, Member member) {
 		Darakbang darakbang = darakbangFinder.findById(darakbangId);
 		return darakbangMemberFinder.find(darakbang, member);
+	}
+
+	@Transactional(readOnly = true)
+	public MemberFindResponse findMyInfo(DarakbangMember darakbangMember) {
+		Member member = memberFinder.find(darakbangMember.getMemberId());
+		return new MemberFindResponse(member.getName(), darakbangMember.getNickname(), darakbangMember.getProfile(),
+			darakbangMember.getDescription());
 	}
 }

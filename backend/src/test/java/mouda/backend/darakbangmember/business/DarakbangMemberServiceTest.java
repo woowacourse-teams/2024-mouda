@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import mouda.backend.common.fixture.DarakbangFixture;
 import mouda.backend.common.fixture.DarakbangMemberFixture;
+import mouda.backend.common.fixture.DarakbangSetUp;
 import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.infrastructure.DarakbangRepository;
@@ -22,9 +23,10 @@ import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRespon
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRoleResponse;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.infrastructure.MemberRepository;
+import mouda.backend.member.presentation.response.MemberFindResponse;
 
 @SpringBootTest
-class DarakbangMemberServiceTest {
+class DarakbangMemberServiceTest extends DarakbangSetUp {
 
 	@Autowired
 	private MemberRepository memberRepository;
@@ -80,5 +82,16 @@ class DarakbangMemberServiceTest {
 
 			assertThat(responses.responses()).hasSize(1);
 		}
+	}
+
+	@DisplayName("내 정보를 조회한다.")
+	@Test
+	void findMyInfo() {
+		MemberFindResponse response = darakbangMemberService.findMyInfo(darakbangHogee);
+
+		assertThat(response.name()).isEqualTo("hogee");
+		assertThat(response.nickname()).isEqualTo("소소파파");
+		assertThat(response.profile()).isEqualTo("profile");
+		assertThat(response.description()).isEqualTo("description");
 	}
 }
