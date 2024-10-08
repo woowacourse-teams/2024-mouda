@@ -10,6 +10,8 @@ import mouda.backend.darakbangmember.domain.DarakBangMemberRole;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.domain.DarakbangMembers;
 import mouda.backend.darakbangmember.implement.DarakbangMemberFinder;
+import mouda.backend.darakbangmember.implement.DarakbangMemberWriter;
+import mouda.backend.darakbangmember.presentation.request.DarakbangMemberInfoRequest;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberResponses;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRoleResponse;
 import mouda.backend.member.domain.Member;
@@ -24,6 +26,7 @@ public class DarakbangMemberService {
 	private final DarakbangMemberFinder darakbangMemberFinder;
 	private final DarakbangFinder darakbangFinder;
 	private final MemberFinder memberFinder;
+	private final DarakbangMemberWriter darakbangMemberWriter;
 
 	@Transactional(readOnly = true)
 	public DarakbangMemberResponses findAllDarakbangMembers(Long darakbangId, DarakbangMember member) {
@@ -50,5 +53,10 @@ public class DarakbangMemberService {
 		return new DarakbangMemberInfoResponse(member.getName(), darakbangMember.getNickname(),
 			darakbangMember.getProfile(),
 			darakbangMember.getDescription());
+	}
+
+	public void updateMyInfo(DarakbangMember darakbangMember, DarakbangMemberInfoRequest request) {
+		darakbangMemberWriter.updateMyInfo(darakbangMember, request.nickname(), request.description(),
+			request.profile());
 	}
 }

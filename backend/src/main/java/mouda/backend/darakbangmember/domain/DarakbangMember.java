@@ -80,6 +80,14 @@ public class DarakbangMember {
 		return role != DarakBangMemberRole.MANAGER;
 	}
 
+	public DarakbangMember updateMyInfo(String nickname, String description, String profile) {
+		this.nickname = nickname;
+		this.description = description;
+		this.profile = profile;
+
+		return this;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
