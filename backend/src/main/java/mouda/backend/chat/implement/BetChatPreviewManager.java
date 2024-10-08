@@ -10,6 +10,7 @@ import mouda.backend.bet.implement.BetFinder;
 import mouda.backend.bet.infrastructure.BetDarakbangMemberRepository;
 import mouda.backend.chat.domain.ChatPreview;
 import mouda.backend.chat.domain.ChatRoom;
+import mouda.backend.chat.domain.ChatRoomType;
 import mouda.backend.chat.domain.Target;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 
@@ -33,7 +34,7 @@ public class BetChatPreviewManager implements ChatPreviewManager {
 
 	private ChatPreview getChatPreview(BetDetails bet) {
 		long targetId = bet.getId();
-		ChatRoom chatRoom = chatRoomFinder.readChatRoomByTargetId(bet.getId());
+		ChatRoom chatRoom = chatRoomFinder.readChatRoomByTargetId(bet.getId(), ChatRoomType.BET);
 		long lastReadChatId = betDarakbangMemberRepository.findLastReadChatIdByBetId(targetId);
 		int participantSize = betDarakbangMemberRepository.countByBetId(targetId);
 

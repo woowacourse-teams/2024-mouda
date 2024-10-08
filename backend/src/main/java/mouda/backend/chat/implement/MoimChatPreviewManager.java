@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.chat.domain.ChatPreview;
 import mouda.backend.chat.domain.ChatRoom;
+import mouda.backend.chat.domain.ChatRoomType;
 import mouda.backend.chat.domain.Target;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
@@ -34,7 +35,7 @@ public class MoimChatPreviewManager implements ChatPreviewManager {
 
 	private ChatPreview getChatPreview(Moim moim) {
 		long targetId = moim.getId();
-		ChatRoom chatRoom = chatRoomFinder.readChatRoomByTargetId(targetId);
+		ChatRoom chatRoom = chatRoomFinder.readChatRoomByTargetId(targetId, ChatRoomType.MOIM);
 		long lastReadChatId = chamyoRepository.findLastReadChatIdByMoimId(targetId);
 		int currentPeople = chamyoRepository.countByMoimId(targetId);
 

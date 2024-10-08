@@ -1,6 +1,7 @@
 package mouda.backend.chat.implement;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -64,8 +65,8 @@ public class ChatRoomFinder {
 		return new ChatRoom(chatRoomEntity);
 	}
 
-	public ChatRoom readChatRoomByTargetId(long targetId) {
-		ChatRoomEntity chatRoomEntity = chatRoomRepository.findByTargetId(targetId)
+	public ChatRoom readChatRoomByTargetId(long targetId, ChatRoomType chatRoomType) {
+		ChatRoomEntity chatRoomEntity = chatRoomRepository.findByTargetIdAndType(targetId, chatRoomType)
 			.orElseThrow();
 
 		ChatEntity lastChat = chatRepository.findFirstByChatRoomIdOrderByIdDesc(chatRoomEntity.getId())
@@ -77,5 +78,11 @@ public class ChatRoomFinder {
 	public Chats findAllUnloadedChats(long chatRoomId, long recentChatId) {
 		List<ChatEntity> chats = chatRepository.findAllUnloadedChats(chatRoomId, recentChatId);
 		return new Chats(chats);
+	}
+
+	public Long readChatRoomIdByTargetId(long targetId, ChatRoomType chatRoomType) {
+		Optional<ChatRoomEntity> chatRoom = chatRoomRepository.findByTargetIdAndType(targetId, chatRoomType);
+		return chatRoom.map(ChatRoomEntity::getId)
+			.orElse(null);
 	}
 }
