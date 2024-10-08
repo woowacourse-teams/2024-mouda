@@ -23,7 +23,7 @@ import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRespon
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRoleResponse;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.infrastructure.MemberRepository;
-import mouda.backend.member.presentation.response.MemberFindResponse;
+import mouda.backend.member.presentation.response.DarakbangMemberInfoResponse;
 
 @SpringBootTest
 class DarakbangMemberServiceTest extends DarakbangSetUp {
@@ -87,7 +87,7 @@ class DarakbangMemberServiceTest extends DarakbangSetUp {
 	@DisplayName("내 정보를 조회한다.")
 	@Test
 	void findMyInfo() {
-		MemberFindResponse response = darakbangMemberService.findMyInfo(darakbangHogee);
+		DarakbangMemberInfoResponse response = darakbangMemberService.findMyInfo(darakbangHogee);
 
 		assertThat(response.name()).isEqualTo("hogee");
 		assertThat(response.nickname()).isEqualTo("소소파파");

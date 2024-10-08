@@ -13,7 +13,7 @@ import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberResponses;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRoleResponse;
 import mouda.backend.member.domain.Member;
-import mouda.backend.member.presentation.response.MemberFindResponse;
+import mouda.backend.member.presentation.response.DarakbangMemberInfoResponse;
 
 public interface DarakbangMemberSwagger {
 
@@ -41,7 +41,7 @@ public interface DarakbangMemberSwagger {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "다락방 멤버 권한 조회 성공!")
 	})
-	ResponseEntity<RestResponse<MemberFindResponse>> findMyInfo(
+	ResponseEntity<RestResponse<DarakbangMemberInfoResponse>> findMyInfo(
 		@PathVariable Long darakbangId,
 		@LoginDarakbangMember DarakbangMember member
 	);

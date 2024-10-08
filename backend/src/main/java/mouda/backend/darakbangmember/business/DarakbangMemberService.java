@@ -14,7 +14,7 @@ import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRespon
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRoleResponse;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.implement.MemberFinder;
-import mouda.backend.member.presentation.response.MemberFindResponse;
+import mouda.backend.member.presentation.response.DarakbangMemberInfoResponse;
 
 @Service
 @Transactional
@@ -45,9 +45,10 @@ public class DarakbangMemberService {
 	}
 
 	@Transactional(readOnly = true)
-	public MemberFindResponse findMyInfo(DarakbangMember darakbangMember) {
+	public DarakbangMemberInfoResponse findMyInfo(DarakbangMember darakbangMember) {
 		Member member = memberFinder.find(darakbangMember.getMemberId());
-		return new MemberFindResponse(member.getName(), darakbangMember.getNickname(), darakbangMember.getProfile(),
+		return new DarakbangMemberInfoResponse(member.getName(), darakbangMember.getNickname(),
+			darakbangMember.getProfile(),
 			darakbangMember.getDescription());
 	}
 }

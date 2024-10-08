@@ -1,6 +1,6 @@
 package mouda.backend.member.presentation.response;
 
-public record MemberFindResponse(
+public record DarakbangMemberInfoResponse(
 	String name,
 	String nickname,
 	String profile,
