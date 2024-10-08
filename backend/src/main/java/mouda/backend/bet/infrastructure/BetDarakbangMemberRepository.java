@@ -23,5 +23,8 @@ public interface BetDarakbangMemberRepository extends JpaRepository<BetDarakbang
 
 	List<BetDarakbangMemberEntity> findAllByDarakbangMemberId(Long id);
 
-	long countByBetId(long betId);
+	int countByBetId(long betId);
+
+	@Query("SELECT bdm.lastReadChatId FROM BetDarakbangMemberEntity bdm WHERE bdm.bet.id = :betId")
+	long findLastReadChatIdByBetId(@Param("betId") long betId);
 }
