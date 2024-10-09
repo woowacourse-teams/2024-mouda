@@ -21,10 +21,6 @@ public class UnsubscribedChatRooms {
 		return new UnsubscribedChatRooms(darakbangId, chatRoomIds);
 	}
 
-	public boolean contains(long chatRoomId) {
-		return chatRoomIds.contains(chatRoomId);
-	}
-
 	public void changeChatRoomSubscription(long chatRoomId) {
 		if (chatRoomIds.contains(chatRoomId)) {
 			chatRoomIds.remove(chatRoomId);
