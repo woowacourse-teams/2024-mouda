@@ -69,8 +69,8 @@ export default function MyPage() {
     // 파일 추가
     formData.append('profile_img', selectedFile);
     // 문자열 데이터 추가
-    formData.append('nickname', nickname);
-    formData.append('description', description);
+    // formData.append('nickname', nickname);
+    // formData.append('description', description);
 
     try {
       // 서버로 파일 및 데이터 전송
