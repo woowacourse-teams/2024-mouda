@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class ImageParser {
 
 	private static final String URL_DELIMITER = "/";
-	private static final int PROFILE_START_INDEX = 3;
+	private static final int PROFILE_START_INDEX = 5;
 
 	@Value("${aws.s3.prefix}")
 	private String prefix;
