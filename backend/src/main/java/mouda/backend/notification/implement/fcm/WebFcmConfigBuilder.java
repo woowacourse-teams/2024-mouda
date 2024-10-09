@@ -1,15 +1,18 @@
 package mouda.backend.notification.implement.fcm;
 
+import org.springframework.stereotype.Component;
+
 import com.google.firebase.messaging.MulticastMessage;
 import com.google.firebase.messaging.WebpushConfig;
 import com.google.firebase.messaging.WebpushFcmOptions;
 
+@Component
 public class WebFcmConfigBuilder implements FcmConfigBuilder {
 
-    private final WebpushConfig webpushConfig;
+    private static final WebpushConfig webpushConfig;
 
-    public WebFcmConfigBuilder() {
-        this.webpushConfig = createWebpushConfig();
+    static {
+        webpushConfig = createWebpushConfig();
     }
 
     @Override
@@ -17,13 +20,13 @@ public class WebFcmConfigBuilder implements FcmConfigBuilder {
         return builder.setWebpushConfig(webpushConfig);
     }
 
-    private WebpushConfig createWebpushConfig() {
+    private static WebpushConfig createWebpushConfig() {
         return WebpushConfig.builder()
                 .setFcmOptions(option())
                 .build();
     }
 
-    private WebpushFcmOptions option() {
+    private static WebpushFcmOptions option() {
         return WebpushFcmOptions.builder().build();
     }
 }
