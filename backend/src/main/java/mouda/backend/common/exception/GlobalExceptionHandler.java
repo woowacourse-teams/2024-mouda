@@ -54,9 +54,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 		String exceptionMessage = exception.getMessage();
 
+		String errorResponse = String.format(
+			"Exception occurred in class = %s, method = %s, message = %s, exception class = %s", className, methodName,
+			exceptionMessage, exception.getClass().getCanonicalName());
+
 		log.warn("Exception occurred in class = {}, method = {}, message = {}, exception class = {}",
 			className, methodName, exceptionMessage, exception.getClass().getCanonicalName());
 
-		return ResponseEntity.internalServerError().body(new ErrorResponse("서버 오류가 발생했습니다."));
+		// return ResponseEntity.internalServerError().body(new ErrorResponse("서버 오류가 발생했습니다."));
+		return ResponseEntity.internalServerError().body(new ErrorResponse(errorResponse));
 	}
 }
