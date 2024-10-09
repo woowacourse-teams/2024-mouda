@@ -39,4 +39,8 @@ public enum NotificationType {
 	public String createMessage(String prefix) {
 		return messageFunction.apply(prefix);
 	}
+
+	public boolean isConfirmedType() {
+		return this == MOIM_PLACE_CONFIRMED || this == MOIM_TIME_CONFIRMED;
+	}
 }

@@ -19,13 +19,18 @@ public class ChatRoomSubscriptionFilter implements SubscriptionFilter {
 
 	@Override
 	public boolean support(NotificationType notificationType) {
-		return notificationType == NotificationType.NEW_CHAT;
+		return notificationType == NotificationType.NEW_CHAT ||
+			notificationType.isConfirmedType();
 	}
 
 	@Override
 	public List<Recipient> filter(NotificationEvent notificationEvent) {
 		return notificationEvent.getRecipients().stream()
 			.filter(recipient -> {
+				// todo: 장소(시간) 확정 채팅은 알림이 가야함.
+				if (notificationEvent.getNotificationType().isConfirmedType()) {
+					return true;
+				}
 				Subscription subscription = subscriptionFinder.readSubscription(recipient.getMemberId());
 				return subscription.isSubscribedChatRoom(notificationEvent.getDarakbangId(), notificationEvent.getChatRoomId());
 			})
