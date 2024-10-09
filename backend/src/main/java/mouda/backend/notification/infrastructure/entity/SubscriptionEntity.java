@@ -31,36 +31,31 @@ public class SubscriptionEntity {
 	private boolean moimCreate;
 
 	@JdbcTypeCode(SqlTypes.JSON)
-	@Column(name = "chats", columnDefinition = "json")
-	private List<ChatRoomSubscription> chats;
+	@Column(name = "unsubscribed_chats", columnDefinition = "json")
+	private List<UnsubscribedChatRooms> unsubscribedChats;
 
 	@Builder
-	public SubscriptionEntity(long memberId, boolean moimCreate, List<ChatRoomSubscription> chats) {
+	public SubscriptionEntity(long memberId, List<UnsubscribedChatRooms> unsubscribedChats) {
 		this.memberId = memberId;
-		this.moimCreate = moimCreate;
-		this.chats = chats;
+		this.unsubscribedChats = unsubscribedChats;
+		this.moimCreate = true;
 	}
 
 	public boolean isSubscribedMoimCreate() {
 		return moimCreate;
 	}
 
-	public boolean isSubscribedChatRoom(long darakbangId, long chatRoomId) {
-		for (ChatRoomSubscription chat : chats) {
-			if (chat.isSubscribed(darakbangId, chatRoomId)) {
-				return true;
-			}
-		}
-		return false;
+	public void changeMoimCreateSubscription() {
+		this.moimCreate = !this.moimCreate;
 	}
 
-	@Override
-	public String toString() {
-		return "SubscriptionEntity{" +
-			"id=" + id +
-			", memberId=" + memberId +
-			", moimCreate=" + moimCreate +
-			", chats=" + chats.toString() +
-			'}';
+	public void changeChatRoomSubscription(long darakbangId, long chatRoomId) {
+		for (UnsubscribedChatRooms unsubscribedChatRoom : unsubscribedChats) {
+			if (unsubscribedChatRoom.getDarakbangId() == darakbangId) {
+				unsubscribedChatRoom.changeChatRoomSubscription(chatRoomId);
+				return;
+			}
+		}
+		unsubscribedChats.add(UnsubscribedChatRooms.create(darakbangId, chatRoomId));
 	}
 }
