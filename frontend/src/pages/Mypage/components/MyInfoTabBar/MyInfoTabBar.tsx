@@ -47,11 +47,7 @@ export default function MyInfoTabBar(props: MyIfoTabBarProps) {
             <textarea
               value={description}
               onChange={handleDescriptionChange} // 텍스트 수정 핸들러 연결
-              css={{
-                width: '100%',
-                minHeight: '100px',
-                ...theme.typography.b4,
-              }}
+              css={S.textArea({ theme })}
             />
           ) : (
             <p css={theme.typography.b4}>{description}</p>

@@ -19,3 +19,11 @@ export const tabItemStyle = (props: { theme: Theme; isTurnedOn: boolean }) => {
       : 'none'};
   `;
 };
+
+export const textArea = (props: { theme: Theme }) => css`
+  /* stylelint-disable-next-line plugin/no-unsupported-browser-features */
+  resize: none;
+  width: 100%;
+  height: 30vh;
+  ${props.theme.typography.b4}
+`;
