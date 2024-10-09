@@ -31,7 +31,6 @@ public class SubscriptionWriter {
 			);
 	}
 
-
 	private void changeMoimSubscription(SubscriptionEntity subscriptionEntity) {
 		subscriptionEntity.changeMoimCreateSubscription();
 		subscriptionRepository.save(subscriptionEntity);
@@ -39,6 +38,7 @@ public class SubscriptionWriter {
 
 	private void changeChatRoomSubscription(SubscriptionEntity subscriptionEntity, long darakbangId, long chatRoomId) {
 		subscriptionEntity.changeChatRoomSubscription(darakbangId, chatRoomId);
+		subscriptionRepository.save(subscriptionEntity);
 	}
 
 	private SubscriptionEntity create(DarakbangMember darakbangMember) {
