@@ -16,6 +16,6 @@ public class FcmTokenService {
 	private final FcmTokenWriter fcmTokenWriter;
 
 	public void saveOrRefreshToken(DarakbangMember darakbangMember, FcmTokenRequest tokenRequest) {
-		fcmTokenWriter.registerToken(darakbangMember, tokenRequest.token());
+		fcmTokenWriter.saveOrRefresh(darakbangMember, tokenRequest.token());
 	}
 }

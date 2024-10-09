@@ -9,8 +9,6 @@ import mouda.backend.notification.infrastructure.entity.FcmTokenEntity;
 
 public interface FcmTokenRepository extends JpaRepository<FcmTokenEntity, Long> {
 
-    FcmTokenEntity findByMemberId(long memberId);
-
     List<FcmTokenEntity> findAllByMemberId(long memberId);
 
     Optional<FcmTokenEntity> findByToken(String token);

@@ -17,7 +17,7 @@ public class FcmTokenWriter {
 
 	private final FcmTokenRepository fcmTokenRepository;
 
-	public void registerToken(DarakbangMember darakbangMember, String token) {
+	public void saveOrRefresh(DarakbangMember darakbangMember, String token) {
 		Optional<FcmTokenEntity> tokenEntity = fcmTokenRepository.findByToken(token);
 		tokenEntity.ifPresentOrElse(this::refresh, () -> save(darakbangMember, token));
 	}
