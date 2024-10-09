@@ -37,3 +37,11 @@ export const patchReopenMoim = async (moimId: number) => {
 export const patchOpenChat = async (moimId: number) => {
   await ApiClient.patchWithLastDarakbangId(`/chat/open?moimId=${moimId}`);
 };
+
+export const patchMyInfo = async (myInfo: {
+  nickname: string;
+  description: string;
+  file: FormData;
+}) => {
+  await ApiClient.patchWithLastDarakbangId(`/member/mine`, myInfo);
+};
