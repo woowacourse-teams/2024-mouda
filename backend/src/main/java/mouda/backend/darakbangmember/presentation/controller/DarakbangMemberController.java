@@ -70,7 +70,7 @@ public class DarakbangMemberController implements DarakbangMemberSwagger {
 		@LoginDarakbangMember DarakbangMember darakbangMember,
 		@RequestPart("profile_img") MultipartFile profile_img,
 		@RequestPart("nickname") String nickname,
-		@RequestPart("description") String description
+		@RequestPart(value = "description", required = false) String description
 	) {
 		darakbangMemberService.updateMyInfo(darakbangMember, profile_img, "nickname", "description");
 
