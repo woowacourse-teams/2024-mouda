@@ -1,6 +1,7 @@
 import * as S from './MineInfoCard.style';
 import ProfileFrame from '@_components/ProfileFrame/ProfileFrame';
 import { useTheme } from '@emotion/react';
+import Edit from '@_common/assets/edit.svg?url';
 
 interface MineInfoCardProps {
   myInfo: {
@@ -24,8 +25,12 @@ export default function MineInfoCard({
 
   return (
     <div css={S.MineInfoContainer({ theme })}>
-      <div onClick={isEditing ? onProfileClick : undefined}>
+      <div
+        onClick={isEditing ? onProfileClick : undefined}
+        css={S.profileWrapper}
+      >
         <ProfileFrame width={9} height={9} borderWidth={0} src={profile} />
+        {isEditing && <img src={Edit} alt="Edit" css={S.editSVG} />}
       </div>
       {isEditing ? (
         <input

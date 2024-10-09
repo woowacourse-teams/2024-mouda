@@ -21,3 +21,14 @@ export const MinetextWrapper = () => css`
   gap: 0.5rem;
   align-items: flex-end;
 `;
+
+export const profileWrapper = () => css`
+  position: relative;
+`;
+
+export const editSVG = () => css`
+  position: absolute;
+  inset: auto 5px 10px auto;
+  width: 20px;
+  height: 20px;
+`;
