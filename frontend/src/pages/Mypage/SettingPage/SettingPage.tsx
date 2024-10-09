@@ -4,6 +4,7 @@ import InformationLayout from '@_layouts/InformationLayout/InformationLayout';
 
 import RefreshButton from '@_components/RefreshButton/RefreshButton';
 import { useNavigate } from 'react-router-dom';
+import SettingList from '../components/SettingList/SettingList';
 
 export default function SettingPage() {
   const navigate = useNavigate();
@@ -20,7 +21,9 @@ export default function SettingPage() {
         </InformationLayout.Header.Right>
         <InformationLayout.Header.Center>설정</InformationLayout.Header.Center>
       </InformationLayout.Header>
-      <InformationLayout.ContentContainer></InformationLayout.ContentContainer>
+      <InformationLayout.ContentContainer>
+        <SettingList />
+      </InformationLayout.ContentContainer>
     </InformationLayout>
   );
 }
