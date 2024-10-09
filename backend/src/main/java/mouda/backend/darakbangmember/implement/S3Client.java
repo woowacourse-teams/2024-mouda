@@ -24,15 +24,19 @@ public class S3Client {
 	@Value("${aws.s3.bucket}")
 	private String bucket;
 
+	@Value("${aws.s3.key-prefix}")
+	private String keyPrefix;
+
 	public String uploadFile(MultipartFile file) {
 		try {
 			String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
+			String key = keyPrefix + fileName;
 
 			ObjectMetadata metadata = new ObjectMetadata();
 			metadata.setContentLength(file.getSize());
 			metadata.setContentType(file.getContentType());
 
-			amazonS3.putObject(bucket, fileName, file.getInputStream(), metadata);
+			amazonS3.putObject(bucket, key, file.getInputStream(), metadata);
 			return amazonS3.getUrl(bucket, fileName).toString();
 		} catch (IOException e) {
 			throw new DarakbangMemberException(HttpStatus.BAD_REQUEST, DarakbangMemberErrorMessage.INVALID_FILE);
