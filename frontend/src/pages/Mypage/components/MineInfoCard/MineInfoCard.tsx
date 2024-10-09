@@ -24,7 +24,7 @@ export default function MineInfoCard({
 
   return (
     <div css={S.MineInfoContainer({ theme })}>
-      <div onClick={onProfileClick}>
+      <div onClick={isEditing ? onProfileClick : undefined}>
         <ProfileFrame width={9} height={9} borderWidth={0} src={profile} />
       </div>
       {isEditing ? (
