@@ -14,6 +14,8 @@ function getHeaders(isRequiredAuth: boolean, isFormData: boolean = false) {
   // FormData가 아닌 경우에만 Content-Type 설정
   if (!isFormData) {
     headers.append('Content-Type', 'application/json');
+  } else {
+    headers.append('Content-Type', 'multipart/form-data');
   }
 
   // 인증이 필요한 경우 Authorization 헤더 추가
