@@ -55,5 +55,4 @@ public class AppleOauthClient implements OauthClient {
 		formData.add("redirect_uri", redirectUri);
 		return formData;
 	}
-
 }

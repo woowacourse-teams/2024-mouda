@@ -17,9 +17,6 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: false
-  servlet:
-    multipart:
-      enabled: true
 
 security:
   jwt:

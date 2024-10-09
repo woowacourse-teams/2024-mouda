@@ -43,7 +43,6 @@ public class KakaoAuthService {
 	}
 
 	public LoginResponse basicLogin() {
-		// Member member = memberFinder.findBySocialLoginId("testSocialLoginId");
 		Member member = Member.builder()
 			.name("김민겸")
 			.loginDetail(new LoginDetail(OauthType.GOOGLE, "google-social-login-id"))

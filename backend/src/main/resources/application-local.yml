@@ -20,17 +20,6 @@ spring:
       enabled: true
       path: /h2-console
 
-  # TODO: 이거 수정 필요!!!
-  servlet:
-    multipart:
-      enabled: true
-      max-file-size: 30MB
-      max-request-size: 30MB
-
-server:
-  tomcat:
-    max-http-form-post-size: 10MB
-
 oauth:
   kakao:
     redirect-uri: http://localhost:8081/oauth/kakao
