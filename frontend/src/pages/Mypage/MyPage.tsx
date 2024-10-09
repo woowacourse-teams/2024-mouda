@@ -65,18 +65,18 @@ export default function MyPage() {
     if (!selectedFile) return;
 
     const formData = new FormData();
+
+    // 파일 추가
     formData.append('profile_img', selectedFile);
+    // 문자열 데이터 추가
+    formData.append('nickname', nickname);
+    formData.append('description', description);
 
     try {
-      // 서버로 파일 업로드
-      mutate({
-        file: formData,
-        nickname: myInfo!.nickname,
-        description: myInfo!.description,
-      });
-      // 서버가 반환한 이미지 URL을 상태에 저장
+      // 서버로 파일 및 데이터 전송
+      mutate(formData); // FormData 객체 자체를 전달
       setImage('');
-      handleEditClick();
+      handleEditClick(); // 편집 모드 비활성화
     } catch (error) {
       console.error('파일 업로드 실패', error);
     }
