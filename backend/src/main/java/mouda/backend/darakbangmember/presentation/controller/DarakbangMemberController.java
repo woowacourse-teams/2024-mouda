@@ -1,12 +1,14 @@
 package mouda.backend.darakbangmember.presentation.controller;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.common.config.argumentresolver.LoginDarakbangMember;
@@ -15,7 +17,6 @@ import mouda.backend.common.response.RestResponse;
 import mouda.backend.darakbangmember.business.DarakbangMemberService;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.presentation.controller.swagger.DarakbangMemberSwagger;
-import mouda.backend.darakbangmember.presentation.request.DarakbangMemberInfoRequest;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberResponses;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRoleResponse;
 import mouda.backend.member.domain.Member;
@@ -62,12 +63,16 @@ public class DarakbangMemberController implements DarakbangMemberSwagger {
 	}
 
 	@Override
-	@PatchMapping("/{darakbangId}/member/mine")
+	@PostMapping(path = "/{darakbangId}/member/mine", consumes = {
+		MediaType.MULTIPART_FORM_DATA_VALUE
+	})
 	public ResponseEntity<Void> updateMyInfo(
 		@LoginDarakbangMember DarakbangMember darakbangMember,
-		@RequestBody DarakbangMemberInfoRequest request
+		@RequestPart("profile_img") MultipartFile profile_img,
+		@RequestPart("nickname") String nickname,
+		@RequestPart("description") String description
 	) {
-		darakbangMemberService.updateMyInfo(darakbangMember, request);
+		darakbangMemberService.updateMyInfo(darakbangMember, profile_img, "nickname", "description");
 
 		return ResponseEntity.ok().build();
 	}

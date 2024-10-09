@@ -5,7 +5,10 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: false
-
+  servlet:
+    multipart:
+      enabled: true
+      
 url:
   base: https://dev.mouda.site
 
