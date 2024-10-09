@@ -10,7 +10,6 @@ import mouda.backend.auth.implement.jwt.AccessTokenProvider;
 import mouda.backend.auth.presentation.request.OauthRequest;
 import mouda.backend.auth.presentation.response.KakaoLoginResponse;
 import mouda.backend.auth.presentation.response.LoginResponse;
-import mouda.backend.member.domain.LoginDetail;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.domain.OauthType;
 import mouda.backend.member.implement.MemberFinder;
@@ -43,9 +42,7 @@ public class KakaoAuthService {
 	}
 
 	public LoginResponse basicLogin() {
-		Member member = new Member("nickname",
-			new LoginDetail(OauthType.KAKAO, "1"));
-		memberWriter.append(member);
+		Member member = memberFinder.findBySocialLoginId("testSocialLoginId");
 		return new LoginResponse(accessTokenProvider.provide(member));
 	}
 }
