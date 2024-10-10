@@ -62,12 +62,12 @@ export default function MyPage() {
   };
 
   const onUpload = async () => {
-    if (!selectedFile) return;
-
     const formData = new FormData();
 
     // 파일 추가
-    formData.append('profile_img', selectedFile);
+    if (selectedFile) {
+      formData.append('profile_img', selectedFile);
+    }
     // 문자열 데이터 추가
     formData.append('nickname', nickname ?? '');
     formData.append('description', description ?? '');
