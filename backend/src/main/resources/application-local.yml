@@ -35,7 +35,7 @@ aws:
   s3:
     bucket: techcourse-project-2024
     key-prefix: mouda/dev/asset/profile/
-    prefix: https://dev.mouda.site/asset/profile/
+    prefix: https://dev.mouda.site/profile/
 
 url:
   base: http://localhost:8081
