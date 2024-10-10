@@ -2,7 +2,6 @@ package mouda.backend.moim.business;
 
 import java.util.List;
 
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,7 +10,6 @@ import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimRole;
-import mouda.backend.moim.domain.event.ChamyoEvent;
 import mouda.backend.moim.implement.finder.ChamyoFinder;
 import mouda.backend.moim.implement.finder.MoimFinder;
 import mouda.backend.moim.implement.sender.ChamyoNotificationSender;

@@ -14,4 +14,12 @@ public class UrlConfig {
 	private final String moim;
 	private final String chat;
 	private final String chatroom;
+
+	public String getChatRoomUrl(long darakbangId, long chatRoomId) {
+		return base + String.format(chatroom, darakbangId, chatRoomId);
+	}
+
+	public String getMoimUrl(long darakbangId, long moimId) {
+		return base + String.format(moim, darakbangId, moimId);
+	}
 }

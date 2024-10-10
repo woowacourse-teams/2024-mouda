@@ -9,15 +9,15 @@ import mouda.backend.common.config.UrlConfig;
 @Component
 @RequiredArgsConstructor
 @EnableConfigurationProperties(UrlConfig.class)
-public abstract class AbstractNotificationSender {
+public abstract class AbstractMoimNotificationSender {
 
 	private final UrlConfig urlConfig;
 
-	protected String getChatRoomUrl(long darakbangId, long moimId) {
-		return urlConfig.getChatRoomUrl(darakbangId, moimId);
-	}
-
 	protected String getMoimUrl(long darakbangId, long moimId) {
 		return urlConfig.getMoimUrl(darakbangId, moimId);
+	}
+
+	protected String getChatRoomUrl(long darakbangId, long moimId) {
+		return urlConfig.getChatRoomUrl(darakbangId, moimId);
 	}
 }

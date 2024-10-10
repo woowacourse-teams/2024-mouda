@@ -13,7 +13,7 @@ import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.domain.Recipient;
 
 @Component
-public class ChamyoNotificationSender extends AbstractNotificationSender {
+public class ChamyoNotificationSender extends AbstractMoimNotificationSender {
 
 	private final ChamyoRecipientFinder chamyoRecipientFinder;
 	private final ApplicationEventPublisher eventPublisher;

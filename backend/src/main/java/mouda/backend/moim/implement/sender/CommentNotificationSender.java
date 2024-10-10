@@ -16,7 +16,7 @@ import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.domain.Recipient;
 
 @Component
-public class CommentNotificationSender extends AbstractNotificationSender {
+public class CommentNotificationSender extends AbstractMoimNotificationSender {
 
 	private final CommentRecipientFinder commentRecipientFinder;
 	private final ApplicationEventPublisher eventPublisher;

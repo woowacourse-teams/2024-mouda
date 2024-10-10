@@ -17,7 +17,7 @@ import mouda.backend.notification.domain.Recipient;
 
 // todo: 멤버 필터링 & 알림 저장 & 전송 이벤트 발행 코드 작성
 @Component
-public class MoimNotificationSender extends AbstractNotificationSender {
+public class MoimNotificationSender extends AbstractMoimNotificationSender {
 
 	private final ApplicationEventPublisher eventPublisher;
 	private final MoimRecipientFinder moimRecipientFinder;
