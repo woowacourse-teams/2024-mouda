@@ -20,12 +20,15 @@ public class CommentNotificationSender {
 	private final CommentRecipientFinder commentRecipientFinder;
 	private final ApplicationEventPublisher eventPublisher;
 
-	public void sendCommentNotification(Comment comment, DarakbangMember author, NotificationType notificationType) {
+	public void sendCommentNotification(Comment comment, DarakbangMember author) {
 		List<Recipient> recipients;
+		NotificationType notificationType;
 		if (comment.isChild()) {
 			recipients = commentRecipientFinder.getNewCommentNotificationRecipients(comment.getMoim().getId(), author);
+			notificationType = NotificationType.NEW_COMMENT;
 		} else {
 			recipients = commentRecipientFinder.getNewReplyNotificationRecipients(comment);
+			notificationType = NotificationType.NEW_REPLY;
 		}
 		NotificationEvent notificationEvent = new NotificationEvent(notificationType, comment.getMoim().getTitle(), notificationType.createMessage(author.getNickname()), recipients);
 
