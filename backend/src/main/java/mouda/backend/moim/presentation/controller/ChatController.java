@@ -1,5 +1,7 @@
 package mouda.backend.moim.presentation.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -13,17 +15,24 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.aop.logging.ExceptRequestLogging;
+import mouda.backend.chat.business.ChatService;
+import mouda.backend.chat.domain.ChatRoomType;
+import mouda.backend.chat.presentation.request.ChatCreateRequest;
+import mouda.backend.chat.presentation.request.DateTimeConfirmRequest;
+import mouda.backend.chat.presentation.request.LastReadChatRequest;
+import mouda.backend.chat.presentation.request.PlaceConfirmRequest;
+import mouda.backend.chat.presentation.response.ChatFindUnloadedResponse;
+import mouda.backend.chat.presentation.response.ChatPreviewResponses;
 import mouda.backend.common.config.argumentresolver.LoginDarakbangMember;
 import mouda.backend.common.response.RestResponse;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.moim.business.ChatService;
 import mouda.backend.moim.presentation.controller.swagger.ChatSwagger;
-import mouda.backend.moim.presentation.request.chat.ChatCreateRequest;
-import mouda.backend.moim.presentation.request.chat.DateTimeConfirmRequest;
-import mouda.backend.moim.presentation.request.chat.LastReadChatRequest;
-import mouda.backend.moim.presentation.request.chat.PlaceConfirmRequest;
-import mouda.backend.moim.presentation.response.chat.ChatFindUnloadedResponse;
-import mouda.backend.moim.presentation.response.chat.ChatPreviewResponses;
+import mouda.backend.moim.presentation.request.chat.OldChatCreateRequest;
+import mouda.backend.moim.presentation.request.chat.OldDateTimeConfirmRequest;
+import mouda.backend.moim.presentation.request.chat.OldLastReadChatRequest;
+import mouda.backend.moim.presentation.request.chat.OldPlaceConfirmRequest;
+import mouda.backend.moim.presentation.response.chat.ChatPreviewResponse;
+import mouda.backend.moim.presentation.response.chat.OldChatPreviewResponses;
 
 @Deprecated
 @RestController("oldChatController")
@@ -38,9 +47,10 @@ public class ChatController implements ChatSwagger {
 	public ResponseEntity<Void> createChat(
 		@PathVariable Long darakbangId,
 		@LoginDarakbangMember DarakbangMember darakbangMember,
-		@Valid @RequestBody ChatCreateRequest chatCreateRequest
+		@Valid @RequestBody OldChatCreateRequest oldChatCreateRequest
 	) {
-		chatService.createChat(darakbangId, chatCreateRequest, darakbangMember);
+		ChatCreateRequest chatCreateRequest = new ChatCreateRequest(oldChatCreateRequest.content());
+		chatService.createChat(darakbangId, oldChatCreateRequest.moimId(), chatCreateRequest, darakbangMember);
 
 		return ResponseEntity.ok().build();
 	}
@@ -63,13 +73,17 @@ public class ChatController implements ChatSwagger {
 	@Override
 	@GetMapping("/preview")
 	@ExceptRequestLogging
-	public ResponseEntity<RestResponse<ChatPreviewResponses>> findChatPreviews(
+	public ResponseEntity<RestResponse<OldChatPreviewResponses>> findChatPreviews(
 		@PathVariable Long darakbangId,
 		@LoginDarakbangMember DarakbangMember darakbangMember
 	) {
-		ChatPreviewResponses chatPreviewResponses = chatService.findChatPreview(darakbangId, darakbangMember);
+		ChatPreviewResponses chatPreviewResponses = chatService.findChatPreview(darakbangMember, ChatRoomType.MOIM);
 
-		return ResponseEntity.ok(new RestResponse<>(chatPreviewResponses));
+		List<ChatPreviewResponse> previewResponses = chatPreviewResponses.chatPreviewResponses().stream()
+			.map(chatPreviewResponse -> new ChatPreviewResponse(chatPreviewResponse.chatRoomId(), chatPreviewResponse.title(), chatPreviewResponse.currentPeople(), chatPreviewResponse.isStarted(),
+				chatPreviewResponse.lastContent(), chatPreviewResponse.lastReadChatId())).toList();
+		OldChatPreviewResponses oldChatPreviewResponses = new OldChatPreviewResponses(previewResponses);
+		return ResponseEntity.ok(new RestResponse<>(oldChatPreviewResponses));
 	}
 
 	@Override
@@ -77,9 +91,10 @@ public class ChatController implements ChatSwagger {
 	public ResponseEntity<Void> createLastReadChatId(
 		@PathVariable Long darakbangId,
 		@LoginDarakbangMember DarakbangMember darakbangMember,
-		@RequestBody LastReadChatRequest lastReadChatRequest
+		@RequestBody OldLastReadChatRequest oldLastReadChatRequest
 	) {
-		chatService.createLastChat(darakbangId, lastReadChatRequest.moimId(), lastReadChatRequest, darakbangMember);
+		LastReadChatRequest lastReadChatRequest = new LastReadChatRequest(oldLastReadChatRequest.lastReadChatId());
+		chatService.updateLastReadChat(darakbangId, oldLastReadChatRequest.moimId(), lastReadChatRequest, darakbangMember);
 
 		return ResponseEntity.ok().build();
 	}
@@ -89,9 +104,10 @@ public class ChatController implements ChatSwagger {
 	public ResponseEntity<Void> confirmDateTime(
 		@PathVariable Long darakbangId,
 		@LoginDarakbangMember DarakbangMember darakbangMember,
-		@RequestBody DateTimeConfirmRequest dateTimeConfirmRequest
+		@RequestBody OldDateTimeConfirmRequest oldDateTimeConfirmRequest
 	) {
-		chatService.confirmDateTime(darakbangId, dateTimeConfirmRequest, darakbangMember);
+		DateTimeConfirmRequest dateTimeConfirmRequest = new DateTimeConfirmRequest(oldDateTimeConfirmRequest.date(), oldDateTimeConfirmRequest.time());
+		chatService.confirmDateTime(darakbangId, oldDateTimeConfirmRequest.moimId(), dateTimeConfirmRequest, darakbangMember);
 
 		return ResponseEntity.ok().build();
 	}
@@ -101,9 +117,10 @@ public class ChatController implements ChatSwagger {
 	public ResponseEntity<Void> confirmPlace(
 		@PathVariable Long darakbangId,
 		@LoginDarakbangMember DarakbangMember darakbangMember,
-		@RequestBody PlaceConfirmRequest placeConfirmRequest
+		@RequestBody OldPlaceConfirmRequest oldPlaceConfirmRequest
 	) {
-		chatService.confirmPlace(darakbangId, placeConfirmRequest, darakbangMember);
+		PlaceConfirmRequest placeConfirmRequest = new PlaceConfirmRequest(oldPlaceConfirmRequest.place());
+		chatService.confirmPlace(darakbangId, oldPlaceConfirmRequest.moimId(), placeConfirmRequest, darakbangMember);
 
 		return ResponseEntity.ok().build();
 	}

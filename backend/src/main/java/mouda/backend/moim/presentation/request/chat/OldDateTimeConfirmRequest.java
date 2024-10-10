@@ -9,7 +9,7 @@ import mouda.backend.moim.domain.Chat;
 import mouda.backend.moim.domain.ChatType;
 import mouda.backend.moim.domain.Moim;
 
-public record DateTimeConfirmRequest(
+public record OldDateTimeConfirmRequest(
 	@NotNull
 	Long moimId,
 
