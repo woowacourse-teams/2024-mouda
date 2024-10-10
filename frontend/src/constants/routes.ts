@@ -16,6 +16,7 @@ const beforeUsingDarakbangPrefixRoutes = {
   addPlease: '/please/creation',
 
   myPage: '/my-page',
+  setting: '/my-page/setting',
 
   notification: '/notification',
 

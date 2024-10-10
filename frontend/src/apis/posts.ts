@@ -149,3 +149,7 @@ export const postBetResult = async (betId: number) => {
 export const postJoinBet = async (betId: number) => {
   await ApiClient.postWithLastDarakbangId(`/bet/${betId}`);
 };
+
+export const patchMyInfo = async (myInfo: FormData) => {
+  await ApiClient.postWithLastDarakbangId(`/member/mine`, myInfo);
+};

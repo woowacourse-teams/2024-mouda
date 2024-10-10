@@ -33,6 +33,7 @@ import BetListPage from '@_pages/Bet/BetListPage/BetListPage';
 import BetDetailPage from '@_pages/Bet/BetDetailPage/BetDetailPage';
 import BetCreationPage from '@_pages/Bet/BetCreationPage/BetCreationPage';
 import BetResultPage from '@_pages/Bet/BetResultPage/BetResultPage';
+import SettingPage from '@_pages/Mypage/SettingPage/SettingPage';
 
 const routesConfig = [
   {
@@ -196,6 +197,11 @@ const routesConfig = [
         element: <BetResultPage />,
       },
     ],
+    requiresAuth: true,
+  },
+  {
+    path: ROUTES.setting,
+    element: <SettingPage />,
     requiresAuth: true,
   },
 ];
