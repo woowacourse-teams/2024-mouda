@@ -6,7 +6,7 @@ import mouda.backend.chat.domain.Target;
 
 @Builder
 public record ChatPreviewResponse(
-	Long targetId,
+	Long chatRoomId,
 	String title,
 	int currentPeople,
 	boolean isStarted,
@@ -17,7 +17,7 @@ public record ChatPreviewResponse(
 	public static ChatPreviewResponse toResponse(ChatPreview chatPreview) {
 		Target target = chatPreview.getTarget();
 		return ChatPreviewResponse.builder()
-			.targetId(target.getTargetId())
+			.chatRoomId(chatPreview.getChatRoom().getId())
 			.title(target.getTitle())
 			.isStarted(target.isStarted())
 			.currentPeople(chatPreview.getCurrentPeople())

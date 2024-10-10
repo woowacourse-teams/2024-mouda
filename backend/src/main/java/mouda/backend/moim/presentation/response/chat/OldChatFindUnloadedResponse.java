@@ -4,13 +4,13 @@ import java.util.List;
 
 import mouda.backend.moim.domain.ChatWithAuthor;
 
-public record ChatFindUnloadedResponse(
+public record OldChatFindUnloadedResponse(
 	List<ChatFindDetailResponse> chats
 ) {
-	public static ChatFindUnloadedResponse toResponse(List<ChatWithAuthor> chatWithAuthors) {
+	public static OldChatFindUnloadedResponse toResponse(List<ChatWithAuthor> chatWithAuthors) {
 		List<ChatFindDetailResponse> responses = chatWithAuthors.stream()
 			.map(ChatFindDetailResponse::toResponse)
 			.toList();
-		return new ChatFindUnloadedResponse(responses);
+		return new OldChatFindUnloadedResponse(responses);
 	}
 }

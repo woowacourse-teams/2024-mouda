@@ -21,12 +21,12 @@ import mouda.backend.moim.implement.finder.MoimFinder;
 import mouda.backend.moim.implement.validator.ChamyoValidator;
 import mouda.backend.moim.implement.writer.ChatWriter;
 import mouda.backend.moim.implement.writer.MoimWriter;
-import mouda.backend.moim.presentation.request.chat.ChatCreateRequest;
-import mouda.backend.moim.presentation.request.chat.DateTimeConfirmRequest;
-import mouda.backend.moim.presentation.request.chat.LastReadChatRequest;
-import mouda.backend.moim.presentation.request.chat.PlaceConfirmRequest;
-import mouda.backend.moim.presentation.response.chat.ChatFindUnloadedResponse;
-import mouda.backend.moim.presentation.response.chat.ChatPreviewResponses;
+import mouda.backend.moim.presentation.request.chat.OldChatCreateRequest;
+import mouda.backend.moim.presentation.request.chat.OldDateTimeConfirmRequest;
+import mouda.backend.moim.presentation.request.chat.OldLastReadChatRequest;
+import mouda.backend.moim.presentation.request.chat.OldPlaceConfirmRequest;
+import mouda.backend.moim.presentation.response.chat.OldChatFindUnloadedResponse;
+import mouda.backend.moim.presentation.response.chat.OldChatPreviewResponses;
 import mouda.backend.notification.business.NotificationService;
 import mouda.backend.notification.domain.NotificationType;
 
@@ -44,18 +44,18 @@ public class ChatService {
 	private final ChamyoFinder chamyoFinder;
 	private final ChatRoomFinder chatRoomFinder;
 
-	public void createChat(long darakbangId, ChatCreateRequest chatCreateRequest, DarakbangMember darakbangMember) {
-		Moim moim = moimFinder.read(chatCreateRequest.moimId(), darakbangId);
+	public void createChat(long darakbangId, OldChatCreateRequest oldChatCreateRequest, DarakbangMember darakbangMember) {
+		Moim moim = moimFinder.read(oldChatCreateRequest.moimId(), darakbangId);
 		chamyoValidator.validateMemberChamyoMoim(moim, darakbangMember);
 
-		Chat chat = chatCreateRequest.toEntity(moim, darakbangMember);
+		Chat chat = oldChatCreateRequest.toEntity(moim, darakbangMember);
 		chatWriter.save(chat);
 
 		notificationService.notifyToMembers(NotificationType.NEW_CHAT, darakbangId, moim, darakbangMember);
 	}
 
 	@Transactional(readOnly = true)
-	public ChatFindUnloadedResponse findUnloadedChats(
+	public OldChatFindUnloadedResponse findUnloadedChats(
 		long darakbangId, long recentChatId, long moimId, DarakbangMember darakbangMember
 	) {
 		Moim moim = moimFinder.read(moimId, darakbangId);
@@ -64,11 +64,11 @@ public class ChatService {
 		Chats chats = chatFinder.readAllUnloadedChats(moimId, recentChatId);
 		List<ChatWithAuthor> chatWithAuthors = chats.getChatsWithAuthor(darakbangMember);
 
-		return ChatFindUnloadedResponse.toResponse(chatWithAuthors);
+		return OldChatFindUnloadedResponse.toResponse(chatWithAuthors);
 	}
 
 	public void confirmPlace(
-		long darakbangId, PlaceConfirmRequest request, DarakbangMember darakbangMember
+		long darakbangId, OldPlaceConfirmRequest request, DarakbangMember darakbangMember
 	) {
 		Moim moim = moimFinder.read(request.moimId(), darakbangId);
 		moimWriter.confirmPlace(moim, darakbangMember, request.place());
@@ -80,7 +80,7 @@ public class ChatService {
 	}
 
 	public void confirmDateTime(
-		long darakbangId, DateTimeConfirmRequest request, DarakbangMember darakbangMember
+		long darakbangId, OldDateTimeConfirmRequest request, DarakbangMember darakbangMember
 	) {
 		Moim moim = moimFinder.read(request.moimId(), darakbangId);
 		moimWriter.confirmDateTime(moim, darakbangMember, request.date(), request.time());
@@ -91,20 +91,20 @@ public class ChatService {
 		notificationService.notifyToMembers(NotificationType.MOIM_TIME_CONFIRMED, darakbangId, moim, darakbangMember);
 	}
 
-	public ChatPreviewResponses findChatPreview(long darakbangId, DarakbangMember darakbangMember) {
+	public OldChatPreviewResponses findChatPreview(long darakbangId, DarakbangMember darakbangMember) {
 		ChatRooms chatRooms = chatRoomFinder.findAllOrderByLastChat(darakbangId, darakbangMember);
 		List<MoimChat> moimChats = chatRooms.getMoimChats();
 
-		return ChatPreviewResponses.toResponse(moimChats);
+		return OldChatPreviewResponses.toResponse(moimChats);
 	}
 
 	public void createLastChat(
-		long darakbangId, long moimId, LastReadChatRequest lastReadChatRequest, DarakbangMember darakbangMember
+		long darakbangId, long moimId, OldLastReadChatRequest oldLastReadChatRequest, DarakbangMember darakbangMember
 	) {
 		Moim moim = moimFinder.read(moimId, darakbangId);
 		Chamyo chamyo = chamyoFinder.read(moim, darakbangMember);
 
-		chamyo.updateLastChat(lastReadChatRequest.lastReadChatId());
+		chamyo.updateLastChat(oldLastReadChatRequest.lastReadChatId());
 	}
 
 	public void openChatRoom(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {

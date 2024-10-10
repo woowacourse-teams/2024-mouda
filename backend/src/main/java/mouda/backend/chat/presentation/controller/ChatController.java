@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import mouda.backend.aop.logging.ExceptRequestLogging;
 import mouda.backend.chat.business.ChatService;
 import mouda.backend.chat.domain.ChatRoomType;
-import mouda.backend.chat.presentation.controller.swagger.ChatSwagger;
 import mouda.backend.chat.presentation.request.ChatCreateRequest;
 import mouda.backend.chat.presentation.request.DateTimeConfirmRequest;
 import mouda.backend.chat.presentation.request.LastReadChatRequest;
@@ -32,11 +31,11 @@ import mouda.backend.darakbangmember.domain.DarakbangMember;
 @RestController
 @RequestMapping("/v1/darakbang/{darakbangId}/chatroom")
 @RequiredArgsConstructor
-public class ChatController implements ChatSwagger {
+public class ChatController {
 
 	private final ChatService chatService;
 
-	@Override
+	// @override
 	@PostMapping("/{chatRoomId}")
 	public ResponseEntity<Void> createChat(
 		@PathVariable Long darakbangId,
@@ -49,7 +48,7 @@ public class ChatController implements ChatSwagger {
 		return ResponseEntity.ok().build();
 	}
 
-	@Override
+	// @override
 	@ExceptRequestLogging
 	@GetMapping("/{chatRoomId}")
 	public ResponseEntity<RestResponse<ChatFindUnloadedResponse>> findUnloadedChats(
@@ -64,7 +63,7 @@ public class ChatController implements ChatSwagger {
 		return ResponseEntity.ok(new RestResponse<>(unloadedChats));
 	}
 
-	@Override
+	// @override
 	@GetMapping("/preview")
 	@ExceptRequestLogging
 	public ResponseEntity<RestResponse<ChatPreviewResponses>> findChatPreviews(
@@ -77,7 +76,7 @@ public class ChatController implements ChatSwagger {
 		return ResponseEntity.ok(new RestResponse<>(chatPreviewResponses));
 	}
 
-	@Override
+	// @override
 	@PostMapping("/{chatRoomId}/last")
 	public ResponseEntity<Void> createLastReadChatId(
 		@PathVariable Long darakbangId,
@@ -90,7 +89,7 @@ public class ChatController implements ChatSwagger {
 		return ResponseEntity.ok().build();
 	}
 
-	@Override
+	// @override
 	@PostMapping("/{chatRoomId}/datetime")
 	public ResponseEntity<Void> confirmDateTime(
 		@PathVariable Long darakbangId,
@@ -103,7 +102,7 @@ public class ChatController implements ChatSwagger {
 		return ResponseEntity.ok().build();
 	}
 
-	@Override
+	// @override
 	@PostMapping("/{chatRoomId}/place")
 	public ResponseEntity<Void> confirmPlace(
 		@PathVariable Long darakbangId,
