@@ -18,7 +18,7 @@ public class MemberService {
 
 	public Member findMember(String token) {
 		String socialId = accessTokenProvider.extractSocialId(token);
-		return memberFinder.find(socialId);
+		return memberFinder.findBySocialId(socialId);
 	}
 
 	public void checkAuthentication(String token) {

@@ -53,7 +53,7 @@ public class DarakbangMemberService {
 
 	@Transactional(readOnly = true)
 	public DarakbangMemberInfoResponse findMyInfo(DarakbangMember darakbangMember) {
-		Member member = memberFinder.find(darakbangMember.getMemberId());
+		Member member = memberFinder.findByMemberId(darakbangMember.getMemberId());
 		return new DarakbangMemberInfoResponse(member.getName(), darakbangMember.getNickname(),
 			darakbangMember.getProfile(), darakbangMember.getDescription());
 	}

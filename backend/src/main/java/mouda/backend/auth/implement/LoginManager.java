@@ -46,7 +46,7 @@ public class LoginManager {
 	}
 
 	public String updateOauth(long memberId, OauthType oauthType, String socialLoginId) {
-		Member member = memberFinder.find(memberId);
+		Member member = memberFinder.findBySocialId(socialLoginId);
 		memberWriter.updateLoginDetail(memberId, oauthType, socialLoginId);
 
 		return accessTokenProvider.provide(member);
