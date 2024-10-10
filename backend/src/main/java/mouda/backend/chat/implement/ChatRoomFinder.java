@@ -77,7 +77,7 @@ public class ChatRoomFinder {
 		return new Chats(chats);
 	}
 
-	public Long readChatRoomIdByTargetId(long targetId, ChatRoomType chatRoomType) {
+	public Long findChatRoomIdByTargetId(long targetId, ChatRoomType chatRoomType) {
 		Optional<ChatRoomEntity> chatRoom = chatRoomRepository.findByTargetIdAndType(targetId, chatRoomType);
 		return chatRoom.map(ChatRoomEntity::getId)
 			.orElse(null);

@@ -41,7 +41,7 @@ public class BetService {
 	@Transactional(readOnly = true)
 	public BetFindResponse findBet(long darakbangId, long betId, DarakbangMember darakbangMember) {
 		Bet bet = betFinder.find(darakbangId, betId);
-		Long chatRoomId = chatRoomFinder.readChatRoomIdByTargetId(bet.getId(), ChatRoomType.BET);
+		Long chatRoomId = chatRoomFinder.findChatRoomIdByTargetId(bet.getId(), ChatRoomType.BET);
 		return BetFindResponse.toResponse(bet, darakbangMember, chatRoomId);
 	}
 
