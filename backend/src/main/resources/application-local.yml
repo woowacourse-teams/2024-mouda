@@ -29,5 +29,13 @@ oauth:
   apple:
     redirect-uri: https://dev.mouda.site/oauth/apple
 
+aws:
+  region:
+    static: ap-northeast-2
+  s3:
+    bucket: techcourse-project-2024
+    key-prefix: mouda/dev/asset/profile/
+    prefix: https://dev.mouda.site/profile/
+
 url:
   base: http://localhost:8081

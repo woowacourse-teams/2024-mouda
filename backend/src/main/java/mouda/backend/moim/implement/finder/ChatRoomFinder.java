@@ -11,7 +11,7 @@ import mouda.backend.moim.domain.Chat;
 import mouda.backend.moim.domain.ChatRoom;
 import mouda.backend.moim.domain.ChatRooms;
 
-@Component
+@Component("oldChatRoomFinder")
 @RequiredArgsConstructor
 public class ChatRoomFinder {
 

@@ -35,7 +35,7 @@ class LoginManagerTest {
 
 		// when
 		LoginProcessResult loginProcessResult = loginManager.processSocialLogin(OauthType.KAKAO,
-			member.getSocialLoginId());
+			member.getSocialLoginId(), member.getName());
 
 		// then
 		assertThat(loginProcessResult.accessToken()).isNotNull();
@@ -54,7 +54,8 @@ class LoginManagerTest {
 		memberRepository.save(anna);
 
 		// when
-		LoginProcessResult loginProcessResult = loginManager.processSocialLogin(OauthType.KAKAO, kakaoId);
+		LoginProcessResult loginProcessResult = loginManager.processSocialLogin(OauthType.KAKAO, kakaoId,
+			anna.getName());
 
 		// then
 		assertThat(loginProcessResult.accessToken()).isNotNull();
@@ -67,7 +68,7 @@ class LoginManagerTest {
 		String kakaoId = "456";
 
 		// when & then
-		Assertions.assertThatThrownBy(() -> loginManager.processSocialLogin(OauthType.KAKAO, kakaoId))
+		Assertions.assertThatThrownBy(() -> loginManager.processSocialLogin(OauthType.KAKAO, kakaoId, "anna"))
 			.isInstanceOf(AuthException.class);
 	}
 }

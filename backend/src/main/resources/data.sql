@@ -1,8 +1,8 @@
 INSERT INTO darakbang (name, code)
 VALUES ('테스트용 다락방', 'MOUDA');
 
-INSERT INTO member (nickname, oauth_type, social_login_id)
-VALUES ('안나', 'KAKAO', 1L);
+INSERT INTO member (name, oauth_type, social_login_id)
+VALUES ('김민겸', 'KAKAO', 'testSocialLoginId');
 
 INSERT INTO darakbang_member (darakbang_id, member_id, nickname, role)
 VALUES (1, 1, '안나', 'MANAGER');

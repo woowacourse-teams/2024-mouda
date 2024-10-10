@@ -25,7 +25,8 @@ import mouda.backend.moim.presentation.request.chat.PlaceConfirmRequest;
 import mouda.backend.moim.presentation.response.chat.ChatFindUnloadedResponse;
 import mouda.backend.moim.presentation.response.chat.ChatPreviewResponses;
 
-@RestController
+@Deprecated
+@RestController("oldChatController")
 @RequestMapping("/v1/darakbang/{darakbangId}/chat")
 @RequiredArgsConstructor
 public class ChatController implements ChatSwagger {

@@ -44,4 +44,8 @@ public class DarakbangMemberWriter {
 				DarakbangMemberErrorMessage.MEMBER_ALREADY_EXIST);
 		}
 	}
+
+	public void updateMyInfo(DarakbangMember darakbangMember, String nickname, String description, String profile) {
+		darakbangMemberRepository.save(darakbangMember.updateMyInfo(nickname, description, profile));
+	}
 }

@@ -30,8 +30,14 @@ public class BetDarakbangMemberEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private BetEntity bet;
 
+	private long lastReadChatId;
+
 	public BetDarakbangMemberEntity(DarakbangMember darakbangMember, BetEntity bet) {
 		this.darakbangMember = darakbangMember;
 		this.bet = bet;
+	}
+
+	public void updateLastChat(Long lastReadChatId) {
+		this.lastReadChatId = lastReadChatId;
 	}
 }

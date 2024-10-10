@@ -38,7 +38,7 @@ class AppleAuthServiceTest {
 	@Disabled("실제 Resource Server에게 요청을 보내는 테스트이다. 프론트 서버를 켜서 코드르 발급 받아 필요할 때만 테스트한다.")
 	void oauthLogin() {
 		String code = "";
-		AppleOauthRequest oauthRequest = new AppleOauthRequest(1L, code);
+		AppleOauthRequest oauthRequest = new AppleOauthRequest(1L, code, "anna");
 
 		LoginResponse loginResponse = appleAuthService.oauthLogin(oauthRequest);
 
@@ -53,7 +53,8 @@ class AppleAuthServiceTest {
 		Member anna = memberRepository.save(MemberFixture.getAnna());
 
 		Long kakaoMemberId = anna.getId();
-		LoginResponse loginResponse = appleAuthService.oauthLogin(new AppleOauthRequest(kakaoMemberId, "code"));
+		LoginResponse loginResponse = appleAuthService.oauthLogin(
+			new AppleOauthRequest(kakaoMemberId, "code", anna.getName()));
 
 		assertThat(loginResponse).isNotNull();
 		Optional<Member> memberOptional = memberRepository.findById(kakaoMemberId);

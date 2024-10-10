@@ -23,7 +23,7 @@ public record ChatPreviewResponse(
 			.moimId(moim.getId())
 			.title(moim.getTitle())
 			.currentPeople(moimChat.getCurrentPeople())
-			.isStarted(moim.isChatOpened())
+			.isStarted(moim.isPastMoim())
 			.lastContent(moimChat.getLastContent())
 			.lastReadChatId(chamyo.getLastReadChatId())
 			.build();

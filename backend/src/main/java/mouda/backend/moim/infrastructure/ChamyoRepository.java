@@ -18,6 +18,8 @@ public interface ChamyoRepository extends JpaRepository<Chamyo, Long> {
 
 	int countByMoim(Moim moim);
 
+	int countByMoimId(long moimId);
+
 	boolean existsByMoimIdAndDarakbangMemberId(Long moimId, Long darakbangMemberId);
 
 	List<Chamyo> findAllByDarakbangMemberIdOrderByIdDesc(Long darakbangMemberId);
@@ -28,6 +30,9 @@ public interface ChamyoRepository extends JpaRepository<Chamyo, Long> {
 	Long findMoimerIdByMoimId(@Param("moimId") Long moimId);
 
 	List<Chamyo> findAllByDarakbangMemberIdAndMoim_DarakbangId(Long darakbangMemberId, Long darakbangId);
+
+	@Query("SELECT c.lastReadChatId FROM Chamyo c WHERE c.moim.id = :moimId")
+	long findLastReadChatIdByMoimId(@Param("moimId") long moimId);
 
 	@Query("SELECT c FROM Chamyo c WHERE c.moim.id = :moimId AND c.moimRole = 'MOIMER'")
 	Optional<Chamyo> findMoimerByMoimId(@Param("moimId") Long moimId);

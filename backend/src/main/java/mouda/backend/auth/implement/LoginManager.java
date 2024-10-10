@@ -26,7 +26,7 @@ public class LoginManager {
 	private final MemberWriter memberWriter;
 	private final MemberFinder memberFinder;
 
-	public LoginProcessResult processSocialLogin(OauthType oauthType, String socialLoginId) {
+	public LoginProcessResult processSocialLogin(OauthType oauthType, String socialLoginId, String name) {
 		Optional<Member> member = memberRepository.findByLoginDetail_SocialLoginId(socialLoginId);
 
 		if (member.isPresent()) {
@@ -37,7 +37,7 @@ public class LoginManager {
 			throw new AuthException(HttpStatus.BAD_REQUEST, AuthErrorMessage.KAKAO_CANNOT_SIGNUP);
 		}
 		Member newMember = Member.builder()
-			.nickname("nickname")
+			.name(name)
 			.loginDetail(new LoginDetail(oauthType, socialLoginId))
 			.build();
 		memberWriter.append(newMember);
