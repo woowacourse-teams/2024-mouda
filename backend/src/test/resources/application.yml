@@ -28,6 +28,20 @@ url:
 
 oauth:
   kakao:
-    redirect-uri: http://localhost:8081/kakao-o-auth
+    redirect-uri: http://localhost:8081/kakao-o-auth\
+  google:
+    client-secret: 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
+    redirect-uri: http://localhost:8081/oauth/google
   apple:
-    redirect-uri: http://localhost:8081/apple-o-auth
+    redirect-uri: https://dev.mouda.site/oauth/apple
+
+bet:
+  schedule: "* * * * * *" # 테스트 스케줄러는 매초마다 동작
+
+aws:
+  region:
+    static: ap-northeast-2
+  s3:
+    bucket: techcourse-project-2024
+    key-prefix: mouda/dev/asset/profile/
+    prefix: https://dev.mouda.site/profile/

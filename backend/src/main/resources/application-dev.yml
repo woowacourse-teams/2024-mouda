@@ -11,4 +11,17 @@ url:
 
 oauth:
   kakao:
-    redirect-uri: https://dev.mouda.site/kakao-o-auth
+    redirect-uri: https://dev.mouda.site/oauth/kakao
+  google:
+    client-secret: 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
+    redirect-uri: https://dev.mouda.site/oauth/google
+  apple:
+    redirect-uri: https://dev.mouda.site/oauth/apple
+
+aws:
+  region:
+    static: ap-northeast-2
+  s3:
+    bucket: techcourse-project-2024
+    key-prefix: mouda/dev/asset/profile/
+    prefix: https://dev.mouda.site/profile/

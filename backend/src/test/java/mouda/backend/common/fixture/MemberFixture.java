@@ -8,22 +8,36 @@ public class MemberFixture {
 
 	public static Member getHogee() {
 		return Member.builder()
-			.nickname("hogee")
-			.loginDetail(new LoginDetail(OauthType.KAKAO, 1234L))
+			.name("hogee")
+			.loginDetail(new LoginDetail(OauthType.KAKAO, "1234"))
 			.build();
 	}
 
 	public static Member getAnna() {
 		return Member.builder()
-			.nickname("anna")
-			.loginDetail(new LoginDetail(OauthType.KAKAO, 1234L))
+			.name("anna")
+			.loginDetail(new LoginDetail(OauthType.KAKAO, "1234"))
+			.build();
+	}
+
+	public static Member getAnna(String socialLoginId) {
+		return Member.builder()
+			.name("anna")
+			.loginDetail(new LoginDetail(OauthType.KAKAO, socialLoginId))
+			.build();
+	}
+
+	public static Member getChico() {
+		return Member.builder()
+			.name("chico")
+			.loginDetail(new LoginDetail(OauthType.KAKAO, "socialLoginId"))
 			.build();
 	}
 
 	public static Member getTebah() {
 		return Member.builder()
-			.nickname("tebah")
-			.loginDetail(new LoginDetail(OauthType.KAKAO, 123L))
+			.name("tebah")
+			.loginDetail(new LoginDetail(OauthType.KAKAO, "123"))
 			.build();
 	}
 }

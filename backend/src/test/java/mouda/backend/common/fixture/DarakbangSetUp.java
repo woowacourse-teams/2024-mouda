@@ -27,9 +27,11 @@ public class DarakbangSetUp {
 	protected Darakbang mouda;
 	protected Member hogee;
 	protected Member anna;
+	protected Member tebah;
 	protected DarakbangMember darakbangHogee;
 	protected DarakbangMember moudaHogee;
 	protected DarakbangMember darakbangAnna;
+	protected DarakbangMember darakbangManager;
 
 	@BeforeEach
 	void setUp() {
@@ -45,5 +47,9 @@ public class DarakbangSetUp {
 		anna = memberRepository.save(MemberFixture.getAnna());
 		darakbangAnna = darakbangMemberRepository.save(
 			DarakbangMemberFixture.getDarakbangMemberWithWooteco(darakbang, anna));
+
+		tebah = memberRepository.save(MemberFixture.getTebah());
+		darakbangManager = darakbangMemberRepository.save(
+			DarakbangMemberFixture.getDarakbangManagerWithWooteco(darakbang, tebah));
 	}
 }
