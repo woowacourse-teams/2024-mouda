@@ -2,7 +2,7 @@ package mouda.backend.moim.presentation.request.chat;
 
 import jakarta.validation.constraints.NotNull;
 
-public record LastReadChatRequest(
+public record OldLastReadChatRequest(
 	@NotNull
 	Long moimId,
 
