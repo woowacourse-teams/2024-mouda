@@ -3,6 +3,9 @@ package mouda.backend.darakbangmember.implement;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class ImageParser {
 
@@ -13,6 +16,8 @@ public class ImageParser {
 	private String prefix;
 
 	public String parse(String url) {
+		log.info("ImageParser url : {}", url);
+		
 		String[] split = url.split(URL_DELIMITER);
 
 		StringBuilder profile = new StringBuilder(prefix);

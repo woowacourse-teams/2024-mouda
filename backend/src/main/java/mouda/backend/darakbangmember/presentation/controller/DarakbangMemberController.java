@@ -68,7 +68,7 @@ public class DarakbangMemberController implements DarakbangMemberSwagger {
 	})
 	public ResponseEntity<Void> updateMyInfo(
 		@LoginDarakbangMember DarakbangMember darakbangMember,
-		@RequestPart("profile_img") MultipartFile profile_img,
+		@RequestPart(value = "profile_img", required = false) MultipartFile profile_img,
 		@RequestPart("nickname") String nickname,
 		@RequestPart(value = "description", required = false) String description
 	) {
