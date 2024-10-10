@@ -28,4 +28,7 @@ public interface ChamyoRepository extends JpaRepository<Chamyo, Long> {
 	Long findMoimerIdByMoimId(@Param("moimId") Long moimId);
 
 	List<Chamyo> findAllByDarakbangMemberIdAndMoim_DarakbangId(Long darakbangMemberId, Long darakbangId);
+
+	@Query("SELECT c FROM Chamyo c WHERE c.moim.id = :moimId AND c.moimRole = 'MOIMER'")
+	Optional<Chamyo> findMoimerByMoimId(@Param("moimId") Long moimId);
 }

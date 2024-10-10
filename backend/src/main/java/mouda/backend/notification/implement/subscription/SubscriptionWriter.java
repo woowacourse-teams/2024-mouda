@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.darakbangmember.domain.DarakbangMember;
+import mouda.backend.member.domain.Member;
 import mouda.backend.notification.infrastructure.entity.SubscriptionEntity;
 import mouda.backend.notification.infrastructure.repository.SubscriptionRepository;
 
@@ -15,19 +15,19 @@ public class SubscriptionWriter {
 
 	private final SubscriptionRepository subscriptionRepository;
 
-	public void changeMoimSubscription(DarakbangMember darakbangMember) {
-		subscriptionRepository.findByMemberId(darakbangMember.getMemberId())
+	public void changeMoimSubscription(Member member) {
+		subscriptionRepository.findByMemberId(member.getId())
 			.ifPresentOrElse(
 				this::changeMoimSubscription,
-				() -> changeMoimSubscription(create(darakbangMember))
+				() -> changeMoimSubscription(create(member))
 			);
 	}
 
-	public void changeChatRoomSubscription(DarakbangMember darakbangMember, long darakbangId, long chatRoomId) {
-		subscriptionRepository.findByMemberId(darakbangMember.getMemberId())
+	public void changeChatRoomSubscription(Member member, long darakbangId, long chatRoomId) {
+		subscriptionRepository.findByMemberId(member.getId())
 			.ifPresentOrElse(
 				subscription -> changeChatRoomSubscription(subscription, darakbangId, chatRoomId),
-				() -> changeChatRoomSubscription(create(darakbangMember), darakbangId, chatRoomId)
+				() -> changeChatRoomSubscription(create(member), darakbangId, chatRoomId)
 			);
 	}
 
@@ -41,9 +41,9 @@ public class SubscriptionWriter {
 		subscriptionRepository.save(subscriptionEntity);
 	}
 
-	private SubscriptionEntity create(DarakbangMember darakbangMember) {
+	private SubscriptionEntity create(Member member) {
 		return subscriptionRepository.save(SubscriptionEntity.builder()
-			.memberId(darakbangMember.getMemberId())
+			.memberId(member.getId())
 			.unsubscribedChats(new ArrayList<>())
 			.build());
 	}

@@ -2,7 +2,6 @@ package mouda.backend.moim.implement.finder;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
@@ -23,7 +22,7 @@ public class CommentFinder {
 		List<Comment> comments = commentRepository.findAllByMoimOrderByCreatedAt(moim);
 
 		return comments.stream()
-			.filter(Comment::isParent)
+			.filter(Comment::isComment)
 			.map(parentComment -> new ParentComment(parentComment, getChildComments(parentComment, comments)))
 			.collect(Collectors.toList());
 	}
@@ -32,17 +31,5 @@ public class CommentFinder {
 		return comments.stream()
 			.filter(comment -> Objects.equals(comment.getParentId(), parentComment.getId()))
 			.toList();
-	}
-
-	public Long readMemberIdByParentId(Long parentId) {
-		return commentRepository.findMemberIdByParentId(parentId);
-	}
-
-	public Optional<Comment> findByParentId(Long parentId) {
-		if (parentId == null) {
-			return Optional.empty();
-		}
-
-		return commentRepository.findByParentId(parentId);
 	}
 }

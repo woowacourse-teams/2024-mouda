@@ -19,6 +19,7 @@ public class NotificationFinder {
 	public List<MemberNotification> findAllMemberNotification(DarakbangMember darakbangMember) {
 		return memberNotificationRepository.findAllByDarakbangMemberId(darakbangMember.getId()).stream()
 			.map(this::convertTo)
+			.sorted((n1, n2) -> n2.getCreatedAt().compareTo(n1.getCreatedAt()))
 			.toList();
 	}
 

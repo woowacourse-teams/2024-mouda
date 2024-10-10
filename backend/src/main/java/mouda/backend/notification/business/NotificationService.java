@@ -2,8 +2,11 @@ package mouda.backend.notification.business;
 
 import java.util.List;
 
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.notification.domain.CommonNotification;
@@ -22,7 +25,8 @@ public class NotificationService {
 	private final SubscriptionFilterRegistry subscriptionFilterRegistry;
 	private final NotificationSender notificationSender;
 
-	@EventListener
+	@TransactionalEventListener(classes = NotificationEvent.class, phase = TransactionPhase.AFTER_COMMIT)
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void sendNotification(NotificationEvent notificationEvent) {
 		CommonNotification commonNotification = notificationEvent.toCommonNotification();
 		notificationWriter.saveAllMemberNotification(commonNotification, notificationEvent.getRecipients());
@@ -33,4 +37,3 @@ public class NotificationService {
 		notificationSender.sendNotification(commonNotification, filteredRecipients);
 	}
 }
-

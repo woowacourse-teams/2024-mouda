@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.darakbangmember.domain.DarakbangMember;
+import mouda.backend.member.domain.Member;
 import mouda.backend.notification.infrastructure.entity.FcmTokenEntity;
 import mouda.backend.notification.infrastructure.repository.FcmTokenRepository;
 
@@ -17,9 +17,9 @@ public class FcmTokenWriter {
 
 	private final FcmTokenRepository fcmTokenRepository;
 
-	public void saveOrRefresh(DarakbangMember darakbangMember, String token) {
+	public void saveOrRefresh(Member member, String token) {
 		Optional<FcmTokenEntity> tokenEntity = fcmTokenRepository.findByToken(token);
-		tokenEntity.ifPresentOrElse(this::refresh, () -> save(darakbangMember, token));
+		tokenEntity.ifPresentOrElse(this::refresh, () -> save(member, token));
 	}
 
 	private void refresh(FcmTokenEntity tokenEntity) {
@@ -31,9 +31,9 @@ public class FcmTokenWriter {
 		fcmTokenRepository.save(tokenEntity);
 	}
 
-	private void save(DarakbangMember darakbangMember, String token) {
+	private void save(Member member, String token) {
 		FcmTokenEntity tokenEntity = FcmTokenEntity.builder()
-			.memberId(darakbangMember.getMemberId())
+			.memberId(member.getId())
 			.token(token)
 			.build();
 		fcmTokenRepository.save(tokenEntity);

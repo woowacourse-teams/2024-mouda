@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.darakbangmember.domain.DarakbangMember;
+import mouda.backend.member.domain.Member;
 import mouda.backend.notification.domain.Subscription;
 import mouda.backend.notification.infrastructure.entity.SubscriptionEntity;
 import mouda.backend.notification.infrastructure.entity.UnsubscribedChatRooms;
@@ -21,8 +21,8 @@ public class SubscriptionFinder {
 
 	private final SubscriptionRepository subscriptionRepository;
 
-	public Subscription readSubscription(DarakbangMember darakbangMember) {
-		return readSubscription(darakbangMember.getMemberId());
+	public Subscription readSubscription(Member member) {
+		return readSubscription(member.getId());
 	}
 
 	public Subscription readSubscription(long memberId) {

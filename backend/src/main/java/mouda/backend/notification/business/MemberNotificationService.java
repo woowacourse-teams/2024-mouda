@@ -3,6 +3,7 @@ package mouda.backend.notification.business;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
@@ -16,6 +17,7 @@ public class MemberNotificationService {
 
 	private final NotificationFinder notificationFinder;
 
+	@Transactional(readOnly = true)
 	public MemberNotificationFindAllResponse findAllMemberNotification(DarakbangMember darakbangMember) {
 		List<MemberNotification> notifications = notificationFinder.findAllMemberNotification(darakbangMember);
 

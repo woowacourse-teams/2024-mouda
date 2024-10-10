@@ -74,21 +74,21 @@ public class MoimService {
 		Moim moim = moimFinder.read(moimId, darakbangId);
 		moimWriter.completeMoim(moim, darakbangMember);
 
-		moimNotificationSender.sendMoimCreatedNotification(moim, darakbangMember, NotificationType.MOIMING_COMPLETED);
+		moimNotificationSender.sendMoimStatusChangedNotification(moim, NotificationType.MOIMING_COMPLETED);
 	}
 
 	public void cancelMoim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimFinder.read(moimId, darakbangId);
 		moimWriter.cancelMoim(moim, darakbangMember);
 
-		moimNotificationSender.sendMoimCreatedNotification(moim, darakbangMember, NotificationType.MOIM_CANCELLED);
+		moimNotificationSender.sendMoimStatusChangedNotification(moim, NotificationType.MOIM_CANCELLED);
 	}
 
 	public void reopenMoim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimFinder.read(moimId, darakbangId);
 		moimWriter.reopenMoim(moim, darakbangMember);
 
-		moimNotificationSender.sendMoimCreatedNotification(moim, darakbangMember, NotificationType.MOINING_REOPENED);
+		moimNotificationSender.sendMoimStatusChangedNotification(moim, NotificationType.MOINING_REOPENED);
 	}
 
 	public void editMoim(Long darakbangId, MoimEditRequest request, DarakbangMember darakbangMember) {
@@ -96,6 +96,6 @@ public class MoimService {
 		moimWriter.updateMoim(moim, darakbangMember, request.title(), request.date(), request.time(), request.place(),
 			request.maxPeople(), request.description());
 
-		moimNotificationSender.sendMoimCreatedNotification(moim, darakbangMember, NotificationType.MOIM_MODIFIED);
+		moimNotificationSender.sendMoimStatusChangedNotification(moim, NotificationType.MOIM_MODIFIED);
 	}
 }

@@ -1,14 +1,16 @@
 package mouda.backend.notification.implement.fcm;
 
-import com.google.firebase.messaging.MulticastMessage;
-import com.google.firebase.messaging.MulticastMessage.Builder;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.stereotype.Component;
+
+import com.google.firebase.messaging.MulticastMessage;
+import com.google.firebase.messaging.MulticastMessage.Builder;
+
 import lombok.RequiredArgsConstructor;
 import mouda.backend.notification.domain.CommonNotification;
 import mouda.backend.notification.implement.MessageFactory;
-
-import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
@@ -27,7 +29,7 @@ public class FcmMessageFactory implements MessageFactory<List<MulticastMessage>>
     }
 
     private Builder defaultMulticastMessageBuilder(CommonNotification notification) {
-        MulticastMessage.Builder builder = MulticastMessage.builder()
+        Builder builder = MulticastMessage.builder()
                 .setNotification(notification.toNotification())
                 .putData("link", notification.getRedirectUrl());
 

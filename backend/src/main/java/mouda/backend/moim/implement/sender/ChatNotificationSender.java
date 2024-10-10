@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
-import lombok.RequiredArgsConstructor;
+import mouda.backend.common.config.UrlConfig;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.implement.finder.ChatRecipientFinder;
@@ -14,11 +14,16 @@ import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.domain.Recipient;
 
 @Component
-@RequiredArgsConstructor
-public class ChatNotificationSender {
+public class ChatNotificationSender extends AbstractNotificationSender {
 
 	private final ChatRecipientFinder chatRecipientFinder;
 	private final ApplicationEventPublisher eventPublisher;
+
+	public ChatNotificationSender(UrlConfig urlConfig, ChatRecipientFinder chatRecipientFinder, ApplicationEventPublisher eventPublisher) {
+		super(urlConfig);
+		this.chatRecipientFinder = chatRecipientFinder;
+		this.eventPublisher = eventPublisher;
+	}
 
 	public void sendChatNotification(Moim moim, DarakbangMember sender, NotificationType notificationType) {
 		List<Recipient> recipients = chatRecipientFinder.getChatNotificationRecipients(moim.getId(), sender);
@@ -36,6 +41,10 @@ public class ChatNotificationSender {
 		}
 
 		return new NotificationEvent(
-			notificationType, moim.getTitle(), message, recipients, moim.getDarakbangId(), moim.getId());
+			notificationType, moim.getTitle(), message, getChatRoomUrl(moim.getDarakbangId(), moim.getId()), recipients, moim.getDarakbangId(), moim.getId());
+	}
+
+	private String getRedirectUrl(Moim moim) {
+		return "/moim/" + moim.getId();
 	}
 }

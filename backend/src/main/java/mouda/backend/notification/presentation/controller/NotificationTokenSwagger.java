@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import mouda.backend.common.config.argumentresolver.LoginDarakbangMember;
-import mouda.backend.darakbangmember.domain.DarakbangMember;
+import mouda.backend.common.config.argumentresolver.LoginMember;
+import mouda.backend.member.domain.Member;
 import mouda.backend.notification.presentation.request.FcmTokenRequest;
 
 public interface NotificationTokenSwagger {
@@ -17,7 +17,7 @@ public interface NotificationTokenSwagger {
 		@ApiResponse(responseCode = "200", description = "등록(갱신) 성공!"),
 	})
 	ResponseEntity<Void> saveOrRefreshToken(
-		@LoginDarakbangMember DarakbangMember darakbangMember,
+		@LoginMember Member member,
 		@RequestBody FcmTokenRequest tokenRequest
 	);
 }

@@ -31,6 +31,7 @@ public class NotificationWriter {
 			.title(notification.getTitle())
 			.body(notification.getBody())
 			.targeturl(notification.getRedirectUrl())
+			.createdAt(notification.getCreatedAt())
 			.build();
 	}
 }

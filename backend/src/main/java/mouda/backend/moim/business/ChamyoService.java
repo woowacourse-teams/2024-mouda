@@ -14,6 +14,7 @@ import mouda.backend.moim.domain.MoimRole;
 import mouda.backend.moim.domain.event.ChamyoEvent;
 import mouda.backend.moim.implement.finder.ChamyoFinder;
 import mouda.backend.moim.implement.finder.MoimFinder;
+import mouda.backend.moim.implement.sender.ChamyoNotificationSender;
 import mouda.backend.moim.implement.writer.ChamyoWriter;
 import mouda.backend.moim.implement.writer.MoimWriter;
 import mouda.backend.moim.presentation.response.chamyo.ChamyoFindAllResponses;
@@ -29,7 +30,7 @@ public class ChamyoService {
 	private final MoimWriter moimWriter;
 	private final ChamyoFinder chamyoFinder;
 	private final ChamyoWriter chamyoWriter;
-	private final ApplicationEventPublisher eventPublisher;
+	private final ChamyoNotificationSender chamyoNotificationSender;
 
 	@Transactional(readOnly = true)
 	public MoimRoleFindResponse findMoimRole(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
@@ -52,7 +53,7 @@ public class ChamyoService {
 		Chamyo chamyo = chamyoWriter.saveAsMoimee(moim, darakbangMember);
 		moimWriter.updateMoimStatusIfFull(moim);
 
-		publishChamyoEvent(chamyo, NotificationType.NEW_MOIMEE_JOINED, darakbangMember);
+		chamyoNotificationSender.sendChamyoNotification(moimId, darakbangMember, NotificationType.NEW_MOIMEE_JOINED);
 	}
 
 	public void cancelChamyo(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
@@ -60,16 +61,6 @@ public class ChamyoService {
 		Chamyo chamyo = chamyoFinder.read(moim, darakbangMember);
 		chamyoWriter.delete(chamyo);
 
-		publishChamyoEvent(chamyo, NotificationType.MOIMEE_LEFT, darakbangMember);
-	}
-
-	private void publishChamyoEvent(Chamyo chamyo, NotificationType notificationType, DarakbangMember darakbangMember) {
-		ChamyoEvent event = ChamyoEvent.builder()
-			.moim(chamyo.getMoim())
-			.notificationType(notificationType)
-			.updatedMember(darakbangMember)
-			.build();
-
-		eventPublisher.publishEvent(event);
+		chamyoNotificationSender.sendChamyoNotification(moimId, darakbangMember, NotificationType.MOIMEE_LEFT);
 	}
 }
