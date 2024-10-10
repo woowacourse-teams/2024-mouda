@@ -30,7 +30,7 @@ class SubscriptionFinderTest extends DarakbangSetUp {
 	@DisplayName("구독이 존재하지 않으면 새로 생성한 뒤 반환한다.")
 	@Test
 	void readSubscription_WhenSubscriptionNotExist() {
-		Subscription subscription = subscriptionFinder.readSubscription(darakbangHogee);
+		Subscription subscription = subscriptionFinder.readSubscription(hogee);
 
 		assertThat(subscription.getUnsubscribedChatRooms()).isEmpty();
 		assertThat(subscription.isSubscribedMoimCreate()).isTrue();
@@ -44,10 +44,10 @@ class SubscriptionFinderTest extends DarakbangSetUp {
 			.memberId(darakbangHogee.getMemberId())
 			.unsubscribedChats(List.of(UnsubscribedChatRooms.create(1L, 10L)))
 			.build());
-		subscriptionWriter.changeMoimSubscription(darakbangHogee);
+		subscriptionWriter.changeMoimSubscription(hogee);
 
 		// when
-		Subscription result = subscriptionFinder.readSubscription(darakbangHogee);
+		Subscription result = subscriptionFinder.readSubscription(hogee);
 
 		// then
 		assertThat(result.isSubscribedMoimCreate()).isFalse();

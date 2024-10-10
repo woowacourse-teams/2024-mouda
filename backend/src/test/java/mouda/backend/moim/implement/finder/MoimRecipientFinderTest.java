@@ -37,7 +37,7 @@ class MoimRecipientFinderTest extends DarakbangSetUp {
 		Long darakbangId = darakbang.getId();
 
 		// when
-		List<Recipient> recipients = moimRecipientFinder.getMoimCreatedNotificationRecipients(darakbangId, 123L);
+		List<Recipient> recipients = moimRecipientFinder.getMoimCreatedNotificationRecipients(darakbangId, darakbangHogee.getId());
 
 		//then
 		assertThat(recipients).hasSize(2);

@@ -34,7 +34,7 @@ class FcmTokenWriterTest extends DarakbangSetUp {
 			String token = "testToken";
 
 			// when
-			fcmTokenWriter.saveOrRefresh(darakbangHogee, token);
+			fcmTokenWriter.saveOrRefresh(hogee, token);
 
 			// then
 			List<FcmTokenEntity> results = fcmTokenRepository.findAllByMemberId(darakbangHogee.getMemberId());
@@ -53,7 +53,7 @@ class FcmTokenWriterTest extends DarakbangSetUp {
 				.build());
 
 			// when
-			fcmTokenWriter.saveOrRefresh(darakbangHogee, existToken.getToken());
+			fcmTokenWriter.saveOrRefresh(hogee, existToken.getToken());
 
 			// then
 			List<FcmTokenEntity> results = fcmTokenRepository.findAllByMemberId(darakbangHogee.getMemberId());

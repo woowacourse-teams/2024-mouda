@@ -34,7 +34,7 @@ class SubscriptionWriterTest extends DarakbangSetUp {
 		@Test
 		void changeMoimCreateSubscription_WhenNotExist() {
 			// when
-			subscriptionWriter.changeMoimSubscription(darakbangHogee);
+			subscriptionWriter.changeMoimSubscription(hogee);
 
 			// then
 			Optional<SubscriptionEntity> SubscriptionOptional = subscriptionRepository.findByMemberId(
@@ -55,7 +55,7 @@ class SubscriptionWriterTest extends DarakbangSetUp {
 				.build());
 
 			// when
-			subscriptionWriter.changeMoimSubscription(darakbangHogee);
+			subscriptionWriter.changeMoimSubscription(hogee);
 
 			// then
 			Optional<SubscriptionEntity> SubscriptionOptional = subscriptionRepository.findByMemberId(
@@ -74,10 +74,10 @@ class SubscriptionWriterTest extends DarakbangSetUp {
 				.memberId(darakbangHogee.getMemberId())
 				.unsubscribedChats(new ArrayList<>())
 				.build());
-			subscriptionWriter.changeMoimSubscription(darakbangHogee);
+			subscriptionWriter.changeMoimSubscription(hogee);
 
 			// when
-			subscriptionWriter.changeMoimSubscription(darakbangHogee);
+			subscriptionWriter.changeMoimSubscription(hogee);
 
 			// then
 			Optional<SubscriptionEntity> SubscriptionOptional = subscriptionRepository.findByMemberId(
@@ -97,7 +97,7 @@ class SubscriptionWriterTest extends DarakbangSetUp {
 		@Test
 		void changeChatRoomSubscription_WhenNotExist() {
 			// when
-			subscriptionWriter.changeChatRoomSubscription(darakbangHogee, 1L, 10L);
+			subscriptionWriter.changeChatRoomSubscription(hogee, 1L, 10L);
 
 			// then
 			Optional<SubscriptionEntity> SubscriptionOptional = subscriptionRepository.findByMemberId(
@@ -120,7 +120,7 @@ class SubscriptionWriterTest extends DarakbangSetUp {
 				.build());
 
 			// when
-			subscriptionWriter.changeChatRoomSubscription(darakbangHogee, 1L, 10L);
+			subscriptionWriter.changeChatRoomSubscription(hogee, 1L, 10L);
 
 			// then
 			Optional<SubscriptionEntity> SubscriptionOptional = subscriptionRepository.findByMemberId(
@@ -141,10 +141,10 @@ class SubscriptionWriterTest extends DarakbangSetUp {
 				.memberId(darakbangHogee.getMemberId())
 				.unsubscribedChats(new ArrayList<>())
 				.build());
-			subscriptionWriter.changeChatRoomSubscription(darakbangHogee, 1L, 10L);
+			subscriptionWriter.changeChatRoomSubscription(hogee, 1L, 10L);
 
 			// when
-			subscriptionWriter.changeChatRoomSubscription(darakbangHogee, 1L, 10L);
+			subscriptionWriter.changeChatRoomSubscription(hogee, 1L, 10L);
 
 			// then
 			Optional<SubscriptionEntity> SubscriptionOptional = subscriptionRepository.findByMemberId(

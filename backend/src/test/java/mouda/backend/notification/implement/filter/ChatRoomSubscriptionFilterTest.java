@@ -28,14 +28,15 @@ class ChatRoomSubscriptionFilterTest extends DarakbangSetUp {
 	@Test
 	void filter_WhenTypeIsConfirmed() {
 		// given
-		subscriptionWriter.changeChatRoomSubscription(darakbangHogee, darakbang.getId(), 1L);
+		subscriptionWriter.changeChatRoomSubscription(hogee, darakbang.getId(), 1L);
 
 		// when
 		NotificationEvent notificationEvent = new NotificationEvent(
 			NotificationType.MOIM_PLACE_CONFIRMED,
 			"모임 제목",
 			"메시지",
-			List.of(new Recipient(darakbangHogee.getMemberId(), darakbangHogee.getId())),
+			"url",
+			List.of(new Recipient(hogee.getId(), darakbangHogee.getId())),
 			darakbang.getId(),
 			1L);
 
@@ -49,13 +50,14 @@ class ChatRoomSubscriptionFilterTest extends DarakbangSetUp {
 	@Test
 	void filter_WhenUnsubscribed() {
 		// given
-		subscriptionWriter.changeChatRoomSubscription(darakbangHogee, darakbang.getId(), 1L);
+		subscriptionWriter.changeChatRoomSubscription(hogee, darakbang.getId(), 1L);
 
 		// when
 		NotificationEvent notificationEvent = new NotificationEvent(
 			NotificationType.NEW_CHAT,
 			"모임 제목",
 			"메시지",
+			"url",
 			List.of(new Recipient(darakbangHogee.getMemberId(), darakbangHogee.getId())),
 			darakbang.getId(),
 			1L
@@ -74,6 +76,7 @@ class ChatRoomSubscriptionFilterTest extends DarakbangSetUp {
 			NotificationType.NEW_CHAT,
 			"모임 제목",
 			"메시지",
+			"url",
 			List.of(new Recipient(darakbangHogee.getMemberId(), darakbangHogee.getId())),
 			darakbang.getId(),
 			1L

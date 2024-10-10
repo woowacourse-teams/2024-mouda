@@ -44,7 +44,7 @@ class ChamyoRecipientFinderTest extends DarakbangSetUp {
 		chamyoRepository.save(chamyoWithMoimerAnna);
 
 		// when
-		List<Recipient> recipients = chamyoRecipientFinder.getChamyoNotificationRecipients(savedMoim.getId(), darakbangAnna);
+		List<Recipient> recipients = chamyoRecipientFinder.getChamyoNotificationRecipients(savedMoim.getId(), darakbangHogee);
 
 		//then
 		assertThat(recipients).hasSize(1);

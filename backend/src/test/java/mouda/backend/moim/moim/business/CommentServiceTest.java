@@ -22,9 +22,12 @@ import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.infrastructure.MemberRepository;
 import mouda.backend.moim.business.CommentService;
+import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.Comment;
 import mouda.backend.moim.domain.Moim;
+import mouda.backend.moim.domain.MoimRole;
 import mouda.backend.moim.exception.CommentException;
+import mouda.backend.moim.infrastructure.ChamyoRepository;
 import mouda.backend.moim.infrastructure.CommentRepository;
 import mouda.backend.moim.infrastructure.MoimRepository;
 import mouda.backend.moim.presentation.request.comment.CommentCreateRequest;
@@ -52,6 +55,8 @@ public class CommentServiceTest {
 
 	private Darakbang darakbang;
 	private DarakbangMember darakbangHogee;
+	@Autowired
+	private ChamyoRepository chamyoRepository;
 
 	@BeforeEach
 	void setUp() {
@@ -65,6 +70,11 @@ public class CommentServiceTest {
 	@Test
 	void createComment() {
 		Moim moim = moimRepository.save(MoimFixture.getBasketballMoim(darakbang.getId()));
+		chamyoRepository.save(Chamyo.builder()
+			.moim(moim)
+			.darakbangMember(darakbangHogee)
+			.moimRole(MoimRole.MOIMER)
+			.build());
 		CommentCreateRequest commentCreateRequest = new CommentCreateRequest(null, "댓글부대");
 		commentService.createComment(darakbang.getId(), moim.getId(), darakbangHogee, commentCreateRequest);
 
