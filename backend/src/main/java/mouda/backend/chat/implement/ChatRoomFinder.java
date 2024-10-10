@@ -32,23 +32,24 @@ public class ChatRoomFinder {
 	public ChatRoom read(long darakbangId, long chatRoomId, DarakbangMember darakbangMember) {
 		ChatRoomEntity chatRoomEntity = chatRoomRepository.findByIdAndDarakbangId(chatRoomId, darakbangId)
 			.orElseThrow(() -> new ChatException(HttpStatus.NOT_FOUND, ChatErrorMessage.CHATROOM_NOT_FOUND));
-
-		ChatRoomType type = chatRoomEntity.getType();
-
-		boolean isParticipated = false;
-		if (type == ChatRoomType.MOIM) {
-			isParticipated = chamyoRepository.existsByMoimIdAndDarakbangMemberId(chatRoomEntity.getTargetId(),
-				darakbangMember.getId());
-		}
-		if (type == ChatRoomType.BET) {
-			isParticipated = betDarakbangMemberRepository.existsByBetIdAndDarakbangMemberId(
-				chatRoomEntity.getTargetId(), darakbangMember.getId());
-		}
-
+		boolean isParticipated = checkParticipation(chatRoomEntity, darakbangMember);
 		if (!isParticipated) {
 			throw new ChatException(HttpStatus.FORBIDDEN, ChatErrorMessage.UNAUTHORIZED);
 		}
 		return new ChatRoom(chatRoomEntity);
+	}
+
+	private boolean checkParticipation(ChatRoomEntity chatRoomEntity, DarakbangMember darakbangMember) {
+		ChatRoomType type = chatRoomEntity.getType();
+		if (type == ChatRoomType.MOIM) {
+			return chamyoRepository.existsByMoimIdAndDarakbangMemberId(chatRoomEntity.getTargetId(),
+				darakbangMember.getId());
+		}
+		if (type == ChatRoomType.BET) {
+			return betDarakbangMemberRepository.existsByBetIdAndDarakbangMemberId(chatRoomEntity.getTargetId(),
+				darakbangMember.getId());
+		}
+		return false;
 	}
 
 	public ChatRoom readMoimChatRoom(long darakbangId, long chatRoomId) {
