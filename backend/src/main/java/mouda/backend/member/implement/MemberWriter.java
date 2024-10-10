@@ -20,4 +20,8 @@ public class MemberWriter {
 	public void updateLoginDetail(long memberId, OauthType oauthType, String socialLoginId) {
 		memberRepository.updateLoginDetail(memberId, oauthType, socialLoginId);
 	}
+
+	public void remove(Member member) {
+		memberRepository.delete(member);
+	}
 }
