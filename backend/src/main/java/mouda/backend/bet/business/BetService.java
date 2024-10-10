@@ -15,6 +15,9 @@ import mouda.backend.bet.presentation.request.BetCreateRequest;
 import mouda.backend.bet.presentation.response.BetFindAllResponses;
 import mouda.backend.bet.presentation.response.BetFindResponse;
 import mouda.backend.bet.presentation.response.BetResultResponse;
+import mouda.backend.chat.domain.ChatRoomType;
+import mouda.backend.chat.implement.ChatRoomFinder;
+import mouda.backend.chat.implement.ChatRoomWriter;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 
 @Service
@@ -22,45 +25,49 @@ import mouda.backend.darakbangmember.domain.DarakbangMember;
 @Transactional
 public class BetService {
 
-    private final BetFinder betFinder;
-    private final BetWriter betWriter;
-    private final BetSorter betSorter;
+	private final BetFinder betFinder;
+	private final BetWriter betWriter;
+	private final BetSorter betSorter;
+	private final ChatRoomFinder chatRoomFinder;
+	private final ChatRoomWriter chatRoomWriter;
 
-    @Transactional(readOnly = true)
-    public BetFindAllResponses findAllBets(long darakbangId) {
-        List<Bet> bets = betFinder.findAllByDarakbangId(darakbangId);
-        List<Bet> sortedBets = betSorter.sort(bets);
-        return BetFindAllResponses.toResponse(sortedBets);
-    }
+	@Transactional(readOnly = true)
+	public BetFindAllResponses findAllBets(long darakbangId) {
+		List<Bet> bets = betFinder.findAllByDarakbangId(darakbangId);
+		List<Bet> sortedBets = betSorter.sort(bets);
+		return BetFindAllResponses.toResponse(sortedBets);
+	}
 
-    @Transactional(readOnly = true)
-    public BetFindResponse findBet(long darakbangId, long betId, DarakbangMember darakbangMember) {
-        Bet bet = betFinder.find(darakbangId, betId);
-        return BetFindResponse.toResponse(bet, darakbangMember);
-    }
+	@Transactional(readOnly = true)
+	public BetFindResponse findBet(long darakbangId, long betId, DarakbangMember darakbangMember) {
+		Bet bet = betFinder.find(darakbangId, betId);
+		Long chatRoomId = chatRoomFinder.findChatRoomIdByTargetId(bet.getId(), ChatRoomType.BET);
+		return BetFindResponse.toResponse(bet, darakbangMember, chatRoomId);
+	}
 
-    public long createBet(long darakbangId, BetCreateRequest betRequest, DarakbangMember darakbangMember) {
-        Bet bet = betRequest.toBet(darakbangMember.getId());
-        long savedBetId = betWriter.save(darakbangId, bet);
-        betWriter.participate(darakbangId, savedBetId, darakbangMember);
+	public long createBet(long darakbangId, BetCreateRequest betRequest, DarakbangMember darakbangMember) {
+		Bet bet = betRequest.toBet(darakbangMember.getId());
+		long savedBetId = betWriter.save(darakbangId, bet);
+		betWriter.participate(darakbangId, savedBetId, darakbangMember);
 
-        return savedBetId;
-    }
+		return savedBetId;
+	}
 
-    public void participateBet(long darakbangId, long betId, DarakbangMember darakbangMember) {
-        betWriter.participate(darakbangId, betId, darakbangMember);
-    }
+	public void participateBet(long darakbangId, long betId, DarakbangMember darakbangMember) {
+		betWriter.participate(darakbangId, betId, darakbangMember);
+	}
 
-    @Transactional(readOnly = true)
-    public BetResultResponse findBetResult(long darakbangId, long betId) {
-        Loser loser = betFinder.findResult(darakbangId, betId);
-        return BetResultResponse.from(loser);
-    }
+	@Transactional(readOnly = true)
+	public BetResultResponse findBetResult(long darakbangId, long betId) {
+		Loser loser = betFinder.findResult(darakbangId, betId);
+		return BetResultResponse.from(loser);
+	}
 
-    public void drawBet(long darakbangId, long betId) {
-        Bet bet = betFinder.find(darakbangId, betId);
-        bet.draw();
-        betWriter.updateLoser(bet);
-    }
+	public void drawBet(long darakbangId, long betId) {
+		Bet bet = betFinder.find(darakbangId, betId);
+		bet.draw();
+		betWriter.updateLoser(bet);
+		chatRoomWriter.append(bet.getId(), darakbangId, ChatRoomType.BET);
+	}
 }
 
