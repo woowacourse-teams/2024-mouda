@@ -41,7 +41,7 @@ public class Bet {
 		if (isParticipated(id)) {
 			return BetRole.MOIMEE;
 		}
-		return BetRole.NON_PARTICIPANT;
+		return BetRole.NON_MOIMEE;
 	}
 
 	private boolean isParticipated(Long id) {
