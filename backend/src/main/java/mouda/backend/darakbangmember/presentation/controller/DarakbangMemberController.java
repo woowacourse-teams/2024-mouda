@@ -72,7 +72,7 @@ public class DarakbangMemberController implements DarakbangMemberSwagger {
 		@RequestPart("nickname") String nickname,
 		@RequestPart(value = "description", required = false) String description
 	) {
-		darakbangMemberService.updateMyInfo(darakbangMember, profile_img, "nickname", "description");
+		darakbangMemberService.updateMyInfo(darakbangMember, profile_img, nickname, description);
 
 		return ResponseEntity.ok().build();
 	}
