@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.notification.domain.CommonNotification;
+import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.domain.Recipient;
 import mouda.backend.notification.infrastructure.entity.MemberNotificationEntity;
 import mouda.backend.notification.infrastructure.repository.MemberNotificationRepository;
@@ -17,6 +18,9 @@ public class NotificationWriter {
 	private final MemberNotificationRepository memberNotificationRepository;
 
 	public void saveAllMemberNotification(CommonNotification notification, List<Recipient> recipients) {
+		if (notification.getType() == NotificationType.NEW_CHAT) {
+			return;
+		}
 		List<MemberNotificationEntity> memberNotifications = recipients.stream()
 			.map(recipient -> createEntity(notification, recipient))
 			.toList();
