@@ -81,7 +81,7 @@ public class MoimService {
 		Moim moim = moimFinder.read(moimId, darakbangId);
 		moimWriter.cancelMoim(moim, darakbangMember);
 
-		moimNotificationSender.sendMoimCreatedNotification(moim, darakbangMember, NotificationType.MOIM_CREATED);
+		moimNotificationSender.sendMoimCreatedNotification(moim, darakbangMember, NotificationType.MOIM_CANCELLED);
 	}
 
 	public void reopenMoim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
