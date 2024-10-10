@@ -8,17 +8,15 @@ import mouda.backend.auth.implement.AppleOauthManager;
 import mouda.backend.auth.implement.LoginManager;
 import mouda.backend.auth.presentation.request.AppleOauthRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
-import mouda.backend.member.domain.Member;
 import mouda.backend.member.domain.OauthType;
 
 @Service
 @RequiredArgsConstructor
-public class AppleAuthService implements AuthService {
+public class AppleAuthService {
 
 	private final AppleOauthManager oauthManager;
 	private final LoginManager loginManager;
 
-	@Override
 	public LoginResponse oauthLogin(AppleOauthRequest oauthRequest) {
 		String socialLoginId = oauthManager.getSocialLoginId(oauthRequest.code());
 		if (oauthRequest.memberId() != null) {
@@ -28,14 +26,5 @@ public class AppleAuthService implements AuthService {
 		LoginProcessResult loginProcessResult = loginManager.processSocialLogin(
 			OauthType.APPLE, socialLoginId, oauthRequest.name());
 		return new LoginResponse(loginProcessResult.accessToken());
-	}
-
-	@Override
-	public Member findMember(String token) {
-		return null;
-	}
-
-	@Override
-	public void checkAuthentication(String token) {
 	}
 }
