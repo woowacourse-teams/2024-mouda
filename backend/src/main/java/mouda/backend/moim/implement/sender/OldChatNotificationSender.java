@@ -14,12 +14,12 @@ import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.domain.Recipient;
 
 @Component
-public class ChatNotificationSender extends AbstractMoimNotificationSender {
+public class OldChatNotificationSender extends AbstractMoimNotificationSender {
 
 	private final ChatRecipientFinder chatRecipientFinder;
 	private final ApplicationEventPublisher eventPublisher;
 
-	public ChatNotificationSender(UrlConfig urlConfig, ChatRecipientFinder chatRecipientFinder, ApplicationEventPublisher eventPublisher) {
+	public OldChatNotificationSender(UrlConfig urlConfig, ChatRecipientFinder chatRecipientFinder, ApplicationEventPublisher eventPublisher) {
 		super(urlConfig);
 		this.chatRecipientFinder = chatRecipientFinder;
 		this.eventPublisher = eventPublisher;
