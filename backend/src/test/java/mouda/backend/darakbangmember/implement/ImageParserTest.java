@@ -20,7 +20,7 @@ class ImageParserTest {
 
 		String profile = imageParser.parse(url);
 
-		String expected = "https://dev.mouda.site/asset/profile/7c60f9f0-a8ef-4209-8768-9c9a010bbc24.png";
+		String expected = "https://dev.mouda.site/profile/7c60f9f0-a8ef-4209-8768-9c9a010bbc24.png";
 		assertThat(profile).isEqualTo(expected);
 	}
 }
