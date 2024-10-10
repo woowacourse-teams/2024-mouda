@@ -43,8 +43,10 @@ public class KakaoAuthService {
 	}
 
 	public LoginResponse basicLogin() {
-		Member member = new Member("nickname",
-			new LoginDetail(OauthType.KAKAO, "1"));
+		Member member = Member.builder()
+			.name("김민겸")
+			.loginDetail(new LoginDetail(OauthType.GOOGLE, "google-social-login-id"))
+			.build();
 		memberWriter.append(member);
 		return new LoginResponse(accessTokenProvider.provide(member));
 	}

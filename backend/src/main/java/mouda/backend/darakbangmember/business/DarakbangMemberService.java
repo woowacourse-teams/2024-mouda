@@ -2,6 +2,7 @@ package mouda.backend.darakbangmember.business;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.darakbang.domain.Darakbang;
@@ -13,7 +14,6 @@ import mouda.backend.darakbangmember.implement.DarakbangMemberFinder;
 import mouda.backend.darakbangmember.implement.DarakbangMemberWriter;
 import mouda.backend.darakbangmember.implement.ImageParser;
 import mouda.backend.darakbangmember.implement.S3Client;
-import mouda.backend.darakbangmember.presentation.request.DarakbangMemberInfoRequest;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberResponses;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRoleResponse;
 import mouda.backend.member.domain.Member;
@@ -58,9 +58,12 @@ public class DarakbangMemberService {
 			darakbangMember.getProfile(), darakbangMember.getDescription());
 	}
 
-	public void updateMyInfo(DarakbangMember darakbangMember, DarakbangMemberInfoRequest request) {
-		String url = s3Client.uploadFile(request.file());
+	public void updateMyInfo(
+		DarakbangMember darakbangMember, MultipartFile file,
+		String nickname, String description
+	) {
+		String url = s3Client.uploadFile(file);
 		String profile = imageParser.parse(url);
-		darakbangMemberWriter.updateMyInfo(darakbangMember, request.nickname(), request.description(), profile);
+		darakbangMemberWriter.updateMyInfo(darakbangMember, nickname, description, profile);
 	}
 }

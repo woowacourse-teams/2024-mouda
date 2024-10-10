@@ -2,7 +2,8 @@ package mouda.backend.darakbangmember.presentation.controller.swagger;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,7 +12,6 @@ import mouda.backend.common.config.argumentresolver.LoginDarakbangMember;
 import mouda.backend.common.config.argumentresolver.LoginMember;
 import mouda.backend.common.response.RestResponse;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.darakbangmember.presentation.request.DarakbangMemberInfoRequest;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberResponses;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRoleResponse;
 import mouda.backend.member.domain.Member;
@@ -53,6 +53,8 @@ public interface DarakbangMemberSwagger {
 	})
 	ResponseEntity<Void> updateMyInfo(
 		@LoginDarakbangMember DarakbangMember member,
-		@RequestBody DarakbangMemberInfoRequest request
+		@RequestPart MultipartFile file,
+		@RequestPart String nickname,
+		@RequestPart String description
 	);
 }

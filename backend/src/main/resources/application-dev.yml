@@ -22,5 +22,6 @@ aws:
   region:
     static: ap-northeast-2
   s3:
-    bucket: arn:aws:s3:::techcourse-project-2024/mouda/dev/profile/
-    prefix: https://dev.mouda.site/
+    bucket: techcourse-project-2024
+    key-prefix: mouda/dev/asset/profile/
+    prefix: https://dev.mouda.site/profile/
