@@ -91,25 +91,27 @@ public class ChatController implements ChatSwagger {
 	}
 
 	@Override
-	@PostMapping("/datetime")
+	@PostMapping("/{chatRoomId}/datetime")
 	public ResponseEntity<Void> confirmDateTime(
 		@PathVariable Long darakbangId,
+		@PathVariable Long chatRoomId,
 		@LoginDarakbangMember DarakbangMember darakbangMember,
 		@RequestBody DateTimeConfirmRequest dateTimeConfirmRequest
 	) {
-		chatService.confirmDateTime(darakbangId, dateTimeConfirmRequest, darakbangMember);
+		chatService.confirmDateTime(darakbangId, chatRoomId, dateTimeConfirmRequest, darakbangMember);
 
 		return ResponseEntity.ok().build();
 	}
 
 	@Override
-	@PostMapping("/place")
+	@PostMapping("/{chatRoomId}/place")
 	public ResponseEntity<Void> confirmPlace(
 		@PathVariable Long darakbangId,
+		@PathVariable Long chatRoomId,
 		@LoginDarakbangMember DarakbangMember darakbangMember,
 		@RequestBody PlaceConfirmRequest placeConfirmRequest
 	) {
-		chatService.confirmPlace(darakbangId, placeConfirmRequest, darakbangMember);
+		chatService.confirmPlace(darakbangId, chatRoomId, placeConfirmRequest, darakbangMember);
 
 		return ResponseEntity.ok().build();
 	}

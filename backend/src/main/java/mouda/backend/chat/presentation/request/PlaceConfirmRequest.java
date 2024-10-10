@@ -4,15 +4,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import mouda.backend.chat.entity.ChatEntity;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.ChatType;
 
 public record PlaceConfirmRequest(
-	@NotNull
-	Long chatRoomId,
-
 	@NotBlank
 	String place
 ) {

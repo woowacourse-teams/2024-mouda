@@ -10,9 +10,6 @@ import mouda.backend.moim.domain.ChatType;
 
 public record DateTimeConfirmRequest(
 	@NotNull
-	Long chatRoomId,
-
-	@NotNull
 	LocalDate date,
 
 	@NotNull

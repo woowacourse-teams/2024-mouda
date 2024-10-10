@@ -63,8 +63,9 @@ public class ChatService {
 		return ChatFindUnloadedResponse.toResponse(chatsWithAuthor);
 	}
 
-	public void confirmPlace(long darakbangId, PlaceConfirmRequest request, DarakbangMember darakbangMember) {
-		ChatRoom chatRoom = chatRoomFinder.readMoimChatRoom(darakbangId, request.chatRoomId());
+	public void confirmPlace(long darakbangId, long chatRoomId, PlaceConfirmRequest request,
+		DarakbangMember darakbangMember) {
+		ChatRoom chatRoom = chatRoomFinder.readMoimChatRoom(darakbangId, chatRoomId);
 
 		Moim moim = moimFinder.read(chatRoom.getTargetId(), darakbangId);
 		moimWriter.confirmPlace(moim, darakbangMember, request.place());
@@ -73,8 +74,9 @@ public class ChatService {
 		// notificationService.notifyToMembers(NotificationType.MOIM_PLACE_CONFIRMED, darakbangId, moim, darakbangMember);
 	}
 
-	public void confirmDateTime(long darakbangId, DateTimeConfirmRequest request, DarakbangMember darakbangMember) {
-		ChatRoom chatRoom = chatRoomFinder.readMoimChatRoom(darakbangId, request.chatRoomId());
+	public void confirmDateTime(long darakbangId, long chatRoomId, DateTimeConfirmRequest request,
+		DarakbangMember darakbangMember) {
+		ChatRoom chatRoom = chatRoomFinder.readMoimChatRoom(darakbangId, chatRoomId);
 
 		Moim moim = moimFinder.read(chatRoom.getTargetId(), darakbangId);
 		moimWriter.confirmDateTime(moim, darakbangMember, request.date(), request.time());

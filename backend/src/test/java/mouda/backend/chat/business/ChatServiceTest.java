@@ -119,10 +119,10 @@ class ChatServiceTest extends DarakbangSetUp {
 			ChatRoomEntityFixture.getChatRoomEntityOfMoim(moim.getId(), darakbang.getId()));
 
 		String place = "서울시 용산구 강원대로 127-10";
-		PlaceConfirmRequest request = new PlaceConfirmRequest(chatRoomEntity.getId(), place);
+		PlaceConfirmRequest request = new PlaceConfirmRequest(place);
 
 		// when
-		chatService.confirmPlace(darakbang.getId(), request, darakbangHogee);
+		chatService.confirmPlace(darakbang.getId(), chatRoomEntity.getId(), request, darakbangHogee);
 
 		// then
 		Optional<ChatEntity> chatOptional = chatRepository.findById(1L);
@@ -144,10 +144,11 @@ class ChatServiceTest extends DarakbangSetUp {
 			ChatRoomEntityFixture.getChatRoomEntityOfBet(betEntity.getId(), darakbang.getId()));
 
 		String place = "서울시 용산구 강원대로 127-10";
-		PlaceConfirmRequest request = new PlaceConfirmRequest(chatRoomEntity.getId(), place);
+		PlaceConfirmRequest request = new PlaceConfirmRequest(place);
 
 		// when & then
-		assertThatThrownBy(() -> chatService.confirmPlace(darakbang.getId(), request, darakbangHogee))
+		assertThatThrownBy(
+			() -> chatService.confirmPlace(darakbang.getId(), chatRoomEntity.getId(), request, darakbangHogee))
 			.isInstanceOf(ChatException.class)
 			.hasMessage("잘못된 채팅 방 타입입니다.");
 	}
@@ -162,10 +163,10 @@ class ChatServiceTest extends DarakbangSetUp {
 
 		LocalDate date = LocalDate.now().plusDays(1);
 		LocalTime time = LocalTime.now();
-		DateTimeConfirmRequest request = new DateTimeConfirmRequest(chatRoomEntity.getId(), date, time);
+		DateTimeConfirmRequest request = new DateTimeConfirmRequest(date, time);
 
 		// when
-		chatService.confirmDateTime(darakbang.getId(), request, darakbangHogee);
+		chatService.confirmDateTime(darakbang.getId(), chatRoomEntity.getId(), request, darakbangHogee);
 
 		// then
 		Optional<ChatEntity> chatOptional = chatRepository.findById(1L);
@@ -190,10 +191,11 @@ class ChatServiceTest extends DarakbangSetUp {
 
 		LocalDate date = LocalDate.now().plusDays(1);
 		LocalTime time = LocalTime.now();
-		DateTimeConfirmRequest request = new DateTimeConfirmRequest(chatRoomEntity.getId(), date, time);
+		DateTimeConfirmRequest request = new DateTimeConfirmRequest(date, time);
 
 		// when & then
-		assertThatThrownBy(() -> chatService.confirmDateTime(darakbang.getId(), request, darakbangHogee))
+		assertThatThrownBy(
+			() -> chatService.confirmDateTime(darakbang.getId(), chatRoomEntity.getId(), request, darakbangHogee))
 			.isInstanceOf(ChatException.class)
 			.hasMessage("잘못된 채팅 방 타입입니다.");
 	}
@@ -211,10 +213,11 @@ class ChatServiceTest extends DarakbangSetUp {
 			ChatRoomEntityFixture.getChatRoomEntityOfMoim(moim.getId(), darakbang.getId()));
 
 		String place = "서울시 용산구 강원대로 127-10";
-		PlaceConfirmRequest request = new PlaceConfirmRequest(chatRoomEntity.getId(), place);
+		PlaceConfirmRequest request = new PlaceConfirmRequest(place);
 
 		// when & then
-		assertThatThrownBy(() -> chatService.confirmPlace(darakbang.getId(), request, darakbangHogee))
+		assertThatThrownBy(
+			() -> chatService.confirmPlace(darakbang.getId(), chatRoomEntity.getId(), request, darakbangHogee))
 			.isInstanceOf(ChamyoException.class)
 			.hasMessage("모이머가 아닙니다.");
 	}

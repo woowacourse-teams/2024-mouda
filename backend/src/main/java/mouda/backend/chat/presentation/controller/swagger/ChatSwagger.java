@@ -49,6 +49,7 @@ public interface ChatSwagger {
 	})
 	ResponseEntity<Void> confirmPlace(
 		@PathVariable Long darakbangId,
+		@PathVariable Long chatRoomId,
 		@LoginDarakbangMember DarakbangMember member,
 		@RequestBody PlaceConfirmRequest placeConfirmRequest
 	);
@@ -59,6 +60,7 @@ public interface ChatSwagger {
 	})
 	ResponseEntity<Void> confirmDateTime(
 		@PathVariable Long darakbangId,
+		@PathVariable Long chatRoomId,
 		@LoginDarakbangMember DarakbangMember member,
 		@RequestBody DateTimeConfirmRequest dateTimeConfirmRequest
 	);
