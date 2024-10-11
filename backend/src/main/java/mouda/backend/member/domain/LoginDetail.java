@@ -16,12 +16,20 @@ public class LoginDetail {
 
 	private String socialLoginId;
 
+	private String nonce;
+
 	protected LoginDetail() {
 	}
 
 	public LoginDetail(OauthType oauthType, String socialLoginId) {
 		this.oauthType = oauthType;
 		this.socialLoginId = socialLoginId;
+	}
+
+	public LoginDetail(OauthType oauthType, String socialLoginId, String nonce) {
+		this.oauthType = oauthType;
+		this.socialLoginId = socialLoginId;
+		this.nonce = nonce;
 	}
 
 	@Override

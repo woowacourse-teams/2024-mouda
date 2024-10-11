@@ -15,6 +15,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
 	Optional<Member> findByLoginDetail_SocialLoginId(String socialLoginId);
 
+	Optional<Member> findByLoginDetail_Nonce(String nonce);
+
 	@Query("""
 		UPDATE Member m
 		SET m.loginDetail.oauthType = :oauthType, m.loginDetail.socialLoginId = :socialLoginId 

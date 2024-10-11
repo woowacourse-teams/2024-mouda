@@ -50,6 +50,10 @@ public class LoginManager {
 		return new LoginProcessResult(newMember.getId(), accessTokenProvider.provide(newMember));
 	}
 
+	public LoginProcessResult processAppleLogin(Member member) {
+		return new LoginProcessResult(member.getId(), accessTokenProvider.provide(member));
+	}
+
 	public String updateOauth(long memberId, OauthType oauthType, String socialLoginId) {
 		Member member = memberFinder.findBySocialId(socialLoginId);
 		memberWriter.updateLoginDetail(memberId, oauthType, socialLoginId);
