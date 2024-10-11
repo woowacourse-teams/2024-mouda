@@ -25,7 +25,7 @@ public class AppleAuthService {
 		// TODO: 사용자 전환 로직 실행 이전부터 애플 소셜 회원가입이 진행되어있음. 현재 카카오 사용자가 전환을 시도하여 애플 로그인하면 같은 애플 로그인 사용자가 두 명이 되면서 에러가 터질 것.
 		if (oauthRequest.memberId() != null) {
 			String accessToken = loginManager.updateOauth(oauthRequest.memberId(), OauthType.APPLE,
-				member.getSocialLoginId(), oauthRequest.nonce());
+				member.getSocialLoginId());
 			return new LoginResponse(accessToken);
 		}
 		LoginProcessResult result = loginManager.processAppleLogin(member);
