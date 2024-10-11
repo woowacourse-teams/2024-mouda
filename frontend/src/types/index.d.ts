@@ -135,3 +135,33 @@ export interface BetInputInfo {
 }
 
 export type ChatRoomType = 'BET' | 'MOIM';
+
+export interface ChatRoomDetail {
+  chatRoomId: number;
+  attributes: object;
+  type: ChatRoomType;
+  title: string;
+  participants: Participation[];
+}
+
+export interface MoimChatRoomDetail extends ChatRoomDetail {
+  type: 'MOIM';
+  attributes: {
+    place: string;
+    isMoimer: boolean;
+    isStarted: boolean;
+    description?: string;
+    date: string;
+    time: string;
+    moimId: number;
+  };
+}
+
+export interface BetChatRoomDetail extends ChatRoomDetail {
+  type: 'BET';
+  attributes: {
+    isLoser: boolean;
+    betId: number;
+    loser: Participation;
+  };
+}

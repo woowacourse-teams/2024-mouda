@@ -2,6 +2,7 @@ import {
   BetDetail,
   BetSummary,
   Chat,
+  ChatRoomDetail,
   ChattingPreview,
   Darakbang,
   DarakbangRole,
@@ -34,6 +35,10 @@ export interface PostMoim {
 
 export interface GetChattingPreview {
   data: { chatPreviewResponses: ChattingPreview[] };
+}
+
+export interface GetChatRoomDetail {
+  data: ChatRoomDetail;
 }
 export interface GetChat {
   data: { chats: Chat[] };

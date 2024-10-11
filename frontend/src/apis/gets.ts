@@ -1,7 +1,10 @@
 import {
+  BetChatRoomDetail,
   Chat,
+  ChatRoomDetail,
   ChatRoomType,
   ChattingPreview,
+  MoimChatRoomDetail,
   MoimInfo,
   Participation,
   Role,
@@ -12,6 +15,7 @@ import {
   GetChamyoAll,
   GetChamyoMine,
   GetChat,
+  GetChatRoomDetail,
   GetChattingPreview,
   GetDarakbangInviteCode,
   GetDarakbangMembers,
@@ -71,6 +75,21 @@ export const getChatPreview = async (
 
   const json: GetChattingPreview = await response.json();
   return json.data.chatPreviewResponses;
+};
+
+export const getChatRoomDetail = async (
+  chatRoomId: number,
+): Promise<BetChatRoomDetail | MoimChatRoomDetail | ChatRoomDetail> => {
+  const response = await ApiClient.getWithLastDarakbangId(
+    `/chatRoom/${chatRoomId}`,
+  );
+
+  const json: GetChatRoomDetail = await response.json();
+  const chatRoomDetail = json.data;
+  if (chatRoomDetail.type === 'BET') return chatRoomDetail as BetChatRoomDetail;
+  if (chatRoomDetail.type === 'MOIM')
+    return chatRoomDetail as MoimChatRoomDetail;
+  return chatRoomDetail;
 };
 
 export const getChat = async (
