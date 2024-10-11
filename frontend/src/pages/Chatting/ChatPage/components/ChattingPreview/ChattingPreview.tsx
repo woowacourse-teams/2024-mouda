@@ -13,12 +13,12 @@ import {
 import ChatBubbleSvg from '@_components/Icons/ChatBubbleSvg';
 import { HTMLAttributes } from 'react';
 import POLICES from '@_constants/poclies';
-import { Participant } from '@_types/index';
+import { Participation } from '@_types/index';
 import UserPreviewList from '@_pages/Chatting/ChattingRoomPage/components/UserPreviewList/UserPreviewList';
 
 interface ChattingPreviewProps extends HTMLAttributes<HTMLDivElement> {
   title: string;
-  participants: Participant[];
+  participants: Participation[];
   lastContent?: string;
   tagValue?: string;
   unreadCount?: number;
@@ -69,7 +69,7 @@ export default function ChattingPreview(props: ChattingPreviewProps) {
       <div css={peopleContainer}>
         <span css={smallGrey400({ theme })}>{`${profiles.length}명`}</span>
         <UserPreviewList
-          imageUrls={profiles.map((profile) => profile.profileUrl)}
+          imageUrls={profiles.map((profile) => profile.profile)}
         />
       </div>
     </div>
