@@ -19,7 +19,7 @@ import { useTheme } from '@emotion/react';
 export default function ChatPage() {
   const theme = useTheme();
   const [nowChatRoomType, setNowChatRoomType] = useState<ChatRoomType>('MOIM');
-  const { chatPreviews, isLoading } = useChatPreviews();
+  const { chatPreviews, isLoading } = useChatPreviews(nowChatRoomType);
   const { darakbangName } = useNowDarakbangName();
   const navigate = useNavigate();
 

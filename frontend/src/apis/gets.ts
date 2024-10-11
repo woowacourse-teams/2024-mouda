@@ -1,5 +1,6 @@
 import {
   Chat,
+  ChatRoomType,
   ChattingPreview,
   MoimInfo,
   Participation,
@@ -26,8 +27,8 @@ import {
 } from './responseTypes';
 
 import ApiClient from './apiClient';
-import { Filter } from '@_pages/Moim/MainPage/components/HomeMainContent/MyMoim/MyMoimListFilters/MyMoimListFilters';
 import { ApiError } from '@_utils/customError/ApiError';
+import { Filter } from '@_pages/Moim/MainPage/components/HomeMainContent/MyMoim/MyMoimListFilters/MyMoimListFilters';
 
 export const getMoims = async (): Promise<MoimInfo[]> => {
   const response = await ApiClient.getWithLastDarakbangId('/moim');
@@ -61,8 +62,12 @@ export const getMoim = async (moimId: number): Promise<MoimInfo> => {
   return json.data;
 };
 
-export const getChatPreview = async (): Promise<ChattingPreview[]> => {
-  const response = await ApiClient.getWithLastDarakbangId(`/chat/preview`);
+export const getChatPreview = async (
+  chatRoomType: ChatRoomType,
+): Promise<ChattingPreview[]> => {
+  const response = await ApiClient.getWithLastDarakbangId(
+    `/chat/preview?chatRoomType=${chatRoomType}`,
+  );
 
   const json: GetChattingPreview = await response.json();
   return json.data.chatPreviewResponses;
