@@ -82,7 +82,7 @@ class DarakbangMemberServiceTest extends DarakbangSetUp {
 		DarakbangMemberInfoResponse response = darakbangMemberService.findMyInfo(darakbangHogee);
 
 		assertThat(response.name()).isEqualTo("hogee");
-		assertThat(response.nickname()).isEqualTo("소소파파");
+		assertThat(response.nickname()).isEqualTo("hogee");
 		assertThat(response.profile()).isEqualTo("profile");
 		assertThat(response.description()).isEqualTo("description");
 	}

@@ -63,7 +63,7 @@ class DarakbangValidatorTest {
 
 		Member anna = memberRepository.save(MemberFixture.getAnna());
 
-		assertThatThrownBy(() -> darakbangValidator.validateCanEnterDarakbang(darakbang, "소소파파", anna))
+		assertThatThrownBy(() -> darakbangValidator.validateCanEnterDarakbang(darakbang, "hogee", anna))
 			.isInstanceOf(DarakbangMemberException.class);
 	}
 
