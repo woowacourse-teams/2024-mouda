@@ -2,19 +2,18 @@ package mouda.backend.moim.implement.finder;
 
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.logging.Filter;
-import java.util.stream.Stream;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.chat.implement.ChatRoomFinder;
+import mouda.backend.chat.infrastructure.ChatRoomRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.FilterType;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimOverview;
-import mouda.backend.moim.domain.Zzim;
 import mouda.backend.moim.exception.MoimErrorMessage;
 import mouda.backend.moim.exception.MoimException;
 import mouda.backend.moim.infrastructure.ChamyoRepository;
@@ -29,6 +28,9 @@ public class MoimFinder {
 	private final ChamyoRepository chamyoRepository;
 	private final ZzimFinder zzimFinder;
 	private final ZzimRepository zzimRepository;
+	private final ChatRoomRepository chatRoomRepository;
+	private final ChatRoomFinder chatRoomFinder;
+	private final ChamyoFinder chamyoFinder;
 
 	public Moim read(long moimId, long currentDarakbangId) {
 		return moimRepository.findByIdAndDarakbangId(moimId, currentDarakbangId)
@@ -74,5 +76,12 @@ public class MoimFinder {
 
 	public int countCurrentPeople(Moim moim) {
 		return chamyoRepository.countByMoim(moim);
+	}
+
+	public List<Moim> readAllMyMoims(DarakbangMember darakbangMember) {
+		return chamyoRepository.findAllByDarakbangMemberIdOrderByIdDesc(darakbangMember.getId())
+			.stream()
+			.map(Chamyo::getMoim)
+			.toList();
 	}
 }

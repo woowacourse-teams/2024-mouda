@@ -8,14 +8,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.domain.Bet;
+import mouda.backend.bet.domain.BetDetails;
 import mouda.backend.bet.domain.Loser;
 import mouda.backend.bet.domain.Participant;
 import mouda.backend.bet.entity.BetDarakbangMemberEntity;
 import mouda.backend.bet.entity.BetEntity;
 import mouda.backend.bet.infrastructure.BetDarakbangMemberRepository;
 import mouda.backend.bet.infrastructure.BetRepository;
+import mouda.backend.darakbangmember.domain.DarakbangMember;
 
 @Component
+@Transactional
 @RequiredArgsConstructor
 public class BetFinder {
 
@@ -60,6 +63,7 @@ public class BetFinder {
 			.betDetails(betEntity.toBetDetails())
 			.moimerId(betEntity.getMoimerId())
 			.loserId(betEntity.getLoserDarakbangMemberId())
+			.darakbangId(betEntity.getDarakbangId())
 			.participants(participants)
 			.build();
 	}
@@ -80,5 +84,12 @@ public class BetFinder {
 			betId, loserDarakbangMemberId).orElseThrow(IllegalArgumentException::new);
 		return new Loser(betDarakbangMemberEntity.getDarakbangMember().getId(),
 			betDarakbangMemberEntity.getDarakbangMember().getNickname());
+	}
+
+	public List<BetDetails> readAllMyBets(DarakbangMember darakbangMember) {
+		return betDarakbangMemberRepository.findAllByDarakbangMemberId(darakbangMember.getId()).stream()
+			.map(BetDarakbangMemberEntity::getBet)
+			.map(BetEntity::toBetDetails)
+			.toList();
 	}
 }

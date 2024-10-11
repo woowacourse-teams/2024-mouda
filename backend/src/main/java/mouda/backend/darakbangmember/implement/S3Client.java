@@ -29,7 +29,7 @@ public class S3Client {
 
 	public String uploadFile(MultipartFile file) {
 		try {
-			String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
+			String fileName = UUID.randomUUID().toString();
 			String key = keyPrefix + fileName;
 
 			ObjectMetadata metadata = new ObjectMetadata();

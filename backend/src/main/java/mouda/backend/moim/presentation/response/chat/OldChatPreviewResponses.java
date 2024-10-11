@@ -4,13 +4,13 @@ import java.util.List;
 
 import mouda.backend.moim.domain.MoimChat;
 
-public record ChatPreviewResponses(
+public record OldChatPreviewResponses(
 	List<ChatPreviewResponse> chatPreviewResponses
 ) {
-	public static ChatPreviewResponses toResponse(List<MoimChat> moimChats) {
+	public static OldChatPreviewResponses toResponse(List<MoimChat> moimChats) {
 		List<ChatPreviewResponse> chatPreviews = moimChats.stream()
 			.map(ChatPreviewResponse::toResponse)
 			.toList();
-		return new ChatPreviewResponses(chatPreviews);
+		return new OldChatPreviewResponses(chatPreviews);
 	}
 }

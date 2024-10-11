@@ -16,7 +16,7 @@ public record BetFindResponse(
 	BetRole myRole,
 	Long chatroomId
 ) {
-	public static BetFindResponse toResponse(Bet bet, DarakbangMember darakbangMember) {
+	public static BetFindResponse toResponse(Bet bet, DarakbangMember darakbangMember, Long chatroomId) {
 		List<ParticipantResponse> participants = bet.getParticipants().stream()
 			.map(ParticipantResponse::from)
 			.toList();
@@ -28,7 +28,7 @@ public record BetFindResponse(
 			bet.hasLoser(),
 			participants,
 			bet.getMyRole(darakbangMember.getId()),
-			null
+			chatroomId
 		);
 	}
 }

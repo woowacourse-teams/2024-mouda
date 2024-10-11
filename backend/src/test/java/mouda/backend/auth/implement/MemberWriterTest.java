@@ -35,4 +35,18 @@ class MemberWriterTest {
 		assertThat(savedMember.getId()).isEqualTo(1L);
 		assertThat(memberRepository.findAll()).hasSize(1);
 	}
+
+	@DisplayName("멤버를 삭제한다.")
+	@Test
+	void remove() {
+		// given
+		Member tebah = MemberFixture.getTebah();
+		memberWriter.append(tebah);
+
+		// when
+		memberWriter.remove(tebah);
+
+		// then
+		assertThat(memberRepository.findAll()).hasSize(0);
+	}
 }

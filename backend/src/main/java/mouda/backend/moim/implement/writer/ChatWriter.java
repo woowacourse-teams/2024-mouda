@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import mouda.backend.moim.domain.Chat;
 import mouda.backend.moim.infrastructure.ChatRepository;
 
-@Component
+@Component("oldChatWriter")
 @RequiredArgsConstructor
 public class ChatWriter {
 
