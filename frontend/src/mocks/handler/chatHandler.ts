@@ -5,8 +5,8 @@ import mockedChats from './mockedChats';
 
 let nowChatIndex = 0;
 
-// [betChats,moimChats]
-export const nowChatServerData: Chat[][] = [mockedChats.slice(), []];
+// [betChats,moimChats,moimChats]
+export const nowChatServerData: Chat[][] = [mockedChats.slice(), [], []];
 export const initChatIndex = () => (nowChatIndex = 0);
 
 export const pushNextChatsIntoSever = () => {
@@ -100,7 +100,7 @@ export const chatHandler = [
                 lastContent: '뭐요',
               },
               {
-                chatRoomId: 1,
+                chatRoomId: 2,
                 title: '위와 같은 모임',
                 participants: [{ nickname: '111', id: 1, profileUrl: '' }],
                 isStarted: false,
