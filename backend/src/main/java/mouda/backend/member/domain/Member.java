@@ -12,8 +12,8 @@ import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import mouda.backend.moim.exception.MoimErrorMessage;
-import mouda.backend.moim.exception.MoimException;
+import mouda.backend.member.exception.MemberErrorMessage;
+import mouda.backend.member.exception.MemberException;
 
 @Entity
 @Getter
@@ -38,7 +38,7 @@ public class Member {
 
 	private void validateName(String name) {
 		if (name.isBlank()) {
-			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MEMBER_NAME_NOT_EXISTS);
+			throw new MemberException(HttpStatus.BAD_REQUEST, MemberErrorMessage.MEMBER_NAME_NOT_EXISTS);
 		}
 	}
 
