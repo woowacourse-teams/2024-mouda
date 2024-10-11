@@ -11,52 +11,64 @@ type Story = StoryObj<typeof ChattingPreview>;
 
 export const NoContent: Story = {
   args: {
-    chatPreview: {
-      moimId: 3,
-      title: '운동 모임',
-      currentPeople: 10,
-      isStarted: true,
-      lastContent: '',
-      unreadContentCount: 0,
-    },
+    title: '운동 모임',
+    participants: [{ nickname: 'aa', id: 1, profileUrl: '' }],
+    tagValue: '모임 전',
+    lastContent: '',
+    unreadCount: 0,
   },
 };
 
 export const HasContent: Story = {
   args: {
-    chatPreview: {
-      moimId: 2,
-      title: '독서 클럽',
-      currentPeople: 8,
-      isStarted: true,
-      lastContent: '이번 주 독서 토론은 어떤 책으로 할까요?',
-      unreadContentCount: 1,
-    },
+    title: '독서 클럽',
+    participants: [
+      { nickname: 'aa', id: 1, profileUrl: '' },
+      { nickname: 'bb', id: 2, profileUrl: '' },
+      { nickname: 'cc', id: 3, profileUrl: '' },
+      { nickname: 'dd', id: 4, profileUrl: '' },
+      { nickname: 'ee', id: 5, profileUrl: '' },
+      { nickname: 'ff', id: 6, profileUrl: '' },
+      { nickname: 'gg', id: 7, profileUrl: '' },
+    ],
+    tagValue: '모임 후',
+    lastContent: '이번 주 독서 토론은 어떤 책으로 할까요?',
+    unreadCount: 2,
   },
 };
 
 export const Over300UnreadMessage: Story = {
   args: {
-    chatPreview: {
-      moimId: 2,
-      title: '독서 클럽',
-      currentPeople: 8,
-      isStarted: true,
-      lastContent: '이번 주 독서 토론은 어떤 책으로 할까요?',
-      unreadContentCount: 301,
-    },
+    title: '독서 클럽',
+    participants: [
+      { nickname: 'aa', id: 1, profileUrl: '' },
+      { nickname: 'bb', id: 2, profileUrl: '' },
+      { nickname: 'cc', id: 3, profileUrl: '' },
+      { nickname: 'dd', id: 4, profileUrl: '' },
+      { nickname: 'ee', id: 5, profileUrl: '' },
+      { nickname: 'ff', id: 6, profileUrl: '' },
+      { nickname: 'gg', id: 7, profileUrl: '' },
+    ],
+    tagValue: '모임 전',
+    lastContent: '이번 주 독서 토론은 어떤 책으로 할까요?',
+    unreadCount: 301,
   },
 };
 
 export const AfterMoim: Story = {
   args: {
-    chatPreview: {
-      moimId: 2,
-      title: '독서 클럽',
-      currentPeople: 8,
-      isStarted: false,
-      lastContent: '이번 주 독서 토론은 어떤 책으로 할까요?',
-      unreadContentCount: 1,
-    },
+    title: '독서 클럽',
+    participants: [
+      { nickname: 'aa', id: 1, profileUrl: '' },
+      { nickname: 'bb', id: 2, profileUrl: '' },
+      { nickname: 'cc', id: 3, profileUrl: '' },
+      { nickname: 'dd', id: 4, profileUrl: '' },
+      { nickname: 'ee', id: 5, profileUrl: '' },
+      { nickname: 'ff', id: 6, profileUrl: '' },
+      { nickname: 'gg', id: 7, profileUrl: '' },
+    ],
+    tagValue: '모임 후',
+    lastContent: '이번 주 독서 토론은 어떤 책으로 할까요?',
+    unreadCount: 1,
   },
 };

@@ -1,4 +1,4 @@
-import { Chat, ChatRoomType } from '@_types/index';
+import { Chat, ChatRoomType, ChattingPreview } from '@_types/index';
 import { HttpResponse, http } from 'msw';
 
 import mockedChats from './mockedChats';
@@ -67,16 +67,18 @@ export const chatHandler = [
         (url.searchParams.get('chatRoomType') as ChatRoomType) || 'MOIM';
 
       if (chatRoomType === 'BET') {
-        return HttpResponse.json({
+        return HttpResponse.json<{
+          data: { chatPreviewResponses: ChattingPreview[] };
+        }>({
           data: {
             chatPreviewResponses: [
               {
                 chatRoomId: 0,
                 title: '베팅',
-                currentPeople: 3,
+                participants: [{ nickname: '111', id: 1, profileUrl: '' }],
                 isStarted: true,
-                lastContent: 'aas',
-                lastReadChatId: 0,
+                unreadChatCount: 1,
+                lastContent: '뭐요',
               },
             ],
           },
@@ -84,16 +86,26 @@ export const chatHandler = [
       }
 
       if (chatRoomType === 'MOIM') {
-        return HttpResponse.json({
+        return HttpResponse.json<{
+          data: { chatPreviewResponses: ChattingPreview[] };
+        }>({
           data: {
             chatPreviewResponses: [
               {
                 chatRoomId: 1,
                 title: '모임',
-                currentPeople: 3,
+                participants: [{ nickname: '111', id: 1, profileUrl: '' }],
                 isStarted: true,
-                lastContent: 'aas',
-                lastReadChatId: 0,
+                unreadChatCount: 1,
+                lastContent: '뭐요',
+              },
+              {
+                chatRoomId: 1,
+                title: '위와 같은 모임',
+                participants: [{ nickname: '111', id: 1, profileUrl: '' }],
+                isStarted: false,
+                unreadChatCount: 1,
+                lastContent: '뭐요',
               },
             ],
           },

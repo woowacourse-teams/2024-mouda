@@ -48,12 +48,12 @@ export type MoimInputInfo = Omit<
 >;
 
 export interface ChattingPreview {
-  moimId: number;
+  chatRoomId: number;
   title: string;
-  currentPeople: number;
+  participants: Participant[];
   isStarted: boolean;
   lastContent: string;
-  unreadContentCount: number;
+  unreadChatCount: number;
 }
 export interface Chat {
   chatId: number;
