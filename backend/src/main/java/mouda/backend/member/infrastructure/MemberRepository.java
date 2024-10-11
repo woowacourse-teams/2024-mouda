@@ -15,13 +15,22 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
 	Optional<Member> findByLoginDetail_SocialLoginId(String socialLoginId);
 
-	@Transactional
 	@Query("""
-		UPDATE Member m 
+		UPDATE Member m
 		SET m.loginDetail.oauthType = :oauthType, m.loginDetail.socialLoginId = :socialLoginId 
 		WHERE m.id = :memberId 
 		""")
 	@Modifying
+	@Transactional
 	void updateLoginDetail(@Param("memberId") long memberId, @Param("oauthType") OauthType oauthType,
 		@Param("socialLoginId") String socialLoginId);
+
+	@Query("""
+		UPDATE Member m
+		SET m.name = :name
+		WHERE m.id = :memberId
+		""")
+	@Modifying
+	@Transactional
+	void updateName(@Param("memberId") long memberId, @Param("name") String name);
 }
