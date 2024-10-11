@@ -19,6 +19,7 @@ import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.member.domain.LoginDetail;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.domain.OauthType;
+import mouda.backend.member.implement.MemberFinder;
 import mouda.backend.member.infrastructure.MemberRepository;
 
 @SpringBootTest
@@ -29,6 +30,9 @@ class AppleAuthServiceTest {
 
 	@MockBean
 	private AppleOauthManager appleOauthManager;
+
+	@MockBean
+	private MemberFinder memberFinder;
 
 	@Autowired
 	private MemberRepository memberRepository;
@@ -51,7 +55,7 @@ class AppleAuthServiceTest {
 		String appleSocialLoginId = "appleSocialLoginId";
 		when(appleOauthManager.getSocialLoginId(anyString())).thenReturn(appleSocialLoginId);
 		Member anna = memberRepository.save(MemberFixture.getAnna());
-
+		when(memberFinder.findBySocialId(anyString())).thenReturn(anna);
 		Long kakaoMemberId = anna.getId();
 		LoginResponse loginResponse = appleAuthService.oauthLogin(
 			new AppleOauthRequest(kakaoMemberId, "code", anna.getName()));

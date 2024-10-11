@@ -30,7 +30,7 @@ class MemberFinderTest {
 		memberRepository.save(tebah);
 
 		// when
-		Member member = memberFinder.find(1L);
+		Member member = memberFinder.findByMemberId(1L);
 
 		// then
 		assertThat(member.getSocialLoginId()).isEqualTo(tebah.getSocialLoginId());
@@ -44,7 +44,7 @@ class MemberFinderTest {
 		memberRepository.save(tebah);
 
 		// when & than
-		assertThatThrownBy(() -> memberFinder.find(2L))
+		assertThatThrownBy(() -> memberFinder.findByMemberId(2L))
 			.isInstanceOf(AuthException.class);
 	}
 }

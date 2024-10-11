@@ -24,7 +24,9 @@ public class GoogleOauthManager {
 
 	public String getMemberName(String idToken) {
 		GoogleIdToken googleIdToken = getGoogleIdToken(idToken);
-		return (String)googleIdToken.getPayload().get("name");
+		String familyName = (String)googleIdToken.getPayload().get("family_name");
+		String givenName = (String)googleIdToken.getPayload().get("given_name");
+		return familyName + givenName;
 	}
 
 	public String getSocialLoginId(String idToken) {

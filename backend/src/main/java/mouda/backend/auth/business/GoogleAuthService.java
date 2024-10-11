@@ -8,7 +8,6 @@ import mouda.backend.auth.implement.GoogleOauthManager;
 import mouda.backend.auth.implement.LoginManager;
 import mouda.backend.auth.presentation.request.GoogleOauthRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
-import mouda.backend.member.domain.Member;
 import mouda.backend.member.domain.OauthType;
 
 @Service
@@ -28,13 +27,5 @@ public class GoogleAuthService {
 		}
 		LoginProcessResult loginProcessResult = loginManager.processSocialLogin(OauthType.GOOGLE, socialLoginId, name);
 		return new LoginResponse(loginProcessResult.accessToken());
-	}
-
-	public Member findMember(String token) {
-		return null;
-	}
-
-	public void checkAuthentication(String token) {
-
 	}
 }

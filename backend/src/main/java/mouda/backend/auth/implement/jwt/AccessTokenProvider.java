@@ -39,9 +39,9 @@ public class AccessTokenProvider {
 			.compact();
 	}
 
-	public long extractMemberId(String token) {
+	public String extractSocialId(String token) {
 		Claims claims = getPayload(token);
-		return claims.get(MEMBER_ID_CLAIM_KEY, Long.class);
+		return claims.get(SOCIAL_LOGIN_ID_CLAIM_KEY, String.class);
 	}
 
 	public Claims getPayload(String token) {
