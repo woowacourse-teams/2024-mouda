@@ -1,6 +1,7 @@
 import ChatCardListSkeleton from './ChatListSkeleton/ChatCardListSkeleton';
 import ChatFilterTag from './components/ChatFilterTag/ChatFilterTag';
 import ChatFilterTagList from './components/ChatFilterTagList/ChatFilterTagList';
+import { ChatRoomType } from '@_types/index';
 import ChattingPreview from './components/ChattingPreview/ChattingPreview';
 import ChattingPreviewLayout from '@_layouts/ChattingPreviewLayout/ChattingPreviewLayout';
 import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
@@ -12,10 +13,12 @@ import { common } from '@_common/common.style';
 import useChatPreviews from '@_hooks/queries/useChatPreiview';
 import { useNavigate } from 'react-router-dom';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
+import { useState } from 'react';
 import { useTheme } from '@emotion/react';
 
 export default function ChatPage() {
   const theme = useTheme();
+  const [nowChatRoomType, setNowChatRoomType] = useState<ChatRoomType>('MOIM');
   const { chatPreviews, isLoading } = useChatPreviews();
   const { darakbangName } = useNowDarakbangName();
   const navigate = useNavigate();
@@ -31,8 +34,16 @@ export default function ChatPage() {
       </ChattingPreviewLayout.Header>
       <ChattingPreviewLayout.HeaderBottom>
         <ChatFilterTagList>
-          <ChatFilterTag value={'안녕'} isChecked={false} />
-          <ChatFilterTag value={'안내면진다'} isChecked={true} />
+          <ChatFilterTag
+            value={'모임'}
+            isChecked={nowChatRoomType === 'MOIM'}
+            onClick={() => setNowChatRoomType('MOIM')}
+          />
+          <ChatFilterTag
+            value={'안내면진다'}
+            isChecked={nowChatRoomType === 'BET'}
+            onClick={() => setNowChatRoomType('BET')}
+          />
         </ChatFilterTagList>
       </ChattingPreviewLayout.HeaderBottom>
       <ChattingPreviewLayout.ContentContainer>
