@@ -13,3 +13,10 @@ export const layoutStyle = ({ theme }: { theme: Theme }) => css`
     display: none;
   }
 `;
+
+export const headerBottom = css`
+  position: sticky;
+  top: 5rem;
+  left: -2rem;
+  margin: 2rem 2rem 0;
+`;

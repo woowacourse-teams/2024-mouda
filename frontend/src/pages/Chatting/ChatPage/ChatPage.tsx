@@ -1,4 +1,6 @@
 import ChatCardListSkeleton from './ChatListSkeleton/ChatCardListSkeleton';
+import ChatFilterTag from './components/ChatFilterTag/ChatFilterTag';
+import ChatFilterTagList from './components/ChatFilterTagList/ChatFilterTagList';
 import ChattingPreview from './components/ChattingPreview/ChattingPreview';
 import ChattingPreviewLayout from '@_layouts/ChattingPreviewLayout/ChattingPreviewLayout';
 import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
@@ -27,6 +29,12 @@ export default function ChatPage() {
           </h2>
         </ChattingPreviewLayout.Header.Left>
       </ChattingPreviewLayout.Header>
+      <ChattingPreviewLayout.HeaderBottom>
+        <ChatFilterTagList>
+          <ChatFilterTag value={'안녕'} isChecked={false} />
+          <ChatFilterTag value={'안내면진다'} isChecked={true} />
+        </ChatFilterTagList>
+      </ChattingPreviewLayout.HeaderBottom>
       <ChattingPreviewLayout.ContentContainer>
         {isLoading ? (
           <ChatCardListSkeleton />

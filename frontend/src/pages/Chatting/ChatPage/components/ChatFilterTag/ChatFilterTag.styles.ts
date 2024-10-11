@@ -9,9 +9,8 @@ export const tag = ({
 }) => css`
   ${theme.typography.b4};
   box-sizing: content-box;
-  width: 50px;
   height: 25px;
-  padding: 2px 2px 0;
+  padding: 2px 10px 0;
 
   color: ${isChecked
     ? theme.colorPalette.white[100]
@@ -25,5 +24,5 @@ export const tag = ({
       ? theme.colorPalette.white[100]
       : theme.colorPalette.grey[300]}
     1px solid;
-  border-radius: 10px;
+  border-radius: 15px;
 `;
