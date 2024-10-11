@@ -7,15 +7,20 @@ import { postConfirmPlace } from '@_apis/posts';
 export default function useConfirmPlace() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ moimId, place }: { moimId: number; place: string }) =>
-      postConfirmPlace(moimId, place),
-    onSuccess: (moimId: number | string) => {
+    mutationFn: ({
+      chatRoomId,
+      place,
+    }: {
+      chatRoomId: number;
+      place: string;
+    }) => postConfirmPlace(chatRoomId, place),
+    onSuccess: (chatRoomId: number | string) => {
       queryClient.invalidateQueries({
         queryKey: [
           QUERY_KEYS.darakbang,
           getLastDarakbangId(),
           QUERY_KEYS.moim,
-          moimId,
+          chatRoomId,
         ],
       });
     },

@@ -35,5 +35,5 @@ export const patchReopenMoim = async (moimId: number) => {
 };
 
 export const patchOpenChat = async (moimId: number) => {
-  await ApiClient.patchWithLastDarakbangId(`/chat/open?moimId=${moimId}`);
+  await ApiClient.patchWithLastDarakbangId(`/chatroom/open?moimId=${moimId}`);
 };

@@ -8,21 +8,21 @@ export default function useConfirmDateTime() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({
-      moimId,
+      chatRoomId,
       date,
       time,
     }: {
-      moimId: number;
+      chatRoomId: number;
       date: string;
       time: string;
-    }) => postConfirmDatetime(moimId, date, time),
-    onSuccess: (moimId: number | string) => {
+    }) => postConfirmDatetime(chatRoomId, date, time),
+    onSuccess: (chatRoomId: number | string) => {
       queryClient.invalidateQueries({
         queryKey: [
           QUERY_KEYS.darakbang,
           getLastDarakbangId(),
-          QUERY_KEYS.moim,
-          moimId,
+          QUERY_KEYS.chatRoomDetail,
+          chatRoomId,
         ],
       });
     },
