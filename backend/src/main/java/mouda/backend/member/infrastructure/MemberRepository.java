@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.domain.OauthType;
@@ -20,6 +21,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 		WHERE m.id = :memberId 
 		""")
 	@Modifying
+	@Transactional
 	void updateLoginDetail(@Param("memberId") long memberId, @Param("oauthType") OauthType oauthType,
 		@Param("socialLoginId") String socialLoginId);
 
@@ -29,5 +31,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 		WHERE m.id = :memberId
 		""")
 	@Modifying
+	@Transactional
 	void updateName(@Param("memberId") long memberId, @Param("name") String name);
 }
