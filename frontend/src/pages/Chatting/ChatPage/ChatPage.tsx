@@ -52,13 +52,32 @@ export default function ChatPage() {
         ) : chatPreviews && chatPreviews.length > 0 ? (
           chatPreviews?.map((chatPreview) => (
             <ChattingPreview
-              chatPreview={chatPreview}
+              title={chatPreview.title}
+              unreadCount={chatPreview.unreadChatCount}
+              tagValue={
+                (nowChatRoomType === 'MOIM' || '') &&
+                (chatPreview.isStarted ? '모임 후' : '모임 전')
+              }
+              fontColor={
+                (nowChatRoomType === 'MOIM' || undefined) &&
+                (chatPreview.isStarted
+                  ? theme.colorPalette.yellow[800]
+                  : theme.colorPalette.white[100])
+              }
+              themeColor={
+                (nowChatRoomType === 'MOIM' || undefined) &&
+                (chatPreview.isStarted
+                  ? theme.colorPalette.yellow[50]
+                  : theme.colorPalette.orange[100])
+              }
+              participants={chatPreview.participants}
+              lastContent={chatPreview.lastContent}
               onClick={() =>
                 navigate(
-                  GET_ROUTES.nowDarakbang.chattingRoom(chatPreview.moimId),
+                  GET_ROUTES.nowDarakbang.chattingRoom(chatPreview.chatRoomId),
                 )
               }
-              key={chatPreview.moimId}
+              key={chatPreview.chatRoomId}
             />
           ))
         ) : (

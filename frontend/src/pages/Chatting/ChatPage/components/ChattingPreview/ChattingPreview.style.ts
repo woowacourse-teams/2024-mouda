@@ -1,11 +1,11 @@
-import { Theme, css } from '@emotion/react';
+import { SerializedStyles, Theme, css } from '@emotion/react';
 
 export const container = ({
-  isStarted,
   theme,
+  themeColor,
 }: {
-  isStarted: boolean;
   theme: Theme;
+  themeColor: string | SerializedStyles;
 }) => css`
   display: flex;
   align-items: center;
@@ -17,9 +17,7 @@ export const container = ({
 
   background-color: ${theme.colorPalette.white[100]};
   border: 0.3rem solid;
-  border-color: ${isStarted
-    ? theme.colorPalette.yellow[100]
-    : theme.colorPalette.orange[100]};
+  border-color: ${themeColor};
   border-radius: 25px;
   box-shadow: 0 0 10px 0 #00000040;
 `;
@@ -32,10 +30,12 @@ export const titleContainer = css`
 
 export const tag = ({
   theme,
-  isStarted,
+  themeColor,
+  fontColor,
 }: {
   theme: Theme;
-  isStarted: boolean;
+  themeColor: string | SerializedStyles;
+  fontColor: string | SerializedStyles;
 }) => css`
   ${theme.typography.small}
   display: flex;
@@ -45,13 +45,9 @@ export const tag = ({
   height: 24px;
   padding: 0.2rem 0.6rem;
 
-  color: ${isStarted
-    ? theme.colorPalette.yellow[800]
-    : theme.colorPalette.white[100]};
+  color: ${fontColor};
 
-  background-color: ${isStarted
-    ? theme.colorPalette.yellow[50]
-    : theme.colorPalette.orange[100]};
+  background-color: ${themeColor};
   border-radius: 1rem;
 `;
 

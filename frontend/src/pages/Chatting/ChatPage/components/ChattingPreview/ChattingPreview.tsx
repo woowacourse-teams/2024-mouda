@@ -1,3 +1,4 @@
+import { SerializedStyles, useTheme } from '@emotion/react';
 import {
   container,
   messageContainer,
@@ -10,58 +11,66 @@ import {
 } from './ChattingPreview.style';
 
 import ChatBubbleSvg from '@_components/Icons/ChatBubbleSvg';
-import { ChattingPreview as ChattingPreviewType } from '@_types/index';
+import { HTMLAttributes } from 'react';
 import POLICES from '@_constants/poclies';
+import { Participant } from '@_types/index';
 import UserPreviewList from '@_pages/Chatting/ChattingRoomPage/components/UserPreviewList/UserPreviewList';
-import { useMemo } from 'react';
-import { useTheme } from '@emotion/react';
 
-interface ChattingPreviewProps {
-  chatPreview: ChattingPreviewType;
-  onClick: () => void;
+interface ChattingPreviewProps extends HTMLAttributes<HTMLDivElement> {
+  title: string;
+  participants: Participant[];
+  lastContent?: string;
+  tagValue?: string;
+  unreadCount?: number;
+  themeColor?: string | SerializedStyles;
+  fontColor?: string | SerializedStyles;
 }
 
 export default function ChattingPreview(props: ChattingPreviewProps) {
-  const { chatPreview, onClick } = props;
-  const { title, isStarted, lastContent, unreadContentCount, currentPeople } =
-    chatPreview;
   const theme = useTheme();
-  const imageUrls = useMemo(
-    () => new Array(chatPreview.currentPeople).fill(''),
-    // TODO:participation.profile 구현되면 아래 코드로 변경
-    // () => moim.participants.map((participation) => participation.profile),
-    [chatPreview.currentPeople],
-  );
+  const {
+    title,
+    participants: profiles,
+    lastContent,
+    tagValue,
+    themeColor = theme.colorPalette.yellow[100],
+    fontColor = theme.colorPalette.white[100],
+    onClick,
+    unreadCount = 0,
+  } = props;
 
   return (
-    <div css={container({ isStarted, theme })} onClick={onClick}>
+    <div css={container({ theme, themeColor })} onClick={onClick}>
       <div css={messageContainer}>
         <div css={titleContainer}>
           <h2 css={theme.typography.s2}>{title}</h2>
-          <div css={tag({ theme, isStarted })}>
-            {isStarted ? '모임 후' : '모임 전'}
-          </div>
+
+          {tagValue && (
+            <div css={tag({ theme, themeColor, fontColor })}>{tagValue}</div>
+          )}
         </div>
         {lastContent && (
           <span css={[smallGrey400({ theme }), unreadContentWrapper]}>
             {lastContent}
           </span>
         )}
-        {unreadContentCount > 0 && (
+        {unreadCount > 0 && (
           <div css={unreadContentCountContainer}>
             <ChatBubbleSvg />
             <span css={theme.typography.Tiny}>
-              {unreadContentCount > POLICES.maxUnreadMessageCount
+              {unreadCount > POLICES.maxUnreadMessageCount
                 ? POLICES.maxUnreadMessageCount + '+'
-                : unreadContentCount}
+                : unreadCount}
             </span>
           </div>
         )}
       </div>
 
       <div css={peopleContainer}>
-        <span css={smallGrey400({ theme })}>{`${currentPeople}명`}</span>
-        <UserPreviewList imageUrls={imageUrls} />
+        <span css={smallGrey400({ theme })}>{`${profiles.length}명`}</span>
+        <UserPreviewList
+          imageUrls={profiles.map((profile) => profile.profileUrl)}
+        />
       </div>
     </div>
   );
