@@ -111,7 +111,6 @@ class BetFinderTest extends DarakbangSetUp {
 
 		// when & then
 		assertThatThrownBy(() -> betFinder.findResult(darakbangId, savedBetEntity.getId()))
-			.isInstanceOf(BetException.class)
-			.hasMessage("당첨자가 존재하지 않습니다."); // TODO : 예외 공통 처리 하면서 없애기
+			.isInstanceOf(BetException.class);
 	}
 }
