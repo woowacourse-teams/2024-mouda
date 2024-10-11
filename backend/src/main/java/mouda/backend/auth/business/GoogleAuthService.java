@@ -21,10 +21,18 @@ public class GoogleAuthService {
 		String name = googleOauthManager.getMemberName(googleOauthRequest.idToken());
 		String socialLoginId = googleOauthManager.getSocialLoginId(googleOauthRequest.idToken());
 		if (googleOauthRequest.memberId() != null) {
-			String accessToken = loginManager.updateOauth(googleOauthRequest.memberId(), OauthType.GOOGLE,
-				socialLoginId);
-			return new LoginResponse(accessToken);
+			return transferKakao(googleOauthRequest, socialLoginId);
 		}
+		return processGoogleLogin(socialLoginId, name);
+	}
+
+	private LoginResponse transferKakao(GoogleOauthRequest googleOauthRequest, String socialLoginId) {
+		String accessToken = loginManager.updateOauth(googleOauthRequest.memberId(), OauthType.GOOGLE,
+			socialLoginId);
+		return new LoginResponse(accessToken);
+	}
+
+	private LoginResponse processGoogleLogin(String socialLoginId, String name) {
 		LoginProcessResult loginProcessResult = loginManager.processSocialLogin(OauthType.GOOGLE, socialLoginId, name);
 		return new LoginResponse(loginProcessResult.accessToken());
 	}
