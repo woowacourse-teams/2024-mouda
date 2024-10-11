@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -30,6 +31,7 @@ class ParticipantResolverRegistryTest {
 		MockitoAnnotations.openMocks(this);
 	}
 
+	@DisplayName("MOIM 타입 리졸버를 반환한다.")
 	@Test
 	void getResolver_shouldReturnCorrectResolverForSupportedChatRoomType() {
 		// given
@@ -49,6 +51,7 @@ class ParticipantResolverRegistryTest {
 		assertThat(resolver).isEqualTo(mockResolver2);
 	}
 
+	@DisplayName("BET 타입 리졸버를 반환한다.")
 	@Test
 	void getResolver_shouldThrowExceptionForUnsupportedChatRoomType() {
 		// given
