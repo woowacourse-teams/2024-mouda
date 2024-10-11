@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum DarakbangMemberErrorMessage {
 
 	NICKNAME_NOT_EXIST("닉네임이 존재하지 않습니다."),
+	INVALID_LENGTH("닉네임은 9글자 이하로만 가능합니다."),
 	NICKNAME_ALREADY_EXIST("이미 존재하는 닉네임입니다."),
 	MEMBER_ALREADY_EXIST("이미 가입한 멤버입니다."),
 	MEMBER_NOT_EXIST("존재하지 않는 다락방 멤버입니다."),
