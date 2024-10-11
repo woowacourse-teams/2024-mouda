@@ -1,12 +1,99 @@
-import { Chat, ChatRoomType, ChattingPreview } from '@_types/index';
+import {
+  BetChatRoomDetail,
+  Chat,
+  ChatRoomType,
+  ChattingPreview,
+  MoimChatRoomDetail,
+} from '@_types/index';
 import { HttpResponse, http } from 'msw';
 
+import { GetChatRoomDetail } from '@_apis/responseTypes';
 import mockedChats from './mockedChats';
 
 let nowChatIndex = 0;
 
-// [betChats,moimChats,moimChats]
-export const nowChatServerData: Chat[][] = [mockedChats.slice(), [], []];
+// [betChats,moimChats,moimChats,betChats]
+export const nowChatServerData: Chat[][] = [mockedChats.slice(), [], [], []];
+const chatRoomDetail: (BetChatRoomDetail | MoimChatRoomDetail)[] = [
+  {
+    chatRoomId: 0,
+    attributes: {
+      isLoser: false,
+      betId: 22,
+      loser: {
+        nickname: '',
+        profile: '',
+        role: 'MOIMER',
+      },
+    },
+    type: 'BET',
+    title: '내가 안 걸린 모임',
+    participants: [
+      {
+        nickname: '1',
+        profile: '',
+        role: 'MOIMER',
+      },
+    ],
+  },
+  {
+    chatRoomId: 1,
+    attributes: {
+      place: '모임',
+      isMoimer: false,
+      isStarted: true,
+      description: '',
+      date: '',
+      time: '12:12:00',
+      moimId: 2,
+    },
+    type: 'MOIM',
+    title: '위와 같은 가격',
+    participants: [{ nickname: '111', role: 'MOIMEE', profile: '' }],
+  },
+  {
+    chatRoomId: 2,
+    attributes: {
+      place: '우테코 잠실캠',
+      isMoimer: false,
+      isStarted: false,
+      description: '',
+      date: '2020-12-21',
+      time: '12:12:00',
+      moimId: 2,
+    },
+    type: 'MOIM',
+    title: '위와 같은 모임',
+    participants: [
+      {
+        nickname: '',
+        profile: '',
+        role: 'MOIMER',
+      },
+    ],
+  },
+  {
+    chatRoomId: 0,
+    attributes: {
+      isLoser: true,
+      betId: 22,
+      loser: {
+        nickname: '',
+        profile: '',
+        role: 'MOIMER',
+      },
+    },
+    type: 'BET',
+    title: '내가 걸린 모임',
+    participants: [
+      {
+        nickname: '1',
+        profile: '',
+        role: 'MOIMER',
+      },
+    ],
+  },
+];
 export const initChatIndex = () => (nowChatIndex = 0);
 
 export const pushNextChatsIntoSever = () => {
@@ -59,6 +146,17 @@ export const chatHandler = [
   ),
 
   http.get(
+    `${process.env.API_BASE_URL}/v1/darakbang/*/chatRoom`,
+    async ({ request }) => {
+      const chatRoomId = +(request.url.split('/').at(-1) || 1);
+
+      return HttpResponse.json<GetChatRoomDetail>({
+        data: chatRoomDetail[chatRoomId],
+      });
+    },
+  ),
+
+  http.get(
     `${process.env.API_BASE_URL}/v1/darakbang/*/chat/preview`,
     ({ request }) => {
       const url = new URL(request.url);
@@ -74,8 +172,20 @@ export const chatHandler = [
             chatPreviewResponses: [
               {
                 chatRoomId: 0,
-                title: '베팅',
-                participants: [{ nickname: '111', id: 1, profileUrl: '' }],
+                title: '내가 안 걸린 모임',
+                participants: [
+                  { nickname: '111', role: 'MOIMEE', profile: '' },
+                ],
+                isStarted: true,
+                unreadChatCount: 1,
+                lastContent: '뭐요',
+              },
+              {
+                chatRoomId: 3,
+                title: '내가 걸린 모임',
+                participants: [
+                  { nickname: '111', role: 'MOIMEE', profile: '' },
+                ],
                 isStarted: true,
                 unreadChatCount: 1,
                 lastContent: '뭐요',
@@ -94,18 +204,22 @@ export const chatHandler = [
               {
                 chatRoomId: 1,
                 title: '모임',
-                participants: [{ nickname: '111', id: 1, profileUrl: '' }],
+                participants: [
+                  { nickname: '111', role: 'MOIMEE', profile: '' },
+                ],
                 isStarted: true,
-                unreadChatCount: 1,
-                lastContent: '뭐요',
+                unreadChatCount: 0,
+                lastContent: nowChatServerData[1].at(-1)?.content || '',
               },
               {
                 chatRoomId: 2,
                 title: '위와 같은 모임',
-                participants: [{ nickname: '111', id: 1, profileUrl: '' }],
+                participants: [
+                  { nickname: '111', role: 'MOIMEE', profile: '' },
+                ],
                 isStarted: false,
-                unreadChatCount: 1,
-                lastContent: '뭐요',
+                unreadChatCount: 0,
+                lastContent: nowChatServerData[2].at(-1)?.content || '',
               },
             ],
           },
