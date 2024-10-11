@@ -32,6 +32,7 @@ public class MoimAttributeManager implements AttributeManager {
 		Chamyo chamyo = chamyoFinder.read(moim, darakbangMember);
 		boolean isMoimer = getIsMoimer(chamyo);
 		return new MoimAttributes(
+			moim.getTitle(),
 			moim.getPlace(),
 			isMoimer,
 			moim.isPastMoim(),

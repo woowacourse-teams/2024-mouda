@@ -1,5 +1,6 @@
 package mouda.backend.chat.domain;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import lombok.Getter;
@@ -7,15 +8,17 @@ import lombok.Getter;
 @Getter
 public class MoimAttributes implements Attributes {
 
-	private String place;
-	private Boolean isMoimer;
-	private Boolean isStarted;
-	private String description;
-	private String date;
-	private String time;
-	private Long moimId;
+	private final String title;
+	private final String place;
+	private final Boolean isMoimer;
+	private final Boolean isStarted;
+	private final String description;
+	private final String date;
+	private final String time;
+	private final Long moimId;
 
-	public MoimAttributes(String place, Boolean isMoimer, Boolean isStarted, String description, String date, String time, Long moimId) {
+	public MoimAttributes(String title, String place, Boolean isMoimer, Boolean isStarted, String description, String date, String time, Long moimId) {
+		this.title = title;
 		this.place = place;
 		this.isMoimer = isMoimer;
 		this.isStarted = isStarted;
@@ -27,6 +30,15 @@ public class MoimAttributes implements Attributes {
 
 	@Override
 	public Map<String, Object> getAttributes() {
-		return null;
+		Map<String, Object> attributes = new HashMap<>();
+		attributes.put("title", title);
+		attributes.put("place", place);
+		attributes.put("isMoimer", isMoimer);
+		attributes.put("isStarted", isStarted);
+		attributes.put("description", description);
+		attributes.put("date", date);
+		attributes.put("time", time);
+		attributes.put("moimId", moimId);
+		return attributes;
 	}
 }

@@ -31,7 +31,7 @@ public class BetAttributeManager implements AttributeManager {
 		Bet bet = betFinder.find(darakbangMember.getDarakbang().getId(), chatRoom.getTargetId());
 		boolean isLoser = bet.isLoser(darakbangMember.getId());
 		Loser loser = getLoser(bet, darakbangMember.getId());
-		return new BetAttributes(isLoser, bet.getId(), loser);
+		return new BetAttributes(bet.getBetDetails().getTitle(), isLoser, bet.getId(), loser);
 	}
 
 	private Loser getLoser(Bet bet, long requestDarakbangMemberId) {

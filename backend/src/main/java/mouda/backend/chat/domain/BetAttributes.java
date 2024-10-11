@@ -1,5 +1,6 @@
 package mouda.backend.chat.domain;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import lombok.Getter;
@@ -7,11 +8,13 @@ import lombok.Getter;
 @Getter
 public class BetAttributes implements Attributes {
 
-	private Boolean isLoser;
-	private Long betId;
-	private Loser loser;
+	private final String title;
+	private final Boolean isLoser;
+	private final Long betId;
+	private final Loser loser;
 
-	public BetAttributes(Boolean isLoser, Long betId, Loser loser) {
+	public BetAttributes(String title, Boolean isLoser, Long betId, Loser loser) {
+		this.title = title;
 		this.isLoser = isLoser;
 		this.betId = betId;
 		this.loser = loser;
@@ -19,6 +22,16 @@ public class BetAttributes implements Attributes {
 
 	@Override
 	public Map<String, Object> getAttributes() {
-		return null;
+		Map<String, Object> attributes = new HashMap<>();
+		attributes.put("title", title);
+		attributes.put("isLoser", isLoser);
+		attributes.put("betId", betId);
+		attributes.put("loser", Map.of(
+			"nickname", loser.getNickname(),
+			"profile", loser.getProfile(),
+			"role", loser.getRole()
+		));
+		return attributes;
 	}
+
 }
