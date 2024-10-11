@@ -133,3 +133,5 @@ export interface BetInputInfo {
   title: string;
   waitingMinutes: number;
 }
+
+export type ChatRoomType = 'BET' | 'MOIM';
