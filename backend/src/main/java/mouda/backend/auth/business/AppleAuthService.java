@@ -3,6 +3,7 @@ package mouda.backend.auth.business;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import mouda.backend.auth.business.result.LoginProcessResult;
 import mouda.backend.auth.implement.LoginManager;
 import mouda.backend.auth.presentation.request.AppleOauthRequest;
@@ -11,6 +12,7 @@ import mouda.backend.member.domain.Member;
 import mouda.backend.member.domain.OauthType;
 import mouda.backend.member.implement.MemberFinder;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AppleAuthService {
@@ -28,5 +30,9 @@ public class AppleAuthService {
 		}
 		LoginProcessResult result = loginManager.processAppleLogin(member);
 		return new LoginResponse(result.accessToken());
+	}
+
+	public void save(String idToken, String firstName, String lastName) {
+		log.info("idToken: {}, firstName: {}, lastName: {}", idToken, firstName, lastName);
 	}
 }
