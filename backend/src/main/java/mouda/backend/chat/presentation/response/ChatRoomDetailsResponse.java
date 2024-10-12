@@ -10,7 +10,7 @@ public record ChatRoomDetailsResponse(
 	Map<String, Object> attributes,
 	String title,
 	String type,
-	List<ChatRoomParticipantResponse> participants
+	List<ChatRoomParticipantResponse> participations
 ) {
 
 	public static ChatRoomDetailsResponse from(ChatRoomDetails chatRoomDetails) {
