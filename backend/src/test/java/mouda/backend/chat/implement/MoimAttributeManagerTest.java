@@ -3,6 +3,9 @@ package mouda.backend.chat.implement;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -78,10 +81,8 @@ class MoimAttributeManagerTest {
 		when(moim.getPlace()).thenReturn("우테코 잠실캠");
 		when(moim.isPastMoim()).thenReturn(false);
 		when(moim.getDescription()).thenReturn("설명");
-		when(moim.getDate()).thenReturn(mock(java.time.LocalDate.class));
-		when(moim.getDate().toString()).thenReturn("3333-01-01");
-		when(moim.getTime()).thenReturn(mock(java.time.LocalTime.class));
-		when(moim.getTime().toString()).thenReturn("12:12:00");
+		when(moim.getDate()).thenReturn(LocalDate.of(3333, 1, 1));
+		when(moim.getTime()).thenReturn(LocalTime.of(12, 12, 7, 13));
 		when(moim.getId()).thenReturn(12L);
 		when(chamyo.getMoimRole()).thenReturn(MoimRole.MOIMER);
 
@@ -96,7 +97,7 @@ class MoimAttributeManagerTest {
 		assertThat(moimAttributes.getIsStarted()).isFalse();
 		assertThat(moimAttributes.getDescription()).isEqualTo("설명");
 		assertThat(moimAttributes.getDate()).isEqualTo("3333-01-01");
-		assertThat(moimAttributes.getTime()).isEqualTo("12:12:00");
+		assertThat(moimAttributes.getTime()).isEqualTo("12:12:07");
 		assertThat(moimAttributes.getMoimId()).isEqualTo(12L);
 	}
 }

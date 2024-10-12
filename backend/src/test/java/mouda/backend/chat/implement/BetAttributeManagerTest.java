@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import mouda.backend.bet.domain.Bet;
+import mouda.backend.bet.domain.BetDetails;
 import mouda.backend.bet.entity.BetDarakbangMemberEntity;
 import mouda.backend.bet.entity.BetEntity;
 import mouda.backend.bet.implement.BetFinder;
@@ -81,6 +82,7 @@ class BetAttributeManagerTest {
 		when(darakbang.getId()).thenReturn(1L);
 
 		when(betFinder.find(1L, 1L)).thenReturn(bet);
+		when(bet.getBetDetails()).thenReturn(new BetDetails(1L, "test bet", LocalDateTime.of(2024, 6, 5, 12, 3)));
 		when(bet.isLoser(darakbangMember.getId())).thenReturn(true);
 		when(bet.getId()).thenReturn(1L);
 		when(bet.getLoserId()).thenReturn(2L);
