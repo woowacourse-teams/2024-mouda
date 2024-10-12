@@ -3,6 +3,7 @@ package mouda.backend.chat.implement;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.chat.domain.Attributes;
@@ -19,6 +20,7 @@ public class ChatRoomDetailsFinder {
 	private final AttributeManagerRegistry attributeManagerRegistry;
 	private final ParticipantResolverRegistry participantResolverRegistry;
 
+	@Transactional(readOnly = true)
 	public ChatRoomDetails find(long darakbangId, long chatRoomId, DarakbangMember darakbangMember) {
 		ChatRoom chatRoom = chatRoomFinder.read(darakbangId, chatRoomId, darakbangMember);
 		Attributes attributes = attributeManagerRegistry.getManager(chatRoom.getType()).create(chatRoom, darakbangMember);
