@@ -283,7 +283,7 @@ class ChatServiceTest extends DarakbangSetUp {
 		chamyoRepository.save(chamyo);
 
 		ChatPreviewResponses chatPreview = chatService.findChatPreview(darakbangHogee, ChatRoomType.MOIM);
-		assertThat(chatPreview.chatPreviewResponses()).isEmpty();
+		assertThat(chatPreview.previews()).isEmpty();
 	}
 
 	@DisplayName("다락방별 채팅을 조회한다.")
@@ -296,7 +296,7 @@ class ChatServiceTest extends DarakbangSetUp {
 		chatRepository.save(ChatEntityFixture.getChatEntity(darakbangHogee));
 
 		ChatPreviewResponses chatPreview = chatService.findChatPreview(darakbangHogee, ChatRoomType.MOIM);
-		assertThat(chatPreview.chatPreviewResponses())
+		assertThat(chatPreview.previews())
 			.hasSize(1);
 
 		Moim moudaMoim = MoimFixture.getSoccerMoim(mouda.getId());
@@ -304,7 +304,7 @@ class ChatServiceTest extends DarakbangSetUp {
 		chamyoRepository.save(new Chamyo(moudaMoim, moudaHogee, MoimRole.MOIMER));
 
 		ChatPreviewResponses emptyChatPreview = chatService.findChatPreview(moudaHogee, ChatRoomType.MOIM);
-		assertThat(emptyChatPreview.chatPreviewResponses())
+		assertThat(emptyChatPreview.previews())
 			.hasSize(0);
 	}
 
@@ -329,10 +329,10 @@ class ChatServiceTest extends DarakbangSetUp {
 		ChatPreviewResponses moimChatPreviews = chatService.findChatPreview(darakbangHogee, ChatRoomType.MOIM);
 
 		// then
-		assertThat(moimChatPreviews.chatPreviewResponses()).hasSize(1);
-		assertThat(moimChatPreviews.chatPreviewResponses().get(0).lastContent()).isEqualTo("안녕하세요");
-		assertThat(moimChatPreviews.chatPreviewResponses().get(0).lastReadChatId()).isEqualTo(0);
-		assertThat(moimChatPreviews.chatPreviewResponses().get(0).currentPeople()).isEqualTo(1);
+		assertThat(moimChatPreviews.previews()).hasSize(1);
+		assertThat(moimChatPreviews.previews().get(0).lastContent()).isEqualTo("안녕하세요");
+		assertThat(moimChatPreviews.previews().get(0).lastReadChatId()).isEqualTo(0);
+		assertThat(moimChatPreviews.previews().get(0).currentPeople()).isEqualTo(1);
 	}
 
 	@DisplayName("안내면진다 채팅 미리보기를 조회한다.")
@@ -356,10 +356,10 @@ class ChatServiceTest extends DarakbangSetUp {
 		ChatPreviewResponses betChatPreviews = chatService.findChatPreview(darakbangHogee, ChatRoomType.BET);
 
 		// then
-		assertThat(betChatPreviews.chatPreviewResponses().size()).isEqualTo(1);
-		assertThat(betChatPreviews.chatPreviewResponses().get(0).lastContent()).isEqualTo("안녕하세요");
-		assertThat(betChatPreviews.chatPreviewResponses().get(0).lastReadChatId()).isEqualTo(0);
-		assertThat(betChatPreviews.chatPreviewResponses().get(0).currentPeople()).isEqualTo(1);
+		assertThat(betChatPreviews.previews().size()).isEqualTo(1);
+		assertThat(betChatPreviews.previews().get(0).lastContent()).isEqualTo("안녕하세요");
+		assertThat(betChatPreviews.previews().get(0).lastReadChatId()).isEqualTo(0);
+		assertThat(betChatPreviews.previews().get(0).currentPeople()).isEqualTo(1);
 	}
 
 	private void sendChat(ChatRoomEntity savedChatRoom) {
@@ -401,7 +401,7 @@ class ChatServiceTest extends DarakbangSetUp {
 		chatService.createChat(darakbang.getId(), 2L, new ChatCreateRequest("2번 채팅"), darakbangAnna);
 
 		List<ChatPreviewResponse> chatPreviewResponses = chatService.findChatPreview(darakbangAnna, ChatRoomType.MOIM)
-			.chatPreviewResponses();
+			.previews();
 
 		assertThat(chatPreviewResponses).extracting(ChatPreviewResponse::lastContent)
 			.containsExactly("2번 채팅", "1번 채팅", "");
