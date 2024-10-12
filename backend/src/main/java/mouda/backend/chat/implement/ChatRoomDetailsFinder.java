@@ -19,8 +19,8 @@ public class ChatRoomDetailsFinder {
 	private final AttributeManagerRegistry attributeManagerRegistry;
 	private final ParticipantResolverRegistry participantResolverRegistry;
 
-	public ChatRoomDetails find(long chatRoomId, DarakbangMember darakbangMember) {
-		ChatRoom chatRoom = chatRoomFinder.read(darakbangMember.getId(), chatRoomId, darakbangMember);
+	public ChatRoomDetails find(long darakbangId, long chatRoomId, DarakbangMember darakbangMember) {
+		ChatRoom chatRoom = chatRoomFinder.read(darakbangId, chatRoomId, darakbangMember);
 		Attributes attributes = attributeManagerRegistry.getManager(chatRoom.getType()).create(chatRoom, darakbangMember);
 		List<Participant> participants = participantResolverRegistry.getResolver(chatRoom.getType()).resolve(chatRoom);
 
