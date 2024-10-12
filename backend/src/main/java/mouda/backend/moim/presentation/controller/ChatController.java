@@ -79,7 +79,7 @@ public class ChatController implements ChatSwagger {
 	) {
 		ChatPreviewResponses chatPreviewResponses = chatService.findChatPreview(darakbangMember, ChatRoomType.MOIM);
 
-		List<ChatPreviewResponse> previewResponses = chatPreviewResponses.chatPreviewResponses().stream()
+		List<ChatPreviewResponse> previewResponses = chatPreviewResponses.previews().stream()
 			.map(chatPreviewResponse -> new ChatPreviewResponse(chatPreviewResponse.chatRoomId(), chatPreviewResponse.title(), chatPreviewResponse.currentPeople(), chatPreviewResponse.isStarted(),
 				chatPreviewResponse.lastContent(), chatPreviewResponse.lastReadChatId())).toList();
 		OldChatPreviewResponses oldChatPreviewResponses = new OldChatPreviewResponses(previewResponses);
