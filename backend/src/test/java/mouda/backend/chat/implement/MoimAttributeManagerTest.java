@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -40,6 +41,7 @@ class MoimAttributeManagerTest {
 		MockitoAnnotations.openMocks(this);
 	}
 
+	@DisplayName("모임 타입 채팅방을 지원한다.")
 	@Test
 	void support_shouldReturnTrueForMoimType() {
 		// given
@@ -52,6 +54,7 @@ class MoimAttributeManagerTest {
 		assertThat(result).isTrue();
 	}
 
+	@DisplayName("모임 타입 이외의 채팅방을 지원하지 않는다.")
 	@Test
 	void support_shouldReturnFalseForNonMoimType() {
 		// given
@@ -64,6 +67,7 @@ class MoimAttributeManagerTest {
 		assertThat(result).isFalse();
 	}
 
+	@DisplayName("모임 어트리뷰트를 생성한다가.")
 	@Test
 	void create_shouldReturnMoimAttributes() {
 		// given
