@@ -1,5 +1,7 @@
 package mouda.backend.chat.implement;
 
+import java.time.LocalTime;
+
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
@@ -38,12 +40,16 @@ public class MoimAttributeManager implements AttributeManager {
 			moim.isPastMoim(),
 			moim.getDescription(),
 			moim.getDate().toString(),
-			moim.getTime().toString(),
+			formatToSecondPrecision(moim.getTime()),
 			moim.getId()
 		);
 	}
 
 	private boolean getIsMoimer(Chamyo chamyo) {
 		return chamyo.getMoimRole() == MoimRole.MOIMER;
+	}
+
+	private String formatToSecondPrecision(LocalTime time) {
+		return time.withNano(0).toString();
 	}
 }
