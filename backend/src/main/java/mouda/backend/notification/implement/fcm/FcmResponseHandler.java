@@ -73,7 +73,7 @@ public class FcmResponseHandler {
 				log.info("Retrying 5xx for notification: {}. Thread: {}", notification.getTitle(),
 					Thread.currentThread().getName());
 				FcmFailedResponse retryResponse = retry(failedResponse, notification,
-					failedResponse.getNonRetryableFailedTokens());
+					failedResponse.getFailedWith5xxTokens());
 				retryAsync(notification, retryResponse, attempt + 1, backoffDelayForSeconds * BACKOFF_MULTIPLIER);
 			}, backoffDelayForSeconds, TimeUnit.SECONDS);
 		}
