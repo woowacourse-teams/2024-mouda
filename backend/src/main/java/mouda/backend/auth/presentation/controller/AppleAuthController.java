@@ -13,7 +13,7 @@ public class AppleAuthController {
 
 	private AppleAuthService appleAuthService;
 
-	@PostMapping("/oauth/apple")
+	@PostMapping("/v1/oauth/apple")
 	public void test(@RequestBody JsonNode jsonNode) {
 		String idToken = jsonNode.get("authorization").get("id_token").asText();
 		String firstName = jsonNode.get("user").get("name").get("firstName").asText();
