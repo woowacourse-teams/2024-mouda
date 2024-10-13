@@ -3,7 +3,6 @@ package mouda.backend.auth.presentation.controller;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +21,7 @@ public class AppleAuthController {
 	@PostMapping("/v1/oauth/apple")
 	public void test(
 		@RequestParam("id_token") String id_token,
-		@RequestBody JsonNode user
+		@RequestParam("user") JsonNode user
 	) {
 		String firstName = user.get("name").get("firstName").asText();
 		String lastName = user.get("name").get("lastName").asText();
