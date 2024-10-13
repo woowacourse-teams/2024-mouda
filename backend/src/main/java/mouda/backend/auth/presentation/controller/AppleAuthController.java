@@ -40,9 +40,9 @@ public class AppleAuthController {
 			log.info("{} : {}", s, stringStringMap.get(s));
 		}
 		log.error("firstName : {}, lastNAme: {}", firstName, lastName);
-		appleAuthService.save(id_token, firstName, lastName);
+		String accessToken = appleAuthService.save(id_token, firstName, lastName);
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.add("Location", "https://dev.mouda.site/oauth/apple?code=" + code);
+		httpHeaders.add("Location", "https://dev.mouda.site/oauth/apple?token=" + accessToken);
 		return new ResponseEntity<>(httpHeaders, HttpStatus.FOUND);
 	}
 }
