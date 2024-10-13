@@ -3,8 +3,11 @@ package mouda.backend.auth.presentation.controller;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import lombok.extern.slf4j.Slf4j;
 import mouda.backend.auth.business.AppleAuthService;
@@ -18,17 +21,17 @@ public class AppleAuthController {
 
 	@PostMapping("/v1/oauth/apple")
 	public void test(
-		@RequestParam("id_token") String id_token
-		// @RequestParam("user") JsonNode user
+		@RequestParam("id_token") String id_token,
+		@RequestBody JsonNode user
 	) {
-		// String firstName = user.get("name").get("firstName").asText();
-		// String lastName = user.get("name").get("lastName").asText();
+		String firstName = user.get("name").get("firstName").asText();
+		String lastName = user.get("name").get("lastName").asText();
 		Map<String, String> stringStringMap = TokenDecoder.parseIdToken(id_token);
 		for (String s : stringStringMap.keySet()) {
 			log.info("{} : {}", s, stringStringMap.get(s));
 		}
 		//
-		// log.error("firstName : {}, lastNAme: {}", firstName, lastName);
-		// appleAuthService.save(id_token, firstName, lastName);
+		log.error("firstName : {}, lastNAme: {}", firstName, lastName);
+		appleAuthService.save(id_token, firstName, lastName);
 	}
 }
