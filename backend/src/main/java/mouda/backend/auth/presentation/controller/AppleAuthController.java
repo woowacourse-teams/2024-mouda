@@ -22,7 +22,7 @@ import mouda.backend.auth.util.TokenDecoder;
 @RequiredArgsConstructor
 public class AppleAuthController {
 
-	private AppleAuthService appleAuthService;
+	private final AppleAuthService appleAuthService;
 	private final ObjectMapper objectMapper;
 
 	@PostMapping("/v1/oauth/apple")
