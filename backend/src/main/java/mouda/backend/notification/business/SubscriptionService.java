@@ -29,10 +29,10 @@ public class SubscriptionService {
 	}
 
 	public SubscriptionResponse readChatRoomSubscription(
-		Member member, ChatSubscriptionRequest request
+		Member member, Long darakbangId, Long chatRoomId
 	) {
 		Subscription subscription = subscriptionFinder.readSubscription(member);
-		boolean isSubscribed = subscription.isSubscribedChatRoom(request.darakbangId(), request.chatRoomId());
+		boolean isSubscribed = subscription.isSubscribedChatRoom(darakbangId, chatRoomId);
 
 		return SubscriptionResponse.builder()
 			.isSubscribed(isSubscribed)

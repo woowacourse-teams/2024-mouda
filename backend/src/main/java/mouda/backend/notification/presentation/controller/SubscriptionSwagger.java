@@ -2,6 +2,7 @@ package mouda.backend.notification.presentation.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,7 +38,8 @@ public interface SubscriptionSwagger {
 	})
 	ResponseEntity<RestResponse<SubscriptionResponse>> readSpecificChatRoomSubscription(
 		@LoginMember Member member,
-		@Valid @RequestBody ChatSubscriptionRequest chatSubscriptionRequest
+		@RequestParam("darakbangId") Long darakbangId,
+		@RequestParam("chatRoomId") Long chatRoomId
 	);
 
 	@Operation(summary = "특정 채팅방에 대한 알림 여부 수정", description = "알림 허용상태면 비허용으로, 비허용 상태면 허용 상태로 변경한다.")
