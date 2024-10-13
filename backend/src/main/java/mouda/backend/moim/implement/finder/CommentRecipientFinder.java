@@ -2,7 +2,6 @@ package mouda.backend.moim.implement.finder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -43,14 +42,13 @@ public class CommentRecipientFinder {
 		DarakbangMember moimer = getMoimer(moim);
 		DarakbangMember author = comment.getDarakbangMember();
 
-		if (!Objects.equals(moimer.getId(), author.getId())) {
+		if (moimer.isNotSameMemberWith(author)) {
 			result.add(new CommentRecipient(NotificationType.NEW_COMMENT,
 				List.of(new Recipient(moimer.getMemberId(), moimer.getId()))));
 		}
 
 		return result;
 	}
-
 
 	// 답글
 	// 작성자가 방장인 경우:
@@ -69,22 +67,24 @@ public class CommentRecipientFinder {
 			.orElseThrow(() -> new CommentException(HttpStatus.NOT_FOUND, CommentErrorMessage.PARENT_NOT_FOUND));
 
 		// 작성자가 방장인 경우
-		if (Objects.equals(author.getId(), moimer.getId())) {
+		if (author.isSameMemberWith(moimer)) {
 			// 원 댓글 작성자가 방장이 아닌 경우
-			if (!Objects.equals(parentAuthor.getId(), moimer.getId())) {
+			if (parentAuthor.isNotSameMemberWith(moimer)) {
 				result.add(new CommentRecipient(NotificationType.NEW_REPLY,
 					List.of(new Recipient(parentAuthor.getMemberId(), parentAuthor.getId()))));
 			}
 		} else {
 			// 작성자가 방장이 아닌 경우
-			if (Objects.equals(parentAuthor.getId(), moimer.getId())) {
+			if (parentAuthor.isSameMemberWith(moimer)) {
 				// 원 댓글 작성자가 방장인 경우
 				result.add(new CommentRecipient(NotificationType.NEW_REPLY,
 					List.of(new Recipient(moimer.getMemberId(), moimer.getId()))));
 			} else {
 				// 원 댓글 작성자가 방장이 아닌 경우
-				result.add(new CommentRecipient(NotificationType.NEW_REPLY,
-					List.of(new Recipient(parentAuthor.getMemberId(), parentAuthor.getId()))));
+				if (parentAuthor.isNotSameMemberWith(author)) {
+					result.add(new CommentRecipient(NotificationType.NEW_REPLY,
+						List.of(new Recipient(parentAuthor.getMemberId(), parentAuthor.getId()))));
+				}
 				result.add(new CommentRecipient(NotificationType.NEW_COMMENT,
 					List.of(new Recipient(moimer.getMemberId(), moimer.getId()))));
 			}
@@ -94,10 +94,10 @@ public class CommentRecipientFinder {
 	}
 
 	private DarakbangMember getMoimer(Moim moim) {
-		Optional<Chamyo> moimerChamyo = chamyoRepository.findMoimerByMoimId(moim.getId());
-		if (moimerChamyo.isEmpty()) {
+		Optional<Chamyo> chamyoOptional = chamyoRepository.findMoimerByMoimId(moim.getId());
+		if (chamyoOptional.isEmpty()) {
 			throw new ChamyoException(HttpStatus.NOT_FOUND, ChamyoErrorMessage.NOT_FOUND);
 		}
-		return moimerChamyo.get().getDarakbangMember();
+		return chamyoOptional.get().getDarakbangMember();
 	}
 }
