@@ -11,7 +11,6 @@ export default function OAuthSelectPage() {
 
   useEffect(() => {
     if (!getMemberToken()) {
-      console.log('잘못된 접근입니다.');
       alert('잘못된 접근입니다.');
       navigate(ROUTES.home);
     }
@@ -48,16 +47,26 @@ export default function OAuthSelectPage() {
         </section>
       </LoginLayout.Main>
       <LoginLayout.Footer>
-        <button
+        <div
           css={{
-            background: 'none',
-            border: 'none',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '1rem',
           }}
-          onClick={appleAuthLogin}
         >
-          <AppleOAuthIcon />
-        </button>
-        <GoogleLoginButton />
+          <button
+            css={{
+              background: 'none',
+              border: 'none',
+            }}
+            onClick={appleAuthLogin}
+          >
+            <AppleOAuthIcon />
+          </button>
+          <GoogleLoginButton />
+        </div>
       </LoginLayout.Footer>
     </LoginLayout>
   );
