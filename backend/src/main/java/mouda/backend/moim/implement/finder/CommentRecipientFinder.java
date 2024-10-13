@@ -36,6 +36,9 @@ public class CommentRecipientFinder {
 		return getCommentRecipientWhenReply(comment);
 	}
 
+	// 댓글
+	// 작성자가 방장인 경우: 아무에게도 알림을 보내지 않음.
+	// 작성자가 방장이 아닌 경우: 방장에게 '댓글' 알림을 보냄.
 	private List<CommentRecipient> getCommentRecipientWhenComment(Comment comment) {
 		List<CommentRecipient> result = new ArrayList<>();
 		Moim moim = comment.getMoim();
@@ -55,7 +58,8 @@ public class CommentRecipientFinder {
 	// 			-> 원 댓글 작성자가 방장이면 아무에게도 알림 X
 	// 			-> 원 댓글 작성자가 방장이 아니면 원 댓글 작성자에게만 답글 알림
 	// 작성자가 방장이 아닌 경우:
-	// 			-> 원 댓글 작성자가 방장인 경우: 방장에게 답글 알림
+	// 			-> 원 댓글 작성자가 방장인 경우: 방장에게만 답글 알림
+	//          -> 원 댓글 작성자가 자신인 경우: 방장에게만 댓글 알림
 	// 			-> 원 댓글 작성자가 방장이 아닌 경우: 원 댓글 작성자에게는 답글 알림, 방장에게는 댓글 알림.
 	private List<CommentRecipient> getCommentRecipientWhenReply(Comment comment) {
 		List<CommentRecipient> result = new ArrayList<>();
