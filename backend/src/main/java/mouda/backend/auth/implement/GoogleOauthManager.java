@@ -26,6 +26,16 @@ public class GoogleOauthManager {
 		GoogleIdToken googleIdToken = getGoogleIdToken(idToken);
 		String familyName = (String)googleIdToken.getPayload().get("family_name");
 		String givenName = (String)googleIdToken.getPayload().get("given_name");
+		return getFullName(familyName, givenName);
+	}
+
+	private String getFullName(String familyName, String givenName) {
+		if (familyName == null) {
+			familyName = "";
+		}
+		if (givenName == null) {
+			givenName = "";
+		}
 		return familyName + givenName;
 	}
 
