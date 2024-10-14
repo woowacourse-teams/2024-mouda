@@ -21,10 +21,10 @@ export const textArea = css`
 
 export const tag = ({
   theme,
-  isStarted,
+  tagTheme,
 }: {
   theme: Theme;
-  isStarted: boolean;
+  tagTheme: 'yellow' | 'orange';
 }) => css`
   ${theme.typography.small}
   display: flex;
@@ -34,11 +34,11 @@ export const tag = ({
   height: 24px;
   padding: 0.2rem 0.6rem;
 
-  color: ${isStarted
+  color: ${tagTheme === 'yellow'
     ? theme.colorPalette.yellow[800]
     : theme.colorPalette.white[100]};
 
-  background-color: ${isStarted
+  background-color: ${tagTheme === 'yellow'
     ? theme.colorPalette.yellow[50]
     : theme.colorPalette.orange[100]};
   border-radius: 1rem;
