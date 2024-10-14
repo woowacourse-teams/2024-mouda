@@ -18,14 +18,14 @@ export interface ChatMessageProps extends PropsWithChildren {
 
 export default function Chat(props: ChatMessageProps) {
   const { chat, children } = props;
-  const { nickname, time, isMyMessage } = chat;
+  const { participation, time, isMyMessage } = chat;
   const theme = useTheme();
   return (
     <div css={chatMessageStyle({ isMyMessage })}>
       {/* TODO: 추후 프로필 사진 추가시 변경해야함  */}
-      <UserPreview imageUrl={''} />
+      <UserPreview imageUrl={participation.profile} />
       <div css={messageContainer({ isMyMessage })}>
-        <span css={senderStyle({ theme })}>{nickname}</span>
+        <span css={senderStyle({ theme })}>{participation.nickname}</span>
         <div css={chatLine({ isMyMessage })}>
           {children}
           <span css={timeStyle({ theme })}>

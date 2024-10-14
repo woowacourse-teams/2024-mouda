@@ -121,7 +121,7 @@ export const chatHandler = [
         chatId: nowChatServerData[chatRoomId].length,
         content: json.content,
         isMyMessage: true,
-        nickname: '내 닉네임',
+        participation: { nickname: '내 닉네임', profile: '', role: 'MOIMEE' },
         date: new Date().toISOString().split('T')[0],
         time: new Date().toISOString().split('T')[1].slice(0, 8),
         chatType: 'BASIC',

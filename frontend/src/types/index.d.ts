@@ -59,7 +59,7 @@ export interface Chat {
   chatId: number;
   content: string;
   isMyMessage: boolean;
-  nickname: string;
+  participation: Participation;
   date: string;
   time: string;
   chatType: 'BASIC' | 'PLACE' | 'DATETIME';
