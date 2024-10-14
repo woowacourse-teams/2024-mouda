@@ -56,6 +56,10 @@ public class Bet {
 		return loserId;
 	}
 
+	public boolean isLoser(long otherId) {
+		return loserId == otherId;
+	}
+
 	public long getId() {
 		return betDetails.getId();
 	}

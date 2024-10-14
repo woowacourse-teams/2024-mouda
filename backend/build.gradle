@@ -51,6 +51,9 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.awaitility:awaitility:4.2.0'
 
+    // jackson
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
+
     // notification
     implementation 'com.google.firebase:firebase-admin:9.3.0'
 
