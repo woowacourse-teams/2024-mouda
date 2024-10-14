@@ -54,6 +54,7 @@ public interface DarakbangMemberSwagger {
 	ResponseEntity<Void> updateMyInfo(
 		@LoginDarakbangMember DarakbangMember member,
 		@RequestPart MultipartFile file,
+		@RequestPart String profile,
 		@RequestPart String nickname,
 		@RequestPart String description
 	);
