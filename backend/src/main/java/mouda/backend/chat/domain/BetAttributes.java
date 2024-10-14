@@ -9,8 +9,8 @@ import lombok.Getter;
 public class BetAttributes implements Attributes {
 
     private final String title;
-    private final Boolean isLoser;
-    private final Long betId;
+    private final boolean isLoser;
+    private final long betId;
     private final Participant loser;
 
     public BetAttributes(String title, Boolean isLoser, Long betId, Participant loser) {
@@ -33,5 +33,4 @@ public class BetAttributes implements Attributes {
         ));
         return attributes;
     }
-
 }
