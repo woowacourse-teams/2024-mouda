@@ -2,6 +2,7 @@ package mouda.backend.chat.domain;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.List;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -12,14 +13,14 @@ public class ChatPreview implements Comparable<ChatPreview> {
 	private final ChatRoom chatRoom;
 	private final Target target;
 	private final long lastReadChatId;
-	private final int currentPeople;
+	private final List<Participant> participants;
 
 	@Builder
-	public ChatPreview(ChatRoom chatRoom, Target target, long lastReadChatId, int currentPeople) {
+	public ChatPreview(ChatRoom chatRoom, Target target, long lastReadChatId, List<Participant> participants) {
 		this.chatRoom = chatRoom;
 		this.target = target;
 		this.lastReadChatId = lastReadChatId;
-		this.currentPeople = currentPeople;
+		this.participants = participants;
 	}
 
 	public String getLastContent() {

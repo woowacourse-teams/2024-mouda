@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import mouda.backend.chat.domain.ChatPreview;
 import mouda.backend.chat.domain.ChatRoom;
 import mouda.backend.chat.domain.ChatRoomType;
+import mouda.backend.chat.domain.Participant;
 import mouda.backend.chat.domain.Target;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
@@ -37,13 +38,16 @@ public class MoimChatPreviewManager implements ChatPreviewManager {
 		long targetId = moim.getId();
 		ChatRoom chatRoom = chatRoomFinder.readChatRoomByTargetId(targetId, ChatRoomType.MOIM);
 		long lastReadChatId = chamyoRepository.findLastReadChatIdByMoimId(targetId);
-		int currentPeople = chamyoRepository.countByMoimId(targetId);
+		List<Participant> participants = chamyoRepository.findAllByMoimId(targetId)
+			.stream()
+			.map(chamyo -> new Participant(chamyo.getDarakbangMember().getNickname(), chamyo.getDarakbangMember().getProfile(), chamyo.getDarakbangMember().getRole().toString()))
+			.toList();
 
 		return ChatPreview.builder()
 			.chatRoom(chatRoom)
 			.target(new Target(moim))
 			.lastReadChatId(lastReadChatId)
-			.currentPeople(currentPeople)
+			.participants(participants)
 			.build();
 	}
 }

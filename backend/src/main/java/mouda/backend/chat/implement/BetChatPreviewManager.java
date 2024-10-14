@@ -3,6 +3,7 @@ package mouda.backend.chat.implement;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.domain.BetDetails;
@@ -11,6 +12,7 @@ import mouda.backend.bet.infrastructure.BetDarakbangMemberRepository;
 import mouda.backend.chat.domain.ChatPreview;
 import mouda.backend.chat.domain.ChatRoom;
 import mouda.backend.chat.domain.ChatRoomType;
+import mouda.backend.chat.domain.Participant;
 import mouda.backend.chat.domain.Target;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 
@@ -23,6 +25,7 @@ public class BetChatPreviewManager implements ChatPreviewManager {
 	private final ChatRoomFinder chatRoomFinder;
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<ChatPreview> create(DarakbangMember darakbangMember) {
 		List<BetDetails> myBets = betFinder.readAllMyBets(darakbangMember);
 
@@ -36,13 +39,16 @@ public class BetChatPreviewManager implements ChatPreviewManager {
 		long targetId = bet.getId();
 		ChatRoom chatRoom = chatRoomFinder.readChatRoomByTargetId(bet.getId(), ChatRoomType.BET);
 		long lastReadChatId = betDarakbangMemberRepository.findLastReadChatIdByBetId(targetId);
-		int participantSize = betDarakbangMemberRepository.countByBetId(targetId);
+		List<Participant> participants = betDarakbangMemberRepository.findAllByBetId(targetId).stream()
+			.map(betDarakbangMember -> new Participant(betDarakbangMember.getDarakbangMember().getNickname(), betDarakbangMember.getDarakbangMember().getProfile(),
+				betDarakbangMember.getDarakbangMember().getRole().toString()))
+			.toList();
 
 		return ChatPreview.builder()
 			.chatRoom(chatRoom)
 			.target(new Target(bet))
 			.lastReadChatId(lastReadChatId)
-			.currentPeople(participantSize)
+			.participants(participants)
 			.build();
 	}
 }
