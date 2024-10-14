@@ -84,6 +84,13 @@ public class DarakbangMember {
 		return role != DarakBangMemberRole.MANAGER;
 	}
 
+	public DarakbangMember updateMyInfo(String nickname, String description) {
+		this.nickname = nickname;
+		this.description = description;
+
+		return this;
+	}
+
 	public DarakbangMember updateMyInfo(String nickname, String description, String profile) {
 		this.nickname = nickname;
 		this.description = description;
