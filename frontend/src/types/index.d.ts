@@ -141,7 +141,7 @@ export interface ChatRoomDetail {
   attributes: object;
   type: ChatRoomType;
   title: string;
-  participants: Participation[];
+  participations: Participation[];
 }
 
 export interface MoimChatRoomDetail extends ChatRoomDetail {
@@ -165,3 +165,15 @@ export interface BetChatRoomDetail extends ChatRoomDetail {
     loser: Participation;
   };
 }
+
+export const isBetChatRoomDetail = (
+  detail: ChatRoomDetail,
+): detail is BetChatRoomDetail => {
+  return (detail as BetChatRoomDetail).attributes.betId !== undefined;
+};
+
+export const isMoimChatRoomDetail = (
+  detail: ChatRoomDetail,
+): detail is MoimChatRoomDetail => {
+  return (detail as MoimChatRoomDetail).attributes.moimId !== undefined;
+};

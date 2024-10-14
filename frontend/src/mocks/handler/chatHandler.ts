@@ -28,7 +28,7 @@ const chatRoomDetail: (BetChatRoomDetail | MoimChatRoomDetail)[] = [
     },
     type: 'BET',
     title: '내가 안 걸린 모임',
-    participants: [
+    participations: [
       {
         nickname: '1',
         profile: '',
@@ -49,7 +49,7 @@ const chatRoomDetail: (BetChatRoomDetail | MoimChatRoomDetail)[] = [
     },
     type: 'MOIM',
     title: '위와 같은 가격',
-    participants: [{ nickname: '111', role: 'MOIMEE', profile: '' }],
+    participations: [{ nickname: '111', role: 'MOIMEE', profile: '' }],
   },
   {
     chatRoomId: 2,
@@ -64,7 +64,7 @@ const chatRoomDetail: (BetChatRoomDetail | MoimChatRoomDetail)[] = [
     },
     type: 'MOIM',
     title: '위와 같은 모임',
-    participants: [
+    participations: [
       {
         nickname: '',
         profile: '',
@@ -85,7 +85,7 @@ const chatRoomDetail: (BetChatRoomDetail | MoimChatRoomDetail)[] = [
     },
     type: 'BET',
     title: '내가 걸린 모임',
-    participants: [
+    participations: [
       {
         nickname: '1',
         profile: '',

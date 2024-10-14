@@ -54,7 +54,7 @@ export default function ChatPage() {
         {isLoading ? (
           <ChatCardListSkeleton />
         ) : chatPreviews && chatPreviews.length > 0 ? (
-          chatPreviews?.map((chatPreview) => (
+          chatPreviews.map((chatPreview) => (
             <ChattingPreview
               title={chatPreview.title}
               unreadCount={chatPreview.unreadChatCount}

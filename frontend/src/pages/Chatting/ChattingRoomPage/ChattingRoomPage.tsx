@@ -160,7 +160,7 @@ export default function ChattingRoomPage() {
               theme.coloredTypography.s1(theme.colorPalette.grey[400]),
             ]}
           >
-            {chatRoomDetail && ' ' + chatRoomDetail.participants.length}
+            {chatRoomDetail && ' ' + chatRoomDetail.participations.length}
           </span>
         </ChattingRoomLayout.Header.Center>
         <ChattingRoomLayout.Header.Right>
@@ -168,7 +168,7 @@ export default function ChattingRoomPage() {
         </ChattingRoomLayout.Header.Right>
       </ChattingRoomLayout.Header>
       <ChattingRoomSidebar
-        members={chatRoomDetail?.participants || []}
+        members={chatRoomDetail?.participations || []}
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
       />

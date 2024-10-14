@@ -70,7 +70,7 @@ export const getChatPreview = async (
   chatRoomType: ChatRoomType,
 ): Promise<ChattingPreview[]> => {
   const response = await ApiClient.getWithLastDarakbangId(
-    `/chat/preview?chatRoomType=${chatRoomType}`,
+    `/chatroom/preview?chatRoomType=${chatRoomType}`,
   );
 
   const json: GetChattingPreview = await response.json();
@@ -81,7 +81,7 @@ export const getChatRoomDetail = async (
   chatRoomId: number,
 ): Promise<BetChatRoomDetail | MoimChatRoomDetail | ChatRoomDetail> => {
   const response = await ApiClient.getWithLastDarakbangId(
-    `/chatRoom/${chatRoomId}/details`,
+    `/chatroom/${chatRoomId}/details`,
   );
 
   const json: GetChatRoomDetail = await response.json();
