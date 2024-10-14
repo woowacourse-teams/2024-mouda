@@ -1,3 +1,5 @@
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import ChatCardListSkeleton from './ChatListSkeleton/ChatCardListSkeleton';
 import ChatFilterTag from './components/ChatFilterTag/ChatFilterTag';
 import ChatFilterTagList from './components/ChatFilterTagList/ChatFilterTagList';
@@ -11,14 +13,16 @@ import NavigationBar from '@_components/NavigationBar/NavigationBar';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
 import { common } from '@_common/common.style';
 import useChatPreviews from '@_hooks/queries/useChatPreiview';
-import { useNavigate } from 'react-router-dom';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import { useState } from 'react';
 import { useTheme } from '@emotion/react';
 
 export default function ChatPage() {
   const theme = useTheme();
-  const [nowChatRoomType, setNowChatRoomType] = useState<ChatRoomType>('MOIM');
+  const location = useLocation();
+  const [nowChatRoomType, setNowChatRoomType] = useState<ChatRoomType>(
+    location.state.type || 'MOIM',
+  );
   const { chatPreviews, isLoading } = useChatPreviews(nowChatRoomType);
   const { darakbangName } = useNowDarakbangName();
   const navigate = useNavigate();
