@@ -16,6 +16,7 @@ import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mouda.backend.chat.domain.Chat;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.ChatType;
 
@@ -69,5 +70,16 @@ public class ChatEntity {
 			return null;
 		}
 		return LocalDateTime.of(date, time);
+	}
+
+	public Chat toChat() {
+		return Chat.builder()
+			.id(id)
+			.darakbangMember(darakbangMember)
+			.content(content)
+			.chatType(chatType)
+			.date(date)
+			.time(time)
+			.build();
 	}
 }
