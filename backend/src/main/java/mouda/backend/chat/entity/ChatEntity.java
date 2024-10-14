@@ -60,10 +60,6 @@ public class ChatEntity {
 			.build();
 	}
 
-	public boolean isMyMessage(Long darakbangMemberId) {
-		return darakbangMemberId == darakbangMember.getId();
-	}
-
 	public LocalDateTime getDateTime() {
 		if (date == null || time == null) {
 			return null;
