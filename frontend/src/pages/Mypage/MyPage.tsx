@@ -26,6 +26,7 @@ export default function MyPage() {
   const [description, setDescription] = useState(myInfo?.description || '');
   const [selectedFile, setSelectedFile] = useState<File | string>('');
   const [isEditing, setIsEditing] = useState(false); // 편집 모드 상태
+  const [isDefault, setIsDefault] = useState('false');
 
   const theme = useTheme();
   const { mutate } = useEditMyInfo();
@@ -46,8 +47,9 @@ export default function MyPage() {
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setSelectedFile(e.target.files[0]); // 선택한 파일을 상태에 저장
+      setIsDefault('false');
     } else {
-      setProfile('');
+      setProfile(myInfo?.profile ?? '');
       return;
     }
 
@@ -69,6 +71,7 @@ export default function MyPage() {
     // 문자열 데이터 추가
     formData.append('nickname', nickname ?? '');
     formData.append('description', description ?? '');
+    formData.append('isDefault', isDefault);
 
     try {
       // 서버로 파일 및 데이터 전송
@@ -90,10 +93,12 @@ export default function MyPage() {
     setNickname(myInfo?.nickname || '');
     setDescription(myInfo?.description || '');
     setIsEditing(false);
+    setIsDefault('false');
   };
   const handleDefaultProfile = () => {
     setProfile('');
     setSelectedFile('');
+    setIsDefault('true');
   };
 
   return (
