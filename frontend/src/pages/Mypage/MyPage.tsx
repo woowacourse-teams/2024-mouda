@@ -66,7 +66,6 @@ export default function MyPage() {
     // 파일 추가
 
     formData.append('file', selectedFile);
-    formData.append('profile', myInfo?.profile ?? '');
     // 문자열 데이터 추가
     formData.append('nickname', nickname ?? '');
     formData.append('description', description ?? '');
