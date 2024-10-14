@@ -13,12 +13,12 @@ import ChattingRoomLayout from '@_layouts/ChattingRoomLayout/ChattingRoomLayout'
 import ChattingRoomSidebar from './components/ChattingRoomSidebar/ChattingRoomSidebar';
 import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
 import DateTimeModalContent from './components/DateTimeModalContent/DateTimeModalContent';
+import GET_ROUTES from '@_common/getRoutes';
 import Hamburger from '@_components/Icons/Hamburger';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
 import Modal from '@_components/Modal/Modal';
 import Picker from '@_components/Icons/Picker';
 import PlaceModalContent from './components/PlaceModalContent/PlaceModalContent';
-import ROUTES from '@_constants/routes';
 import SolidArrow from '@_components/Icons/SolidArrow';
 import { formatHhmmToKoreanWithPrefix } from '@_utils/formatters';
 import useChatRoomDetail from '@_hooks/queries/useChatRoomDetail';
@@ -142,7 +142,9 @@ export default function ChattingRoomPage() {
           <SolidArrow
             direction="left"
             onClick={() =>
-              navigate(ROUTES.chat, { state: { type: chatRoomDetail?.type } })
+              navigate(GET_ROUTES.nowDarakbang.chat(), {
+                state: { type: chatRoomDetail?.type },
+              })
             }
           />
         </ChattingRoomLayout.Header.Left>

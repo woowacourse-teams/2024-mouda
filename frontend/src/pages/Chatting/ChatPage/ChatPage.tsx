@@ -21,7 +21,7 @@ export default function ChatPage() {
   const theme = useTheme();
   const location = useLocation();
   const [nowChatRoomType, setNowChatRoomType] = useState<ChatRoomType>(
-    location.state.type || 'MOIM',
+    location?.state?.type || 'MOIM',
   );
   const { chatPreviews, isLoading } = useChatPreviews(nowChatRoomType);
   const { darakbangName } = useNowDarakbangName();
