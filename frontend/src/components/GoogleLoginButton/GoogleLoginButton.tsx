@@ -1,5 +1,6 @@
-import ROUTES from '@_constants/routes';
 import { useEffect, useRef } from 'react';
+
+import ROUTES from '@_constants/routes';
 import { useNavigate } from 'react-router-dom';
 
 function GoogleLoginButton() {
@@ -30,7 +31,6 @@ function GoogleLoginButton() {
       console.error('요청이 중단되었습니다. 다시 시도하세요.');
       return;
     }
-    console.log('Google JWT Token: ', response.credential);
     navigate(`${ROUTES.oAuthGoogle}/google?code=${response.credential}`);
   };
 

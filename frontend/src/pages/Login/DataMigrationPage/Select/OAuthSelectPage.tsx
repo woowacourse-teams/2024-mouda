@@ -1,17 +1,17 @@
+import AppleOAuthIcon from '@_components/Icons/AppleOAuthIcon';
+import GoogleLoginButton from '@_components/GoogleLoginButton/GoogleLoginButton';
 import LoginLayout from '@_layouts/LoginLayout/LoginLayout';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
-import AppleOAuthIcon from '@_components/Icons/AppleOAuthIcon';
-import { useNavigate } from 'react-router-dom';
-import { getMemberToken } from '@_utils/tokenManager';
 import ROUTES from '@_constants/routes';
+import { getMemberToken } from '@_utils/tokenManager';
 import { useEffect } from 'react';
-import GoogleLoginButton from '@_components/GoogleLoginButton/GoogleLoginButton';
+import { useNavigate } from 'react-router-dom';
+
 export default function OAuthSelectPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!getMemberToken()) {
-      console.log('잘못된 접근입니다.');
       alert('잘못된 접근입니다.');
       navigate(ROUTES.home);
     }
