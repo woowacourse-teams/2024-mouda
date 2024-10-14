@@ -10,7 +10,8 @@ public class CorsConfig implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
-			.allowedOrigins("http://localhost:8081", "https://dev.mouda.site", "https://mouda.site")
+			.allowedOrigins("http://localhost:8081", "https://dev.mouda.site", "https://mouda.site",
+				"https://appleid.apple.com")
 			.allowedMethods("GET", "POST", "PATCH", "DELETE", "OPTIONS")
 			.allowedHeaders("Authorization", "Content-Type")
 			.allowCredentials(true)

@@ -20,8 +20,6 @@ import mouda.backend.moim.exception.MoimException;
 @NoArgsConstructor
 public class Member {
 
-	private static final int NAME_MAX_LENGTH = 10;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -41,9 +39,6 @@ public class Member {
 	private void validateName(String name) {
 		if (name.isBlank()) {
 			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MEMBER_NAME_NOT_EXISTS);
-		}
-		if (name.length() >= NAME_MAX_LENGTH) {
-			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MEMBER_NAME_TOO_LONG);
 		}
 	}
 
