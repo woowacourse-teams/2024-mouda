@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum MemberErrorMessage {
 
-	MEMBER_NAME_NOT_EXISTS("모임 참여자 이름을 입력해주세요."),
+	MEMBER_NAME_NOT_EXISTS("멤버 이름이 존재하지 않습니다."),
 	;
 
 	private final String message;
