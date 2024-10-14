@@ -74,14 +74,14 @@ export const getChatPreview = async (
   );
 
   const json: GetChattingPreview = await response.json();
-  return json.data.chatPreviewResponses;
+  return json.data.previews;
 };
 
 export const getChatRoomDetail = async (
   chatRoomId: number,
 ): Promise<BetChatRoomDetail | MoimChatRoomDetail | ChatRoomDetail> => {
   const response = await ApiClient.getWithLastDarakbangId(
-    `/chatRoom/${chatRoomId}`,
+    `/chatRoom/${chatRoomId}/details`,
   );
 
   const json: GetChatRoomDetail = await response.json();

@@ -5,9 +5,9 @@ import {
   ChattingPreview,
   MoimChatRoomDetail,
 } from '@_types/index';
+import { GetChatRoomDetail, GetChattingPreview } from '@_apis/responseTypes';
 import { HttpResponse, http } from 'msw';
 
-import { GetChatRoomDetail } from '@_apis/responseTypes';
 import mockedChats from './mockedChats';
 
 let nowChatIndex = 0;
@@ -146,9 +146,9 @@ export const chatHandler = [
   ),
 
   http.get(
-    `${process.env.API_BASE_URL}/v1/darakbang/*/chatRoom`,
+    `${process.env.API_BASE_URL}/v1/darakbang/*/chatRoom/*/details`,
     async ({ request }) => {
-      const chatRoomId = +(request.url.split('/').at(-1) || 1);
+      const chatRoomId = +(request.url.split('/').at(-2) || 1);
 
       return HttpResponse.json<GetChatRoomDetail>({
         data: chatRoomDetail[chatRoomId],
@@ -165,11 +165,9 @@ export const chatHandler = [
         (url.searchParams.get('chatRoomType') as ChatRoomType) || 'MOIM';
 
       if (chatRoomType === 'BET') {
-        return HttpResponse.json<{
-          data: { chatPreviewResponses: ChattingPreview[] };
-        }>({
+        return HttpResponse.json<GetChattingPreview>({
           data: {
-            chatPreviewResponses: [
+            previews: [
               {
                 chatRoomId: 0,
                 title: '내가 안 걸린 모임',
@@ -197,10 +195,10 @@ export const chatHandler = [
 
       if (chatRoomType === 'MOIM') {
         return HttpResponse.json<{
-          data: { chatPreviewResponses: ChattingPreview[] };
+          data: { previews: ChattingPreview[] };
         }>({
           data: {
-            chatPreviewResponses: [
+            previews: [
               {
                 chatRoomId: 1,
                 title: '모임',

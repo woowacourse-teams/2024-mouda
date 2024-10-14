@@ -34,7 +34,7 @@ export interface PostMoim {
 }
 
 export interface GetChattingPreview {
-  data: { chatPreviewResponses: ChattingPreview[] };
+  data: { previews: ChattingPreview[] };
 }
 
 export interface GetChatRoomDetail {
