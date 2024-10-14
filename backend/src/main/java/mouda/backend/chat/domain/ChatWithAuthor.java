@@ -7,10 +7,12 @@ import mouda.backend.chat.entity.ChatEntity;
 public class ChatWithAuthor {
 
 	private final ChatEntity chat;
+	private final Participant participant;
 	private final boolean isMine;
 
-	public ChatWithAuthor(ChatEntity chat, boolean isMine) {
+	public ChatWithAuthor(ChatEntity chat, Participant participant, boolean isMine) {
 		this.chat = chat;
+		this.participant = participant;
 		this.isMine = isMine;
 	}
 }

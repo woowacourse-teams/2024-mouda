@@ -10,7 +10,7 @@ import mouda.backend.chat.domain.Target;
 public record ChatPreviewResponse(
 	Long chatRoomId,
 	String title,
-	List<ChatRoomParticipantResponse> participations,
+	List<ParticipantResponse> participations,
 	boolean isStarted,
 	String lastContent,
 	long lastReadChatId
@@ -28,9 +28,9 @@ public record ChatPreviewResponse(
 			.build();
 	}
 
-	private static List<ChatRoomParticipantResponse> getParticipants(ChatPreview chatPreview) {
+	private static List<ParticipantResponse> getParticipants(ChatPreview chatPreview) {
 		return chatPreview.getParticipants().stream()
-			.map(participant -> new ChatRoomParticipantResponse(participant.getNickname(), participant.getProfile(), participant.getRole()))
+			.map(participant -> new ParticipantResponse(participant.getNickname(), participant.getProfile(), participant.getRole()))
 			.toList();
 	}
 }
