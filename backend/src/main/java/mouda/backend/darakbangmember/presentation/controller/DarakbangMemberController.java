@@ -70,12 +70,12 @@ public class DarakbangMemberController implements DarakbangMemberSwagger {
 	})
 	public ResponseEntity<Void> updateMyInfo(
 		@LoginDarakbangMember DarakbangMember darakbangMember,
+		@RequestPart(value = "isReset") String isReset,
 		@RequestPart(value = "file", required = false) MultipartFile file,
 		@RequestPart("nickname") String nickname,
 		@RequestPart(value = "description", required = false) String description
 	) {
-
-		darakbangMemberService.updateMyInfo(darakbangMember, file, nickname, description);
+		darakbangMemberService.updateMyInfo(darakbangMember, isReset, file, nickname, description);
 
 		return ResponseEntity.ok().build();
 	}

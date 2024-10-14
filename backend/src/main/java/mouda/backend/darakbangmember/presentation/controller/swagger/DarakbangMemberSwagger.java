@@ -53,6 +53,7 @@ public interface DarakbangMemberSwagger {
 	})
 	ResponseEntity<Void> updateMyInfo(
 		@LoginDarakbangMember DarakbangMember member,
+		@RequestPart String isReset,
 		@RequestPart MultipartFile file,
 		@RequestPart String nickname,
 		@RequestPart String description

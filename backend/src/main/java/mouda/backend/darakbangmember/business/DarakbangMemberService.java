@@ -59,8 +59,8 @@ public class DarakbangMemberService {
 	}
 
 	public void updateMyInfo(
-		DarakbangMember darakbangMember, MultipartFile file,
-		String nickname, String description
+		DarakbangMember darakbangMember, String isReset,
+		MultipartFile file, String nickname, String description
 	) {
 		if (file != null) { // 새로 추가된 파일이 있는 경우
 			String url = s3Client.uploadFile(file); // S3 Upload
@@ -68,7 +68,11 @@ public class DarakbangMemberService {
 			darakbangMemberWriter.updateMyInfo(darakbangMember, nickname, description, newProfileUrl);
 			return;
 		}
-		// 이미지 변경 없이 닉네임과 소개을 그대로 저장하는 경우
-		darakbangMemberWriter.updateMyInfo(darakbangMember, nickname, description);
+		if (isReset.equals("true")) { // 기본 이미지 변경 시
+			// darakbangMemberWriter.removeProfile(darakbangMember); // 기본 이미지가 원래 있는데 true => db propfile -> null
+			darakbangMemberWriter.updateMyInfo(darakbangMember, nickname, description, null);
+		} else { // 이미지 변경 없이 닉네임과 소개을 그대로 저장하는 경우
+			darakbangMemberWriter.updateMyInfo(darakbangMember, nickname, description);
+		}
 	}
 }
