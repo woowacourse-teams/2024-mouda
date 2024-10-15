@@ -133,10 +133,10 @@ class ChatRoomDetailsFinderTest extends DarakbangSetUp {
 		attributes.put("title", bet.getTitle());
 		attributes.put("isLoser", true);
 		attributes.put("betId", bet.getId());
-		attributes.put("loser", Map.of(
-			"nickname", "anna",
-			"profile", "profile",
-			"role", "MOIMER"
+		attributes.put("loser", new Participant(
+			"anna",
+			"profile",
+			"MOIMER"
 		));
 		return attributes;
 	}
