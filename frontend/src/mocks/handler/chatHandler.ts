@@ -157,7 +157,7 @@ export const chatHandler = [
   ),
 
   http.get(
-    `${process.env.API_BASE_URL}/v1/darakbang/*/chat/preview`,
+    `${process.env.API_BASE_URL}/v1/darakbang/*/chatroom/preview`,
     ({ request }) => {
       const url = new URL(request.url);
 
