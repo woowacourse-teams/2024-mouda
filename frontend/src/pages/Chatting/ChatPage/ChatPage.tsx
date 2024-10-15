@@ -74,7 +74,7 @@ export default function ChatPage() {
                   ? theme.colorPalette.yellow[50]
                   : theme.colorPalette.orange[100])
               }
-              participants={chatPreview.participants}
+              participants={chatPreview.participations}
               lastContent={chatPreview.lastContent}
               onClick={() =>
                 navigate(

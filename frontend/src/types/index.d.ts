@@ -50,7 +50,7 @@ export type MoimInputInfo = Omit<
 export interface ChattingPreview {
   chatRoomId: number;
   title: string;
-  participants: Participation[];
+  participations: Participation[];
   isStarted: boolean;
   lastContent: string;
   unreadChatCount: number;

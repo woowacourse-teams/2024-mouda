@@ -171,7 +171,7 @@ export const chatHandler = [
               {
                 chatRoomId: 0,
                 title: '내가 안 걸린 모임',
-                participants: [
+                participations: [
                   { nickname: '111', role: 'MOIMEE', profile: '' },
                 ],
                 isStarted: true,
@@ -181,7 +181,7 @@ export const chatHandler = [
               {
                 chatRoomId: 3,
                 title: '내가 걸린 모임',
-                participants: [
+                participations: [
                   { nickname: '111', role: 'MOIMEE', profile: '' },
                 ],
                 isStarted: true,
@@ -202,7 +202,7 @@ export const chatHandler = [
               {
                 chatRoomId: 1,
                 title: '모임',
-                participants: [
+                participations: [
                   { nickname: '111', role: 'MOIMEE', profile: '' },
                 ],
                 isStarted: true,
@@ -212,7 +212,7 @@ export const chatHandler = [
               {
                 chatRoomId: 2,
                 title: '위와 같은 모임',
-                participants: [
+                participations: [
                   { nickname: '111', role: 'MOIMEE', profile: '' },
                 ],
                 isStarted: false,

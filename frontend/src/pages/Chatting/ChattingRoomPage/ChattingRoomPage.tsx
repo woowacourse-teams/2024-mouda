@@ -95,7 +95,13 @@ export default function ChattingRoomPage() {
   ]);
 
   const menuItems = useMemo(() => {
-    if (!chatRoomDetail) return;
+    if (!chatRoomDetail) {
+      return (
+        <MissingFallback
+          text={'아직 데이터가 로드되기도 전인데... \n 정말 빨리 누르시는군요'}
+        />
+      );
+    }
     if (isMoimChatRoomDetail(chatRoomDetail)) {
       if (chatRoomDetail.attributes.isMoimer) {
         return (
@@ -133,6 +139,11 @@ export default function ChattingRoomPage() {
         />
       );
     }
+    return (
+      <MissingFallback
+        text={'아직 데이터가 로드되지 않았는데... \n 정말 빨리 누르시는 군요'}
+      />
+    );
   }, [chatRoomDetail]);
 
   return (
