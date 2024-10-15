@@ -2,9 +2,12 @@ package mouda.backend.notification.domain;
 
 import java.util.List;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class NotificationEvent {
 
 	private final NotificationType notificationType;
@@ -15,24 +18,30 @@ public class NotificationEvent {
 	private final Long darakbangId;
 	private final Long chatRoomId;
 
-	public NotificationEvent(NotificationType notificationType, String title, String body, String redirectUrl, List<Recipient> recipients) {
-		this.notificationType = notificationType;
-		this.title = title;
-		this.body = body;
-		this.redirectUrl = redirectUrl;
-		this.recipients = recipients;
-		this.darakbangId = null;
-		this.chatRoomId = null;
+	public static NotificationEvent nonChatEvent(
+		NotificationType notificationType,
+		String title,
+		String body,
+		String redirectUrl,
+		List<Recipient> recipients
+	) {
+		return new NotificationEvent(
+			notificationType, title, body, redirectUrl, recipients, null, null
+		);
 	}
 
-	public NotificationEvent(NotificationType notificationType, String title, String body, String redirectUrl, List<Recipient> recipients, Long darakbangId, Long chatRoomId) {
-		this.notificationType = notificationType;
-		this.title = title;
-		this.body = body;
-		this.redirectUrl = redirectUrl;
-		this.recipients = recipients;
-		this.darakbangId = darakbangId;
-		this.chatRoomId = chatRoomId;
+	public static NotificationEvent chatEvent(
+		NotificationType notificationType,
+		String title,
+		String body,
+		String redirectUrl,
+		List<Recipient> recipients,
+		Long darakbangId,
+		Long chatRoomId
+	) {
+		return new NotificationEvent(
+			notificationType, title, body, redirectUrl, recipients, darakbangId, chatRoomId
+		);
 	}
 
 	public CommonNotification toCommonNotification() {
