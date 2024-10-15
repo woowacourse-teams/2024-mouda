@@ -46,13 +46,13 @@ public class ChatService {
 	) {
 		ChatRoom chatRoom = chatRoomFinder.read(darakbangId, chatRoomId, darakbangMember);
 
+		String content = request.content();
+		chatWriter.append(chatRoom.getId(), content, darakbangMember);
+
 		// todo: 베팅에 대한 알림 처리는 베팅 관련 채팅 기능이 구현된 후 처리
 		if (chatRoom.getType() == ChatRoomType.BET) {
 			return;
 		}
-
-		String content = request.content();
-		chatWriter.append(chatRoom.getId(), content, darakbangMember);
 		Moim moim = moimFinder.read(chatRoom.getTargetId(), darakbangId);
 
 		chatNotificationSender.sendChatNotification(moim, content, chatRoomId, darakbangMember,
@@ -75,11 +75,6 @@ public class ChatService {
 		DarakbangMember darakbangMember) {
 		ChatRoom chatRoom = chatRoomFinder.readMoimChatRoom(darakbangId, chatRoomId);
 
-		// todo: 베팅에 대한 알림 처리는 베팅 관련 채팅 기능이 구현된 후 처리
-		if (chatRoom.getType() == ChatRoomType.BET) {
-			return;
-		}
-
 		Moim moim = moimFinder.read(chatRoom.getTargetId(), darakbangId);
 		moimWriter.confirmPlace(moim, darakbangMember, request.place());
 
@@ -92,11 +87,6 @@ public class ChatService {
 	public void confirmDateTime(long darakbangId, long chatRoomId, DateTimeConfirmRequest request,
 		DarakbangMember darakbangMember) {
 		ChatRoom chatRoom = chatRoomFinder.readMoimChatRoom(darakbangId, chatRoomId);
-
-		// todo: 베팅에 대한 알림 처리는 베팅 관련 채팅 기능이 구현된 후 처리
-		if (chatRoom.getType() == ChatRoomType.BET) {
-			return;
-		}
 
 		Moim moim = moimFinder.read(chatRoom.getTargetId(), darakbangId);
 		LocalDate date = request.date();
