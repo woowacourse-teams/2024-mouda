@@ -16,7 +16,6 @@ public class FcmTokenFinder {
 
 	private final FcmTokenRepository fcmTokenRepository;
 
-	// todo: Recipient는 특정 도메인에 의존하는 것 같음. ID만 받도록 처리하는게 어떤지?
 	public List<String> findAllTokensByMember(List<Recipient> recipients) {
 		List<String> fcmTokens = new ArrayList<>();
 		for (Recipient recipient : recipients) {

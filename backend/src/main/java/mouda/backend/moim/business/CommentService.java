@@ -12,8 +12,6 @@ import mouda.backend.moim.implement.sender.CommentNotificationSender;
 import mouda.backend.moim.implement.writer.CommentWriter;
 import mouda.backend.moim.presentation.request.comment.CommentCreateRequest;
 
-//todo: 댓글 작성시 알림 전송 코드 추가하기
-//todo: parentId가 null인지에 따라 댓글인지 / 답글인지 확인 가능
 @Transactional
 @Service
 @RequiredArgsConstructor

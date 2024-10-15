@@ -23,7 +23,7 @@ public class MoimRecipientFinder {
 		List<DarakbangMember> darakbangMembers = darakbangMemberRepository.findAllByDarakbangId(darakbangId);
 
 		return darakbangMembers.stream()
-			.filter(darakbangMember -> darakbangMember.getId() != authorId) // TODO: 모임 만들어진 알림을 정말 만든 사람이 몰라야 하나?
+			.filter(darakbangMember -> darakbangMember.getId() != authorId)
 			.map(darakbangMember -> new Recipient(darakbangMember.getMemberId(), darakbangMember.getId()))
 			.toList();
 	}
@@ -32,7 +32,7 @@ public class MoimRecipientFinder {
 		List<Chamyo> chamyos = chamyoRepository.findAllByMoimId(moimId);
 
 		return chamyos.stream()
-			.filter(chamyo -> chamyo.getMoimRole() != MoimRole.MOIMER) // TODO: 모임 상태의 변화도 알림을 정말 만든 사람이 몰라야 하나?
+			.filter(chamyo -> chamyo.getMoimRole() != MoimRole.MOIMER)
 			.map(chamyo -> new Recipient(chamyo.getDarakbangMember().getMemberId(), chamyo.getDarakbangMember().getId()))
 			.toList();
 	}
