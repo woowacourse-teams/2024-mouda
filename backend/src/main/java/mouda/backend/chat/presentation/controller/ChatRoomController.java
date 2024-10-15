@@ -49,13 +49,13 @@ public class ChatRoomController {
 	}
 
 	@PatchMapping("/open")
-	public ResponseEntity<Void> openChatRoom(
+	public ResponseEntity<Long> openChatRoom(
 		@PathVariable Long darakbangId,
 		@LoginDarakbangMember DarakbangMember darakbangMember,
 		@RequestParam("moimId") Long moimId
 	) {
-		chatRoomService.openChatRoom(darakbangId, moimId, darakbangMember);
+		long chatRoomId = chatRoomService.openChatRoom(darakbangId, moimId, darakbangMember);
 
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok().body(chatRoomId);
 	}
 }
