@@ -11,6 +11,7 @@ import mouda.backend.chat.domain.ChatWithAuthor;
 import mouda.backend.chat.domain.Chats;
 import mouda.backend.chat.implement.ChatRoomFinder;
 import mouda.backend.chat.implement.ChatWriter;
+import mouda.backend.chat.implement.sender.ChatNotificationSender;
 import mouda.backend.chat.presentation.request.ChatCreateRequest;
 import mouda.backend.chat.presentation.request.DateTimeConfirmRequest;
 import mouda.backend.chat.presentation.request.LastReadChatRequest;
@@ -20,6 +21,7 @@ import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.implement.finder.MoimFinder;
 import mouda.backend.moim.implement.writer.MoimWriter;
+import mouda.backend.notification.domain.NotificationType;
 
 @Service
 @Transactional
@@ -30,6 +32,7 @@ public class ChatService {
 	private final ChatWriter chatWriter;
 	private final MoimWriter moimWriter;
 	private final MoimFinder moimFinder;
+	private final ChatNotificationSender chatNotificationSender;
 
 	public void createChat(
 		long darakbangId,
@@ -40,7 +43,9 @@ public class ChatService {
 		ChatRoom chatRoom = chatRoomFinder.read(darakbangId, chatRoomId, darakbangMember);
 
 		chatWriter.append(chatRoom.getId(), request.content(), darakbangMember);
-		// 알림을 발생한다.
+		Moim moim = moimFinder.read(chatRoom.getTargetId(), darakbangId);
+
+		chatNotificationSender.sendChatNotification(moim, darakbangMember, NotificationType.NEW_CHAT, chatRoomId);
 	}
 
 	@Transactional(readOnly = true)
@@ -63,7 +68,9 @@ public class ChatService {
 		moimWriter.confirmPlace(moim, darakbangMember, request.place());
 
 		chatWriter.appendPlaceTypeChat(chatRoom.getId(), request.place(), darakbangMember);
-		// notificationService.notifyToMembers(NotificationType.MOIM_PLACE_CONFIRMED, darakbangId, moim, darakbangMember);
+
+		chatNotificationSender.sendChatNotification(moim, darakbangMember, NotificationType.MOIM_PLACE_CONFIRMED,
+			chatRoomId);
 	}
 
 	public void confirmDateTime(long darakbangId, long chatRoomId, DateTimeConfirmRequest request,
@@ -75,7 +82,8 @@ public class ChatService {
 
 		chatWriter.appendDateTimeTypeChat(chatRoom.getId(), request.date(), request.time(), darakbangMember);
 
-		// notificationService.notifyToMembers(NotificationType.MOIM_TIME_CONFIRMED, darakbangId, moim, darakbangMember);
+		chatNotificationSender.sendChatNotification(moim, darakbangMember, NotificationType.MOIM_TIME_CONFIRMED,
+			chatRoomId);
 	}
 
 	public void updateLastReadChat(

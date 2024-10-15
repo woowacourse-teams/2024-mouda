@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import mouda.backend.common.config.argumentresolver.LoginDarakbangMember;
 import mouda.backend.common.config.argumentresolver.LoginMember;
 import mouda.backend.common.response.RestResponse;
@@ -22,6 +23,7 @@ import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRoleRe
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.presentation.response.DarakbangMemberInfoResponse;
 
+@Slf4j
 @RestController
 @RequestMapping("/v1/darakbang")
 @RequiredArgsConstructor
@@ -68,11 +70,15 @@ public class DarakbangMemberController implements DarakbangMemberSwagger {
 	})
 	public ResponseEntity<Void> updateMyInfo(
 		@LoginDarakbangMember DarakbangMember darakbangMember,
-		@RequestPart(value = "profile_img", required = false) MultipartFile profile_img,
+		@RequestPart(value = "file", required = false) MultipartFile file,
+		@RequestPart(value = "profile", required = false) String profile,
 		@RequestPart("nickname") String nickname,
 		@RequestPart(value = "description", required = false) String description
 	) {
-		darakbangMemberService.updateMyInfo(darakbangMember, profile_img, nickname, description);
+
+		log.info("file : {}, profile : {}, nickname : {}, description : {}", file.toString(), profile, nickname,
+			description);
+		darakbangMemberService.updateMyInfo(darakbangMember, file, nickname, description);
 
 		return ResponseEntity.ok().build();
 	}

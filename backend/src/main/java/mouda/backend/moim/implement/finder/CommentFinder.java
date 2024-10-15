@@ -22,7 +22,7 @@ public class CommentFinder {
 		List<Comment> comments = commentRepository.findAllByMoimOrderByCreatedAt(moim);
 
 		return comments.stream()
-			.filter(Comment::isParent)
+			.filter(Comment::isComment)
 			.map(parentComment -> new ParentComment(parentComment, getChildComments(parentComment, comments)))
 			.collect(Collectors.toList());
 	}
@@ -31,9 +31,5 @@ public class CommentFinder {
 		return comments.stream()
 			.filter(comment -> Objects.equals(comment.getParentId(), parentComment.getId()))
 			.toList();
-	}
-
-	public Long readMemberIdByParentId(Long parentId) {
-		return commentRepository.findMemberIdByParentId(parentId);
 	}
 }

@@ -18,7 +18,7 @@ public class CommentWriter {
 	private final CommentRepository commentRepository;
 	private final CommentValidator commentValidator;
 
-	public void saveComment(Moim moim, DarakbangMember darakbangMember, Long parentId, String content) {
+	public Comment saveComment(Moim moim, DarakbangMember darakbangMember, Long parentId, String content) {
 		commentValidator.validateParentCommentExists(parentId);
 
 		Comment comment = Comment.builder()
@@ -29,6 +29,6 @@ public class CommentWriter {
 			.createdAt(LocalDateTime.now())
 			.build();
 
-		commentRepository.save(comment);
+		return commentRepository.save(comment);
 	}
 }

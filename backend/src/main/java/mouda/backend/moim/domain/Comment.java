@@ -73,11 +73,11 @@ public class Comment {
 		}
 	}
 
-	public boolean isParent() {
+	public boolean isComment() {
 		return parentId == null;
 	}
 
-	public boolean isChild() {
+	public boolean isReply() {
 		return parentId != null;
 	}
 
