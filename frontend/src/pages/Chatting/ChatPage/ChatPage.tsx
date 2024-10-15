@@ -1,5 +1,4 @@
 import ChatCardListSkeleton from './ChatListSkeleton/ChatCardListSkeleton';
-import ChattingPreview from '../ChattingRoomPage/ChattingPreview/ChattingPreview';
 import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
 import GET_ROUTES from '@_common/getRoutes';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
@@ -13,6 +12,7 @@ import { useTheme } from '@emotion/react';
 import { Fragment } from 'react';
 import ListContent from '@_layouts/components/ListContent/ListContent';
 import DefaultPageLayout from '@_layouts/DefaultPageLayout/DefaultPageLayout';
+import ChattingPreview from './components/ChattingPreview/ChattingPreview';
 
 export default function ChatPage() {
   const theme = useTheme();

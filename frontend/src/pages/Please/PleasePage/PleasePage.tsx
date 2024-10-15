@@ -5,7 +5,6 @@ import NavigationBar from '@_components/NavigationBar/NavigationBar';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
 import PleaseList from '@_pages/Please/PleasePage/components/PleaseList/PleaseList';
 import PlusButton from '@_components/PlusButton/PlusButton';
-import RefreshButton from '@_components/RefreshButton/RefreshButton';
 import { common } from '@_common/common.style';
 import { useNavigate } from 'react-router-dom';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
