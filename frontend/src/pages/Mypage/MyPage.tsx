@@ -26,7 +26,8 @@ export default function MyPage() {
   const [description, setDescription] = useState(myInfo?.description || '');
   const [selectedFile, setSelectedFile] = useState<File | string>('');
   const [isEditing, setIsEditing] = useState(false); // 편집 모드 상태
-  const [isRest, setIsRest] = useState('false');
+  const [isReset, setIsReset] = useState('false');
+  const [isShownRest, setIsShownRest] = useState(false);
 
   const theme = useTheme();
   const { mutate } = useEditMyInfo();
@@ -37,17 +38,20 @@ export default function MyPage() {
       setDescription(myInfo.description || '');
       setProfile(myInfo.profile || '');
       setSelectedFile(myInfo.profile || '');
+      myInfo.profile && setIsShownRest(true);
     }
   }, [myInfo]); // myInfo가 업데이트될 때마다 상태 업데이트
 
   const handleEditClick = () => {
     setIsEditing((prev) => !prev); // 편집 모드 활성화
+    setSelectedFile('');
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setSelectedFile(e.target.files[0]); // 선택한 파일을 상태에 저장
-      setIsRest('false');
+      setIsShownRest(true);
+      setIsReset('false');
     } else {
       setProfile(myInfo?.profile ?? '');
       return;
@@ -71,12 +75,11 @@ export default function MyPage() {
     // 문자열 데이터 추가
     formData.append('nickname', nickname ?? '');
     formData.append('description', description ?? '');
-    formData.append('isDefault', isRest);
+    formData.append('isReset', isReset);
 
     try {
       // 서버로 파일 및 데이터 전송
       mutate(formData); // FormData 객체 자체를 전달
-      setProfile('');
       handleEditClick(); // 편집 모드 비활성화
     } catch (error) {
       console.error('파일 업로드 실패', error);
@@ -93,12 +96,14 @@ export default function MyPage() {
     setNickname(myInfo?.nickname || '');
     setDescription(myInfo?.description || '');
     setIsEditing(false);
-    setIsRest('false');
+    setIsReset('false');
+    myInfo?.profile && setIsShownRest(false);
   };
   const handleDefaultProfile = () => {
     setProfile('');
     setSelectedFile('');
-    setIsRest('true');
+    setIsReset('true');
+    setIsShownRest(false);
   };
 
   return (
@@ -127,12 +132,14 @@ export default function MyPage() {
             </>
           ) : (
             <>
-              <button
-                css={S.AccountButton({ theme })}
-                onClick={handleDefaultProfile}
-              >
-                기본이미지로 변경
-              </button>
+              {isShownRest && (
+                <button
+                  css={S.AccountButton({ theme })}
+                  onClick={handleDefaultProfile}
+                >
+                  기본이미지로 변경
+                </button>
+              )}
               <button css={S.AccountButton({ theme })} onClick={onUpload}>
                 저장
               </button>
