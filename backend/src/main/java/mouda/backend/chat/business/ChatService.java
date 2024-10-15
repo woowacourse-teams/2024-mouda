@@ -1,5 +1,7 @@
 package mouda.backend.chat.business;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -7,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.chat.domain.ChatRoom;
+import mouda.backend.chat.domain.ChatRoomType;
 import mouda.backend.chat.domain.ChatWithAuthor;
 import mouda.backend.chat.domain.Chats;
 import mouda.backend.chat.implement.ChatRoomFinder;
@@ -17,6 +20,7 @@ import mouda.backend.chat.presentation.request.DateTimeConfirmRequest;
 import mouda.backend.chat.presentation.request.LastReadChatRequest;
 import mouda.backend.chat.presentation.request.PlaceConfirmRequest;
 import mouda.backend.chat.presentation.response.ChatFindUnloadedResponse;
+import mouda.backend.chat.util.DateTimeFormatter;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.implement.finder.MoimFinder;
@@ -42,10 +46,17 @@ public class ChatService {
 	) {
 		ChatRoom chatRoom = chatRoomFinder.read(darakbangId, chatRoomId, darakbangMember);
 
-		chatWriter.append(chatRoom.getId(), request.content(), darakbangMember);
+		// todo: 베팅에 대한 알림 처리는 베팅 관련 채팅 기능이 구현된 후 처리
+		if (chatRoom.getType() == ChatRoomType.BET) {
+			return;
+		}
+
+		String content = request.content();
+		chatWriter.append(chatRoom.getId(), content, darakbangMember);
 		Moim moim = moimFinder.read(chatRoom.getTargetId(), darakbangId);
 
-		chatNotificationSender.sendChatNotification(moim, darakbangMember, NotificationType.NEW_CHAT, chatRoomId);
+		chatNotificationSender.sendChatNotification(moim, content, chatRoomId, darakbangMember,
+			NotificationType.NEW_CHAT);
 	}
 
 	@Transactional(readOnly = true)
@@ -64,26 +75,38 @@ public class ChatService {
 		DarakbangMember darakbangMember) {
 		ChatRoom chatRoom = chatRoomFinder.readMoimChatRoom(darakbangId, chatRoomId);
 
+		// todo: 베팅에 대한 알림 처리는 베팅 관련 채팅 기능이 구현된 후 처리
+		if (chatRoom.getType() == ChatRoomType.BET) {
+			return;
+		}
+
 		Moim moim = moimFinder.read(chatRoom.getTargetId(), darakbangId);
 		moimWriter.confirmPlace(moim, darakbangMember, request.place());
 
 		chatWriter.appendPlaceTypeChat(chatRoom.getId(), request.place(), darakbangMember);
 
-		chatNotificationSender.sendChatNotification(moim, darakbangMember, NotificationType.MOIM_PLACE_CONFIRMED,
-			chatRoomId);
+		chatNotificationSender.sendChatNotification(moim, request.place(), chatRoomId, darakbangMember,
+			NotificationType.MOIM_PLACE_CONFIRMED);
 	}
 
 	public void confirmDateTime(long darakbangId, long chatRoomId, DateTimeConfirmRequest request,
 		DarakbangMember darakbangMember) {
 		ChatRoom chatRoom = chatRoomFinder.readMoimChatRoom(darakbangId, chatRoomId);
 
+		// todo: 베팅에 대한 알림 처리는 베팅 관련 채팅 기능이 구현된 후 처리
+		if (chatRoom.getType() == ChatRoomType.BET) {
+			return;
+		}
+
 		Moim moim = moimFinder.read(chatRoom.getTargetId(), darakbangId);
-		moimWriter.confirmDateTime(moim, darakbangMember, request.date(), request.time());
+		LocalDate date = request.date();
+		LocalTime time = request.time();
+		moimWriter.confirmDateTime(moim, darakbangMember, date, time);
 
-		chatWriter.appendDateTimeTypeChat(chatRoom.getId(), request.date(), request.time(), darakbangMember);
+		chatWriter.appendDateTimeTypeChat(chatRoom.getId(), date, time, darakbangMember);
 
-		chatNotificationSender.sendChatNotification(moim, darakbangMember, NotificationType.MOIM_TIME_CONFIRMED,
-			chatRoomId);
+		chatNotificationSender.sendChatNotification(moim, DateTimeFormatter.formatDateTime(date, time), chatRoomId,
+			darakbangMember, NotificationType.MOIM_TIME_CONFIRMED);
 	}
 
 	public void updateLastReadChat(
