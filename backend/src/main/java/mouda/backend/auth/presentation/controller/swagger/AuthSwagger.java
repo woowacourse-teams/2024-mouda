@@ -21,11 +21,17 @@ public interface AuthSwagger {
 	})
 	ResponseEntity<RestResponse<KakaoLoginResponse>> loginKakaoOauth(@RequestBody OauthRequest oauthRequest);
 
-	@Operation(summary = "테스트 용 로그인", description = "테스트 용 가짜 사용자로 로그인한다(accessToken 발급).")
+	@Operation(summary = "테스트 용 로그인(안나)", description = "테스트 용 가짜 사용자로 로그인한다(accessToken 발급).")
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "로그인 성공!"),
 	})
-	ResponseEntity<RestResponse<LoginResponse>> loginBasicOauth();
+	ResponseEntity<RestResponse<LoginResponse>> loginBasicOauthAnna();
+
+	@Operation(summary = "테스트 용 로그인(호기)", description = "테스트 용 가짜 사용자로 로그인한다(accessToken 발급).")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "로그인 성공!"),
+	})
+	ResponseEntity<RestResponse<LoginResponse>> loginBasicOauthHogee();
 
 	@Operation(summary = "애플 로그인", description = "애플 Oauth Code를 사용하여 로그인한다(accessToken 발급).")
 	@ApiResponses({
