@@ -32,7 +32,6 @@ public class ChatService {
 	private final ChatWriter chatWriter;
 	private final MoimWriter moimWriter;
 	private final MoimFinder moimFinder;
-	private final ChatRoomWriter chatRoomWriter;
 	private final ChatNotificationSender chatNotificationSender;
 
 	public void createChat(
@@ -70,7 +69,8 @@ public class ChatService {
 
 		chatWriter.appendPlaceTypeChat(chatRoom.getId(), request.place(), darakbangMember);
 
-		chatNotificationSender.sendChatNotification(moim, darakbangMember, NotificationType.MOIM_PLACE_CONFIRMED, chatRoomId);
+		chatNotificationSender.sendChatNotification(moim, darakbangMember, NotificationType.MOIM_PLACE_CONFIRMED,
+			chatRoomId);
 	}
 
 	public void confirmDateTime(long darakbangId, long chatRoomId, DateTimeConfirmRequest request,
@@ -82,7 +82,8 @@ public class ChatService {
 
 		chatWriter.appendDateTimeTypeChat(chatRoom.getId(), request.date(), request.time(), darakbangMember);
 
-		chatNotificationSender.sendChatNotification(moim, darakbangMember, NotificationType.MOIM_TIME_CONFIRMED, chatRoomId);
+		chatNotificationSender.sendChatNotification(moim, darakbangMember, NotificationType.MOIM_TIME_CONFIRMED,
+			chatRoomId);
 	}
 
 	public void updateLastReadChat(
