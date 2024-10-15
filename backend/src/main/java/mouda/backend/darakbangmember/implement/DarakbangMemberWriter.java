@@ -45,6 +45,10 @@ public class DarakbangMemberWriter {
 		}
 	}
 
+	public void updateMyInfo(DarakbangMember darakbangMember, String nickname, String description) {
+		darakbangMemberRepository.save(darakbangMember.updateMyInfo(nickname, description));
+	}
+
 	public void updateMyInfo(DarakbangMember darakbangMember, String nickname, String description, String profile) {
 		darakbangMemberRepository.save(darakbangMember.updateMyInfo(nickname, description, profile));
 	}
