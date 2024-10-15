@@ -33,6 +33,7 @@ const API_URL = {
     result: (betId: number) => addBaseUrl(`/bet/${betId}/result`, true),
   },
   kakaoOAuth: addBaseUrl('/auth/kakao/oauth', false),
+  myInfo: addBaseUrl('/member/mine', true),
 };
 
 const ENDPOINTS = {

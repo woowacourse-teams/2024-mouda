@@ -65,8 +65,10 @@ export interface GetPleases {
 
 export interface GetMyInfo {
   data: {
+    name: string;
     nickname: string;
     profile: string;
+    description: string;
   };
 }
 
