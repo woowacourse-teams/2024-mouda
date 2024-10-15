@@ -94,8 +94,8 @@ class ChatRoomDetailsFinderTest extends DarakbangSetUp {
 		attributes.put("isMoimer", true);
 		attributes.put("isStarted", false);
 		attributes.put("description", moim.getDescription());
-		attributes.put("date", moim.getDate().toString());
-		attributes.put("time", moim.getTime().withNano(0).toString());
+		attributes.put("date", moim.getDate());
+		attributes.put("time", moim.getTime().withNano(0));
 		attributes.put("moimId", 1L);
 		return attributes;
 	}
