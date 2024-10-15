@@ -191,9 +191,9 @@ export default function ChattingRoomPage() {
               chatRoomDetail.attributes.isStarted ? '모임 후' : '모임 중'
             }
             textList={[
-              `${chatRoomDetail.attributes.date && chatRoomDetail.attributes.date.replaceAll('-', '.')}
-  ${chatRoomDetail.attributes.time && ' ' + formatHhmmToKoreanWithPrefix(chatRoomDetail.attributes.time)}`,
-              `${chatRoomDetail.attributes.place}`,
+              `${(chatRoomDetail.attributes.date || '') && chatRoomDetail.attributes.date.replaceAll('-', '.')}
+  ${(chatRoomDetail.attributes.time || '') && ' ' + formatHhmmToKoreanWithPrefix(chatRoomDetail.attributes.time)}`,
+              `${chatRoomDetail.attributes.place || ''}`,
             ]}
           />
         )}
