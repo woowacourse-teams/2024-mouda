@@ -47,18 +47,4 @@ class CommentFinderTest extends DarakbangSetUp {
 		assertThat(actual.getChildren()).hasSize(1)
 			.extracting(Comment::getId).containsOnly(childComment.getId());
 	}
-
-	@DisplayName("부모 댓글의 ID로 회원 ID를 조회한다.")
-	@Test
-	void readMemberIdByParentId() {
-		Moim moim = moimRepository.save(MoimFixture.getCoffeeMoim(darakbang.getId()));
-		Comment parentComment = commentRepository.save(
-			CommentFixture.getCommentWithAnnaAtSoccerMoim(darakbangHogee, moim));
-		Comment childComment = commentRepository.save(
-			CommentFixture.getChildCommentWithAnnaAtSoccerMoim(darakbangAnna, moim));
-
-		Long memberId = commentFinder.readMemberIdByParentId(childComment.getParentId());
-
-		assertThat(memberId).isEqualTo(darakbangHogee.getId());
-	}
 }
