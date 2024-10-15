@@ -11,7 +11,7 @@ import * as S from './MyPage.style';
 import MyInfoTabBar from './components/MyInfoTabBar/MyInfoTabBar';
 import Setting from '@_common/assets/setting.svg';
 import Edit from '@_common/assets/edit.svg';
-import { ChangeEvent, useEffect, useRef, useState } from 'react'; // ChangeEvent를 가져옴
+import { ChangeEvent, Fragment, useEffect, useRef, useState } from 'react'; // ChangeEvent를 가져옴
 import useEditMyInfo from '@_hooks/mutaions/useEditMyInfo';
 import { useNavigate } from 'react-router-dom';
 import GET_ROUTES from '@_common/getRoutes';
@@ -95,81 +95,83 @@ export default function MyPage() {
   };
 
   return (
-    <InformationLayout>
-      <InformationLayout.Header>
-        <InformationLayout.Header.Left>
-          <span css={[[theme.typography.h5, common.nonDrag]]}>
-            {darakbangName}
-          </span>
-        </InformationLayout.Header.Left>
-        <InformationLayout.Header.Right>
-          {!isEditing ? (
-            <>
-              <button
-                css={S.AccountButton({ theme })}
-                onClick={handleEditClick}
-              >
-                <Edit />
-              </button>
-              <button
-                css={S.AccountButton({ theme })}
-                onClick={() => navigate(GET_ROUTES.nowDarakbang.setting())}
-              >
-                <Setting />
-              </button>
-            </>
-          ) : (
-            <>
-              <button css={S.AccountButton({ theme })} onClick={onUpload}>
-                저장
-              </button>
-              <button css={S.AccountButton({ theme })} onClick={handleCancel}>
-                취소
-              </button>
-            </>
-          )}
-        </InformationLayout.Header.Right>
-      </InformationLayout.Header>
-      <InformationLayout.ContentContainer>
-        <section css={S.mainContainer}>
-          {myInfo && (
-            <MineInfoCard
-              myInfo={{
-                nickname,
-                profile: image,
-                name: myInfo.name,
-              }}
-              onProfileClick={handleProfileClick}
+    <Fragment>
+      <InformationLayout>
+        <InformationLayout.Header>
+          <InformationLayout.Header.Left>
+            <span css={[[theme.typography.h5, common.nonDrag]]}>
+              {darakbangName}
+            </span>
+          </InformationLayout.Header.Left>
+          <InformationLayout.Header.Right>
+            {!isEditing ? (
+              <>
+                <button
+                  css={S.AccountButton({ theme })}
+                  onClick={handleEditClick}
+                >
+                  <Edit />
+                </button>
+                <button
+                  css={S.AccountButton({ theme })}
+                  onClick={() => navigate(GET_ROUTES.nowDarakbang.setting())}
+                >
+                  <Setting />
+                </button>
+              </>
+            ) : (
+              <>
+                <button css={S.AccountButton({ theme })} onClick={onUpload}>
+                  저장
+                </button>
+                <button css={S.AccountButton({ theme })} onClick={handleCancel}>
+                  취소
+                </button>
+              </>
+            )}
+          </InformationLayout.Header.Right>
+        </InformationLayout.Header>
+        <InformationLayout.ContentContainer>
+          <section css={S.mainContainer}>
+            {myInfo && (
+              <MineInfoCard
+                myInfo={{
+                  nickname,
+                  profile: image,
+                  name: myInfo.name,
+                }}
+                onProfileClick={handleProfileClick}
+                isEditing={isEditing}
+                setNickname={setNickname}
+              />
+            )}
+            <MyInfoTabBar
+              description={description}
               isEditing={isEditing}
-              setNickname={setNickname}
+              setDescription={setDescription}
             />
-          )}
-          <MyInfoTabBar
-            description={description}
-            isEditing={isEditing}
-            setDescription={setDescription}
-          />
-          <div
-            css={css`
-              display: flex;
-              gap: 10px;
-              justify-content: end;
-            `}
-          >
-            <input
-              type="file"
-              accept="image/jpg,image/png,image/jpeg"
-              name="profile_img"
-              onChange={onChange}
-              ref={fileInput}
-              style={{ display: 'none' }}
-            />
-          </div>
-        </section>
-      </InformationLayout.ContentContainer>
+            <div
+              css={css`
+                display: flex;
+                gap: 10px;
+                justify-content: end;
+              `}
+            >
+              <input
+                type="file"
+                accept="image/jpg,image/png,image/jpeg"
+                name="profile_img"
+                onChange={onChange}
+                ref={fileInput}
+                style={{ display: 'none' }}
+              />
+            </div>
+          </section>
+        </InformationLayout.ContentContainer>
+      </InformationLayout>
       <NavigationBarWrapper>
         <NavigationBar />
       </NavigationBarWrapper>
-    </InformationLayout>
+    </Fragment>
   );
 }

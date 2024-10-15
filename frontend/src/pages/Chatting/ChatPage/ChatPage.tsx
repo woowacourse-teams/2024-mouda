@@ -28,69 +28,73 @@ export default function ChatPage() {
   const navigate = useNavigate();
 
   return (
-    <ChattingPreviewLayout>
-      <ChattingPreviewLayout.Header>
-        <ChattingPreviewLayout.Header.Left>
-          <h2 css={[theme.typography.h5, common.nonDrag]}>
-            <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
-          </h2>
-        </ChattingPreviewLayout.Header.Left>
-      </ChattingPreviewLayout.Header>
-      <ChattingPreviewLayout.HeaderBottom>
-        <ChatFilterTagList>
-          <ChatFilterTag
-            value={'모임'}
-            isChecked={nowChatRoomType === 'MOIM'}
-            onClick={() => setNowChatRoomType('MOIM')}
-          />
-          <ChatFilterTag
-            value={'안내면진다'}
-            isChecked={nowChatRoomType === 'BET'}
-            onClick={() => setNowChatRoomType('BET')}
-          />
-        </ChatFilterTagList>
-      </ChattingPreviewLayout.HeaderBottom>
-      <ChattingPreviewLayout.ContentContainer>
-        {isLoading ? (
-          <ChatCardListSkeleton />
-        ) : chatPreviews && chatPreviews.length > 0 ? (
-          chatPreviews.map((chatPreview) => (
-            <ChattingPreview
-              title={chatPreview.title}
-              unreadCount={chatPreview.unreadChatCount}
-              tagValue={
-                (nowChatRoomType === 'MOIM' || '') &&
-                (chatPreview.isStarted ? '모임 후' : '모임 전')
-              }
-              fontColor={
-                (nowChatRoomType === 'MOIM' || undefined) &&
-                (chatPreview.isStarted
-                  ? theme.colorPalette.yellow[800]
-                  : theme.colorPalette.white[100])
-              }
-              themeColor={
-                (nowChatRoomType === 'MOIM' || undefined) &&
-                (chatPreview.isStarted
-                  ? theme.colorPalette.yellow[50]
-                  : theme.colorPalette.orange[100])
-              }
-              participants={chatPreview.participations}
-              lastContent={chatPreview.lastContent}
-              onClick={() =>
-                navigate(
-                  GET_ROUTES.nowDarakbang.chattingRoom(chatPreview.chatRoomId),
-                )
-              }
-              key={chatPreview.chatRoomId}
+    <>
+      <ChattingPreviewLayout>
+        <ChattingPreviewLayout.Header>
+          <ChattingPreviewLayout.Header.Left>
+            <h2 css={[theme.typography.h5, common.nonDrag]}>
+              <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
+            </h2>
+          </ChattingPreviewLayout.Header.Left>
+        </ChattingPreviewLayout.Header>
+        <ChattingPreviewLayout.HeaderBottom>
+          <ChatFilterTagList>
+            <ChatFilterTag
+              value={'모임'}
+              isChecked={nowChatRoomType === 'MOIM'}
+              onClick={() => setNowChatRoomType('MOIM')}
             />
-          ))
-        ) : (
-          <MissingFallback text="아직 열린 채팅방이 없습니다" />
-        )}
-      </ChattingPreviewLayout.ContentContainer>
+            <ChatFilterTag
+              value={'안내면진다'}
+              isChecked={nowChatRoomType === 'BET'}
+              onClick={() => setNowChatRoomType('BET')}
+            />
+          </ChatFilterTagList>
+        </ChattingPreviewLayout.HeaderBottom>
+        <ChattingPreviewLayout.ContentContainer>
+          {isLoading ? (
+            <ChatCardListSkeleton />
+          ) : chatPreviews && chatPreviews.length > 0 ? (
+            chatPreviews.map((chatPreview) => (
+              <ChattingPreview
+                title={chatPreview.title}
+                unreadCount={chatPreview.unreadChatCount}
+                tagValue={
+                  (nowChatRoomType === 'MOIM' || '') &&
+                  (chatPreview.isStarted ? '모임 후' : '모임 전')
+                }
+                fontColor={
+                  (nowChatRoomType === 'MOIM' || undefined) &&
+                  (chatPreview.isStarted
+                    ? theme.colorPalette.yellow[800]
+                    : theme.colorPalette.white[100])
+                }
+                themeColor={
+                  (nowChatRoomType === 'MOIM' || undefined) &&
+                  (chatPreview.isStarted
+                    ? theme.colorPalette.yellow[50]
+                    : theme.colorPalette.orange[100])
+                }
+                participants={chatPreview.participations}
+                lastContent={chatPreview.lastContent}
+                onClick={() =>
+                  navigate(
+                    GET_ROUTES.nowDarakbang.chattingRoom(
+                      chatPreview.chatRoomId,
+                    ),
+                  )
+                }
+                key={chatPreview.chatRoomId}
+              />
+            ))
+          ) : (
+            <MissingFallback text="아직 열린 채팅방이 없습니다" />
+          )}
+        </ChattingPreviewLayout.ContentContainer>
+      </ChattingPreviewLayout>
       <NavigationBarWrapper>
         <NavigationBar />
       </NavigationBarWrapper>
-    </ChattingPreviewLayout>
+    </>
   );
 }

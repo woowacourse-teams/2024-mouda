@@ -2,34 +2,46 @@ import GET_ROUTES from '@_common/getRoutes';
 import NavigationBar from '@_components/NavigationBar/NavigationBar';
 import PlusButton from '@_components/PlusButton/PlusButton';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
-import ListLayout from '@_layouts/ListLayout/ListLayout';
 import { useTheme } from '@emotion/react';
 import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BetList from './components/BetList/BetList';
+import DefaultPageLayout from '@_layouts/DefaultPageLayout/DefaultPageLayout';
+import RefreshButton from '@_components/RefreshButton/RefreshButton';
+import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
+import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
+import { common } from '@_common/common.style';
 
 export default function BetListPage() {
   const navigate = useNavigate();
+  const { darakbangName } = useNowDarakbangName();
 
   const theme = useTheme();
 
   return (
     <Fragment>
-      <ListLayout>
-        <ListLayout.Header>
-          <h1 css={[theme.typography.h5]}>안내면진다</h1>
-        </ListLayout.Header>
+      <DefaultPageLayout>
+        <DefaultPageLayout.TriHeader>
+          <DefaultPageLayout.TriHeader.Left>
+            <h1 css={[common.nonScroll, theme.typography.h5]}>
+              <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
+            </h1>
+          </DefaultPageLayout.TriHeader.Left>
+          <DefaultPageLayout.TriHeader.Right>
+            <RefreshButton />
+          </DefaultPageLayout.TriHeader.Right>
+        </DefaultPageLayout.TriHeader>
 
-        <ListLayout.Main>
+        <DefaultPageLayout.Main>
           <BetList />
-        </ListLayout.Main>
+        </DefaultPageLayout.Main>
 
-        <ListLayout.PlusButtonWrapper>
+        <DefaultPageLayout.ListPageFixedButtonWrapper>
           <PlusButton
             onClick={() => navigate(GET_ROUTES.nowDarakbang.betCreation())}
           />
-        </ListLayout.PlusButtonWrapper>
-      </ListLayout>
+        </DefaultPageLayout.ListPageFixedButtonWrapper>
+      </DefaultPageLayout>
 
       <NavigationBarWrapper>
         <NavigationBar />

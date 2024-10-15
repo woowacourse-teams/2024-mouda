@@ -8,8 +8,9 @@ interface TriSectionHeaderProps extends PropsWithChildren {
 }
 function TriSectionHeader(props: TriSectionHeaderProps) {
   const { children, borderBottomColor } = props;
+  const theme = useTheme();
   return (
-    <header css={S.getTriSectionHeaderStyle({ borderBottomColor })}>
+    <header css={S.getTriSectionHeaderStyle({ borderBottomColor, theme })}>
       {children}
     </header>
   );
