@@ -8,13 +8,13 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.auth.business.KakaoAuthService;
+import mouda.backend.member.business.MemberService;
 
 @Component
 @RequiredArgsConstructor
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
 
-	private final KakaoAuthService authService;
+	private final MemberService memberService;
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
@@ -29,7 +29,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 		String authorizationHeader = webRequest.getHeader("Authorization");
 
 		String token = extractToken(authorizationHeader);
-		return authService.findMember(token);
+		return memberService.findMember(token);
 	}
 
 	private String extractToken(String authorizationHeader) {

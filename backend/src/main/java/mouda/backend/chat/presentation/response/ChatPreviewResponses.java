@@ -5,7 +5,7 @@ import java.util.List;
 import mouda.backend.chat.domain.ChatPreview;
 
 public record ChatPreviewResponses(
-	List<ChatPreviewResponse> chatPreviewResponses
+	List<ChatPreviewResponse> previews
 ) {
 
 	public static ChatPreviewResponses toResponse(List<ChatPreview> chatPreviewResponses) {

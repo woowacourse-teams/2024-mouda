@@ -22,7 +22,7 @@ public class DarakbangMemberFixture {
 		return DarakbangMember.builder()
 			.darakbang(darakbang)
 			.memberId(member.getId())
-			.nickname("소소파파")
+			.nickname(member.getName())
 			.profile("profile")
 			.description("description")
 			.role(DarakBangMemberRole.MEMBER)

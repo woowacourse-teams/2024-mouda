@@ -2,7 +2,6 @@ package mouda.backend.chat.presentation.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,13 +15,11 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.aop.logging.ExceptRequestLogging;
 import mouda.backend.chat.business.ChatService;
-import mouda.backend.chat.domain.ChatRoomType;
 import mouda.backend.chat.presentation.request.ChatCreateRequest;
 import mouda.backend.chat.presentation.request.DateTimeConfirmRequest;
 import mouda.backend.chat.presentation.request.LastReadChatRequest;
 import mouda.backend.chat.presentation.request.PlaceConfirmRequest;
 import mouda.backend.chat.presentation.response.ChatFindUnloadedResponse;
-import mouda.backend.chat.presentation.response.ChatPreviewResponses;
 import mouda.backend.common.config.argumentresolver.LoginDarakbangMember;
 import mouda.backend.common.response.RestResponse;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
@@ -64,19 +61,6 @@ public class ChatController {
 	}
 
 	// @override
-	@GetMapping("/preview")
-	@ExceptRequestLogging
-	public ResponseEntity<RestResponse<ChatPreviewResponses>> findChatPreviews(
-		@PathVariable Long darakbangId,
-		@LoginDarakbangMember DarakbangMember darakbangMember,
-		@RequestParam("chatRoomType") ChatRoomType chatRoomType
-	) {
-		ChatPreviewResponses chatPreviewResponses = chatService.findChatPreview(darakbangMember, chatRoomType);
-
-		return ResponseEntity.ok(new RestResponse<>(chatPreviewResponses));
-	}
-
-	// @override
 	@PostMapping("/{chatRoomId}/last")
 	public ResponseEntity<Void> createLastReadChatId(
 		@PathVariable Long darakbangId,
@@ -111,17 +95,6 @@ public class ChatController {
 		@RequestBody PlaceConfirmRequest placeConfirmRequest
 	) {
 		chatService.confirmPlace(darakbangId, chatRoomId, placeConfirmRequest, darakbangMember);
-
-		return ResponseEntity.ok().build();
-	}
-
-	@PatchMapping("/open")
-	public ResponseEntity<Void> openChatRoom(
-		@PathVariable Long darakbangId,
-		@LoginDarakbangMember DarakbangMember darakbangMember,
-		@RequestParam("moimId") Long moimId
-	) {
-		chatService.openChatRoom(darakbangId, moimId, darakbangMember);
 
 		return ResponseEntity.ok().build();
 	}

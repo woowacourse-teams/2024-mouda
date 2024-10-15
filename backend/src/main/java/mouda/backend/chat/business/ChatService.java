@@ -6,15 +6,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.chat.domain.ChatPreview;
 import mouda.backend.chat.domain.ChatRoom;
-import mouda.backend.chat.domain.ChatRoomType;
 import mouda.backend.chat.domain.ChatWithAuthor;
 import mouda.backend.chat.domain.Chats;
-import mouda.backend.chat.implement.ChatPreviewManager;
-import mouda.backend.chat.implement.ChatPreviewManagerRegistry;
 import mouda.backend.chat.implement.ChatRoomFinder;
-import mouda.backend.chat.implement.ChatRoomWriter;
 import mouda.backend.chat.implement.ChatWriter;
 import mouda.backend.chat.implement.sender.ChatNotificationSender;
 import mouda.backend.chat.presentation.request.ChatCreateRequest;
@@ -22,7 +17,6 @@ import mouda.backend.chat.presentation.request.DateTimeConfirmRequest;
 import mouda.backend.chat.presentation.request.LastReadChatRequest;
 import mouda.backend.chat.presentation.request.PlaceConfirmRequest;
 import mouda.backend.chat.presentation.response.ChatFindUnloadedResponse;
-import mouda.backend.chat.presentation.response.ChatPreviewResponses;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.implement.finder.MoimFinder;
@@ -37,7 +31,6 @@ public class ChatService {
 	private final ChatRoomFinder chatRoomFinder;
 	private final ChatWriter chatWriter;
 	private final MoimWriter moimWriter;
-	private final ChatPreviewManagerRegistry chatPreviewManagerRegistry;
 	private final MoimFinder moimFinder;
 	private final ChatRoomWriter chatRoomWriter;
 	private final ChatNotificationSender chatNotificationSender;
@@ -92,24 +85,11 @@ public class ChatService {
 		chatNotificationSender.sendChatNotification(moim, darakbangMember, NotificationType.MOIM_TIME_CONFIRMED, chatRoomId);
 	}
 
-	public ChatPreviewResponses findChatPreview(DarakbangMember darakbangMember, ChatRoomType chatRoomType) {
-		ChatPreviewManager manager = chatPreviewManagerRegistry.getManager(chatRoomType);
-		List<ChatPreview> chatPreviews = manager.create(darakbangMember);
-
-		return ChatPreviewResponses.toResponse(chatPreviews);
-	}
-
 	public void updateLastReadChat(
 		long darakbangId, long chatRoomId, LastReadChatRequest request, DarakbangMember darakbangMember
 	) {
 		ChatRoom chatRoom = chatRoomFinder.read(darakbangId, chatRoomId, darakbangMember);
 
 		chatWriter.updateLastReadChat(chatRoom, darakbangMember, request.lastReadChatId());
-	}
-
-	public void openChatRoom(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
-		Moim moim = moimFinder.read(moimId, darakbangId);
-		moimWriter.openChatByMoimer(moim, darakbangMember);
-		chatRoomWriter.append(moimId, darakbangId, ChatRoomType.MOIM);
 	}
 }

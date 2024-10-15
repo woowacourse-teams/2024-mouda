@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.aop.logging.ExceptRequestLogging;
+import mouda.backend.chat.business.ChatRoomService;
 import mouda.backend.chat.business.ChatService;
 import mouda.backend.chat.domain.ChatRoomType;
 import mouda.backend.chat.presentation.request.ChatCreateRequest;
@@ -41,6 +42,7 @@ import mouda.backend.moim.presentation.response.chat.OldChatPreviewResponses;
 public class ChatController implements ChatSwagger {
 
 	private final ChatService chatService;
+	private final ChatRoomService chatRoomService;
 
 	@Override
 	@PostMapping
@@ -77,9 +79,9 @@ public class ChatController implements ChatSwagger {
 		@PathVariable Long darakbangId,
 		@LoginDarakbangMember DarakbangMember darakbangMember
 	) {
-		ChatPreviewResponses chatPreviewResponses = chatService.findChatPreview(darakbangMember, ChatRoomType.MOIM);
+		ChatPreviewResponses chatPreviewResponses = chatRoomService.findChatPreview(darakbangMember, ChatRoomType.MOIM);
 
-		List<ChatPreviewResponse> previewResponses = chatPreviewResponses.chatPreviewResponses().stream()
+		List<ChatPreviewResponse> previewResponses = chatPreviewResponses.previews().stream()
 			.map(chatPreviewResponse -> new ChatPreviewResponse(chatPreviewResponse.chatRoomId(), chatPreviewResponse.title(), chatPreviewResponse.currentPeople(), chatPreviewResponse.isStarted(),
 				chatPreviewResponse.lastContent(), chatPreviewResponse.lastReadChatId())).toList();
 		OldChatPreviewResponses oldChatPreviewResponses = new OldChatPreviewResponses(previewResponses);
@@ -131,7 +133,7 @@ public class ChatController implements ChatSwagger {
 		@LoginDarakbangMember DarakbangMember darakbangMember,
 		@RequestParam("moimId") Long moimId
 	) {
-		chatService.openChatRoom(darakbangId, moimId, darakbangMember);
+		chatRoomService.openChatRoom(darakbangId, moimId, darakbangMember);
 
 		return ResponseEntity.ok().build();
 	}

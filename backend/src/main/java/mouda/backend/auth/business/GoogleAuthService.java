@@ -8,7 +8,6 @@ import mouda.backend.auth.implement.GoogleOauthManager;
 import mouda.backend.auth.implement.LoginManager;
 import mouda.backend.auth.presentation.request.GoogleOauthRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
-import mouda.backend.member.domain.Member;
 import mouda.backend.member.domain.OauthType;
 
 @Service
@@ -22,19 +21,19 @@ public class GoogleAuthService {
 		String name = googleOauthManager.getMemberName(googleOauthRequest.idToken());
 		String socialLoginId = googleOauthManager.getSocialLoginId(googleOauthRequest.idToken());
 		if (googleOauthRequest.memberId() != null) {
-			String accessToken = loginManager.updateOauth(googleOauthRequest.memberId(), OauthType.GOOGLE,
-				socialLoginId);
-			return new LoginResponse(accessToken);
+			return transferKakao(googleOauthRequest, socialLoginId);
 		}
+		return processGoogleLogin(socialLoginId, name);
+	}
+
+	private LoginResponse transferKakao(GoogleOauthRequest googleOauthRequest, String socialLoginId) {
+		String accessToken = loginManager.updateOauth(googleOauthRequest.memberId(), OauthType.GOOGLE,
+			socialLoginId);
+		return new LoginResponse(accessToken);
+	}
+
+	private LoginResponse processGoogleLogin(String socialLoginId, String name) {
 		LoginProcessResult loginProcessResult = loginManager.processSocialLogin(OauthType.GOOGLE, socialLoginId, name);
 		return new LoginResponse(loginProcessResult.accessToken());
-	}
-
-	public Member findMember(String token) {
-		return null;
-	}
-
-	public void checkAuthentication(String token) {
-
 	}
 }
