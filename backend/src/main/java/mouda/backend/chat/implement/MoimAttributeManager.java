@@ -50,6 +50,9 @@ public class MoimAttributeManager implements AttributeManager {
 	}
 
 	private LocalTime formatToSecondPrecision(LocalTime time) {
+		if (time == null) {
+			return null;
+		}
 		return time.withNano(0);
 	}
 }
