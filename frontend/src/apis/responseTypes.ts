@@ -97,7 +97,7 @@ export interface GetMyRoleInDarakbang {
 
 export interface GetDarakbangMembers {
   data: {
-    darakbangMemberResponses: {
+    responses: {
       memberId: number;
       nickname: string;
       profile: string;

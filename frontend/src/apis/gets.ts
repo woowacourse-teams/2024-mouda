@@ -179,7 +179,7 @@ export const getDarakbangMembers = async () => {
   const response = await ApiClient.getWithLastDarakbangId('/members');
 
   const json: GetDarakbangMembers = await response.json();
-  return json.data.darakbangMemberResponses;
+  return json.data.responses;
 };
 
 export const getDarakbangInviteCode = async () => {
