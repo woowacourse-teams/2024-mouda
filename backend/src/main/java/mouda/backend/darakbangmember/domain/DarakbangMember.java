@@ -85,6 +85,7 @@ public class DarakbangMember {
 	}
 
 	public DarakbangMember updateMyInfo(String nickname, String description) {
+		validateNickname(nickname);
 		this.nickname = nickname;
 		this.description = description;
 
@@ -92,6 +93,7 @@ public class DarakbangMember {
 	}
 
 	public DarakbangMember updateMyInfo(String nickname, String description, String profile) {
+		validateNickname(nickname);
 		this.nickname = nickname;
 		this.description = description;
 		this.profile = profile;
