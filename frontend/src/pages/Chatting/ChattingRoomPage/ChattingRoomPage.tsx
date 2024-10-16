@@ -99,6 +99,7 @@ export default function ChattingRoomPage() {
       return (
         <MissingFallback
           text={'아직 데이터가 로드되기도 전인데... \n 정말 빨리 누르시는군요'}
+          backgroundColor={theme.colorPalette.white[100]}
         />
       );
     }
@@ -128,6 +129,7 @@ export default function ChattingRoomPage() {
       return (
         <MissingFallback
           text={'모임에 참여한 사람은 \n 아직 할 수 있는 기능이 없어요'}
+          backgroundColor={theme.colorPalette.white[100]}
         />
       );
     }
@@ -136,15 +138,17 @@ export default function ChattingRoomPage() {
       return (
         <MissingFallback
           text={'안내면진다 채팅방에서는 아직 \n 아직 할 수 있는 기능이 없어요'}
+          backgroundColor={theme.colorPalette.white[100]}
         />
       );
     }
     return (
       <MissingFallback
-        text={'아직 데이터가 로드되지 않았는데... \n 정말 빨리 누르시는 군요'}
+        text={'아직 데이터가 로드되지 않았는데... \n 정말 빨리 누르시는군요'}
+        backgroundColor={theme.colorPalette.white[100]}
       />
     );
-  }, [chatRoomDetail]);
+  }, [chatRoomDetail, theme]);
 
   return (
     <ChattingRoomLayout>
