@@ -3,10 +3,13 @@ package mouda.backend.moim.implement.sender;
 import java.util.List;
 
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import mouda.backend.common.config.UrlConfig;
 import mouda.backend.darakbang.domain.Darakbang;
+import mouda.backend.darakbang.exception.DarakbangErrorMessage;
+import mouda.backend.darakbang.exception.DarakbangException;
 import mouda.backend.darakbang.infrastructure.DarakbangRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
@@ -34,7 +37,7 @@ public class MoimNotificationSender extends AbstractMoimNotificationSender {
 		List<Recipient> recipients = moimRecipientFinder.getMoimCreatedNotificationRecipients(moim.getDarakbangId(),
 			author.getId());
 		Darakbang darakbang = darakbangRepository.findById(moim.getDarakbangId())
-			.orElseThrow(IllegalArgumentException::new);
+			.orElseThrow(() -> new DarakbangException(HttpStatus.NOT_FOUND, DarakbangErrorMessage.DARAKBANG_NOT_FOUND));
 		NotificationEvent notificationEvent = new NotificationEvent(notificationType, darakbang.getName(),
 			notificationType.createMessage(moim.getTitle()), getMoimUrl(darakbang.getId(), moim.getId()), recipients);
 		eventPublisher.publishEvent(notificationEvent);
@@ -43,7 +46,7 @@ public class MoimNotificationSender extends AbstractMoimNotificationSender {
 	public void sendMoimStatusChangedNotification(Moim moim, NotificationType notificationType) {
 		List<Recipient> recipients = moimRecipientFinder.getMoimStatusChangedNotificationRecipients(moim.getId());
 		Darakbang darakbang = darakbangRepository.findById(moim.getDarakbangId())
-			.orElseThrow(IllegalArgumentException::new);
+			.orElseThrow(() -> new DarakbangException(HttpStatus.NOT_FOUND, DarakbangErrorMessage.DARAKBANG_NOT_FOUND));
 		NotificationEvent notificationEvent = new NotificationEvent(notificationType, darakbang.getName(),
 			notificationType.createMessage(moim.getTitle()), getMoimUrl(darakbang.getId(), moim.getId()), recipients);
 
