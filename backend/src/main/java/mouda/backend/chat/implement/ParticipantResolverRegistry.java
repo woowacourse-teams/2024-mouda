@@ -2,10 +2,13 @@ package mouda.backend.chat.implement;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.chat.domain.ChatRoomType;
+import mouda.backend.chat.exception.ChatErrorMessage;
+import mouda.backend.chat.exception.ChatException;
 
 @Component
 @RequiredArgsConstructor
@@ -17,6 +20,6 @@ public class ParticipantResolverRegistry {
 		return participantsResolvers.stream()
 			.filter(participantsResolver -> participantsResolver.support(chatRoomType))
 			.findFirst()
-			.orElseThrow(IllegalArgumentException::new); // TODO: 예외 처리 리팩토링
+			.orElseThrow(() -> new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.INVALID_CHATROOM_TYPE));
 	}
 }

@@ -42,4 +42,12 @@ public class S3Client {
 			throw new DarakbangMemberException(HttpStatus.BAD_REQUEST, DarakbangMemberErrorMessage.INVALID_FILE);
 		}
 	}
+
+	public void deleteFile(String fileUrl) {
+		try {
+			amazonS3.deleteObject(bucket, fileUrl);
+		} catch (Exception e) {
+			throw new DarakbangMemberException(HttpStatus.BAD_REQUEST, DarakbangMemberErrorMessage.INVALID_DELETE_FILE);
+		}
+	}
 }

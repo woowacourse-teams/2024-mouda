@@ -82,7 +82,8 @@ public class ChatController implements ChatSwagger {
 		ChatPreviewResponses chatPreviewResponses = chatRoomService.findChatPreview(darakbangMember, ChatRoomType.MOIM);
 
 		List<ChatPreviewResponse> previewResponses = chatPreviewResponses.previews().stream()
-			.map(chatPreviewResponse -> new ChatPreviewResponse(chatPreviewResponse.chatRoomId(), chatPreviewResponse.title(), chatPreviewResponse.currentPeople(), chatPreviewResponse.isStarted(),
+			.map(chatPreviewResponse -> new ChatPreviewResponse(chatPreviewResponse.chatRoomId(), chatPreviewResponse.title(), chatPreviewResponse.participations().size(),
+				chatPreviewResponse.isStarted(),
 				chatPreviewResponse.lastContent(), chatPreviewResponse.lastReadChatId())).toList();
 		OldChatPreviewResponses oldChatPreviewResponses = new OldChatPreviewResponses(previewResponses);
 		return ResponseEntity.ok(new RestResponse<>(oldChatPreviewResponses));

@@ -18,6 +18,7 @@ import mouda.backend.bet.infrastructure.BetRepository;
 import mouda.backend.chat.domain.ChatRoomType;
 import mouda.backend.chat.entity.ChatEntity;
 import mouda.backend.chat.entity.ChatRoomEntity;
+import mouda.backend.chat.entity.ChatType;
 import mouda.backend.chat.infrastructure.ChatRepository;
 import mouda.backend.chat.infrastructure.ChatRoomRepository;
 import mouda.backend.chat.presentation.request.ChatCreateRequest;
@@ -28,7 +29,6 @@ import mouda.backend.common.fixture.ChatRoomEntityFixture;
 import mouda.backend.common.fixture.DarakbangSetUp;
 import mouda.backend.common.fixture.MoimFixture;
 import mouda.backend.moim.domain.Chamyo;
-import mouda.backend.moim.domain.ChatType;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimRole;
 import mouda.backend.moim.infrastructure.ChamyoRepository;
@@ -85,7 +85,7 @@ public class ChatRoomServiceTest extends DarakbangSetUp {
 		assertThat(moimChatPreviews.previews()).hasSize(1);
 		assertThat(moimChatPreviews.previews().get(0).lastContent()).isEqualTo("안녕하세요");
 		assertThat(moimChatPreviews.previews().get(0).lastReadChatId()).isEqualTo(0);
-		assertThat(moimChatPreviews.previews().get(0).currentPeople()).isEqualTo(1);
+		assertThat(moimChatPreviews.previews().get(0).participations()).hasSize(1);
 	}
 
 	@DisplayName("안내면진다 채팅 미리보기를 조회한다.")
@@ -112,7 +112,7 @@ public class ChatRoomServiceTest extends DarakbangSetUp {
 		assertThat(betChatPreviews.previews().size()).isEqualTo(1);
 		assertThat(betChatPreviews.previews().get(0).lastContent()).isEqualTo("안녕하세요");
 		assertThat(betChatPreviews.previews().get(0).lastReadChatId()).isEqualTo(0);
-		assertThat(betChatPreviews.previews().get(0).currentPeople()).isEqualTo(1);
+		assertThat(betChatPreviews.previews().get(0).participations()).hasSize(1);
 	}
 
 	private void sendChat(ChatRoomEntity savedChatRoom) {
@@ -153,7 +153,8 @@ public class ChatRoomServiceTest extends DarakbangSetUp {
 		chatService.createChat(darakbang.getId(), 1L, new ChatCreateRequest("1번 채팅"), darakbangAnna);
 		chatService.createChat(darakbang.getId(), 2L, new ChatCreateRequest("2번 채팅"), darakbangAnna);
 
-		List<ChatPreviewResponse> chatPreviewResponses = chatRoomService.findChatPreview(darakbangAnna, ChatRoomType.MOIM)
+		List<ChatPreviewResponse> chatPreviewResponses = chatRoomService.findChatPreview(darakbangAnna,
+				ChatRoomType.MOIM)
 			.previews();
 
 		assertThat(chatPreviewResponses).extracting(ChatPreviewResponse::lastContent)

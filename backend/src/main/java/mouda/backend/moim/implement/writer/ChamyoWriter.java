@@ -5,8 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.chat.exception.ChatErrorMessage;
-import mouda.backend.chat.exception.ChatException;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.Moim;
@@ -54,7 +52,7 @@ public class ChamyoWriter {
 
 	public void updateLastReadChat(long targetId, DarakbangMember darakbangMember, long lastReadChatId) {
 		Chamyo chamyo = chamyoRepository.findByMoimIdAndDarakbangMemberId(targetId, darakbangMember.getId())
-			.orElseThrow(() -> new ChatException(HttpStatus.NOT_FOUND, ChatErrorMessage.CHAMYO_NOT_FOUND));
+			.orElseThrow(() -> new ChamyoException(HttpStatus.NOT_FOUND, ChamyoErrorMessage.NOT_FOUND));
 		chamyo.updateLastChat(lastReadChatId);
 	}
 }

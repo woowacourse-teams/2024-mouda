@@ -46,9 +46,9 @@ public class ChatRoomService {
 		return ChatPreviewResponses.toResponse(chatPreviews);
 	}
 
-	public void openChatRoom(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
+	public long openChatRoom(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimFinder.read(moimId, darakbangId);
 		moimWriter.openChatByMoimer(moim, darakbangMember);
-		chatRoomWriter.append(moimId, darakbangId, ChatRoomType.MOIM);
+		return chatRoomWriter.append(moimId, darakbangId, ChatRoomType.MOIM);
 	}
 }

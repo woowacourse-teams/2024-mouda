@@ -107,6 +107,10 @@ public class DarakbangMember {
 		return !isSameMemberWith(other);
 	}
 
+	public boolean hasImage() {
+		return profile != null;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

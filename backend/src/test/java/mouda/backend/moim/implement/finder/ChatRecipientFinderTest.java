@@ -30,13 +30,13 @@ class ChatRecipientFinderTest extends DarakbangSetUp {
 
 	@DisplayName("채팅 알림은 메시지를 보낸 사람을 제외한 모든 참여자를 대상으로 한다.")
 	@Test
-	void getChatNotificationRecipients() {
+	void getMoimChatNotificationRecipients() {
 		// given
 		Moim moim = moimWriter.save(MoimFixture.getCoffeeMoim(darakbang.getId()), darakbangAnna);
 		chamyoWriter.saveAsMoimee(moim, darakbangHogee);
 
 		// when
-		List<Recipient> result = chatRecipientFinder.getChatNotificationRecipients(moim.getId(),
+		List<Recipient> result = chatRecipientFinder.getMoimChatNotificationRecipients(moim.getId(),
 			darakbangAnna);
 
 		// then

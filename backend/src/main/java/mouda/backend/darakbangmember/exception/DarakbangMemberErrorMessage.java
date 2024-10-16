@@ -13,6 +13,7 @@ public enum DarakbangMemberErrorMessage {
 	MEMBER_ALREADY_EXIST("이미 가입한 멤버입니다."),
 	MEMBER_NOT_EXIST("존재하지 않는 다락방 멤버입니다."),
 	NOT_ALLOWED_TO_READ("조회 권한이 없습니다."),
+	INVALID_DELETE_FILE("기존 이미지를 삭제할 수 없습니다."),
 	INVALID_FILE("잘못된 이미지 파일입니다.");
 
 	private final String message;

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import mouda.backend.bet.domain.Bet;
 import mouda.backend.bet.domain.Loser;
 import mouda.backend.bet.entity.BetEntity;
+import mouda.backend.bet.exception.BetException;
 import mouda.backend.bet.infrastructure.BetRepository;
 import mouda.backend.common.fixture.BetEntityFixture;
 import mouda.backend.common.fixture.DarakbangSetUp;
@@ -73,7 +74,8 @@ class BetFinderTest extends DarakbangSetUp {
 		BetEntity betEntity2 = BetEntityFixture.getBetEntity(moudaDarakbangId, darakbangAnna.getId());
 		betRepository.save(betEntity2);
 
-		BetEntity betEntity3 = BetEntityFixture.getBetEntity(moudaDarakbangId, darakbangAnna.getId(), LocalDateTime.now().plusMinutes(10));
+		BetEntity betEntity3 = BetEntityFixture.getBetEntity(moudaDarakbangId, darakbangAnna.getId(),
+			LocalDateTime.now().plusMinutes(10));
 		betRepository.save(betEntity3);
 
 		// when
@@ -109,7 +111,6 @@ class BetFinderTest extends DarakbangSetUp {
 
 		// when & then
 		assertThatThrownBy(() -> betFinder.findResult(darakbangId, savedBetEntity.getId()))
-			.isInstanceOf(IllegalArgumentException.class)
-			.hasMessage("아직 추첨이 진행되지 않았습니다."); // TODO : 예외 공통 처리 하면서 없애기
+			.isInstanceOf(BetException.class);
 	}
 }

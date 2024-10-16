@@ -65,6 +65,9 @@ public class DarakbangMemberService {
 		if (file != null) {
 			String url = s3Client.uploadFile(file);
 			String newProfileUrl = imageParser.parse(url);
+			if (darakbangMember.hasImage()) {
+				s3Client.deleteFile(darakbangMember.getProfile());
+			}
 			darakbangMemberWriter.updateMyInfo(darakbangMember, nickname, description, newProfileUrl);
 			return;
 		}
