@@ -3,7 +3,7 @@ import * as S from './SelectLayout.style';
 import { PropsWithChildren } from 'react';
 import SelectBottomWrapper from './SelectBottomWrapper/SelectBottomWrapper';
 import StickyTriSectionHeader from '@_layouts/components/StickyTriSectionHeader/StickyTriSectionHeader';
-import ListContent from '@_layouts/components/ListContent/ListContent';
+import SelectContentContainer from './SelectContentContainer/SelectContentContainer';
 
 function SelectLayout(props: PropsWithChildren) {
   const { children } = props;
@@ -12,7 +12,7 @@ function SelectLayout(props: PropsWithChildren) {
 }
 
 SelectLayout.Header = StickyTriSectionHeader;
-SelectLayout.ContentContainer = ListContent;
+SelectLayout.ContentContainer = SelectContentContainer;
 SelectLayout.BottomButtonWrapper = SelectBottomWrapper;
 
 export default SelectLayout;
