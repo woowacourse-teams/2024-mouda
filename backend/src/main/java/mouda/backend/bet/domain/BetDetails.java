@@ -43,4 +43,8 @@ public class BetDetails {
 	public boolean hasLoser() {
 		return loserId != null;
 	}
+
+	public boolean pastBettingTime() {
+		return bettingTime.isPast();
+	}
 }

@@ -39,6 +39,9 @@ public class BetWriter {
 
 	public void participate(long darakbangId, long betId, DarakbangMember darakbangMember) {
 		Bet bet = betFinder.find(darakbangId, betId);
+		if (bet.canNotParticipant()) {
+			throw new BetException(HttpStatus.BAD_REQUEST, BetErrorMessage.CAN_NOT_PARTICIPATE);
+		}
 		participate(darakbangMember, bet);
 	}
 
