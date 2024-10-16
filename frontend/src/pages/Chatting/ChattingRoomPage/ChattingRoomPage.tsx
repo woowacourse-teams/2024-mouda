@@ -3,6 +3,7 @@ import { isBetChatRoomDetail, isMoimChatRoomDetail } from '@_types/typeGuards';
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { BetChatRoomDetail } from '@_types/index';
 import CalenderClock from '@_components/Icons/CalenderClock';
 import ChatBottomMenu from './components/ChatBottomMenu/ChatBottomMenu';
 import ChatInfoAccordion from './components/ChatInfoAccordion/ChatInfoAccordion';
@@ -201,7 +202,9 @@ export default function ChattingRoomPage() {
             ]}
           />
         )}
-
+        {(console.log(
+          (chatRoomDetail as BetChatRoomDetail)?.attributes?.loser.nickname,
+        ) as undefined) || ''}
         {chatRoomDetail && isBetChatRoomDetail(chatRoomDetail) && (
           <ChatInfoAccordion
             tagTheme={chatRoomDetail.attributes.isLoser ? 'yellow' : 'orange'}
@@ -209,7 +212,10 @@ export default function ChattingRoomPage() {
             textList={
               chatRoomDetail.attributes.isLoser
                 ? ['당첨입니다!', '혹시 안내셨나요?ㅋ']
-                : ['살아남았습니다!', '당첨된 친구를 놀려보세요~']
+                : [
+                    '살아남았습니다!',
+                    `당첨된 사람은 ${chatRoomDetail.attributes.loser.nickname}입니다!`,
+                  ]
             }
           />
         )}
