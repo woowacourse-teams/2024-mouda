@@ -17,6 +17,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mouda.backend.chat.domain.Chat;
+import mouda.backend.chat.domain.LastChat;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 
 @Entity
@@ -54,19 +55,6 @@ public class ChatEntity {
 		this.chatType = chatType;
 	}
 
-	public static ChatEntity empty() {
-		return ChatEntity.builder()
-			.content("")
-			.build();
-	}
-
-	public LocalDateTime getDateTime() {
-		if (date == null || time == null) {
-			return null;
-		}
-		return LocalDateTime.of(date, time);
-	}
-
 	public Chat toChat() {
 		return Chat.builder()
 			.id(id)
@@ -76,5 +64,9 @@ public class ChatEntity {
 			.date(date)
 			.time(time)
 			.build();
+	}
+
+	public LastChat toLastChat() {
+		return new LastChat(LocalDateTime.of(date, time), content);
 	}
 }

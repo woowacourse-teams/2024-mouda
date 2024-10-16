@@ -73,16 +73,19 @@ class ChatRoomDetailsFinderTest extends DarakbangSetUp {
 
 		ChatRoomEntity chatRoomEntity = ChatRoomEntityFixture.getChatRoomEntityOfMoim(moim.getId(), darakbang.getId());
 		ChatRoomEntity savedChatRoomEntity = chatRoomRepository.save(chatRoomEntity);
-		ChatRoom chatRoom = new ChatRoom(savedChatRoomEntity);
+		ChatRoom chatRoom = new ChatRoom(savedChatRoomEntity.getId(), savedChatRoomEntity.getTargetId(),
+			savedChatRoomEntity.getType());
 
 		// when
-		ChatRoomDetails chatRoomDetails = chatRoomDetailsFinder.find(darakbang.getId(), chatRoom.getId(), darakbangAnna);
+		ChatRoomDetails chatRoomDetails = chatRoomDetailsFinder.find(darakbang.getId(), chatRoom.getId(),
+			darakbangAnna);
 
 		// then
 		assertThat(chatRoomDetails.getChatRoomType()).isEqualTo(ChatRoomType.MOIM);
 		assertThat(chatRoomDetails.getTitle()).isEqualTo("커피 마실 사람?");
 		assertThat(chatRoomDetails.getId()).isEqualTo(chatRoom.getId());
-		assertThat(chatRoomDetails.getParticipants()).containsExactly(new Participant("anna", "profile", "MOIMER"), new Participant("hogee", "profile", "MOIMEE"));
+		assertThat(chatRoomDetails.getParticipants()).containsExactly(new Participant("anna", "profile", "MOIMER"),
+			new Participant("hogee", "profile", "MOIMEE"));
 		assertThat(chatRoomDetails.getAttributes())
 			.containsExactlyInAnyOrderEntriesOf(getExpectedMoimAttributes(savedMoim));
 	}
@@ -112,18 +115,22 @@ class ChatRoomDetailsFinderTest extends DarakbangSetUp {
 		betDarakbangMemberRepository.save(annaEntity);
 		betDarakbangMemberRepository.save(hogeeEntity);
 
-		ChatRoomEntity chatRoomEntity = ChatRoomEntityFixture.getChatRoomEntityOfBet(betEntity.getId(), darakbang.getId());
+		ChatRoomEntity chatRoomEntity = ChatRoomEntityFixture.getChatRoomEntityOfBet(betEntity.getId(),
+			darakbang.getId());
 		ChatRoomEntity savedChatRoomEntity = chatRoomRepository.save(chatRoomEntity);
-		ChatRoom chatRoom = new ChatRoom(savedChatRoomEntity);
+		ChatRoom chatRoom = new ChatRoom(savedChatRoomEntity.getId(), savedChatRoomEntity.getTargetId(),
+			savedChatRoomEntity.getType());
 
 		// when
-		ChatRoomDetails chatRoomDetails = chatRoomDetailsFinder.find(darakbang.getId(), chatRoom.getId(), darakbangAnna);
+		ChatRoomDetails chatRoomDetails = chatRoomDetailsFinder.find(darakbang.getId(), chatRoom.getId(),
+			darakbangAnna);
 
 		// then
 		assertThat(chatRoomDetails.getChatRoomType()).isEqualTo(ChatRoomType.BET);
 		assertThat(chatRoomDetails.getTitle()).isEqualTo("테바바보");
 		assertThat(chatRoomDetails.getId()).isEqualTo(chatRoom.getId());
-		assertThat(chatRoomDetails.getParticipants()).containsExactly(new Participant("anna", "profile", "MOIMER"), new Participant("hogee", "profile", "MOIMEE"));
+		assertThat(chatRoomDetails.getParticipants()).containsExactly(new Participant("anna", "profile", "MOIMER"),
+			new Participant("hogee", "profile", "MOIMEE"));
 		assertThat(chatRoomDetails.getAttributes())
 			.containsExactlyInAnyOrderEntriesOf(getExpectedBetAttributes(savedBetEntity));
 	}

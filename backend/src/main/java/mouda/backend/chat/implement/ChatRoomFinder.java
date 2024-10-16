@@ -12,6 +12,7 @@ import mouda.backend.chat.domain.Chat;
 import mouda.backend.chat.domain.ChatRoom;
 import mouda.backend.chat.domain.ChatRoomType;
 import mouda.backend.chat.domain.Chats;
+import mouda.backend.chat.domain.LastChat;
 import mouda.backend.chat.entity.ChatEntity;
 import mouda.backend.chat.entity.ChatRoomEntity;
 import mouda.backend.chat.exception.ChatErrorMessage;
@@ -37,7 +38,7 @@ public class ChatRoomFinder {
 		if (!isParticipated) {
 			throw new ChatException(HttpStatus.FORBIDDEN, ChatErrorMessage.UNAUTHORIZED);
 		}
-		return new ChatRoom(chatRoomEntity);
+		return new ChatRoom(chatRoomEntity.getId(), chatRoomEntity.getTargetId(), chatRoomEntity.getType());
 	}
 
 	private boolean checkParticipation(ChatRoomEntity chatRoomEntity, DarakbangMember darakbangMember) {
@@ -61,17 +62,18 @@ public class ChatRoomFinder {
 		if (type.isNotMoim()) {
 			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.INVALID_CHATROOM_TYPE);
 		}
-		return new ChatRoom(chatRoomEntity);
+		return new ChatRoom(chatRoomEntity.getId(), chatRoomEntity.getTargetId(), chatRoomEntity.getType());
 	}
 
 	public ChatRoom readChatRoomByTargetId(long targetId, ChatRoomType chatRoomType) {
 		ChatRoomEntity chatRoomEntity = chatRoomRepository.findByTargetIdAndType(targetId, chatRoomType)
 			.orElseThrow(() -> new ChatException(HttpStatus.NOT_FOUND, ChatErrorMessage.CHATROOM_NOT_FOUND));
 
-		ChatEntity lastChat = chatRepository.findFirstByChatRoomIdOrderByIdDesc(chatRoomEntity.getId())
-			.orElse(ChatEntity.empty());
+		LastChat lastChat = chatRepository.findFirstByChatRoomIdOrderByIdDesc(chatRoomEntity.getId())
+			.map(ChatEntity::toLastChat)
+			.orElse(LastChat.empty());
 
-		return new ChatRoom(chatRoomEntity, lastChat);
+		return new ChatRoom(chatRoomEntity.getId(), chatRoomEntity.getTargetId(), chatRoomEntity.getType(), lastChat);
 	}
 
 	public Chats findAllUnloadedChats(long chatRoomId, long recentChatId) {
