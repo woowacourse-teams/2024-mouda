@@ -30,6 +30,7 @@ public class BetChatPreviewManager implements ChatPreviewManager {
 		List<BetDetails> myBets = betFinder.readAllMyBets(darakbangMember);
 
 		return myBets.stream()
+			.filter(BetDetails::hasLoser)
 			.map(this::getChatPreview)
 			.sorted()
 			.toList();
