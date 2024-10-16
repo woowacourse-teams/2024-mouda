@@ -19,6 +19,7 @@ public class AccessTokenProvider {
 
 	public static final String MEMBER_ID_CLAIM_KEY = "id";
 	public static final String SOCIAL_LOGIN_ID_CLAIM_KEY = "socialLoginId";
+	private static final String OAUTH_TYPE = "oauthType";
 
 	@Value("${security.jwt.token.secret-key}")
 	private String secretKey;
@@ -33,6 +34,7 @@ public class AccessTokenProvider {
 		return Jwts.builder()
 			.claim(MEMBER_ID_CLAIM_KEY, member.getId())
 			.claim(SOCIAL_LOGIN_ID_CLAIM_KEY, member.getSocialLoginId())
+			.claim(OAUTH_TYPE, member.getOauthType())
 			.setIssuedAt(now)
 			.setExpiration(validity)
 			.signWith(SignatureAlgorithm.HS256, secretKey)
