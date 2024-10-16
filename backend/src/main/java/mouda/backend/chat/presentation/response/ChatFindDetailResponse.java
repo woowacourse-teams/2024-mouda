@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import lombok.Builder;
+import mouda.backend.chat.domain.Chat;
 import mouda.backend.chat.domain.ChatWithAuthor;
-import mouda.backend.chat.entity.ChatEntity;
-import mouda.backend.moim.domain.ChatType;
+import mouda.backend.chat.entity.ChatType;
 
 @Builder
 public record ChatFindDetailResponse(
@@ -19,7 +19,7 @@ public record ChatFindDetailResponse(
 	ChatType chatType
 ) {
 	public static ChatFindDetailResponse toResponse(ChatWithAuthor chatWithAuthor) {
-		ChatEntity chat = chatWithAuthor.getChat();
+		Chat chat = chatWithAuthor.getChat();
 		return ChatFindDetailResponse.builder()
 			.chatId(chat.getId())
 			.content(chat.getContent())
