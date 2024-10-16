@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import lombok.Builder;
+import mouda.backend.chat.domain.Author;
 import mouda.backend.chat.domain.Chat;
 import mouda.backend.chat.domain.ChatWithAuthor;
-import mouda.backend.chat.domain.Participant;
 import mouda.backend.chat.entity.ChatType;
 
 @Builder
@@ -33,7 +33,7 @@ public record ChatFindDetailResponse(
 	}
 
 	private static ParticipantResponse getParticipantResponse(ChatWithAuthor chatWithAuthor) {
-		Participant participant = chatWithAuthor.getParticipant();
-		return new ParticipantResponse(participant.getNickname(), participant.getProfile(), participant.getRole());
+		Author author = chatWithAuthor.getChat().getAuthor();
+		return new ParticipantResponse(author.getNickname(), author.getProfile(), null);
 	}
 }

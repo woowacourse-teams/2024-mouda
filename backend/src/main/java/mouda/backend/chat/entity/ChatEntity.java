@@ -58,7 +58,7 @@ public class ChatEntity {
 	public Chat toChat() {
 		return Chat.builder()
 			.id(id)
-			.darakbangMember(darakbangMember)
+			.author(darakbangMember.toAuthor())
 			.content(content)
 			.chatType(chatType)
 			.date(date)
