@@ -43,7 +43,7 @@ public class BetChatPreviewManager implements ChatPreviewManager {
 		List<Participant> participants = betDarakbangMemberRepository.findAllByBetId(targetId).stream()
 			.map(betDarakbangMember -> new Participant(betDarakbangMember.getDarakbangMember().getNickname(),
 				betDarakbangMember.getDarakbangMember().getProfile(),
-				betDarakbangMember.getDarakbangMember().getRole().toString()))
+				betDarakbangMember.getRole(bet.getMoimerId())))
 			.toList();
 
 		return ChatPreview.builder()

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.infrastructure.BetDarakbangMemberRepository;
@@ -76,6 +77,7 @@ public class ChatRoomFinder {
 		return new ChatRoom(chatRoomEntity.getId(), chatRoomEntity.getTargetId(), chatRoomEntity.getType(), lastChat);
 	}
 
+	@Transactional(readOnly = true)
 	public Chats findAllUnloadedChats(long chatRoomId, long recentChatId) {
 		List<Chat> chats = chatRepository.findAllUnloadedChats(chatRoomId, recentChatId).stream()
 			.map(ChatEntity::toChat)

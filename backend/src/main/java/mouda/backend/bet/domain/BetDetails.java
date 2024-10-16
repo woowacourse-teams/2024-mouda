@@ -8,16 +8,18 @@ import lombok.Getter;
 @Getter
 public class BetDetails {
 
-	private final Long id;
+	private final long id;
 	private final String title;
 	private final BettingTime bettingTime;
+	private final long moimerId;
 	private final Long loserId;
 
 	@Builder
-	public BetDetails(Long id, String title, LocalDateTime bettingTime, Long loserId) {
+	public BetDetails(long id, String title, LocalDateTime bettingTime, long moimerId, Long loserId) {
 		this.id = id;
 		this.title = title;
 		this.bettingTime = new BettingTime(bettingTime);
+		this.moimerId = moimerId;
 		this.loserId = loserId;
 	}
 

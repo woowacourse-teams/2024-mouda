@@ -10,6 +10,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mouda.backend.bet.domain.BetRole;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 
 @Entity
@@ -39,5 +40,12 @@ public class BetDarakbangMemberEntity {
 
 	public void updateLastChat(Long lastReadChatId) {
 		this.lastReadChatId = lastReadChatId;
+	}
+
+	public String getRole(long moimerId) {
+		if (darakbangMember.getId() == moimerId) {
+			return BetRole.MOIMER.name();
+		}
+		return BetRole.MOIMEE.name();
 	}
 }

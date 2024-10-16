@@ -17,12 +17,6 @@ public class Participant {
 		this.role = role;
 	}
 
-	public Participant(Chat chat) {
-		this.nickname = chat.getDarakbangMember().getNickname();
-		this.profile = chat.getDarakbangMember().getProfile();
-		this.role = chat.getDarakbangMember().getDescription();
-	}
-
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
