@@ -10,7 +10,7 @@ const beforeUsingDarakbangPrefixRoutes = {
   modify: '/modify/:moimId',
 
   chat: '/chat',
-  chattingRoom: '/chatting-room/:moimId',
+  chattingRoom: '/chatting-room/:chatRoomId',
 
   please: '/please',
   addPlease: '/please/creation',

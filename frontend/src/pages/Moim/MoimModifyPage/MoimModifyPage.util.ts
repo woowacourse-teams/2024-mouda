@@ -21,8 +21,6 @@ export const validateTime = (time: string, date?: string) => {
     return false;
   }
 
-  console.log(date);
-
   if (date !== '') {
     const dates = date?.split('-').map(Number);
 

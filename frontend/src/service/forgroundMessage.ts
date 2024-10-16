@@ -8,8 +8,6 @@ function initializeForegroundMessageHandling() {
   const messaging = getMessaging(app);
 
   onMessage(messaging, (payload) => {
-    console.log('포그라운드 알림 도착: ', payload);
-
     const notificationTitle = payload.notification?.title || '알림';
     const notificationOptions = {
       body: payload.notification?.body || '',
@@ -40,12 +38,11 @@ function initializeForegroundMessageHandling() {
 if ('serviceWorker' in navigator && process.env.MSW !== 'true') {
   navigator.serviceWorker
     .register(`/firebase-messaging-sw.js`)
-    .then((registration) => {
-      console.log('Service Worker registered with scope:', registration.scope);
+    .then(() => {
       initializeForegroundMessageHandling();
     })
-    .catch((error) => {
-      console.log('Service Worker registration failed:', error);
+    .catch(() => {
+      // console.log('Service Worker registration failed:', error);
     });
 } else {
   // 서비스 워커가 지원되지 않는 경우에도 포그라운드 메시지 처리를 초기화

@@ -1,18 +1,19 @@
-import GET_ROUTES from '@_common/getRoutes';
-import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
-import InformationLayout from '@_layouts/InformationLayout/InformationLayout';
+import * as S from './BetDetailPage.style';
+
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { useTheme } from '@emotion/react';
-import useBet from '@_hooks/queries/useBet';
-import * as S from './BetDetailPage.style';
-import Tag from '../components/Tag/Tag';
-import ProfileList from './components/ProfileList/ProfileList';
+import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
 import Button from '@_components/Button/Button';
+import GET_ROUTES from '@_common/getRoutes';
+import InformationLayout from '@_layouts/InformationLayout/InformationLayout';
+import ProfileList from './components/ProfileList/ProfileList';
+import Roulette from './components/Roulette/Roulette';
+import Tag from '../components/Tag/Tag';
+import useBet from '@_hooks/queries/useBet';
 import useCompleteBet from '@_hooks/mutaions/useCompleteBet';
 import useJoinBet from '@_hooks/mutaions/useJoinBet';
-import Roulette from './components/Roulette/Roulette';
 import { useState } from 'react';
+import { useTheme } from '@emotion/react';
 
 export default function BetDetailPage() {
   const navigate = useNavigate();
@@ -41,9 +42,11 @@ export default function BetDetailPage() {
           onClick={() => {
             if (bet.isAnnounced) {
               setIsRouletteOpen(true);
-              setTimeout(() => {
-                navigate(GET_ROUTES.nowDarakbang.betResult(betId));
-              }, 2500);
+              if (bet.chatroomId === null) return;
+              navigate(GET_ROUTES.nowDarakbang.chattingRoom(bet.chatroomId));
+              // setTimeout(() => {
+              //   navigate(GET_ROUTES.nowDarakbang.betResult(betId));
+              // }, 2500);
             } else {
               completeBet(betId);
             }
@@ -61,9 +64,11 @@ export default function BetDetailPage() {
           onClick={() => {
             if (bet.isAnnounced) {
               setIsRouletteOpen(true);
-              setTimeout(() => {
-                navigate(GET_ROUTES.nowDarakbang.betResult(betId));
-              }, 2500);
+              if (bet.chatroomId === null) return;
+              navigate(GET_ROUTES.nowDarakbang.chattingRoom(bet.chatroomId));
+              // setTimeout(() => {
+              //   navigate(GET_ROUTES.nowDarakbang.betResult(betId));
+              // }, 2500);
             }
           }}
         >

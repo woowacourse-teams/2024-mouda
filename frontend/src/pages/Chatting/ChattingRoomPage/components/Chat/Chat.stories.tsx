@@ -14,7 +14,7 @@ export const Default: Story = {
     chat: {
       chatId: 11,
       content: '여러분~ 싸우지 마세요',
-      nickname: '테바',
+      participation: { nickname: 'idk', profile: '', role: 'MOIMEE' },
       date: '2024-08-01',
       time: '12:12',
       chatType: 'BASIC',

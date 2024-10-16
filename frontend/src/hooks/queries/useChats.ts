@@ -6,7 +6,7 @@ import { getChat } from '@_apis/gets';
 import { getLastDarakbangId } from '@_common/lastDarakbangManager';
 import { useQuery } from '@tanstack/react-query';
 
-export default function useChats(moimId: number) {
+export default function useChats(chatRoomId: number) {
   const [chats, setChats] = useState<Chat[]>([]);
   const lastChatIdRef = useRef(0);
   const { isLoading } = useQuery({
@@ -14,10 +14,10 @@ export default function useChats(moimId: number) {
       QUERY_KEYS.darakbang,
       getLastDarakbangId(),
       QUERY_KEYS.chat,
-      moimId,
+      chatRoomId,
     ],
     queryFn: async () => {
-      const newChats = await getChat(moimId, lastChatIdRef.current);
+      const newChats = await getChat(chatRoomId, lastChatIdRef.current);
       if (!newChats) return [];
       if (newChats.length === 0) return [];
       if (lastChatIdRef.current === newChats.at(-1)?.chatId) return [];

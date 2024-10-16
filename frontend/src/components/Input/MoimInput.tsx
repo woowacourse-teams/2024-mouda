@@ -1,6 +1,8 @@
 import * as S from '@_components/Input/MoimInput.style';
-import { useTheme } from '@emotion/react';
+
 import { ChangeEvent, HTMLProps, useState } from 'react';
+
+import { useTheme } from '@emotion/react';
 
 export interface LabeledInputProps<T extends string | number>
   extends HTMLProps<HTMLInputElement> {
@@ -32,7 +34,6 @@ export default function LabeledInput<T extends string | number>(
 
     const value = e.currentTarget.value;
     const validatedValue = type === 'number' ? Number(value) : value;
-    console.log(validatedValue);
 
     // validateFun이 존재할 경우
     if (validateFun) {

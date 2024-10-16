@@ -48,18 +48,18 @@ export type MoimInputInfo = Omit<
 >;
 
 export interface ChattingPreview {
-  moimId: number;
+  chatRoomId: number;
   title: string;
-  currentPeople: number;
+  participations: Participation[];
   isStarted: boolean;
   lastContent: string;
-  unreadContentCount: number;
+  unreadChatCount: number;
 }
 export interface Chat {
   chatId: number;
   content: string;
   isMyMessage: boolean;
-  nickname: string;
+  participation: Participation;
   date: string;
   time: string;
   chatType: 'BASIC' | 'PLACE' | 'DATETIME';
@@ -133,3 +133,47 @@ export interface BetInputInfo {
   title: string;
   waitingMinutes: number;
 }
+
+export type ChatRoomType = 'BET' | 'MOIM';
+
+export interface ChatRoomDetail {
+  chatRoomId: number;
+  attributes: object;
+  type: ChatRoomType;
+  title: string;
+  participations: Participation[];
+}
+
+export interface MoimChatRoomDetail extends ChatRoomDetail {
+  type: 'MOIM';
+  attributes: {
+    place: string;
+    isMoimer: boolean;
+    isStarted: boolean;
+    description?: string;
+    date: string;
+    time: string;
+    moimId: number;
+  };
+}
+
+export interface BetChatRoomDetail extends ChatRoomDetail {
+  type: 'BET';
+  attributes: {
+    isLoser: boolean;
+    betId: number;
+    loser: Participation;
+  };
+}
+
+export const isBetChatRoomDetail = (
+  detail: ChatRoomDetail,
+): detail is BetChatRoomDetail => {
+  return (detail as BetChatRoomDetail).attributes.betId !== undefined;
+};
+
+export const isMoimChatRoomDetail = (
+  detail: ChatRoomDetail,
+): detail is MoimChatRoomDetail => {
+  return (detail as MoimChatRoomDetail).attributes.moimId !== undefined;
+};

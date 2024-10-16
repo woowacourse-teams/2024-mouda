@@ -45,9 +45,8 @@ export const postWriteComment = async (
   }
 };
 
-export const postChat = async (moimId: number, content: string) => {
-  await ApiClient.postWithLastDarakbangId('/chat', {
-    moimId,
+export const postChat = async (chatRoomId: number, content: string) => {
+  await ApiClient.postWithLastDarakbangId(`/chatroom/${chatRoomId}`, {
     content,
   });
 };
@@ -69,24 +68,23 @@ export const postLastReadChatId = async (
 };
 
 export const postConfirmDatetime = async (
-  moimId: number,
+  chatRoomId: number,
   date: string,
   time: string,
 ) => {
-  await ApiClient.postWithLastDarakbangId('/chat/datetime', {
-    moimId,
+  await ApiClient.postWithLastDarakbangId(`/chatroom/${chatRoomId}/datetime`, {
     date,
     time,
   });
-  return moimId;
+  return chatRoomId;
 };
 
-export const postConfirmPlace = async (moimId: number, place: string) => {
-  await ApiClient.postWithLastDarakbangId('/chat/place', {
-    moimId,
+export const postConfirmPlace = async (chatRoomId: number, place: string) => {
+  await ApiClient.postWithLastDarakbangId(`/chatroom/${chatRoomId}/place`, {
     place,
   });
-  return moimId;
+
+  return chatRoomId;
 };
 
 export const postPlease = async (please: PleaseInfoInput) => {
