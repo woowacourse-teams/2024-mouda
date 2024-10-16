@@ -15,7 +15,7 @@ export const getTriSectionHeaderStyle = ({
     justify-content: space-between;
 
     height: 5rem;
-    padding: 0 2rem;
+    margin: 0 2rem;
 
     background-color: ${theme.colorPalette.white[100]};
 
