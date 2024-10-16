@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-
+import EmptyProfile from '@_common/assets/empty_profile.svg?url';
 type Size = number;
 
 export const profileBox = () => {
@@ -23,10 +23,16 @@ export const profileFrame = (width: Size, height: Size, borderWidth: Size) => {
   `;
 };
 
-export const profileImage = () => {
+export const profileImage = (
+  props: { isLoaded?: boolean } = { isLoaded: true },
+) => {
   return css`
+    ${!props.isLoaded && 'display: none;'}
     width: 100%;
     height: 100%;
+    background-image: url(${EmptyProfile});
+    background-size: cover;
+    background-position: center;
     object-fit: cover;
   `;
 };

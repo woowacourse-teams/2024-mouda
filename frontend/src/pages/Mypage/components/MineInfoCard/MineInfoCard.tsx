@@ -34,7 +34,7 @@ export default function MineInfoCard({
       </div>
       {isEditing ? (
         <input
-          css={theme.typography.h5}
+          css={S.input({ theme })}
           value={nickname}
           onChange={(e) => setNickname(e.target.value)}
         />

@@ -21,11 +21,13 @@ export default function MyPage() {
   const { myInfo } = useMyInfo();
   const { darakbangName } = useNowDarakbangName();
   const fileInput = useRef<HTMLInputElement | null>(null); // 타입을 명시적으로 지정
-  const [image, setImage] = useState(myInfo?.profile || '');
+  const [profile, setProfile] = useState(myInfo?.profile || '');
   const [nickname, setNickname] = useState(myInfo?.nickname || '');
   const [description, setDescription] = useState(myInfo?.description || '');
-  const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
+  const [selectedFile, setSelectedFile] = useState<File | string>('');
   const [isEditing, setIsEditing] = useState(false); // 편집 모드 상태
+  const [isReset, setIsReset] = useState('false');
+  const [isShownRest, setIsShownRest] = useState(false);
 
   const theme = useTheme();
   const { mutate } = useEditMyInfo();
@@ -34,28 +36,31 @@ export default function MyPage() {
     if (myInfo) {
       setNickname(myInfo.nickname || '');
       setDescription(myInfo.description || '');
-      setImage(myInfo.profile || '');
+      setProfile(myInfo.profile || '');
+      setSelectedFile(myInfo.profile || '');
+      myInfo.profile && setIsShownRest(true);
     }
   }, [myInfo]); // myInfo가 업데이트될 때마다 상태 업데이트
 
   const handleEditClick = () => {
     setIsEditing((prev) => !prev); // 편집 모드 활성화
+    setSelectedFile('');
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setSelectedFile(e.target.files[0]); // 선택한 파일을 상태에 저장
+      setIsShownRest(true);
+      setIsReset('false');
     } else {
-      setImage(
-        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-      );
+      setProfile(myInfo?.profile ?? '');
       return;
     }
 
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2 && typeof reader.result === 'string') {
-        setImage(reader.result);
+        setProfile(reader.result);
       }
     };
     reader.readAsDataURL(e.target.files[0]);
@@ -65,17 +70,16 @@ export default function MyPage() {
     const formData = new FormData();
 
     // 파일 추가
-    if (selectedFile) {
-      formData.append('profile_img', selectedFile);
-    }
+
+    formData.append('file', selectedFile);
     // 문자열 데이터 추가
     formData.append('nickname', nickname ?? '');
     formData.append('description', description ?? '');
+    formData.append('isReset', isReset);
 
     try {
       // 서버로 파일 및 데이터 전송
       mutate(formData); // FormData 객체 자체를 전달
-      setImage('');
       handleEditClick(); // 편집 모드 비활성화
     } catch (error) {
       console.error('파일 업로드 실패', error);
@@ -88,10 +92,18 @@ export default function MyPage() {
 
   const handleCancel = () => {
     // 편집 취소시 기존 데이터 복구
-    setImage(myInfo?.profile || '');
+    setProfile(myInfo?.profile || '');
     setNickname(myInfo?.nickname || '');
     setDescription(myInfo?.description || '');
     setIsEditing(false);
+    setIsReset('false');
+    myInfo?.profile && setIsShownRest(false);
+  };
+  const handleDefaultProfile = () => {
+    setProfile('');
+    setSelectedFile('');
+    setIsReset('true');
+    setIsShownRest(false);
   };
 
   return (
@@ -121,6 +133,14 @@ export default function MyPage() {
               </>
             ) : (
               <>
+                {isShownRest && (
+                  <button
+                    css={S.AccountButton({ theme })}
+                    onClick={handleDefaultProfile}
+                  >
+                    기본이미지로 변경
+                  </button>
+                )}
                 <button css={S.AccountButton({ theme })} onClick={onUpload}>
                   저장
                 </button>
@@ -137,7 +157,7 @@ export default function MyPage() {
               <MineInfoCard
                 myInfo={{
                   nickname,
-                  profile: image,
+                  profile: profile,
                   name: myInfo.name,
                 }}
                 onProfileClick={handleProfileClick}

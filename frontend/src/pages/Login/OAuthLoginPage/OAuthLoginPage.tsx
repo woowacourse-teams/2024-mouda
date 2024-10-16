@@ -1,6 +1,6 @@
 import ROUTES from '@_constants/routes';
 import { getInviteCode } from '@_common/inviteCodeManager';
-import { kakaoOAuth, appleOAuth, googleOAuth } from '@_apis/auth';
+import { kakaoOAuth, googleOAuth } from '@_apis/auth';
 import {
   getMemberToken,
   removeMemberToken,
@@ -10,56 +10,69 @@ import {
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+type Provider = 'apple' | 'google' | 'kakao';
+
 export default function OAuthLoginPage() {
   const navigate = useNavigate();
-  const { provider } = useParams();
+  const params = useParams<'provider'>();
+  const provider = params.provider as Provider | undefined;
+
   useEffect(() => {
     const loginOAuth = async () => {
       try {
-        const code = new URL(window.location.href).searchParams.get('code');
+        const urlParams = new URLSearchParams(window.location.search);
 
-        if (code === null) {
-          alert('잘못된 접근입니다');
+        const redirectToHome = (message = '잘못된 접근입니다') => {
+          alert(message);
           navigate(ROUTES.home);
+        };
+
+        if (!provider) {
+          redirectToHome('지원되지 않는 제공자입니다.');
           return;
         }
-        switch (provider) {
-          case 'apple': {
-            const response = await appleOAuth(code, getMemberToken());
+
+        const codeOrToken = urlParams.get('code') || urlParams.get('token');
+
+        if (!codeOrToken) {
+          redirectToHome();
+          return;
+        }
+
+        const oauthHandlers: Record<Provider, () => Promise<boolean | void>> = {
+          apple: async () => {
+            setAccessToken(codeOrToken);
+          },
+          google: async () => {
+            const response = await googleOAuth(codeOrToken, getMemberToken());
             setAccessToken(response.data.accessToken);
-            break;
-          }
-          case 'google': {
-            const response = await googleOAuth(code, getMemberToken());
-            setAccessToken(response.data.accessToken);
-            break;
-          }
-          case 'kakao': {
-            const response = await kakaoOAuth(code);
+          },
+          kakao: async () => {
+            const response = await kakaoOAuth(codeOrToken);
             setAccessToken(response.data.accessToken);
             setMemberToken(response.data.memberId);
             navigate(ROUTES.oAuthSelection);
-            return null;
-          }
-          default: {
-            alert('지원되지 않는 제공자입니다.');
-            navigate(ROUTES.home);
-          }
-        }
+            return true; // 조기 반환
+          },
+        };
+
+        const handler = oauthHandlers[provider];
+
+        const shouldReturn = await handler();
+        if (shouldReturn) return;
+
         removeMemberToken();
+
         const inviteCode = getInviteCode();
         if (inviteCode) {
           navigate(`${ROUTES.darakbangInvitationRoute}?code=${inviteCode}`);
-        }
-        if (!inviteCode) {
+        } else {
           navigate(ROUTES.darakbangSelectOption);
         }
       } catch (error) {
-        if (error instanceof Error) {
-          console.error('OAuth 처리 중 오류 발생:', error);
-          alert(`로그인 처리 중 오류가 발생했습니다: ${error.message}`);
-          navigate(ROUTES.home);
-        }
+        console.error('OAuth 처리 중 오류 발생:', error);
+        alert('로그인 처리 중 오류가 발생했습니다.');
+        navigate(ROUTES.home);
       }
     };
 

@@ -8,7 +8,6 @@ import ROUTES from '@_constants/routes';
 import { getLastDarakbangId } from '@_common/lastDarakbangManager';
 import { getAccessToken } from '@_utils/tokenManager';
 import GoogleLoginButton from '@_components/GoogleLoginButton/GoogleLoginButton';
-
 export default function HomePage() {
   const theme = useTheme();
   const nowToken = getAccessToken();
@@ -35,8 +34,9 @@ export default function HomePage() {
     const params = {
       client_id: process.env.APPLE_O_AUTH_CLIENT_ID,
       redirect_uri: process.env.APPLE_OAUTH_REDIRECT_URI,
-      response_type: 'code',
-      scope: 'openid',
+      response_type: 'code id_token',
+      response_mode: 'form_post',
+      scope: 'name email',
     };
     const queryString = new URLSearchParams(params).toString();
     const appleOAuthUrl = `${process.env.APPLE_REQUEST_URL}?${queryString}`;

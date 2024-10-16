@@ -27,12 +27,13 @@ export default function OAuthSelectPage() {
     const params = {
       client_id: process.env.APPLE_O_AUTH_CLIENT_ID,
       redirect_uri: process.env.APPLE_OAUTH_REDIRECT_URI,
-      response_type: 'code',
-      scope: 'openid',
+      response_type: 'code id_token',
+      response_mode: 'form_post',
+      scope: 'name email',
     };
     const queryString = new URLSearchParams(params).toString();
     const appleOAuthUrl = `${process.env.APPLE_REQUEST_URL}?${queryString}`;
-    if (process.env.MSW == 'true') {
+    if (process.env.MSW === 'true') {
       window.location.href = 'http://localhost:8081/kakao-o-auth?code=1';
     } else {
       window.location.href = appleOAuthUrl;
@@ -48,16 +49,26 @@ export default function OAuthSelectPage() {
         </section>
       </LoginLayout.Main>
       <LoginLayout.Footer>
-        <button
+        <div
           css={{
-            background: 'none',
-            border: 'none',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '1rem',
           }}
-          onClick={appleAuthLogin}
         >
-          <AppleOAuthIcon />
-        </button>
-        <GoogleLoginButton />
+          <button
+            css={{
+              background: 'none',
+              border: 'none',
+            }}
+            onClick={appleAuthLogin}
+          >
+            <AppleOAuthIcon />
+          </button>
+          <GoogleLoginButton />
+        </div>
       </LoginLayout.Footer>
     </LoginLayout>
   );

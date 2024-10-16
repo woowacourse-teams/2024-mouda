@@ -3,3 +3,5 @@
 /backend/out
 /frontend/.idea
 /backend/htmlReport
+
+.DS_Store
