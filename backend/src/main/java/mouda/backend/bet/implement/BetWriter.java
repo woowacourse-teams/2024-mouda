@@ -2,6 +2,7 @@ package mouda.backend.bet.implement;
 
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,7 @@ public class BetWriter {
 
 	private final BetRepository betRepository;
 	private final BetDarakbangMemberRepository betDarakbangMemberRepository;
+	private final BetFinder betFinder;
 
 	public void saveAll(List<Bet> bets) {
 		List<BetEntity> betEntities = bets.stream()
@@ -36,11 +38,18 @@ public class BetWriter {
 	}
 
 	public void participate(long darakbangId, long betId, DarakbangMember darakbangMember) {
-		BetEntity betEntity = betRepository.findByIdAndDarakbangId(betId, darakbangId)
-			.orElseThrow(() -> new BetException(HttpStatus.NOT_FOUND, BetErrorMessage.BET_NOT_FOUND));
+		Bet bet = betFinder.find(darakbangId, betId);
+		participate(darakbangMember, bet);
+	}
 
+	private void participate(DarakbangMember darakbangMember, Bet bet) {
+		BetEntity betEntity = BetEntity.from(bet);
 		BetDarakbangMemberEntity betDarakbangMemberEntity = new BetDarakbangMemberEntity(darakbangMember, betEntity);
-		betDarakbangMemberRepository.save(betDarakbangMemberEntity);
+		try {
+			betDarakbangMemberRepository.save(betDarakbangMemberEntity);
+		} catch (DataIntegrityViolationException e) {
+			throw new BetException(HttpStatus.BAD_REQUEST, BetErrorMessage.ALREADY_PARTICIPATED_BET);
+		}
 	}
 
 	public void updateLoser(Bet bet) {
