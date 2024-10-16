@@ -93,11 +93,11 @@ export const getChatRoomDetail = async (
 };
 
 export const getChat = async (
-  moimId: number,
+  chatRoomId: number,
   recentChatId?: number,
 ): Promise<Chat[]> => {
   const response = await ApiClient.getWithLastDarakbangId(
-    `/chat?moimId=${moimId}&recentChatId=${recentChatId || 0}`,
+    `/chatroom/${chatRoomId}?recentChatId=${recentChatId || 0}`,
   );
 
   const json: GetChat = await response.json();

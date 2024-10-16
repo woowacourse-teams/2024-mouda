@@ -113,12 +113,12 @@ export const chatSliceIndexes = [
 ];
 export const chatHandler = [
   http.post(
-    `${process.env.API_BASE_URL}/v1/darakbang/*/chatroom`,
+    `${process.env.API_BASE_URL}/v1/darakbang/:darakbangId/chatroom/:chatRoomId`,
     async ({ request }) => {
-      const chatRoomId = +(request.url.split('/').at(-1) || 0);
+      const chatRoomId = +(request.url.split('/').at(-1)?.split('?')[0] || 0);
       const json = (await request.json()) as { content: string };
       nowChatServerData[chatRoomId].push({
-        chatId: nowChatServerData[chatRoomId].length,
+        chatId: (nowChatServerData[chatRoomId].at(-1)?.chatId || 0) + 1,
         content: json.content,
         isMyMessage: true,
         participation: { nickname: '내 닉네임', profile: '', role: 'MOIMEE' },
@@ -126,25 +126,10 @@ export const chatHandler = [
         time: new Date().toISOString().split('T')[1].slice(0, 8),
         chatType: 'BASIC',
       });
+
+      return HttpResponse.json({ data: true });
     },
   ),
-
-  http.get(
-    `${process.env.API_BASE_URL}/v1/darakbang/*/chat`,
-    async ({ request }) => {
-      const url = new URL(request.url);
-
-      const chatRoomId = +(request.url.split('/').at(-1) || 1);
-
-      const recentChatId = +(url.searchParams.get('recentChatId') || 0);
-      return HttpResponse.json({
-        data: {
-          chats: nowChatServerData[chatRoomId]?.slice(recentChatId + 1),
-        },
-      });
-    },
-  ),
-
   http.get(
     `${process.env.API_BASE_URL}/v1/darakbang/*/chatRoom/*/details`,
     async ({ request }) => {
@@ -223,6 +208,24 @@ export const chatHandler = [
           },
         });
       }
+    },
+  ),
+  http.get(
+    new RegExp(
+      `^${process.env.API_BASE_URL}/v1/darakbang/[^/]+/chatroom/[^/]+$`,
+    ),
+    async ({ request }) => {
+      const url = new URL(request.url);
+
+      const chatRoomId = +(request.url.split('/').at(-1)?.split('?')[0] || 0);
+
+      const recentChatId = +(url.searchParams.get('recentChatId') || 0);
+
+      return HttpResponse.json({
+        data: {
+          chats: nowChatServerData[chatRoomId]?.slice(recentChatId),
+        },
+      });
     },
   ),
 ];
