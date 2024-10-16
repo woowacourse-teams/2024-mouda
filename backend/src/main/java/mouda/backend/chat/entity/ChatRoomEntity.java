@@ -1,6 +1,8 @@
 package mouda.backend.chat.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,6 +35,7 @@ public class ChatRoomEntity {
 
 	private long darakbangId;
 
+	@Enumerated(EnumType.STRING)
 	private ChatRoomType type;
 
 	@Builder
