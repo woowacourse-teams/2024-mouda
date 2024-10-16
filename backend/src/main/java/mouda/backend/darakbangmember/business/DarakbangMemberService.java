@@ -65,16 +65,21 @@ public class DarakbangMemberService {
 		if (file != null) {
 			String url = s3Client.uploadFile(file);
 			String newProfileUrl = imageParser.parse(url);
-			if (darakbangMember.hasImage()) {
-				s3Client.deleteFile(darakbangMember.getProfile());
-			}
+			deleteProfile(darakbangMember);
 			darakbangMemberWriter.updateMyInfo(darakbangMember, nickname, description, newProfileUrl);
 			return;
 		}
 		if (isReset.equals("true")) {
+			deleteProfile(darakbangMember);
 			darakbangMemberWriter.updateMyInfo(darakbangMember, nickname, description, null);
 		} else {
 			darakbangMemberWriter.updateMyInfo(darakbangMember, nickname, description);
+		}
+	}
+
+	private void deleteProfile(DarakbangMember darakbangMember) {
+		if (darakbangMember.hasImage()) {
+			s3Client.deleteFile(darakbangMember.getProfile());
 		}
 	}
 }

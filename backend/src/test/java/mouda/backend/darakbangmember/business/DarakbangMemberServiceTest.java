@@ -144,6 +144,9 @@ class DarakbangMemberServiceTest extends DarakbangSetUp {
 		@DisplayName("기존 이미지로 변경하는 경우 S3 통신 없이 DB의 프로필 이미지 URL 값을 제거한다.")
 		@Test
 		void updateMyInfoWithBasicProfileUpdate() {
+			// given
+			doNothing().when(s3Client).deleteFile(anyString());
+
 			// when
 			darakbangMemberService.updateMyInfo(darakbangAnna, "true", null, nickname, description);
 
