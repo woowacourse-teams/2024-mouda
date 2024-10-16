@@ -37,10 +37,19 @@ public class AuthController implements AuthSwagger {
 	}
 
 	@Override
-	@PostMapping("/login")
+	@PostMapping("/login/anna")
 	@ExceptRequestLogging
-	public ResponseEntity<RestResponse<LoginResponse>> loginBasicOauth() {
-		LoginResponse response = kakaoAuthService.basicLogin();
+	public ResponseEntity<RestResponse<LoginResponse>> loginBasicOauthAnna() {
+		LoginResponse response = kakaoAuthService.basicLoginAnna();
+
+		return ResponseEntity.ok().body(new RestResponse<>(response));
+	}
+
+	@Override
+	@PostMapping("/login/hogee")
+	@ExceptRequestLogging
+	public ResponseEntity<RestResponse<LoginResponse>> loginBasicOauthHogee() {
+		LoginResponse response = kakaoAuthService.basicLoginHogee();
 
 		return ResponseEntity.ok().body(new RestResponse<>(response));
 	}

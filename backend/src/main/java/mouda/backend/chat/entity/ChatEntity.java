@@ -16,8 +16,8 @@ import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mouda.backend.chat.domain.Chat;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.moim.domain.ChatType;
 
 @Entity
 @Getter
@@ -60,14 +60,21 @@ public class ChatEntity {
 			.build();
 	}
 
-	public boolean isMyMessage(Long darakbangMemberId) {
-		return darakbangMemberId == darakbangMember.getId();
-	}
-
 	public LocalDateTime getDateTime() {
 		if (date == null || time == null) {
 			return null;
 		}
 		return LocalDateTime.of(date, time);
+	}
+
+	public Chat toChat() {
+		return Chat.builder()
+			.id(id)
+			.darakbangMember(darakbangMember)
+			.content(content)
+			.chatType(chatType)
+			.date(date)
+			.time(time)
+			.build();
 	}
 }

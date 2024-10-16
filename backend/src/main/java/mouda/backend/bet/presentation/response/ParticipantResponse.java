@@ -11,7 +11,7 @@ public record ParticipantResponse(
 		return new ParticipantResponse(
 			participant.getName(),
 			participant.getId(),
-			"" // TODO : profileUrl 추가
+			participant.getProfile()
 		);
 	}
 }

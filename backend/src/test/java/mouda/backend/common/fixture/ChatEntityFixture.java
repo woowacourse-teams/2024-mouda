@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import mouda.backend.chat.entity.ChatEntity;
+import mouda.backend.chat.entity.ChatType;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.moim.domain.ChatType;
 
 public class ChatEntityFixture {
 

@@ -9,18 +9,18 @@ import mouda.backend.bet.domain.Participant;
 
 public class BetFixture {
 
-    public static Bet createBet(Long id, LocalDateTime bettingTime, Long loserId) {
-        BetDetails betDetails = BetDetails.builder()
-            .id(id)
-            .title("Bet " + id)
-            .bettingTime(bettingTime)
-            .build();
+	public static Bet createBet(Long id, LocalDateTime bettingTime, Long loserId) {
+		BetDetails betDetails = BetDetails.builder()
+			.id(id)
+			.title("Bet " + id)
+			.bettingTime(bettingTime)
+			.build();
 
-        return Bet.builder()
-            .betDetails(betDetails)
-            .participants(Arrays.asList(new Participant(1L, "테바"), new Participant(2L, "테니")))
-            .moimerId(1L)
-            .loserId(loserId)
-            .build();
-    }
+		return Bet.builder()
+			.betDetails(betDetails)
+			.participants(Arrays.asList(new Participant(1L, "테바", "profile"), new Participant(2L, "테니", "profile")))
+			.moimerId(1L)
+			.loserId(loserId)
+			.build();
+	}
 }

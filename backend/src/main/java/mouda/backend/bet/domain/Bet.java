@@ -3,8 +3,12 @@ package mouda.backend.bet.domain;
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.http.HttpStatus;
+
 import lombok.Builder;
 import lombok.Getter;
+import mouda.backend.bet.exception.BetErrorMessage;
+import mouda.backend.bet.exception.BetException;
 
 @Getter
 public class Bet {
@@ -51,7 +55,7 @@ public class Bet {
 
 	public long getLoserId() {
 		if (loserId == null) {
-			throw new IllegalArgumentException("당첨자가 존재하지 않습니다.");
+			throw new BetException(HttpStatus.NOT_FOUND, BetErrorMessage.LOSER_NOT_FOUND);
 		}
 		return loserId;
 	}

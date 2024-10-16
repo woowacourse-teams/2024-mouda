@@ -14,13 +14,13 @@ import mouda.backend.darakbangmember.domain.DarakbangMember;
 @RequiredArgsConstructor
 public class ParticipantFinder {
 
-    private final BetDarakbangMemberRepository betDarakbangMemberRepository;
+	private final BetDarakbangMemberRepository betDarakbangMemberRepository;
 
-    public List<Participant> findAllByBetEntity(BetEntity betEntity) {
-        List<DarakbangMember> darakbangMembers = betDarakbangMemberRepository.findAllDarakbangMemberByBetId(
-            betEntity.getId());
-        return darakbangMembers.stream()
-            .map(darakbangMember -> new Participant(darakbangMember.getId(), darakbangMember.getNickname()))
-            .toList();
-    }
+	public List<Participant> findAllByBetEntity(BetEntity betEntity) {
+		List<DarakbangMember> darakbangMembers = betDarakbangMemberRepository.findAllDarakbangMemberByBetId(
+			betEntity.getId());
+		return darakbangMembers.stream()
+			.map(darakbangMember -> new Participant(darakbangMember.getId(), darakbangMember.getNickname(), darakbangMember.getProfile()))
+			.toList();
+	}
 }

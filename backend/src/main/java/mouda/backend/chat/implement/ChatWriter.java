@@ -10,9 +10,9 @@ import mouda.backend.bet.implement.BetDarakbangMemberWriter;
 import mouda.backend.chat.domain.ChatRoom;
 import mouda.backend.chat.domain.ChatRoomType;
 import mouda.backend.chat.entity.ChatEntity;
+import mouda.backend.chat.entity.ChatType;
 import mouda.backend.chat.infrastructure.ChatRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.moim.domain.ChatType;
 import mouda.backend.moim.implement.writer.ChamyoWriter;
 
 @Component

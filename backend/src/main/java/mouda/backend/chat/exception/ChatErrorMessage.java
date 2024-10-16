@@ -8,13 +8,8 @@ import lombok.Getter;
 public enum ChatErrorMessage {
 
 	CHATROOM_NOT_FOUND("존재하지 않는 채팅방입니다."),
-	MOIM_NOT_FOUND("존재하지 않는 모임입니다."),
-	BET_NOT_FOUND("존재하지 않는 안내면진다입니다."),
-	CHAMYO_NOT_FOUND("참여하지 않은 모임입니다."),
 	BET_DARAKBANG_MEMBER_NOT_FOUND("참여하지 않은 안내면진다입니다."),
-	INVALID_RECENT_CHAT_ID("잘못된 채팅 아이디입니다."),
 	INVALID_CHATROOM_TYPE("잘못된 채팅 방 타입입니다."),
-	UNAUTHORIZED_MOIMER("모이머 권한이 없습니다."),
 	UNAUTHORIZED("권한이 없습니다.");
 
 	private final String message;

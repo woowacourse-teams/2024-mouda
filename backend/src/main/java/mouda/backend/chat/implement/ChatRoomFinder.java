@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.infrastructure.BetDarakbangMemberRepository;
+import mouda.backend.chat.domain.Chat;
 import mouda.backend.chat.domain.ChatRoom;
 import mouda.backend.chat.domain.ChatRoomType;
 import mouda.backend.chat.domain.Chats;
@@ -74,7 +75,9 @@ public class ChatRoomFinder {
 	}
 
 	public Chats findAllUnloadedChats(long chatRoomId, long recentChatId) {
-		List<ChatEntity> chats = chatRepository.findAllUnloadedChats(chatRoomId, recentChatId);
+		List<Chat> chats = chatRepository.findAllUnloadedChats(chatRoomId, recentChatId).stream()
+			.map(ChatEntity::toChat)
+			.toList();
 		return new Chats(chats);
 	}
 

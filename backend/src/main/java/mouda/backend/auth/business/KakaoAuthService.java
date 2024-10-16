@@ -31,10 +31,19 @@ public class KakaoAuthService {
 		return new KakaoLoginResponse(loginProcessResult.memberId(), loginProcessResult.accessToken());
 	}
 
-	public LoginResponse basicLogin() {
+	public LoginResponse basicLoginAnna() {
 		Member member = Member.builder()
 			.name("김민겸")
-			.loginDetail(new LoginDetail(OauthType.GOOGLE, "google-social-login-id"))
+			.loginDetail(new LoginDetail(OauthType.GOOGLE, "google-social-login-id-anna"))
+			.build();
+		memberWriter.append(member);
+		return new LoginResponse(accessTokenProvider.provide(member));
+	}
+
+	public LoginResponse basicLoginHogee() {
+		Member member = Member.builder()
+			.name("조호연")
+			.loginDetail(new LoginDetail(OauthType.GOOGLE, "google-social-login-id-hogee"))
 			.build();
 		memberWriter.append(member);
 		return new LoginResponse(accessTokenProvider.provide(member));

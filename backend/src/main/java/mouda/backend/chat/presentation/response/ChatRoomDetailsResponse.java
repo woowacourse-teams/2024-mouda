@@ -10,7 +10,7 @@ public record ChatRoomDetailsResponse(
 	Map<String, Object> attributes,
 	String title,
 	String type,
-	List<ChatRoomParticipantResponse> participations
+	List<ParticipantResponse> participations
 ) {
 
 	public static ChatRoomDetailsResponse from(ChatRoomDetails chatRoomDetails) {
@@ -23,9 +23,9 @@ public record ChatRoomDetailsResponse(
 		);
 	}
 
-	private static List<ChatRoomParticipantResponse> getParticipants(ChatRoomDetails chatRoomDetails) {
+	private static List<ParticipantResponse> getParticipants(ChatRoomDetails chatRoomDetails) {
 		return chatRoomDetails.getParticipants().stream()
-			.map(participant -> new ChatRoomParticipantResponse(participant.getNickname(), participant.getProfile(), participant.getRole()))
+			.map(participant -> new ParticipantResponse(participant.getNickname(), participant.getProfile(), participant.getRole()))
 			.toList();
 	}
 }

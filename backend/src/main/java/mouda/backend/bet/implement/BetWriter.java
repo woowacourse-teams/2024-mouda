@@ -2,12 +2,15 @@ package mouda.backend.bet.implement;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.domain.Bet;
 import mouda.backend.bet.entity.BetDarakbangMemberEntity;
 import mouda.backend.bet.entity.BetEntity;
+import mouda.backend.bet.exception.BetErrorMessage;
+import mouda.backend.bet.exception.BetException;
 import mouda.backend.bet.infrastructure.BetDarakbangMemberRepository;
 import mouda.backend.bet.infrastructure.BetRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
@@ -34,7 +37,7 @@ public class BetWriter {
 
 	public void participate(long darakbangId, long betId, DarakbangMember darakbangMember) {
 		BetEntity betEntity = betRepository.findByIdAndDarakbangId(betId, darakbangId)
-			.orElseThrow(() -> new IllegalArgumentException("no bet"));
+			.orElseThrow(() -> new BetException(HttpStatus.NOT_FOUND, BetErrorMessage.BET_NOT_FOUND));
 
 		BetDarakbangMemberEntity betDarakbangMemberEntity = new BetDarakbangMemberEntity(darakbangMember, betEntity);
 		betDarakbangMemberRepository.save(betDarakbangMemberEntity);

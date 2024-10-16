@@ -1,5 +1,7 @@
 package mouda.backend.chat.presentation.response;
 
+import java.util.List;
+
 import lombok.Builder;
 import mouda.backend.chat.domain.ChatPreview;
 import mouda.backend.chat.domain.Target;
@@ -8,7 +10,7 @@ import mouda.backend.chat.domain.Target;
 public record ChatPreviewResponse(
 	Long chatRoomId,
 	String title,
-	int currentPeople,
+	List<ParticipantResponse> participations,
 	boolean isStarted,
 	String lastContent,
 	long lastReadChatId
@@ -20,9 +22,15 @@ public record ChatPreviewResponse(
 			.chatRoomId(chatPreview.getChatRoom().getId())
 			.title(target.getTitle())
 			.isStarted(target.isStarted())
-			.currentPeople(chatPreview.getCurrentPeople())
+			.participations(getParticipants(chatPreview))
 			.lastContent(chatPreview.getLastContent())
 			.lastReadChatId(chatPreview.getLastReadChatId())
 			.build();
+	}
+
+	private static List<ParticipantResponse> getParticipants(ChatPreview chatPreview) {
+		return chatPreview.getParticipants().stream()
+			.map(participant -> new ParticipantResponse(participant.getNickname(), participant.getProfile(), participant.getRole()))
+			.toList();
 	}
 }
