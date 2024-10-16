@@ -4,7 +4,11 @@ import QUERY_KEYS from '@_constants/queryKeys';
 import { useQuery } from '@tanstack/react-query';
 
 export default function useBet(betId: number) {
-  const { data: bet, isLoading } = useQuery({
+  const {
+    data: bet,
+    isLoading,
+    isFetching,
+  } = useQuery({
     queryKey: [
       QUERY_KEYS.darakbang,
       getLastDarakbangId(),
@@ -14,5 +18,5 @@ export default function useBet(betId: number) {
     queryFn: () => getBet(betId),
   });
 
-  return { bet, isLoading };
+  return { bet, isLoading, isFetching };
 }

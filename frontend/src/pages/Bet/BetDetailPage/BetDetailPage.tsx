@@ -12,7 +12,7 @@ import Tag from '../components/Tag/Tag';
 import useBet from '@_hooks/queries/useBet';
 import useCompleteBet from '@_hooks/mutaions/useCompleteBet';
 import useJoinBet from '@_hooks/mutaions/useJoinBet';
-import { useState } from 'react';
+import { useRef } from 'react';
 import { useTheme } from '@emotion/react';
 
 export default function BetDetailPage() {
@@ -22,77 +22,50 @@ export default function BetDetailPage() {
 
   const betId = Number(params.betId);
 
-  const { bet, isLoading } = useBet(betId);
+  const { bet, isLoading, isFetching } = useBet(betId);
+  const { mutateAsync: completeBet } = useCompleteBet();
+  const { mutateAsync: joinBet } = useJoinBet();
 
-  const { mutate: completeBet } = useCompleteBet();
-
-  const { mutate: joinBet } = useJoinBet();
-
-  const [isRouletteOpen, setIsRouletteOpen] = useState(false);
+  const isButtonActionLoadingRef = useRef(false);
 
   if (isLoading || !bet) {
     return null;
   }
 
-  const bottomButton = (() => {
-    if (bet.myRole === 'MOIMER') {
-      return (
-        <Button
-          shape="bar"
-          disabled={bet.participants.length < 2}
-          onClick={() => {
-            if (bet.isAnnounced) {
-              setIsRouletteOpen(true);
-              if (bet.chatroomId === null) return;
-              navigate(GET_ROUTES.nowDarakbang.chattingRoom(bet.chatroomId));
-              // setTimeout(() => {
-              //   navigate(GET_ROUTES.nowDarakbang.betResult(betId));
-              // }, 2500);
-            } else {
-              completeBet(betId);
-            }
-          }}
-        >
-          {bet.isAnnounced ? '결과 보러가기' : '모집 마감하기'}
-        </Button>
-      );
+  const goToCheckResult = () => {
+    if (bet.chatroomId === null) {
+      return;
     }
-    if (bet.myRole === 'MOIMEE') {
-      return (
-        <Button
-          shape="bar"
-          disabled={!bet.isAnnounced}
-          onClick={() => {
-            if (bet.isAnnounced) {
-              setIsRouletteOpen(true);
-              if (bet.chatroomId === null) return;
-              navigate(GET_ROUTES.nowDarakbang.chattingRoom(bet.chatroomId));
-              // setTimeout(() => {
-              //   navigate(GET_ROUTES.nowDarakbang.betResult(betId));
-              // }, 2500);
-            }
-          }}
-        >
-          {bet.isAnnounced ? '결과 보러가기' : '이미 참여했어요'}
-        </Button>
-      );
+    navigate(GET_ROUTES.nowDarakbang.chattingRoom(bet.chatroomId));
+  };
+
+  const handleMoimerButtonClick = async () => {
+    if (isButtonActionLoadingRef.current) {
+      return;
     }
-    if (bet.myRole === 'NON_MOIMEE') {
-      return (
-        <Button
-          shape="bar"
-          disabled={bet.isAnnounced}
-          onClick={() => {
-            if (!bet.isAnnounced) {
-              joinBet(betId);
-            }
-          }}
-        >
-          {bet.isAnnounced ? '마감되었어요' : '참여하기'}
-        </Button>
-      );
+    isButtonActionLoadingRef.current = true;
+    if (bet.isAnnounced) {
+      goToCheckResult();
+    } else {
+      await completeBet(betId);
     }
-  })();
+    isButtonActionLoadingRef.current = false;
+  };
+
+  const handleMoimeeButtonClick = () => {
+    goToCheckResult();
+  };
+
+  const handleJoinButtonClick = async () => {
+    if (isButtonActionLoadingRef.current) {
+      return;
+    }
+    isButtonActionLoadingRef.current = true;
+    if (!bet.isAnnounced) {
+      await joinBet(betId);
+    }
+    isButtonActionLoadingRef.current = false;
+  };
 
   return (
     <InformationLayout>
@@ -115,12 +88,42 @@ export default function BetDetailPage() {
         <ProfileList participants={bet.participants} />
 
         {bet.participants.length > 1 && (
-          <Roulette isFast={isRouletteOpen} participants={bet.participants} />
+          <Roulette isFast={false} participants={bet.participants} />
         )}
       </InformationLayout.ContentContainer>
 
       <InformationLayout.BottomButtonWrapper>
-        {bottomButton}
+        {bet.myRole === 'MOIMER' ? (
+          <Button
+            shape="bar"
+            disabled={
+              isButtonActionLoadingRef.current ||
+              isFetching ||
+              bet.participants.length < 2
+            }
+            onClick={handleMoimerButtonClick}
+          >
+            {bet.isAnnounced ? '결과 보러가기' : '모집 마감하기'}
+          </Button>
+        ) : bet.myRole === 'MOIMEE' ? (
+          <Button
+            shape="bar"
+            disabled={!bet.isAnnounced}
+            onClick={handleMoimeeButtonClick}
+          >
+            {bet.isAnnounced ? '결과 보러가기' : '이미 참여했어요'}
+          </Button>
+        ) : (
+          <Button
+            shape="bar"
+            disabled={
+              isButtonActionLoadingRef.current || isFetching || bet.isAnnounced
+            }
+            onClick={handleJoinButtonClick}
+          >
+            {bet.isAnnounced ? '마감되었어요' : '참여하기'}
+          </Button>
+        )}
       </InformationLayout.BottomButtonWrapper>
     </InformationLayout>
   );
