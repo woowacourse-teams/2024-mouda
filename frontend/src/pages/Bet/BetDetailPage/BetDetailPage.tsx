@@ -39,6 +39,7 @@ export default function BetDetailPage() {
       return (
         <Button
           shape="bar"
+          disabled={bet.participants.length < 2}
           onClick={() => {
             if (bet.isAnnounced) {
               setIsRouletteOpen(true);
