@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimStatus;
 
@@ -31,4 +32,5 @@ public interface MoimRepository extends JpaRepository<Moim, Long> {
 	Optional<Moim> findByIdAndDarakbangId(Long moimId, Long darakbangId);
 
 	boolean existsByIdAndDarakbangId(Long moimId, Long darakbangId);
+
 }

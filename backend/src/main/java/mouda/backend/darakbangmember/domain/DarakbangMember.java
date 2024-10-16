@@ -99,6 +99,14 @@ public class DarakbangMember {
 		return this;
 	}
 
+	public boolean isSameMemberWith(DarakbangMember other) {
+		return id.equals(other.getId());
+	}
+
+	public boolean isNotSameMemberWith(DarakbangMember other) {
+		return !isSameMemberWith(other);
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

@@ -18,6 +18,7 @@ import mouda.backend.moim.implement.finder.ChamyoFinder;
 import mouda.backend.moim.implement.finder.ChatFinder;
 import mouda.backend.moim.implement.finder.ChatRoomFinder;
 import mouda.backend.moim.implement.finder.MoimFinder;
+import mouda.backend.moim.implement.sender.OldChatNotificationSender;
 import mouda.backend.moim.implement.validator.ChamyoValidator;
 import mouda.backend.moim.implement.writer.ChatWriter;
 import mouda.backend.moim.implement.writer.MoimWriter;
@@ -27,7 +28,6 @@ import mouda.backend.moim.presentation.request.chat.OldLastReadChatRequest;
 import mouda.backend.moim.presentation.request.chat.OldPlaceConfirmRequest;
 import mouda.backend.moim.presentation.response.chat.OldChatFindUnloadedResponse;
 import mouda.backend.moim.presentation.response.chat.OldChatPreviewResponses;
-import mouda.backend.notification.business.NotificationService;
 import mouda.backend.notification.domain.NotificationType;
 
 @Transactional
@@ -35,7 +35,6 @@ import mouda.backend.notification.domain.NotificationType;
 @RequiredArgsConstructor
 public class ChatService {
 
-	private final NotificationService notificationService;
 	private final MoimFinder moimFinder;
 	private final MoimWriter moimWriter;
 	private final ChatFinder chatFinder;
@@ -43,6 +42,7 @@ public class ChatService {
 	private final ChamyoValidator chamyoValidator;
 	private final ChamyoFinder chamyoFinder;
 	private final ChatRoomFinder chatRoomFinder;
+	private final OldChatNotificationSender oldChatNotificationSender;
 
 	public void createChat(long darakbangId, OldChatCreateRequest oldChatCreateRequest, DarakbangMember darakbangMember) {
 		Moim moim = moimFinder.read(oldChatCreateRequest.moimId(), darakbangId);
@@ -51,7 +51,7 @@ public class ChatService {
 		Chat chat = oldChatCreateRequest.toEntity(moim, darakbangMember);
 		chatWriter.save(chat);
 
-		notificationService.notifyToMembers(NotificationType.NEW_CHAT, darakbangId, moim, darakbangMember);
+		oldChatNotificationSender.sendChatNotification(moim, darakbangMember, NotificationType.NEW_CHAT);
 	}
 
 	@Transactional(readOnly = true)
@@ -76,7 +76,7 @@ public class ChatService {
 		Chat chat = request.toEntity(moim, darakbangMember);
 		chatWriter.save(chat);
 
-		notificationService.notifyToMembers(NotificationType.MOIM_PLACE_CONFIRMED, darakbangId, moim, darakbangMember);
+		oldChatNotificationSender.sendChatNotification(moim, darakbangMember, NotificationType.MOIM_PLACE_CONFIRMED);
 	}
 
 	public void confirmDateTime(
@@ -88,7 +88,7 @@ public class ChatService {
 		Chat chat = request.toEntity(moim, darakbangMember);
 		chatWriter.save(chat);
 
-		notificationService.notifyToMembers(NotificationType.MOIM_TIME_CONFIRMED, darakbangId, moim, darakbangMember);
+		oldChatNotificationSender.sendChatNotification(moim, darakbangMember, NotificationType.MOIM_TIME_CONFIRMED);
 	}
 
 	public OldChatPreviewResponses findChatPreview(long darakbangId, DarakbangMember darakbangMember) {

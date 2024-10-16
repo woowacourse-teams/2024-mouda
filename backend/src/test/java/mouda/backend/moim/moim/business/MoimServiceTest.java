@@ -1,11 +1,9 @@
 package mouda.backend.moim.moim.business;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import mouda.backend.common.global.IgnoreNotificationTest;
 import mouda.backend.common.fixture.DarakbangFixture;
 import mouda.backend.common.fixture.DarakbangMemberFixture;
 import mouda.backend.common.fixture.MemberFixture;
@@ -25,18 +22,14 @@ import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.infrastructure.MemberRepository;
 import mouda.backend.moim.business.MoimService;
-import mouda.backend.moim.domain.Comment;
 import mouda.backend.moim.domain.Moim;
-import mouda.backend.moim.exception.CommentException;
-import mouda.backend.moim.infrastructure.CommentRepository;
 import mouda.backend.moim.infrastructure.MoimRepository;
-import mouda.backend.moim.presentation.request.comment.CommentCreateRequest;
 import mouda.backend.moim.presentation.request.moim.MoimCreateRequest;
 import mouda.backend.moim.presentation.response.moim.MoimDetailsFindResponse;
 import mouda.backend.moim.presentation.response.moim.MoimFindAllResponses;
 
 @SpringBootTest
-class MoimServiceTest extends IgnoreNotificationTest {
+class MoimServiceTest {
 
 	@Autowired
 	private MoimService moimService;
