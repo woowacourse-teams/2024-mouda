@@ -60,7 +60,7 @@ export default function ChatPage() {
                 title={chatPreview.title}
                 unreadCount={chatPreview.unreadChatCount}
                 tagValue={
-                  (nowChatRoomType === 'MOIM' || '') &&
+                  (nowChatRoomType === 'MOIM' || undefined) &&
                   (chatPreview.isStarted ? '모임 후' : '모임 전')
                 }
                 fontColor={

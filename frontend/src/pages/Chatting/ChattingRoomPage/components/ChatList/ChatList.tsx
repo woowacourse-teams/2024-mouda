@@ -27,11 +27,11 @@ export default function ChatList(props: ChatListProps) {
       {chats.map((chat, index) => {
         if (chats[index - 1]?.date !== chat.date) {
           return (
-            <div key={formatYyyymmddToKorean(chat.date, '-', true)}>
+            <div key={chat.chatId}>
               <ChattingRoomSeparator
                 string={formatYyyymmddToKorean(chat.date, '-', true)}
               />
-              <Chat key={chat.chatId} chat={chat}>
+              <Chat chat={chat}>
                 <ChatChildren chat={chat} />
               </Chat>
             </div>
