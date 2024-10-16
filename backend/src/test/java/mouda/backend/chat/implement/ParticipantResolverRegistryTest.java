@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import mouda.backend.chat.domain.ChatRoomType;
+import mouda.backend.chat.exception.ChatException;
 import mouda.backend.chat.implement.ParticipantResolverRegistry;
 import mouda.backend.chat.implement.ParticipantsResolver;
 
@@ -66,6 +67,6 @@ class ParticipantResolverRegistryTest {
 
 		// then
 		assertThatThrownBy(() -> participantResolverRegistry.getResolver(chatRoomType))
-			.isInstanceOf(IllegalArgumentException.class);
+			.isInstanceOf(ChatException.class);
 	}
 }

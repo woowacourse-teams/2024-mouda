@@ -3,6 +3,7 @@ package mouda.backend.bet.implement;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,8 @@ import mouda.backend.bet.domain.Loser;
 import mouda.backend.bet.domain.Participant;
 import mouda.backend.bet.entity.BetDarakbangMemberEntity;
 import mouda.backend.bet.entity.BetEntity;
+import mouda.backend.bet.exception.BetErrorMessage;
+import mouda.backend.bet.exception.BetException;
 import mouda.backend.bet.infrastructure.BetDarakbangMemberRepository;
 import mouda.backend.bet.infrastructure.BetRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
@@ -28,7 +31,7 @@ public class BetFinder {
 
 	public Bet find(long darakbangId, long betEntityId) {
 		BetEntity betEntity = betRepository.findByIdAndDarakbangId(betEntityId, darakbangId)
-			.orElseThrow(IllegalArgumentException::new);
+			.orElseThrow(() -> new BetException(HttpStatus.NOT_FOUND, BetErrorMessage.BET_NOT_FOUND));
 		List<Participant> participants = participantFinder.findAllByBetEntity(betEntity);
 
 		return Bet.builder()
@@ -54,7 +57,8 @@ public class BetFinder {
 
 	private List<Bet> createBets(List<BetEntity> betEntities) {
 		return betEntities.stream()
-			.map(this::createBet).toList();
+			.map(this::createBet)
+			.toList();
 	}
 
 	private Bet createBet(BetEntity betEntity) {
@@ -70,18 +74,18 @@ public class BetFinder {
 
 	@Transactional(readOnly = true)
 	public Loser findResult(long darakbangId, long betId) {
-		// TODO : 예외처리 공통화
 		BetEntity betEntity = betRepository.findByIdAndDarakbangId(betId, darakbangId)
-			.orElseThrow(IllegalArgumentException::new);
+			.orElseThrow(() -> new BetException(HttpStatus.NOT_FOUND, BetErrorMessage.BET_NOT_FOUND));
 
-		// TODO : 리팩토링
 		Long loserDarakbangMemberId = betEntity.getLoserDarakbangMemberId();
 		if (loserDarakbangMemberId == null) {
-			throw new IllegalArgumentException("아직 추첨이 진행되지 않았습니다.");
+			throw new BetException(HttpStatus.NOT_FOUND, BetErrorMessage.LOSER_NOT_FOUND);
 		}
 
-		BetDarakbangMemberEntity betDarakbangMemberEntity = betDarakbangMemberRepository.findByBetIdAndDarakbangMemberId(
-			betId, loserDarakbangMemberId).orElseThrow(IllegalArgumentException::new);
+		BetDarakbangMemberEntity betDarakbangMemberEntity = betDarakbangMemberRepository
+			.findByBetIdAndDarakbangMemberId(betId, loserDarakbangMemberId)
+			.orElseThrow(() -> new BetException(HttpStatus.NOT_FOUND, BetErrorMessage.BET_DARAKBANG_MEMBER_NOT_FOUND));
+
 		return new Loser(betDarakbangMemberEntity.getDarakbangMember().getId(),
 			betDarakbangMemberEntity.getDarakbangMember().getNickname());
 	}

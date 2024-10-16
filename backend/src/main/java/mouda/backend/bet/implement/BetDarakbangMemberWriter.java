@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.entity.BetDarakbangMemberEntity;
+import mouda.backend.bet.exception.BetErrorMessage;
+import mouda.backend.bet.exception.BetException;
 import mouda.backend.bet.infrastructure.BetDarakbangMemberRepository;
-import mouda.backend.chat.exception.ChatErrorMessage;
-import mouda.backend.chat.exception.ChatException;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 
 @Component
@@ -20,7 +20,7 @@ public class BetDarakbangMemberWriter {
 		BetDarakbangMemberEntity betDarakbangMemberEntity = betDarakbangMemberRepository
 			.findByBetIdAndDarakbangMemberId(betId, darakbangMember.getId())
 			.orElseThrow(
-				() -> new ChatException(HttpStatus.NOT_FOUND, ChatErrorMessage.BET_DARAKBANG_MEMBER_NOT_FOUND));
+				() -> new BetException(HttpStatus.NOT_FOUND, BetErrorMessage.BET_DARAKBANG_MEMBER_NOT_FOUND));
 		betDarakbangMemberEntity.updateLastChat(lastReadChatId);
 	}
 }
