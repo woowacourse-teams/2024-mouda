@@ -1,9 +1,7 @@
 package mouda.backend.darakbangmember.presentation.controller.swagger;
 
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -53,14 +51,11 @@ public interface DarakbangMemberSwagger {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "마이페이지 수정 성공!")
 	})
-	@PostMapping(path = "/{darakbangId}/member/mine", consumes = {
-		MediaType.MULTIPART_FORM_DATA_VALUE
-	})
 	ResponseEntity<Void> updateMyInfo(
-		@LoginDarakbangMember DarakbangMember darakbangMember,
-		@RequestPart(value = "isReset") String isReset,
-		@RequestPart(value = "file", required = false) MultipartFile file,
-		@RequestPart("nickname") String nickname,
-		@RequestPart(value = "description", required = false) String description
+		@LoginDarakbangMember DarakbangMember member,
+		@RequestPart String isReset,
+		@RequestPart MultipartFile file,
+		@RequestPart String nickname,
+		@RequestPart String description
 	);
 }

@@ -16,8 +16,6 @@ public class ImageParser {
 	private String prefix;
 
 	public String parse(String url) {
-		log.info("ImageParser url : {}", url);
-
 		String[] split = url.split(URL_DELIMITER);
 
 		StringBuilder profile = new StringBuilder(prefix);
