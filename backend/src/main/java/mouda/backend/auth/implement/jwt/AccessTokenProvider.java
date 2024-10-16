@@ -13,6 +13,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import mouda.backend.auth.exception.AuthErrorMessage;
 import mouda.backend.auth.exception.AuthException;
 import mouda.backend.member.domain.Member;
+import mouda.backend.member.domain.OauthType;
 
 @Component
 public class AccessTokenProvider {
@@ -58,10 +59,13 @@ public class AccessTokenProvider {
 		}
 	}
 
-	public void validateExpiration(String token) {
+	public void validateToken(String token) {
 		Claims claims = getPayload(token);
 
 		if (claims.getExpiration().before(new Date())) {
+			throw new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.UNAUTHORIZED);
+		}
+		if (claims.get(OAUTH_TYPE) == OauthType.KAKAO.toString()) {
 			throw new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.UNAUTHORIZED);
 		}
 	}
