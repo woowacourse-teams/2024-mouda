@@ -68,6 +68,10 @@ public class Bet {
 		return betDetails.getId();
 	}
 
+	public String getTitle() {
+		return betDetails.getTitle();
+	}
+
 	public long timeDifferenceInMinutesWithNow() {
 		return betDetails.timeDifferenceInMinutesWithNow();
 	}

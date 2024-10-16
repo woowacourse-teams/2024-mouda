@@ -3,6 +3,7 @@ package mouda.backend.moim.implement.sender;
 import java.util.List;
 
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import mouda.backend.common.config.UrlConfig;
@@ -14,6 +15,8 @@ import mouda.backend.moim.implement.finder.CommentRecipientFinder;
 import mouda.backend.notification.domain.NotificationEvent;
 import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.domain.Recipient;
+import mouda.backend.notification.exception.NotificationErrorMessage;
+import mouda.backend.notification.exception.NotificationException;
 
 @Component
 public class CommentNotificationSender extends AbstractMoimNotificationSender {
@@ -38,12 +41,31 @@ public class CommentNotificationSender extends AbstractMoimNotificationSender {
 
 	private void sendNotification(CommentRecipient commentRecipient, Comment comment, DarakbangMember author) {
 		NotificationType notificationType = commentRecipient.getNotificationType();
-		String message = notificationType.createMessage(author.getNickname());
 		List<Recipient> recipients = commentRecipient.getRecipients();
 		Moim moim = comment.getMoim();
-		NotificationEvent notificationEvent = new NotificationEvent(notificationType, moim.getTitle(), message,
-			getMoimUrl(moim.getDarakbangId(), moim.getId()), recipients);
+		NotificationEvent notificationEvent = NotificationEvent.nonChatEvent(
+			notificationType,
+			moim.getTitle(),
+			CommentNotificationMessage.create(author.getNickname(), notificationType),
+			getMoimUrl(moim.getDarakbangId(), moim.getId()),
+			recipients
+		);
 
 		eventPublisher.publishEvent(notificationEvent);
+	}
+
+	static class CommentNotificationMessage {
+
+		public static String create(String author, NotificationType type) {
+			if (type == NotificationType.NEW_COMMENT) {
+				return author + "님이 댓글을 남겼어요!";
+			}
+			if (type == NotificationType.NEW_REPLY) {
+				return author + "님이 답글을 남겼어요!";
+			}
+			throw new NotificationException(
+				HttpStatus.BAD_REQUEST, NotificationErrorMessage.NOT_ALLOWED_NOTIFICATION_TYPE
+			);
+		}
 	}
 }

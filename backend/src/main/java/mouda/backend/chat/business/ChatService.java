@@ -1,5 +1,7 @@
 package mouda.backend.chat.business;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import mouda.backend.chat.presentation.request.DateTimeConfirmRequest;
 import mouda.backend.chat.presentation.request.LastReadChatRequest;
 import mouda.backend.chat.presentation.request.PlaceConfirmRequest;
 import mouda.backend.chat.presentation.response.ChatFindUnloadedResponse;
+import mouda.backend.chat.util.DateTimeFormatter;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.implement.finder.MoimFinder;
@@ -42,10 +45,11 @@ public class ChatService {
 	) {
 		ChatRoom chatRoom = chatRoomFinder.read(darakbangId, chatRoomId, darakbangMember);
 
-		chatWriter.append(chatRoom.getId(), request.content(), darakbangMember);
-		Moim moim = moimFinder.read(chatRoom.getTargetId(), darakbangId);
+		String content = request.content();
+		chatWriter.append(chatRoom.getId(), content, darakbangMember);
 
-		chatNotificationSender.sendChatNotification(moim, darakbangMember, NotificationType.NEW_CHAT, chatRoomId);
+		chatNotificationSender.sendChatNotification(darakbangId, chatRoom, content, darakbangMember,
+			NotificationType.NEW_CHAT);
 	}
 
 	@Transactional(readOnly = true)
@@ -63,14 +67,15 @@ public class ChatService {
 	public void confirmPlace(long darakbangId, long chatRoomId, PlaceConfirmRequest request,
 		DarakbangMember darakbangMember) {
 		ChatRoom chatRoom = chatRoomFinder.readMoimChatRoom(darakbangId, chatRoomId);
+		String place = request.place();
 
 		Moim moim = moimFinder.read(chatRoom.getTargetId(), darakbangId);
-		moimWriter.confirmPlace(moim, darakbangMember, request.place());
+		moimWriter.confirmPlace(moim, darakbangMember, place);
 
-		chatWriter.appendPlaceTypeChat(chatRoom.getId(), request.place(), darakbangMember);
+		chatWriter.appendPlaceTypeChat(chatRoom.getId(), place, darakbangMember);
 
-		chatNotificationSender.sendChatNotification(moim, darakbangMember, NotificationType.MOIM_PLACE_CONFIRMED,
-			chatRoomId);
+		chatNotificationSender.sendChatNotification(darakbangId, chatRoom, place, darakbangMember,
+			NotificationType.MOIM_PLACE_CONFIRMED);
 	}
 
 	public void confirmDateTime(long darakbangId, long chatRoomId, DateTimeConfirmRequest request,
@@ -78,12 +83,14 @@ public class ChatService {
 		ChatRoom chatRoom = chatRoomFinder.readMoimChatRoom(darakbangId, chatRoomId);
 
 		Moim moim = moimFinder.read(chatRoom.getTargetId(), darakbangId);
-		moimWriter.confirmDateTime(moim, darakbangMember, request.date(), request.time());
+		LocalDate date = request.date();
+		LocalTime time = request.time();
+		moimWriter.confirmDateTime(moim, darakbangMember, date, time);
 
-		chatWriter.appendDateTimeTypeChat(chatRoom.getId(), request.date(), request.time(), darakbangMember);
+		chatWriter.appendDateTimeTypeChat(chatRoom.getId(), date, time, darakbangMember);
 
-		chatNotificationSender.sendChatNotification(moim, darakbangMember, NotificationType.MOIM_TIME_CONFIRMED,
-			chatRoomId);
+		chatNotificationSender.sendChatNotification(darakbangId, chatRoom, DateTimeFormatter.formatDateTime(date, time),
+			darakbangMember, NotificationType.MOIM_TIME_CONFIRMED);
 	}
 
 	public void updateLastReadChat(

@@ -51,7 +51,7 @@ public class ChatService {
 		Chat chat = oldChatCreateRequest.toEntity(moim, darakbangMember);
 		chatWriter.save(chat);
 
-		oldChatNotificationSender.sendChatNotification(moim, darakbangMember, NotificationType.NEW_CHAT);
+		oldChatNotificationSender.sendChatNotification(chat, darakbangMember, NotificationType.NEW_CHAT);
 	}
 
 	@Transactional(readOnly = true)
@@ -76,7 +76,7 @@ public class ChatService {
 		Chat chat = request.toEntity(moim, darakbangMember);
 		chatWriter.save(chat);
 
-		oldChatNotificationSender.sendChatNotification(moim, darakbangMember, NotificationType.MOIM_PLACE_CONFIRMED);
+		oldChatNotificationSender.sendChatNotification(chat, darakbangMember, NotificationType.MOIM_PLACE_CONFIRMED);
 	}
 
 	public void confirmDateTime(
@@ -88,7 +88,7 @@ public class ChatService {
 		Chat chat = request.toEntity(moim, darakbangMember);
 		chatWriter.save(chat);
 
-		oldChatNotificationSender.sendChatNotification(moim, darakbangMember, NotificationType.MOIM_TIME_CONFIRMED);
+		oldChatNotificationSender.sendChatNotification(chat, darakbangMember, NotificationType.MOIM_TIME_CONFIRMED);
 	}
 
 	public OldChatPreviewResponses findChatPreview(long darakbangId, DarakbangMember darakbangMember) {
