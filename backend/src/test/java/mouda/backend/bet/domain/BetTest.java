@@ -14,7 +14,7 @@ class BetTest {
 	@Test
 	void draw() {
 		// given
-		List<Participant> participants = List.of(new Participant(1L, "테바"), new Participant(2L, "테니"));
+		List<Participant> participants = List.of(new Participant(1L, "테바", "profile"), new Participant(2L, "테니", "profile"));
 		BetDetails betDetails = BetDetails.builder()
 			.id(1L)
 			.title("테바 미안")
@@ -36,7 +36,7 @@ class BetTest {
 	@DisplayName("모이머의 id를 반환한다.")
 	@Test
 	void getMoimerId() {
-		List<Participant> participants = List.of(new Participant(1L, "테바"), new Participant(2L, "테니"));
+		List<Participant> participants = List.of(new Participant(1L, "테바", "profile"), new Participant(2L, "테니", "profile"));
 		BetDetails betDetails = BetDetails.builder()
 			.id(1L)
 			.title("테바 미안")
