@@ -4,7 +4,18 @@ type Size = number;
 
 export const profileBox = () => {
   return css`
-    width: fit-content;
+    position: relative;
+  `;
+};
+
+export const profileCrown = (width: Size) => {
+  return css`
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: ${3 * (width / 8)}rem;
   `;
 };
 
@@ -27,22 +38,13 @@ export const profileImage = (
   props: { isLoaded?: boolean } = { isLoaded: true },
 ) => {
   return css`
-    ${!props.isLoaded && 'display: none;'}
+    ${!props.isLoaded && 'display: none;'};
     width: 100%;
     height: 100%;
-    background-image: url(${EmptyProfile});
-    background-size: cover;
-    background-position: center;
-    object-fit: cover;
-  `;
-};
 
-// 크라운 이미지를 가운데 정렬하기 위한 css
-export const profileCrown = (width: Size) => {
-  return css`
-    position: relative;
-    top: 1rem;
-    left: ${width / 2 - (3 * (width / 8)) / 2}rem;
-    width: ${3 * (width / 8)}rem;
+    object-fit: cover;
+    background-image: url(${EmptyProfile});
+    background-position: center;
+    background-size: cover;
   `;
 };

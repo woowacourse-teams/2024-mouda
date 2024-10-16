@@ -4,6 +4,7 @@ import { Comment } from '@_types/index';
 import { HTMLProps } from 'react';
 import { useTheme } from '@emotion/react';
 import ProfileFrame from '@_components/ProfileFrame/ProfileFrame';
+import useNicknameWidthEffect from '@_hooks/useNicknameWidthEffect';
 
 export interface CommentCardProps extends HTMLProps<HTMLDivElement> {
   comment: Comment;
@@ -13,7 +14,6 @@ export interface CommentCardProps extends HTMLProps<HTMLDivElement> {
 }
 
 export default function CommentCard(props: CommentCardProps) {
-  const theme = useTheme();
   const {
     comment: { profile, nickname, dateTime, content, children },
     onWriteClick,
@@ -21,19 +21,27 @@ export default function CommentCard(props: CommentCardProps) {
     isChild = false,
   } = props;
 
+  const { nicknameRef, formattedNickname } = useNicknameWidthEffect({
+    nickname,
+    maxNicknameWidth: 100,
+  });
+
+  const theme = useTheme();
+
   return (
     <div css={S.commentContainer()}>
       <div css={S.commentWrapper({ theme, isChecked })}>
-        <ProfileFrame
-          width={3}
-          height={3}
-          borderWidth={0}
-          src={profile}
-        ></ProfileFrame>
+        <ProfileFrame width={3} height={3} borderWidth={0} src={profile} />
+
         <div css={S.commnetBox()}>
           <div css={S.commnetHeader}>
             <div css={S.commentHeaderLeft}>
-              <div css={theme.typography.small}>{nickname}</div>
+              <div
+                ref={nicknameRef}
+                css={[S.commentNickname, theme.typography.small]}
+              >
+                {formattedNickname}
+              </div>
               <div css={S.timestamp({ theme })}>{dateTime}</div>
             </div>
             {!isChild && (
