@@ -3,7 +3,6 @@ import { isBetChatRoomDetail, isMoimChatRoomDetail } from '@_types/typeGuards';
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { BetChatRoomDetail } from '@_types/index';
 import CalenderClock from '@_components/Icons/CalenderClock';
 import ChatBottomMenu from './components/ChatBottomMenu/ChatBottomMenu';
 import ChatInfoAccordion from './components/ChatInfoAccordion/ChatInfoAccordion';
@@ -202,9 +201,6 @@ export default function ChattingRoomPage() {
             ]}
           />
         )}
-        {(console.log(
-          (chatRoomDetail as BetChatRoomDetail)?.attributes?.loser.nickname,
-        ) as undefined) || ''}
         {chatRoomDetail && isBetChatRoomDetail(chatRoomDetail) && (
           <ChatInfoAccordion
             tagTheme={chatRoomDetail.attributes.isLoser ? 'yellow' : 'orange'}
