@@ -25,7 +25,7 @@ export default function OAuthSelectPage() {
 
     const params = {
       client_id: process.env.APPLE_O_AUTH_CLIENT_ID,
-      redirect_uri: 'https://api.dev.mouda.site/v1/oauth/apple',
+      redirect_uri: process.env.APPLE_OAUTH_REDIRECT_URI,
       response_type: 'code id_token',
       response_mode: 'form_post',
       scope: 'name email',
@@ -33,7 +33,7 @@ export default function OAuthSelectPage() {
     const queryString = new URLSearchParams(params).toString();
     const appleOAuthUrl = `${process.env.APPLE_REQUEST_URL}?${queryString}`;
     if (process.env.MSW === 'true') {
-      window.location.href = 'http://localhost:8081/kakao-o-auth?code=1';
+      window.location.href = 'http://localhost:8081/oauth?code=1';
     } else {
       window.location.href = appleOAuthUrl;
     }
