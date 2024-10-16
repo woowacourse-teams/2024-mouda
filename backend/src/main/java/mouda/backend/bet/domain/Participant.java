@@ -8,11 +8,13 @@ public class Participant {
 
 	private final long id;
 	private final String name;
+	private final String profile;
 
 	@Builder
-	public Participant(long id, String name) {
+	public Participant(long id, String name, String profile) {
 		this.id = id;
 		this.name = name;
+		this.profile = profile;
 	}
 
 	public Loser toLoser() {
