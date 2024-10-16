@@ -27,3 +27,10 @@ export const count = ({ theme }: { theme: Theme }) => css`
   ${theme.typography.b3}
   color: ${theme.colorPalette.black[30]};
 `;
+
+export const tagBox = css`
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  min-width: 80px;
+`;
