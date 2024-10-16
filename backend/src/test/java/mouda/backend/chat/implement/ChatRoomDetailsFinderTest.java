@@ -94,8 +94,8 @@ class ChatRoomDetailsFinderTest extends DarakbangSetUp {
 		attributes.put("isMoimer", true);
 		attributes.put("isStarted", false);
 		attributes.put("description", moim.getDescription());
-		attributes.put("date", moim.getDate().toString());
-		attributes.put("time", moim.getTime().withNano(0).toString());
+		attributes.put("date", moim.getDate());
+		attributes.put("time", moim.getTime().withNano(0));
 		attributes.put("moimId", 1L);
 		return attributes;
 	}
@@ -133,10 +133,10 @@ class ChatRoomDetailsFinderTest extends DarakbangSetUp {
 		attributes.put("title", bet.getTitle());
 		attributes.put("isLoser", true);
 		attributes.put("betId", bet.getId());
-		attributes.put("loser", Map.of(
-			"nickname", "anna",
-			"profile", "profile",
-			"role", "MOIMER"
+		attributes.put("loser", new Participant(
+			"anna",
+			"profile",
+			"MOIMER"
 		));
 		return attributes;
 	}

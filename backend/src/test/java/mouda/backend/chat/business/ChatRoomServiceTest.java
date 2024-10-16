@@ -85,7 +85,7 @@ public class ChatRoomServiceTest extends DarakbangSetUp {
 		assertThat(moimChatPreviews.previews()).hasSize(1);
 		assertThat(moimChatPreviews.previews().get(0).lastContent()).isEqualTo("안녕하세요");
 		assertThat(moimChatPreviews.previews().get(0).lastReadChatId()).isEqualTo(0);
-		assertThat(moimChatPreviews.previews().get(0).currentPeople()).isEqualTo(1);
+		assertThat(moimChatPreviews.previews().get(0).participations()).hasSize(1);
 	}
 
 	@DisplayName("안내면진다 채팅 미리보기를 조회한다.")
@@ -112,7 +112,7 @@ public class ChatRoomServiceTest extends DarakbangSetUp {
 		assertThat(betChatPreviews.previews().size()).isEqualTo(1);
 		assertThat(betChatPreviews.previews().get(0).lastContent()).isEqualTo("안녕하세요");
 		assertThat(betChatPreviews.previews().get(0).lastReadChatId()).isEqualTo(0);
-		assertThat(betChatPreviews.previews().get(0).currentPeople()).isEqualTo(1);
+		assertThat(betChatPreviews.previews().get(0).participations()).hasSize(1);
 	}
 
 	private void sendChat(ChatRoomEntity savedChatRoom) {

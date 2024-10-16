@@ -39,7 +39,7 @@ public class MoimAttributeManager implements AttributeManager {
 			isMoimer,
 			moim.isPastMoim(),
 			moim.getDescription(),
-			moim.getDate().toString(),
+			moim.getDate(),
 			formatToSecondPrecision(moim.getTime()),
 			moim.getId()
 		);
@@ -49,7 +49,10 @@ public class MoimAttributeManager implements AttributeManager {
 		return chamyo.getMoimRole() == MoimRole.MOIMER;
 	}
 
-	private String formatToSecondPrecision(LocalTime time) {
-		return time.withNano(0).toString();
+	private LocalTime formatToSecondPrecision(LocalTime time) {
+		if (time == null) {
+			return null;
+		}
+		return time.withNano(0);
 	}
 }

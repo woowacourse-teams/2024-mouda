@@ -1,5 +1,7 @@
 package mouda.backend.chat.domain;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,11 +15,11 @@ public class MoimAttributes implements Attributes {
 	private final Boolean isMoimer;
 	private final Boolean isStarted;
 	private final String description;
-	private final String date;
-	private final String time;
+	private final LocalDate date;
+	private final LocalTime time;
 	private final Long moimId;
 
-	public MoimAttributes(String title, String place, Boolean isMoimer, Boolean isStarted, String description, String date, String time, Long moimId) {
+	public MoimAttributes(String title, String place, Boolean isMoimer, Boolean isStarted, String description, LocalDate date, LocalTime time, Long moimId) {
 		this.title = title;
 		this.place = place;
 		this.isMoimer = isMoimer;

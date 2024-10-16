@@ -1,6 +1,7 @@
 package mouda.backend.chat.implement;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,6 @@ public class AttributeManagerRegistry {
 		return attributeManagers.stream()
 			.filter(attributeManager -> attributeManager.support(chatRoomType))
 			.findFirst()
-			.orElseThrow(IllegalArgumentException::new);
+			.orElseThrow(() -> new NoSuchElementException("적절한 AttributeManager 가 없습니다. (ChatRoomType : " + chatRoomType + ")"));
 	}
 }
