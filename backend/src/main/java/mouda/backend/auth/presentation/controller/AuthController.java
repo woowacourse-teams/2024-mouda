@@ -1,5 +1,6 @@
 package mouda.backend.auth.presentation.controller;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,6 +40,7 @@ public class AuthController implements AuthSwagger {
 	@Override
 	@PostMapping("/login/anna")
 	@ExceptRequestLogging
+	@Profile(value = {"local", "dev"})
 	public ResponseEntity<RestResponse<LoginResponse>> loginBasicOauthAnna() {
 		LoginResponse response = kakaoAuthService.basicLoginAnna();
 
@@ -48,6 +50,7 @@ public class AuthController implements AuthSwagger {
 	@Override
 	@PostMapping("/login/hogee")
 	@ExceptRequestLogging
+	@Profile(value = {"local", "dev"})
 	public ResponseEntity<RestResponse<LoginResponse>> loginBasicOauthHogee() {
 		LoginResponse response = kakaoAuthService.basicLoginHogee();
 

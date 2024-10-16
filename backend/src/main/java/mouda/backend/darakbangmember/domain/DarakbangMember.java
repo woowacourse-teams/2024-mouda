@@ -36,7 +36,7 @@ import mouda.backend.darakbangmember.exception.DarakbangMemberException;
 )
 public class DarakbangMember {
 
-	private static final int MAX_LENGTH = 10;
+	private static final int MAX_LENGTH = 12;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -75,7 +75,7 @@ public class DarakbangMember {
 		if (nickname == null || nickname.isBlank()) {
 			throw new DarakbangMemberException(HttpStatus.BAD_REQUEST, DarakbangMemberErrorMessage.NICKNAME_NOT_EXIST);
 		}
-		if (nickname.length() >= MAX_LENGTH) {
+		if (nickname.length() > MAX_LENGTH) {
 			throw new DarakbangMemberException(HttpStatus.BAD_REQUEST, DarakbangMemberErrorMessage.INVALID_LENGTH);
 		}
 	}
@@ -85,6 +85,7 @@ public class DarakbangMember {
 	}
 
 	public DarakbangMember updateMyInfo(String nickname, String description) {
+		validateNickname(nickname);
 		this.nickname = nickname;
 		this.description = description;
 
@@ -92,6 +93,7 @@ public class DarakbangMember {
 	}
 
 	public DarakbangMember updateMyInfo(String nickname, String description, String profile) {
+		validateNickname(nickname);
 		this.nickname = nickname;
 		this.description = description;
 		this.profile = profile;
