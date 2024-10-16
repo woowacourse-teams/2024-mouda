@@ -41,7 +41,7 @@ export default function HomePage() {
     const queryString = new URLSearchParams(params).toString();
     const appleOAuthUrl = `${process.env.APPLE_REQUEST_URL}?${queryString}`;
     if (process.env.MSW === 'true') {
-      window.location.href = 'http://localhost:8081/oauth?code=1';
+      window.location.href = 'http://localhost:8081/kakao-o-auth?code=1';
     } else {
       window.location.href = appleOAuthUrl;
     }
