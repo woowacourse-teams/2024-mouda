@@ -65,6 +65,9 @@ public class DarakbangMemberService {
 		if (file != null) { // 새로 추가된 파일이 있는 경우
 			String url = s3Client.uploadFile(file); // S3 Upload
 			String newProfileUrl = imageParser.parse(url); // 새로 저장할 profile url
+			if (darakbangMember.hasImage()) { // 기존 이미지가 있다면 s3에서 삭제
+				s3Client.deleteFile(darakbangMember.getProfile());
+			}
 			darakbangMemberWriter.updateMyInfo(darakbangMember, nickname, description, newProfileUrl);
 			return;
 		}
