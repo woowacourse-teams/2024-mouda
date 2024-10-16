@@ -32,7 +32,7 @@ public class OldChatNotificationSender extends AbstractMoimNotificationSender {
 
 	public void sendChatNotification(Chat chat, DarakbangMember sender, NotificationType notificationType) {
 		Moim moim = chat.getMoim();
-		List<Recipient> recipients = chatRecipientFinder.getChatNotificationRecipients(moim.getId(), sender);
+		List<Recipient> recipients = chatRecipientFinder.getMoimChatNotificationRecipients(moim.getId(), sender);
 		NotificationEvent notificationEvent = createNotificationEvent(chat, notificationType, recipients);
 
 		eventPublisher.publishEvent(notificationEvent);

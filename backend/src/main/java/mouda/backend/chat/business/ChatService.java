@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.chat.domain.ChatRoom;
-import mouda.backend.chat.domain.ChatRoomType;
 import mouda.backend.chat.domain.ChatWithAuthor;
 import mouda.backend.chat.domain.Chats;
 import mouda.backend.chat.implement.ChatRoomFinder;
@@ -49,13 +48,7 @@ public class ChatService {
 		String content = request.content();
 		chatWriter.append(chatRoom.getId(), content, darakbangMember);
 
-		// todo: 베팅에 대한 알림 처리는 베팅 관련 채팅 기능이 구현된 후 처리
-		if (chatRoom.getType() == ChatRoomType.BET) {
-			return;
-		}
-		Moim moim = moimFinder.read(chatRoom.getTargetId(), darakbangId);
-
-		chatNotificationSender.sendChatNotification(moim, content, chatRoomId, darakbangMember,
+		chatNotificationSender.sendChatNotification(darakbangId, chatRoom, content, darakbangMember,
 			NotificationType.NEW_CHAT);
 	}
 
@@ -74,13 +67,14 @@ public class ChatService {
 	public void confirmPlace(long darakbangId, long chatRoomId, PlaceConfirmRequest request,
 		DarakbangMember darakbangMember) {
 		ChatRoom chatRoom = chatRoomFinder.readMoimChatRoom(darakbangId, chatRoomId);
+		String place = request.place();
 
 		Moim moim = moimFinder.read(chatRoom.getTargetId(), darakbangId);
-		moimWriter.confirmPlace(moim, darakbangMember, request.place());
+		moimWriter.confirmPlace(moim, darakbangMember, place);
 
-		chatWriter.appendPlaceTypeChat(chatRoom.getId(), request.place(), darakbangMember);
+		chatWriter.appendPlaceTypeChat(chatRoom.getId(), place, darakbangMember);
 
-		chatNotificationSender.sendChatNotification(moim, request.place(), chatRoomId, darakbangMember,
+		chatNotificationSender.sendChatNotification(darakbangId, chatRoom, place, darakbangMember,
 			NotificationType.MOIM_PLACE_CONFIRMED);
 	}
 
@@ -95,7 +89,7 @@ public class ChatService {
 
 		chatWriter.appendDateTimeTypeChat(chatRoom.getId(), date, time, darakbangMember);
 
-		chatNotificationSender.sendChatNotification(moim, DateTimeFormatter.formatDateTime(date, time), chatRoomId,
+		chatNotificationSender.sendChatNotification(darakbangId, chatRoom, DateTimeFormatter.formatDateTime(date, time),
 			darakbangMember, NotificationType.MOIM_TIME_CONFIRMED);
 	}
 

@@ -8,10 +8,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.bet.domain.Bet;
+import mouda.backend.bet.implement.BetFinder;
+import mouda.backend.chat.domain.ChatRoom;
+import mouda.backend.chat.domain.ChatRoomType;
 import mouda.backend.common.config.UrlConfig;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.implement.finder.ChatRecipientFinder;
+import mouda.backend.moim.implement.finder.MoimFinder;
 import mouda.backend.notification.domain.NotificationEvent;
 import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.domain.Recipient;
@@ -26,14 +31,49 @@ public class ChatNotificationSender {
 	private final UrlConfig urlConfig;
 	private final ChatRecipientFinder chatRecipientFinder;
 	private final ApplicationEventPublisher eventPublisher;
+	private final MoimFinder moimFinder;
+	private final BetFinder betFinder;
 
+	public void sendChatNotification(
+		long darakbangId, ChatRoom chatRoom, String content, DarakbangMember sender, NotificationType notificationType
+	) {
+		ChatRoomType chatRoomType = chatRoom.getType();
+		long chatRoomId = chatRoom.getId();
+		if (chatRoomType == ChatRoomType.BET) {
+			Bet bet = betFinder.find(darakbangId, chatRoom.getTargetId());
+			sendBetNotification(bet, content, sender, notificationType);
+			return;
+		}
+		Moim moim = moimFinder.read(chatRoom.getTargetId(), darakbangId);
+		sendMoimNotification(moim, content, sender, notificationType, chatRoomId);
+	}
 
-	public void sendChatNotification(Moim moim, String content, long chatRoomId, DarakbangMember sender, NotificationType notificationType) {
-		List<Recipient> recipients = chatRecipientFinder.getChatNotificationRecipients(moim.getId(), sender);
+	private void sendBetNotification(
+		Bet bet, String content, DarakbangMember sender, NotificationType notificationType
+	) {
+		List<Recipient> recipients = chatRecipientFinder.getBetChatNotificationRecipients(bet.getId(), sender);
+		long darakbangId = bet.getDarakbangId();
+		long chatRoomId = bet.getId();
+
+		publishEvent(notificationType, bet.getTitle(), content, sender, recipients, darakbangId, chatRoomId);
+	}
+
+	private void sendMoimNotification(
+		Moim moim, String content, DarakbangMember sender, NotificationType notificationType, long chatRoomId
+	) {
+		List<Recipient> recipients = chatRecipientFinder.getMoimChatNotificationRecipients(moim.getId(), sender);
 		long darakbangId = moim.getDarakbangId();
+
+		publishEvent(notificationType, moim.getTitle(), content, sender, recipients, darakbangId, chatRoomId);
+	}
+
+	private void publishEvent(
+		NotificationType notificationType, String title, String content, DarakbangMember sender,
+		List<Recipient> recipients, long darakbangId, long chatRoomId
+	) {
 		NotificationEvent notificationEvent = NotificationEvent.chatEvent(
 			notificationType,
-			moim.getTitle(),
+			title,
 			ChatNotificationMessage.create(content, sender, notificationType),
 			urlConfig.getChatRoomUrl(darakbangId, chatRoomId),
 			recipients,
