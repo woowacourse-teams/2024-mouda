@@ -9,9 +9,9 @@ public class ChatWithAuthor {
 	private final Participant participant;
 	private final boolean isMine;
 
-	public ChatWithAuthor(Chat chat, Participant participant,boolean isMine) {
+	public ChatWithAuthor(Chat chat, boolean isMine) {
 		this.chat = chat;
-		this.participant = participant;
+		this.participant = new Participant(chat);
 		this.isMine = isMine;
 	}
 }

@@ -17,6 +17,12 @@ public class Participant {
 		this.role = role;
 	}
 
+	public Participant(Chat chat) {
+		this.nickname = chat.getDarakbangMember().getNickname();
+		this.profile = chat.getDarakbangMember().getProfile();
+		this.role = chat.getDarakbangMember().getDescription();
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -24,7 +30,8 @@ public class Participant {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		Participant that = (Participant)o;
-		return Objects.equals(nickname, that.nickname) && Objects.equals(profile, that.profile) && Objects.equals(role, that.role);
+		return Objects.equals(nickname, that.nickname) && Objects.equals(profile, that.profile) && Objects.equals(role,
+			that.role);
 	}
 
 	@Override
