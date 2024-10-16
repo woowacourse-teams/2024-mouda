@@ -21,16 +21,18 @@ export default function BetListPage() {
   return (
     <Fragment>
       <DefaultPageLayout>
-        <DefaultPageLayout.TriHeader>
-          <DefaultPageLayout.TriHeader.Left>
-            <h1 css={[common.nonScroll, theme.typography.h5]}>
-              <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
-            </h1>
-          </DefaultPageLayout.TriHeader.Left>
-          <DefaultPageLayout.TriHeader.Right>
-            <RefreshButton />
-          </DefaultPageLayout.TriHeader.Right>
-        </DefaultPageLayout.TriHeader>
+        <DefaultPageLayout.DoubleTriHeader>
+          <DefaultPageLayout.DoubleTriHeader.Top>
+            <DefaultPageLayout.DoubleTriHeader.Top.Left>
+              <h1 css={[common.nonScroll, theme.typography.h5]}>
+                <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
+              </h1>
+            </DefaultPageLayout.DoubleTriHeader.Top.Left>
+            <DefaultPageLayout.DoubleTriHeader.Top.Right>
+              <RefreshButton />
+            </DefaultPageLayout.DoubleTriHeader.Top.Right>
+          </DefaultPageLayout.DoubleTriHeader.Top>
+        </DefaultPageLayout.DoubleTriHeader>
 
         <DefaultPageLayout.Main>
           <BetList />
