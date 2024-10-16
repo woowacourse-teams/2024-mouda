@@ -47,7 +47,6 @@ public class AppleAuthService {
 		return new LoginResponse(result.accessToken());
 	}
 
-
 	public String getAccessToken(String idToken) {
 		String socialLoginId = appleOauthManager.getSocialLoginId(idToken);
 		Member member = memberFinder.findBySocialId(socialLoginId);
@@ -61,7 +60,7 @@ public class AppleAuthService {
 			String lastName = request.name().lastName();
 			saveMember(idToken, firstName, lastName);
 		} catch (JsonProcessingException exception) {
-			throw new AuthException(HttpStatus.BAD_REQUEST, AuthErrorMessage.APPLE_USER_BAD_REQUEST)
+			throw new AuthException(HttpStatus.BAD_REQUEST, AuthErrorMessage.APPLE_USER_BAD_REQUEST);
 		}
 	}
 
