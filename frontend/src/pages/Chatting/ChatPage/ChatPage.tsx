@@ -1,3 +1,4 @@
+import { Fragment, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import ChatCardListSkeleton from './ChatListSkeleton/ChatCardListSkeleton';
@@ -14,7 +15,6 @@ import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/Navi
 import { common } from '@_common/common.style';
 import useChatPreviews from '@_hooks/queries/useChatPreiview';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
-import { useState } from 'react';
 import { useTheme } from '@emotion/react';
 
 export default function ChatPage() {
@@ -23,12 +23,12 @@ export default function ChatPage() {
   const [nowChatRoomType, setNowChatRoomType] = useState<ChatRoomType>(
     location?.state?.type || 'MOIM',
   );
-  const { chatPreviews, isLoading } = useChatPreviews(nowChatRoomType);
+  const { data: chatPreviews, isLoading } = useChatPreviews(nowChatRoomType);
   const { darakbangName } = useNowDarakbangName();
   const navigate = useNavigate();
 
   return (
-    <>
+    <Fragment>
       <ChattingPreviewLayout>
         <ChattingPreviewLayout.Header>
           <ChattingPreviewLayout.Header.Left>
@@ -95,6 +95,6 @@ export default function ChatPage() {
       <NavigationBarWrapper>
         <NavigationBar />
       </NavigationBarWrapper>
-    </>
+    </Fragment>
   );
 }

@@ -5,7 +5,7 @@ import { getLastDarakbangId } from '@_common/lastDarakbangManager';
 import { useQuery } from '@tanstack/react-query';
 
 export default function useChatPreviews(chatRoomType: ChatRoomType) {
-  const { data: chatPreviews, isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: [
       QUERY_KEYS.darakbang,
       getLastDarakbangId(),
@@ -17,5 +17,5 @@ export default function useChatPreviews(chatRoomType: ChatRoomType) {
     refetchInterval: 100,
   });
 
-  return { chatPreviews, isLoading };
+  return { data, isLoading };
 }
