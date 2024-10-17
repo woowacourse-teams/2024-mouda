@@ -6,7 +6,6 @@ import NavigationBar from '@_components/NavigationBar/NavigationBar';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
 import { common } from '@_common/common.style';
 import useMyInfo from '@_hooks/queries/useMyInfo';
-import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import * as S from './MyPage.style';
 import MyInfoTabBar from './components/MyInfoTabBar/MyInfoTabBar';
 import Setting from '@_common/assets/setting.svg';
@@ -19,7 +18,6 @@ import GET_ROUTES from '@_common/getRoutes';
 export default function MyPage() {
   const navigate = useNavigate();
   const { myInfo } = useMyInfo();
-  const { darakbangName } = useNowDarakbangName();
   const fileInput = useRef<HTMLInputElement | null>(null); // 타입을 명시적으로 지정
   const [profile, setProfile] = useState(myInfo?.profile || '');
   const [nickname, setNickname] = useState(myInfo?.nickname || '');
@@ -112,7 +110,7 @@ export default function MyPage() {
         <InformationLayout.Header>
           <InformationLayout.Header.Left>
             <span css={[[theme.typography.h5, common.nonDrag]]}>
-              {darakbangName}
+              마이페이지
             </span>
           </InformationLayout.Header.Left>
           <InformationLayout.Header.Right>

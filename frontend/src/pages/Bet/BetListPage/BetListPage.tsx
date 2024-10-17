@@ -9,28 +9,28 @@ import BetList from './components/BetList/BetList';
 import DefaultPageLayout from '@_layouts/DefaultPageLayout/DefaultPageLayout';
 import RefreshButton from '@_components/RefreshButton/RefreshButton';
 import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
-import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import { common } from '@_common/common.style';
 
 export default function BetListPage() {
   const navigate = useNavigate();
-  const { darakbangName } = useNowDarakbangName();
 
   const theme = useTheme();
 
   return (
     <Fragment>
       <DefaultPageLayout>
-        <DefaultPageLayout.TriHeader>
-          <DefaultPageLayout.TriHeader.Left>
-            <h1 css={[common.nonScroll, theme.typography.h5]}>
-              <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
-            </h1>
-          </DefaultPageLayout.TriHeader.Left>
-          <DefaultPageLayout.TriHeader.Right>
-            <RefreshButton />
-          </DefaultPageLayout.TriHeader.Right>
-        </DefaultPageLayout.TriHeader>
+        <DefaultPageLayout.DoubleTriHeader>
+          <DefaultPageLayout.DoubleTriHeader.Top>
+            <DefaultPageLayout.DoubleTriHeader.Top.Left>
+              <h1 css={[common.nonScroll, theme.typography.h5]}>
+                <DarakbangNameWrapper>안내면진다</DarakbangNameWrapper>
+              </h1>
+            </DefaultPageLayout.DoubleTriHeader.Top.Left>
+            <DefaultPageLayout.DoubleTriHeader.Top.Right>
+              <RefreshButton />
+            </DefaultPageLayout.DoubleTriHeader.Top.Right>
+          </DefaultPageLayout.DoubleTriHeader.Top>
+        </DefaultPageLayout.DoubleTriHeader>
 
         <DefaultPageLayout.Main>
           <BetList />
