@@ -7,5 +7,5 @@ export const deleteCancelChamyo = async (moimId: number) => {
 };
 
 export const deleteMyInfo = async () => {
-  await ApiClient.deleteWithLastDarakbangId(`/member/delete`);
+  await ApiClient.deleteWithLastDarakbangId(`/auth`);
 };
