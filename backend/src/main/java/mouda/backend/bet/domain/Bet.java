@@ -65,7 +65,7 @@ public class Bet {
 		return betDetails.timeDifferenceInMinutesWithNow();
 	}
 
-	public boolean canNotParticipant() {
+	public boolean canNotParticipate() {
 		return hasLoser() || betDetails.pastBettingTime();
 	}
 }
