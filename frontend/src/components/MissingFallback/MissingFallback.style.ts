@@ -10,7 +10,7 @@ export const container = ({
   align-items: center;
   justify-content: flex-start;
 
-  ${backgroundColor || ''};
+  ${backgroundColor ? `background-color: ${backgroundColor};` : ''}
 
   min-width: 30rem;
   min-height: 30rem;
