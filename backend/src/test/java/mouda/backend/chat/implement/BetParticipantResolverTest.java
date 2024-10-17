@@ -48,9 +48,10 @@ class BetParticipantResolverTest extends DarakbangSetUp {
 		betDarakbangMemberRepository.save(annaEntity);
 		betDarakbangMemberRepository.save(hogeeEntity);
 
-		ChatRoomEntity chatRoomEntity = ChatRoomEntityFixture.getChatRoomEntityOfBet(betEntity.getId(), darakbang.getId());
-		ChatRoomEntity savedChatRoomEntity = chatRoomRepository.save(chatRoomEntity);
-		ChatRoom chatRoom = new ChatRoom(savedChatRoomEntity);
+		ChatRoomEntity chatRoomEntity = ChatRoomEntityFixture.getChatRoomEntityOfBet(betEntity.getId(),
+			darakbang.getId());
+		ChatRoomEntity savedChatRoom = chatRoomRepository.save(chatRoomEntity);
+		ChatRoom chatRoom = new ChatRoom(savedChatRoom.getId(), savedChatRoom.getTargetId(), savedChatRoom.getType());
 
 		// when
 		List<Participant> participants = betParticipantResolver.resolve(chatRoom);

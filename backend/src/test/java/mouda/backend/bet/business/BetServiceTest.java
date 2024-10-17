@@ -78,7 +78,7 @@ class BetServiceTest extends DarakbangSetUp {
 	void findNotDrawnBet() {
 		// given
 		long darakbangId = darakbang.getId();
-		BetEntity drawnBetEntity = BetEntityFixture.getBetEntity(darakbangId, darakbangAnna.getId());
+		BetEntity drawnBetEntity = BetEntityFixture.getFutureBetEntity(darakbangId, darakbangAnna.getId());
 		BetEntity savedBetEntity = betRepository.save(drawnBetEntity);
 
 		// when
@@ -138,7 +138,7 @@ class BetServiceTest extends DarakbangSetUp {
 	void drawBet() {
 		// given
 		Long darakbangId = darakbang.getId();
-		BetEntity betEntity = BetEntityFixture.getBetEntity(darakbangId, darakbangAnna.getId());
+		BetEntity betEntity = BetEntityFixture.getFutureBetEntity(darakbangId, darakbangAnna.getId());
 		BetEntity savedBetEntity = betRepository.save(betEntity);
 		betWriter.participate(darakbangId, savedBetEntity.getId(), darakbangAnna);
 

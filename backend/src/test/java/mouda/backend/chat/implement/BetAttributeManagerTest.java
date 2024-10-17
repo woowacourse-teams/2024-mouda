@@ -83,7 +83,8 @@ class BetAttributeManagerTest {
 		when(darakbang.getId()).thenReturn(1L);
 
 		when(betFinder.find(1L, 1L)).thenReturn(bet);
-		when(bet.getBetDetails()).thenReturn(new BetDetails(1L, "test bet", LocalDateTime.of(2024, 6, 5, 12, 3)));
+		when(bet.getBetDetails()).thenReturn(
+			new BetDetails(1L, "test bet", LocalDateTime.of(2024, 6, 5, 12, 3), 1L, null));
 		when(bet.isLoser(darakbangMember.getId())).thenReturn(true);
 		when(bet.getId()).thenReturn(1L);
 		when(bet.getLoserId()).thenReturn(2L);

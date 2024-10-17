@@ -59,7 +59,8 @@ class MoimParticipantResolverTest extends DarakbangSetUp {
 
 		ChatRoomEntity chatRoomEntity = ChatRoomEntityFixture.getChatRoomEntityOfMoim(moim.getId(), darakbang.getId());
 		ChatRoomEntity savedChatRoomEntity = chatRoomRepository.save(chatRoomEntity);
-		ChatRoom chatRoom = new ChatRoom(savedChatRoomEntity);
+		ChatRoom chatRoom = new ChatRoom(savedChatRoomEntity.getId(), savedChatRoomEntity.getTargetId(),
+			savedChatRoomEntity.getType());
 
 		// when
 		List<Participant> participants = moimParticipantResolver.resolve(chatRoom);

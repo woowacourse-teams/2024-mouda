@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.chat.domain.ChatOwnership;
 import mouda.backend.chat.domain.ChatRoom;
-import mouda.backend.chat.domain.ChatWithAuthor;
 import mouda.backend.chat.domain.Chats;
 import mouda.backend.chat.implement.ChatRoomFinder;
 import mouda.backend.chat.implement.ChatWriter;
@@ -59,7 +59,7 @@ public class ChatService {
 		ChatRoom chatRoom = chatRoomFinder.read(darakbangId, chatRoomId, darakbangMember);
 
 		Chats chats = chatRoomFinder.findAllUnloadedChats(chatRoom.getId(), recentChatId);
-		List<ChatWithAuthor> chatsWithAuthor = chats.getChatsWithAuthor(darakbangMember);
+		List<ChatOwnership> chatsWithAuthor = chats.getChatsWithAuthor(darakbangMember);
 
 		return ChatFindUnloadedResponse.toResponse(chatsWithAuthor);
 	}

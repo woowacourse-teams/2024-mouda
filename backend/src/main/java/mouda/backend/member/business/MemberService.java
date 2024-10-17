@@ -22,6 +22,6 @@ public class MemberService {
 	}
 
 	public void checkAuthentication(String token) {
-		accessTokenProvider.validateExpiration(token);
+		accessTokenProvider.validateToken(token);
 	}
 }

@@ -5,4 +5,8 @@ public record ParticipantResponse(
 	String profile,
 	String role
 ) {
+
+	public ParticipantResponse(String nickname, String profile) {
+		this(nickname, profile, null);
+	}
 }
