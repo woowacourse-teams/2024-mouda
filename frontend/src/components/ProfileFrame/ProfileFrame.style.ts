@@ -1,5 +1,5 @@
-import { css } from '@emotion/react';
-import EmptyProfile from '@_common/assets/empty_profile.svg?url';
+import { css, Theme } from '@emotion/react';
+import EmptyProfile from '@_common/assets/default_profile.svg?url';
 type Size = number;
 
 export const profileBox = () => {
@@ -8,7 +8,17 @@ export const profileBox = () => {
   `;
 };
 
-export const profileFrame = (width: Size, height: Size, borderWidth: Size) => {
+export const profileFrame = ({
+  width,
+  height,
+  borderWidth,
+  theme,
+}: {
+  width: Size;
+  height: Size;
+  borderWidth: Size;
+  theme: Theme;
+}) => {
   return css`
     overflow: hidden;
     display: flex;
@@ -17,8 +27,9 @@ export const profileFrame = (width: Size, height: Size, borderWidth: Size) => {
 
     width: ${width}rem;
     height: ${height}rem;
+    background: ${theme.colorPalette.white[100]};
 
-    border: ${borderWidth}rem solid orange;
+    border: ${borderWidth}rem solid ${theme.colorPalette.orange[200]};
     border-radius: 300rem;
   `;
 };

@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import defaultProfile from '@_common/assets/empty_profile.svg?url';
+import defaultProfile from '@_common/assets/default_profile.svg?url';
 
 export const preview = ({
   imageUrl,
