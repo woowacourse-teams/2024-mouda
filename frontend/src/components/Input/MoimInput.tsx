@@ -6,7 +6,7 @@ import { useTheme } from '@emotion/react';
 
 export interface LabeledInputProps<T extends string | number>
   extends HTMLProps<HTMLInputElement> {
-  title: string;
+  title?: string;
   validateFun?: (value: T) => boolean;
 }
 
@@ -49,10 +49,12 @@ export default function LabeledInput<T extends string | number>(
 
   return (
     <label htmlFor={title} css={S.labelWrapper}>
-      <h3 css={S.title({ theme })}>
-        {title}
-        <span css={S.required({ theme })}>{required ? '*' : ''}</span>
-      </h3>
+      {title && (
+        <h3 css={S.title({ theme })}>
+          {title}
+          <span css={S.required({ theme })}>{required ? '*' : ''}</span>
+        </h3>
+      )}
 
       <input
         name={name}
