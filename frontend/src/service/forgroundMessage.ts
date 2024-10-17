@@ -12,7 +12,7 @@ function initializeForegroundMessageHandling() {
     const notificationOptions = {
       body: payload.notification?.body || '',
       icon: payload.notification?.icon,
-      data: { link: payload.fcmOptions?.link || '/' },
+      data: { link: payload.data?.link || '/' },
     };
 
     if (Notification.permission === 'granted') {
