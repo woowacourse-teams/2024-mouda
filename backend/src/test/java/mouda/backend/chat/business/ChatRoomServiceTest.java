@@ -92,14 +92,14 @@ public class ChatRoomServiceTest extends DarakbangSetUp {
 	@Test
 	void findBetChatPreview() {
 		// given
-		BetEntity betEntity = BetEntityFixture.getBetEntity(darakbang.getId(), darakbangHogee.getId());
+		BetEntity betEntity = BetEntityFixture.getDrawedBetEntity(darakbang.getId(), darakbangHogee.getId());
 		BetEntity savedBetEntity = betRepository.save(betEntity);
 
 		BetDarakbangMemberEntity betDarakbangMemberEntity = new BetDarakbangMemberEntity(darakbangHogee,
 			savedBetEntity);
 		betDarakbangMemberRepository.save(betDarakbangMemberEntity);
 
-		ChatRoomEntity chatRoomEntity = ChatRoomEntityFixture.getChatRoomEntityOfBet(betEntity.getId(),
+		ChatRoomEntity chatRoomEntity = ChatRoomEntityFixture.getChatRoomEntityOfBet(savedBetEntity.getId(),
 			darakbang.getId());
 		ChatRoomEntity chatRoom = chatRoomRepository.save(chatRoomEntity);
 

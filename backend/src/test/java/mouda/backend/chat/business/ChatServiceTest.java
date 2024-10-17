@@ -257,7 +257,7 @@ class ChatServiceTest extends DarakbangSetUp {
 			ChatRoomEntityFixture.getChatRoomEntityOfMoim(savedMoim.getId(), darakbang.getId()));
 
 		chatRepository.save(ChatEntityFixture.getChatEntity(darakbangHogee));
-		chatRepository.save(ChatEntityFixture.getChatEntity(darakbangHogee));
+		chatRepository.save(ChatEntityFixture.getChatEntity(darakbangAnna));
 		chatRepository.save(ChatEntityFixture.getChatEntity(darakbangHogee));
 
 		// when
@@ -266,6 +266,10 @@ class ChatServiceTest extends DarakbangSetUp {
 
 		// then
 		assertThat(unloadedChats.chats()).hasSize(2);
+		assertThat(unloadedChats.chats().get(0).isMyMessage()).isFalse();
+		assertThat(unloadedChats.chats().get(0).participation().nickname()).isEqualTo(darakbangAnna.getNickname());
+		assertThat(unloadedChats.chats().get(1).isMyMessage()).isTrue();
+		assertThat(unloadedChats.chats().get(1).participation().nickname()).isEqualTo(darakbangHogee.getNickname());
 	}
 
 	@DisplayName("열린 채팅방이 없다면 빈 리스트를 반환한다.")

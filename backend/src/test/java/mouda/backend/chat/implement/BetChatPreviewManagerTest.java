@@ -43,23 +43,19 @@ class BetChatPreviewManagerTest extends DarakbangSetUp {
 		assertThat(chatPreviews).isEmpty();
 	}
 
-	@DisplayName("안내면진다 채팅방 목록을 조회한다.")
+	@DisplayName("채팅방 목록에서 추첨 후 채팅방이 열린 안내면진다만 조회한다.")
 	@Test
 	void create() {
 		// given
-		BetEntity betEntity1 = BetEntityFixture.getBetEntity(darakbangAnna.getId(), 1L);
+		BetEntity betEntity1 = BetEntityFixture.getDrawedBetEntity(darakbangAnna.getId(), 1L);
 		BetEntity betEntity2 = BetEntityFixture.getBetEntity(darakbangAnna.getId(), 1L);
-		betRepository.save(betEntity1);
-		betRepository.save(betEntity2);
-		betDarakbangMemberRepository.save(new BetDarakbangMemberEntity(darakbangHogee, betEntity1));
-		betDarakbangMemberRepository.save(new BetDarakbangMemberEntity(darakbangHogee, betEntity2));
+		BetEntity savedBet1 = betRepository.save(betEntity1);
+		BetEntity savedBet2 = betRepository.save(betEntity2);
+		betDarakbangMemberRepository.save(new BetDarakbangMemberEntity(darakbangHogee, savedBet1));
+		betDarakbangMemberRepository.save(new BetDarakbangMemberEntity(darakbangHogee, savedBet2));
 
-		ChatRoomEntity chatRoom1 = ChatRoomEntityFixture.getChatRoomEntityOfBet(betEntity1.getId(),
-			darakbang.getId());
-		ChatRoomEntity chatRoom2 = ChatRoomEntityFixture.getChatRoomEntityOfBet(betEntity2.getId(),
-			darakbang.getId());
+		ChatRoomEntity chatRoom1 = ChatRoomEntityFixture.getChatRoomEntityOfBet(savedBet1.getId(), darakbang.getId());
 		chatRoomRepository.save(chatRoom1);
-		chatRoomRepository.save(chatRoom2);
 
 		// when
 		List<ChatPreview> chatPreviews = betChatPreviewManager.create(darakbangHogee);
@@ -67,6 +63,6 @@ class BetChatPreviewManagerTest extends DarakbangSetUp {
 		// then
 		assertThat(chatPreviews)
 			.isNotEmpty()
-			.hasSize(2);
+			.hasSize(1);
 	}
 }
