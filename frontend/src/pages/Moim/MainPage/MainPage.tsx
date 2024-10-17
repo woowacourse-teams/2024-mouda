@@ -14,6 +14,7 @@ import {
 
 import Button from '@_components/Button/Button';
 import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
+import DefaultPageLayout from '@_layouts/DefaultPageLayout/DefaultPageLayout';
 import GET_ROUTES from '@_common/getRoutes';
 import HomeMainContent from './components/HomeMainContent/HomeMainContent';
 import Modal from '@_components/Modal/Modal';
@@ -33,7 +34,6 @@ import { useNavigate } from 'react-router-dom';
 import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import useServeToken from '@_hooks/mutaions/useServeToken';
 import { useTheme } from '@emotion/react';
-import DefaultPageLayout from '@_layouts/DefaultPageLayout/DefaultPageLayout';
 
 export default function MainPage() {
   const navigate = useNavigate();
@@ -82,6 +82,11 @@ export default function MainPage() {
       }) || [];
 
     options.push(
+      {
+        onClick: () => navigate(GET_ROUTES.nowDarakbang.darakbangMembers()),
+        description: '다락방 멤버 보기',
+        hasTopBorder: true,
+      },
       {
         onClick: () => navigate(ROUTES.darakbangEntrance),
         description: '코드로 다른 다락방 들어가기',
