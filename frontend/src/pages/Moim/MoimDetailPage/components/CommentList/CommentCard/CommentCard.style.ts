@@ -33,7 +33,7 @@ export const commnetBox = () => css`
 export const commnetHeader = () => css`
   display: flex;
   gap: 5px;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
 
   width: 100%;
@@ -42,7 +42,11 @@ export const commnetHeader = () => css`
 export const commentHeaderLeft = () => css`
   display: flex;
   gap: 0.7rem;
-  align-items: center;
+  align-items: flex-start;
+`;
+
+export const commentNickname = () => css`
+  white-space: pre-line;
 `;
 
 export const commentHeaderRight = (props: { theme: Theme }) => css`

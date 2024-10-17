@@ -8,8 +8,9 @@ export const containerStyle = css`
 
 export const titleBox = () => css`
   display: flex;
-  gap: 1rem;
-  align-items: center;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
 `;
 
 export const title = (props: { theme: Theme }) => css`

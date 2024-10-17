@@ -19,7 +19,7 @@ export default function BetCard(props: BetCardProps) {
         <div css={S.title({ theme })}>{bet.title}</div>
         <div css={S.count({ theme })}>현재 {bet.currentParticipants}명</div>
       </div>
-      <div>
+      <div css={S.tagBox}>
         <Tag isAnnounced={bet.isAnnounced} deadline={bet.deadline} />
       </div>
     </div>
