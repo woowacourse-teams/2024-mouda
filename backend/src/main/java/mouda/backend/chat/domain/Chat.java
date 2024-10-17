@@ -27,7 +27,7 @@ public class Chat {
 		this.chatType = chatType;
 	}
 
-	public boolean isMyMessage(long darakbangMemberId) {
+	public boolean isMine(long darakbangMemberId) {
 		return author.getId() == darakbangMemberId;
 	}
 }
