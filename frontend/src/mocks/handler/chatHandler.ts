@@ -21,7 +21,7 @@ const chatRoomDetail: (BetChatRoomDetail | MoimChatRoomDetail)[] = [
       isLoser: false,
       betId: 22,
       loser: {
-        nickname: '',
+        nickname: '패배자',
         profile: '',
         role: 'MOIMER',
       },
@@ -31,7 +31,7 @@ const chatRoomDetail: (BetChatRoomDetail | MoimChatRoomDetail)[] = [
     participations: [
       {
         nickname: '1',
-        profile: '',
+        profile: '나',
         role: 'MOIMER',
       },
     ],
