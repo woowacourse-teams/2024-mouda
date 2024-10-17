@@ -34,6 +34,6 @@ public record ChatFindDetailResponse(
 
 	private static ParticipantResponse getParticipantResponse(ChatOwnership chatOwnership) {
 		Author author = chatOwnership.getChat().getAuthor();
-		return new ParticipantResponse(author.getNickname(), author.getProfile(), null);
+		return new ParticipantResponse(author.getNickname(), author.getProfile());
 	}
 }
