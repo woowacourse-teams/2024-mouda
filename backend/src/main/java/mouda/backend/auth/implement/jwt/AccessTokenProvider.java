@@ -18,8 +18,8 @@ import mouda.backend.member.domain.OauthType;
 @Component
 public class AccessTokenProvider {
 
-	public static final String MEMBER_ID_CLAIM_KEY = "id";
-	public static final String SOCIAL_LOGIN_ID_CLAIM_KEY = "socialLoginId";
+	private static final String MEMBER_ID_CLAIM_KEY = "id";
+	private static final String SOCIAL_LOGIN_ID_CLAIM_KEY = "socialLoginId";
 	private static final String OAUTH_TYPE = "oauthType";
 
 	@Value("${security.jwt.token.secret-key}")
@@ -65,7 +65,7 @@ public class AccessTokenProvider {
 		if (claims.getExpiration().before(new Date())) {
 			throw new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.UNAUTHORIZED);
 		}
-		if (claims.get(OAUTH_TYPE) == OauthType.KAKAO.toString()) {
+		if (claims.get(OAUTH_TYPE).equals(OauthType.KAKAO.toString())) {
 			throw new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.UNAUTHORIZED);
 		}
 	}
