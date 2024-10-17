@@ -35,9 +35,7 @@ export default function BetCreationPage() {
         <FunnelLayout.Header.Left>
           <BackArrowButton onClick={goBack} />
         </FunnelLayout.Header.Left>
-        <FunnelLayout.Header.Center>
-          안내면진다 만들기
-        </FunnelLayout.Header.Center>
+        <FunnelLayout.Header.Center>룰렛 만들기</FunnelLayout.Header.Center>
       </FunnelLayout.Header>
 
       <FunnelStepIndicator totalSteps={steps} currentStep={currentStep} />
