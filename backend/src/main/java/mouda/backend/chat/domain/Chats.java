@@ -14,9 +14,9 @@ public class Chats {
 		this.chats = chats;
 	}
 
-	public List<ChatWithAuthor> getChatsWithAuthor(DarakbangMember darakbangMember) {
+	public List<ChatOwnership> getChatsWithAuthor(DarakbangMember darakbangMember) {
 		return chats.stream()
-			.map(chat -> new ChatWithAuthor(chat, chat.isMine(darakbangMember.getId())))
+			.map(chat -> new ChatOwnership(chat, chat.isMine(darakbangMember.getId())))
 			.toList();
 	}
 }

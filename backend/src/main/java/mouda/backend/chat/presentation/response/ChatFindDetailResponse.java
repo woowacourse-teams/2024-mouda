@@ -6,7 +6,7 @@ import java.time.LocalTime;
 import lombok.Builder;
 import mouda.backend.chat.domain.Author;
 import mouda.backend.chat.domain.Chat;
-import mouda.backend.chat.domain.ChatWithAuthor;
+import mouda.backend.chat.domain.ChatOwnership;
 import mouda.backend.chat.entity.ChatType;
 
 @Builder
@@ -19,21 +19,21 @@ public record ChatFindDetailResponse(
 	LocalTime time,
 	ChatType chatType
 ) {
-	public static ChatFindDetailResponse toResponse(ChatWithAuthor chatWithAuthor) {
-		Chat chat = chatWithAuthor.getChat();
+	public static ChatFindDetailResponse toResponse(ChatOwnership chatOwnership) {
+		Chat chat = chatOwnership.getChat();
 		return ChatFindDetailResponse.builder()
 			.chatId(chat.getId())
 			.content(chat.getContent())
-			.isMyMessage(chatWithAuthor.isMine())
-			.participation(getParticipantResponse(chatWithAuthor))
+			.isMyMessage(chatOwnership.isMine())
+			.participation(getParticipantResponse(chatOwnership))
 			.date(chat.getDate())
 			.time(chat.getTime())
 			.chatType(chat.getChatType())
 			.build();
 	}
 
-	private static ParticipantResponse getParticipantResponse(ChatWithAuthor chatWithAuthor) {
-		Author author = chatWithAuthor.getChat().getAuthor();
+	private static ParticipantResponse getParticipantResponse(ChatOwnership chatOwnership) {
+		Author author = chatOwnership.getChat().getAuthor();
 		return new ParticipantResponse(author.getNickname(), author.getProfile(), null);
 	}
 }
