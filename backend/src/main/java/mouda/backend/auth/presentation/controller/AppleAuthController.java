@@ -22,11 +22,12 @@ public class AppleAuthController {
 
 	@PostMapping("/v1/oauth/apple")
 	public ResponseEntity<Void> test(
+		@RequestParam("code") String code,
 		@RequestParam("id_token") String id_token,
 		@RequestParam(name = "user", required = false) String user
 	) throws IOException {
 		if (user != null) {
-			appleAuthService.save(id_token, user);
+			appleAuthService.save(code, id_token, user);
 		}
 		String accessToken = appleAuthService.getAccessToken(id_token);
 		HttpHeaders httpHeaders = new HttpHeaders();

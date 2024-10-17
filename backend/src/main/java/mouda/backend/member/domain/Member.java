@@ -46,8 +46,12 @@ public class Member {
 		return loginDetail.getSocialLoginId();
 	}
 
-	public String getOauthType() {
-		return loginDetail.getOauthType().toString();
+	public OauthType getOauthType() {
+		return loginDetail.getOauthType();
+	}
+
+	public String getRefreshToken() {
+		return loginDetail.getRefreshToken();
 	}
 
 	@Override
