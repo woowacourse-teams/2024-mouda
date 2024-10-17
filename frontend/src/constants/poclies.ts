@@ -25,7 +25,8 @@ const POLICES = {
 
   maxDarakbangName: 40,
 
-  maxNicknameLength: 10,
+  minNicknameLength: 1,
+  maxNicknameLength: 12,
 
   entranceCodeLength: 7,
 };

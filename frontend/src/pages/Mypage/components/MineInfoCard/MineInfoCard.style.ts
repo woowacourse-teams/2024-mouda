@@ -35,5 +35,4 @@ export const editSVG = () => css`
 
 export const input = (props: { theme: Theme }) => css`
   ${props.theme.typography.h5}
-  max-width: 60%;
 `;
