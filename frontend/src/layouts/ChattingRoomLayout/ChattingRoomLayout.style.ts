@@ -21,6 +21,6 @@ export const headerCenter = ({ theme }: { theme: Theme }) => css`
 
 export const headerBottom = css`
   position: sticky;
-  top: 5rem;
+  top: 4.8rem;
   left: -2rem;
 `;

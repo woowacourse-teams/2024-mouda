@@ -14,7 +14,6 @@ import NavigationBar from '@_components/NavigationBar/NavigationBar';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
 import { common } from '@_common/common.style';
 import useChatPreviews from '@_hooks/queries/useChatPreiview';
-import useNowDarakbangName from '@_hooks/queries/useNowDarakbangNameById';
 import { useTheme } from '@emotion/react';
 
 export default function ChatPage() {
@@ -24,7 +23,6 @@ export default function ChatPage() {
     location?.state?.type || 'MOIM',
   );
   const { data: chatPreviews, isLoading } = useChatPreviews(nowChatRoomType);
-  const { darakbangName } = useNowDarakbangName();
   const navigate = useNavigate();
 
   return (
@@ -33,7 +31,7 @@ export default function ChatPage() {
         <ChattingPreviewLayout.Header>
           <ChattingPreviewLayout.Header.Left>
             <h2 css={[theme.typography.h5, common.nonDrag]}>
-              <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
+              <DarakbangNameWrapper>채팅</DarakbangNameWrapper>
             </h2>
           </ChattingPreviewLayout.Header.Left>
         </ChattingPreviewLayout.Header>
