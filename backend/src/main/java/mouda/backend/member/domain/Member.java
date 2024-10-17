@@ -50,6 +50,10 @@ public class Member {
 		return loginDetail.getOauthType();
 	}
 
+	public String getRefreshToken() {
+		return loginDetail.getRefreshToken();
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

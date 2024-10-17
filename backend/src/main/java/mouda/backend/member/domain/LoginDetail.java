@@ -16,7 +16,7 @@ public class LoginDetail {
 
 	private String socialLoginId;
 
-	private String nonce;
+	private String refreshToken;
 
 	protected LoginDetail() {
 	}
@@ -26,10 +26,10 @@ public class LoginDetail {
 		this.socialLoginId = socialLoginId;
 	}
 
-	public LoginDetail(OauthType oauthType, String socialLoginId, String nonce) {
+	public LoginDetail(OauthType oauthType, String socialLoginId, String refreshToken) {
 		this.oauthType = oauthType;
 		this.socialLoginId = socialLoginId;
-		this.nonce = nonce;
+		this.refreshToken = refreshToken;
 	}
 
 	@Override

@@ -19,7 +19,7 @@ public class CommonAuthService {
 
 	public void withdraw(Member member) {
 		if (OauthType.APPLE.equals(member.getOauthType())) {
-			// token revoke
+			oauthClient.revoke(member.getRefreshToken());
 		}
 		memberWriter.remove(member);
 	}
