@@ -46,6 +46,10 @@ public class Member {
 		return loginDetail.getSocialLoginId();
 	}
 
+	public OauthType getOauthType() {
+		return loginDetail.getOauthType();
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
