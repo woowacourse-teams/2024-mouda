@@ -10,6 +10,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.auth.Infrastructure.response.AppleRefreshTokenResponse;
 import mouda.backend.auth.implement.jwt.ClientSecretProvider;
 import mouda.backend.auth.presentation.response.OauthResponse;
 
@@ -39,6 +40,19 @@ public class AppleOauthClient implements OauthClient {
 			.retrieve()
 			.body(OauthResponse.class);
 		return oauthResponse.id_token();
+	}
+
+	public String getRefreshToken(String code) {
+		String tokenUrl = APPLE_API_URL + "/token";
+		MultiValueMap<String, String> formData = getFormData(code);
+
+		AppleRefreshTokenResponse response = restClient.method(HttpMethod.POST)
+			.uri(tokenUrl)
+			.headers(httpHeaders -> httpHeaders.addAll(getHttpHeaders()))
+			.body(formData)
+			.retrieve()
+			.body(AppleRefreshTokenResponse.class);
+		return response.refresh_token();
 	}
 
 	public void revoke(String refreshToken) {
