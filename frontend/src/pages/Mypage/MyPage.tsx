@@ -4,7 +4,6 @@ import MineInfoCard from './components/MineInfoCard/MineInfoCard';
 import NavigationBar from '@_components/NavigationBar/NavigationBar';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
 import { common } from '@_common/common.style';
-import useMyInfo from '@_hooks/queries/useMyInfo';
 import * as S from './MyPage.style';
 import MyInfoTabBar from './components/MyInfoTabBar/MyInfoTabBar';
 import Setting from '@_common/assets/setting.svg';
