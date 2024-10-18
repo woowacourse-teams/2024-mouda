@@ -7,7 +7,7 @@ import mouda.backend.moim.domain.Moim;
 @Getter
 public class Target {
 
-	private final Long targetId;
+	private final long targetId;
 	private final String title;
 	private final boolean isStarted;
 

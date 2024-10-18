@@ -29,6 +29,17 @@ public class DarakbangMemberFixture {
 			.build();
 	}
 
+	public static DarakbangMember getDarakbangMemberWithWooteco(Member member) {
+		return DarakbangMember.builder()
+			.darakbang(DarakbangFixture.getDarakbangWithMouda())
+			.memberId(member.getId())
+			.nickname(member.getName())
+			.profile("profile")
+			.description("description")
+			.role(DarakBangMemberRole.MEMBER)
+			.build();
+	}
+
 	public static DarakbangMember getDarakbangOutsiderWithWooteco(Darakbang darakbang, Member member) {
 		return DarakbangMember.builder()
 			.darakbang(darakbang)

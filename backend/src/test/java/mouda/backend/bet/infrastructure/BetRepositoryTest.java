@@ -23,14 +23,15 @@ class BetRepositoryTest {
 	@Test
 	void findAllByBettingTimeAndLoserDarakbangMemberIdIsNull() {
 		// given
-		BetEntity betEntity1 = BetEntityFixture.getBetEntity(1L, 1L);
+		BetEntity betEntity1 = BetEntityFixture.getBetEntity(1L, 1L, LocalDateTime.now());
 		BetEntity betEntity2 = BetEntityFixture.getDrawedBetEntity(1L, 2L);
 
 		betRepository.save(betEntity1);
 		betRepository.save(betEntity2);
 
 		// when
-		List<BetEntity> betEntities = betRepository.findAllByBettingTimeAndLoserDarakbangMemberIdIsNull(LocalDateTime.now().withSecond(0).withNano(0));
+		List<BetEntity> betEntities = betRepository.findAllByBettingTimeAndLoserDarakbangMemberIdIsNull(
+			LocalDateTime.now().withSecond(0).withNano(0));
 
 		//then
 		assertThat(betEntities).hasSize(1);

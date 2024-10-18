@@ -6,30 +6,28 @@ import java.time.LocalTime;
 import lombok.Builder;
 import lombok.Getter;
 import mouda.backend.chat.entity.ChatType;
-import mouda.backend.darakbangmember.domain.DarakbangMember;
 
 @Getter
 public class Chat {
 
 	private final long id;
 	private final String content;
-	private final DarakbangMember darakbangMember;
+	private final Author author;
 	private final LocalDate date;
 	private final LocalTime time;
 	private final ChatType chatType;
 
 	@Builder
-	public Chat(long id, String content, DarakbangMember darakbangMember, LocalDate date, LocalTime time,
-		ChatType chatType) {
+	public Chat(long id, String content, Author author, LocalDate date, LocalTime time, ChatType chatType) {
 		this.id = id;
 		this.content = content;
-		this.darakbangMember = darakbangMember;
+		this.author = author;
 		this.date = date;
 		this.time = time;
 		this.chatType = chatType;
 	}
 
-	public boolean isMyMessage(long darakbangMemberId) {
-		return darakbangMember.getId() == darakbangMemberId;
+	public boolean isMine(long darakbangMemberId) {
+		return author.getId() == darakbangMemberId;
 	}
 }

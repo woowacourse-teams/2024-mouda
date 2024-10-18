@@ -8,14 +8,23 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mouda.backend.bet.domain.BetRole;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "bet_darakbang_member")
+@Table(
+	name = "bet_darakbang_member",
+	uniqueConstraints = {
+		@UniqueConstraint(
+			columnNames = {"bet_id", "darakbang_member_id"}
+		)
+	}
+)
 public class BetDarakbangMemberEntity {
 
 	@Id
@@ -39,5 +48,12 @@ public class BetDarakbangMemberEntity {
 
 	public void updateLastChat(Long lastReadChatId) {
 		this.lastReadChatId = lastReadChatId;
+	}
+
+	public String getRole(long moimerId) {
+		if (darakbangMember.getId() == moimerId) {
+			return BetRole.MOIMER.name();
+		}
+		return BetRole.MOIMEE.name();
 	}
 }

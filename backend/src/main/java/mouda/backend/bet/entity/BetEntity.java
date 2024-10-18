@@ -39,7 +39,8 @@ public class BetEntity {
 	private long moimerId;
 
 	@Builder
-	private BetEntity(Long id, String title, LocalDateTime bettingTime, Long loserDarakbangMemberId, long darakbangId, long moimerId) {
+	private BetEntity(Long id, String title, LocalDateTime bettingTime, Long loserDarakbangMemberId, long darakbangId,
+		long moimerId) {
 		this.id = id;
 		this.title = title;
 		this.bettingTime = bettingTime;
@@ -74,6 +75,7 @@ public class BetEntity {
 			.id(id)
 			.title(title)
 			.bettingTime(bettingTime)
+			.loserId(loserDarakbangMemberId)
 			.build();
 	}
 }

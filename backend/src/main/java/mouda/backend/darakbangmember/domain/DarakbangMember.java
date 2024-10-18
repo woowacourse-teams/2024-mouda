@@ -19,6 +19,7 @@ import jakarta.persistence.UniqueConstraint;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mouda.backend.chat.domain.Author;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbangmember.exception.DarakbangMemberErrorMessage;
 import mouda.backend.darakbangmember.exception.DarakbangMemberException;
@@ -111,6 +112,14 @@ public class DarakbangMember {
 
 	public boolean hasImage() {
 		return profile != null;
+	}
+
+	public Author toAuthor() {
+		return Author.builder()
+			.id(id)
+			.nickname(nickname)
+			.profile(profile)
+			.build();
 	}
 
 	@Override

@@ -24,7 +24,8 @@ public class Participant {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		Participant that = (Participant)o;
-		return Objects.equals(nickname, that.nickname) && Objects.equals(profile, that.profile) && Objects.equals(role, that.role);
+		return Objects.equals(nickname, that.nickname) && Objects.equals(profile, that.profile) && Objects.equals(role,
+			that.role);
 	}
 
 	@Override

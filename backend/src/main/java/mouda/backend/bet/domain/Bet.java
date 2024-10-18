@@ -3,12 +3,8 @@ package mouda.backend.bet.domain;
 import java.util.List;
 import java.util.Random;
 
-import org.springframework.http.HttpStatus;
-
 import lombok.Builder;
 import lombok.Getter;
-import mouda.backend.bet.exception.BetErrorMessage;
-import mouda.backend.bet.exception.BetException;
 
 @Getter
 public class Bet {
@@ -53,13 +49,6 @@ public class Bet {
 			.anyMatch(participant -> participant.getId() == id);
 	}
 
-	public long getLoserId() {
-		if (loserId == null) {
-			throw new BetException(HttpStatus.NOT_FOUND, BetErrorMessage.LOSER_NOT_FOUND);
-		}
-		return loserId;
-	}
-
 	public boolean isLoser(long otherId) {
 		return loserId == otherId;
 	}
@@ -74,5 +63,9 @@ public class Bet {
 
 	public long timeDifferenceInMinutesWithNow() {
 		return betDetails.timeDifferenceInMinutesWithNow();
+	}
+
+	public boolean canNotParticipate() {
+		return hasLoser() || betDetails.pastBettingTime();
 	}
 }

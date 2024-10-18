@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import mouda.backend.bet.domain.Bet;
 import mouda.backend.bet.domain.Loser;
+import mouda.backend.bet.entity.BetDarakbangMemberEntity;
 import mouda.backend.bet.entity.BetEntity;
 import mouda.backend.bet.exception.BetException;
+import mouda.backend.bet.infrastructure.BetDarakbangMemberRepository;
 import mouda.backend.bet.infrastructure.BetRepository;
 import mouda.backend.common.fixture.BetEntityFixture;
 import mouda.backend.common.fixture.DarakbangSetUp;
@@ -27,6 +29,9 @@ class BetFinderTest extends DarakbangSetUp {
 
 	@Autowired
 	BetRepository betRepository;
+
+	@Autowired
+	BetDarakbangMemberRepository betDarakbangMemberRepository;
 
 	@DisplayName("다락방에 존재하는 안내면진다를 조회한다.")
 	@Test
@@ -50,7 +55,7 @@ class BetFinderTest extends DarakbangSetUp {
 	void findAllDetails() {
 		// given
 		long darakbangId = darakbang.getId();
-		BetEntity betEntity = BetEntityFixture.getBetEntity(darakbangId, darakbangAnna.getId());
+		BetEntity betEntity = BetEntityFixture.getFutureBetEntity(darakbangId, darakbangAnna.getId());
 		betRepository.save(betEntity);
 
 		// when
@@ -92,7 +97,7 @@ class BetFinderTest extends DarakbangSetUp {
 		long darakbangId = darakbang.getId();
 		BetEntity betEntity = BetEntityFixture.getDrawedBetEntity(darakbangId, darakbangAnna.getId());
 		BetEntity savedBetEntity = betRepository.save(betEntity);
-		betWriter.participate(darakbangId, savedBetEntity.getId(), darakbangAnna);
+		betDarakbangMemberRepository.save(new BetDarakbangMemberEntity(darakbangAnna, savedBetEntity));
 
 		// when
 		Loser loser = betFinder.findResult(darakbangId, savedBetEntity.getId());
