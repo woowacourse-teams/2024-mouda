@@ -26,6 +26,7 @@ public class AppleAuthController {
 		@RequestParam("id_token") String id_token,
 		@RequestParam(name = "user", required = false) String user
 	) throws IOException {
+		// TODO: 이전에 가입한 적 있지만 DB를 갈아엎어서 user가 들어오지 않는 경우 save에 실패한다.
 		if (user != null) {
 			appleAuthService.save(code, id_token, user);
 		}

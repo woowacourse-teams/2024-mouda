@@ -15,7 +15,6 @@ import mouda.backend.auth.business.GoogleAuthService;
 import mouda.backend.auth.business.KakaoAuthService;
 import mouda.backend.auth.presentation.business.CommonAuthService;
 import mouda.backend.auth.presentation.controller.swagger.AuthSwagger;
-import mouda.backend.auth.presentation.request.AppleOauthRequest;
 import mouda.backend.auth.presentation.request.GoogleOauthRequest;
 import mouda.backend.auth.presentation.request.OauthRequest;
 import mouda.backend.auth.presentation.response.KakaoLoginResponse;
@@ -71,13 +70,13 @@ public class AuthController implements AuthSwagger {
 		return ResponseEntity.ok().body(new RestResponse<>(response));
 	}
 
-	@Override
-	@PostMapping("/apple/oauth")
-	public ResponseEntity<RestResponse<LoginResponse>> loginAppleOauth(@RequestBody AppleOauthRequest oauthRequest) {
-		LoginResponse response = appleAuthService.oauthLogin(oauthRequest);
-
-		return ResponseEntity.ok().body(new RestResponse<>(response));
-	}
+	// @Override
+	// @PostMapping("/apple/oauth")
+	// public ResponseEntity<RestResponse<LoginResponse>> loginAppleOauth(@RequestBody AppleOauthRequest oauthRequest) {
+	// 	LoginResponse response = appleAuthService.oauthLogin(oauthRequest);
+	//
+	// 	return ResponseEntity.ok().body(new RestResponse<>(response));
+	// }
 
 	@Override
 	@DeleteMapping
