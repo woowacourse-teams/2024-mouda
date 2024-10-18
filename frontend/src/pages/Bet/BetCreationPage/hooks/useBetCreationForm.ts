@@ -1,24 +1,54 @@
 import GET_ROUTES from '@_common/getRoutes';
 import POLICES from '@_constants/poclies';
 import useAddBet from '@_hooks/mutaions/useAddBet';
+import useStatePersist from '@_hooks/useStatePersist';
 import { BetInputInfo } from '@_types/index';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { isApproachedByUrl } from '@_utils/isApproachedByUrl';
+import { useNavigate, useNavigationType } from 'react-router-dom';
+import { BetCreationStep } from '../BetCreationPage';
+import { useEffect } from 'react';
 
-export default function useBetCreationForm() {
+export default function useBetCreationForm(currentStep: BetCreationStep) {
   const navigate = useNavigate();
+  const navigationType = useNavigationType();
 
-  const [form, setState] = useState<BetInputInfo>({
-    title: '',
-    waitingMinutes: 0,
+  const isNewBetCreation =
+    currentStep === '제목' &&
+    (navigationType === 'PUSH' || isApproachedByUrl());
+
+  if (isNewBetCreation) {
+    sessionStorage.removeItem('betCreationInfo');
+    sessionStorage.removeItem('betCreationIsValid');
+    sessionStorage.removeItem('betCreationErrorMessage');
+  }
+
+  useEffect(() => {
+    // 뒤로가기를 통해 만들기 페이지에 오는 경우 메인 페이지로 이동
+    if (currentStep === '추첨시간' && navigationType === 'POP') {
+      navigate(GET_ROUTES.nowDarakbang.bet());
+    }
+  }, [currentStep, navigationType, navigate]);
+
+  const [form, setState] = useStatePersist<BetInputInfo>({
+    key: 'betCreationInfo',
+    initialState: {
+      title: '',
+      waitingMinutes: 0,
+    },
   });
-  const [isValid, setIsValid] = useState({
-    title: false,
-    waitingMinutes: false,
+  const [isValid, setIsValid] = useStatePersist({
+    key: 'betCreationIsValid',
+    initialState: {
+      title: false,
+      waitingMinutes: false,
+    },
   });
-  const [errorMessage, setErrorMessage] = useState({
-    title: '',
-    waitingMinutes: '',
+  const [errorMessage, setErrorMessage] = useStatePersist({
+    key: 'betCreationErrorMessage',
+    initialState: {
+      title: '',
+      waitingMinutes: '',
+    },
   });
 
   const updateTitle = (title: string) => {

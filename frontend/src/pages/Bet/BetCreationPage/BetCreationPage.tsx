@@ -6,7 +6,7 @@ import TitleStep from './components/Steps/TitleStep';
 import WaitingMinutesStep from './components/Steps/WaitingMinutesStep';
 import useBetCreationForm from './hooks/useBetCreationForm';
 
-type BetCreationStep = '제목' | '추첨시간';
+export type BetCreationStep = '제목' | '추첨시간';
 
 const steps: BetCreationStep[] = ['제목', '추첨시간'];
 
@@ -24,7 +24,7 @@ export default function BetCreationPage() {
     validateWaitingMinutes,
     finalValidate,
     createBet,
-  } = useBetCreationForm();
+  } = useBetCreationForm(currentStep);
 
   return (
     <FunnelLayout>
