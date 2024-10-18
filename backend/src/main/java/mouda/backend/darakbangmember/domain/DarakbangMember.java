@@ -117,6 +117,7 @@ public class DarakbangMember {
 	public Author toAuthor() {
 		return Author.builder()
 			.id(id)
+			.memberId(memberId)
 			.nickname(nickname)
 			.profile(profile)
 			.build();
