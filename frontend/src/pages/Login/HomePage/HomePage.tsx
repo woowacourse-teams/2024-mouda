@@ -96,7 +96,14 @@ export default function HomePage() {
             </button>
             <GoogleLoginButton type={'circle'} />
             <div css={S.boundary({ theme })}></div>
-            <button css={S.kakaoButton}>
+            <button
+              css={S.kakaoButton}
+              onClick={() => {
+                alert(
+                  '카카오톡 로그인은 더이상 지원하지 않아요! 다른 로그인을 이용하여 계정을 옮겨 보세요!',
+                );
+              }}
+            >
               <KakaoOAuthLoginIcon type="circle" />
             </button>
           </div>
