@@ -1,42 +1,31 @@
-import AppleOAuthIcon from '@_components/Icons/AppleOAuthIcon';
-import GoogleLoginButton from '@_components/GoogleLoginButton/GoogleLoginButton';
 import LoginLayout from '@_layouts/LoginLayout/LoginLayout';
 import MissingFallback from '@_components/MissingFallback/MissingFallback';
-import ROUTES from '@_constants/routes';
-import { getMemberToken } from '@_utils/tokenManager';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import * as S from './OAuthSelectPage.style';
+import { useTheme } from '@emotion/react';
+import KakaoOAuthLoginIcon from '@_components/Icons/KakaoOAuthIcon';
 
 export default function OAuthSelectPage() {
-  const navigate = useNavigate();
+  const theme = useTheme();
 
-  useEffect(() => {
-    if (!getMemberToken()) {
-      alert('잘못된 접근입니다.');
-      navigate(ROUTES.home);
-    }
-  }, [navigate]);
-  const appleAuthLogin = () => {
+  const kakaoAuthLogin = () => {
     if (
-      !process.env.APPLE_O_AUTH_CLIENT_ID ||
-      !process.env.APPLE_OAUTH_REDIRECT_URI
+      !process.env.KAKAO_O_AUTH_CLIENT_ID ||
+      !process.env.KAKAO_OAUTH_REDIRECT_URI
     ) {
-      throw new Error('Apple OAuth 정보가 없습니다.');
+      throw new Error('kakao OAuth 정보가 없습니다.');
     }
-
     const params = {
-      client_id: process.env.APPLE_O_AUTH_CLIENT_ID,
-      redirect_uri: process.env.APPLE_OAUTH_REDIRECT_URI,
-      response_type: 'code id_token',
-      response_mode: 'form_post',
-      scope: 'name email',
+      client_id: process.env.KAKAO_O_AUTH_CLIENT_ID,
+      redirect_uri: process.env.KAKAO_OAUTH_REDIRECT_URI,
+      response_type: 'code',
+      scope: 'openid',
     };
     const queryString = new URLSearchParams(params).toString();
-    const appleOAuthUrl = `${process.env.APPLE_REQUEST_URL}?${queryString}`;
-    if (process.env.MSW === 'true') {
+    const kakaoOAuthUrl = `${process.env.KAKAO_REQUEST_URL}?${queryString}`;
+    if (process.env.MSW == 'true') {
       window.location.href = 'http://localhost:8081/kakao-o-auth?code=1';
     } else {
-      window.location.href = appleOAuthUrl;
+      window.location.href = kakaoOAuthUrl;
     }
   };
 
@@ -44,31 +33,28 @@ export default function OAuthSelectPage() {
     <LoginLayout>
       <LoginLayout.Header></LoginLayout.Header>
       <LoginLayout.Main>
-        <section>
-          <MissingFallback text="앞으로 하실 로그인을 선택해주세요" />
-        </section>
+        <div css={S.titleWrapper}>
+          <span css={S.title({ theme })}>
+            카카오톡 로그인은 <br /> 더이상 지원하지 않아요
+          </span>
+          <br />
+          <span css={S.subtitle({ theme })}>
+            카카오톡 로그인하면 데이터를 옮겨 드려요!
+          </span>
+        </div>
+        <MissingFallback text="" />
       </LoginLayout.Main>
       <LoginLayout.Footer>
-        <div
+        <button
           css={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: '1rem',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
           }}
+          onClick={kakaoAuthLogin}
         >
-          <button
-            css={{
-              background: 'none',
-              border: 'none',
-            }}
-            onClick={appleAuthLogin}
-          >
-            <AppleOAuthIcon />
-          </button>
-          <GoogleLoginButton />
-        </div>
+          <KakaoOAuthLoginIcon type="bar" />
+        </button>
       </LoginLayout.Footer>
     </LoginLayout>
   );
