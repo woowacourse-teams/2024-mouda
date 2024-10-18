@@ -1,4 +1,5 @@
 import FunnelButton from '@_components/Funnel/FunnelButton/FunnelButton';
+import FunnelErrorMessage from '@_components/Funnel/FunnelErrorMessage/FunnelErrorMessage';
 import FunnelQuestion from '@_components/Funnel/FunnelQuestion/FunnelQuestion';
 import FunnelRadioCardGroup from '@_components/Funnel/FunnelRadioCardGroup/FunnelRadioCardGroup';
 import FunnelRadioCardGroupOption from '@_components/Funnel/FunnelRadioCardGroup/FunnelRadioCardGroupOption/FunnelRadioCardGroupOption';
@@ -8,6 +9,7 @@ import { BetInputInfo } from '@_types/index';
 interface TimeStepProps {
   waitingMinutes: BetInputInfo['waitingMinutes'];
   isValid: boolean;
+  errorMessage: string;
   onWaitingMinutesChange: (waitingMinutes: number) => void;
   onButtonClick: () => void;
 }
@@ -23,8 +25,9 @@ const options = [
 
 export default function WaitingMinutesStep(props: TimeStepProps) {
   const {
-    waitingMinutes: waitingMinutes,
+    waitingMinutes,
     isValid,
+    errorMessage,
     onWaitingMinutesChange,
     onButtonClick,
   } = props;
@@ -50,8 +53,9 @@ export default function WaitingMinutesStep(props: TimeStepProps) {
       </FunnelLayout.Main>
 
       <FunnelLayout.Footer>
+        <FunnelErrorMessage isError={!isValid} errorMessage={errorMessage} />
         <FunnelButton disabled={!isValid} onClick={onButtonClick}>
-          {!isValid ? '시간을 잘~ 입력해주세요' : '완료'}
+          완료
         </FunnelButton>
       </FunnelLayout.Footer>
     </>

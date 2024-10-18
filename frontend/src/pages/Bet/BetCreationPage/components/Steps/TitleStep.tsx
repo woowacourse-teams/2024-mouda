@@ -1,4 +1,5 @@
 import FunnelButton from '@_components/Funnel/FunnelButton/FunnelButton';
+import FunnelErrorMessage from '@_components/Funnel/FunnelErrorMessage/FunnelErrorMessage';
 import FunnelInput from '@_components/Funnel/FunnelInput/FunnelInput';
 import FunnelQuestion from '@_components/Funnel/FunnelQuestion/FunnelQuestion';
 import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
@@ -8,12 +9,13 @@ import { useEffect, useRef } from 'react';
 interface TitleProps {
   title: BetInputInfo['title'];
   isValid: boolean;
+  errorMessage: string;
   onTitleChange: (title: string) => void;
   onButtonClick: () => void;
 }
 
 export default function TitleStep(props: TitleProps) {
-  const { title, isValid, onTitleChange, onButtonClick } = props;
+  const { title, isValid, errorMessage, onTitleChange, onButtonClick } = props;
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -41,12 +43,9 @@ export default function TitleStep(props: TitleProps) {
       </FunnelLayout.Main>
 
       <FunnelLayout.Footer>
+        <FunnelErrorMessage isError={!isValid} errorMessage={errorMessage} />
         <FunnelButton disabled={!isValid} onClick={onButtonClick}>
-          {title === ''
-            ? '제목을 입력해주세요'
-            : !isValid
-              ? '제목을 잘~ 입력해주세요'
-              : '다음으로'}
+          {title === '' ? '룰렛 이름을 입력해주세요' : '다음으로'}
         </FunnelButton>
       </FunnelLayout.Footer>
     </>
