@@ -20,10 +20,16 @@ public record MoimDetailsFindResponse(
 	String authorNickname,
 	String description,
 	String status,
-	List<CommentResponse> comments
+	List<CommentResponse> comments,
+	Long chatRoomId
 ) {
 
-	public static MoimDetailsFindResponse toResponse(Moim moim, int currentPeople, CommentResponses comments) {
+	public static MoimDetailsFindResponse toResponse(
+		Moim moim,
+		int currentPeople,
+		CommentResponses comments,
+		Long chatRoomId
+	) {
 		String time = moim.getTime() == null ? "" : moim.getTime().format(ofPattern("HH:mm"));
 		String date = moim.getDate() == null ? "" : moim.getDate().format(ISO_LOCAL_DATE);
 		String place = moim.getPlace() == null ? "" : moim.getPlace();
@@ -37,6 +43,7 @@ public record MoimDetailsFindResponse(
 			.description(moim.getDescription())
 			.status(moim.getMoimStatus().name())
 			.comments(comments.commentResponses())
+			.chatRoomId(chatRoomId)
 			.build();
 	}
 }

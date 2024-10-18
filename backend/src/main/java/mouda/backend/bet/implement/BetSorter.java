@@ -11,17 +11,14 @@ import mouda.backend.bet.domain.Bet;
 @Component
 public class BetSorter {
 
-    private static final int HAS_LOSER = 1;
-    private static final int NO_LOSER = 0;
+	public List<Bet> sort(List<Bet> bets) {
+		List<Bet> mutableBets = new ArrayList<>(bets);
 
-    public List<Bet> sort(List<Bet> bets) {
-        List<Bet> mutableBets = new ArrayList<>(bets);
+		mutableBets.sort(Comparator
+			.comparing(Bet::hasLoser)
+			.thenComparing(Bet::timeDifferenceInMinutesWithNow)
+		);
 
-        mutableBets.sort(Comparator
-            .comparing(Bet::timeDifferenceInMinutesWithNow)
-            .thenComparing(bet -> bet.hasLoser() ? HAS_LOSER : NO_LOSER)
-        );
-
-        return mutableBets;
-    }
+		return mutableBets;
+	}
 }
