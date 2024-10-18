@@ -66,6 +66,7 @@ public class AppleAuthService {
 
 	private void saveMember(String refreshToken, String idToken, String firstName, String lastName) {
 		String socialLoginId = appleOauthManager.getSocialLoginId(idToken);
+		log.info("socialLoginId = " + socialLoginId);
 		Member member = new Member(lastName + firstName, new LoginDetail(OauthType.APPLE, socialLoginId, refreshToken));
 		memberWriter.append(member);
 	}
