@@ -3,6 +3,7 @@ import * as S from './BetCard.style';
 import { useTheme } from '@emotion/react';
 import RouletteIcon from '@_components/Icons/RouletteIcon';
 import PeopleIcon from '@_components/Icons/PeopleIcon';
+import { useMemo } from 'react';
 
 interface BetCardProps {
   bet: BetSummary & { leftMinute: number };
@@ -13,6 +14,11 @@ export default function BetCard(props: BetCardProps) {
   const { bet, onClick } = props;
 
   const theme = useTheme();
+
+  const probabilityPercentage = useMemo(() => {
+    const percentage = (1 / (bet.currentParticipants + 1)) * 100;
+    return percentage % 1 === 0 ? percentage : percentage.toFixed(1);
+  }, [bet.currentParticipants]);
 
   return (
     <div css={S.cardBox} onClick={() => onClick(bet.id)}>
@@ -34,7 +40,9 @@ export default function BetCard(props: BetCardProps) {
         <div css={S.participantCount({ theme })}>
           <PeopleIcon /> {bet.currentParticipants}명
         </div>
-        <span css={S.banner({ theme })}>지금 들어오면 25%!</span>
+        <div css={S.banner({ theme })}>
+          지금 당첨 확률 {probabilityPercentage}%
+        </div>
       </div>
       <div css={S.rightSection}>
         <RouletteIcon />

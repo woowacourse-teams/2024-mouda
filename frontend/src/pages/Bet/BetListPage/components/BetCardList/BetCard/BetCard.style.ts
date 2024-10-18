@@ -15,6 +15,7 @@ export const leftSection = css`
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
+  align-items: flex-start;
 `;
 
 export const title = ({ theme }: { theme: Theme }) => css`
@@ -56,9 +57,9 @@ export const participantCount = ({ theme }: { theme: Theme }) => css`
 `;
 
 export const banner = ({ theme }: { theme: Theme }) => css`
-  padding: 0.4rem 1rem;
+  padding: 0.5rem 0.9rem;
 
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: bold;
   color: white;
 
