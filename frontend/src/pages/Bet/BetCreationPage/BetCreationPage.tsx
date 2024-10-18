@@ -62,7 +62,7 @@ export default function BetCreationPage() {
                 validateWaitingMinutes(waitingMinutes);
                 updateWaitingMinutes(waitingMinutes);
               }}
-              onButtonClick={() => {
+              onButtonClick={async () => {
                 const isValid = finalValidate(form);
 
                 if (!isValid) {
@@ -70,7 +70,7 @@ export default function BetCreationPage() {
                   return;
                 }
 
-                createBet(form);
+                await createBet(form);
               }}
             />
           ),

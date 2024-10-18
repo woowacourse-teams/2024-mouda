@@ -69,7 +69,7 @@ export default function useBetCreationForm() {
     return isTitleValid && isWaitingMinutesValid;
   };
 
-  const { mutate: createBet } = useAddBet((betId) => {
+  const { mutateAsync: createBet } = useAddBet((betId) => {
     navigate(GET_ROUTES.nowDarakbang.betDetail(betId));
   });
 
