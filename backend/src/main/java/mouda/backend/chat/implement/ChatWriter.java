@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.implement.BetDarakbangMemberWriter;
+import mouda.backend.chat.domain.Chat;
 import mouda.backend.chat.domain.ChatRoom;
 import mouda.backend.chat.domain.ChatRoomType;
 import mouda.backend.chat.entity.ChatEntity;
@@ -23,7 +24,7 @@ public class ChatWriter {
 	private final ChamyoWriter chamyoWriter;
 	private final BetDarakbangMemberWriter betDarakbangMemberWriter;
 
-	public void appendPlaceTypeChat(long chatRoomId, String content, DarakbangMember darakbangMember) {
+	public Chat appendPlaceTypeChat(long chatRoomId, String content, DarakbangMember darakbangMember) {
 		ChatEntity chatEntity = ChatEntity.builder()
 			.chatRoomId(chatRoomId)
 			.content(content)
@@ -32,10 +33,10 @@ public class ChatWriter {
 			.darakbangMember(darakbangMember)
 			.chatType(ChatType.PLACE)
 			.build();
-		chatRepository.save(chatEntity);
+		return chatRepository.save(chatEntity).toChat();
 	}
 
-	public void appendDateTimeTypeChat(long chatRoomId, LocalDate date, LocalTime time,
+	public Chat appendDateTimeTypeChat(long chatRoomId, LocalDate date, LocalTime time,
 		DarakbangMember darakbangMember) {
 		ChatEntity chatEntity = ChatEntity.builder()
 			.chatRoomId(chatRoomId)
@@ -45,10 +46,10 @@ public class ChatWriter {
 			.darakbangMember(darakbangMember)
 			.chatType(ChatType.DATETIME)
 			.build();
-		chatRepository.save(chatEntity);
+		return chatRepository.save(chatEntity).toChat();
 	}
 
-	public void append(long chatRoomId, String content, DarakbangMember darakbangMember) {
+	public Chat append(long chatRoomId, String content, DarakbangMember darakbangMember) {
 		ChatEntity chatEntity = ChatEntity.builder()
 			.chatRoomId(chatRoomId)
 			.content(content)
@@ -57,7 +58,7 @@ public class ChatWriter {
 			.darakbangMember(darakbangMember)
 			.chatType(ChatType.BASIC)
 			.build();
-		chatRepository.save(chatEntity);
+		return chatRepository.save(chatEntity).toChat();
 	}
 
 	public void updateLastReadChat(ChatRoom chatRoom, DarakbangMember darakbangMember, long lastReadChatId) {

@@ -45,7 +45,7 @@ class MoimRecipientFinderTest extends DarakbangSetUp {
 
 	@DisplayName("모임 상태 변화(모집마감, 모집재개, 모임정보변경, 모임장소/시간 확정)는 방장 제외 모임참여자 전원에게 알린다.")
 	@Test
-	void getMoimStatusChangedNotificationRecipients() {
+	void getMoimModifiedNotificationRecipients() {
 		// given
 		Moim moim = MoimFixture.getCoffeeMoim(darakbang.getId());
 		Moim savedMoim = moimRepository.save(moim);
@@ -64,7 +64,7 @@ class MoimRecipientFinderTest extends DarakbangSetUp {
 		chamyoRepository.save(chamyoWithMoimeeHogee);
 
 		// when
-		List<Recipient> recipients = moimRecipientFinder.getMoimStatusChangedNotificationRecipients(savedMoim.getId());
+		List<Recipient> recipients = moimRecipientFinder.getMoimModifiedNotificationRecipients(savedMoim.getId());
 
 		//then
 		assertThat(recipients).hasSize(1);

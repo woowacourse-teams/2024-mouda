@@ -93,9 +93,10 @@ public class MoimService {
 
 	public void editMoim(Long darakbangId, MoimEditRequest request, DarakbangMember darakbangMember) {
 		Moim moim = moimFinder.read(request.moimId(), darakbangId);
+		String oldTitle = moim.getTitle();
 		moimWriter.updateMoim(moim, darakbangMember, request.title(), request.date(), request.time(), request.place(),
 			request.maxPeople(), request.description());
 
-		moimNotificationSender.sendMoimStatusChangedNotification(moim, NotificationType.MOIM_MODIFIED);
+		moimNotificationSender.sendMoimInfoModifiedNotification(moim, oldTitle, NotificationType.MOIM_MODIFIED);
 	}
 }

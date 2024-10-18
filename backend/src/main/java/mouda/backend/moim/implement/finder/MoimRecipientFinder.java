@@ -28,7 +28,7 @@ public class MoimRecipientFinder {
 			.toList();
 	}
 
-	public List<Recipient> getMoimStatusChangedNotificationRecipients(long moimId) {
+	public List<Recipient> getMoimModifiedNotificationRecipients(long moimId) {
 		List<Chamyo> chamyos = chamyoRepository.findAllByMoimId(moimId);
 
 		return chamyos.stream()

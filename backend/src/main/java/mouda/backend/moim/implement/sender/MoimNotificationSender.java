@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import mouda.backend.common.config.UrlConfig;
 import mouda.backend.darakbang.domain.Darakbang;
+import mouda.backend.darakbang.exception.DarakbangErrorMessage;
+import mouda.backend.darakbang.exception.DarakbangException;
 import mouda.backend.darakbang.infrastructure.DarakbangRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
@@ -36,50 +38,58 @@ public class MoimNotificationSender extends AbstractMoimNotificationSender {
 	public void sendMoimCreatedNotification(Moim moim, DarakbangMember author, NotificationType notificationType) {
 		List<Recipient> recipients = moimRecipientFinder.getMoimCreatedNotificationRecipients(moim.getDarakbangId(),
 			author.getId());
-		Darakbang darakbang = darakbangRepository.findById(moim.getDarakbangId())
-			.orElseThrow(IllegalArgumentException::new);
-		NotificationEvent notificationEvent = NotificationEvent.nonChatEvent(
-			notificationType,
-			darakbang.getName(),
-			MoimNotificationMessage.create(moim.getTitle(), notificationType),
-			getMoimUrl(darakbang.getId(), moim.getId()),
-			recipients
-		);
-		eventPublisher.publishEvent(notificationEvent);
+		String message = MoimNotificationMessage.create(moim.getTitle(), notificationType);
+
+		createEventAndPublish(notificationType, moim, message, recipients);
 	}
 
 	public void sendMoimStatusChangedNotification(Moim moim, NotificationType notificationType) {
-		List<Recipient> recipients = moimRecipientFinder.getMoimStatusChangedNotificationRecipients(moim.getId());
+		String message = MoimNotificationMessage.create(moim.getTitle(), notificationType);
+		sendMoimModifiedNotification(moim, notificationType, message);
+	}
+
+	public void sendMoimInfoModifiedNotification(Moim moim, String oldTitle, NotificationType notificationType) {
+		String message = MoimNotificationMessage.create(oldTitle, notificationType);
+		sendMoimModifiedNotification(moim, notificationType, message);
+	}
+
+	private void sendMoimModifiedNotification(Moim moim, NotificationType notificationType, String message) {
+		List<Recipient> recipients = moimRecipientFinder.getMoimModifiedNotificationRecipients(moim.getId());
+		createEventAndPublish(notificationType, moim, message, recipients);
+	}
+
+	private void createEventAndPublish(NotificationType notificationType, Moim moim, String message,
+		List<Recipient> recipients) {
 		Darakbang darakbang = darakbangRepository.findById(moim.getDarakbangId())
-			.orElseThrow(IllegalArgumentException::new);
+			.orElseThrow(() -> new DarakbangException(HttpStatus.NOT_FOUND, DarakbangErrorMessage.DARAKBANG_NOT_FOUND));
+
 		NotificationEvent notificationEvent = NotificationEvent.nonChatEvent(
 			notificationType,
 			darakbang.getName(),
-			MoimNotificationMessage.create(moim.getTitle(), notificationType),
-			getMoimUrl(darakbang.getId(), moim.getId()),
+			message,
+			getMoimUrl(darakbang.getId(), darakbang.getId()),
 			recipients
 		);
-
 		eventPublisher.publishEvent(notificationEvent);
 	}
 
 	static class MoimNotificationMessage {
 
-		public static String create(String moimName, NotificationType type) {
+		public static String create(String moimTitle, NotificationType type) {
 			if (type == NotificationType.MOIM_CREATED) {
-				return moimName + " 모임이 만들어졌어요!";
+				return moimTitle + " 모임이 만들어졌어요!";
 			}
 			if (type == NotificationType.MOIMING_COMPLETED) {
-				return moimName + " 모집이 마감되었어요!";
+				return moimTitle + " 모집이 마감되었어요!";
 			}
 			if (type == NotificationType.MOINING_REOPENED) {
-				return moimName + " 모집이 재개되었어요!";
+				return moimTitle + " 모집이 재개되었어요!";
 			}
 			if (type == NotificationType.MOIM_CANCELLED) {
-				return moimName + " 모임이 취소되었어요!";
+				return moimTitle + " 모임이 취소되었어요!";
 			}
 			if (type == NotificationType.MOIM_MODIFIED) {
-				return moimName + " 모임 정보가 변경되었어요!";
+				return moimTitle + " 모임 정보가 변경되었어요!";
 			}
 			throw new NotificationException(
 				HttpStatus.BAD_REQUEST, NotificationErrorMessage.NOT_ALLOWED_NOTIFICATION_TYPE
