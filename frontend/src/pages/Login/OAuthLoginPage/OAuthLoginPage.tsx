@@ -1,12 +1,7 @@
 import ROUTES from '@_constants/routes';
 import { getInviteCode } from '@_common/inviteCodeManager';
 import { kakaoOAuth, googleOAuth } from '@_apis/auth';
-import {
-  getMemberToken,
-  removeMemberToken,
-  setAccessToken,
-  setMemberToken,
-} from '@_utils/tokenManager';
+import { setAccessToken } from '@_utils/tokenManager';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -42,17 +37,17 @@ export default function OAuthLoginPage() {
         const oauthHandlers: Record<Provider, () => Promise<boolean | void>> = {
           apple: async () => {
             setAccessToken(codeOrToken);
+            navigate(ROUTES.kakaoSelection);
+            return true; // 조기 반환
           },
           google: async () => {
-            const response = await googleOAuth(codeOrToken, getMemberToken());
+            const response = await googleOAuth(codeOrToken);
             setAccessToken(response.data.accessToken);
+            navigate(ROUTES.kakaoSelection);
+            return true; // 조기 반환
           },
           kakao: async () => {
-            const response = await kakaoOAuth(codeOrToken);
-            setAccessToken(response.data.accessToken);
-            setMemberToken(response.data.memberId);
-            navigate(ROUTES.oAuthSelection);
-            return true; // 조기 반환
+            await kakaoOAuth(codeOrToken);
           },
         };
 
@@ -60,8 +55,6 @@ export default function OAuthLoginPage() {
 
         const shouldReturn = await handler();
         if (shouldReturn) return;
-
-        removeMemberToken();
 
         const inviteCode = getInviteCode();
         if (inviteCode) {
