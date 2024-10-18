@@ -73,7 +73,7 @@ public class ChatNotificationSender {
 
 	private void publishEvent(long darakbangId, long chatRoomId, String title, Chat chat, List<Recipient> recipients) {
 		Darakbang darakbang = darakbangFinder.findById(darakbangId);
-		ChatNotification chatNotification = ChatNotification.create(title, chat);
+		ChatNotification chatNotification = ChatNotification.create(darakbang.getName(), title, chat);
 
 		NotificationEvent notificationEvent = NotificationEvent.chatEvent(
 			chatNotification.getType(),
@@ -92,38 +92,39 @@ public class ChatNotificationSender {
 	@RequiredArgsConstructor
 	static class ChatNotification {
 
+		private final String title;
 		private final NotificationType type;
 		private final String message;
 
-		public static ChatNotification create(String title, Chat chat) {
+		public static ChatNotification create(String darakbangName, String title, Chat chat) {
 			ChatType chatType = chat.getChatType();
 			String content = chat.getContent();
 
 			if (chatType == ChatType.PLACE) {
-				String message = "'" + title + "'" + " 장소가 '" + content + "' 로 확정되었어요!";
-				return placeConfirmChat(message);
+				String message = "'" + title + "'" + " 장소가 '" + content + "' 으로 확정되었어요!";
+				return placeConfirmChat(darakbangName, message);
 			}
 			if (chatType == ChatType.DATETIME) {
 				String parsedDateTime = ChatDateTimeFormatter.formatDateTime(content);
-				String message = "'" + title + "'" + "시간이 '" + parsedDateTime + "' 로 확정되었어요!";
-				return dateTimeConfirmChat(message);
+				String message = "'" + title + "'" + "시간이 '" + parsedDateTime + "' 으로 확정되었어요!";
+				return dateTimeConfirmChat(darakbangName, message);
 			}
 
 			String authorNickname = chat.getAuthor().getNickname();
 			String message = authorNickname + ": " + content;
-			return basicChat(message);
+			return basicChat(title, message);
 		}
 
-		private static ChatNotification placeConfirmChat(String message) {
-			return new ChatNotification(NotificationType.MOIM_PLACE_CONFIRMED, message);
+		private static ChatNotification placeConfirmChat(String title, String message) {
+			return new ChatNotification(title, NotificationType.MOIM_PLACE_CONFIRMED, message);
 		}
 
-		private static ChatNotification dateTimeConfirmChat(String message) {
-			return new ChatNotification(NotificationType.MOIM_TIME_CONFIRMED, message);
+		private static ChatNotification dateTimeConfirmChat(String title, String message) {
+			return new ChatNotification(title, NotificationType.MOIM_TIME_CONFIRMED, message);
 		}
 
-		private static ChatNotification basicChat(String message) {
-			return new ChatNotification(NotificationType.NEW_CHAT, message);
+		private static ChatNotification basicChat(String title, String message) {
+			return new ChatNotification(title, NotificationType.NEW_CHAT, message);
 		}
 	}
 }
