@@ -54,7 +54,7 @@ export const profileImage = (
     height: 100%;
 
     object-fit: cover;
-    background-image: url(${EmptyProfile});
+    background-image: url(${props.isLoaded ? '' : EmptyProfile});
     background-position: center;
     background-size: cover;
   `;
