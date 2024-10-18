@@ -43,7 +43,7 @@ const ROUTES = {
   notFound: '/*',
   main: '/',
   home: '/home',
-  oAuthMigration: '/oauth-migration',
+  kakaoSelection: '/oauth-migration',
   oAuthSelection: '/oauth-select',
   oAuthGoogle: '/oauth',
   oAuth: '/oauth/:provider',
