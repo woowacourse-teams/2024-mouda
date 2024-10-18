@@ -20,7 +20,7 @@ self.addEventListener('notificationclick', function (event) {
   // console.log('[firebase-messaging-sw.js] 알림이 클릭되었습니다.');
 
   // 알림 데이터를 가져오기
-  const link = event.notification.data.FCM_MSG.notification.click_action;
+  const link = event.notification.data.FCM_MSG.data.link;
 
   event.notification.close(); // 알림 닫기
 
