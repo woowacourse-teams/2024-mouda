@@ -4,16 +4,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import mouda.backend.auth.Infrastructure.response.AppleRefreshTokenResponse;
 import mouda.backend.auth.implement.jwt.ClientSecretProvider;
 import mouda.backend.auth.presentation.response.OauthResponse;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class AppleOauthClient implements OauthClient {
@@ -63,10 +66,13 @@ public class AppleOauthClient implements OauthClient {
 		formData.add("token", refreshToken);
 		formData.add("token_hint_type", "refresh_token");
 
-		restClient.method(HttpMethod.POST)
+		ResponseEntity<String> result = restClient.method(HttpMethod.POST)
 			.uri(revokeUrl)
 			.headers(httpHeaders -> httpHeaders.addAll(getHttpHeaders()))
-			.body(formData);
+			.body(formData)
+			.retrieve()
+			.toEntity(String.class);
+		log.info("revoke status code : {}", result.getStatusCode());
 	}
 
 	private MultiValueMap<String, String> getFormData(String code) {
