@@ -25,7 +25,8 @@ public class MemberWriter {
 		memberRepository.updateName(memberId, name);
 	}
 
-	public void remove(Member member) {
-		memberRepository.delete(member);
+	public void withdraw(Member member) {
+		member.withdraw();
+		memberRepository.save(member);
 	}
 }

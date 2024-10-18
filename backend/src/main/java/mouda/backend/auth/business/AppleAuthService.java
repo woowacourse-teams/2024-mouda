@@ -52,21 +52,20 @@ public class AppleAuthService {
 		return accessTokenProvider.provide(member);
 	}
 
-	public void save(String code, String idToken, String user) {
-		String refreshToken = appleOauthClient.getRefreshToken(code);
+	public void save(String idToken, String user) {
 		try {
 			AppleUserInfoRequest request = objectMapper.readValue(user, AppleUserInfoRequest.class);
 			String firstName = request.name().firstName();
 			String lastName = request.name().lastName();
-			saveMember(refreshToken, idToken, firstName, lastName);
+			saveMember(idToken, firstName, lastName);
 		} catch (JsonProcessingException exception) {
 			throw new AuthException(HttpStatus.BAD_REQUEST, AuthErrorMessage.APPLE_USER_BAD_REQUEST);
 		}
 	}
 
-	private void saveMember(String refreshToken, String idToken, String firstName, String lastName) {
+	private void saveMember(String idToken, String firstName, String lastName) {
 		String socialLoginId = appleOauthManager.getSocialLoginId(idToken);
-		Member member = new Member(lastName + firstName, new LoginDetail(OauthType.APPLE, socialLoginId, refreshToken));
+		Member member = new Member(lastName + firstName, new LoginDetail(OauthType.APPLE, socialLoginId));
 		memberWriter.append(member);
 	}
 }

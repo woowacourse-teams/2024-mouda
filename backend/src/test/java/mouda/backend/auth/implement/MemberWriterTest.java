@@ -38,13 +38,13 @@ class MemberWriterTest {
 
 	@DisplayName("멤버를 삭제한다.")
 	@Test
-	void remove() {
+	void withdraw() {
 		// given
 		Member tebah = MemberFixture.getTebah();
 		memberWriter.append(tebah);
 
 		// when
-		memberWriter.remove(tebah);
+		memberWriter.withdraw(tebah);
 
 		// then
 		assertThat(memberRepository.findAll()).hasSize(0);
