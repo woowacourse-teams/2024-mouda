@@ -20,7 +20,7 @@ export default function HomePage() {
       return <Navigate to={GET_ROUTES.nowDarakbang.main()} />;
     }
     if (!lastDarakbangId) {
-      return <Navigate to={ROUTES.darakbangSelectOption} />;
+      return <Navigate to={ROUTES.kakaoSelection} />;
     }
   }
 
@@ -101,7 +101,9 @@ export default function HomePage() {
             </button>
           </div>
           <span css={S.explain({ theme })}>
-            혹시 카카오톡으로 가입하셨었나요? ☝
+            카카오톡 로그인은 더이상 지원하지 않아요!
+            <br />
+            다른 로그인을 이용해주세요
           </span>
         </section>
       </LoginLayout.Footer>
