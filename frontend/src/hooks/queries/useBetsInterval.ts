@@ -4,7 +4,7 @@ import QUERY_KEYS from '@_constants/queryKeys';
 import calculateLeftMinutesUntilDeadline from '@_utils/calculateLeftMinutesUntilDeadline';
 import { useQuery } from '@tanstack/react-query';
 
-export default function useBets() {
+export default function useBetsInterval(intervalMs: number) {
   const { data: bets, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.darakbang, getLastDarakbangId(), QUERY_KEYS.bets],
     queryFn: async () => {
@@ -16,7 +16,7 @@ export default function useBets() {
       }));
     },
 
-    refetchInterval: 30000,
+    refetchInterval: intervalMs,
   });
 
   return { bets, isLoading };

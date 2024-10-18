@@ -18,7 +18,8 @@ export const leftSection = css`
 `;
 
 export const title = ({ theme }: { theme: Theme }) => css`
-  ${theme.typography.Giant}
+  font-size: 1.4rem;
+  font-weight: bold;
   color: ${theme.colorPalette.grey[400]};
 `;
 
@@ -32,30 +33,33 @@ export const deadline = ({
   leftMinute: number;
 }) => css`
   font-size: ${theme.typography.b2};
-  font-size: 22px;
+  font-size: 2.2rem;
   font-weight: bold;
   color: ${isAnnounced || leftMinute < 0
     ? theme.colorPalette.grey[400]
-    : leftMinute < 5
+    : leftMinute === 0
       ? theme.colorPalette.red[400]
-      : leftMinute < 10
+      : leftMinute < 5
         ? theme.colorPalette.yellow[700]
-        : leftMinute < 15
-          ? theme.colorPalette.green[300]
-          : theme.colorPalette.black[100]};
+        : leftMinute < 10
+          ? theme.colorPalette.yellow[700]
+          : leftMinute < 15
+            ? theme.colorPalette.green[300]
+            : theme.colorPalette.black[100]};
 `;
 
 export const participantCount = ({ theme }: { theme: Theme }) => css`
-  ${theme.typography.b3}
   display: flex;
   align-items: center;
+  font-size: 1.2rem;
   color: ${theme.colorPalette.grey[400]};
 `;
 
 export const banner = ({ theme }: { theme: Theme }) => css`
-  padding: 0.6rem 1rem;
+  padding: 0.4rem 1rem;
 
-  font-size: ${theme.typography.Medium};
+  font-size: 0.9rem;
+  font-weight: bold;
   color: white;
 
   background-color: ${theme.semantic.primary};

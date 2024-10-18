@@ -27,7 +27,9 @@ export default function BetCard(props: BetCardProps) {
         >
           {bet.isAnnounced || bet.leftMinute < 0
             ? '마감됨'
-            : `마감 ${bet.leftMinute}분 전`}
+            : bet.leftMinute === 0
+              ? '마감 임박'
+              : `마감 ${bet.leftMinute}분 전`}
         </div>
         <div css={S.participantCount({ theme })}>
           <PeopleIcon /> {bet.currentParticipants}명
