@@ -1,4 +1,4 @@
-import CircleKakaoLogin from '@_common/assets/kakaoOuathLogin.svg';
+import CircleKakaoLogin from '@_common/assets/kakaoCircleOuathLogin.svg';
 interface KakaoOAuthLoginIconProps {
   type: 'bar' | 'circle';
 }
