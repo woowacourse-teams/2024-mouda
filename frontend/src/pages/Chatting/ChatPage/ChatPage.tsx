@@ -43,7 +43,7 @@ export default function ChatPage() {
               onClick={() => setNowChatRoomType('MOIM')}
             />
             <ChatFilterTag
-              value={'안내면진다'}
+              value={'룰렛'}
               isChecked={nowChatRoomType === 'BET'}
               onClick={() => setNowChatRoomType('BET')}
             />

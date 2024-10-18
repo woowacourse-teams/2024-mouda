@@ -24,7 +24,7 @@ export default function NavigationBarItem(props: NavigationBarItemProps) {
       <HomeIcon isActive={isActive} />
     ) : tab === '채팅' ? (
       <ChattingIcon isActive={isActive} />
-    ) : tab === '안내면진다' ? (
+    ) : tab === '룰렛' ? (
       <ScissorsIcon isActive={isActive} />
     ) : (
       <MyPageIcon isActive={isActive} />

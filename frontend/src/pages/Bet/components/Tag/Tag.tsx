@@ -2,7 +2,7 @@ import * as S from './Tag.style';
 import { HTMLProps } from 'react';
 import { useTheme } from '@emotion/react';
 import { BetDetail } from '@_types/index';
-import calculateMinutesUntilDeadline from '@_utils/calculateMinutesUntilDeadline';
+import calculateMinutesUntilDeadline from '@_utils/calculateLeftMinutesUntilDeadline';
 
 interface TagProps extends HTMLProps<HTMLDivElement> {
   isAnnounced: BetDetail['isAnnounced'];

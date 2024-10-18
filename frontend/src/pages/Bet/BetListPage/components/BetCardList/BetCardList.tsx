@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import GET_ROUTES from '@_common/getRoutes';
 
 interface BetCardListProps {
-  bets: BetSummary[];
+  bets: Array<BetSummary & { leftMinute: number }>;
 }
 
 export default function BetCardList(props: BetCardListProps) {
