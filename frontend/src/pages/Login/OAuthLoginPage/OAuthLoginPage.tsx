@@ -4,6 +4,7 @@ import { kakaoOAuth, googleOAuth } from '@_apis/auth';
 import { setAccessToken } from '@_utils/tokenManager';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ApiError } from '@_utils/customError/ApiError';
 
 type Provider = 'apple' | 'google' | 'kakao';
 
@@ -63,8 +64,11 @@ export default function OAuthLoginPage() {
           navigate(ROUTES.darakbangSelectOption);
         }
       } catch (error) {
-        console.error('OAuth 처리 중 오류 발생:', error);
-        alert('로그인 처리 중 오류가 발생했습니다.');
+        if (error instanceof ApiError) {
+          alert(error.message);
+        } else {
+          alert('알 수 없는 오류가 발생했습니다.');
+        }
         navigate(ROUTES.home);
       }
     };
