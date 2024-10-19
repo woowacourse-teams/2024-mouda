@@ -29,7 +29,7 @@ public class AppleAuthController {
 		if (user != null) {
 			appleAuthService.save(id_token, user);
 		}
-		String accessToken = appleAuthService.getAccessToken(id_token);
+		String accessToken = appleAuthService.login(id_token);
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.add("Location", "https://dev.mouda.site/oauth/apple?token=" + accessToken);
 		return new ResponseEntity<>(httpHeaders, HttpStatus.FOUND);

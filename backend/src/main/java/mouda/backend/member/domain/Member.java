@@ -64,7 +64,7 @@ public class Member {
 		return MemberStatus.DELETED.equals(this.memberStatus);
 	}
 
-	public void resignup() {
+	public void reSignup() {
 		this.memberStatus = MemberStatus.ACTIVE;
 	}
 

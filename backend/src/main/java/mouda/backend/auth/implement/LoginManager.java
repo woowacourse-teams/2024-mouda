@@ -32,7 +32,7 @@ public class LoginManager {
 			return signup(oauthType, socialLoginId, name);
 		}
 		if (member.get().isDeleted()) {
-			member.get().resignup(); // TODO: 더티 체킹이 가능할까?
+			member.get().reSignup(); // TODO: 더티 체킹이 가능할까?
 		}
 		return new LoginProcessResult(accessTokenProvider.provide(member.get()));
 	}

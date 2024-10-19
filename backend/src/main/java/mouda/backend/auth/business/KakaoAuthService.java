@@ -10,7 +10,6 @@ import mouda.backend.auth.implement.KakaoOauthManager;
 import mouda.backend.auth.implement.LoginManager;
 import mouda.backend.auth.implement.jwt.AccessTokenProvider;
 import mouda.backend.auth.presentation.request.OauthRequest;
-import mouda.backend.auth.presentation.response.KakaoLoginResponse;
 import mouda.backend.auth.presentation.response.LoginResponse;
 import mouda.backend.member.domain.LoginDetail;
 import mouda.backend.member.domain.Member;
@@ -28,11 +27,11 @@ public class KakaoAuthService {
 	private final MemberWriter memberWriter;
 	private final MemberFinder memberFinder;
 
-	public KakaoLoginResponse oauthLogin(OauthRequest oauthRequest) {
+	public LoginResponse oauthLogin(OauthRequest oauthRequest) {
 		String kakaoId = oauthManager.getSocialLoginId(oauthRequest.code());
 		LoginProcessResult loginProcessResult = loginManager.processSocialLogin(OauthType.KAKAO, kakaoId, "name");
 
-		return new KakaoLoginResponse(loginProcessResult.memberId(), loginProcessResult.accessToken());
+		return new LoginResponse(loginProcessResult.accessToken());
 	}
 
 	public LoginResponse basicLoginAnna() {

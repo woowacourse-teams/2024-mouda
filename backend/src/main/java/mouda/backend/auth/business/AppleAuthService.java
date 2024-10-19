@@ -12,7 +12,6 @@ import mouda.backend.auth.Infrastructure.AppleOauthClient;
 import mouda.backend.auth.exception.AuthErrorMessage;
 import mouda.backend.auth.exception.AuthException;
 import mouda.backend.auth.implement.AppleOauthManager;
-import mouda.backend.auth.implement.LoginManager;
 import mouda.backend.auth.implement.jwt.AccessTokenProvider;
 import mouda.backend.auth.presentation.controller.AppleUserInfoRequest;
 import mouda.backend.member.domain.LoginDetail;
@@ -20,13 +19,14 @@ import mouda.backend.member.domain.Member;
 import mouda.backend.member.domain.OauthType;
 import mouda.backend.member.implement.MemberFinder;
 import mouda.backend.member.implement.MemberWriter;
+import mouda.backend.member.infrastructure.MemberRepository;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class AppleAuthService {
 
-	private final LoginManager loginManager;
+	private final MemberRepository memberRepository;
 	private final MemberFinder memberFinder;
 	private final MemberWriter memberWriter;
 	private final AppleOauthManager appleOauthManager;
@@ -46,10 +46,17 @@ public class AppleAuthService {
 	// return new LoginResponse(result.accessToken());ap
 	// }
 
-	public String getAccessToken(String idToken) {
+	public String login(String idToken) {
 		String socialLoginId = appleOauthManager.getSocialLoginId(idToken);
 		Member member = memberFinder.findBySocialId(socialLoginId);
+		reSignup(member);
 		return accessTokenProvider.provide(member);
+	}
+
+	private void reSignup(Member member) {
+		if (member.isDeleted()) {
+			member.reSignup();
+		}
 	}
 
 	public void save(String idToken, String user) {

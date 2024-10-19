@@ -39,7 +39,6 @@ class LoginManagerTest {
 
 		// then
 		assertThat(loginProcessResult.accessToken()).isNotNull();
-		assertThat(loginProcessResult.memberId()).isEqualTo(member.getId());
 		Optional<Member> foundMember = memberRepository.findByLoginDetail_SocialLoginId(member.getSocialLoginId());
 		assertThat(foundMember.isPresent()).isTrue();
 		assertThat(foundMember.get()).isEqualTo(member);

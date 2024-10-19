@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import mouda.backend.auth.presentation.request.GoogleOauthRequest;
 import mouda.backend.auth.presentation.request.OauthRequest;
-import mouda.backend.auth.presentation.response.KakaoLoginResponse;
 import mouda.backend.auth.presentation.response.LoginResponse;
 import mouda.backend.common.config.argumentresolver.LoginMember;
 import mouda.backend.common.response.RestResponse;
@@ -20,7 +19,7 @@ public interface AuthSwagger {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "로그인 성공!"),
 	})
-	ResponseEntity<RestResponse<KakaoLoginResponse>> loginKakaoOauth(@RequestBody OauthRequest oauthRequest);
+	ResponseEntity<RestResponse<LoginResponse>> loginKakaoOauth(@RequestBody OauthRequest oauthRequest);
 
 	@Operation(summary = "테스트 용 로그인(안나)", description = "테스트 용 가짜 사용자로 로그인한다(accessToken 발급).")
 	@ApiResponses({
