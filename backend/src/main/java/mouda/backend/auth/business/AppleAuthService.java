@@ -12,7 +12,7 @@ import mouda.backend.auth.exception.AuthErrorMessage;
 import mouda.backend.auth.exception.AuthException;
 import mouda.backend.auth.implement.AppleOauthManager;
 import mouda.backend.auth.implement.jwt.AccessTokenProvider;
-import mouda.backend.auth.presentation.controller.AppleUserInfoRequest;
+import mouda.backend.auth.presentation.request.AppleUserInfoRequest;
 import mouda.backend.member.domain.LoginDetail;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.domain.OauthType;

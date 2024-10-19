@@ -1,4 +1,4 @@
-package mouda.backend.auth.presentation.business;
+package mouda.backend.auth.business;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
