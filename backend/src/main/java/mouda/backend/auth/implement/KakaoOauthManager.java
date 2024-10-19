@@ -15,7 +15,7 @@ public class KakaoOauthManager {
 
 	private final KakaoOauthClient oauthClient;
 
-	public String getSocialLoginId(String code) {
+	public String getIdentifier(String code) {
 		String idToken = oauthClient.getIdToken(code);
 		Map<String, String> payload = TokenDecoder.parseIdToken(idToken);
 		return payload.get(SUB_CLAIM_KEY);

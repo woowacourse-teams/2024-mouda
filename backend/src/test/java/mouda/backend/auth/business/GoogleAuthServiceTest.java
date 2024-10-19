@@ -41,14 +41,14 @@ class GoogleAuthServiceTest {
 		memberRepository.save(anna);
 
 		when(googleOauthManager.getMemberName(anyString())).thenReturn("anna");
-		when(googleOauthManager.getSocialLoginId(anyString())).thenReturn(anna.getSocialLoginId());
+		when(googleOauthManager.getIdentifier(anyString())).thenReturn(anna.getIdentifier());
 
 		// when
-		LoginResponse loginResponse = googleAuthService.oauthLogin(new GoogleOauthRequest(null, "IdToken"));
+		LoginResponse loginResponse = googleAuthService.oauthLogin(new GoogleOauthRequest("IdToken"));
 
 		// then
 		assertThat(loginResponse.accessToken()).isNotNull();
-		Optional<Member> member = memberRepository.findByLoginDetail_SocialLoginId("1234");
+		Optional<Member> member = memberRepository.findByLoginDetail_Identifier("1234");
 		assertThat(member.isPresent()).isTrue();
 		assertThat(member.get().getMemberStatus()).isEqualTo(MemberStatus.ACTIVE);
 	}

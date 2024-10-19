@@ -13,17 +13,17 @@ import mouda.backend.member.domain.OauthType;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-	Optional<Member> findByLoginDetail_SocialLoginId(String socialLoginId);
+	Optional<Member> findByLoginDetail_Identifier(String identifier);
 
 	@Query("""
 		UPDATE Member m
-		SET m.loginDetail.oauthType = :oauthType, m.loginDetail.socialLoginId = :socialLoginId 
-		WHERE m.id = :memberId 
+		SET m.loginDetail.oauthType = :oauthType, m.loginDetail.identifier = :identifier
+		WHERE m.id = :memberId
 		""")
 	@Modifying
 	@Transactional
 	void updateLoginDetail(@Param("memberId") long memberId, @Param("oauthType") OauthType oauthType,
-		@Param("socialLoginId") String socialLoginId);
+		@Param("identifier") String identifier);
 
 	@Query("""
 		UPDATE Member m

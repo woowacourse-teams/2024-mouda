@@ -17,8 +17,8 @@ public class MemberWriter {
 		return memberRepository.save(member);
 	}
 
-	public void updateLoginDetail(long memberId, OauthType oauthType, String socialLoginId) {
-		memberRepository.updateLoginDetail(memberId, oauthType, socialLoginId);
+	public void updateLoginDetail(long memberId, OauthType oauthType, String identifier) {
+		memberRepository.updateLoginDetail(memberId, oauthType, identifier);
 	}
 
 	public void updateName(long memberId, String name) {

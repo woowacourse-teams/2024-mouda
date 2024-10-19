@@ -15,8 +15,8 @@ public class MemberFinder {
 
 	private final MemberRepository memberRepository;
 
-	public Member findBySocialId(String socialId) {
-		return memberRepository.findByLoginDetail_SocialLoginId(socialId)
+	public Member findByIdentifier(String identifier) {
+		return memberRepository.findByLoginDetail_Identifier(identifier)
 			.orElseThrow(() -> new AuthException(HttpStatus.NOT_FOUND, AuthErrorMessage.MEMBER_NOT_FOUND));
 	}
 

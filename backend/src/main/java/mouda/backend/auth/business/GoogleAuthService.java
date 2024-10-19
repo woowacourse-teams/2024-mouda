@@ -19,12 +19,12 @@ public class GoogleAuthService {
 
 	public LoginResponse oauthLogin(GoogleOauthRequest googleOauthRequest) {
 		String name = googleOauthManager.getMemberName(googleOauthRequest.idToken());
-		String socialLoginId = googleOauthManager.getSocialLoginId(googleOauthRequest.idToken());
-		return processGoogleLogin(socialLoginId, name);
+		String identifier = googleOauthManager.getIdentifier(googleOauthRequest.idToken());
+		return processGoogleLogin(identifier, name);
 	}
 
-	private LoginResponse processGoogleLogin(String socialLoginId, String name) {
-		LoginProcessResult loginProcessResult = loginManager.processSocialLogin(OauthType.GOOGLE, socialLoginId, name);
+	private LoginResponse processGoogleLogin(String identifier, String name) {
+		LoginProcessResult loginProcessResult = loginManager.processSocialLogin(OauthType.GOOGLE, identifier, name);
 		return new LoginResponse(loginProcessResult.accessToken());
 	}
 }

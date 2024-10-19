@@ -35,11 +35,11 @@ class LoginManagerTest {
 
 		// when
 		LoginProcessResult loginProcessResult = loginManager.processSocialLogin(OauthType.KAKAO,
-			member.getSocialLoginId(), member.getName());
+			member.getIdentifier(), member.getName());
 
 		// then
 		assertThat(loginProcessResult.accessToken()).isNotNull();
-		Optional<Member> foundMember = memberRepository.findByLoginDetail_SocialLoginId(member.getSocialLoginId());
+		Optional<Member> foundMember = memberRepository.findByLoginDetail_Identifier(member.getIdentifier());
 		assertThat(foundMember.isPresent()).isTrue();
 		assertThat(foundMember.get()).isEqualTo(member);
 	}

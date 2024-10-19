@@ -28,14 +28,14 @@ public class KakaoAuthService {
 	private final MemberFinder memberFinder;
 
 	public LoginResponse oauthLogin(OauthRequest oauthRequest) {
-		String kakaoId = oauthManager.getSocialLoginId(oauthRequest.code());
+		String kakaoId = oauthManager.getIdentifier(oauthRequest.code());
 		LoginProcessResult loginProcessResult = loginManager.processSocialLogin(OauthType.KAKAO, kakaoId, "name");
 
 		return new LoginResponse(loginProcessResult.accessToken());
 	}
 
 	public LoginResponse basicLoginAnna() {
-		Member member = memberFinder.findBySocialId("testSocialLoginId");
+		Member member = memberFinder.findByIdentifier("testIdentifier");
 		return new LoginResponse(accessTokenProvider.provide(member));
 	}
 

@@ -26,10 +26,10 @@ public class LoginManager {
 	private final MemberWriter memberWriter;
 	private final MemberFinder memberFinder;
 
-	public LoginProcessResult processSocialLogin(OauthType oauthType, String socialLoginId, String name) {
-		Optional<Member> member = memberRepository.findByLoginDetail_SocialLoginId(socialLoginId);
+	public LoginProcessResult processSocialLogin(OauthType oauthType, String identifier, String name) {
+		Optional<Member> member = memberRepository.findByLoginDetail_Identifier(identifier);
 		if (member.isEmpty()) {
-			return signup(oauthType, socialLoginId, name);
+			return signup(oauthType, identifier, name);
 		}
 		if (member.get().isDeleted()) {
 			member.get().reSignup();
@@ -39,17 +39,17 @@ public class LoginManager {
 		return new LoginProcessResult(accessTokenProvider.provide(member.get()));
 	}
 
-	private LoginProcessResult signup(OauthType oauthType, String socialLoginId, String name) {
+	private LoginProcessResult signup(OauthType oauthType, String identifier, String name) {
 		if (OauthType.KAKAO.equals(oauthType)) {
 			throw new AuthException(HttpStatus.BAD_REQUEST, AuthErrorMessage.KAKAO_CANNOT_SIGNUP);
 		}
-		Member member = memberWriter.append(new Member(name, new LoginDetail(oauthType, socialLoginId)));
+		Member member = memberWriter.append(new Member(name, new LoginDetail(oauthType, identifier)));
 		return new LoginProcessResult(accessTokenProvider.provide(member));
 	}
 
-	public String updateOauth(long memberId, OauthType oauthType, String socialLoginId) {
-		Member member = memberFinder.findBySocialId(socialLoginId);
-		memberWriter.updateLoginDetail(memberId, oauthType, socialLoginId);
+	public String updateOauth(long memberId, OauthType oauthType, String identifier) {
+		Member member = memberFinder.findByIdentifier(identifier);
+		memberWriter.updateLoginDetail(memberId, oauthType, identifier);
 
 		return accessTokenProvider.provide(member);
 	}

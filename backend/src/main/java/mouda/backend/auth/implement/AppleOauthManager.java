@@ -13,7 +13,7 @@ public class AppleOauthManager {
 
 	private static final String SUB_CLAIM_KEY = "sub";
 
-	public String getSocialLoginId(String idToken) {
+	public String getIdentifier(String idToken) {
 		Map<String, String> payload = TokenDecoder.parseIdToken(idToken);
 		return payload.get(SUB_CLAIM_KEY);
 	}

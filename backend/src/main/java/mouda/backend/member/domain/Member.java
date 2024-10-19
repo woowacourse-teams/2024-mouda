@@ -48,8 +48,8 @@ public class Member {
 		}
 	}
 
-	public String getSocialLoginId() {
-		return loginDetail.getSocialLoginId();
+	public String getIdentifier() {
+		return loginDetail.getIdentifier();
 	}
 
 	public OauthType getOauthType() {

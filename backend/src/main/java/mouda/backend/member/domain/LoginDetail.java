@@ -14,14 +14,14 @@ public class LoginDetail {
 	@Enumerated(EnumType.STRING)
 	private OauthType oauthType;
 
-	private String socialLoginId;
+	private String identifier;
 
 	protected LoginDetail() {
 	}
 
-	public LoginDetail(OauthType oauthType, String socialLoginId) {
+	public LoginDetail(OauthType oauthType, String identifier) {
 		this.oauthType = oauthType;
-		this.socialLoginId = socialLoginId;
+		this.identifier = identifier;
 	}
 
 	@Override
@@ -31,11 +31,11 @@ public class LoginDetail {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		LoginDetail that = (LoginDetail)o;
-		return oauthType == that.oauthType && Objects.equals(socialLoginId, that.socialLoginId);
+		return oauthType == that.oauthType && Objects.equals(identifier, that.identifier);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(oauthType, socialLoginId);
+		return Objects.hash(oauthType, identifier);
 	}
 }

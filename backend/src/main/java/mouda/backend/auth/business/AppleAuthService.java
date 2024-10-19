@@ -46,8 +46,8 @@ public class AppleAuthService {
 	}
 
 	public String login(String idToken) {
-		String socialLoginId = appleOauthManager.getSocialLoginId(idToken);
-		Member member = memberFinder.findBySocialId(socialLoginId);
+		String identifier = appleOauthManager.getIdentifier(idToken);
+		Member member = memberFinder.findByIdentifier(identifier);
 		reSignup(member);
 		return accessTokenProvider.provide(member);
 	}
@@ -70,8 +70,8 @@ public class AppleAuthService {
 	}
 
 	private void saveMember(String idToken, String firstName, String lastName) {
-		String socialLoginId = appleOauthManager.getSocialLoginId(idToken);
-		Member member = new Member(lastName + firstName, new LoginDetail(OauthType.APPLE, socialLoginId));
+		String identifier = appleOauthManager.getIdentifier(idToken);
+		Member member = new Member(lastName + firstName, new LoginDetail(OauthType.APPLE, identifier));
 		memberWriter.append(member);
 	}
 }

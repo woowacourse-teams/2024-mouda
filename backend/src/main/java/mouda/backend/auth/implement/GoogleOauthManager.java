@@ -39,7 +39,7 @@ public class GoogleOauthManager {
 		return familyName + givenName;
 	}
 
-	public String getSocialLoginId(String idToken) {
+	public String getIdentifier(String idToken) {
 		GoogleIdToken googleIdToken = getGoogleIdToken(idToken);
 		return googleIdToken.getPayload().getSubject();
 	}

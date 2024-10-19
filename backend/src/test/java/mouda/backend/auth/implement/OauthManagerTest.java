@@ -20,7 +20,7 @@ class OauthManagerTest {
 	void getUserInfo() {
 		String code = "";
 
-		String socialLoginId = oauthManager.getSocialLoginId(code);
-		assertThat(socialLoginId).isNotNull();
+		String identifier = oauthManager.getIdentifier(code);
+		assertThat(identifier).isNotNull();
 	}
 }

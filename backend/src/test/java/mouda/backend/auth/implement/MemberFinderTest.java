@@ -33,7 +33,7 @@ class MemberFinderTest {
 		Member member = memberFinder.findByMemberId(1L);
 
 		// then
-		assertThat(member.getSocialLoginId()).isEqualTo(tebah.getSocialLoginId());
+		assertThat(member.getIdentifier()).isEqualTo(tebah.getIdentifier());
 	}
 
 	@DisplayName("멤버가 존재하지 않으면 예외가 발생한다.")
