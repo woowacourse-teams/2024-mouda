@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class OauthManagerTest {
+class AppleUserInfoProviderTest {
 
 	@Autowired
-	private AppleOauthManager oauthManager;
+	private AppleUserInfoProvider userInfoProvider;
 
 	@DisplayName("Resource Server받아온 Identity Token으로 사용자 정보를 추출한다.")
 	@Test
@@ -20,7 +20,7 @@ class OauthManagerTest {
 	void getUserInfo() {
 		String code = "";
 
-		String identifier = oauthManager.getIdentifier(code);
+		String identifier = userInfoProvider.getIdentifier(code);
 		assertThat(identifier).isNotNull();
 	}
 }

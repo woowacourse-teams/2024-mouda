@@ -35,6 +35,11 @@ public class AppleAuthService {
 		return accessTokenProvider.provide(joinedMember);
 	}
 
+	private Member join(String identifier, String user) {
+		String name = userInfoProvider.getName(user);
+		return joinManager.join(name, OauthType.APPLE, identifier);
+	}
+
 	private String handleExistingUser(String identifier) {
 		Member member = memberFinder.getByIdentifier(identifier);
 		if (member != null) {
@@ -42,10 +47,5 @@ public class AppleAuthService {
 			return accessTokenProvider.provide(member);
 		}
 		throw new AuthException(HttpStatus.BAD_REQUEST, AuthErrorMessage.CANNOT_FIND_APPLE_MEMBER);
-	}
-
-	public Member join(String identifier, String user) {
-		String name = userInfoProvider.getName(user);
-		return joinManager.join(name, OauthType.APPLE, identifier);
 	}
 }
