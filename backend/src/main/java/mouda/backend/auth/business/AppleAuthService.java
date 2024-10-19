@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mouda.backend.auth.Infrastructure.AppleOauthClient;
 import mouda.backend.auth.exception.AuthErrorMessage;
 import mouda.backend.auth.exception.AuthException;
 import mouda.backend.auth.implement.AppleOauthManager;
@@ -19,20 +18,17 @@ import mouda.backend.member.domain.Member;
 import mouda.backend.member.domain.OauthType;
 import mouda.backend.member.implement.MemberFinder;
 import mouda.backend.member.implement.MemberWriter;
-import mouda.backend.member.infrastructure.MemberRepository;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class AppleAuthService {
 
-	private final MemberRepository memberRepository;
 	private final MemberFinder memberFinder;
 	private final MemberWriter memberWriter;
 	private final AppleOauthManager appleOauthManager;
 	private final AccessTokenProvider accessTokenProvider;
 	private final ObjectMapper objectMapper;
-	private final AppleOauthClient appleOauthClient;
 
 	// TODO: 더 이상 사용하지 않는 로직. 로그인 프로세스 정착 후 제거할 것
 	// public LoginResponse oauthLogin(AppleOauthRequest oauthRequest) {
@@ -43,7 +39,7 @@ public class AppleAuthService {
 	// 	return new LoginResponse(accessToken);
 	// }
 	// LoginProcessResult result = loginManager.processAppleLogin(member);
-	// return new LoginResponse(result.accessToken());ap
+	// return new LoginResponse(result.accessToken());
 	// }
 
 	public String login(String idToken) {
