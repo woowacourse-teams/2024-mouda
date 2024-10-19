@@ -19,20 +19,16 @@ public class TestAuthController implements TestAuthSwagger {
 
 	private final KakaoAuthService kakaoAuthService;
 
-	@Override
 	@PostMapping("/login/anna")
 	@ExceptRequestLogging
-	@Profile(value = {"local", "dev"})
 	public ResponseEntity<RestResponse<LoginResponse>> loginBasicOauthAnna() {
 		LoginResponse response = kakaoAuthService.basicLoginAnna();
 
 		return ResponseEntity.ok().body(new RestResponse<>(response));
 	}
 
-	@Override
 	@PostMapping("/login/hogee")
 	@ExceptRequestLogging
-	@Profile(value = {"local", "dev"})
 	public ResponseEntity<RestResponse<LoginResponse>> loginBasicOauthHogee() {
 		LoginResponse response = kakaoAuthService.basicLoginHogee();
 
