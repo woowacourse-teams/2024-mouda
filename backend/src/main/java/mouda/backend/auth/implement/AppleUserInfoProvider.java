@@ -6,12 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.auth.exception.AuthErrorMessage;
 import mouda.backend.auth.exception.AuthException;
-import mouda.backend.auth.presentation.request.AppleUserInfoRequest;
 import mouda.backend.auth.util.TokenDecoder;
 
 @Component
@@ -29,9 +29,9 @@ public class AppleUserInfoProvider {
 
 	public String getName(String user) {
 		try {
-			AppleUserInfoRequest request = objectMapper.readValue(user, AppleUserInfoRequest.class);
-			String firstName = request.name().firstName();
-			String lastName = request.name().lastName();
+			JsonNode node = objectMapper.readTree(user);
+			String firstName = node.path("name").path("firstName").asText();
+			String lastName = node.path("name").path("lastName").asText();
 			return firstName + lastName;
 		} catch (JsonProcessingException exception) {
 			throw new AuthException(HttpStatus.BAD_REQUEST, AuthErrorMessage.APPLE_USER_BAD_REQUEST);
