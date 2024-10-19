@@ -60,6 +60,14 @@ public class Member {
 		this.memberStatus = MemberStatus.DELETED;
 	}
 
+	public boolean isDeleted() {
+		return MemberStatus.DELETED.equals(this.memberStatus);
+	}
+
+	public void resignup() {
+		this.memberStatus = MemberStatus.ACTIVE;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
