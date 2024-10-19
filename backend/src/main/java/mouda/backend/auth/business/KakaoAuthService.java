@@ -5,9 +5,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.auth.business.result.LoginProcessResult;
-import mouda.backend.auth.implement.KakaoOauthManager;
-import mouda.backend.auth.implement.LoginManager;
+import mouda.backend.auth.implement.KakaoUserInfoProvider;
 import mouda.backend.auth.implement.jwt.AccessTokenProvider;
 import mouda.backend.auth.presentation.request.KakaoLoginRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
@@ -22,16 +20,14 @@ import mouda.backend.member.implement.MemberWriter;
 public class KakaoAuthService {
 
 	private final AccessTokenProvider accessTokenProvider;
-	private final KakaoOauthManager oauthManager;
-	private final LoginManager loginManager;
+	private final KakaoUserInfoProvider userInfoProvider;
 	private final MemberWriter memberWriter;
 	private final MemberFinder memberFinder;
 
-	public LoginResponse oauthLogin(KakaoLoginRequest kakaoLoginRequest) {
-		String kakaoId = oauthManager.getIdentifier(kakaoLoginRequest.code());
-		LoginProcessResult loginProcessResult = loginManager.processSocialLogin(OauthType.KAKAO, kakaoId, "name");
-
-		return new LoginResponse(loginProcessResult.accessToken());
+	public LoginResponse convert(KakaoLoginRequest kakaoLoginRequest) {
+		String identifier = userInfoProvider.getIdentifier(kakaoLoginRequest.code());
+		Member member = memberFinder.getByIdentifier(identifier);
+		return new LoginResponse(accessTokenProvider.provide(member));
 	}
 
 	public LoginResponse basicLoginAnna() {

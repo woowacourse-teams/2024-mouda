@@ -29,15 +29,15 @@ public class AuthController implements AuthSwagger {
 	private final AppleAuthService appleAuthService;
 
 	@PostMapping("/kakao")
-	public ResponseEntity<RestResponse<LoginResponse>> loginKakaoOauth(
+	public ResponseEntity<RestResponse<LoginResponse>> loginKakao(
 		@RequestBody KakaoLoginRequest kakaoLoginRequest) {
-		LoginResponse response = kakaoAuthService.oauthLogin(kakaoLoginRequest);
+		LoginResponse response = kakaoAuthService.convert(kakaoLoginRequest);
 
 		return ResponseEntity.ok().body(new RestResponse<>(response));
 	}
 
 	@PostMapping("/google")
-	public ResponseEntity<RestResponse<LoginResponse>> loginGoogleOauth(
+	public ResponseEntity<RestResponse<LoginResponse>> loginGoogle(
 		@RequestBody GoogleLoginRequest googleLoginRequest) {
 		LoginResponse response = googleAuthService.login(googleLoginRequest);
 
@@ -45,7 +45,7 @@ public class AuthController implements AuthSwagger {
 	}
 
 	@PostMapping("/apple")
-	public ResponseEntity<Void> loginAppleOauth(
+	public ResponseEntity<Void> loginApple(
 		@RequestParam("id_token") String id_token,
 		@RequestParam(name = "user", required = false) String user
 	) {
