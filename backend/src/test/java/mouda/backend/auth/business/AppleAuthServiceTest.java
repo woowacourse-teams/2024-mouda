@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import mouda.backend.auth.implement.AppleOauthManager;
 import mouda.backend.member.implement.MemberFinder;
 import mouda.backend.member.infrastructure.MemberRepository;
 

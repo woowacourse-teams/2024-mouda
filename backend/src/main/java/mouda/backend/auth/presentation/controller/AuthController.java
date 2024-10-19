@@ -39,7 +39,7 @@ public class AuthController implements AuthSwagger {
 	@PostMapping("/google")
 	public ResponseEntity<RestResponse<LoginResponse>> loginGoogleOauth(
 		@RequestBody GoogleLoginRequest googleLoginRequest) {
-		LoginResponse response = googleAuthService.oauthLogin(googleLoginRequest);
+		LoginResponse response = googleAuthService.login(googleLoginRequest);
 
 		return ResponseEntity.ok().body(new RestResponse<>(response));
 	}
@@ -49,11 +49,7 @@ public class AuthController implements AuthSwagger {
 		@RequestParam("id_token") String id_token,
 		@RequestParam(name = "user", required = false) String user
 	) {
-		// TODO: 이전에 가입한 적 있지만 DB를 갈아엎어서 user가 들어오지 않는 경우 save에 실패한다.
-		if (user != null) {
-			appleAuthService.save(id_token, user);
-		}
-		String accessToken = appleAuthService.login(id_token);
+		String accessToken = appleAuthService.login(id_token, user);
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.add("Location", "https://dev.mouda.site/oauth/apple?token=" + accessToken);
 		return new ResponseEntity<>(httpHeaders, HttpStatus.FOUND);

@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import mouda.backend.auth.implement.GoogleOauthManager;
+import mouda.backend.auth.implement.GoogleUserInfoProvider;
 import mouda.backend.auth.presentation.request.GoogleLoginRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
 import mouda.backend.common.fixture.MemberFixture;
@@ -30,7 +30,7 @@ class GoogleAuthServiceTest {
 	private MemberRepository memberRepository;
 
 	@MockBean
-	private GoogleOauthManager googleOauthManager;
+	private GoogleUserInfoProvider googleUserInfoProvider;
 
 	@DisplayName("회원 탈퇴한 사용자가 재가입하는 경우 상태 정보를 변경한다.")
 	@Test
@@ -40,11 +40,11 @@ class GoogleAuthServiceTest {
 		anna.withdraw();
 		memberRepository.save(anna);
 
-		when(googleOauthManager.getMemberName(anyString())).thenReturn("anna");
-		when(googleOauthManager.getIdentifier(anyString())).thenReturn(anna.getIdentifier());
+		when(googleUserInfoProvider.getName(anyString())).thenReturn("anna");
+		when(googleUserInfoProvider.getIdentifier(anyString())).thenReturn(anna.getIdentifier());
 
 		// when
-		LoginResponse loginResponse = googleAuthService.oauthLogin(new GoogleLoginRequest("IdToken"));
+		LoginResponse loginResponse = googleAuthService.login(new GoogleLoginRequest("IdToken"));
 
 		// then
 		assertThat(loginResponse.accessToken()).isNotNull();
