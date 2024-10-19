@@ -14,8 +14,8 @@ import mouda.backend.auth.business.AppleAuthService;
 import mouda.backend.auth.business.GoogleAuthService;
 import mouda.backend.auth.business.KakaoAuthService;
 import mouda.backend.auth.presentation.controller.swagger.AuthSwagger;
-import mouda.backend.auth.presentation.request.GoogleOauthRequest;
-import mouda.backend.auth.presentation.request.OauthRequest;
+import mouda.backend.auth.presentation.request.GoogleLoginRequest;
+import mouda.backend.auth.presentation.request.KakaoLoginRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
 import mouda.backend.common.response.RestResponse;
 
@@ -29,16 +29,17 @@ public class AuthController implements AuthSwagger {
 	private final AppleAuthService appleAuthService;
 
 	@PostMapping("/kakao")
-	public ResponseEntity<RestResponse<LoginResponse>> loginKakaoOauth(@RequestBody OauthRequest oauthRequest) {
-		LoginResponse response = kakaoAuthService.oauthLogin(oauthRequest);
+	public ResponseEntity<RestResponse<LoginResponse>> loginKakaoOauth(
+		@RequestBody KakaoLoginRequest kakaoLoginRequest) {
+		LoginResponse response = kakaoAuthService.oauthLogin(kakaoLoginRequest);
 
 		return ResponseEntity.ok().body(new RestResponse<>(response));
 	}
 
 	@PostMapping("/google")
 	public ResponseEntity<RestResponse<LoginResponse>> loginGoogleOauth(
-		@RequestBody GoogleOauthRequest googleOauthRequest) {
-		LoginResponse response = googleAuthService.oauthLogin(googleOauthRequest);
+		@RequestBody GoogleLoginRequest googleLoginRequest) {
+		LoginResponse response = googleAuthService.oauthLogin(googleLoginRequest);
 
 		return ResponseEntity.ok().body(new RestResponse<>(response));
 	}

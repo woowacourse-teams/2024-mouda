@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import mouda.backend.auth.implement.GoogleOauthManager;
-import mouda.backend.auth.presentation.request.GoogleOauthRequest;
+import mouda.backend.auth.presentation.request.GoogleLoginRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
 import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.member.domain.Member;
@@ -44,7 +44,7 @@ class GoogleAuthServiceTest {
 		when(googleOauthManager.getIdentifier(anyString())).thenReturn(anna.getIdentifier());
 
 		// when
-		LoginResponse loginResponse = googleAuthService.oauthLogin(new GoogleOauthRequest("IdToken"));
+		LoginResponse loginResponse = googleAuthService.oauthLogin(new GoogleLoginRequest("IdToken"));
 
 		// then
 		assertThat(loginResponse.accessToken()).isNotNull();
