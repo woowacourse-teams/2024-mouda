@@ -24,8 +24,8 @@ public class GoogleAuthService {
 	private final MemberWriter memberWriter;
 
 	public LoginResponse login(GoogleLoginRequest request) {
-		String name = userInfoProvider.getName(request.identityToken());
-		String identifier = userInfoProvider.getIdentifier(request.identityToken());
+		String name = userInfoProvider.getName(request.idToken());
+		String identifier = userInfoProvider.getIdentifier(request.idToken());
 
 		Member member = memberFinder.getByIdentifier(identifier);
 		if (member != null) {
