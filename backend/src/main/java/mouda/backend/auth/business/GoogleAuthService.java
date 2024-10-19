@@ -23,11 +23,6 @@ public class GoogleAuthService {
 		return processGoogleLogin(socialLoginId, name);
 	}
 
-	private LoginResponse transferKakao(GoogleOauthRequest googleOauthRequest, String socialLoginId) {
-		String accessToken = loginManager.updateOauth(1L, OauthType.GOOGLE, socialLoginId);
-		return new LoginResponse(accessToken);
-	}
-
 	private LoginResponse processGoogleLogin(String socialLoginId, String name) {
 		LoginProcessResult loginProcessResult = loginManager.processSocialLogin(OauthType.GOOGLE, socialLoginId, name);
 		return new LoginResponse(loginProcessResult.accessToken());

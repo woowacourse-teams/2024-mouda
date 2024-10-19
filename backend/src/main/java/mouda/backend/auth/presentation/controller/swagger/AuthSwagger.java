@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import mouda.backend.auth.presentation.request.AppleOauthRequest;
 import mouda.backend.auth.presentation.request.GoogleOauthRequest;
 import mouda.backend.auth.presentation.request.OauthRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
@@ -21,23 +22,11 @@ public interface AuthSwagger {
 	})
 	ResponseEntity<RestResponse<LoginResponse>> loginKakaoOauth(@RequestBody OauthRequest oauthRequest);
 
-	@Operation(summary = "테스트 용 로그인(안나)", description = "테스트 용 가짜 사용자로 로그인한다(accessToken 발급).")
+	@Operation(summary = "애플 로그인", description = "애플 Oauth Code를 사용하여 로그인한다(accessToken 발급).")
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "로그인 성공!"),
 	})
-	ResponseEntity<RestResponse<LoginResponse>> loginBasicOauthAnna();
-
-	@Operation(summary = "테스트 용 로그인(호기)", description = "테스트 용 가짜 사용자로 로그인한다(accessToken 발급).")
-	@ApiResponses({
-		@ApiResponse(responseCode = "200", description = "로그인 성공!"),
-	})
-	ResponseEntity<RestResponse<LoginResponse>> loginBasicOauthHogee();
-
-	// @Operation(summary = "애플 로그인", description = "애플 Oauth Code를 사용하여 로그인한다(accessToken 발급).")
-	// @ApiResponses({
-	// 	@ApiResponse(responseCode = "200", description = "로그인 성공!"),
-	// })
-	// ResponseEntity<RestResponse<LoginResponse>> loginAppleOauth(@RequestBody AppleOauthRequest oauthRequest);
+	ResponseEntity<RestResponse<LoginResponse>> loginAppleOauth(@RequestBody AppleOauthRequest oauthRequest);
 
 	@Operation(summary = "구글 oauth 로그인", description = "구글 Oauth Code 를 사용하여 로그인한다(accessToken 발급).")
 	@ApiResponses({
