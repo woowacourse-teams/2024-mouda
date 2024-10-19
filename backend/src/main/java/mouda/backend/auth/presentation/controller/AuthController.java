@@ -17,7 +17,6 @@ import mouda.backend.auth.presentation.business.CommonAuthService;
 import mouda.backend.auth.presentation.controller.swagger.AuthSwagger;
 import mouda.backend.auth.presentation.request.GoogleOauthRequest;
 import mouda.backend.auth.presentation.request.OauthRequest;
-import mouda.backend.auth.presentation.response.KakaoLoginResponse;
 import mouda.backend.auth.presentation.response.LoginResponse;
 import mouda.backend.common.config.argumentresolver.LoginMember;
 import mouda.backend.common.response.RestResponse;
@@ -35,8 +34,8 @@ public class AuthController implements AuthSwagger {
 
 	@Override
 	@PostMapping("/kakao/oauth")
-	public ResponseEntity<RestResponse<KakaoLoginResponse>> loginKakaoOauth(@RequestBody OauthRequest oauthRequest) {
-		KakaoLoginResponse response = kakaoAuthService.oauthLogin(oauthRequest);
+	public ResponseEntity<RestResponse<LoginResponse>> loginKakaoOauth(@RequestBody OauthRequest oauthRequest) {
+		LoginResponse response = kakaoAuthService.oauthLogin(oauthRequest);
 
 		return ResponseEntity.ok().body(new RestResponse<>(response));
 	}

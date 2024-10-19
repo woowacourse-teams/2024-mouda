@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,11 +31,15 @@ public class Member {
 	@Embedded
 	private LoginDetail loginDetail;
 
+	@Enumerated(EnumType.STRING)
+	private MemberStatus memberStatus;
+
 	@Builder
 	public Member(String name, LoginDetail loginDetail) {
 		this.loginDetail = loginDetail;
 		validateName(name);
 		this.name = name;
+		this.memberStatus = MemberStatus.ACTIVE;
 	}
 
 	private void validateName(String name) {
@@ -50,8 +56,16 @@ public class Member {
 		return loginDetail.getOauthType();
 	}
 
-	public String getRefreshToken() {
-		return loginDetail.getRefreshToken();
+	public void withdraw() {
+		this.memberStatus = MemberStatus.DELETED;
+	}
+
+	public boolean isDeleted() {
+		return MemberStatus.DELETED.equals(this.memberStatus);
+	}
+
+	public void reSignup() {
+		this.memberStatus = MemberStatus.ACTIVE;
 	}
 
 	@Override

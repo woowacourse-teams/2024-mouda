@@ -2,6 +2,8 @@ package mouda.backend.auth.implement;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,17 +38,19 @@ class MemberWriterTest {
 		assertThat(memberRepository.findAll()).hasSize(1);
 	}
 
-	@DisplayName("멤버를 삭제한다.")
+	@DisplayName("회원을 삭제 시 상태가 변경된다.")
 	@Test
-	void remove() {
+	void withdraw() {
 		// given
 		Member tebah = MemberFixture.getTebah();
 		memberWriter.append(tebah);
 
 		// when
-		memberWriter.remove(tebah);
+		memberWriter.withdraw(tebah);
 
 		// then
-		assertThat(memberRepository.findAll()).hasSize(0);
+		List<Member> members = memberRepository.findAll();
+		assertThat(members).hasSize(1);
+		assertThat(members.get(0)).isEqualTo(tebah);
 	}
 }

@@ -16,20 +16,12 @@ public class LoginDetail {
 
 	private String socialLoginId;
 
-	private String refreshToken;
-
 	protected LoginDetail() {
 	}
 
 	public LoginDetail(OauthType oauthType, String socialLoginId) {
 		this.oauthType = oauthType;
 		this.socialLoginId = socialLoginId;
-	}
-
-	public LoginDetail(OauthType oauthType, String socialLoginId, String refreshToken) {
-		this.oauthType = oauthType;
-		this.socialLoginId = socialLoginId;
-		this.refreshToken = refreshToken;
 	}
 
 	@Override
