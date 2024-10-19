@@ -34,7 +34,7 @@ oauth:
     client-secret: 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
     redirect-uri: https://mouda.site/oauth/google
   apple:
-    redirect-uri: https://mouda.site/v1/oauth/apple
+    redirect-uri: https://mouda.site/v1/auth/apple
 
 aws:
   region:
