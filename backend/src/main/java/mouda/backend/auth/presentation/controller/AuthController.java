@@ -15,9 +15,11 @@ import mouda.backend.auth.business.GoogleAuthService;
 import mouda.backend.auth.business.KakaoAuthService;
 import mouda.backend.auth.presentation.controller.swagger.AuthSwagger;
 import mouda.backend.auth.presentation.request.GoogleLoginRequest;
-import mouda.backend.auth.presentation.request.KakaoLoginRequest;
+import mouda.backend.auth.presentation.request.KakaoConvertRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
+import mouda.backend.common.config.argumentresolver.LoginMember;
 import mouda.backend.common.response.RestResponse;
+import mouda.backend.member.domain.Member;
 
 @RestController
 @RequestMapping("/v1/auth")
@@ -29,16 +31,19 @@ public class AuthController implements AuthSwagger {
 	private final AppleAuthService appleAuthService;
 
 	@PostMapping("/kakao")
-	public ResponseEntity<RestResponse<LoginResponse>> loginKakao(
-		@RequestBody KakaoLoginRequest kakaoLoginRequest) {
-		LoginResponse response = kakaoAuthService.convert(kakaoLoginRequest);
+	public ResponseEntity<Void> convert(
+		@LoginMember Member member,
+		@RequestBody KakaoConvertRequest kakaoConvertRequest
+	) {
+		kakaoAuthService.convert(member, kakaoConvertRequest);
 
-		return ResponseEntity.ok().body(new RestResponse<>(response));
+		return ResponseEntity.ok().build();
 	}
 
 	@PostMapping("/google")
 	public ResponseEntity<RestResponse<LoginResponse>> loginGoogle(
-		@RequestBody GoogleLoginRequest googleLoginRequest) {
+		@RequestBody GoogleLoginRequest googleLoginRequest
+	) {
 		LoginResponse response = googleAuthService.login(googleLoginRequest);
 
 		return ResponseEntity.ok().body(new RestResponse<>(response));

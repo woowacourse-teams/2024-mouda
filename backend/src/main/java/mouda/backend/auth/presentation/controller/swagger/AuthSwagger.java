@@ -7,9 +7,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import mouda.backend.auth.presentation.request.GoogleLoginRequest;
-import mouda.backend.auth.presentation.request.KakaoLoginRequest;
+import mouda.backend.auth.presentation.request.KakaoConvertRequest;
 import mouda.backend.auth.presentation.response.LoginResponse;
+import mouda.backend.common.config.argumentresolver.LoginMember;
 import mouda.backend.common.response.RestResponse;
+import mouda.backend.member.domain.Member;
 
 public interface AuthSwagger {
 
@@ -17,7 +19,9 @@ public interface AuthSwagger {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "로그인 성공!"),
 	})
-	ResponseEntity<RestResponse<LoginResponse>> loginKakao(@RequestBody KakaoLoginRequest kakaoLoginRequest);
+	ResponseEntity<Void> convert(
+		@LoginMember Member member,
+		@RequestBody KakaoConvertRequest kakaoConvertRequest);
 
 	@Operation(summary = "구글 oauth 로그인", description = "구글 Oauth Identity Token 를 사용하여 로그인한다(accessToken 발급).")
 	@ApiResponses({
