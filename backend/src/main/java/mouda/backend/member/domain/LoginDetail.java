@@ -2,7 +2,6 @@ package mouda.backend.member.domain;
 
 import java.util.Objects;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -15,7 +14,6 @@ public class LoginDetail {
 	@Enumerated(EnumType.STRING)
 	private OauthType oauthType;
 
-	@Column(unique = true)
 	private String identifier;
 
 	protected LoginDetail() {

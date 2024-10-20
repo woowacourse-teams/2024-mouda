@@ -27,6 +27,13 @@ public class MemberFixture {
 			.build();
 	}
 
+	public static Member getAnna(OauthType oauthType, String identifier) {
+		return Member.builder()
+			.name("anna")
+			.loginDetail(new LoginDetail(oauthType, identifier))
+			.build();
+	}
+
 	public static Member getChico() {
 		return Member.builder()
 			.name("chico")
