@@ -13,6 +13,8 @@ import mouda.backend.darakbang.exception.DarakbangException;
 import mouda.backend.darakbang.infrastructure.DarakbangRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Moim;
+import mouda.backend.moim.exception.MoimErrorMessage;
+import mouda.backend.moim.exception.MoimException;
 import mouda.backend.moim.implement.finder.MoimRecipientFinder;
 import mouda.backend.notification.domain.NotificationEvent;
 import mouda.backend.notification.domain.NotificationType;
@@ -61,7 +63,7 @@ public class MoimNotificationSender extends AbstractMoimNotificationSender {
 	private void createEventAndPublish(NotificationType notificationType, Moim moim, String message,
 		List<Recipient> recipients) {
 		Darakbang darakbang = darakbangRepository.findById(moim.getDarakbangId())
-			.orElseThrow(() -> new DarakbangException(HttpStatus.NOT_FOUND, DarakbangErrorMessage.DARAKBANG_NOT_FOUND));
+			.orElseThrow(() -> new MoimException(HttpStatus.NOT_FOUND, MoimErrorMessage.DARAKBANG_NOT_FOUND));
 
 		NotificationEvent notificationEvent = NotificationEvent.nonChatEvent(
 			notificationType,
