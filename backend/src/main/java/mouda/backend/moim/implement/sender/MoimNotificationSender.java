@@ -69,7 +69,7 @@ public class MoimNotificationSender extends AbstractMoimNotificationSender {
 			notificationType,
 			darakbang.getName(),
 			message,
-			getMoimUrl(darakbang.getId(), darakbang.getId()),
+			getMoimUrl(darakbang.getId(), moim.getId()),
 			recipients
 		);
 		eventPublisher.publishEvent(notificationEvent);
