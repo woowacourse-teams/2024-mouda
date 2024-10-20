@@ -36,7 +36,11 @@ class ChatRoomSubscriptionFilterTest extends DarakbangSetUp {
 			"모임 제목",
 			"메시지",
 			"url",
-			List.of(new Recipient(hogee.getId(), darakbangHogee.getId())),
+			List.of(Recipient.builder()
+				.memberId(hogee.getId())
+				.darakbangMemberId(darakbangHogee.getId())
+				.build()
+			),
 			darakbang.getId(),
 			1L
 		);
@@ -59,7 +63,11 @@ class ChatRoomSubscriptionFilterTest extends DarakbangSetUp {
 			"모임 제목",
 			"메시지",
 			"url",
-			List.of(new Recipient(darakbangHogee.getMemberId(), darakbangHogee.getId())),
+			List.of(Recipient.builder()
+				.memberId(darakbangHogee.getMemberId())
+				.darakbangMemberId(darakbangHogee.getId())
+				.build()
+			),
 			darakbang.getId(),
 			1L
 		);
@@ -78,7 +86,11 @@ class ChatRoomSubscriptionFilterTest extends DarakbangSetUp {
 			"모임 제목",
 			"메시지",
 			"url",
-			List.of(new Recipient(darakbangHogee.getMemberId(), darakbangHogee.getId())),
+			List.of(Recipient.builder()
+				.memberId(darakbangHogee.getMemberId())
+				.darakbangMemberId(darakbangHogee.getId())
+				.build()
+			),
 			darakbang.getId(),
 			1L
 		);

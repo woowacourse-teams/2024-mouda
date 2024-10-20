@@ -1,15 +1,14 @@
 package mouda.backend.notification.domain;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
+@Builder
 public class Recipient {
 
-	private long memberId;
-	private long darakbangMemberId;
-
-	public Recipient(long memberId, long darakbangMemberId) {
-		this.memberId = memberId;
-		this.darakbangMemberId = darakbangMemberId;
-	}
+	private final long memberId;
+	private final long darakbangMemberId;
 }

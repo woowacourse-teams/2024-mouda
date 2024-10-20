@@ -42,7 +42,10 @@ public class ChatRecipientFinder {
 	public List<Recipient> getNotificationRecipients(Stream<DarakbangMember> memberStream, Author author) {
 		return memberStream
 			.filter(darakbangMember -> author.isNotSameMember(darakbangMember.getId(), darakbangMember.getMemberId()))
-			.map(darakbangMember -> new Recipient(darakbangMember.getMemberId(), darakbangMember.getId()))
+			.map(darakbangMember -> Recipient.builder()
+				.memberId(darakbangMember.getMemberId())
+				.darakbangMemberId(darakbangMember.getId())
+				.build())
 			.toList();
 	}
 
@@ -60,7 +63,10 @@ public class ChatRecipientFinder {
 	public List<Recipient> getNotificationRecipients(Stream<DarakbangMember> memberStream, DarakbangMember sender) {
 		return memberStream
 			.filter(darakbangMember -> darakbangMember.isNotSameMemberWith(sender))
-			.map(darakbangMember -> new Recipient(darakbangMember.getMemberId(), darakbangMember.getId()))
+			.map(darakbangMember -> Recipient.builder()
+				.memberId(darakbangMember.getMemberId())
+				.darakbangMemberId(darakbangMember.getId())
+				.build())
 			.toList();
 	}
 }
