@@ -43,7 +43,7 @@ export default function DescriptionStep(props: DescriptionStepProps) {
         />
       </FunnelLayout.Main>
 
-      <FunnelLayout.Footer>
+      <FunnelLayout.Footer isResize={false}>
         <FunnelButton disabled={!isValid} onClick={onButtonClick}>
           모임 만들기 완료!
         </FunnelButton>
