@@ -1,9 +1,8 @@
 package mouda.backend.chat.util;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalTime;
 
 import org.springframework.http.HttpStatus;
 
@@ -17,7 +16,9 @@ import mouda.backend.chat.exception.ChatException;
 @NoArgsConstructor(access = lombok.AccessLevel.PRIVATE)
 public class ChatDateTimeFormatter {
 
-	private static final String DEFAULT_DATETIME_FORMAT = "yyyy-MM-dd HH:mm";
+	private static final String DATETIME_DELIMITER = " ";
+	private static final int DATE_PART = 0;
+	private static final int TIME_PART = 1;
 
 	public static String formatDateTime(String dateTime) {
 		LocalDateTime localDateTime = parseDateTime(dateTime);
@@ -38,9 +39,12 @@ public class ChatDateTimeFormatter {
 
 	private static LocalDateTime parseDateTime(String dateTime) {
 		try {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DEFAULT_DATETIME_FORMAT);
-			return LocalDateTime.parse(dateTime, formatter);
-		} catch (DateTimeException e) {
+			String[] dateTimeParts = dateTime.split(DATETIME_DELIMITER);
+			LocalDate date = LocalDate.parse(dateTimeParts[DATE_PART]);
+			LocalTime time = LocalTime.parse(dateTimeParts[TIME_PART]);
+
+			return LocalDateTime.of(date, time);
+		} catch (Exception e) {
 			throw new ChatException(HttpStatus.BAD_REQUEST, ChatErrorMessage.INVALID_DATE_TIME_FORMAT);
 		}
 	}
