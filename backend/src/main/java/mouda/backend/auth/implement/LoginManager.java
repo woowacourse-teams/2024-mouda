@@ -28,30 +28,23 @@ public class LoginManager {
 
 	public LoginProcessResult processSocialLogin(OauthType oauthType, String socialLoginId, String name) {
 		Optional<Member> member = memberRepository.findByLoginDetail_SocialLoginId(socialLoginId);
-
-		return member.map(value -> {
-				memberWriter.updateName(value.getId(), name);
-				return new LoginProcessResult(value.getId(), accessTokenProvider.provide(value));
-			})
-			.orElseGet(() -> processKakaoLogin(oauthType, socialLoginId, name));
-
+		if (member.isEmpty()) {
+			return signup(oauthType, socialLoginId, name);
+		}
+		if (member.get().isDeleted()) {
+			member.get().reSignup();
+			memberRepository.save(member.get());
+		}
+		memberWriter.updateName(member.get().getId(), name);
+		return new LoginProcessResult(accessTokenProvider.provide(member.get()));
 	}
 
-	private LoginProcessResult processKakaoLogin(OauthType oauthType, String socialLoginId, String name) {
-		if (oauthType == OauthType.KAKAO) {
+	private LoginProcessResult signup(OauthType oauthType, String socialLoginId, String name) {
+		if (OauthType.KAKAO.equals(oauthType)) {
 			throw new AuthException(HttpStatus.BAD_REQUEST, AuthErrorMessage.KAKAO_CANNOT_SIGNUP);
 		}
-		Member newMember = Member.builder()
-			.name(name)
-			.loginDetail(new LoginDetail(oauthType, socialLoginId))
-			.build();
-		memberWriter.append(newMember);
-
-		return new LoginProcessResult(newMember.getId(), accessTokenProvider.provide(newMember));
-	}
-
-	public LoginProcessResult processAppleLogin(Member member) {
-		return new LoginProcessResult(member.getId(), accessTokenProvider.provide(member));
+		Member member = memberWriter.append(new Member(name, new LoginDetail(oauthType, socialLoginId)));
+		return new LoginProcessResult(accessTokenProvider.provide(member));
 	}
 
 	public String updateOauth(long memberId, OauthType oauthType, String socialLoginId) {

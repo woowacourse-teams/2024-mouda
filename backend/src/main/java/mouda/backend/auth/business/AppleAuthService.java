@@ -8,11 +8,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mouda.backend.auth.Infrastructure.AppleOauthClient;
 import mouda.backend.auth.exception.AuthErrorMessage;
 import mouda.backend.auth.exception.AuthException;
 import mouda.backend.auth.implement.AppleOauthManager;
-import mouda.backend.auth.implement.LoginManager;
 import mouda.backend.auth.implement.jwt.AccessTokenProvider;
 import mouda.backend.auth.presentation.controller.AppleUserInfoRequest;
 import mouda.backend.member.domain.LoginDetail;
@@ -26,13 +24,11 @@ import mouda.backend.member.implement.MemberWriter;
 @RequiredArgsConstructor
 public class AppleAuthService {
 
-	private final LoginManager loginManager;
 	private final MemberFinder memberFinder;
 	private final MemberWriter memberWriter;
 	private final AppleOauthManager appleOauthManager;
 	private final AccessTokenProvider accessTokenProvider;
 	private final ObjectMapper objectMapper;
-	private final AppleOauthClient appleOauthClient;
 
 	// TODO: 더 이상 사용하지 않는 로직. 로그인 프로세스 정착 후 제거할 것
 	// public LoginResponse oauthLogin(AppleOauthRequest oauthRequest) {
@@ -43,30 +39,36 @@ public class AppleAuthService {
 	// 	return new LoginResponse(accessToken);
 	// }
 	// LoginProcessResult result = loginManager.processAppleLogin(member);
-	// return new LoginResponse(result.accessToken());ap
+	// return new LoginResponse(result.accessToken());
 	// }
 
-	public String getAccessToken(String idToken) {
+	public String login(String idToken) {
 		String socialLoginId = appleOauthManager.getSocialLoginId(idToken);
 		Member member = memberFinder.findBySocialId(socialLoginId);
+		reSignup(member);
 		return accessTokenProvider.provide(member);
 	}
 
-	public void save(String code, String idToken, String user) {
-		String refreshToken = appleOauthClient.getRefreshToken(code);
+	private void reSignup(Member member) {
+		if (member.isDeleted()) {
+			member.reSignup();
+		}
+	}
+
+	public void save(String idToken, String user) {
 		try {
 			AppleUserInfoRequest request = objectMapper.readValue(user, AppleUserInfoRequest.class);
 			String firstName = request.name().firstName();
 			String lastName = request.name().lastName();
-			saveMember(refreshToken, idToken, firstName, lastName);
+			saveMember(idToken, firstName, lastName);
 		} catch (JsonProcessingException exception) {
 			throw new AuthException(HttpStatus.BAD_REQUEST, AuthErrorMessage.APPLE_USER_BAD_REQUEST);
 		}
 	}
 
-	private void saveMember(String refreshToken, String idToken, String firstName, String lastName) {
+	private void saveMember(String idToken, String firstName, String lastName) {
 		String socialLoginId = appleOauthManager.getSocialLoginId(idToken);
-		Member member = new Member(lastName + firstName, new LoginDetail(OauthType.APPLE, socialLoginId, refreshToken));
+		Member member = new Member(lastName + firstName, new LoginDetail(OauthType.APPLE, socialLoginId));
 		memberWriter.append(member);
 	}
 }

@@ -10,10 +10,12 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import mouda.backend.auth.Infrastructure.response.AppleRefreshTokenResponse;
 import mouda.backend.auth.implement.jwt.ClientSecretProvider;
 import mouda.backend.auth.presentation.response.OauthResponse;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class AppleOauthClient implements OauthClient {
@@ -55,19 +57,23 @@ public class AppleOauthClient implements OauthClient {
 		return response.refresh_token();
 	}
 
-	public void revoke(String refreshToken) {
-		String revokeUrl = APPLE_API_URL + "/oauth2/v2/revoke";
-		MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-		formData.add("client_id", CLIENT_ID);
-		formData.add("client_secret", clientSecretProvider.provide());
-		formData.add("token", refreshToken);
-		formData.add("token_hint_type", "refresh_token");
-
-		restClient.method(HttpMethod.POST)
-			.uri(revokeUrl)
-			.headers(httpHeaders -> httpHeaders.addAll(getHttpHeaders()))
-			.body(formData);
-	}
+	// TODO: 애플 심사 시 필요할 수 있으므로 제거하지 않습니다.
+	// public void revoke(String refreshToken) {
+	// 	String revokeUrl = APPLE_API_URL + "/oauth2/v2/revoke";
+	// 	MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+	// 	formData.add("client_id", CLIENT_ID);
+	// 	formData.add("client_secret", clientSecretProvider.provide());
+	// 	formData.add("token", refreshToken);
+	// 	formData.add("token_hint_type", "refresh_token");
+	//
+	// 	ResponseEntity<String> result = restClient.method(HttpMethod.POST)
+	// 		.uri(revokeUrl)
+	// 		.headers(httpHeaders -> httpHeaders.addAll(getHttpHeaders()))
+	// 		.body(formData)
+	// 		.retrieve()
+	// 		.toEntity(String.class);
+	// 	log.info("revoke status code : {}", result.getStatusCode());
+	// }
 
 	private MultiValueMap<String, String> getFormData(String code) {
 		MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
