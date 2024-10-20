@@ -24,12 +24,15 @@ export default function DarakbangLandingPage() {
         </CompleteLayout.Header.Center>
       </CompleteLayout.Header>
       <CompleteLayout.ContentContainer>
-        <HighlightSpan isCenterAlign>
+        <HighlightSpan
+          isCenterAlign
+          ariaLabel={`${myInfo?.nickname}님 반가워요~! 이제 모임을 확인해볼까요?`}
+        >
           <HighlightSpan.Highlight>{myInfo?.nickname}</HighlightSpan.Highlight>
           {`님 반가워요~!\n이제 `}
           <HighlightSpan.Highlight>모임</HighlightSpan.Highlight>을
           확인해볼까요?
-        </HighlightSpan>{' '}
+        </HighlightSpan>
         <CompleteLayout.BottomButtonWrapper>
           <Button
             shape="bar"

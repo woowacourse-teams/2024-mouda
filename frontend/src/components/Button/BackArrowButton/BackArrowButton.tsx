@@ -9,7 +9,7 @@ export default function BackArrowButton(props: BackArrowButtonProps) {
   const { ...rest } = props;
 
   return (
-    <button {...rest} css={S.button}>
+    <button {...rest} css={S.button} aria-label="뒤로가기">
       <BackArrowIcon />
     </button>
   );
