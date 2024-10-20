@@ -41,7 +41,7 @@ public class ChatRecipientFinder {
 
 	public List<Recipient> getNotificationRecipients(Stream<DarakbangMember> memberStream, Author author) {
 		return memberStream
-			.filter(darakbangMember -> darakbangMember.getId() != author.getId())
+			.filter(darakbangMember -> author.isNotSameMember(darakbangMember.getId(), darakbangMember.getMemberId()))
 			.map(darakbangMember -> new Recipient(darakbangMember.getMemberId(), darakbangMember.getId()))
 			.toList();
 	}
