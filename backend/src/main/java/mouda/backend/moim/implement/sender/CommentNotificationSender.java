@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import mouda.backend.common.config.UrlConfig;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Comment;
-import mouda.backend.moim.domain.CommentRecipient;
+import mouda.backend.moim.domain.CommentRecipients;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.implement.finder.CommentRecipientFinder;
 import mouda.backend.notification.domain.NotificationEvent;
@@ -32,16 +32,14 @@ public class CommentNotificationSender extends AbstractMoimNotificationSender {
 	}
 
 	public void sendCommentNotification(Comment comment, DarakbangMember author) {
-		List<CommentRecipient> commentRecipients = commentRecipientFinder.getAllRecipient(comment);
+		CommentRecipients commentRecipients = commentRecipientFinder.getAllRecipient(comment);
 
-		commentRecipients.forEach(commentRecipient -> {
-			sendNotification(commentRecipient, comment, author);
-		});
+		commentRecipients.getRecipients()
+			.forEach((type, recipients) -> sendNotification(type, recipients, comment, author));
 	}
 
-	private void sendNotification(CommentRecipient commentRecipient, Comment comment, DarakbangMember author) {
-		NotificationType notificationType = commentRecipient.getNotificationType();
-		List<Recipient> recipients = commentRecipient.getRecipients();
+	private void sendNotification(NotificationType notificationType, List<Recipient> recipients, Comment comment,
+		DarakbangMember author) {
 		Moim moim = comment.getMoim();
 		NotificationEvent notificationEvent = NotificationEvent.nonChatEvent(
 			notificationType,
