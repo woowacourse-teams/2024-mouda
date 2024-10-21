@@ -5,7 +5,6 @@ export const container = ({ theme }: { theme: Theme }) => css`
   flex-direction: column;
   align-items: center;
 
-  width: 35rem;
   padding: 3.5rem;
 
   background-color: ${theme.colorPalette.yellow[200]};
