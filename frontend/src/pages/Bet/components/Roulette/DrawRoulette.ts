@@ -322,7 +322,7 @@ export default function drawRoulette(props: drawRouletteProps) {
   const slotItemMover = new SlotItemMover(nameList, itemPercent);
 
   // 이름 목록 길이에 따라 조정과정에서 움직이는 아이템의 개수가 달라짐
-  const catchingIndexDiff = (nameList.length % 2) - 2;
+  const catchingIndexDiff = (nameList.length % 3) - 2;
   const slotPhaser = new SlotPhaser(
     minMs / FRAME_SECOND,
     catchingIndexDiff,
