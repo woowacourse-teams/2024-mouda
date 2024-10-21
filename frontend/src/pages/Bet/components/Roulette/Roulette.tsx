@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { HTMLAttributes, useEffect, useRef } from 'react';
 
 import drawRoulette from './DrawRoulette';
 
-interface RouletteProps {
+interface RouletteProps extends HTMLAttributes<HTMLCanvasElement> {
   nameList: string[];
   loser?: string;
   minMs?: number;
@@ -12,6 +12,7 @@ interface RouletteProps {
   fontSize?: number;
   stopSpeed?: number;
   fontColor?: string;
+  itemPercent?: number;
 }
 
 export default function Roulette(props: RouletteProps) {
@@ -21,10 +22,12 @@ export default function Roulette(props: RouletteProps) {
     minMs = Infinity,
     startSpeed = 500,
     backgroundColor = 'grey',
-    font = 'DOSIyagiBoldface',
+    font = "700 normal 5rem 'Pretendard'",
     fontSize = 32,
     stopSpeed = 3,
     fontColor = 'black',
+    itemPercent = 100,
+    ...otherProps
   } = props;
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -38,9 +41,9 @@ export default function Roulette(props: RouletteProps) {
       startSpeed,
       backgroundColor,
       font,
-      fontSize,
       stopSpeed,
       fontColor,
+      itemPercent,
     });
   }, [
     nameList,
@@ -52,7 +55,8 @@ export default function Roulette(props: RouletteProps) {
     fontSize,
     stopSpeed,
     fontColor,
+    itemPercent,
   ]);
 
-  return <canvas ref={canvasRef} />;
+  return <canvas ref={canvasRef} {...otherProps} />;
 }
