@@ -1,0 +1,68 @@
+name: Rolling Deployment
+
+on:
+  push:
+    branches:
+      - chore/#695
+
+jobs:
+  deploy-prod1:
+    name: Deploy to Prod1 Instance
+    runs-on: runner-prod1
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Prod1 instance deploy script
+        run: |
+          cd ~/deploy && ./deploy.sh
+
+  check-prod1:
+    name: Check Prod1 Instance
+    runs-on: runner-prod1
+    needs: deploy-prod1
+
+    steps:
+      - name: Wait for Prod1 instance to be ready
+        run: sleep 30
+
+      - name: Health check for Prod1 instance
+        run: |
+          RESPONSE=$(curl --write-out '%{http_code}' --silent --output /dev/null http://localhost:8080/health)
+          if [ $RESPONSE -ne 200 ]; then
+            echo "Prod1 instance deployment failed."
+            exit 1
+          fi
+          echo "Prod1 instance is healthy."
+
+  deploy-prod2:
+    name: Deploy to Prod2 Instance
+    runs-on: runner-prod2
+    needs: check-prod1
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Prod2 instance deploy script
+        run: |
+          cd ~/deploy && ./deploy.sh
+
+  check-prod2:
+    name: Check Prod2 Instance
+    runs-on: runner-prod2
+    needs: deploy-prod2
+
+    steps:
+      - name: Wait for Prod2 instance to be ready
+        run: sleep 30
+
+      - name: Health check for Prod2 instance
+        run: |
+          RESPONSE=$(curl --write-out '%{http_code}' --silent --output /dev/null http://localhost:8080/health)
+          if [ $RESPONSE -ne 200 ]; then
+            echo "Prod2 instance deployment failed."
+            exit 1
+          fi
+          echo "Prod2 instance is healthy."
