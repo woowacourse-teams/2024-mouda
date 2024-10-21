@@ -28,6 +28,6 @@ public class Chat {
 	}
 
 	public boolean isMine(long darakbangMemberId) {
-		return author.getId() == darakbangMemberId;
+		return author.getDarakbangMemberId() == darakbangMemberId;
 	}
 }

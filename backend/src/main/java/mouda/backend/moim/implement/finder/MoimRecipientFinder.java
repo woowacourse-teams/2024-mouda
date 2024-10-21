@@ -24,16 +24,25 @@ public class MoimRecipientFinder {
 
 		return darakbangMembers.stream()
 			.filter(darakbangMember -> darakbangMember.getId() != authorId)
-			.map(darakbangMember -> new Recipient(darakbangMember.getMemberId(), darakbangMember.getId()))
+			.map(darakbangMember -> Recipient.builder()
+				.memberId(darakbangMember.getMemberId())
+				.darakbangMemberId(darakbangMember.getId())
+				.build()
+			)
 			.toList();
 	}
 
-	public List<Recipient> getMoimStatusChangedNotificationRecipients(long moimId) {
+	public List<Recipient> getMoimModifiedNotificationRecipients(long moimId) {
 		List<Chamyo> chamyos = chamyoRepository.findAllByMoimId(moimId);
 
 		return chamyos.stream()
 			.filter(chamyo -> chamyo.getMoimRole() != MoimRole.MOIMER)
-			.map(chamyo -> new Recipient(chamyo.getDarakbangMember().getMemberId(), chamyo.getDarakbangMember().getId()))
+			.map(Chamyo::getDarakbangMember)
+			.map(darakbangMember -> Recipient.builder()
+				.memberId(darakbangMember.getMemberId())
+				.darakbangMemberId(darakbangMember.getId())
+				.build()
+			)
 			.toList();
 	}
 }

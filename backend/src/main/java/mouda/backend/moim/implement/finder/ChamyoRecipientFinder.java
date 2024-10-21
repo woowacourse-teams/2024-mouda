@@ -16,11 +16,16 @@ public class ChamyoRecipientFinder {
 
 	private final ChamyoRepository chamyoRepository;
 
-	public List<Recipient> getChamyoNotificationRecipients(long moimId, DarakbangMember darakbangMember) {
+	public List<Recipient> getChamyoNotificationRecipients(long moimId, DarakbangMember updatedMember) {
 		List<Chamyo> chamyos = chamyoRepository.findAllByMoimId(moimId);
 		return chamyos.stream()
-			.filter(chamyo -> chamyo.getDarakbangMember().getId() != darakbangMember.getId())
-			.map(chamyo -> new Recipient(chamyo.getDarakbangMember().getMemberId(), chamyo.getDarakbangMember().getId()))
+			.filter(chamyo -> chamyo.isNotSameMember(updatedMember))
+			.map(Chamyo::getDarakbangMember)
+			.map(darakbangMember -> Recipient.builder()
+				.darakbangMemberId(darakbangMember.getId())
+				.memberId(darakbangMember.getMemberId())
+				.build()
+			)
 			.toList();
 	}
 }

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,14 +17,15 @@ import mouda.backend.common.fixture.DarakbangSetUp;
 import mouda.backend.common.fixture.MoimFixture;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Comment;
-import mouda.backend.moim.domain.CommentRecipient;
+import mouda.backend.moim.domain.CommentRecipients;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.implement.writer.MoimWriter;
 import mouda.backend.moim.infrastructure.CommentRepository;
 import mouda.backend.notification.domain.NotificationType;
+import mouda.backend.notification.domain.Recipient;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class CommentRecipientFinderTest extends DarakbangSetUp {
+class CommentRecipientsFinderTest extends DarakbangSetUp {
 
 	@Autowired
 	private CommentRecipientFinder commentRecipientFinder;
@@ -50,7 +52,7 @@ class CommentRecipientFinderTest extends DarakbangSetUp {
 		void getNewCommentNotificationRecipients_WhenAuthorMoimer() {
 			Comment comment = createComment(darakbangAnna, null);
 
-			assertThat(commentRecipientFinder.getAllRecipient(comment)).isEmpty();
+			assertThat(commentRecipientFinder.getAllRecipient(comment).getRecipients()).isEmpty();
 		}
 
 		@DisplayName("댓글 작성자가 방장이 아니면 방장에게 알림을 보낸다.")
@@ -58,11 +60,12 @@ class CommentRecipientFinderTest extends DarakbangSetUp {
 		void getNewCommentNotificationRecipients_WhenAuthorNotMoimer() {
 			Comment comment = createComment(darakbangHogee, null);
 
-			List<CommentRecipient> results = commentRecipientFinder.getAllRecipient(comment);
-			assertThat(results).hasSize(1);
+			CommentRecipients commentRecipients = commentRecipientFinder.getAllRecipient(comment);
+			Map<NotificationType, List<Recipient>> results = commentRecipients.getRecipients();
 
-			CommentRecipient recipient = results.get(0);
-			assertThat(recipient.getRecipients()).extracting("memberId")
+			assertThat(results).hasSize(1);
+			assertThat(results.keySet()).containsExactly(NotificationType.NEW_COMMENT);
+			assertThat(results.get(NotificationType.NEW_COMMENT)).extracting("memberId")
 				.containsExactly(darakbangAnna.getMemberId());
 		}
 	}
@@ -87,7 +90,10 @@ class CommentRecipientFinderTest extends DarakbangSetUp {
 			void getReplyNotificationRecipients_WhenAuthorMoimer() {
 				Comment childComment = createComment(darakbangAnna, parentComment.getId());
 
-				assertThat(commentRecipientFinder.getAllRecipient(childComment)).isEmpty();
+				CommentRecipients commentRecipients = commentRecipientFinder.getAllRecipient(childComment);
+				Map<NotificationType, List<Recipient>> results = commentRecipients.getRecipients();
+
+				assertThat(results).isEmpty();
 			}
 
 			@DisplayName("방장 이외의 사람이 답글을 남기는 경우 방장에게 '답글' 알림을 보낸다.")
@@ -95,12 +101,12 @@ class CommentRecipientFinderTest extends DarakbangSetUp {
 			void getReplyNotificationRecipients_WhenAuthorNotMoimer() {
 				Comment childComment = createComment(darakbangHogee, parentComment.getId());
 
-				List<CommentRecipient> results = commentRecipientFinder.getAllRecipient(childComment);
-				assertThat(results).hasSize(1);
+				CommentRecipients commentRecipients = commentRecipientFinder.getAllRecipient(childComment);
+				Map<NotificationType, List<Recipient>> results = commentRecipients.getRecipients();
 
-				CommentRecipient recipient = results.get(0);
-				assertThat(recipient.getNotificationType()).isEqualTo(NotificationType.NEW_REPLY);
-				assertThat(recipient.getRecipients()).extracting("memberId")
+				assertThat(results).hasSize(1);
+				assertThat(results.keySet()).containsExactly(NotificationType.NEW_REPLY);
+				assertThat(results.get(NotificationType.NEW_REPLY)).extracting("memberId")
 					.containsExactly(darakbangAnna.getMemberId());
 			}
 		}
@@ -121,13 +127,14 @@ class CommentRecipientFinderTest extends DarakbangSetUp {
 			void getReplyNotificationRecipients_WhenAuthorMoimer() {
 				Comment childComment = createComment(darakbangAnna, parentComment.getId());
 
-				List<CommentRecipient> results = commentRecipientFinder.getAllRecipient(childComment);
-				assertThat(results).hasSize(1);
+				CommentRecipients commentRecipients = commentRecipientFinder.getAllRecipient(childComment);
+				Map<NotificationType, List<Recipient>> results = commentRecipients.getRecipients();
 
-				CommentRecipient recipient = results.get(0);
-				assertThat(recipient.getNotificationType()).isEqualTo(NotificationType.NEW_REPLY);
-				assertThat(recipient.getRecipients()).extracting("memberId")
+				assertThat(results).hasSize(1);
+				assertThat(results.keySet()).containsExactly(NotificationType.NEW_REPLY);
+				assertThat(results.get(NotificationType.NEW_REPLY)).extracting("memberId")
 					.containsExactly(darakbangHogee.getMemberId());
+
 			}
 
 			@DisplayName("방장 이외의 사람이 답글을 남기는 경우 방장에겐 '댓글' 알림을 보내고, 원 댓글 작성자에겐 '답글' 알림을 보낸다.")
@@ -135,18 +142,15 @@ class CommentRecipientFinderTest extends DarakbangSetUp {
 			void getReplyNotificationRecipients_WhenAuthorNotMoimer() {
 				Comment childComment = createComment(darakbangManager, parentComment.getId());
 
-				List<CommentRecipient> results = commentRecipientFinder.getAllRecipient(childComment);
+				CommentRecipients commentRecipients = commentRecipientFinder.getAllRecipient(childComment);
+				Map<NotificationType, List<Recipient>> results = commentRecipients.getRecipients();
+
 				assertThat(results).hasSize(2);
-
-				CommentRecipient replyRecipient = results.get(0);
-				assertThat(replyRecipient.getNotificationType()).isEqualTo(NotificationType.NEW_REPLY);
-				assertThat(replyRecipient.getRecipients()).extracting("memberId")
-					.containsExactly(darakbangHogee.getMemberId());
-
-				CommentRecipient commentRecipient = results.get(1);
-				assertThat(commentRecipient.getNotificationType()).isEqualTo(NotificationType.NEW_COMMENT);
-				assertThat(commentRecipient.getRecipients()).extracting("memberId")
+				assertThat(results.keySet()).containsExactlyInAnyOrder(NotificationType.NEW_COMMENT, NotificationType.NEW_REPLY);
+				assertThat(results.get(NotificationType.NEW_COMMENT)).extracting("memberId")
 					.containsExactly(darakbangAnna.getMemberId());
+				assertThat(results.get(NotificationType.NEW_REPLY)).extracting("memberId")
+					.containsExactly(darakbangHogee.getMemberId());
 			}
 
 			@DisplayName("댓글 작성자가 자신에게 답글을 남기면 방장에게만 '댓글' 알림을 보낸다.")
@@ -154,12 +158,12 @@ class CommentRecipientFinderTest extends DarakbangSetUp {
 			void getReplyNotificationRecipients_WhenAuthorIsParentAuthor() {
 				Comment childComment = createComment(darakbangHogee, parentComment.getId());
 
-				List<CommentRecipient> results = commentRecipientFinder.getAllRecipient(childComment);
-				assertThat(results).hasSize(1);
+				CommentRecipients commentRecipients = commentRecipientFinder.getAllRecipient(childComment);
+				Map<NotificationType, List<Recipient>> results = commentRecipients.getRecipients();
 
-				CommentRecipient recipient = results.get(0);
-				assertThat(recipient.getNotificationType()).isEqualTo(NotificationType.NEW_COMMENT);
-				assertThat(recipient.getRecipients()).extracting("memberId")
+				assertThat(results).hasSize(1);
+				assertThat(results.keySet()).containsExactly(NotificationType.NEW_COMMENT);
+				assertThat(results.get(NotificationType.NEW_COMMENT)).extracting("memberId")
 					.containsExactly(darakbangAnna.getMemberId());
 			}
 		}
