@@ -1,8 +1,9 @@
 import * as S from './ProfileCard.style';
-import { useTheme } from '@emotion/react';
+
+import DefaultProfile from '@_common/assets/default_profile.svg?url';
 import { Participant } from '@_types/index';
-import ProfileFrame from '../../../../../../components/ProfileFrame/ProfileFrame';
 import useNicknameWidthEffect from '@_hooks/useNicknameWidthEffect';
+import { useTheme } from '@emotion/react';
 
 interface ProfileCardProps {
   info: Participant;
@@ -12,14 +13,19 @@ export default function ProfileCard(props: ProfileCardProps) {
 
   const { nicknameRef, formattedNickname } = useNicknameWidthEffect({
     nickname: info.nickname,
-    maxNicknameWidth: 70,
+    maxNicknameWidth: 100,
   });
 
   const theme = useTheme();
 
   return (
-    <div css={S.profileCard}>
-      <ProfileFrame width={7} height={7} src={info.profileUrl} />
+    <div css={S.profileCard({ theme })}>
+      <img
+        src={info.profileUrl}
+        css={S.profileImage({ theme })}
+        alt={info.nickname + ' 프로필사진'}
+        onError={(event) => (event.currentTarget.src = DefaultProfile)}
+      />
       <div ref={nicknameRef} css={S.profileNickname({ theme })}>
         {formattedNickname}
       </div>
