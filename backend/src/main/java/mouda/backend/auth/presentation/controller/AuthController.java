@@ -60,7 +60,7 @@ public class AuthController implements AuthSwagger {
 	) {
 		String accessToken = appleAuthService.login(idToken, user);
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.add("Location", "https://dev.mouda.site/oauth/apple?token=" + accessToken);
+		httpHeaders.add("Location", redirectUrl + accessToken);
 		return new ResponseEntity<>(httpHeaders, HttpStatus.FOUND);
 	}
 }
