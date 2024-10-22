@@ -85,17 +85,17 @@ const routesConfig = [
   {
     path: ROUTES.kakaoSelection,
     element: <KakaoSelectPage />,
-    requiresAuth: true,
+    requiresAuth: false,
   },
   {
     path: ROUTES.resultMigration,
     element: <OAuthMigrationResultPage />,
-    requiresAuth: true,
+    requiresAuth: false,
   },
   {
     path: ROUTES.oAuthSelection,
     element: <KakaoLoginPage />,
-    requiresAuth: true,
+    requiresAuth: false,
   },
   {
     path: ROUTES.oAuth,

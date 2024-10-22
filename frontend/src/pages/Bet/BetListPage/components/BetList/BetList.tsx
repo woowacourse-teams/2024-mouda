@@ -1,4 +1,4 @@
-import MissingFallback from '@_components/MissingFallback/MissingFallback';
+import MissingFallback from '@_components/Fallback/MissingFallback/MissingFallback';
 import useBets from '@_hooks/queries/useBets';
 import BetCardList from '../BetCardList/BetCardList';
 

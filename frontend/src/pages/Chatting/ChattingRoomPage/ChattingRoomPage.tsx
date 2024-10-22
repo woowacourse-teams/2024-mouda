@@ -15,7 +15,7 @@ import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNam
 import DateTimeModalContent from './components/DateTimeModalContent/DateTimeModalContent';
 import GET_ROUTES from '@_common/getRoutes';
 import Hamburger from '@_components/Icons/Hamburger';
-import MissingFallback from '@_components/MissingFallback/MissingFallback';
+import MissingFallback from '@_components/Fallback/MissingFallback/MissingFallback';
 import Modal from '@_components/Modal/Modal';
 import Picker from '@_components/Icons/Picker';
 import PlaceModalContent from './components/PlaceModalContent/PlaceModalContent';

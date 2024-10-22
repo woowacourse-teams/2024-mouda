@@ -1,5 +1,5 @@
 import LoginLayout from '@_layouts/LoginLayout/LoginLayout';
-import MissingFallback from '@_components/MissingFallback/MissingFallback';
+import MissingFallback from '@_components/Fallback/MissingFallback/MissingFallback';
 import * as S from './KakaoSelct.style';
 import { useTheme } from '@emotion/react';
 import Button from '@_components/Button/Button';

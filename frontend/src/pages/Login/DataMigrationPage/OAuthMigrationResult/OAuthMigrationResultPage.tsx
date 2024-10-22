@@ -1,5 +1,5 @@
 import LoginLayout from '@_layouts/LoginLayout/LoginLayout';
-import MissingFallback from '@_components/MissingFallback/MissingFallback';
+import MissingFallback from '@_components/Fallback/MissingFallback/MissingFallback';
 import * as S from './OAuthMigrationResultPage.style';
 import { useTheme } from '@emotion/react';
 
@@ -9,6 +9,7 @@ import ROUTES from '@_constants/routes';
 import { getInviteCode } from '@_common/inviteCodeManager';
 import { useEffect } from 'react';
 import GET_ROUTES from '@_common/getRoutes';
+import HappyFallback from '@_components/Fallback/HappyFallback/HappyFallback';
 
 export default function OAuthMigrationResultPage() {
   const theme = useTheme();
@@ -32,10 +33,10 @@ export default function OAuthMigrationResultPage() {
             </span>
             <br />
             <span css={S.subtitle({ theme })}>
-              이전 기록을 새로운 계정으로 옮겨 었어요!
+              이전 기록을 새로운 계정으로 옮겼어요!
             </span>
           </div>
-          <MissingFallback text="" />
+          <HappyFallback text="" />
         </LoginLayout.Main>
         <LoginLayout.Footer>
           <Button
