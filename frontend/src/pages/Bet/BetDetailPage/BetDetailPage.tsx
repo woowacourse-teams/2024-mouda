@@ -11,7 +11,7 @@ import ProfileCardList from './components/ProfileCardList/ProfileCardList';
 import Roulette from '../components/Roulette/Roulette';
 import RouletteWrapper from '../components/RouletteWrapper/RouletteWrapper';
 import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
-import useBet from '@_hooks/queries/useBet';
+import useBetRefetch from '@_hooks/queries/useBetRefetch';
 import useCompleteBet from '@_hooks/mutaions/useCompleteBet';
 import useJoinBet from '@_hooks/mutaions/useJoinBet';
 
@@ -41,11 +41,15 @@ export default function BetDetailPage() {
 
   const betId = Number(params.betId);
 
-  const { bet } = useBet(betId);
+  const { bet } = useBetRefetch(betId);
   const { mutateAsync: completeBet } = useCompleteBet();
   const { mutateAsync: joinBet } = useJoinBet();
   const [mainDescription, setMainDescription] = useState(' ');
   const leftSecond = useRef<number>(Infinity);
+
+  if (bet?.isAnnounced) {
+    navigate(GET_ROUTES.nowDarakbang.betResult(betId), { replace: true });
+  }
 
   useEffect(() => {
     if (!bet?.deadline) return;
