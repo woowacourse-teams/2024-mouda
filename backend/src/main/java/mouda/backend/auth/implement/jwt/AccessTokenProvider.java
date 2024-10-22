@@ -19,7 +19,7 @@ import mouda.backend.member.domain.OauthType;
 public class AccessTokenProvider {
 
 	private static final String MEMBER_ID_CLAIM_KEY = "id";
-	private static final String SOCIAL_LOGIN_ID_CLAIM_KEY = "socialLoginId";
+	private static final String SOCIAL_LOGIN_ID_CLAIM_KEY = "identifier";
 	private static final String OAUTH_TYPE = "oauthType";
 
 	@Value("${security.jwt.token.secret-key}")
@@ -34,7 +34,7 @@ public class AccessTokenProvider {
 
 		return Jwts.builder()
 			.claim(MEMBER_ID_CLAIM_KEY, member.getId())
-			.claim(SOCIAL_LOGIN_ID_CLAIM_KEY, member.getSocialLoginId())
+			.claim(SOCIAL_LOGIN_ID_CLAIM_KEY, member.getIdentifier())
 			.claim(OAUTH_TYPE, member.getOauthType())
 			.setIssuedAt(now)
 			.setExpiration(validity)

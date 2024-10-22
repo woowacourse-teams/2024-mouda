@@ -11,18 +11,16 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.auth.Infrastructure.GoogleOauthClient;
 import mouda.backend.auth.exception.AuthErrorMessage;
 import mouda.backend.auth.exception.AuthException;
 
 @Component
 @RequiredArgsConstructor
-public class GoogleOauthManager {
+public class GoogleUserInfoProvider {
 
-	private final GoogleOauthClient googleOauthClient;
 	private static final String CLIENT_ID = "630308965506-4eiek02jh2a5fbj7as1o84l4mks3s2tu.apps.googleusercontent.com";
 
-	public String getMemberName(String idToken) {
+	public String getName(String idToken) {
 		GoogleIdToken googleIdToken = getGoogleIdToken(idToken);
 		String familyName = (String)googleIdToken.getPayload().get("family_name");
 		String givenName = (String)googleIdToken.getPayload().get("given_name");
@@ -39,7 +37,7 @@ public class GoogleOauthManager {
 		return familyName + givenName;
 	}
 
-	public String getSocialLoginId(String idToken) {
+	public String getIdentifier(String idToken) {
 		GoogleIdToken googleIdToken = getGoogleIdToken(idToken);
 		return googleIdToken.getPayload().getSubject();
 	}

@@ -1,11 +1,21 @@
 package mouda.backend.auth.business;
 
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import mouda.backend.auth.implement.AppleOauthManager;
-import mouda.backend.member.implement.MemberFinder;
+import mouda.backend.auth.implement.AppleUserInfoProvider;
+import mouda.backend.common.fixture.MemberFixture;
+import mouda.backend.member.domain.Member;
+import mouda.backend.member.domain.MemberStatus;
 import mouda.backend.member.infrastructure.MemberRepository;
 
 @SpringBootTest
@@ -14,44 +24,65 @@ class AppleAuthServiceTest {
 	@Autowired
 	private AppleAuthService appleAuthService;
 
-	@MockBean
-	private AppleOauthManager appleOauthManager;
-
-	@MockBean
-	private MemberFinder memberFinder;
-
 	@Autowired
 	private MemberRepository memberRepository;
 
-	// @DisplayName("애플 로그인 요청을 보내면 access token을 반환한다.")
-	// @Test
-	// @Disabled("실제 Resource Server에게 요청을 보내는 테스트이다. 프론트 서버를 켜서 코드르 발급 받아 필요할 때만 테스트한다.")
-	// void oauthLogin() {
-	// 	String code = "";
-	// 	AppleOauthRequest oauthRequest = new AppleOauthRequest(1L, "nonce");
-	//
-	// 	LoginResponse loginResponse = appleAuthService.oauthLogin(oauthRequest);
-	//
-	// 	assertThat(loginResponse).isNotNull();
-	// }
+	@MockBean
+	private AppleUserInfoProvider userInfoProvider;
 
-	/*
-	@DisplayName("사용자 전환을 시도하면 새로운 회원을 추가하지 않고 기존 회원의 정보를 수정한다.")
+	private final String identifier = "123";
+	private final String name = "김민겸";
+
+	@BeforeEach
+	void setUp() {
+		when(userInfoProvider.getName(anyString())).thenReturn(name);
+		when(userInfoProvider.getIdentifier(anyString())).thenReturn(identifier);
+	}
+
+	@DisplayName("최초 로그인인 경우 회원 가입과 로그인을 진행한다.")
 	@Test
-	void oauthLoginConvertingMember() {
-		String appleSocialLoginId = "appleSocialLoginId";
-		when(appleOauthManager.getSocialLoginId(anyString())).thenReturn(appleSocialLoginId);
-		Member anna = memberRepository.save(MemberFixture.getAnna());
-		when(memberFinder.findBySocialId(anyString())).thenReturn(anna);
-		Long kakaoMemberId = anna.getId();
-		LoginResponse loginResponse = appleAuthService.oauthLogin(
-			new AppleOauthRequest(kakaoMemberId, "nonce"));
+	void joinAndLogin() {
+		// when
+		String accessToken = appleAuthService.login("idToken", "user");
 
-		assertThat(loginResponse).isNotNull();
-		Optional<Member> memberOptional = memberRepository.findById(kakaoMemberId);
-		assertThat(memberOptional.isPresent()).isTrue();
+		// then
+		assertThat(accessToken).isNotNull();
+		Optional<Member> member = memberRepository.findByLoginDetail_Identifier(identifier);
+		assertThat(member.isPresent()).isTrue();
+		assertThat(member.get().getName()).isEqualTo(name);
+	}
 
-		LoginDetail expected = new LoginDetail(OauthType.APPLE, appleSocialLoginId);
-		assertThat(memberOptional.get().getLoginDetail()).isEqualTo(expected);
-	}*/
+	@DisplayName("회원가입 이력이 있는 경우 회원가입 없이 로그인을 진행한다.")
+	@Test
+	void login() {
+		// given
+		Member anna = MemberFixture.getAnna(identifier);
+		memberRepository.save(anna);
+
+		// when
+		String accessToken = appleAuthService.login("idToken", null);
+
+		// then
+		assertThat(accessToken).isNotNull();
+		Optional<Member> member = memberRepository.findByLoginDetail_Identifier(identifier);
+		assertThat(member.isPresent()).isTrue();
+	}
+
+	@DisplayName("회원 탈퇴 이력이 있는 경우 재가입 후 로그인을 진행한다.")
+	@Test
+	void rejoinAndLogin() {
+		// given
+		Member anna = MemberFixture.getAnna(identifier);
+		anna.withdraw();
+		memberRepository.save(anna);
+
+		// when
+		String accessToken = appleAuthService.login("idToken", null);
+
+		// then
+		assertThat(accessToken).isNotNull();
+		Optional<Member> member = memberRepository.findByLoginDetail_Identifier(identifier);
+		assertThat(member.isPresent()).isTrue();
+		assertThat(member.get().getMemberStatus()).isEqualTo(MemberStatus.ACTIVE);
+	}
 }

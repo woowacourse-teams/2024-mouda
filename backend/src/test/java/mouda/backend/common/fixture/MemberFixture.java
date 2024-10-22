@@ -20,17 +20,24 @@ public class MemberFixture {
 			.build();
 	}
 
-	public static Member getAnna(String socialLoginId) {
+	public static Member getAnna(String identifier) {
 		return Member.builder()
 			.name("anna")
-			.loginDetail(new LoginDetail(OauthType.KAKAO, socialLoginId))
+			.loginDetail(new LoginDetail(OauthType.KAKAO, identifier))
+			.build();
+	}
+
+	public static Member getAnna(OauthType oauthType, String identifier) {
+		return Member.builder()
+			.name("anna")
+			.loginDetail(new LoginDetail(oauthType, identifier))
 			.build();
 	}
 
 	public static Member getChico() {
 		return Member.builder()
 			.name("chico")
-			.loginDetail(new LoginDetail(OauthType.KAKAO, "socialLoginId"))
+			.loginDetail(new LoginDetail(OauthType.KAKAO, "identifier"))
 			.build();
 	}
 

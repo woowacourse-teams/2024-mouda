@@ -48,8 +48,8 @@ public class Member {
 		}
 	}
 
-	public String getSocialLoginId() {
-		return loginDetail.getSocialLoginId();
+	public String getIdentifier() {
+		return loginDetail.getIdentifier();
 	}
 
 	public OauthType getOauthType() {
@@ -64,7 +64,7 @@ public class Member {
 		return MemberStatus.DELETED.equals(this.memberStatus);
 	}
 
-	public void reSignup() {
+	public void rejoin() {
 		this.memberStatus = MemberStatus.ACTIVE;
 	}
 
