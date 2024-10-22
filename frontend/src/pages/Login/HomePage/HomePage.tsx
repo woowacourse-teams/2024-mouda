@@ -4,7 +4,6 @@ import GET_ROUTES from '@_common/getRoutes';
 import LoginLayout from '@_layouts/LoginLayout/LoginLayout';
 import MainLogoIcon from '@_components/Icons/MainLogoIcon';
 import AppleOAuthIcon from '@_components/Icons/AppleOAuthIcon';
-import ROUTES from '@_constants/routes';
 import { getLastDarakbangId } from '@_common/lastDarakbangManager';
 import { getAccessToken } from '@_utils/tokenManager';
 import GoogleLoginButton from '@_components/GoogleLoginButton/GoogleLoginButton';
@@ -20,7 +19,7 @@ export default function HomePage() {
       return <Navigate to={GET_ROUTES.nowDarakbang.main()} />;
     }
     if (!lastDarakbangId) {
-      return <Navigate to={ROUTES.kakaoSelection} />;
+      return <Navigate to={GET_ROUTES.default.kakaoSelection} />;
     }
   }
 
@@ -56,6 +55,7 @@ export default function HomePage() {
           css={css`
             display: flex;
             flex-direction: column;
+            margin-top: 30%;
             gap: 2rem;
             align-items: center;
             justify-content: center;
@@ -100,7 +100,7 @@ export default function HomePage() {
               css={S.kakaoButton}
               onClick={() => {
                 alert(
-                  '카카오톡 로그인은 더이상 지원하지 않아요! 다른 로그인을 이용하여 계정을 옮겨 보세요!',
+                  '카카오톡 로그인은 더 이상 지원하지 않아요! 다른 로그인을 이용하여 계정을 옮겨 보세요!',
                 );
               }}
             >
@@ -108,7 +108,7 @@ export default function HomePage() {
             </button>
           </div>
           <span css={S.explain({ theme })}>
-            카카오톡 로그인은 더이상 지원하지 않아요!
+            카카오톡 로그인은 더 이상 지원하지 않아요!
             <br />
             다른 로그인을 이용해주세요
           </span>
