@@ -21,7 +21,7 @@ export default function ProfileCard(props: ProfileCardProps) {
   return (
     <div css={S.profileCard({ theme })}>
       <img
-        src={info.profileUrl}
+        src={info.profileUrl || ''}
         css={S.profileImage({ theme })}
         alt={info.nickname + ' 프로필사진'}
         onError={(event) => (event.currentTarget.src = DefaultProfile)}
