@@ -11,10 +11,12 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import mouda.backend.auth.exception.AuthErrorMessage;
 import mouda.backend.auth.exception.AuthException;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class GoogleUserInfoProvider {
 
@@ -39,6 +41,7 @@ public class GoogleUserInfoProvider {
 
 	public String getIdentifier(String idToken) {
 		GoogleIdToken googleIdToken = getGoogleIdToken(idToken);
+		log.warn("{}", googleIdToken.getPayload().getSubject());
 		return googleIdToken.getPayload().getSubject();
 	}
 
