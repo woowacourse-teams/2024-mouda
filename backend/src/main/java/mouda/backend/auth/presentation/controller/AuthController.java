@@ -1,5 +1,6 @@
 package mouda.backend.auth.presentation.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,9 @@ public class AuthController implements AuthSwagger {
 	private final GoogleAuthService googleAuthService;
 	private final AppleAuthService appleAuthService;
 
+	@Value("${oauth.apple.redirection}")
+	private String redirectUrl;
+
 	@PostMapping("/kakao")
 	public ResponseEntity<Void> convert(
 		@LoginMember Member member,
@@ -56,7 +60,7 @@ public class AuthController implements AuthSwagger {
 	) {
 		String accessToken = appleAuthService.login(idToken, user);
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.add("Location", "https://dev.mouda.site/oauth/apple?token=" + accessToken);
+		httpHeaders.add("Location", redirectUrl + accessToken);
 		return new ResponseEntity<>(httpHeaders, HttpStatus.FOUND);
 	}
 }
