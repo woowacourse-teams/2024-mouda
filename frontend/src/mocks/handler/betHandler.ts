@@ -26,8 +26,7 @@ const dummyBets = [
 const dummyBetDetail: BetDetail = {
   title: '상세 배팅',
   currentParticipants: 10,
-  deadline:
-    '2024-09-26T12:30' as `${number}-${number}-${number}T${number}:${number}:${number}`,
+  deadline: '2024-11-26T12:30:00',
   isAnnounced: false,
   participants: [
     {
