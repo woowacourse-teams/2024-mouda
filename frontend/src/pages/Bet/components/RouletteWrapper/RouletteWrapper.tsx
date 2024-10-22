@@ -18,11 +18,12 @@ export default function RouletteWrapper(props: RouletteWrapperProps) {
   const leftSecond = useRef(Math.floor((announceDate - new Date()) / 1000));
 
   useEffect(() => {
+    //@ts-expect-error Date 객체 뺄셈
+    leftSecond.current = Math.floor((announceDate - new Date()) / 1000);
     const intervalId = setInterval(() => {
       leftSecond.current--;
       if (leftSecond.current < 0) {
         setTimeString('GO GO!!');
-        clearInterval(intervalId);
         return;
       }
 
