@@ -25,7 +25,6 @@ export const descriptionBox = ({ theme }: { theme: Theme }) => css`
   align-items: center;
   justify-content: space-evenly;
 
-  width: 22rem;
   height: 4rem;
   padding: 0.5rem 2rem;
 
