@@ -22,7 +22,7 @@ export default function OAuthMigrationResultPage() {
     }
   }, [result, navigate]);
 
-  if (result === 'sucess') {
+  if (result === 'success') {
     return (
       <LoginLayout>
         <LoginLayout.Header></LoginLayout.Header>
