@@ -1,5 +1,6 @@
 import * as S from './BetResultPage.style';
 
+import { css, useTheme } from '@emotion/react';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -11,13 +12,12 @@ import RouletteWrapper from '../components/RouletteWrapper/RouletteWrapper';
 import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
 import useBet from '@_hooks/queries/useBet';
 import useBetResult from '@_hooks/queries/useBetResult';
-import { useTheme } from '@emotion/react';
 
 // import StarFourIcon from '@_components/Icons/StarIcons/StarFourIcon';
 // import StarOneIcon from '@_components/Icons/StarIcons/StarOneIcon';
 // import StarThreeIcon from '@_components/Icons/StarIcons/StarThreeIcon';
 // import StarTwoIcon from '@_components/Icons/StarIcons/StarTwoIcon';
-
+const bitbit = 'bitbit';
 export default function BetResultPage() {
   const navigate = useNavigate();
 
@@ -100,7 +100,14 @@ export default function BetResultPage() {
             )}
           </RouletteWrapper>
           {isButtonShown && (
-            <Button shape="bar" reversePrimary onClick={buttonClickHandler}>
+            <Button
+              shape="bar"
+              reversePrimary
+              onClick={buttonClickHandler}
+              font={css`
+                font: 400 normal 2rem ${bitbit};
+              `}
+            >
               채팅방으로 가기
             </Button>
           )}

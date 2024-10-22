@@ -11,6 +11,7 @@ import ProfileCardList from './components/ProfileCardList/ProfileCardList';
 import Roulette from '../components/Roulette/Roulette';
 import RouletteWrapper from '../components/RouletteWrapper/RouletteWrapper';
 import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
+import { css } from '@emotion/react';
 import useBetRefetch from '@_hooks/queries/useBetRefetch';
 import useCompleteBet from '@_hooks/mutaions/useCompleteBet';
 import useJoinBet from '@_hooks/mutaions/useJoinBet';
@@ -34,6 +35,8 @@ const getIsButtonDisabled = (bet?: BetDetail) => {
   if (bet.myRole === 'NON_MOIMEE') return true;
   return false;
 };
+
+const bitbit = 'bitbit';
 
 export default function BetDetailPage() {
   const navigate = useNavigate();
@@ -129,6 +132,9 @@ export default function BetDetailPage() {
             shape="bar"
             disabled={getIsButtonDisabled(bet)}
             onClick={buttonClickHandler}
+            font={css`
+              font: 400 normal 2rem ${bitbit};
+            `}
           >
             {getButtonMessage(bet)}
           </Button>

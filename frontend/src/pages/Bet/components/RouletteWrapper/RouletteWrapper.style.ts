@@ -1,5 +1,7 @@
 import { Theme, css } from '@emotion/react';
 
+const bitbit = 'bitbit';
+
 export const container = ({ theme }: { theme: Theme }) => css`
   display: flex;
   flex-direction: column;
@@ -14,7 +16,10 @@ export const container = ({ theme }: { theme: Theme }) => css`
 
 export const title = ({ theme }: { theme: Theme }) => css`
   ${theme.typography.h2}
+  font:300 normal 5rem ${bitbit};
+
   width: 30rem;
+
   text-align: center;
   word-wrap: break-word;
   white-space: pre-line;
@@ -44,6 +49,7 @@ export const time = ({ theme }: { theme: Theme }) => css`
   ${theme.typography.h2}
   height: 48px;
   margin: 3rem 0;
+  font: 500 normal 4rem ${bitbit};
 `;
 
 export const rouletteContainer = ({ theme }: { theme: Theme }) => css`

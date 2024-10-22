@@ -1,13 +1,17 @@
+/* stylelint-disable font-family-no-missing-generic-family-keyword */
+
 import * as S from './RouletteWrapper.style';
 
+import { css, useTheme } from '@emotion/react';
+
 import { PropsWithChildren } from 'react';
-import { useTheme } from '@emotion/react';
 
 interface RouletteWrapperProps extends PropsWithChildren {
   title: string;
   description: string;
   mainDescription: string;
 }
+const bitbit = 'bitbit';
 
 export default function RouletteWrapper(props: RouletteWrapperProps) {
   const theme = useTheme();
@@ -21,7 +25,15 @@ export default function RouletteWrapper(props: RouletteWrapperProps) {
           {description.split('*').map((str, index) => (
             <span
               key={`${str}-${index}`}
-              css={index % 2 ? theme.typography.h5 : theme.typography.b4}
+              css={
+                index % 2
+                  ? css`
+                      font: 400 normal 2rem ${bitbit};
+                    `
+                  : css`
+                      font: 300 normal 2rem ${bitbit};
+                    `
+              }
             >
               {str}
             </span>

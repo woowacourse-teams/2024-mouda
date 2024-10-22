@@ -23,7 +23,7 @@ const dummyBets = [
   },
 ];
 
-const deadLine = '2024-10-22T21:14:00';
+const deadLine = '2024-10-21T21:14:00';
 const dummyBetDetail: BetDetail = {
   title: '상세 배팅',
   currentParticipants: 10,

@@ -1,5 +1,6 @@
 import { Theme, css } from '@emotion/react';
 
+const bitbit = 'bitbit';
 export const profileCard = ({ theme }: { theme: Theme }) => css`
   display: flex;
   align-items: center;
@@ -31,6 +32,7 @@ export const profileImage = ({ theme }: { theme: Theme }) => css`
 
 export const profileNickname = ({ theme }: { theme: Theme }) => css`
   ${theme.coloredTypography.b1(theme.colorPalette.grey[400])}
+  font: 300 normal 2rem ${bitbit};
   text-align: center;
   white-space: pre-line;
 `;
