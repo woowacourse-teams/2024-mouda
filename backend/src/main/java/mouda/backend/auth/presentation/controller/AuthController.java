@@ -26,13 +26,13 @@ import mouda.backend.member.domain.Member;
 @RequestMapping("/v1/auth")
 @RequiredArgsConstructor
 public class AuthController implements AuthSwagger {
-	
-	@Value("${oauth.apple.redirection}")
-	private String redirection;
 
 	private final KakaoAuthService kakaoAuthService;
 	private final GoogleAuthService googleAuthService;
 	private final AppleAuthService appleAuthService;
+
+	@Value("${oauth.apple.redirection}")
+	private String redirectUrl;
 
 	@PostMapping("/kakao")
 	public ResponseEntity<Void> convert(
@@ -60,7 +60,7 @@ public class AuthController implements AuthSwagger {
 	) {
 		String accessToken = appleAuthService.login(idToken, user);
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.add("Location", redirection + accessToken);
+		httpHeaders.add("Location", "https://dev.mouda.site/oauth/apple?token=" + accessToken);
 		return new ResponseEntity<>(httpHeaders, HttpStatus.FOUND);
 	}
 }
