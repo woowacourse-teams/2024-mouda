@@ -61,6 +61,7 @@ export default function Roulette(props: RouletteProps) {
     stopSpeed,
     fontColor,
     itemPercent,
+    onEnd,
   ]);
 
   return <canvas ref={canvasRef} {...otherProps} />;
