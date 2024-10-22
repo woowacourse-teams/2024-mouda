@@ -1,6 +1,8 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 20
   jpa:
     hibernate:
       ddl-auto: update
@@ -26,7 +28,7 @@ aws:
     bucket: techcourse-project-2024
     key-prefix: mouda/dev/asset/profile/
     prefix: https://dev.mouda.site/profile/
-    
+
 management:
   endpoints:
     web:
