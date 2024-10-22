@@ -32,9 +32,11 @@ export default function Roulette(props: RouletteProps) {
     ...otherProps
   } = props;
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const isEnded = useRef(false);
 
   useEffect(() => {
     if (!canvasRef.current) return;
+    if (isEnded.current) return;
     const { clearCanvas } = drawRoulette({
       canvas: canvasRef.current,
       nameList,
@@ -46,7 +48,10 @@ export default function Roulette(props: RouletteProps) {
       stopSpeed,
       fontColor,
       itemPercent,
-      onEnd,
+      onEnd: () => {
+        onEnd && onEnd();
+        isEnded.current = true;
+      },
     });
 
     return clearCanvas;
