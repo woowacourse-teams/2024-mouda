@@ -1,15 +1,13 @@
 import { css, Theme } from '@emotion/react';
 
 export const kakaoButton = () => css`
-  border: none;
   background: none;
+  border: none;
 `;
 export const explain = ({ theme }: { theme: Theme }) => css`
   ${theme.typography.b3}
   padding: 1rem;
-
   color: ${theme.colorPalette.grey[300]};
-
   background-color: ${theme.colorPalette.white[100]};
 `;
 
