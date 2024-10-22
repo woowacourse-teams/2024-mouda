@@ -12,7 +12,7 @@ type Story = StoryObj<typeof RouletteWrapper>;
 
 export const Default: Story = {
   args: {
-    announceDate: new Date('2025-01-01T00:33:20.605Z'),
+    mainDescription: '00:00',
     description: '너만 오면*100%*',
     title: '너만 오면고',
     children: (
