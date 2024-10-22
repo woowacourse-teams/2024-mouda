@@ -297,13 +297,16 @@ export default function drawRoulette(props: drawRouletteProps) {
   const { gpw, gph } = getCanvasUtil(canvas);
 
   const FRAME_SECOND = 20;
-  const slotItemMover = new SlotItemMover(nameList, itemPercent);
+  const slotItemMover = new SlotItemMover(
+    nameList.length === 1 ? nameList.concat(nameList) : nameList,
+    itemPercent,
+  );
 
   const catchingIndexDiff = -1;
   const slotPhaser = new SlotPhaser(
     minMs / FRAME_SECOND,
     catchingIndexDiff,
-    nameList.length,
+    nameList.length === 1 ? 2 : nameList.length,
   );
 
   const moveCount = (cnt: number, speed?: number) => {
