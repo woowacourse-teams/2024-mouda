@@ -51,10 +51,10 @@ public class AuthController implements AuthSwagger {
 
 	@PostMapping("/apple")
 	public ResponseEntity<Void> loginApple(
-		@RequestParam("id_token") String id_token,
+		@RequestParam("id_token") String idToken,
 		@RequestParam(name = "user", required = false) String user
 	) {
-		String accessToken = appleAuthService.login(id_token, user);
+		String accessToken = appleAuthService.login(idToken, user);
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.add("Location", "https://dev.mouda.site/oauth/apple?token=" + accessToken);
 		return new ResponseEntity<>(httpHeaders, HttpStatus.FOUND);
