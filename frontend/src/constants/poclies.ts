@@ -29,6 +29,8 @@ const POLICES = {
   maxNicknameLength: 12,
 
   entranceCodeLength: 7,
+
+  maxProfileImageSize: 5 * 1024 * 1024, //* 5MB
 };
 
 export default POLICES;
