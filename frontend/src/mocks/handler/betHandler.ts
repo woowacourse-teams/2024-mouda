@@ -23,11 +23,12 @@ const dummyBets = [
   },
 ];
 
+const deadLine = '2024-10-22T21:14:00';
 const dummyBetDetail: BetDetail = {
   title: '상세 배팅',
   currentParticipants: 10,
-  deadline: '2024-11-26T12:30:00',
-  isAnnounced: false,
+  deadline: deadLine,
+  isAnnounced: true,
   participants: [
     {
       nickname: '사용자1',
@@ -41,12 +42,12 @@ const dummyBetDetail: BetDetail = {
     },
     {
       nickname: '사용자2',
-      id: 102,
+      id: 103,
       profileUrl: 'https://example.com/profile2.jpg',
     },
     {
       nickname: '사용자2',
-      id: 102,
+      id: 104,
       profileUrl: 'https://example.com/profile2.jpg',
     },
   ],
@@ -64,7 +65,9 @@ export const betHandler = [
 
   // 2. 배팅 상세 조회 API
   http.get(API_URL.bet.detail(BET_ID), () => {
-    return HttpResponse.json<GetBet>({ data: dummyBetDetail });
+    return HttpResponse.json<GetBet>({
+      data: { ...dummyBetDetail, isAnnounced: new Date(deadLine) < new Date() },
+    });
   }),
 
   // 3. 배팅 생성 API
