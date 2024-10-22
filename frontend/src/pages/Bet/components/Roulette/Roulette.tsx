@@ -13,6 +13,7 @@ interface RouletteProps extends HTMLAttributes<HTMLCanvasElement> {
   stopSpeed?: number;
   fontColor?: string;
   itemPercent?: number;
+  onEnd?: () => void;
 }
 
 export default function Roulette(props: RouletteProps) {
@@ -27,6 +28,7 @@ export default function Roulette(props: RouletteProps) {
     stopSpeed = 3,
     fontColor = 'black',
     itemPercent = 100,
+    onEnd,
     ...otherProps
   } = props;
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -44,6 +46,7 @@ export default function Roulette(props: RouletteProps) {
       stopSpeed,
       fontColor,
       itemPercent,
+      onEnd,
     });
 
     return clearCanvas;

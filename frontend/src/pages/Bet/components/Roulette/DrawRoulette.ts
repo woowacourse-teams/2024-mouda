@@ -274,6 +274,7 @@ interface drawRouletteProps {
   stopSpeed?: number;
   fontColor?: string;
   itemPercent?: number;
+  onEnd?: () => void;
 }
 
 export default function drawRoulette(props: drawRouletteProps) {
@@ -288,6 +289,7 @@ export default function drawRoulette(props: drawRouletteProps) {
     stopSpeed = 3,
     fontColor = 'grey',
     itemPercent = 100,
+    onEnd,
   } = props;
   const ctx = canvas.getContext('2d');
   if (!ctx) return { clearCanvas: () => {} };
@@ -347,6 +349,7 @@ export default function drawRoulette(props: drawRouletteProps) {
     drawName();
     if (slotController.phase === FINISH_PHASE) {
       clearInterval(intervalId);
+      if (onEnd) onEnd();
     }
   }, FRAME_SECOND);
 

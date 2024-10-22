@@ -1,43 +1,17 @@
 import * as S from './RouletteWrapper.style';
 
-import { PropsWithChildren, useEffect, useRef, useState } from 'react';
-
+import { PropsWithChildren } from 'react';
 import { useTheme } from '@emotion/react';
 
 interface RouletteWrapperProps extends PropsWithChildren {
   title: string;
   description: string;
-  announceDate: Date;
+  mainDescription: string;
 }
 
 export default function RouletteWrapper(props: RouletteWrapperProps) {
   const theme = useTheme();
-  const { title, description, announceDate, children } = props;
-  const [timeString, setTimeString] = useState('00:00');
-  //@ts-expect-error Date 객체 뺄셈
-  const leftSecond = useRef(Math.floor((announceDate - new Date()) / 1000));
-
-  useEffect(() => {
-    //@ts-expect-error Date 객체 뺄셈
-    leftSecond.current = Math.floor((announceDate - new Date()) / 1000);
-    const intervalId = setInterval(() => {
-      leftSecond.current--;
-      if (leftSecond.current < 0) {
-        setTimeString('GO GO!!');
-        return;
-      }
-
-      setTimeString(
-        `${Math.floor(leftSecond.current / 60)
-          .toString()
-          .padStart(2, '00')}:${(leftSecond.current % 60)
-          .toString()
-          .padStart(2, '00')}`,
-      );
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, [announceDate]);
+  const { title, description, mainDescription, children } = props;
 
   return (
     <div css={S.container({ theme })}>
@@ -54,7 +28,7 @@ export default function RouletteWrapper(props: RouletteWrapperProps) {
           ))}
         </div>
       </div>
-      <span css={S.time({ theme })}>{timeString}</span>
+      <span css={S.time({ theme })}>{mainDescription}</span>
       <div css={S.rouletteContainer({ theme })}>{children}</div>
     </div>
   );

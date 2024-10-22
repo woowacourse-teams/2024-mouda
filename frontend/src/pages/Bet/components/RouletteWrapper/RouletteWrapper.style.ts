@@ -43,7 +43,8 @@ export const descriptionWrapper = css`
 
 export const time = ({ theme }: { theme: Theme }) => css`
   ${theme.typography.h2}
-  margin:3rem 0;
+  height: 48px;
+  margin: 3rem 0;
 `;
 
 export const rouletteContainer = ({ theme }: { theme: Theme }) => css`
