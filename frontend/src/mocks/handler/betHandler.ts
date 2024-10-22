@@ -1,4 +1,4 @@
-import { GetBet, PostBet } from '@_apis/responseTypes';
+import { GetBet, GetBetDetail, PostBet } from '@_apis/responseTypes';
 import { HttpResponse, http } from 'msw';
 
 import { API_URL } from '@_apis/endPoints';
@@ -33,6 +33,16 @@ const dummyBetDetail: BetDetail = {
       nickname: '사용자1',
       id: 101,
       profileUrl: 'https://example.com/profile1.jpg',
+    },
+    {
+      nickname: '사용자2',
+      id: 102,
+      profileUrl: 'https://example.com/profile2.jpg',
+    },
+    {
+      nickname: '사용자2',
+      id: 102,
+      profileUrl: 'https://example.com/profile2.jpg',
     },
     {
       nickname: '사용자2',
@@ -76,9 +86,9 @@ export const betHandler = [
   }),
 
   // 5. 배팅 결과 조회 API
-  http.get(API_URL.bet.result(1), () => {
-    return HttpResponse.json({
-      nickname: '우승자 닉네임',
+  http.get(API_URL.bet.result(10), () => {
+    return HttpResponse.json<GetBetDetail>({
+      data: { nickname: '사용자1' },
     });
   }),
 ];
