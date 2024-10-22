@@ -4,7 +4,7 @@ export const containerStyle = css`
   display: flex;
   flex-direction: column;
   gap: 4rem;
-  padding: 2rem 0;
+  padding: 0 0 2rem;
 `;
 
 export const titleBox = () => css`
