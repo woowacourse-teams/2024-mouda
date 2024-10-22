@@ -32,7 +32,6 @@ const getCanvasUtil = (canvas: HTMLCanvasElement) => {
 interface SlotItem {
   name: string;
   drawStartHeightPercent: number;
-  entireListIndex: number;
 }
 
 // 페이즈 : 돌아가기(SPIN_PHASE)->잡기(CATCH_PHASE)->패배자에 맞게 조정(ADJUST_PHASE)
@@ -48,81 +47,45 @@ type SlotPhase =
   | typeof FINISH_PHASE;
 
 class SlotItemMover {
-  #itemHeightPercent: number;
-  #entireList: string[];
-  #numberOfItem: number;
   nowList: SlotItem[];
+  #slotSize;
+  #itemHeightPercent;
 
   constructor(nameList: string[], itemHeightPercent: number = 33) {
-    this.#itemHeightPercent = Math.max(itemHeightPercent, 1);
-    this.#entireList = nameList.slice();
-    this.#numberOfItem = Math.ceil(100 / this.#itemHeightPercent) + 1;
-
-    this.nowList = [];
-    for (let i = 0; i < this.#numberOfItem; i++) {
-      const nowName = this.#entireList[i % this.#entireList.length];
-      this.nowList.push({
-        name: nowName,
-        drawStartHeightPercent: itemHeightPercent * i,
-        entireListIndex: i,
-      });
-    }
+    this.nowList = nameList.map((name, index) => ({
+      name,
+      drawStartHeightPercent: 50 + itemHeightPercent * index,
+    }));
+    this.#slotSize = itemHeightPercent * this.nowList.length;
+    this.#itemHeightPercent = itemHeightPercent;
   }
 
   moveUp(movePercent: number = 1) {
     movePercent = Math.max(movePercent, 0);
-    let nowStartEntireIndex = this.nowList[0].entireListIndex;
-    let nowDrawStartHeightPercent =
-      this.nowList[0].drawStartHeightPercent - movePercent;
 
-    while (nowDrawStartHeightPercent < -this.#itemHeightPercent) {
-      nowStartEntireIndex = (nowStartEntireIndex + 1) % this.#entireList.length;
-      nowDrawStartHeightPercent += this.#itemHeightPercent;
-    }
-
-    const nextList = [];
-    for (let i = 0; i < this.#numberOfItem; i++) {
-      const nowEntireListIndex =
-        (nowStartEntireIndex + i) % this.#entireList.length;
-      const nowName = this.#entireList[nowEntireListIndex];
-      nextList.push({
-        name: nowName,
-        drawStartHeightPercent:
-          nowDrawStartHeightPercent + this.#itemHeightPercent * i,
-        entireListIndex: nowEntireListIndex,
-      });
-    }
-
-    this.nowList = nextList;
+    this.nowList.forEach((item) => {
+      item.drawStartHeightPercent = this.#move(
+        item.drawStartHeightPercent,
+        -movePercent,
+      );
+    });
   }
 
   moveDown(movePercent: number = 1) {
     movePercent = Math.max(movePercent, 0);
-    let nowStartEntireIndex = this.nowList[0].entireListIndex;
-    let nowDrawStartHeightPercent =
-      this.nowList[0].drawStartHeightPercent + movePercent;
+    this.nowList.forEach((item) => {
+      item.drawStartHeightPercent = this.#move(
+        item.drawStartHeightPercent,
+        movePercent,
+      );
+    });
+  }
 
-    while (nowDrawStartHeightPercent > this.#itemHeightPercent) {
-      nowStartEntireIndex =
-        (nowStartEntireIndex - 1 + this.#entireList.length) %
-        this.#entireList.length;
-      nowDrawStartHeightPercent -= this.#itemHeightPercent;
-    }
-
-    const nextList = [];
-    for (let i = 0; i < this.#numberOfItem; i++) {
-      const nowEntireListIndex =
-        (nowStartEntireIndex + i) % this.#entireList.length;
-      const nowName = this.#entireList[nowEntireListIndex];
-      nextList.push({
-        name: nowName,
-        drawStartHeightPercent:
-          nowDrawStartHeightPercent + this.#itemHeightPercent * i,
-        entireListIndex: nowEntireListIndex,
-      });
-    }
-
-    this.nowList = nextList;
+  #move(position: number, percent: number) {
+    const nextPosition = (position + percent + this.#slotSize) % this.#slotSize;
+    if (nextPosition >= this.#slotSize - this.#itemHeightPercent)
+      return (nextPosition % this.#itemHeightPercent) - this.#itemHeightPercent;
+    return nextPosition;
   }
 }
 
@@ -130,17 +93,17 @@ class SlotPhaser {
   #accCount = 0;
   #catchingStartCount: number;
   #catchingIndexDiff: number = 0;
-  #totalLength;
+  #itemHeightPercent;
   nowPhase: SlotPhase = SPIN_PHASE;
 
   constructor(
     catchingStartCount: number,
     catchingIndexDiff: number = 0,
-    totalLength: number,
+    itemHeightPercent: number,
   ) {
     this.#catchingStartCount = catchingStartCount;
     this.#catchingIndexDiff = catchingIndexDiff;
-    this.#totalLength = totalLength;
+    this.#itemHeightPercent = itemHeightPercent;
   }
 
   getNextPhase(slotItemList: SlotItem[], loserIndex: number) {
@@ -159,10 +122,12 @@ class SlotPhaser {
     }
     if (this.nowPhase === CATCH_PHASE) {
       const targetIndex =
-        (loserIndex + this.#catchingIndexDiff + this.#totalLength) %
-        this.#totalLength;
+        (loserIndex + this.#catchingIndexDiff + slotItemList.length) %
+        slotItemList.length;
       const isCaught = slotItemList.some(
-        (item) => item.entireListIndex === targetIndex,
+        (item, index) =>
+          index === targetIndex &&
+          this.#checkIsCaught(item.drawStartHeightPercent),
       );
       if (isCaught) return (this.nowPhase = ADJUST_PHASE);
       return (this.nowPhase = CATCH_PHASE);
@@ -170,9 +135,8 @@ class SlotPhaser {
 
     if (this.nowPhase === ADJUST_PHASE) {
       const isFinished = slotItemList.some(
-        (item) =>
-          item.entireListIndex === loserIndex &&
-          item.drawStartHeightPercent === 50,
+        (item, index) =>
+          index === loserIndex && item.drawStartHeightPercent === 50,
       );
       if (isFinished) return (this.nowPhase = FINISH_PHASE);
       return (this.nowPhase = ADJUST_PHASE);
@@ -183,6 +147,13 @@ class SlotPhaser {
 
   #updateAccTime() {
     this.#accCount++;
+  }
+
+  #checkIsCaught(percent: number) {
+    return (
+      50 - this.#itemHeightPercent < percent &&
+      percent <= 50 + this.#itemHeightPercent
+    );
   }
 }
 
@@ -241,6 +212,7 @@ class SlotController {
   }
 
   #moveItem() {
+    this.#slotItemSpeeder.tryChangeSpeed();
     switch (this.#slotPhaser.nowPhase) {
       case FINISH_PHASE:
         break;
@@ -253,7 +225,7 @@ class SlotController {
       case ADJUST_PHASE: {
         const nowSlotItem = this.#slotItemMover.nowList;
         const loser = nowSlotItem.find(
-          (item) => item.entireListIndex === this.#loserIndex,
+          (_, index) => index === this.#loserIndex,
         );
         if (!loser) {
           this.#moveDown();
@@ -283,7 +255,11 @@ class SlotController {
   }
 
   #moveUp() {
-    this.#slotItemMover.moveUp(this.#slotItemSpeeder.slotNowSpeed);
+    this.#slotItemMover.moveUp(8);
+    const nowSlotItem = this.#slotItemMover.nowList;
+    const loser = nowSlotItem.find((_, index) => index === this.#loserIndex);
+    if (!loser) return;
+    if (loser.drawStartHeightPercent < 50) loser.drawStartHeightPercent = 50;
   }
 }
 
@@ -318,11 +294,10 @@ export default function drawRoulette(props: drawRouletteProps) {
 
   const { gpw, gph } = getCanvasUtil(canvas);
 
-  const FRAME_SECOND = 4;
+  const FRAME_SECOND = 20;
   const slotItemMover = new SlotItemMover(nameList, itemPercent);
 
-  // 이름 목록 길이에 따라 조정과정에서 움직이는 아이템의 개수가 달라짐
-  const catchingIndexDiff = (nameList.length % 3) - 2;
+  const catchingIndexDiff = -1;
   const slotPhaser = new SlotPhaser(
     minMs / FRAME_SECOND,
     catchingIndexDiff,
@@ -331,7 +306,11 @@ export default function drawRoulette(props: drawRouletteProps) {
 
   const moveCount = (cnt: number, speed?: number) => {
     if (!speed) return startSpeed;
-    if (cnt % 5 === 0 && speed > stopSpeed) {
+    if (
+      cnt >= minMs / FRAME_SECOND / 2 &&
+      cnt % 10 === 0 &&
+      speed > stopSpeed
+    ) {
       return speed - 1;
     }
     return speed;
@@ -358,6 +337,7 @@ export default function drawRoulette(props: drawRouletteProps) {
     ctx.fillStyle = fontColor;
     const nextSlotItem = slotController.getNextSlotItem();
     nextSlotItem.forEach(({ name, drawStartHeightPercent }) => {
+      if (drawStartHeightPercent > 100 + itemPercent) return;
       ctx.fillText(name, gpw(50), gph(drawStartHeightPercent));
     });
   };
