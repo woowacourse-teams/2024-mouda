@@ -1,14 +1,14 @@
-import FunnelStepIndicator from '@_components/Funnel/FunnelStepIndicator/FunnelStepIndicator';
 import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
-import useFunnel from '@_hooks/useFunnel';
-import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
-import TitleStep from './components/Steps/TitleStep';
-import { useState } from 'react';
 import { BetInputInfo } from '@_types/index';
+import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
+import FunnelStepIndicator from '@_components/Funnel/FunnelStepIndicator/FunnelStepIndicator';
+import GET_ROUTES from '@_common/getRoutes';
+import TitleStep from './components/Steps/TitleStep';
 import WaitingMinutesStep from './components/Steps/WaitingMinutesStep';
 import useAddBet from '@_hooks/mutaions/useAddBet';
-import GET_ROUTES from '@_common/getRoutes';
+import useFunnel from '@_hooks/useFunnel';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 type BetCreationStep = '제목' | '추첨시간';
 
@@ -26,7 +26,7 @@ export default function BetCreationPage() {
   });
 
   const { mutate: createBet } = useAddBet((betId) => {
-    navigate(GET_ROUTES.nowDarakbang.betDetail(betId));
+    navigate(GET_ROUTES.nowDarakbang.betDetail(betId), { replace: true });
   });
 
   return (
