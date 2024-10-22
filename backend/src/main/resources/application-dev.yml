@@ -25,3 +25,12 @@ aws:
     bucket: techcourse-project-2024
     key-prefix: mouda/dev/asset/profile/
     prefix: https://dev.mouda.site/profile/
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+  endpoint:
+    health:
+      show-details: always
