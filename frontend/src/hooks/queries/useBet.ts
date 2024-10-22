@@ -1,6 +1,6 @@
+import QUERY_KEYS from '@_constants/queryKeys';
 import { getBet } from '@_apis/gets';
 import { getLastDarakbangId } from '@_common/lastDarakbangManager';
-import QUERY_KEYS from '@_constants/queryKeys';
 import { useQuery } from '@tanstack/react-query';
 
 export default function useBet(betId: number) {
@@ -16,6 +16,8 @@ export default function useBet(betId: number) {
       betId,
     ],
     queryFn: () => getBet(betId),
+    staleTime: 1000,
+    refetchInterval: 1000,
   });
 
   return { bet, isLoading, isFetching };
