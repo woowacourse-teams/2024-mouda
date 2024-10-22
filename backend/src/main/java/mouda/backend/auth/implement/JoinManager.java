@@ -18,7 +18,7 @@ public class JoinManager {
 	private final MemberWriter memberWriter;
 
 	public Member join(String name, OauthType oauthType, String identifier) {
-		if (OauthType.KAKAO.equals(oauthType)) {
+		if (OauthType.KAKAO == oauthType) {
 			throw new AuthException(HttpStatus.BAD_REQUEST, AuthErrorMessage.KAKAO_CANNOT_JOIN);
 		}
 		Member member = new Member(name, new LoginDetail(oauthType, identifier));
