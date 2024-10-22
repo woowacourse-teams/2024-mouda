@@ -1,6 +1,6 @@
 import * as S from './BetResultPage.style';
 
-import { MutableRefObject, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
@@ -9,7 +9,6 @@ import GET_ROUTES from '@_common/getRoutes';
 import Roulette from '../components/Roulette/Roulette';
 import RouletteWrapper from '../components/RouletteWrapper/RouletteWrapper';
 import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
-import StickyTriSectionHeader from '@_layouts/components/StickyTriSectionHeader/StickyTriSectionHeader';
 import useBet from '@_hooks/queries/useBet';
 import useBetResult from '@_hooks/queries/useBetResult';
 import { useTheme } from '@emotion/react';
@@ -37,23 +36,19 @@ export default function BetResultPage() {
   const [isButtonShown, setIsButtonShown] = useState(false);
 
   useEffect(() => {
-    document.body.style.backgroundColor = theme.colorPalette.orange[200];
-    document.body.style.transition = '1s all ease-in-out';
+    const nowRoot = document.getElementById('root');
+    if (nowRoot) {
+      nowRoot.style.backgroundColor = theme.colorPalette.orange[200];
+      nowRoot.style.transition = '1s all ease-in-out';
+    }
+
+    return () => {
+      if (nowRoot) {
+        nowRoot.style.backgroundColor = '';
+        nowRoot.style.transition = '';
+      }
+    };
   }, [theme]);
-
-  const onEffect = (ref: MutableRefObject<null | HTMLDivElement>) => {
-    if (ref.current) {
-      ref.current.style.backgroundColor = theme.colorPalette.orange[200];
-      ref.current.style.transition = '1s all ease-in-out';
-    }
-  };
-
-  const afterEffect = (ref: MutableRefObject<null | HTMLDivElement>) => {
-    if (ref.current) {
-      ref.current.style.backgroundColor = '';
-      ref.current.style.transition = '';
-    }
-  };
 
   const handleAfterRoulette = () => {
     setTimeout(() => {
@@ -69,15 +64,21 @@ export default function BetResultPage() {
     return null;
   }
 
+  const buttonClickHandler = () => {
+    const chatRoomId = bet?.chatroomId;
+    if (typeof chatRoomId !== 'number') {
+      alert('서버 오류입니다');
+      navigate(GET_ROUTES.nowDarakbang.bet());
+    }
+    // @ts-expect-error chatroomId는 무조건 존재
+    navigate(GET_ROUTES.nowDarakbang.chattingRoom(chatRoomId));
+  };
+
   return (
     <SelectLayout>
-      <StickyTriSectionHeader onEffect={onEffect} afterEffect={afterEffect}>
-        <StickyTriSectionHeader.Left>
-          <div onClick={() => navigate(-1)}>
-            <BackArrowButton />
-          </div>
-        </StickyTriSectionHeader.Left>
-      </StickyTriSectionHeader>
+      <div onClick={() => navigate(-1)} css={S.backButton}>
+        <BackArrowButton />
+      </div>
 
       <SelectLayout.ContentContainer>
         <div css={S.containerStyle}>
@@ -99,7 +100,7 @@ export default function BetResultPage() {
             )}
           </RouletteWrapper>
           {isButtonShown && (
-            <Button shape="bar" reversePrimary>
+            <Button shape="bar" reversePrimary onClick={buttonClickHandler}>
               채팅방으로 가기
             </Button>
           )}

@@ -17,3 +17,7 @@ export const titleBox = () => css`
 export const title = (props: { theme: Theme }) => css`
   ${props.theme.typography.h4};
 `;
+
+export const backButton = css`
+  padding: 1rem 2rem;
+`;
