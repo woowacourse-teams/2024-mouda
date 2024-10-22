@@ -1,3 +1,5 @@
+import * as S from './BetDetailPage.style';
+
 import { useNavigate, useParams } from 'react-router-dom';
 
 import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
@@ -32,6 +34,7 @@ const getIsButtonDisabled = (bet?: BetDetail) => {
   if (bet.myRole === 'NON_MOIMEE') return true;
   return false;
 };
+
 export default function BetDetailPage() {
   const navigate = useNavigate();
   const params = useParams();
@@ -77,32 +80,34 @@ export default function BetDetailPage() {
       </SelectLayout.Header>
 
       <SelectLayout.ContentContainer>
-        {
-          <RouletteWrapper
-            title={bet?.title || ''}
-            description={`지금 당첨될 확률은 *${((1 / (bet?.participants.length || 1)) * 100).toFixed(1)}*%!`}
-            announceDate={announceDate}
-          >
-            {nameList && (
-              <Roulette
-                nameList={nameList}
-                startSpeed={1}
-                minMs={3000}
-                itemPercent={120}
-                stopSpeed={1}
-              />
-            )}
-          </RouletteWrapper>
-        }
+        <section css={S.containerStyle}>
+          {
+            <RouletteWrapper
+              title={bet?.title || ''}
+              description={`지금 당첨될 확률은 *${((1 / (bet?.participants.length || 1)) * 100).toFixed(1)}*%!`}
+              announceDate={announceDate}
+            >
+              {nameList && (
+                <Roulette
+                  nameList={nameList}
+                  startSpeed={1}
+                  minMs={3000}
+                  itemPercent={120}
+                  stopSpeed={1}
+                />
+              )}
+            </RouletteWrapper>
+          }
 
-        {bet && <ProfileCardList profiles={bet.participants} />}
-        <Button
-          shape="bar"
-          disabled={getIsButtonDisabled(bet)}
-          onClick={buttonClickHandler}
-        >
-          {getButtonMessage(bet)}
-        </Button>
+          {bet && <ProfileCardList profiles={bet.participants} />}
+          <Button
+            shape="bar"
+            disabled={getIsButtonDisabled(bet)}
+            onClick={buttonClickHandler}
+          >
+            {getButtonMessage(bet)}
+          </Button>
+        </section>
       </SelectLayout.ContentContainer>
     </SelectLayout>
   );
