@@ -1,5 +1,6 @@
 import * as S from './BetDetailPage.style';
 
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
@@ -13,7 +14,6 @@ import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
 import useBet from '@_hooks/queries/useBet';
 import useCompleteBet from '@_hooks/mutaions/useCompleteBet';
 import useJoinBet from '@_hooks/mutaions/useJoinBet';
-import { useMemo } from 'react';
 
 const getButtonMessage = (bet?: BetDetail) => {
   if (!bet) return '잠시만 기다려주세요';
@@ -44,11 +44,34 @@ export default function BetDetailPage() {
   const { bet } = useBet(betId);
   const { mutateAsync: completeBet } = useCompleteBet();
   const { mutateAsync: joinBet } = useJoinBet();
+  const [mainDescription, setMainDescription] = useState(' ');
+  //@ts-expect-error Date 객체 뺄셈
+  const leftSecond = useRef<number>(Infinity);
 
-  const announceDate = useMemo(
-    () => (bet?.deadline ? new Date(bet?.deadline) : new Date()),
-    [bet?.deadline],
-  );
+  useEffect(() => {
+    if (!bet?.deadline) return;
+    const deadlineDate = new Date(bet.deadline);
+    //@ts-expect-error Date 객체 뺄셈
+    leftSecond.current = Math.floor((deadlineDate - new Date()) / 1000);
+    const intervalId = setInterval(() => {
+      leftSecond.current--;
+      if (leftSecond.current < 0) {
+        setMainDescription('GO GO!!');
+        return;
+      }
+
+      setMainDescription(
+        `${Math.floor(leftSecond.current / 60)
+          .toString()
+          .padStart(2, '00')}:${(leftSecond.current % 60)
+          .toString()
+          .padStart(2, '00')}`,
+      );
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [bet?.deadline]);
+
   const nameList = useMemo(
     () => bet?.participants.map(({ nickname }) => nickname),
     [bet?.participants],
@@ -85,15 +108,14 @@ export default function BetDetailPage() {
             <RouletteWrapper
               title={bet?.title || ''}
               description={`지금 당첨될 확률은 *${((1 / (bet?.participants.length || 1)) * 100).toFixed(1)}*%!`}
-              announceDate={announceDate}
+              mainDescription={mainDescription}
             >
               {nameList && (
                 <Roulette
                   nameList={nameList}
-                  startSpeed={1}
+                  startSpeed={5}
                   minMs={3000}
                   itemPercent={120}
-                  stopSpeed={1}
                 />
               )}
             </RouletteWrapper>
