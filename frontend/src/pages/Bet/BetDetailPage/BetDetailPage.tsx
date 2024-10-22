@@ -1,6 +1,6 @@
 import * as S from './BetDetailPage.style';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
@@ -45,7 +45,6 @@ export default function BetDetailPage() {
   const { mutateAsync: completeBet } = useCompleteBet();
   const { mutateAsync: joinBet } = useJoinBet();
   const [mainDescription, setMainDescription] = useState(' ');
-  //@ts-expect-error Date 객체 뺄셈
   const leftSecond = useRef<number>(Infinity);
 
   useEffect(() => {
