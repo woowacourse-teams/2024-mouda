@@ -314,7 +314,7 @@ export default function drawRoulette(props: drawRouletteProps) {
     itemPercent = 100,
   } = props;
   const ctx = canvas.getContext('2d');
-  if (!ctx) return;
+  if (!ctx) return { clearCanvas: () => {} };
 
   const { gpw, gph } = getCanvasUtil(canvas);
 
@@ -369,4 +369,8 @@ export default function drawRoulette(props: drawRouletteProps) {
       clearInterval(intervalId);
     }
   }, FRAME_SECOND);
+
+  const clearCanvas = () => clearInterval(intervalId);
+
+  return { clearCanvas };
 }

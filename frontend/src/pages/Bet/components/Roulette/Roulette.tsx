@@ -33,7 +33,7 @@ export default function Roulette(props: RouletteProps) {
 
   useEffect(() => {
     if (!canvasRef.current) return;
-    drawRoulette({
+    const { clearCanvas } = drawRoulette({
       canvas: canvasRef.current,
       nameList,
       loser,
@@ -45,6 +45,8 @@ export default function Roulette(props: RouletteProps) {
       fontColor,
       itemPercent,
     });
+
+    return clearCanvas;
   }, [
     nameList,
     loser,
