@@ -6,10 +6,7 @@ import Button from '@_components/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '@_constants/routes';
 import { getInviteCode } from '@_common/inviteCodeManager';
-// import ROUTES from '@_constants/routes';
-// import { getMemberToken } from '@_utils/tokenManager';
-// import { useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import GET_ROUTES from '@_common/getRoutes';
 
 export default function KakaoSelectPage() {
   const theme = useTheme();
@@ -21,8 +18,7 @@ export default function KakaoSelectPage() {
       <LoginLayout.Main>
         <div css={S.titleWrapper}>
           <span css={S.title({ theme })}>
-            기존 카카오톡 <br />
-            이용자인가요?
+            기존 카카오 계정으로 <br /> 로그인하신 적이 있나요?
           </span>
         </div>
         <MissingFallback text="" />
@@ -32,12 +28,17 @@ export default function KakaoSelectPage() {
           css={{
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             alignItems: 'center',
             gap: '2rem',
           }}
         >
-          <Button shape="bar" onClick={() => navigate(ROUTES.oAuthSelection)}>
+          <Button
+            shape="bar"
+            onClick={() =>
+              navigate(`${GET_ROUTES.default.oAuthSelection}/known`)
+            }
+          >
             예
           </Button>
           <Button
@@ -54,6 +55,14 @@ export default function KakaoSelectPage() {
           >
             아니오
           </Button>
+          <span
+            css={S.explain({ theme })}
+            onClick={() =>
+              navigate(`${GET_ROUTES.default.oAuthSelection}/unknown`)
+            }
+          >
+            잘 기억나지 않아요
+          </span>
         </div>
       </LoginLayout.Footer>
     </LoginLayout>
