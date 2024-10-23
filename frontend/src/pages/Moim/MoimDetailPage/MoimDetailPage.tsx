@@ -1,3 +1,4 @@
+import { MoimInfo, Role } from '@_types/index';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import BackLogo from '@_common/assets/back.svg';
@@ -31,6 +32,48 @@ import useReopenMoim from '@_hooks/mutaions/useReopenMoim';
 import { useTheme } from '@emotion/react';
 import useZzimMine from '@_hooks/queries/useZzimMine';
 
+const getButtonMessage = (moim: MoimInfo, role: Role) => {
+  if (moim.status === 'CANCELED') return '취소된 모임이에요';
+
+  if (role === 'MOIMER') {
+    if (moim.status === 'MOIMING') return '모집 완료하기';
+    if (moim.status === 'COMPLETED') return '채팅방 열기(이동하기)';
+    return '';
+  }
+  if (role === 'NON_MOIMEE') {
+    if (moim.status === 'MOIMING') return '참여하기';
+    if (moim.status === 'COMPLETED') return '모집이 완료되었어요';
+    return '';
+  }
+  if (role === 'MOIMEE') {
+    if (moim.status === 'MOIMING') return '방장이 채팅방을 만들지 않았습니다';
+    if (moim.status === 'COMPLETED') return '채팅방으로 가기';
+    return '';
+  }
+  return '';
+};
+
+const getButtonDisabled = (moim: MoimInfo, role: Role) => {
+  if (moim.status === 'CANCELED') return true;
+
+  if (role === 'MOIMER') {
+    if (moim.status === 'MOIMING') return false;
+    if (moim.status === 'COMPLETED') return false;
+    return true;
+  }
+  if (role === 'NON_MOIMEE') {
+    if (moim.status === 'MOIMING') return false;
+    if (moim.status === 'COMPLETED') return true;
+    return true;
+  }
+  if (role === 'MOIMEE') {
+    if (moim.status === 'MOIMING') return true;
+    if (moim.status === 'COMPLETED') return false;
+    return true;
+  }
+  return true;
+};
+
 export default function MoimDetailPage() {
   const navigate = useNavigate();
   const params = useParams();
@@ -39,11 +82,11 @@ export default function MoimDetailPage() {
   const moimId = Number(params.moimId);
 
   const { moim, isLoading: isMoimLoading } = useMoim(moimId);
-  const { role, isChamyoMineLoading } = useChamyoMine(moimId);
+  const { role } = useChamyoMine(moimId);
   const { isZzimed, isZzimMineLoading } = useZzimMine(moimId);
   const { participants, chamyoAllIsLoading } = useChamyoAll(moimId);
   const { mutate: changZzim } = useChangeZzim();
-  const { mutate, isPending: isPendingJoinMoim } = useJoinMoim(() => {
+  const { mutate: joinMoim } = useJoinMoim(() => {
     navigate(GET_ROUTES.nowDarakbang.moimParticipateComplete());
   });
 
@@ -52,49 +95,64 @@ export default function MoimDetailPage() {
 
   const { mutate: ReopenMoim, isPending: isPendingReopenMoim } =
     useReopenMoim();
-  const { mutate: completeMoim, isPending: isPendingCompleteMoim } =
-    useCompleteMoin();
+  const { mutate: completeMoim } = useCompleteMoin();
   const { mutate: cancelChamyo, isPending: isPendingCancelChamyo } =
     useCancelChamyo();
-  const { mutate: openChat, isPending: isPendingOpenChat } = useOpenChat(
-    (chatRoomId: number) =>
-      navigate(GET_ROUTES.nowDarakbang.chattingRoom(chatRoomId)),
+  const { mutate: openChat } = useOpenChat((chatRoomId: number) =>
+    navigate(GET_ROUTES.nowDarakbang.chattingRoom(chatRoomId)),
   );
 
   const kebabMenu = useMemo(() => {
-    return role === 'MOIMER' ? (
+    if (role === 'MOIMER') {
+      return (
+        <KebabMenu
+          options={[
+            {
+              name: '모임 수정하기',
+              disabled: false,
+              onClick: () =>
+                navigate(GET_ROUTES.nowDarakbang.modify(moimId), {
+                  state: {
+                    ...moim,
+                    moimId,
+                  },
+                }),
+            },
+            {
+              name: '모임 취소하기',
+              disabled: isPendingCancelMoim,
+              onClick: () => cancelMoim(moimId),
+            },
+            {
+              name: '모임 다시 열기',
+              disabled: isPendingReopenMoim,
+              onClick: () => ReopenMoim(moimId),
+            },
+          ]}
+        />
+      );
+    }
+    if (role === 'MOIMEE') {
+      return (
+        <KebabMenu
+          options={[
+            {
+              name: '참여 취소하기',
+              disabled: isPendingCancelChamyo,
+              onClick: () => cancelChamyo(moimId),
+            },
+          ]}
+        />
+      );
+    }
+
+    return (
       <KebabMenu
         options={[
           {
-            name: '모임 수정하기',
-            disabled: false,
-            onClick: () =>
-              navigate(GET_ROUTES.nowDarakbang.modify(moimId), {
-                state: {
-                  ...moim,
-                  moimId,
-                },
-              }),
-          },
-          {
-            name: '모임 취소하기',
-            disabled: isPendingCancelMoim,
-            onClick: () => cancelMoim(moimId),
-          },
-          {
-            name: '모임 다시 열기',
-            disabled: isPendingReopenMoim,
-            onClick: () => ReopenMoim(moimId),
-          },
-        ]}
-      />
-    ) : (
-      <KebabMenu
-        options={[
-          {
-            name: '참여 취소하기',
+            name: '사용할 수 있는 메뉴가 없습니다',
             disabled: isPendingCancelChamyo,
-            onClick: () => cancelChamyo(moimId),
+            onClick: () => {},
           },
         ]}
       />
@@ -112,75 +170,28 @@ export default function MoimDetailPage() {
     role,
   ]);
 
-  const button = useMemo(() => {
-    return isChamyoMineLoading ? (
-      ''
-    ) : role === 'MOIMER' ? (
-      moim?.status === 'MOIMING' ? (
-        <Button
-          shape="bar"
-          disabled={false || isPendingCompleteMoim}
-          onClick={() => completeMoim(moimId)}
-        >
-          모집 완료하기
-        </Button>
-      ) : moim?.status === 'CANCELED' ? (
-        <Button shape="bar" disabled={true}>
-          취소된 모임이예요
-        </Button>
-      ) : (
-        <Button
-          shape="bar"
-          disabled={false || isPendingOpenChat}
-          onClick={() => openChat(moimId)}
-        >
-          채팅방 열기(이동하기)
-        </Button>
-      )
-    ) : role === 'NON_MOIMEE' ? (
-      moim?.status === 'MOIMING' ? (
-        <Button
-          shape="bar"
-          disabled={false || isPendingJoinMoim}
-          onClick={() => mutate(moimId)}
-        >
-          참여하기
-        </Button>
-      ) : moim?.status === 'COMPLETED' ? (
-        <Button shape="bar" disabled={true}>
-          모집이 완료되었어요
-        </Button>
-      ) : (
-        <Button shape="bar" disabled={true}>
-          취소된 모임이예요
-        </Button>
-      )
-    ) : moim?.status === 'MOIMING' ? (
-      <Button shape="bar" disabled={true}>
-        방장이 채팅방을 만들지 않았습니다
-      </Button>
-    ) : (
-      <Button
-        shape="bar"
-        disabled={false}
-        onClick={() => navigate(GET_ROUTES.nowDarakbang.chattingRoom(moimId))}
-      >
-        채팅방으로 가기
-      </Button>
-    );
-  }, [
-    completeMoim,
-    isPendingCompleteMoim,
-    isPendingJoinMoim,
-    isPendingOpenChat,
-    moim?.status,
-    moimId,
-    navigate,
-    mutate,
-    openChat,
-    role,
-    isChamyoMineLoading,
-  ]);
+  const buttonClickHandler = (moim: MoimInfo, role: Role) => {
+    if (moim.status === 'CANCELED') return;
+
+    if (role === 'MOIMER') {
+      if (moim.status === 'MOIMING') return completeMoim(moimId);
+      if (moim.status === 'COMPLETED') return openChat(moimId);
+      return;
+    }
+    if (role === 'NON_MOIMEE') {
+      if (moim.status === 'MOIMING') return joinMoim(moimId);
+      if (moim.status === 'COMPLETED') return;
+      return;
+    }
+    if (role === 'MOIMEE') {
+      if (moim.status === 'MOIMING') return;
+      if (moim.status === 'COMPLETED')
+        return navigate(GET_ROUTES.nowDarakbang.chattingRoom(moimId));
+      return;
+    }
+    return;
+  };
+
   return (
     <InformationLayout>
       <InformationLayout.Header>
@@ -242,7 +253,16 @@ export default function MoimDetailPage() {
         )}
       </InformationLayout.ContentContainer>
       <InformationLayout.BottomButtonWrapper>
-        {button}
+        {moim && role && (
+          <Button
+            shape="bar"
+            disabled={getButtonDisabled(moim, role)}
+            onClick={() => buttonClickHandler(moim, role)}
+            aria-label={getButtonMessage(moim, role)}
+          >
+            {getButtonMessage(moim, role)}
+          </Button>
+        )}
       </InformationLayout.BottomButtonWrapper>
     </InformationLayout>
   );
