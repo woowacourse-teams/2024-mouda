@@ -1,3 +1,4 @@
+import { HTMLAttributes, ReactNode } from 'react';
 import {
   Interpolation,
   SerializedStyles,
@@ -5,10 +6,9 @@ import {
   useTheme,
 } from '@emotion/react';
 
-import { ReactNode } from 'react';
 import { shapes } from '@_components/Button/Button.style';
 
-export interface ButtonProps {
+export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   shape: 'circle' | 'bar';
   onClick?: () => void;
   disabled?: boolean;
@@ -22,13 +22,14 @@ export interface ButtonProps {
 }
 
 export default function Button(props: ButtonProps) {
-  const { onClick, disabled, children, font } = props;
+  const { onClick, disabled, children, font, ...restProps } = props;
   const theme = useTheme();
   return (
     <button
       css={[shapes({ ...props, theme }), font]}
       onClick={onClick}
       disabled={disabled}
+      {...restProps}
     >
       {children}
     </button>

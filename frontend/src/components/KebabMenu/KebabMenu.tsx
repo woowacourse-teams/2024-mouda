@@ -1,5 +1,7 @@
 import * as S from '@_components/KebabMenu/KebabMenu.style';
-import { useRef, useState, FocusEvent } from 'react';
+
+import { FocusEvent, useRef, useState } from 'react';
+
 import KebabButton from '@_common/assets/kebab_menu.svg';
 import { useTheme } from '@emotion/react';
 
@@ -35,7 +37,12 @@ export default function KebabMenu(props: KebabMenuProps) {
 
   return (
     <div css={S.kebabContainer({ theme })}>
-      <button onClick={handleKebabToggle} onBlur={handleKebabClose}>
+      <button
+        onClick={handleKebabToggle}
+        onBlur={handleKebabClose}
+        aria-label="케밥 메뉴 활성화 버튼"
+        aria-checked={isKebabOpen}
+      >
         <KebabButton />
       </button>
       {isKebabOpen && (
@@ -43,6 +50,7 @@ export default function KebabMenu(props: KebabMenuProps) {
           {options.map((option) => {
             return (
               <button
+                aria-label={option.name}
                 key={option.name}
                 onClick={() => handleOptionClick(option.onClick)}
                 disabled={option.disabled}

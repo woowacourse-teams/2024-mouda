@@ -1,4 +1,4 @@
-import { css, Theme } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 
 export const commentContainer = () => css`
   display: flex;
@@ -26,20 +26,22 @@ export const profileImage = () => css`
 
 export const commnetBox = () => css`
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-left: 1rem;
-`;
-export const commnetHeader = () => css`
-  display: flex;
-  gap: 5px;
+  flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
 
   width: 100%;
+  margin-left: 1rem;
+`;
+export const commentLeft = () => css`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-start;
+  justify-content: space-between;
 `;
 
-export const commentHeaderLeft = () => css`
+export const commentLeftHeader = () => css`
   display: flex;
   gap: 0.7rem;
   align-items: flex-start;

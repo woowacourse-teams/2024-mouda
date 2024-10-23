@@ -11,8 +11,8 @@ export default function CommentCardSkeleton() {
       <div css={S.commentWrapper({ theme, isChecked: false })}>
         <SkeletonPiece width="3rem" height="3rem" />
         <div css={S.commnetBox()}>
-          <div css={S.commnetHeader}>
-            <div css={S.commentHeaderLeft}>
+          <div css={S.commentLeft}>
+            <div css={S.commentLeftHeader}>
               <SkeletonPiece width="4.1rem" height="1.6rem" />
               <SkeletonPiece width="8.3rem" height="1.4rem" />
             </div>
