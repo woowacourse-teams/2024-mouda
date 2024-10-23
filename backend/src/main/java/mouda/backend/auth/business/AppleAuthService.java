@@ -1,5 +1,7 @@
 package mouda.backend.auth.business;
 
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,10 @@ public class AppleAuthService {
 	}
 
 	private LoginResponse handleNewUser(String user, String identifier) {
+		Optional<Member> member = memberFinder.getByIdentifier(identifier);
+		if (member.isPresent()) {
+			return new LoginResponse(accessTokenProvider.provide(member.get()), member.get().isConverted());
+		}
 		Member joinedMember = join(identifier, user);
 		return new LoginResponse(accessTokenProvider.provide(joinedMember), joinedMember.isConverted());
 	}
