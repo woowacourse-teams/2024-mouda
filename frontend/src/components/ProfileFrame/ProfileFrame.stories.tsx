@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import ProfileFrame from './ProfileFrame';
+
 import EmptyProfile from '@_common/assets/default_profile.svg?url';
+
 import Plus from '@_common/assets/tabler_plus.svg?url';
 
 const meta = {
