@@ -1,5 +1,7 @@
 import { MoimInfo, Role } from '@_types/index';
 import { useNavigate, useParams } from 'react-router-dom';
+
+import BackLogo from '@_common/assets/back.svg';
 import Button from '@_components/Button/Button';
 import CommentList from './components/CommentList/CommentList';
 import CommentListSkeleton from './components/CommentList/CommentListSkeleton';
@@ -29,7 +31,6 @@ import useOpenChat from '@_hooks/mutaions/useOpenChat';
 import useReopenMoim from '@_hooks/mutaions/useReopenMoim';
 import { useTheme } from '@emotion/react';
 import useZzimMine from '@_hooks/queries/useZzimMine';
-import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
 
 const getButtonMessage = (moim: MoimInfo, role: Role) => {
   if (moim.status === 'CANCELED') return '취소된 모임이에요';
@@ -195,7 +196,6 @@ export default function MoimDetailPage() {
     <InformationLayout>
       <InformationLayout.Header>
         <InformationLayout.Header.Left>
-
           <div
             role="button"
             aria-label="뒤로가기"
@@ -203,7 +203,6 @@ export default function MoimDetailPage() {
           >
             <BackLogo />
           </div>
-
         </InformationLayout.Header.Left>
         <InformationLayout.Header.Right>
           {isZzimMineLoading && (
