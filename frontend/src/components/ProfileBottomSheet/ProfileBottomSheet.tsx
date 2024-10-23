@@ -21,7 +21,7 @@ export default function ProfileBottomSheet(props: ProfileBottomSheetProps) {
       isOpen={isOpen}
       header={
         <BottomSheet.Header>
-          <CloseButton />
+          <CloseButton onClick={close} />
         </BottomSheet.Header>
       }
       // TODO: 바텀시트 사이즈에 대한 논의 필요
