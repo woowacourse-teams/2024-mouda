@@ -19,7 +19,6 @@ export default function FunnelFooter(
         const keyboardHeight =
           window.innerHeight - window.visualViewport.height;
         setKeyboardHeight(Math.max(0, keyboardHeight));
-        console.log(Math.max(0, keyboardHeight));
       }
     };
 
