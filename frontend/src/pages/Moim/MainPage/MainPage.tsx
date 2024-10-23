@@ -169,8 +169,7 @@ export default function MainPage() {
                   e.stopPropagation();
                   setIsDarakbangMenuOpened(!isDarakbangMenuOpened);
                 }}
-                aria-label={darakbangName}
-                role="select"
+                aria-label="다락방"
               >
                 <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
                 <SolidArrow
