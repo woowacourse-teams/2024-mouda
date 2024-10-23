@@ -1,5 +1,6 @@
 import bitbit from './assets/fonts/DNFBitBitTTF.ttf';
 import { css } from '@emotion/react';
+import partialSansKRRegular from './assets/fonts/PartialSansKR/PartialSansKR-Regular.woff2';
 import pretendardBlackWoff2 from './assets/fonts/woff2-subset/Pretendard-Black.subset.woff2';
 import pretendardBoldWoff2 from './assets/fonts/woff2-subset/Pretendard-Bold.subset.woff2';
 import pretendardExtraBoldWoff2 from './assets/fonts/woff2-subset/Pretendard-ExtraBold.subset.woff2';
@@ -75,6 +76,13 @@ const fonts = css`
     font-weight: 100;
     font-display: swap;
     src: url(${pretendardThinWoff2}) format('woff2');
+  }
+
+  @font-face {
+    font-family: PartialSansKR;
+    font-weight: 400;
+    font-display: swap;
+    src: url(${partialSansKRRegular}) format('woff2');
   }
 
   @font-face {

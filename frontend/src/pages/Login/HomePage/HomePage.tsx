@@ -1,17 +1,17 @@
 import { css, useTheme } from '@emotion/react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import GET_ROUTES from '@_common/getRoutes';
 import LoginLayout from '@_layouts/LoginLayout/LoginLayout';
 import MainLogoIcon from '@_components/Icons/MainLogoIcon';
 import AppleOAuthIcon from '@_components/Icons/AppleOAuthIcon';
-import ROUTES from '@_constants/routes';
 import { getLastDarakbangId } from '@_common/lastDarakbangManager';
 import { getAccessToken } from '@_utils/tokenManager';
 import GoogleLoginButton from '@_components/GoogleLoginButton/GoogleLoginButton';
+import * as S from './HomePage.style';
+import KakaoOAuthLoginIcon from '@_components/Icons/KakaoOAuthIcon';
 export default function HomePage() {
   const theme = useTheme();
   const nowToken = getAccessToken();
-  const navigate = useNavigate();
 
   if (nowToken) {
     const lastDarakbangId = getLastDarakbangId();
@@ -19,7 +19,7 @@ export default function HomePage() {
       return <Navigate to={GET_ROUTES.nowDarakbang.main()} />;
     }
     if (!lastDarakbangId) {
-      return <Navigate to={ROUTES.darakbangSelectOption} />;
+      return <Navigate to={GET_ROUTES.default.kakaoSelection} />;
     }
   }
 
@@ -47,10 +47,6 @@ export default function HomePage() {
     }
   };
 
-  const handleDataMigraionLink = () => {
-    navigate(ROUTES.oAuthMigration);
-  };
-
   return (
     <LoginLayout>
       <LoginLayout.Header></LoginLayout.Header>
@@ -59,58 +55,64 @@ export default function HomePage() {
           css={css`
             display: flex;
             flex-direction: column;
-            gap: 28px;
-            height: 70vh;
-            justify-content: center;
+            margin-top: 30%;
+            gap: 2rem;
             align-items: center;
+            justify-content: center;
           `}
         >
           <MainLogoIcon />
-          <div
-            css={css`
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              align-items: start;
-            `}
-          >
-            <h4 css={theme.typography.h4}>모여봐요 우리의</h4>
-            <h2 css={theme.typography.h2}>다락방</h2>
-          </div>
         </div>
       </LoginLayout.Main>
       <LoginLayout.Footer>
-        <div
-          css={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: '1rem',
-          }}
+        <section
+          css={css`
+            margin-bottom: 10rem;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            align-items: center;
+            justify-content: center;
+          `}
         >
-          <GoogleLoginButton />
-
-          <button
+          <span css={theme.typography.b3}>3초만에 모우다를 시작해보세요!</span>
+          <div
             css={{
-              background: 'none',
-              border: 'none',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '2rem',
             }}
-            onClick={appleAuthLogin}
           >
-            <AppleOAuthIcon />
-          </button>
-        </div>
-        <button
-          css={{
-            color: 'gray',
-            background: 'none',
-            border: 'none',
-          }}
-          onClick={handleDataMigraionLink}
-        >
-          카카오톡 로그인 회원이었나요? 데이터 이전을 원하시면 여기를 클릭하세요
-        </button>
+            <button
+              css={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+              }}
+              onClick={appleAuthLogin}
+            >
+              <AppleOAuthIcon type={'circle'} />
+            </button>
+            <GoogleLoginButton type={'circle'} />
+            <div css={S.boundary({ theme })}></div>
+            <button
+              css={S.kakaoButton}
+              onClick={() => {
+                alert(
+                  '카카오톡 로그인은 더 이상 지원하지 않아요! 다른 로그인을 이용하여 계정을 옮겨 보세요!',
+                );
+              }}
+            >
+              <KakaoOAuthLoginIcon type="circle" />
+            </button>
+          </div>
+          <span css={S.explain({ theme })}>
+            카카오톡 로그인은 더 이상 지원하지 않아요!
+            <br />
+            다른 로그인을 이용해주세요
+          </span>
+        </section>
       </LoginLayout.Footer>
     </LoginLayout>
   );

@@ -2,7 +2,7 @@ import * as S from './NotificationList.style';
 import { useNavigate } from 'react-router-dom';
 import useNotification from '@_hooks/queries/useNotification';
 import NotificationListSkeleton from './NotificationListSkeleton/NotificationListSkeleton';
-import MissingFallback from '@_components/MissingFallback/MissingFallback';
+import MissingFallback from '@_components/Fallback/MissingFallback/MissingFallback';
 import NotificationCard from './NotificationCard/NotificationCard';
 
 export default function NotificationList() {

@@ -1,15 +1,15 @@
 import { Meta, StoryObj } from '@storybook/react/*';
-import OAuthSelectPage from './OAuthSelectPage';
+import KakaoLoginPage from './KakaoLoginPage';
 
 const meta = {
   title: 'pages/OAuthSelectPage',
-  component: OAuthSelectPage,
-} satisfies Meta<typeof OAuthSelectPage>;
+  component: KakaoLoginPage,
+} satisfies Meta<typeof KakaoLoginPage>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => <OAuthSelectPage />,
+  render: () => <KakaoLoginPage />,
 };

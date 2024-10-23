@@ -1,9 +1,9 @@
-import MissingFallback from '@_components/MissingFallback/MissingFallback';
-import useBets from '@_hooks/queries/useBets';
+import useBetsInterval from '@_hooks/queries/useBetsInterval';
 import BetCardList from '../BetCardList/BetCardList';
+import MissingFallback from '@_components/Fallback/MissingFallback/MissingFallback';
 
 export default function BetList() {
-  const { bets, isLoading } = useBets();
+  const { bets, isLoading } = useBetsInterval(30_000);
 
   if (isLoading) {
     return <div>Loading</div>;

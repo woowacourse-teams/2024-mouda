@@ -1,5 +1,6 @@
 import FunnelButton from '@_components/Funnel/FunnelButton/FunnelButton';
 import FunnelInput from '@_components/Funnel/FunnelInput/FunnelInput';
+import FunnelInputErrorMessage from '@_components/Funnel/FunnelInputErrorMessage/FunnelInputErrorMessage';
 import FunnelQuestion from '@_components/Funnel/FunnelQuestion/FunnelQuestion';
 import POLICES from '@_constants/poclies';
 import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
@@ -19,19 +20,22 @@ export default function MaxPeopleStep(props: MaxPeopleStepProps) {
 
   useEffect(() => {
     if (inputRef.current) {
-      // inputRef.current.focus();
+      inputRef.current.focus();
     }
   }, []);
 
   return (
     <>
       <FunnelLayout.Main>
-        <FunnelQuestion>
+        <FunnelQuestion id="moimPeopleLabel" htmlFor="moimPeopleInput">
           <FunnelQuestion.Text>최대 참가 인원을</FunnelQuestion.Text>
           <br />
           <FunnelQuestion.Text>설정해주세요!</FunnelQuestion.Text>
         </FunnelQuestion>
         <FunnelInput
+          id="moimPeopleInput"
+          aria-labelledby="moimPeopleLabel"
+          aria-describedby="moimPeopleDescription"
           ref={inputRef}
           type="number"
           value={maxPeople}
@@ -41,10 +45,14 @@ export default function MaxPeopleStep(props: MaxPeopleStepProps) {
       </FunnelLayout.Main>
 
       <FunnelLayout.Footer>
+        {!isValid && (
+          <FunnelInputErrorMessage id="moimPeopleDescription">
+            {POLICES.minimumMaxPeople} ~ {POLICES.maximumMaxPeople}명 이내로
+            입력해주세요
+          </FunnelInputErrorMessage>
+        )}
         <FunnelButton disabled={!isValid} onClick={onButtonClick}>
-          {!isValid
-            ? `${POLICES.minimumMaxPeople} ~ ${POLICES.maximumMaxPeople}명만 가능해요`
-            : '다음으로'}
+          다음으로
         </FunnelButton>
       </FunnelLayout.Footer>
     </>

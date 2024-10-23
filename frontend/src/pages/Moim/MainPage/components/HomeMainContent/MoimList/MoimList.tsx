@@ -1,4 +1,4 @@
-import MissingFallback from '@_components/MissingFallback/MissingFallback';
+import MissingFallback from '@_components/Fallback/MissingFallback/MissingFallback';
 import useMoims from '@_hooks/queries/useMoims';
 import MoimCardListSkeleton from './MoimCardListSkeleton/MoimCardListSkeleton';
 import MoimCardList from '../MoimCardList/MoimCardList';

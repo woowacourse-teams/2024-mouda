@@ -23,7 +23,7 @@ export default function BetListPage() {
           <DefaultPageLayout.DoubleTriHeader.Top>
             <DefaultPageLayout.DoubleTriHeader.Top.Left>
               <h1 css={[common.nonScroll, theme.typography.h5]}>
-                <DarakbangNameWrapper>안내면진다</DarakbangNameWrapper>
+                <DarakbangNameWrapper>룰렛</DarakbangNameWrapper>
               </h1>
             </DefaultPageLayout.DoubleTriHeader.Top.Left>
             <DefaultPageLayout.DoubleTriHeader.Top.Right>
