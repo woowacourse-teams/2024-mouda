@@ -34,6 +34,9 @@ const API_URL = {
   },
   kakaoOAuth: addBaseUrl('/auth/kakao/oauth', false),
   myInfo: addBaseUrl('/member/mine', true),
+
+  profile: (darakbangMemberId: number) =>
+    addBaseUrl(`/members/${darakbangMemberId}/profile`, true),
 };
 
 const ENDPOINTS = {

@@ -6,6 +6,7 @@ import { myInfoHandler } from './handler/myInfoHandler';
 import { notificationHandler } from './handler/notificationHandler';
 import { pleaseHandler } from './handler/pleaseHandler';
 import { setupWorker } from 'msw/browser';
+import { profileHandler } from './handler/profileHandler';
 
 export const worker = setupWorker(
   ...moimHandler,
@@ -15,4 +16,5 @@ export const worker = setupWorker(
   ...notificationHandler,
   ...betHandler,
   ...myInfoHandler,
+  ...profileHandler,
 );

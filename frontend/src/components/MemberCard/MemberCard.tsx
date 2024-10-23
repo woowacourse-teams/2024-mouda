@@ -18,7 +18,7 @@ export default function MemberCard(props: MemberCard) {
   const theme = useTheme();
 
   return (
-    <div css={S.card}>
+    <div css={S.card} onClick={() => alert(1)}>
       <div css={S.preview}>
         <UserPreview imageUrl={imageUrl} />
         <span css={[theme.typography.Medium, S.name]}>{name}</span>

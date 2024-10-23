@@ -136,3 +136,13 @@ export interface PostBet {
     betId: number;
   };
 }
+
+export interface GetDarakbangMemberProfile {
+  data: {
+    darakbangMemberId: number;
+    name: string;
+    nickname: string;
+    url: string;
+    description: string;
+  };
+}
