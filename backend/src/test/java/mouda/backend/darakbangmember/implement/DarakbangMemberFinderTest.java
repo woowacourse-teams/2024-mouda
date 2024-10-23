@@ -114,4 +114,17 @@ class DarakbangMemberFinderTest {
 			.hasMessage(DarakbangMemberErrorMessage.MEMBER_NOT_EXIST.getMessage())
 			.hasFieldOrPropertyWithValue("httpStatus", HttpStatus.UNAUTHORIZED);
 	}
+
+	@Test
+	@DisplayName("다락방멤버 Id로 다락방 멤버를 조회한다.")
+	void findDarakbangMember() {
+		Member hogee = memberRepository.save(MemberFixture.getHogee());
+		Darakbang wooteco = darakbangRepository.save(DarakbangFixture.getDarakbangWithWooteco());
+		DarakbangMember darakbangMember = darakbangMemberRepository.save(
+			DarakbangMemberFixture.getDarakbangMemberWithWooteco(wooteco, hogee));
+
+		DarakbangMember foundDarakbangMember = darakbangMemberFinder.find(darakbangMember.getId());
+
+		assertThat(foundDarakbangMember.getNickname()).isEqualTo(darakbangMember.getNickname());
+	}
 }

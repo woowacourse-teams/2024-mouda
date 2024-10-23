@@ -14,6 +14,7 @@ import mouda.backend.darakbangmember.implement.DarakbangMemberFinder;
 import mouda.backend.darakbangmember.implement.DarakbangMemberWriter;
 import mouda.backend.darakbangmember.implement.ImageParser;
 import mouda.backend.darakbangmember.implement.S3Client;
+import mouda.backend.darakbangmember.presentation.response.DarakbangMemberProfileResponse;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberResponses;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRoleResponse;
 import mouda.backend.member.domain.Member;
@@ -81,5 +82,13 @@ public class DarakbangMemberService {
 		if (darakbangMember.hasImage()) {
 			s3Client.deleteFile(darakbangMember.getProfile());
 		}
+	}
+
+	@Transactional(readOnly = true)
+	public DarakbangMemberProfileResponse findProfile(long darakbangMemberId) {
+		DarakbangMember darakbangMember = darakbangMemberFinder.find(darakbangMemberId);
+		Member member = memberFinder.findByMemberId(darakbangMember.getMemberId());
+
+		return DarakbangMemberProfileResponse.toResponse(darakbangMember, member.getName());
 	}
 }

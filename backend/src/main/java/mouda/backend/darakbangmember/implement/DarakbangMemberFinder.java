@@ -49,4 +49,10 @@ public class DarakbangMemberFinder {
 		}
 		return DarakBangMemberRole.OUTSIDER;
 	}
+
+	public DarakbangMember find(long darakbangMemberId) {
+		return darakbangMemberRepository.findById(darakbangMemberId)
+			.orElseThrow(
+				() -> new DarakbangMemberException(HttpStatus.NOT_FOUND, DarakbangMemberErrorMessage.MEMBER_NOT_EXIST));
+	}
 }
