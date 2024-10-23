@@ -36,6 +36,7 @@ public class DataSourceConfiguration {
         properties.put("hibernate.hbm2ddl.auto", hibernateDdlAuto);
 
         return builder.dataSource(dataSource)
+                .packages("mouda.backend")
                 .properties(properties)
                 .build();
     }
