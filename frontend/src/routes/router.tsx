@@ -27,13 +27,14 @@ import DarakbangManagementPage from '@_pages/Darakbang/DarakbangManagementPage/D
 import DarakbangMembersPage from '@_pages/Darakbang/DarakbangMembersPage/DarakbangMembersPage';
 import DarakbangInvitationPage from '@_pages/Darakbang/DarakbangInvitationPage/DarakbangInvitationPage';
 import DarakbangInvitationRoute from '@_pages/Navigator/DarakbangInvitationRoute';
-import DataMigrationExplanationPage from '@_pages/Login/DataMigrationPage/Explanation/DataMigrationExplanationPage';
-import OAuthSelectPage from '@_pages/Login/DataMigrationPage/Select/OAuthSelectPage';
 import BetListPage from '@_pages/Bet/BetListPage/BetListPage';
 import BetDetailPage from '@_pages/Bet/BetDetailPage/BetDetailPage';
 import BetCreationPage from '@_pages/Bet/BetCreationPage/BetCreationPage';
 import BetResultPage from '@_pages/Bet/BetResultPage/BetResultPage';
 import SettingPage from '@_pages/Mypage/SettingPage/SettingPage';
+import KakaoSelectPage from '@_pages/Login/DataMigrationPage/Explanation/KakaoSelect';
+import KakaoLoginPage from '@_pages/Login/DataMigrationPage/KakaoLogin/KakaoLoginPage';
+import OAuthMigrationResultPage from '@_pages/Login/DataMigrationPage/OAuthMigrationResult/OAuthMigrationResultPage';
 
 const routesConfig = [
   {
@@ -82,13 +83,18 @@ const routesConfig = [
     requiresAuth: false,
   },
   {
-    path: ROUTES.oAuthMigration,
-    element: <DataMigrationExplanationPage />,
+    path: ROUTES.kakaoSelection,
+    element: <KakaoSelectPage />,
+    requiresAuth: false,
+  },
+  {
+    path: ROUTES.resultMigration,
+    element: <OAuthMigrationResultPage />,
     requiresAuth: false,
   },
   {
     path: ROUTES.oAuthSelection,
-    element: <OAuthSelectPage />,
+    element: <KakaoLoginPage />,
     requiresAuth: false,
   },
   {

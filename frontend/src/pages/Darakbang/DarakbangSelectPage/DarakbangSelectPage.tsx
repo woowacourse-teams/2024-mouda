@@ -2,7 +2,7 @@ import * as S from './DarakbangSelectPage.style';
 
 import GET_ROUTES from '@_common/getRoutes';
 import HighlightSpan from '@_components/HighlightSpan/HighlightSpan';
-import MissingFallback from '@_components/MissingFallback/MissingFallback';
+import MissingFallback from '@_components/Fallback/MissingFallback/MissingFallback';
 import ROUTES from '@_constants/routes';
 import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
 import { common } from '@_common/common.style';
