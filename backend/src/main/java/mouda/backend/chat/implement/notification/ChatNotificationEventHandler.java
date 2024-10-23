@@ -1,16 +1,20 @@
-package mouda.backend.chat.implement.sender;
+package mouda.backend.chat.implement.notification;
 
 import java.util.List;
 
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.domain.Bet;
 import mouda.backend.bet.implement.BetFinder;
 import mouda.backend.chat.domain.Chat;
+import mouda.backend.chat.domain.ChatNotificationEvent;
 import mouda.backend.chat.domain.ChatRoom;
 import mouda.backend.chat.domain.ChatRoomType;
 import mouda.backend.chat.entity.ChatType;
@@ -20,82 +24,93 @@ import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.implement.DarakbangFinder;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.implement.finder.MoimFinder;
-import mouda.backend.notification.domain.NotificationEvent;
+import mouda.backend.notification.domain.NotificationPayload;
 import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.domain.Recipient;
+import mouda.backend.notification.implement.NotificationProcessor;
 
 @Component
-@EnableConfigurationProperties(UrlConfig.class)
 @RequiredArgsConstructor
-public class ChatNotificationSender {
+public class ChatNotificationEventHandler {
 
 	private final UrlConfig urlConfig;
-	private final ChatRecipientFinder chatRecipientFinder;
-	private final ApplicationEventPublisher eventPublisher;
 	private final MoimFinder moimFinder;
 	private final BetFinder betFinder;
 	private final DarakbangFinder darakbangFinder;
+	private final ChatRecipientFinder chatRecipientFinder;
+	private final NotificationProcessor notificationProcessor;
 
+	@Async
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
+	@TransactionalEventListener(classes = ChatNotificationEvent.class, phase = TransactionPhase.AFTER_COMMIT)
 	public void sendChatNotification(
-		long darakbangId, ChatRoom chatRoom, Chat appendedChat
+		ChatNotificationEvent chatNotificationEvent
 	) {
+		long darakbangId = chatNotificationEvent.getDarakbangId();
+		ChatRoom chatRoom = chatNotificationEvent.getChatRoom();
+		Chat appendedChat = chatNotificationEvent.getAppendedChat();
+
 		ChatRoomType chatRoomType = chatRoom.getType();
 		long chatRoomId = chatRoom.getId();
 
 		if (chatRoomType == ChatRoomType.BET) {
 			Bet bet = betFinder.find(darakbangId, chatRoom.getTargetId());
-			sendBetNotification(bet, appendedChat, chatRoomId);
+			handleBetNotification(bet, appendedChat, chatRoomId);
 			return;
 		}
 
 		Moim moim = moimFinder.read(chatRoom.getTargetId(), darakbangId);
-		sendMoimNotification(moim, appendedChat, chatRoomId);
+		handleMoimNotification(moim, appendedChat, chatRoomId);
 	}
 
-	private void sendMoimNotification(
+	private void handleMoimNotification(
 		Moim moim, Chat chat, long chatRoomId
 	) {
 		List<Recipient> recipients = chatRecipientFinder.getMoimChatNotificationRecipients(moim.getId(),
 			chat.getAuthor());
 		long darakbangId = moim.getDarakbangId();
 
-		publishEvent(darakbangId, chatRoomId, moim.getTitle(), chat, recipients);
+		processNotification(darakbangId, chatRoomId, moim.getTitle(), chat, recipients);
 	}
 
-	private void sendBetNotification(Bet bet, Chat chat, long chatRoomId) {
+	private void handleBetNotification(Bet bet, Chat chat, long chatRoomId) {
 		List<Recipient> recipients = chatRecipientFinder.getBetChatNotificationRecipients(bet.getId(),
 			chat.getAuthor());
 		long darakbangId = bet.getDarakbangId();
 
-		publishEvent(darakbangId, chatRoomId, bet.getTitle(), chat, recipients);
+		processNotification(darakbangId, chatRoomId, bet.getTitle(), chat, recipients);
 	}
 
-	private void publishEvent(long darakbangId, long chatRoomId, String title, Chat chat, List<Recipient> recipients) {
+	private void processNotification(
+		long darakbangId, long chatRoomId, String title, Chat chat, List<Recipient> recipients
+	) {
 		Darakbang darakbang = darakbangFinder.findById(darakbangId);
-		ChatNotification chatNotification = ChatNotification.create(darakbang.getName(), title, chat);
+		ChatNotificationMessage chatNotificationMessage = ChatNotificationMessage.create(darakbang.getName(), title,
+			chat);
 
-		NotificationEvent notificationEvent = NotificationEvent.chatEvent(
-			chatNotification.getType(),
+		NotificationPayload payload = NotificationPayload.createChatPayload(
+			chatNotificationMessage.getType(),
 			darakbang.getName(),
-			chatNotification.getMessage(),
+			chatNotificationMessage.getMessage(),
 			urlConfig.getChatRoomUrl(darakbangId, chatRoomId),
 			recipients,
 			darakbangId,
 			chatRoomId
 		);
 
-		eventPublisher.publishEvent(notificationEvent);
+		notificationProcessor.process(payload);
 	}
 
 	@Getter
 	@RequiredArgsConstructor
-	static class ChatNotification {
+	static class ChatNotificationMessage {
 
 		private final String title;
 		private final NotificationType type;
 		private final String message;
 
-		public static ChatNotification create(String darakbangName, String title, Chat chat) {
+		public static ChatNotificationMessage create(String darakbangName, String title,
+			Chat chat) {
 			ChatType chatType = chat.getChatType();
 			String content = chat.getContent();
 
@@ -114,16 +129,19 @@ public class ChatNotificationSender {
 			return basicChat(title, message);
 		}
 
-		private static ChatNotification placeConfirmChat(String title, String message) {
-			return new ChatNotification(title, NotificationType.MOIM_PLACE_CONFIRMED, message);
+		private static ChatNotificationMessage placeConfirmChat(String title, String message) {
+			return new ChatNotificationMessage(title, NotificationType.MOIM_PLACE_CONFIRMED,
+				message);
 		}
 
-		private static ChatNotification dateTimeConfirmChat(String title, String message) {
-			return new ChatNotification(title, NotificationType.MOIM_TIME_CONFIRMED, message);
+		private static ChatNotificationMessage dateTimeConfirmChat(String title,
+			String message) {
+			return new ChatNotificationMessage(title, NotificationType.MOIM_TIME_CONFIRMED,
+				message);
 		}
 
-		private static ChatNotification basicChat(String title, String message) {
-			return new ChatNotification(title, NotificationType.NEW_CHAT, message);
+		private static ChatNotificationMessage basicChat(String title, String message) {
+			return new ChatNotificationMessage(title, NotificationType.NEW_CHAT, message);
 		}
 	}
 }

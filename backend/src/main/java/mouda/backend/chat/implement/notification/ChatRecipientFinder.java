@@ -1,4 +1,4 @@
-package mouda.backend.chat.implement.sender;
+package mouda.backend.chat.implement.notification;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -42,27 +42,6 @@ public class ChatRecipientFinder {
 	public List<Recipient> getNotificationRecipients(Stream<DarakbangMember> memberStream, Author author) {
 		return memberStream
 			.filter(darakbangMember -> author.isNotSameMember(darakbangMember.getId(), darakbangMember.getMemberId()))
-			.map(darakbangMember -> Recipient.builder()
-				.memberId(darakbangMember.getMemberId())
-				.darakbangMemberId(darakbangMember.getId())
-				.build())
-			.toList();
-	}
-
-	// todo: 구버전 채팅 기능 삭제시 같이 지워주세요.
-	public List<Recipient> getMoimChatNotificationRecipients(long moimId, DarakbangMember sender) {
-		List<Chamyo> chamyos = chamyoRepository.findAllByMoimId(moimId);
-
-		Stream<DarakbangMember> darakbangMemberStream = chamyos.stream()
-			.map(Chamyo::getDarakbangMember);
-
-		return getNotificationRecipients(darakbangMemberStream, sender);
-	}
-
-	// todo: 구버전 채팅 기능 삭제시 같이 지워주세요.
-	public List<Recipient> getNotificationRecipients(Stream<DarakbangMember> memberStream, DarakbangMember sender) {
-		return memberStream
-			.filter(darakbangMember -> darakbangMember.isNotSameMemberWith(sender))
 			.map(darakbangMember -> Recipient.builder()
 				.memberId(darakbangMember.getMemberId())
 				.darakbangMemberId(darakbangMember.getId())

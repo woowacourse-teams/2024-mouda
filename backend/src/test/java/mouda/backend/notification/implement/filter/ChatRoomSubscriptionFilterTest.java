@@ -10,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import mouda.backend.common.fixture.DarakbangSetUp;
-import mouda.backend.notification.domain.NotificationEvent;
+import mouda.backend.notification.domain.NotificationPayload;
+import mouda.backend.notification.domain.NotificationSendEvent;
 import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.domain.Recipient;
 import mouda.backend.notification.implement.subscription.SubscriptionWriter;
@@ -31,7 +32,7 @@ class ChatRoomSubscriptionFilterTest extends DarakbangSetUp {
 		subscriptionWriter.changeChatRoomSubscription(hogee, darakbang.getId(), 1L);
 
 		// when
-		NotificationEvent notificationEvent = NotificationEvent.chatEvent(
+		NotificationPayload payload = NotificationPayload.createChatPayload(
 			NotificationType.MOIM_PLACE_CONFIRMED,
 			"모임 제목",
 			"메시지",
@@ -44,9 +45,10 @@ class ChatRoomSubscriptionFilterTest extends DarakbangSetUp {
 			darakbang.getId(),
 			1L
 		);
+		NotificationSendEvent notificationSendEvent = NotificationSendEvent.from(payload);
 
 		// then
-		List<Recipient> filteredRecipient = chatRoomSubscriptionFilter.filter(notificationEvent);
+		List<Recipient> filteredRecipient = chatRoomSubscriptionFilter.filter(notificationSendEvent);
 		assertThat(filteredRecipient).hasSize(1);
 		assertThat(filteredRecipient).extracting(Recipient::getMemberId).containsExactly(darakbangHogee.getMemberId());
 	}
@@ -58,22 +60,23 @@ class ChatRoomSubscriptionFilterTest extends DarakbangSetUp {
 		subscriptionWriter.changeChatRoomSubscription(hogee, darakbang.getId(), 1L);
 
 		// when
-		NotificationEvent notificationEvent = NotificationEvent.chatEvent(
+		NotificationPayload payload = NotificationPayload.createChatPayload(
 			NotificationType.NEW_CHAT,
 			"모임 제목",
 			"메시지",
 			"url",
 			List.of(Recipient.builder()
-				.memberId(darakbangHogee.getMemberId())
+				.memberId(hogee.getId())
 				.darakbangMemberId(darakbangHogee.getId())
 				.build()
 			),
 			darakbang.getId(),
 			1L
 		);
+		NotificationSendEvent notificationSendEvent = NotificationSendEvent.from(payload);
 
 		// then
-		List<Recipient> filteredRecipient = chatRoomSubscriptionFilter.filter(notificationEvent);
+		List<Recipient> filteredRecipient = chatRoomSubscriptionFilter.filter(notificationSendEvent);
 		assertThat(filteredRecipient).isEmpty();
 	}
 
@@ -81,22 +84,23 @@ class ChatRoomSubscriptionFilterTest extends DarakbangSetUp {
 	@Test
 	void filter_WhenSubscribed() {
 		// when
-		NotificationEvent notificationEvent = NotificationEvent.chatEvent(
+		NotificationPayload payload = NotificationPayload.createChatPayload(
 			NotificationType.NEW_CHAT,
 			"모임 제목",
 			"메시지",
 			"url",
 			List.of(Recipient.builder()
-				.memberId(darakbangHogee.getMemberId())
+				.memberId(hogee.getId())
 				.darakbangMemberId(darakbangHogee.getId())
 				.build()
 			),
 			darakbang.getId(),
 			1L
 		);
+		NotificationSendEvent notificationSendEvent = NotificationSendEvent.from(payload);
 
 		// then
-		List<Recipient> filteredRecipient = chatRoomSubscriptionFilter.filter(notificationEvent);
+		List<Recipient> filteredRecipient = chatRoomSubscriptionFilter.filter(notificationSendEvent);
 		assertThat(filteredRecipient).hasSize(1);
 		assertThat(filteredRecipient).extracting(Recipient::getMemberId).containsExactly(darakbangHogee.getMemberId());
 	}
