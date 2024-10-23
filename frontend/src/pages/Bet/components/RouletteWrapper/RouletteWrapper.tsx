@@ -28,7 +28,7 @@ export default function RouletteWrapper(props: RouletteWrapperProps) {
               css={
                 index % 2
                   ? css`
-                      font: 400 normal 2rem ${bitbit};
+                      font: 400 normal 2.5rem ${bitbit};
                     `
                   : css`
                       font: 300 normal 2rem ${bitbit};

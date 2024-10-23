@@ -1,3 +1,5 @@
+import * as S from './Roulette.styles';
+
 import { HTMLAttributes, useEffect, useRef } from 'react';
 
 import drawRoulette from './DrawRoulette';
@@ -22,11 +24,11 @@ export default function Roulette(props: RouletteProps) {
     loser,
     minMs = Infinity,
     startSpeed = 500,
-    backgroundColor = 'grey',
+    backgroundColor = '#D2D5DB',
     font = "500 normal 5rem 'bitbit'",
     fontSize = 32,
     stopSpeed = 3,
-    fontColor = 'black',
+    fontColor = '#6D717F',
     itemPercent = 100,
     onEnd,
     ...otherProps
@@ -69,5 +71,5 @@ export default function Roulette(props: RouletteProps) {
     onEnd,
   ]);
 
-  return <canvas ref={canvasRef} {...otherProps} />;
+  return <canvas ref={canvasRef} css={S.canvas} {...otherProps} />;
 }

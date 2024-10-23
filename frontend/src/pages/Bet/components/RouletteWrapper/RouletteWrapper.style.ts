@@ -16,10 +16,9 @@ export const container = ({ theme }: { theme: Theme }) => css`
 
 export const title = ({ theme }: { theme: Theme }) => css`
   ${theme.typography.h2}
-  font:300 normal 5rem ${bitbit};
-
   width: 30rem;
 
+  font: 300 normal 5rem ${bitbit};
   text-align: center;
   word-wrap: break-word;
   white-space: pre-line;
