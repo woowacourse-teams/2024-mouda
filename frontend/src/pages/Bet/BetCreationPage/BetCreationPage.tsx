@@ -1,10 +1,10 @@
-import FunnelStepIndicator from '@_components/Funnel/FunnelStepIndicator/FunnelStepIndicator';
 import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
-import useFunnel from '@_hooks/useFunnel';
 import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
+import FunnelStepIndicator from '@_components/Funnel/FunnelStepIndicator/FunnelStepIndicator';
 import TitleStep from './components/Steps/TitleStep';
 import WaitingMinutesStep from './components/Steps/WaitingMinutesStep';
 import useBetCreationForm from './hooks/useBetCreationForm';
+import useFunnel from '@_hooks/useFunnel';
 
 export type BetCreationStep = '제목' | '추첨시간';
 

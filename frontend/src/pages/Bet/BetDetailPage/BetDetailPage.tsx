@@ -1,130 +1,145 @@
 import * as S from './BetDetailPage.style';
 
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
+import { BetDetail } from '@_types/index';
 import Button from '@_components/Button/Button';
 import GET_ROUTES from '@_common/getRoutes';
-import InformationLayout from '@_layouts/InformationLayout/InformationLayout';
-import ProfileList from './components/ProfileList/ProfileList';
-import Roulette from './components/Roulette/Roulette';
-import Tag from '../components/Tag/Tag';
-import useBet from '@_hooks/queries/useBet';
+import ProfileCardList from './components/ProfileCardList/ProfileCardList';
+import Roulette from '../components/Roulette/Roulette';
+import RouletteWrapper from '../components/RouletteWrapper/RouletteWrapper';
+import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
+import { css } from '@emotion/react';
+import useBetRefetch from '@_hooks/queries/useBetRefetch';
 import useCompleteBet from '@_hooks/mutaions/useCompleteBet';
 import useJoinBet from '@_hooks/mutaions/useJoinBet';
-import { useRef } from 'react';
-import { useTheme } from '@emotion/react';
+
+const getButtonMessage = (bet?: BetDetail) => {
+  if (!bet) return '잠시만 기다려주세요';
+  if (bet.isAnnounced && bet.chatroomId) return '채팅방으로 가기';
+  if (bet.myRole === 'MOIMER') return '룰렛 돌리기';
+
+  if (bet.myRole === 'MOIMEE') return '추첨까지 잠시만 기다려 주세요';
+  if (bet.myRole === 'NON_MOIMEE') return '참여하기';
+  return '잠시만 기다려주세요';
+};
+
+const getIsButtonDisabled = (bet?: BetDetail) => {
+  if (!bet) return true;
+  if (bet.isAnnounced && bet.chatroomId) return false;
+  if (bet.myRole === 'MOIMER') return false;
+
+  if (bet.myRole === 'MOIMEE') return true;
+  if (bet.myRole === 'NON_MOIMEE') return true;
+  return false;
+};
+
+const bitbit = 'bitbit';
 
 export default function BetDetailPage() {
   const navigate = useNavigate();
   const params = useParams();
-  const theme = useTheme();
 
   const betId = Number(params.betId);
 
-  const { bet, isLoading, isFetching } = useBet(betId);
+  const { bet } = useBetRefetch(betId);
   const { mutateAsync: completeBet } = useCompleteBet();
   const { mutateAsync: joinBet } = useJoinBet();
+  const [mainDescription, setMainDescription] = useState(' ');
+  const leftSecond = useRef<number>(Infinity);
 
-  const isButtonActionLoadingRef = useRef(false);
-
-  if (isLoading || !bet) {
-    return null;
+  if (bet?.isAnnounced) {
+    navigate(GET_ROUTES.nowDarakbang.betResult(betId), { replace: true });
   }
 
-  const goToCheckResult = () => {
-    if (bet.chatroomId === null) {
+  useEffect(() => {
+    if (!bet?.deadline) return;
+    const deadlineDate = new Date(bet.deadline);
+    //@ts-expect-error Date 객체 뺄셈
+    leftSecond.current = Math.floor((deadlineDate - new Date()) / 1000);
+    const intervalId = setInterval(() => {
+      leftSecond.current--;
+      if (leftSecond.current < 0) {
+        setMainDescription('GO GO!!');
+        return;
+      }
+
+      setMainDescription(
+        `${Math.floor(leftSecond.current / 60)
+          .toString()
+          .padStart(2, '00')}:${(leftSecond.current % 60)
+          .toString()
+          .padStart(2, '00')}`,
+      );
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [bet?.deadline]);
+
+  const nameList = useMemo(
+    () => bet?.participants.map(({ nickname }) => nickname),
+    [bet?.participants],
+  );
+
+  const buttonClickHandler = async () => {
+    if (!bet) return;
+    if (bet.isAnnounced && bet.chatroomId) {
+      return navigate(GET_ROUTES.nowDarakbang.chattingRoom(bet.chatroomId));
+    }
+    if (bet.myRole === 'MOIMER') {
+      completeBet(betId);
       return;
     }
-    navigate(GET_ROUTES.nowDarakbang.chattingRoom(bet.chatroomId));
-  };
-
-  const handleMoimerButtonClick = async () => {
-    if (isButtonActionLoadingRef.current) {
-      return;
-    }
-    isButtonActionLoadingRef.current = true;
-    if (bet.isAnnounced) {
-      goToCheckResult();
-    } else {
-      await completeBet(betId);
-    }
-    isButtonActionLoadingRef.current = false;
-  };
-
-  const handleMoimeeButtonClick = () => {
-    goToCheckResult();
-  };
-
-  const handleJoinButtonClick = async () => {
-    if (isButtonActionLoadingRef.current) {
-      return;
-    }
-    isButtonActionLoadingRef.current = true;
-    if (!bet.isAnnounced) {
+    if (bet.myRole === 'MOIMEE') return;
+    if (bet.myRole === 'NON_MOIMEE') {
       await joinBet(betId);
     }
-    isButtonActionLoadingRef.current = false;
   };
 
   return (
-    <InformationLayout>
-      <InformationLayout.Header>
-        <InformationLayout.Header.Left>
+    <SelectLayout>
+      <SelectLayout.Header>
+        <SelectLayout.Header.Left>
           <div onClick={() => navigate(GET_ROUTES.nowDarakbang.bet())}>
             <BackArrowButton />
           </div>
-        </InformationLayout.Header.Left>
-      </InformationLayout.Header>
+        </SelectLayout.Header.Left>
+      </SelectLayout.Header>
 
-      <InformationLayout.ContentContainer>
-        <div css={S.containerStyle}>
-          <div css={S.titleBox()}>
-            <h1 css={S.title({ theme })}>{bet.title}</h1>
-            <Tag isAnnounced={bet.isAnnounced} deadline={bet.deadline}></Tag>
-          </div>
-        </div>
+      <SelectLayout.ContentContainer>
+        <section css={S.containerStyle}>
+          {
+            <RouletteWrapper
+              title={bet?.title || ''}
+              description={`지금 당첨될 확률은 *${((1 / (bet?.participants.length || 1)) * 100).toFixed(1)}*%!`}
+              mainDescription={mainDescription}
+            >
+              {nameList && (
+                <Roulette
+                  nameList={nameList}
+                  startSpeed={5}
+                  minMs={3000}
+                  itemPercent={120}
+                />
+              )}
+            </RouletteWrapper>
+          }
 
-        <ProfileList participants={bet.participants} />
-
-        {bet.participants.length > 1 && (
-          <Roulette isFast={false} participants={bet.participants} />
-        )}
-      </InformationLayout.ContentContainer>
-
-      <InformationLayout.BottomButtonWrapper>
-        {bet.myRole === 'MOIMER' ? (
+          {bet && <ProfileCardList profiles={bet.participants} />}
           <Button
             shape="bar"
-            disabled={
-              isButtonActionLoadingRef.current ||
-              isFetching ||
-              bet.participants.length < 2
-            }
-            onClick={handleMoimerButtonClick}
+            disabled={getIsButtonDisabled(bet)}
+            onClick={buttonClickHandler}
+            font={css`
+              font: 400 normal 2rem ${bitbit};
+            `}
           >
-            {bet.isAnnounced ? '결과 보러가기' : '모집 마감하기'}
+            {getButtonMessage(bet)}
           </Button>
-        ) : bet.myRole === 'MOIMEE' ? (
-          <Button
-            shape="bar"
-            disabled={!bet.isAnnounced}
-            onClick={handleMoimeeButtonClick}
-          >
-            {bet.isAnnounced ? '결과 보러가기' : '이미 참여했어요'}
-          </Button>
-        ) : (
-          <Button
-            shape="bar"
-            disabled={
-              isButtonActionLoadingRef.current || isFetching || bet.isAnnounced
-            }
-            onClick={handleJoinButtonClick}
-          >
-            {bet.isAnnounced ? '마감되었어요' : '참여하기'}
-          </Button>
-        )}
-      </InformationLayout.BottomButtonWrapper>
-    </InformationLayout>
+        </section>
+      </SelectLayout.ContentContainer>
+    </SelectLayout>
   );
 }

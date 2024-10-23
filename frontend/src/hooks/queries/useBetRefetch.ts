@@ -3,7 +3,7 @@ import { getBet } from '@_apis/gets';
 import { getLastDarakbangId } from '@_common/lastDarakbangManager';
 import { useQuery } from '@tanstack/react-query';
 
-export default function useBet(betId: number) {
+export default function useBetRefetch(betId: number) {
   const {
     data: bet,
     isLoading,
@@ -16,6 +16,8 @@ export default function useBet(betId: number) {
       betId,
     ],
     queryFn: () => getBet(betId),
+    staleTime: 1000,
+    refetchInterval: 1000,
   });
 
   return { bet, isLoading, isFetching };

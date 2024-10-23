@@ -11,6 +11,7 @@ import {
 } from '@_types/index';
 import {
   GetBet,
+  GetBetDetail,
   GetBets,
   GetChamyoAll,
   GetChamyoMine,
@@ -233,6 +234,6 @@ export const getBetResult = async (betId: number) => {
     `/bet/${betId}/result`,
   );
 
-  const json = await response.json();
+  const json: GetBetDetail = await response.json();
   return json.data.nickname;
 };
