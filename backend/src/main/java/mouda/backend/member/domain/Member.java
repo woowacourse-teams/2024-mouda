@@ -36,12 +36,15 @@ public class Member {
 	@Enumerated(EnumType.STRING)
 	private MemberStatus memberStatus;
 
+	private boolean isConverted;
+
 	@Builder
 	public Member(String name, LoginDetail loginDetail) {
 		this.loginDetail = loginDetail;
 		validateName(name);
 		this.name = name;
 		this.memberStatus = MemberStatus.ACTIVE;
+		this.isConverted = false;
 	}
 
 	private void validateName(String name) {
@@ -68,6 +71,14 @@ public class Member {
 
 	public void rejoin() {
 		this.memberStatus = MemberStatus.ACTIVE;
+	}
+
+	public void convert() {
+		this.isConverted = true;
+	}
+
+	public void deprecate() {
+		this.memberStatus = MemberStatus.DEPRECATED;
 	}
 
 	@Override

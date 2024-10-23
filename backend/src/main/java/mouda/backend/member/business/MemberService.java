@@ -20,7 +20,7 @@ public class MemberService {
 
 	public Member findMember(String token) {
 		String socialId = accessTokenProvider.extractSocialId(token);
-		return memberFinder.findByIdentifier(socialId);
+		return memberFinder.findActiveOrDeletedByIdentifier(socialId);
 	}
 
 	public void checkAuthentication(String token) {

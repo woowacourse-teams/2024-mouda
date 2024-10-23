@@ -1,6 +1,7 @@
 package mouda.backend.auth.business;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.auth.implement.KakaoUserInfoProvider;
@@ -10,6 +11,7 @@ import mouda.backend.member.implement.MemberFinder;
 import mouda.backend.member.implement.MemberWriter;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class KakaoAuthService {
 
@@ -19,8 +21,9 @@ public class KakaoAuthService {
 
 	public void convert(Member alternation, KakaoConvertRequest kakaoConvertRequest) {
 		String identifier = userInfoProvider.getIdentifier(kakaoConvertRequest.code());
-		Member target = memberFinder.findByIdentifier(identifier);
-		memberWriter.updateLoginDetail(target.getId(), alternation.getLoginDetail());
-		memberWriter.delete(alternation);
+		Member kakao = memberFinder.findActiveOrDeletedByIdentifier(identifier);
+		memberWriter.updateLoginDetail(kakao.getId(), alternation.getLoginDetail());
+		kakao.convert();
+		memberWriter.deprecate(alternation);
 	}
 }

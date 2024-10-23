@@ -15,6 +15,7 @@ import mouda.backend.auth.implement.KakaoUserInfoProvider;
 import mouda.backend.auth.presentation.request.KakaoConvertRequest;
 import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.member.domain.Member;
+import mouda.backend.member.domain.MemberStatus;
 import mouda.backend.member.domain.OauthType;
 import mouda.backend.member.infrastructure.MemberRepository;
 
@@ -35,23 +36,25 @@ class KakaoAuthServiceTest {
 	void convert() {
 		// given
 		String kakaoIdentifier = "kakaoIdentifier";
-		Member anna = MemberFixture.getAnna(kakaoIdentifier);
-		memberRepository.save(anna);
+		Member kakao = MemberFixture.getAnna(kakaoIdentifier);
+		memberRepository.save(kakao);
 
-		String appleIdentifier = "appleIdentifier";
-		Member alternation = MemberFixture.getAnna(OauthType.APPLE, appleIdentifier);
-		memberRepository.save(alternation);
+		String googleIdentifier = "googleIdentifier";
+		Member google = MemberFixture.getAnna(OauthType.APPLE, googleIdentifier);
+		memberRepository.save(google);
 		when(userInfoProvider.getIdentifier(anyString())).thenReturn(kakaoIdentifier);
 
 		// when
-		kakaoAuthService.convert(alternation, new KakaoConvertRequest("code"));
+		kakaoAuthService.convert(google, new KakaoConvertRequest("code"));
 
 		// then
-		Optional<Member> kakaoMember = memberRepository.findByLoginDetail_Identifier(kakaoIdentifier);
-		assertThat(kakaoMember.isEmpty()).isTrue();
-		Optional<Member> appleMember = memberRepository.findByLoginDetail_Identifier(appleIdentifier);
-		assertThat(appleMember.isPresent()).isTrue();
-		assertThat(appleMember.get().getName()).isEqualTo(anna.getName());
-		assertThat(appleMember.get().getLoginDetail()).isEqualTo(alternation.getLoginDetail());
+		Optional<Member> kakaoMember = memberRepository.findActiveOrDeletedByIdentifier(kakaoIdentifier);
+		assertThat(kakaoMember.isPresent()).isTrue();
+		assertThat(kakaoMember.get().getMemberStatus()).isEqualTo(MemberStatus.ACTIVE);
+		Optional<Member> googleMember = memberRepository.findDeprecatedByIdentifier(googleIdentifier);
+		assertThat(googleMember.isPresent()).isTrue();
+		assertThat(googleMember.get().getMemberStatus()).isEqualTo(MemberStatus.DEPRECATED);
+		assertThat(googleMember.get().getLoginDetail()).isEqualTo(google.getLoginDetail());
 	}
 }
+

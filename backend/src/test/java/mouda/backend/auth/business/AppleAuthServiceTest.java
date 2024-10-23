@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import mouda.backend.auth.implement.AppleUserInfoProvider;
+import mouda.backend.auth.presentation.response.LoginResponse;
 import mouda.backend.common.fixture.MemberFixture;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.domain.MemberStatus;
@@ -43,11 +44,11 @@ class AppleAuthServiceTest {
 	@Test
 	void joinAndLogin() {
 		// when
-		String accessToken = appleAuthService.login("idToken", "user");
+		LoginResponse response = appleAuthService.login("idToken", "user");
 
 		// then
-		assertThat(accessToken).isNotNull();
-		Optional<Member> member = memberRepository.findByLoginDetail_Identifier(identifier);
+		assertThat(response.accessToken()).isNotNull();
+		Optional<Member> member = memberRepository.findActiveOrDeletedByIdentifier(identifier);
 		assertThat(member.isPresent()).isTrue();
 		assertThat(member.get().getName()).isEqualTo(name);
 	}
@@ -60,11 +61,11 @@ class AppleAuthServiceTest {
 		memberRepository.save(anna);
 
 		// when
-		String accessToken = appleAuthService.login("idToken", null);
+		LoginResponse response = appleAuthService.login("idToken", null);
 
 		// then
-		assertThat(accessToken).isNotNull();
-		Optional<Member> member = memberRepository.findByLoginDetail_Identifier(identifier);
+		assertThat(response.accessToken()).isNotNull();
+		Optional<Member> member = memberRepository.findActiveOrDeletedByIdentifier(identifier);
 		assertThat(member.isPresent()).isTrue();
 	}
 
@@ -77,11 +78,11 @@ class AppleAuthServiceTest {
 		memberRepository.save(anna);
 
 		// when
-		String accessToken = appleAuthService.login("idToken", null);
+		LoginResponse response = appleAuthService.login("idToken", null);
 
 		// then
-		assertThat(accessToken).isNotNull();
-		Optional<Member> member = memberRepository.findByLoginDetail_Identifier(identifier);
+		assertThat(response.accessToken()).isNotNull();
+		Optional<Member> member = memberRepository.findActiveOrDeletedByIdentifier(identifier);
 		assertThat(member.isPresent()).isTrue();
 		assertThat(member.get().getMemberStatus()).isEqualTo(MemberStatus.ACTIVE);
 	}
