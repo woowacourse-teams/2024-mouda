@@ -19,7 +19,6 @@ import mouda.backend.common.config.UrlConfig;
 import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.darakbang.implement.DarakbangFinder;
 import mouda.backend.moim.domain.Moim;
-import mouda.backend.moim.implement.finder.ChatRecipientFinder;
 import mouda.backend.moim.implement.finder.MoimFinder;
 import mouda.backend.notification.domain.NotificationEvent;
 import mouda.backend.notification.domain.NotificationType;

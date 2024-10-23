@@ -37,7 +37,6 @@ public class DataSourceConfiguration {
 
         return builder.dataSource(dataSource)
                 .properties(properties)
-                .packages("mouda.backend.*.domain")
                 .build();
     }
 

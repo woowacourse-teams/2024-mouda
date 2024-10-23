@@ -1,4 +1,4 @@
-package mouda.backend.moim.implement.finder;
+package mouda.backend.chat.implement.sender;
 
 import java.util.List;
 import java.util.stream.Stream;
