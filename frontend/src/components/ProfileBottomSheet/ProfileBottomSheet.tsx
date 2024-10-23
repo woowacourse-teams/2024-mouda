@@ -88,7 +88,13 @@ export default function ProfileBottomSheet(props: ProfileBottomSheetProps) {
             >
               <ProfileInfoItem label="이름" value={profile.name} />
               <ProfileInfoItem label="닉네임" value={profile.nickname} />
-              <ProfileInfoItem label="소개" value={profile.description} />
+              <ProfileInfoItem
+                label="소개"
+                value={
+                  profile.description ||
+                  `${profile.name}(${profile.nickname})님의 소개가 없습니다.`
+                }
+              />
             </div>
           </div>
         </div>
