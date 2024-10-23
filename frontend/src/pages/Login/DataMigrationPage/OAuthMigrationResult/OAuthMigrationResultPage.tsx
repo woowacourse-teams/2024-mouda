@@ -1,15 +1,16 @@
-import LoginLayout from '@_layouts/LoginLayout/LoginLayout';
-import MissingFallback from '@_components/Fallback/MissingFallback/MissingFallback';
 import * as S from './OAuthMigrationResultPage.style';
-import { useTheme } from '@emotion/react';
 
 import { useNavigate, useParams } from 'react-router-dom';
+
 import Button from '@_components/Button/Button';
+import GET_ROUTES from '@_common/getRoutes';
+import HappyFallback from '@_components/Fallback/HappyFallback/HappyFallback';
+import LoginLayout from '@_layouts/LoginLayout/LoginLayout';
+import MissingFallback from '@_components/Fallback/MissingFallback/MissingFallback';
 import ROUTES from '@_constants/routes';
 import { getInviteCode } from '@_common/inviteCodeManager';
 import { useEffect } from 'react';
-import GET_ROUTES from '@_common/getRoutes';
-import HappyFallback from '@_components/Fallback/HappyFallback/HappyFallback';
+import { useTheme } from '@emotion/react';
 
 export default function OAuthMigrationResultPage() {
   const theme = useTheme();
@@ -75,9 +76,9 @@ export default function OAuthMigrationResultPage() {
         <LoginLayout.Footer>
           <Button
             shape={'bar'}
-            onClick={() => navigate(GET_ROUTES.default.home)}
+            onClick={() => navigate(ROUTES.darakbangSelectOption)}
           >
-            로그인 페이지로 이동하기
+            다락방 선택 페이지로 이동하기
           </Button>
         </LoginLayout.Footer>
       </LoginLayout>

@@ -98,7 +98,7 @@ export default function BetResultPage() {
               />
             )}
           </RouletteWrapper>
-          {isButtonShown && (
+          {isButtonShown && bet?.myRole !== 'NON_MOIMEE' && (
             <Button
               shape="bar"
               primary
