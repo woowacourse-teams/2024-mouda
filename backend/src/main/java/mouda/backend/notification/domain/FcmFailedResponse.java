@@ -3,113 +3,98 @@ package mouda.backend.notification.domain;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 import com.google.firebase.messaging.BatchResponse;
-import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.MessagingErrorCode;
 import com.google.firebase.messaging.SendResponse;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import mouda.backend.notification.util.FcmRetryAfterExtractor;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-@ToString
 public class FcmFailedResponse {
 
-	private static final int DEFAULT_RETRY_AFTER_SECONDS = 60;
-
 	private final BatchResponse batchResponse;
-	private final List<String> failedWith429Tokens;
-	private final List<String> failedWith5xxTokens;
-	private final List<String> nonRetryableFailedTokens;
+	private final Map<MessagingErrorCode, List<FcmToken>> failedTokens;
 
-
-	public static FcmFailedResponse from(BatchResponse response, List<String> triedTokens) {
+	public static FcmFailedResponse from(BatchResponse response, List<FcmToken> triedTokens) {
+		Map<MessagingErrorCode, List<FcmToken>> result = new ConcurrentHashMap<>();
 		List<SendResponse> responses = response.getResponses();
-		List<String> failedWith429Tokens = new ArrayList<>();
-		List<String> failedWith5xxTokens = new ArrayList<>();
-		List<String> nonRetryableFailedTokens = new ArrayList<>();
-
 		IntStream.range(0, responses.size())
 			.forEach(i -> {
 				SendResponse sendResponse = responses.get(i);
 				if (sendResponse.isSuccessful()) {
 					return;
 				}
-				String token = triedTokens.get(i);
-				if (isFailedWith429(sendResponse)) {
-					failedWith429Tokens.add(token);
-					return;
-				}
-				if (isFailedWith5xx(sendResponse)) {
-					failedWith5xxTokens.add(token);
-					return;
-				}
-				nonRetryableFailedTokens.add(token);
+				FcmToken token = triedTokens.get(i);
+				MessagingErrorCode errorCode = sendResponse.getException().getMessagingErrorCode();
+				result.computeIfAbsent(errorCode, k -> new ArrayList<>()).add(token);
 			});
 
-		return new FcmFailedResponse(response, failedWith429Tokens, failedWith5xxTokens, nonRetryableFailedTokens);
+		return new FcmFailedResponse(response, result);
 	}
 
-	private static boolean isFailedWith429(SendResponse response) {
-		return hasSameErrorCode(response, MessagingErrorCode.QUOTA_EXCEEDED);
+	public List<FcmToken> getFailedWith404Tokens() {
+		return getTokens(this::isFailedWith404);
 	}
 
-	private static boolean isFailedWith5xx(SendResponse response) {
-		return hasSameErrorCode(response, MessagingErrorCode.INTERNAL, MessagingErrorCode.UNAVAILABLE);
+	public List<FcmToken> getFailedWith429Tokens() {
+		return getTokens(this::isFailedWith429);
 	}
 
-	private static boolean hasSameErrorCode(SendResponse response, MessagingErrorCode... errorCodes) {
-		if (response.isSuccessful()) {
-			return false;
-		}
-		FirebaseMessagingException exception = response.getException();
-		return Arrays.stream(errorCodes)
-			.anyMatch(errorCode -> exception.getMessagingErrorCode() == errorCode);
+	public List<FcmToken> getFailedWith5xxTokens() {
+		return getTokens(this::isFailedWith5xx);
 	}
 
-	public boolean hasNoRetryableTokens() {
-		return failedWith429Tokens.isEmpty() && failedWith5xxTokens.isEmpty();
+	public List<FcmToken> getNonRetryableFailedTokens() {
+		return getTokens(errorCode -> !isFailedWith429(errorCode) && !isFailedWith5xx(errorCode));
 	}
 
-	public boolean hasFailedWith429Tokens() {
-		return !failedWith429Tokens.isEmpty();
-	}
-
-	public boolean hasFailedWith5xxTokens() {
-		return !failedWith5xxTokens.isEmpty();
-	}
-
-	public List<String> getFinallyFailedTokens() {
-		List<String> failedTokens = new ArrayList<>();
-		failedTokens.addAll(failedWith429Tokens);
-		failedTokens.addAll(failedWith5xxTokens);
-		failedTokens.addAll(nonRetryableFailedTokens);
-		return failedTokens;
+	public List<FcmToken> getFinallyFailedTokens() {
+		return failedTokens.values().stream()
+			.flatMap(List::stream)
+			.toList();
 	}
 
 	public int getRetryAfterSeconds() {
-		List<SendResponse> responses = batchResponse.getResponses();
-		return responses.stream()
-			.filter(FcmFailedResponse::isFailedWith429)
-			.map(this::parseRetryAfterSeconds)
-			.findAny()
-			.orElse(DEFAULT_RETRY_AFTER_SECONDS);
+		return FcmRetryAfterExtractor.getRetryAfterSeconds(batchResponse);
 	}
 
-	private int parseRetryAfterSeconds(SendResponse response) {
-		Object retryAfterHeader = response.getException().getHttpResponse().getHeaders().get("Retry-After");
-		if (retryAfterHeader == null) {
-			return DEFAULT_RETRY_AFTER_SECONDS;
-		}
-		try {
-			return Integer.parseInt(retryAfterHeader.toString());
-		} catch (NumberFormatException e) {
-			return DEFAULT_RETRY_AFTER_SECONDS;
-		}
+	public boolean hasNoRetryableTokens() {
+		return isTokenAbsent(MessagingErrorCode.QUOTA_EXCEEDED, MessagingErrorCode.INTERNAL,
+			MessagingErrorCode.UNAVAILABLE);
+	}
+
+	private List<FcmToken> getTokens(Predicate<MessagingErrorCode> filter) {
+		return failedTokens.keySet().stream()
+			.filter(filter)
+			.flatMap(errorCode -> failedTokens.get(errorCode).stream())
+			.toList();
+	}
+
+	private boolean isFailedWith404(MessagingErrorCode errorCode) {
+		return errorCode == MessagingErrorCode.UNREGISTERED;
+	}
+
+	private boolean isFailedWith429(MessagingErrorCode errorCode) {
+		return errorCode == MessagingErrorCode.QUOTA_EXCEEDED;
+	}
+
+	private boolean isFailedWith5xx(MessagingErrorCode errorCode) {
+		return errorCode == MessagingErrorCode.INTERNAL ||
+			errorCode == MessagingErrorCode.UNAVAILABLE;
+	}
+
+	private boolean isTokenAbsent(MessagingErrorCode... errorCodes) {
+		return Arrays.stream(errorCodes)
+			.map(failedTokens::get)
+			.allMatch(tokens -> tokens == null || tokens.isEmpty());
 	}
 }

@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import mouda.backend.chat.domain.ChatRoomType;
+import mouda.backend.chat.implement.ChatRoomFinder;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.FilterType;
 import mouda.backend.moim.domain.Moim;
@@ -31,6 +33,7 @@ public class MoimService {
 	private final MoimFinder moimFinder;
 	private final CommentFinder commentFinder;
 	private final MoimNotificationSender moimNotificationSender;
+	private final ChatRoomFinder chatRoomFinder;
 
 	@Transactional(readOnly = true)
 	public MoimDetailsFindResponse findMoimDetails(long darakbangId, long moimId) {
@@ -39,7 +42,14 @@ public class MoimService {
 		List<ParentComment> parentComments = commentFinder.readAllParentComments(moim);
 		CommentResponses commentResponses = CommentResponses.toResponse(parentComments);
 
-		return MoimDetailsFindResponse.toResponse(moim, moimFinder.countCurrentPeople(moim), commentResponses);
+		Long chatRoomId = chatRoomFinder.findChatRoomIdByTargetId(moim.getId(), ChatRoomType.MOIM);
+
+		return MoimDetailsFindResponse.toResponse(
+			moim,
+			moimFinder.countCurrentPeople(moim),
+			commentResponses,
+			chatRoomId
+		);
 	}
 
 	@Transactional(readOnly = true)
@@ -93,9 +103,10 @@ public class MoimService {
 
 	public void editMoim(Long darakbangId, MoimEditRequest request, DarakbangMember darakbangMember) {
 		Moim moim = moimFinder.read(request.moimId(), darakbangId);
+		String oldTitle = moim.getTitle();
 		moimWriter.updateMoim(moim, darakbangMember, request.title(), request.date(), request.time(), request.place(),
 			request.maxPeople(), request.description());
 
-		moimNotificationSender.sendMoimStatusChangedNotification(moim, NotificationType.MOIM_MODIFIED);
+		moimNotificationSender.sendMoimInfoModifiedNotification(moim, oldTitle, NotificationType.MOIM_MODIFIED);
 	}
 }

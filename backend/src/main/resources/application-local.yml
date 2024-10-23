@@ -28,6 +28,7 @@ oauth:
     redirect-uri: http://localhost:8081/oauth/google
   apple:
     redirect-uri: https://api.dev.mouda.site/v1/auth/apple
+    redirection: https://dev.mouda.site/oauth/apple?token=
 
 aws:
   region:
@@ -39,3 +40,12 @@ aws:
 
 url:
   base: http://localhost:8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+  endpoint:
+    health:
+      show-details: always

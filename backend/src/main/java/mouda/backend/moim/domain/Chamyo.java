@@ -58,4 +58,8 @@ public class Chamyo {
 	public void updateLastChat(Long lastReadChatId) {
 		this.lastReadChatId = lastReadChatId;
 	}
+
+	public boolean isNotSameMember(DarakbangMember darakbangMember) {
+		return !this.darakbangMember.equals(darakbangMember);
+	}
 }

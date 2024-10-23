@@ -1,4 +1,4 @@
-package mouda.backend.moim.implement.finder;
+package mouda.backend.chat.implement;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import mouda.backend.chat.implement.sender.ChatRecipientFinder;
 import mouda.backend.common.fixture.DarakbangSetUp;
 import mouda.backend.common.fixture.MoimFixture;
 import mouda.backend.moim.domain.Moim;

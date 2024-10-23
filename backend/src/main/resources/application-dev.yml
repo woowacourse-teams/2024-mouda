@@ -1,6 +1,8 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 20
   jpa:
     hibernate:
       ddl-auto: update
@@ -17,6 +19,7 @@ oauth:
     redirect-uri: https://dev.mouda.site/oauth/google
   apple:
     redirect-uri: https://api.dev.mouda.site/v1/auth/apple
+    redirection: https://dev.mouda.site/oauth/apple?token=
 
 aws:
   region:
@@ -25,3 +28,12 @@ aws:
     bucket: techcourse-project-2024
     key-prefix: mouda/dev/asset/profile/
     prefix: https://dev.mouda.site/profile/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+  endpoint:
+    health:
+      show-details: always
