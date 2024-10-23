@@ -14,41 +14,49 @@ export const Default: Story = {
   args: {
     participants: [
       {
+        darakbangMemberId: 1,
         nickname: '치코',
         profile: '',
         role: 'MOIMER',
       },
       {
+        darakbangMemberId: 1,
         nickname: '치코',
         profile: '',
         role: 'MOIMEE',
       },
       {
+        darakbangMemberId: 1,
         nickname: '치코',
         profile: '',
         role: 'MOIMER',
       },
       {
+        darakbangMemberId: 1,
         nickname: '치코',
         profile: '',
         role: 'MOIMER',
       },
       {
+        darakbangMemberId: 1,
         nickname: '치코',
         profile: '',
         role: 'MOIMER',
       },
       {
+        darakbangMemberId: 1,
         nickname: '치코',
         profile: '',
         role: 'MOIMER',
       },
       {
+        darakbangMemberId: 1,
         nickname: '치코',
         profile: '',
         role: 'MOIMER',
       },
       {
+        darakbangMemberId: 1,
         nickname: '치코',
         profile: '',
         role: 'MOIMER',

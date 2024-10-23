@@ -27,11 +27,13 @@ export const Default: Story = {
         authorNickname: '김코딩',
         participants: [
           {
+            darakbangMemberId: 1,
             nickname: '김코딩',
             profile: 'https://avatars.githubusercontent.com/u/78939596?v=4',
             role: 'MOIMER',
           },
           {
+            darakbangMemberId: 1,
             nickname: '김디자인',
             profile: 'https://avatars.githubusercontent.com/u/78939596?v=4',
             role: 'MOIMEE',
@@ -51,11 +53,13 @@ export const Default: Story = {
         authorNickname: '김코딩',
         participants: [
           {
+            darakbangMemberId: 1,
             nickname: '김코딩',
             profile: 'https://avatars.githubusercontent.com/u/78939596?v=4',
             role: 'MOIMER',
           },
           {
+            darakbangMemberId: 1,
             nickname: '김디자인',
             profile: 'https://avatars.githubusercontent.com/u/78939596?v=4',
             role: 'MOIMEE',
@@ -86,11 +90,13 @@ export const Default: Story = {
         authorNickname: '김코딩',
         participants: [
           {
+            darakbangMemberId: 1,
             nickname: '김코딩',
             profile: 'https://avatars.githubusercontent.com/u/78939596?v=4',
             role: 'MOIMER',
           },
           {
+            darakbangMemberId: 1,
             nickname: '김디자인',
             profile: 'https://avatars.githubusercontent.com/u/78939596?v=4',
             role: 'MOIMEE',

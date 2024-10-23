@@ -19,6 +19,7 @@ export interface MoimInfo {
 }
 
 export interface Participation {
+  darakbangMemberId: number;
   nickname: string;
   profile: string;
   role: Role;

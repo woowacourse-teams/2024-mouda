@@ -22,7 +22,7 @@ export default function ProfileCard(props: ProfileCardProps) {
     maxNicknameWidth: 70,
   });
 
-  const { member } = useDarakbangMember(1);
+  const { member } = useDarakbangMember(info.darakbangMemberId);
 
   const { profileBottomSheet, open } = useProfileBottomSheet({
     name: member?.name || '',
