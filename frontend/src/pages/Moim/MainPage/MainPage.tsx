@@ -38,6 +38,8 @@ import { useTheme } from '@emotion/react';
 export default function MainPage() {
   const navigate = useNavigate();
   const { mutate } = useServeToken();
+
+  requestPermission(mutate);
   const theme = useTheme();
   const [currentTab, setCurrentTab] = useState<MainPageTab>('모임목록');
   const [isDarakbangMenuOpened, setIsDarakbangMenuOpened] = useState(false);
