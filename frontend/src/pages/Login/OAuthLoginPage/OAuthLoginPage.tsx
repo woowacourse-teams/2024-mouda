@@ -14,7 +14,7 @@ export default function OAuthLoginPage() {
   const params = useParams<'provider'>();
   const provider = params.provider as Provider | undefined;
   const { mutate: kakaoMigration } = useMigrationOAuth(
-    () => navigate(`${GET_ROUTES.default.resultMigration}/sucess`),
+    () => navigate(`${GET_ROUTES.default.resultMigration}/success`),
     () => navigate(`${GET_ROUTES.default.resultMigration}/fail`),
   );
 
