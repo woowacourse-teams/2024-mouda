@@ -35,7 +35,7 @@ export default function ChatPage() {
             </h2>
           </ChattingPreviewLayout.Header.Left>
         </ChattingPreviewLayout.Header>
-        <ChattingPreviewLayout.HeaderBottom>
+        <ChattingPreviewLayout.ContentContainer>
           <ChatFilterTagList>
             <ChatFilterTag
               value={'모임'}
@@ -48,8 +48,6 @@ export default function ChatPage() {
               onClick={() => setNowChatRoomType('BET')}
             />
           </ChatFilterTagList>
-        </ChattingPreviewLayout.HeaderBottom>
-        <ChattingPreviewLayout.ContentContainer>
           {isLoading ? (
             <ChatCardListSkeleton />
           ) : chatPreviews && chatPreviews.length > 0 ? (
