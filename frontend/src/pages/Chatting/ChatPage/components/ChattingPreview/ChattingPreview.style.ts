@@ -7,6 +7,8 @@ export const container = ({
   theme: Theme;
   themeColor: string | SerializedStyles;
 }) => css`
+  z-index: 0;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
