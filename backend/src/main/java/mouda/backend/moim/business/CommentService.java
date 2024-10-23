@@ -8,7 +8,7 @@ import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Comment;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.implement.finder.MoimFinder;
-import mouda.backend.moim.implement.sender.CommentNotificationSender;
+import mouda.backend.moim.implement.notificiation.MoimRelatedNotificationSender;
 import mouda.backend.moim.implement.writer.CommentWriter;
 import mouda.backend.moim.presentation.request.comment.CommentCreateRequest;
 
@@ -19,7 +19,7 @@ public class CommentService {
 
 	private final MoimFinder moimFinder;
 	private final CommentWriter commentWriter;
-	private final CommentNotificationSender commentNotificationSender;
+	private final MoimRelatedNotificationSender notificationSender;
 
 	public void createComment(
 		Long darakbangId, Long moimId, DarakbangMember darakbangMember, CommentCreateRequest request
@@ -27,6 +27,6 @@ public class CommentService {
 		Moim moim = moimFinder.read(moimId, darakbangId);
 		Comment comment = commentWriter.saveComment(moim, darakbangMember, request.parentId(), request.content());
 
-		commentNotificationSender.sendCommentNotification(comment, darakbangMember);
+		notificationSender.sendCommentNotification(comment, darakbangMember);
 	}
 }
