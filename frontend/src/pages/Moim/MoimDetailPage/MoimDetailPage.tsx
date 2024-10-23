@@ -1,6 +1,4 @@
 import { useNavigate, useParams } from 'react-router-dom';
-
-import BackLogo from '@_common/assets/back.svg';
 import Button from '@_components/Button/Button';
 import CommentList from './components/CommentList/CommentList';
 import CommentListSkeleton from './components/CommentList/CommentListSkeleton';
@@ -30,6 +28,7 @@ import useOpenChat from '@_hooks/mutaions/useOpenChat';
 import useReopenMoim from '@_hooks/mutaions/useReopenMoim';
 import { useTheme } from '@emotion/react';
 import useZzimMine from '@_hooks/queries/useZzimMine';
+import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
 
 export default function MoimDetailPage() {
   const navigate = useNavigate();
@@ -185,9 +184,9 @@ export default function MoimDetailPage() {
     <InformationLayout>
       <InformationLayout.Header>
         <InformationLayout.Header.Left>
-          <div onClick={() => navigate(GET_ROUTES.nowDarakbang.main())}>
-            <BackLogo />
-          </div>
+          <BackArrowButton
+            onClick={() => navigate(GET_ROUTES.nowDarakbang.main())}
+          />
         </InformationLayout.Header.Left>
         <InformationLayout.Header.Right>
           {isZzimMineLoading && (
