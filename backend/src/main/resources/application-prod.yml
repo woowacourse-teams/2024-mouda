@@ -35,6 +35,7 @@ oauth:
     redirect-uri: https://mouda.site/oauth/google
   apple:
     redirect-uri: https://mouda.site/v1/auth/apple
+    redirection: https://test.mouda.site/oauth/apple?token=%s&isConverted=%s
 
 aws:
   region:
