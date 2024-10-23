@@ -22,7 +22,7 @@ public class TestAuthService {
 	private final AccessTokenProvider accessTokenProvider;
 
 	public LoginResponse basicLoginAnna() {
-		Member member = memberFinder.findByIdentifier("identifier");
+		Member member = memberFinder.findActiveOrDeletedByIdentifier("identifier");
 		return new LoginResponse(accessTokenProvider.provide(member), true);
 	}
 

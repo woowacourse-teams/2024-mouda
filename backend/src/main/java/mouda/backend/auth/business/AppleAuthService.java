@@ -42,7 +42,7 @@ public class AppleAuthService {
 	}
 
 	private LoginResponse handleExistingUser(String identifier) {
-		Member member = memberFinder.getActiveOrDeletedByIdentifier(identifier);
+		Member member = memberFinder.findActiveOrDeletedByIdentifier(identifier);
 		if (member != null) {
 			joinManager.rejoin(member);
 			return new LoginResponse(accessTokenProvider.provide(member), member.isConverted());

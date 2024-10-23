@@ -15,11 +15,7 @@ public class MemberFinder {
 
 	private final MemberRepository memberRepository;
 
-	public Member getActiveOrDeletedByIdentifier(String identifier) {
-		return memberRepository.findActiveOrDeletedByIdentifier(identifier).orElse(null);
-	}
-
-	public Member findByIdentifier(String identifier) {
+	public Member findActiveOrDeletedByIdentifier(String identifier) {
 		return memberRepository.findActiveOrDeletedByIdentifier(identifier)
 			.orElseThrow(() -> new AuthException(HttpStatus.NOT_FOUND, AuthErrorMessage.MEMBER_NOT_FOUND));
 	}
