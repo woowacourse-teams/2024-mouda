@@ -1,7 +1,6 @@
 import useStatePersist from '@_hooks/useStatePersist';
 import { MoimInputInfo } from '@_types/index';
 import {
-  isApprochedByUrl,
   isToday,
   validateDate,
   validateMaxPeople,
