@@ -14,6 +14,7 @@ export const preview = ({
   height: ${size || '3.5rem'};
 
   background: url(${imageUrl}), url(${defaultProfile});
+  background-color: white;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100% 100%;

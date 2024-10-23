@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
+import { BetDetail } from '@_types/index';
 import Button from '@_components/Button/Button';
 import GET_ROUTES from '@_common/getRoutes';
 import Roulette from '../components/Roulette/Roulette';
@@ -18,6 +19,17 @@ import useBetResult from '@_hooks/queries/useBetResult';
 // import StarThreeIcon from '@_components/Icons/StarIcons/StarThreeIcon';
 // import StarTwoIcon from '@_components/Icons/StarIcons/StarTwoIcon';
 const bitbit = 'bitbit';
+
+const getPercentString = (bet: BetDetail) => {
+  const motherNumber = bet.participants.length;
+  const percentNumber = (1 / motherNumber) * 100;
+  const percentString =
+    percentNumber % 1 === 0
+      ? percentNumber.toString()
+      : percentNumber.toFixed(1);
+  return `지금 당첨 확률은 *${percentString}*%`;
+};
+
 export default function BetResultPage() {
   const navigate = useNavigate();
 
@@ -83,7 +95,7 @@ export default function BetResultPage() {
         <div css={S.containerStyle}>
           <RouletteWrapper
             title={bet?.title || ''}
-            description={`지금 당첨될 확률은 *${((1 / (bet?.participants.length || 1)) * 100).toFixed(1)}*%!`}
+            description={bet ? getPercentString(bet) : '지금 당첨 확률은   %'}
             mainDescription={isRouletteEnd ? betResult + ' 당첨!!' : ''}
           >
             {nameList && (

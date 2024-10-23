@@ -38,6 +38,19 @@ const getIsButtonDisabled = (bet?: BetDetail) => {
 
 const bitbit = 'bitbit';
 
+const getPercentString = (bet: BetDetail) => {
+  const prefix =
+    bet.myRole === 'NON_MOIMEE' ? '지금 오면 당첨 확률' : '지금 당첨 확률은';
+  const motherNumber =
+    bet.participants.length + (bet.myRole === 'NON_MOIMEE' ? 1 : 0);
+  const percentNumber = (1 / motherNumber) * 100;
+  const percentString =
+    percentNumber % 1 === 0
+      ? percentNumber.toString()
+      : percentNumber.toFixed(1);
+  return `${prefix} *${percentString}*%`;
+};
+
 export default function BetDetailPage() {
   const navigate = useNavigate();
   const params = useParams();
@@ -113,7 +126,7 @@ export default function BetDetailPage() {
           {
             <RouletteWrapper
               title={bet?.title || ''}
-              description={`지금 당첨될 확률은 *${((1 / (bet?.participants.length || 1)) * 100).toFixed(1)}*%!`}
+              description={bet ? getPercentString(bet) : '지금 오면 %'}
               mainDescription={mainDescription}
             >
               {nameList && (
