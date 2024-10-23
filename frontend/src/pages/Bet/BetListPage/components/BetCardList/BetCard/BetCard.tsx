@@ -23,7 +23,6 @@ export default function BetCard(props: BetCardProps) {
   return (
     <div css={S.cardBox} onClick={() => onClick(bet.id)}>
       <div css={S.leftSection}>
-        <div css={S.title({ theme })}>{bet.title}</div>
         <div
           css={S.deadline({
             theme,
@@ -37,11 +36,14 @@ export default function BetCard(props: BetCardProps) {
               ? '마감 임박'
               : `마감 ${bet.leftMinute}분 전`}
         </div>
+        <div css={S.title({ theme, isAnnounced: bet.isAnnounced })}>
+          {bet.title}
+        </div>
         <div css={S.participantCount({ theme })}>
           <PeopleIcon /> {bet.currentParticipants}명
         </div>
         <div css={S.banner({ theme })}>
-          지금 당첨 확률 {probabilityPercentage}%
+          지금 오면 당첨 확률 {probabilityPercentage}%
         </div>
       </div>
       <div css={S.rightSection}>
