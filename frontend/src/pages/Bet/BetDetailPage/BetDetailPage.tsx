@@ -28,12 +28,12 @@ const getButtonMessage = (bet?: BetDetail) => {
 
 const getIsButtonDisabled = (bet?: BetDetail) => {
   if (!bet) return true;
-  if (bet.isAnnounced && bet.chatroomId) return false;
+  if (bet.isAnnounced && bet.chatroomId) return true;
   if (bet.myRole === 'MOIMER') return false;
 
   if (bet.myRole === 'MOIMEE') return true;
-  if (bet.myRole === 'NON_MOIMEE') return true;
-  return false;
+  if (bet.myRole === 'NON_MOIMEE') return false;
+  return true;
 };
 
 const bitbit = 'bitbit';

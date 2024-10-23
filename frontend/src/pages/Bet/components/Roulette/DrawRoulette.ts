@@ -1,4 +1,8 @@
-const getCanvasUtil = (canvas: HTMLCanvasElement) => {
+const getCanvasUtil = (
+  canvas: HTMLCanvasElement,
+  widthPx?: number,
+  heightPx?: number,
+) => {
   return {
     /**
      * getPercentToWidth
@@ -8,7 +12,7 @@ const getCanvasUtil = (canvas: HTMLCanvasElement) => {
      */
 
     gpw: (percent: number) => {
-      const width = canvas.width;
+      const width = widthPx ?? canvas.width;
       percent = Math.min(percent, width);
 
       return (percent / 100) * width;
@@ -21,7 +25,7 @@ const getCanvasUtil = (canvas: HTMLCanvasElement) => {
      * @returns percentNumber
      */
     gph: (percent: number) => {
-      const height = canvas.height;
+      const height = heightPx ?? canvas.height;
       percent = Math.min(percent, height);
 
       return (percent / 100) * height;
@@ -274,6 +278,8 @@ interface drawRouletteProps {
   stopSpeed?: number;
   fontColor?: string;
   itemPercent?: number;
+  widthPx?: number;
+  heightPx?: number;
   onEnd?: () => void;
 }
 
@@ -289,12 +295,14 @@ export default function drawRoulette(props: drawRouletteProps) {
     stopSpeed = 3,
     fontColor = 'grey',
     itemPercent = 100,
+    widthPx,
+    heightPx,
     onEnd,
   } = props;
   const ctx = canvas.getContext('2d');
   if (!ctx) return { clearCanvas: () => {} };
 
-  const { gpw, gph } = getCanvasUtil(canvas);
+  const { gpw, gph } = getCanvasUtil(canvas, widthPx, heightPx);
 
   const FRAME_SECOND = 20;
   const slotItemMover = new SlotItemMover(
