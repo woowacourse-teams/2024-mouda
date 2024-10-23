@@ -196,7 +196,11 @@ export default function MoimDetailPage() {
     <InformationLayout>
       <InformationLayout.Header>
         <InformationLayout.Header.Left>
-          <div onClick={() => navigate(GET_ROUTES.nowDarakbang.main())}>
+          <div
+            role="button"
+            aria-label="뒤로가기"
+            onClick={() => navigate(GET_ROUTES.nowDarakbang.main())}
+          >
             <BackLogo />
           </div>
         </InformationLayout.Header.Left>
@@ -206,6 +210,8 @@ export default function MoimDetailPage() {
           )}
           {!isZzimMineLoading && (
             <ZzimButton
+              aria-label={`찜 토글 버튼`}
+              aria-pressed={!!isZzimed}
               isZzimed={!!isZzimed}
               onClick={() => changZzim(moimId)}
             />

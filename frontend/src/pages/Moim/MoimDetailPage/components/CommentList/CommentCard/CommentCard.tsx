@@ -1,10 +1,12 @@
 import * as S from './CommentCard.style';
 
+import { formatHhmmToKorean, formatYyyymmddToKorean } from '@_utils/formatters';
+
 import { Comment } from '@_types/index';
 import { HTMLProps } from 'react';
-import { useTheme } from '@emotion/react';
 import ProfileFrame from '@_components/ProfileFrame/ProfileFrame';
 import useNicknameWidthEffect from '@_hooks/useNicknameWidthEffect';
+import { useTheme } from '@emotion/react';
 
 export interface CommentCardProps extends HTMLProps<HTMLDivElement> {
   comment: Comment;
@@ -12,6 +14,13 @@ export interface CommentCardProps extends HTMLProps<HTMLDivElement> {
   isChecked?: boolean;
   isChild?: boolean;
 }
+const getDateTimeAriaLabel = (string: string) => {
+  const [date, time] = string.split(' ');
+  const dateLabel = formatYyyymmddToKorean(date, '-', true);
+  const timeLabel = formatHhmmToKorean(time, ':');
+
+  return `${dateLabel} ${timeLabel}`;
+};
 
 export default function CommentCard(props: CommentCardProps) {
   const {
@@ -29,30 +38,46 @@ export default function CommentCard(props: CommentCardProps) {
   const theme = useTheme();
 
   return (
-    <div css={S.commentContainer()}>
-      <div css={S.commentWrapper({ theme, isChecked })}>
-        <ProfileFrame width={3} height={3} borderWidth={0} src={profile} />
+    <ul css={S.commentContainer()}>
+      <li css={S.commentWrapper({ theme, isChecked })}>
+        <ProfileFrame
+          width={3}
+          height={3}
+          borderWidth={0}
+          src={profile}
+          aria-hidden
+        />
 
         <div css={S.commnetBox()}>
-          <div css={S.commnetHeader}>
-            <div css={S.commentHeaderLeft}>
+          <div css={S.commentLeft}>
+            <div css={S.commentLeftHeader}>
               <div
                 ref={nicknameRef}
                 css={[S.commentNickname, theme.typography.small]}
+                aria-label={nickname}
               >
                 {formattedNickname}
               </div>
-              <div css={S.timestamp({ theme })}>{dateTime}</div>
-            </div>
-            {!isChild && (
-              <div css={S.commentHeaderRight({ theme })}>
-                <button onClick={onWriteClick}>답글쓰기</button>
+              <div
+                css={S.timestamp({ theme })}
+                aria-label={getDateTimeAriaLabel(dateTime)}
+              >
+                {dateTime}
               </div>
-            )}
+            </div>
+            <div css={S.contentBox({ theme })} aria-label={content}>
+              {content}
+            </div>
           </div>
-          <div css={S.contentBox({ theme })}>{content}</div>
+          {!isChild && (
+            <div css={S.commentHeaderRight({ theme })}>
+              <button onClick={onWriteClick} aria-label="답글쓰기">
+                답글쓰기
+              </button>
+            </div>
+          )}
         </div>
-      </div>
+      </li>
       {children && (
         <div css={S.commentChildBox()}>
           {children.map((childComment) => (
@@ -64,6 +89,6 @@ export default function CommentCard(props: CommentCardProps) {
           ))}
         </div>
       )}
-    </div>
+    </ul>
   );
 }

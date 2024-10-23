@@ -1,8 +1,9 @@
 import * as S from './ProfileCard.style';
-import { useTheme } from '@emotion/react';
+
 import { Participation } from '@_types/index';
 import ProfileFrame from '../../../../../../components/ProfileFrame/ProfileFrame';
 import useNicknameWidthEffect from '@_hooks/useNicknameWidthEffect';
+import { useTheme } from '@emotion/react';
 
 interface ProfileCardProps {
   info: Participation;
@@ -18,11 +19,17 @@ export default function ProfileCard(props: ProfileCardProps) {
   const theme = useTheme();
 
   return (
-    <div css={S.profileCard}>
-      <ProfileFrame width={7} height={7} src={info.profile} role={info.role} />
-      <div ref={nicknameRef} css={S.profileName({ theme })}>
+    <li css={S.profileCard} tabIndex={0} aria-label={info.nickname}>
+      <ProfileFrame
+        width={7}
+        height={7}
+        src={info.profile}
+        role={info.role}
+        aria-hidden
+      />
+      <div ref={nicknameRef} css={S.profileName({ theme })} aria-hidden>
         {formattedNickname}
       </div>
-    </div>
+    </li>
   );
 }

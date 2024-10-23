@@ -1,8 +1,8 @@
 import * as S from '@_pages/Moim/MoimDetailPage/components/Tag/Tag.style';
 
 import { HTMLProps } from 'react';
-import { useTheme } from '@emotion/react';
 import { MoimStatus } from '@_types/index';
+import { useTheme } from '@emotion/react';
 
 interface TagProps extends HTMLProps<HTMLDivElement> {
   status: MoimStatus;
@@ -10,9 +10,9 @@ interface TagProps extends HTMLProps<HTMLDivElement> {
 
 export default function Tag(props: TagProps) {
   const theme = useTheme();
-  const { status } = props;
+  const { status, ...restProps } = props;
   return (
-    <div css={S.tagBox({ theme, status })}>
+    <div css={S.tagBox({ theme, status })} {...restProps}>
       {status === 'CANCELED'
         ? '모임 취소'
         : status === 'MOIMING'
