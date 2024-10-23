@@ -32,14 +32,8 @@ public class BetFinder {
 	public Bet find(long darakbangId, long betEntityId) {
 		BetEntity betEntity = betRepository.findByIdAndDarakbangId(betEntityId, darakbangId)
 			.orElseThrow(() -> new BetException(HttpStatus.NOT_FOUND, BetErrorMessage.BET_NOT_FOUND));
-		List<Participant> participants = participantFinder.findAllByBetEntity(betEntity);
 
-		return Bet.builder()
-			.betDetails(betEntity.toBetDetails())
-			.moimerId(betEntity.getMoimerId())
-			.participants(participants)
-			.loserId(betEntity.getLoserDarakbangMemberId())
-			.build();
+		return createBet(betEntity);
 	}
 
 	public List<Bet> findAllByDarakbangId(long darakbangId) {
