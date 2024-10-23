@@ -20,3 +20,20 @@ export const ModalContent = (props: { theme: Theme }) => css`
   margin-bottom: 4rem;
   padding-right: 60px;
 `;
+
+export const skipLink = () => css`
+  position: absolute;
+  z-index: 100;
+  top: -40px;
+  left: 0;
+
+  padding: 8px;
+
+  color: #fff;
+
+  background: #000;
+
+  &:focus {
+    top: 0;
+  }
+`;

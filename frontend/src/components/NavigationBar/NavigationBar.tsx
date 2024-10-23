@@ -33,8 +33,8 @@ export default function NavigationBar() {
   };
 
   return (
-    <nav css={S.navigationBarContainer({ theme })}>
-      <ul css={[S.navigationBarList]}>
+    <nav id="bottom-nav" css={S.navigationBarContainer({ theme })}>
+      <ul css={[S.navigationBarList]} role="menu">
         {Object.keys(tabRoutes).map((tab) => (
           <NavigationBarItem
             key={tab}

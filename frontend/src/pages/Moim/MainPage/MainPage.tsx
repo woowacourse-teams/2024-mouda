@@ -148,16 +148,28 @@ export default function MainPage() {
   }, [darakbangMenuOption]);
   return (
     <Fragment>
+      <a href="#bottom-nav" css={S.skipLink}>
+        하단 메뉴 바로가기
+      </a>
       <DefaultPageLayout>
         <DefaultPageLayout.DoubleTriHeader>
           <DefaultPageLayout.DoubleTriHeader.Top>
             <DefaultPageLayout.DoubleTriHeader.Top.Left>
-              <div
-                css={[S.headerLeft, common.cursorPointer, common.nonDrag]}
+              <button
+                css={[
+                  S.headerLeft,
+                  common.cursorPointer,
+                  common.nonDrag,
+                  {
+                    background: 'none',
+                    border: 'none',
+                  },
+                ]}
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsDarakbangMenuOpened(!isDarakbangMenuOpened);
                 }}
+                aria-label="다락방"
               >
                 <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
                 <SolidArrow
@@ -165,11 +177,15 @@ export default function MainPage() {
                   width="15"
                   height="15"
                 />
-              </div>
+              </button>
             </DefaultPageLayout.DoubleTriHeader.Top.Left>
 
             <DefaultPageLayout.DoubleTriHeader.Top.Right>
-              <button css={S.headerButton} onClick={handleNotification}>
+              <button
+                css={S.headerButton}
+                onClick={handleNotification}
+                aria-label="알림센터"
+              >
                 <Notification />
               </button>
               <RefreshButton />
@@ -178,16 +194,14 @@ export default function MainPage() {
           {isDarakbangMenuOpened && darakbangMenu}
           <MoimTabBar currentTab={currentTab} onTabClick={handleTabClick} />
         </DefaultPageLayout.DoubleTriHeader>
-
-        <DefaultPageLayout.Main>
-          <HomeMainContent currentTab={currentTab} />
-        </DefaultPageLayout.Main>
-
         <DefaultPageLayout.ListPageFixedButtonWrapper>
           <PlusButton
             onClick={() => navigate(GET_ROUTES.nowDarakbang.addMoim())}
           />
         </DefaultPageLayout.ListPageFixedButtonWrapper>
+        <DefaultPageLayout.Main>
+          <HomeMainContent currentTab={currentTab} />
+        </DefaultPageLayout.Main>
       </DefaultPageLayout>
 
       <NavigationBarWrapper>
