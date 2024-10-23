@@ -12,6 +12,6 @@ export default function BetList() {
   return bets && bets.length > 0 ? (
     <BetCardList bets={bets} />
   ) : (
-    <MissingFallback text="아무런 글이 없어요..!" />
+    <MissingFallback text="아직 만들어진 룰렛이 없어요" />
   );
 }
