@@ -1,12 +1,13 @@
 package mouda.backend.chat.presentation.response;
 
 public record ParticipantResponse(
+	long darakbangMemberId,
 	String nickname,
 	String profile,
 	String role
 ) {
 
-	public ParticipantResponse(String nickname, String profile) {
-		this(nickname, profile, null);
+	public ParticipantResponse(long darakbangMemberId, String nickname, String profile) {
+		this(darakbangMemberId, nickname, profile, null);
 	}
 }

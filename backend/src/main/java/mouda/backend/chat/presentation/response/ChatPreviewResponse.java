@@ -30,7 +30,11 @@ public record ChatPreviewResponse(
 
 	private static List<ParticipantResponse> getParticipants(ChatPreview chatPreview) {
 		return chatPreview.getParticipants().stream()
-			.map(participant -> new ParticipantResponse(participant.getNickname(), participant.getProfile(), participant.getRole()))
+			.map(participant -> new ParticipantResponse(
+				participant.getDarakbangMemberId(),
+				participant.getNickname(),
+				participant.getProfile(),
+				participant.getRole()))
 			.toList();
 	}
 }
