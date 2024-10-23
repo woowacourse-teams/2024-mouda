@@ -30,7 +30,12 @@ const POLICES = {
 
   entranceCodeLength: 7,
 
+
   maxProfileImageSize: 5 * 1024 * 1024, //* 5MB
+
+  minBetTitleLength: 1,
+  maxBetTitleLength: 20,
+  betWaitingMinutesOptions: [5, 10, 15, 20, 25, 30],
 };
 
 export default POLICES;

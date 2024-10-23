@@ -5,13 +5,13 @@ import HighlightSpan from '@_components/HighlightSpan/HighlightSpan';
 import MissingFallback from '@_components/Fallback/MissingFallback/MissingFallback';
 import ROUTES from '@_constants/routes';
 import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
-import SolidArrow from '@_components/Icons/SolidArrow';
 import { common } from '@_common/common.style';
 import { setLastDarakbangId } from '@_common/lastDarakbangManager';
 import useMyDarakbangs from '@_hooks/queries/useMyDarakbang';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
 import SelectBar from '../components/SelectBar/SelectBar';
+import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
 
 export default function DarakbangSelectPage() {
   const theme = useTheme();
@@ -22,8 +22,7 @@ export default function DarakbangSelectPage() {
     <SelectLayout>
       <SelectLayout.Header>
         <SelectLayout.Header.Left>
-          <SolidArrow
-            direction="left"
+          <BackArrowButton
             onClick={() => {
               navigate(-1);
             }}
@@ -34,9 +33,8 @@ export default function DarakbangSelectPage() {
         </SelectLayout.Header.Center>
       </SelectLayout.Header>
       <SelectLayout.ContentContainer>
-        <HighlightSpan>
-          {'어느 '}
-          <HighlightSpan.Highlight>다락방</HighlightSpan.Highlight>에
+        <HighlightSpan ariaLabel="어느 다락방에 들어갈까요?">
+          어느 <HighlightSpan.Highlight>다락방</HighlightSpan.Highlight>에
           들어갈까요?
         </HighlightSpan>
         {isLoading && <>loading...</>}

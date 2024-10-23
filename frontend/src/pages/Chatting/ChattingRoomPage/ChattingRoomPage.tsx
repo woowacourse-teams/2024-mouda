@@ -1,6 +1,6 @@
 import { css, useTheme } from '@emotion/react';
 import { isBetChatRoomDetail, isMoimChatRoomDetail } from '@_types/typeGuards';
-import { useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import CalenderClock from '@_components/Icons/CalenderClock';
@@ -26,6 +26,7 @@ import useChats from '@_hooks/queries/useChats';
 import useConfirmDateTime from '@_hooks/mutaions/useConfirmDatetime';
 import useConfirmPlace from '@_hooks/mutaions/useConfirmPlace';
 import useSendMessage from '@_hooks/mutaions/useSendMessage';
+import LooserBanner from './components/LooserBanner/LooserBanner';
 
 type ModalContent = 'place' | 'datetime';
 
@@ -137,7 +138,7 @@ export default function ChattingRoomPage() {
     if (isBetChatRoomDetail(chatRoomDetail)) {
       return (
         <MissingFallback
-          text={'안내면진다 채팅방에서는 \n 아직 할 수 있는 기능이 없어요'}
+          text={'룰렛 채팅방에서는 \n 아직 할 수 있는 기능이 없어요'}
           backgroundColor={theme.colorPalette.white[100]}
         />
       );
@@ -202,18 +203,20 @@ export default function ChattingRoomPage() {
           />
         )}
         {chatRoomDetail && isBetChatRoomDetail(chatRoomDetail) && (
-          <ChatInfoAccordion
-            tagTheme={chatRoomDetail.attributes.isLoser ? 'yellow' : 'orange'}
-            tagValue={chatRoomDetail.attributes.isLoser ? '당첨!' : '미당첨'}
-            textList={
-              chatRoomDetail.attributes.isLoser
-                ? ['당첨입니다!', '혹시 안내셨나요?ㅋ']
-                : [
-                    '살아남았습니다!',
-                    `당첨된 사람은 ${chatRoomDetail.attributes.loser.nickname}입니다!`,
-                  ]
-            }
-          />
+          <Fragment>
+            <ChatInfoAccordion
+              tagTheme={chatRoomDetail.attributes.isLoser ? 'yellow' : 'orange'}
+              tagValue={chatRoomDetail.attributes.isLoser ? '당첨!' : '미당첨'}
+              textList={
+                chatRoomDetail.attributes.isLoser
+                  ? ['축하드립니다!']
+                  : [
+                      `당첨된 사람은 ${chatRoomDetail.attributes.loser.nickname}님입니다!`,
+                    ]
+              }
+            />
+            <LooserBanner chatRoomDetail={chatRoomDetail} />
+          </Fragment>
         )}
       </ChattingRoomLayout.HeaderBottom>
       <ChatList chats={chats} />
