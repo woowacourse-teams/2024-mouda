@@ -42,10 +42,15 @@ url:
   base: http://localhost:8081
 
 management:
+  metrics:
+    enable:
+      tomcat: true
   endpoints:
     web:
       exposure:
         include: prometheus
   endpoint:
+    metrics:
+      enabled: true
     health:
       show-details: always
