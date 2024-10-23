@@ -1,9 +1,10 @@
-import { css, Theme } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 
 export const containerStyle = css`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 4rem;
+  padding: 0 0 2rem;
 `;
 
 export const titleBox = () => css`

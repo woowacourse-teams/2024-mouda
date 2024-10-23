@@ -13,6 +13,7 @@ export default function RefreshButton() {
           queryKey: [QUERY_KEYS.darakbang, getLastDarakbangId()],
         })
       }
+      aria-label="새로고침"
     >
       <Refresh />
     </button>

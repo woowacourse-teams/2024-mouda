@@ -3,7 +3,7 @@ import { removeInviteCode, setInviteCode } from '@_common/inviteCodeManager';
 
 import Button from '@_components/Button/Button';
 import CompleteLayout from '@_layouts/CompleteLayout/CompleteLayout';
-import MissingFallback from '@_components/MissingFallback/MissingFallback';
+import MissingFallback from '@_components/Fallback/MissingFallback/MissingFallback';
 import ROUTES from '@_constants/routes';
 import { setLastDarakbangId } from '@_common/lastDarakbangManager';
 import useDarakbangNameByCode from '@_hooks/queries/useDarakbangNameByCode';

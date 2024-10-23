@@ -73,7 +73,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|jpe?g|gif|webp|woff2)$/i,
+        test: /\.(png|jpe?g|gif|webp|woff2|ttf)$/i,
         type: 'asset/resource',
         generator: {
           outputPath: 'assets/',

@@ -2,7 +2,7 @@ import CompleteLayout from '@_layouts/CompleteLayout/CompleteLayout';
 import { useNavigate } from 'react-router-dom';
 
 import BackLogo from '@_common/assets/back.svg';
-import MissingFallback from '@_components/MissingFallback/MissingFallback';
+import MissingFallback from '@_components/Fallback/MissingFallback/MissingFallback';
 import Button from '@_components/Button/Button';
 import ROUTES from '@_constants/routes';
 

@@ -38,8 +38,8 @@ export const profileFrame = ({
 
     width: ${width}rem;
     height: ${height}rem;
-    background: ${theme.colorPalette.white[100]};
 
+    background: ${theme.colorPalette.white[100]};
     border: ${borderWidth}rem solid ${theme.colorPalette.orange[200]};
     border-radius: 300rem;
   `;
@@ -54,7 +54,7 @@ export const profileImage = (
     height: 100%;
 
     object-fit: cover;
-    background-image: url(${EmptyProfile});
+    background-image: url(${props.isLoaded ? '' : EmptyProfile});
     background-position: center;
     background-size: cover;
   `;

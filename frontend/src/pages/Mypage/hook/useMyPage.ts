@@ -2,6 +2,7 @@ import useEditMyInfo from '@_hooks/mutaions/useEditMyInfo';
 import useMyInfo from '@_hooks/queries/useMyInfo';
 import { useState, useRef, useEffect, ChangeEvent } from 'react';
 import { validateNickName } from '../validate';
+import POLICES from '@_constants/poclies';
 
 export default function useMyPage() {
   const { myInfo } = useMyInfo();
@@ -32,6 +33,13 @@ export default function useMyPage() {
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
+      const maxSize = POLICES.maxProfileImageSize;
+      const fileSize = e.target.files[0].size;
+      if (fileSize > maxSize) {
+        alert('파일첨부 사이즈는 5MB 이내로 가능합니다.');
+        e.target.value = '';
+        return;
+      }
       setSelectedFile(e.target.files[0]); // 선택한 파일을 상태에 저장
       setIsShownRest(true);
       setIsReset('false');

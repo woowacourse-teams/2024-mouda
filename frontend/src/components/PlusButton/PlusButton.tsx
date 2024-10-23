@@ -9,7 +9,7 @@ export default function PlusButton(props: PlusButtonProps) {
   const { onClick } = props;
 
   return (
-    <button onClick={onClick} css={S.plusButton}>
+    <button onClick={onClick} css={S.plusButton} aria-label="모임 생성">
       <PlusIcon />
     </button>
   );

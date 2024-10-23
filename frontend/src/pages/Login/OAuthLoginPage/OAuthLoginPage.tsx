@@ -1,14 +1,11 @@
 import ROUTES from '@_constants/routes';
-import { getInviteCode } from '@_common/inviteCodeManager';
-import { kakaoOAuth, googleOAuth } from '@_apis/auth';
-import {
-  getMemberToken,
-  removeMemberToken,
-  setAccessToken,
-  setMemberToken,
-} from '@_utils/tokenManager';
+import { googleOAuth } from '@_apis/auth';
+import { setAccessToken } from '@_utils/tokenManager';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ApiError } from '@_utils/customError/ApiError';
+import useMigrationOAuth from '@_hooks/mutaions/useMigrationOAuth';
+import GET_ROUTES from '@_common/getRoutes';
 
 type Provider = 'apple' | 'google' | 'kakao';
 
@@ -16,6 +13,10 @@ export default function OAuthLoginPage() {
   const navigate = useNavigate();
   const params = useParams<'provider'>();
   const provider = params.provider as Provider | undefined;
+  const { mutate: kakaoMigration } = useMigrationOAuth(
+    () => navigate(`${GET_ROUTES.default.resultMigration}/sucess`),
+    () => navigate(`${GET_ROUTES.default.resultMigration}/fail`),
+  );
 
   useEffect(() => {
     const loginOAuth = async () => {
@@ -42,36 +43,27 @@ export default function OAuthLoginPage() {
         const oauthHandlers: Record<Provider, () => Promise<boolean | void>> = {
           apple: async () => {
             setAccessToken(codeOrToken);
+            navigate(ROUTES.kakaoSelection);
           },
           google: async () => {
-            const response = await googleOAuth(codeOrToken, getMemberToken());
+            const response = await googleOAuth(codeOrToken);
             setAccessToken(response.data.accessToken);
+            navigate(ROUTES.kakaoSelection);
           },
           kakao: async () => {
-            const response = await kakaoOAuth(codeOrToken);
-            setAccessToken(response.data.accessToken);
-            setMemberToken(response.data.memberId);
-            navigate(ROUTES.oAuthSelection);
-            return true; // 조기 반환
+            kakaoMigration(codeOrToken);
           },
         };
 
         const handler = oauthHandlers[provider];
 
-        const shouldReturn = await handler();
-        if (shouldReturn) return;
-
-        removeMemberToken();
-
-        const inviteCode = getInviteCode();
-        if (inviteCode) {
-          navigate(`${ROUTES.darakbangInvitationRoute}?code=${inviteCode}`);
-        } else {
-          navigate(ROUTES.darakbangSelectOption);
-        }
+        await handler();
       } catch (error) {
-        console.error('OAuth 처리 중 오류 발생:', error);
-        alert('로그인 처리 중 오류가 발생했습니다.');
+        if (error instanceof ApiError) {
+          alert(error.message);
+        } else {
+          alert('알 수 없는 오류가 발생했습니다.');
+        }
         navigate(ROUTES.home);
       }
     };
