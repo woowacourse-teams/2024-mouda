@@ -48,7 +48,7 @@ class AppleAuthServiceTest {
 
 		// then
 		assertThat(response.accessToken()).isNotNull();
-		Optional<Member> member = memberRepository.findActiveMemberByIdentifier(identifier);
+		Optional<Member> member = memberRepository.findActiveOrDeletedByIdentifier(identifier);
 		assertThat(member.isPresent()).isTrue();
 		assertThat(member.get().getName()).isEqualTo(name);
 	}
@@ -65,7 +65,7 @@ class AppleAuthServiceTest {
 
 		// then
 		assertThat(response.accessToken()).isNotNull();
-		Optional<Member> member = memberRepository.findActiveMemberByIdentifier(identifier);
+		Optional<Member> member = memberRepository.findActiveOrDeletedByIdentifier(identifier);
 		assertThat(member.isPresent()).isTrue();
 	}
 
@@ -82,7 +82,7 @@ class AppleAuthServiceTest {
 
 		// then
 		assertThat(response.accessToken()).isNotNull();
-		Optional<Member> member = memberRepository.findActiveMemberByIdentifier(identifier);
+		Optional<Member> member = memberRepository.findActiveOrDeletedByIdentifier(identifier);
 		assertThat(member.isPresent()).isTrue();
 		assertThat(member.get().getMemberStatus()).isEqualTo(MemberStatus.ACTIVE);
 	}

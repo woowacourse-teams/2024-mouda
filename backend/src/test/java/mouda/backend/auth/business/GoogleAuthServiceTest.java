@@ -48,7 +48,7 @@ class GoogleAuthServiceTest {
 
 		// then
 		assertThat(loginResponse.accessToken()).isNotNull();
-		Optional<Member> member = memberRepository.findActiveMemberByIdentifier("1234");
+		Optional<Member> member = memberRepository.findActiveOrDeletedByIdentifier("1234");
 		assertThat(member.isPresent()).isTrue();
 		assertThat(member.get().getMemberStatus()).isEqualTo(MemberStatus.ACTIVE);
 	}

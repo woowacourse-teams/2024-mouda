@@ -26,7 +26,7 @@ public class GoogleAuthService {
 	public LoginResponse login(GoogleLoginRequest request) {
 		String name = userInfoProvider.getName(request.idToken());
 		String identifier = userInfoProvider.getIdentifier(request.idToken());
-		Member member = memberFinder.getByIdentifier(identifier);
+		Member member = memberFinder.getActiveOrDeletedByIdentifier(identifier);
 
 		if (member != null) {
 			joinManager.rejoin(member);

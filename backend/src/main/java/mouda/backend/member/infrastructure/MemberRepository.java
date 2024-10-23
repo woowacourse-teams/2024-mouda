@@ -15,9 +15,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
 	@Query("""
 			SELECT m FROM Member m
-			WHERE m.loginDetail.identifier = :identifier AND m.memberStatus = 'ACTIVE'
+			WHERE m.loginDetail.identifier = :identifier AND (m.memberStatus = 'ACTIVE' OR m.memberStatus = 'DELETED') 
 		""")
-	Optional<Member> findActiveMemberByIdentifier(@Param("identifier") String identifier);
+	Optional<Member> findActiveOrDeletedByIdentifier(@Param("identifier") String identifier);
 
 	@Query("""
 		UPDATE Member m

@@ -77,6 +77,10 @@ public class Member {
 		this.isConverted = true;
 	}
 
+	public void deprecate() {
+		this.memberStatus = MemberStatus.DEPRECATED;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

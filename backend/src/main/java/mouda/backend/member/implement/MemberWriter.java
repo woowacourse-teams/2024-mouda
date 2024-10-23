@@ -18,7 +18,8 @@ public class MemberWriter {
 	}
 
 	public void updateLoginDetail(long memberId, LoginDetail loginDetail) {
-		memberRepository.updateLoginDetail(memberId, loginDetail.getOauthType(), loginDetail.getIdentifier());
+		memberRepository.updateLoginDetail(memberId, loginDetail.getOauthType(),
+			loginDetail.getIdentifier());
 	}
 
 	public void updateName(long memberId, String name) {
@@ -32,5 +33,10 @@ public class MemberWriter {
 
 	public void delete(Member alternation) {
 		memberRepository.delete(alternation);
+	}
+
+	public void deprecate(Member member) {
+		member.deprecate();
+		memberRepository.save(member);
 	}
 }
