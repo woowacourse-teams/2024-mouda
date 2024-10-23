@@ -32,7 +32,7 @@ public class AppleUserInfoProvider {
 			JsonNode node = objectMapper.readTree(user);
 			String firstName = node.path("name").path("firstName").asText();
 			String lastName = node.path("name").path("lastName").asText();
-			return firstName + lastName;
+			return lastName + firstName;
 		} catch (JsonProcessingException exception) {
 			throw new AuthException(HttpStatus.BAD_REQUEST, AuthErrorMessage.APPLE_USER_BAD_REQUEST);
 		}
