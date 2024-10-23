@@ -209,7 +209,9 @@ export default function ChattingRoomPage() {
               tagValue={chatRoomDetail.attributes.isLoser ? '당첨!' : '미당첨'}
               textList={
                 chatRoomDetail.attributes.isLoser
-                  ? ['축하드립니다!']
+                  ? [
+                      `축하드립니다 ${chatRoomDetail.attributes.loser.nickname}님!`,
+                    ]
                   : [
                       `당첨된 사람은 ${chatRoomDetail.attributes.loser.nickname}님입니다!`,
                     ]
