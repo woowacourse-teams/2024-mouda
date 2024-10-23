@@ -137,7 +137,7 @@ export default function ChattingRoomPage() {
     if (isBetChatRoomDetail(chatRoomDetail)) {
       return (
         <MissingFallback
-          text={'안내면진다 채팅방에서는 \n 아직 할 수 있는 기능이 없어요'}
+          text={'룰렛 채팅방에서는 \n 아직 할 수 있는 기능이 없어요'}
           backgroundColor={theme.colorPalette.white[100]}
         />
       );
