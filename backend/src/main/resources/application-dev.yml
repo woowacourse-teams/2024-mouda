@@ -42,3 +42,7 @@ management:
       enabled: true
     health:
       show-details: always
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true
