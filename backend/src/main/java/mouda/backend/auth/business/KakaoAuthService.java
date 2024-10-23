@@ -21,6 +21,7 @@ public class KakaoAuthService {
 		String identifier = userInfoProvider.getIdentifier(kakaoConvertRequest.code());
 		Member target = memberFinder.findByIdentifier(identifier);
 		memberWriter.updateLoginDetail(target.getId(), alternation.getLoginDetail());
-		memberWriter.delete(alternation);
+		target.convert();
+		memberWriter.withdraw(alternation);
 	}
 }
