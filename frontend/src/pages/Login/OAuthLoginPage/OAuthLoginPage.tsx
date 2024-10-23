@@ -43,12 +43,20 @@ export default function OAuthLoginPage() {
         const oauthHandlers: Record<Provider, () => Promise<boolean | void>> = {
           apple: async () => {
             setAccessToken(codeOrToken);
-            navigate(ROUTES.kakaoSelection);
+            const isConverted = urlParams.get('isConverted');
+            if (isConverted === 'true') {
+              navigate(ROUTES.kakaoSelection);
+            } else {
+              navigate(ROUTES.darakbangSelectOption);
+            }
           },
           google: async () => {
             const response = await googleOAuth(codeOrToken);
             setAccessToken(response.data.accessToken);
-            navigate(ROUTES.kakaoSelection);
+            if (response.data.isConverted) {
+              navigate(ROUTES.kakaoSelection);
+            }
+            navigate(ROUTES.darakbangSelectOption);
           },
           kakao: async () => {
             kakaoMigration(codeOrToken);
