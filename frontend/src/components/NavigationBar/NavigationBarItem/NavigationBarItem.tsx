@@ -32,8 +32,11 @@ export default function NavigationBarItem(props: NavigationBarItemProps) {
 
   return (
     <li
+      role="menuitem"
+      aria-label={tab}
       css={S.navigationBarItem({ theme, isActive })}
       onClick={() => onClick(tab)}
+      tabIndex={0}
     >
       {tabIcon}
       <span css={[theme.typography.c2, common.nonDrag]}>{tab}</span>
