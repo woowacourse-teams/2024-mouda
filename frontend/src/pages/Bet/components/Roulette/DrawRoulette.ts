@@ -302,6 +302,8 @@ export default function drawRoulette(props: drawRouletteProps) {
   const ctx = canvas.getContext('2d');
   if (!ctx) return { clearCanvas: () => {} };
 
+  canvas.width = widthPx || canvas.width;
+  canvas.height = heightPx || canvas.height;
   const { gpw, gph } = getCanvasUtil(canvas, widthPx, heightPx);
 
   const FRAME_SECOND = 20;
