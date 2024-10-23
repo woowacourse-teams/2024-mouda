@@ -1,6 +1,5 @@
 package mouda.backend.notification.implement.fcm.token;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -17,24 +16,18 @@ public class FcmTokenFinder {
 
 	private final FcmTokenRepository fcmTokenRepository;
 
-	public List<String> findAllTokensByMember(List<Recipient> recipients) {
-		List<String> fcmTokens = new ArrayList<>();
-		for (Recipient recipient : recipients) {
-			List<String> tokens = fcmTokenRepository.findAllByMemberId(recipient.getMemberId())
-				.stream()
-				.map(FcmTokenEntity::getToken).toList();
-			fcmTokens.addAll(tokens);
-		}
-		return fcmTokens;
+	public List<FcmToken> findAllTokensByMemberIn(List<Recipient> recipients) {
+		return recipients.stream()
+			.flatMap(recipient -> fcmTokenRepository.findAllByMemberId(recipient.getMemberId()).stream())
+			.map(this::createByEntity)
+			.toList();
 	}
 
-	public List<FcmToken> readAllByTokensIn(List<String> tokens) {
-		return fcmTokenRepository.findAllByTokenIn(tokens).stream()
-			.map(entity -> FcmToken.builder()
-				.memberId(entity.getMemberId())
-				.token(entity.getToken())
-				.build()
-			)
-			.toList();
+	private FcmToken createByEntity(FcmTokenEntity entity) {
+		return FcmToken.builder()
+			.tokenId(entity.getId())
+			.memberId(entity.getMemberId())
+			.token(entity.getToken())
+			.build();
 	}
 }
