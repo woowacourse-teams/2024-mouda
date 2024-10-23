@@ -49,4 +49,4 @@ server:
     mbeanregistry:
       enabled: true
     threads:
-      max: 300
+      max: 100
