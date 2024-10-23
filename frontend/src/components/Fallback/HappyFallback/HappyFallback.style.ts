@@ -22,8 +22,8 @@ export const container = ({
 `;
 
 export const image = css`
-  width: 50%;
-  max-width: 30rem;
-  height: 50%;
-  max-height: 35rem;
+  width: 100%;
+  max-width: 40rem;
+  height: 100%;
+  max-height: 40rem;
 `;

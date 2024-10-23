@@ -35,6 +35,7 @@ export const messageForm = ({ theme }: { theme: Theme }) => css`
 
 export const messageTextArea = ({ theme }: { theme: Theme }) => css`
   ${theme.typography.s2};
+  /* stylelint-disable-next-line plugin/no-unsupported-browser-features */
   resize: none;
 
   width: 100%;

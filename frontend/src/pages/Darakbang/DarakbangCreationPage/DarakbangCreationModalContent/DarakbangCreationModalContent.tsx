@@ -19,13 +19,16 @@ export default function DarakbangCreationModalContent(
   const theme = useTheme();
   return (
     <div css={S.content({ theme })}>
-      <HighlightSpan font={theme.typography.s1}>
+      <HighlightSpan
+        font={theme.typography.s1}
+        ariaLabel={`다락방 이름으로 ${darakbangName}, 닉네임으로 ${nickname}을(를) 선택하셨습니다. 한 번 선택한 다락방 이름은 바꿀 수 없습니다. 진행하시겠습니까?`}
+      >
         {'다락방 이름으로 '}
         <HighlightSpan.Highlight>{darakbangName}</HighlightSpan.Highlight>
         {',\n닉네임으로 '}
         <HighlightSpan.Highlight>{nickname}</HighlightSpan.Highlight>
         {
-          '을(를) 선택하셨습니다.\n\n한 번 선택한 다락방 이름과 닉네임은 바꿀 수 없습니다.\n진행하시겠습니까?'
+          '을(를) 선택하셨습니다.\n\n한 번 선택한 다락방 이름은 바꿀 수 없습니다. 진행하시겠습니까?'
         }
       </HighlightSpan>
       <div css={S.buttonContainer}>

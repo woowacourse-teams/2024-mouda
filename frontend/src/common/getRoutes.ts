@@ -38,5 +38,15 @@ const GET_ROUTES = {
       getNowDarakbangRoute() + '/bet/' + betId + '/result',
     setting: () => getNowDarakbangRoute() + '/my-page/setting',
   },
+  default: {
+    notFound: '/*',
+    main: '/',
+    home: '/home',
+    kakaoSelection: '/oauth-migration',
+    oAuthSelection: '/oauth-select',
+    resultMigration: '/oauth-migration',
+    oAuthGoogle: '/oauth',
+    oAuth: '/oauth/:provider',
+  },
 };
 export default GET_ROUTES;

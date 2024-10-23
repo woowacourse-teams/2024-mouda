@@ -9,6 +9,7 @@ import pretendardMediumWoff2 from './assets/fonts/woff2-subset/Pretendard-Medium
 import pretendardRegularWoff2 from './assets/fonts/woff2-subset/Pretendard-Regular.subset.woff2';
 import pretendardSemiboldWoff2 from './assets/fonts/woff2-subset/Pretendard-SemiBold.subset.woff2';
 import pretendardThinWoff2 from './assets/fonts/woff2-subset/Pretendard-Thin.subset.woff2';
+import partialSansKRRegular from './assets/fonts/PartialSansKR/PartialSansKR-Regular.woff2';
 
 const fonts = css`
   @font-face {
@@ -80,6 +81,13 @@ const fonts = css`
   @font-face {
     font-family: bitbit;
     src: url(${bitbit});
+  }
+  
+ @font-face {
+    font-family: PartialSansKR;
+    font-weight: 400;
+    font-display: swap;
+    src: url(${partialSansKRRegular}) format('woff2');
   }
 `;
 

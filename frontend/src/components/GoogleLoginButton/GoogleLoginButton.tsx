@@ -3,23 +3,35 @@ import { useEffect, useRef } from 'react';
 import ROUTES from '@_constants/routes';
 import { useNavigate } from 'react-router-dom';
 
-function GoogleLoginButton() {
+interface GoogleLoginButtonProps {
+  type: 'bar' | 'circle';
+}
+function GoogleLoginButton({ type }: GoogleLoginButtonProps) {
   const navigate = useNavigate();
   const g_sso = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (g_sso.current) {
+      const renderOption =
+        type === 'bar'
+          ? {
+              theme: 'outline',
+              size: 'large',
+              width: 269,
+            }
+          : {
+              type: 'icon',
+              shape: 'circle',
+              theme: 'outline',
+              size: 'large',
+            };
       window.google.accounts.id.initialize({
         client_id: process.env.GOOGLE_O_AUTH_CLIENT_ID,
         callback: handleGoogleSignIn,
         ux_mode: 'popup',
       });
 
-      window.google.accounts.id.renderButton(g_sso.current, {
-        theme: 'outline',
-        size: 'large',
-        width: 269,
-      });
+      window.google.accounts.id.renderButton(g_sso.current, renderOption);
     }
   }, [g_sso]);
 
