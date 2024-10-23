@@ -169,6 +169,8 @@ export default function MainPage() {
                   e.stopPropagation();
                   setIsDarakbangMenuOpened(!isDarakbangMenuOpened);
                 }}
+                aria-label={darakbangName}
+                role="select"
               >
                 <DarakbangNameWrapper>{darakbangName}</DarakbangNameWrapper>
                 <SolidArrow
@@ -180,7 +182,11 @@ export default function MainPage() {
             </DefaultPageLayout.DoubleTriHeader.Top.Left>
 
             <DefaultPageLayout.DoubleTriHeader.Top.Right>
-              <button css={S.headerButton} onClick={handleNotification}>
+              <button
+                css={S.headerButton}
+                onClick={handleNotification}
+                aria-label="알림센터"
+              >
                 <Notification />
               </button>
               <RefreshButton />
