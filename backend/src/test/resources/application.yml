@@ -34,7 +34,7 @@ oauth:
     redirect-uri: http://localhost:8081/oauth/google
   apple:
     redirect-uri: https://dev.mouda.site/oauth/apple
-    redirection: https://dev.mouda.site/oauth/apple?token=
+    redirection: https://dev.mouda.site/oauth/apple?token=%s&isConverted=%s
 
 bet:
   schedule: "* * * * * *" # 테스트 스케줄러는 매초마다 동작

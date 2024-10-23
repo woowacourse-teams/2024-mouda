@@ -58,9 +58,10 @@ public class AuthController implements AuthSwagger {
 		@RequestParam("id_token") String idToken,
 		@RequestParam(name = "user", required = false) String user
 	) {
-		String accessToken = appleAuthService.login(idToken, user);
+		LoginResponse response = appleAuthService.login(idToken, user);
+		
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.add("Location", redirectUrl + accessToken);
+		httpHeaders.add("Location", String.format(redirectUrl, response.accessToken(), response.isConverted()));
 		return new ResponseEntity<>(httpHeaders, HttpStatus.FOUND);
 	}
 }

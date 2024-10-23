@@ -31,9 +31,9 @@ public class GoogleAuthService {
 		if (member != null) {
 			joinManager.rejoin(member);
 			memberWriter.updateName(member.getId(), name);
-			return new LoginResponse(accessTokenProvider.provide(member));
+			return new LoginResponse(accessTokenProvider.provide(member), member.isConverted());
 		}
 		Member joinedMember = joinManager.join(name, OauthType.GOOGLE, identifier);
-		return new LoginResponse(accessTokenProvider.provide(joinedMember));
+		return new LoginResponse(accessTokenProvider.provide(joinedMember), joinedMember.isConverted());
 	}
 }

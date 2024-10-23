@@ -23,7 +23,7 @@ public class TestAuthService {
 
 	public LoginResponse basicLoginAnna() {
 		Member member = memberFinder.findByIdentifier("identifier");
-		return new LoginResponse(accessTokenProvider.provide(member));
+		return new LoginResponse(accessTokenProvider.provide(member), true);
 	}
 
 	public LoginResponse basicLoginHogee() {
@@ -32,6 +32,6 @@ public class TestAuthService {
 			.loginDetail(new LoginDetail(OauthType.GOOGLE, UUID.randomUUID().toString()))
 			.build();
 		memberWriter.append(member);
-		return new LoginResponse(accessTokenProvider.provide(member));
+		return new LoginResponse(accessTokenProvider.provide(member), true);
 	}
 }
