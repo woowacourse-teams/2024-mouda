@@ -48,3 +48,5 @@ server:
   tomcat:
     mbeanregistry:
       enabled: true
+    threads:
+      max: 300
