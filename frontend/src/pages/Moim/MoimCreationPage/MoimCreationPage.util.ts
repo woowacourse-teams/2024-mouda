@@ -15,6 +15,12 @@ export const validateDate = (date: string) => {
   return date >= nowDateYyyymmdd && POLICIES.yyyymmddDashRegex.test(date);
 };
 
+export const isToday = (date: string) => {
+  const nowDate = new Date();
+  const nowDateYyyymmdd = `${nowDate.getFullYear()}-${(nowDate.getMonth() + 1).toString().padStart(2, '00')}-${nowDate.getDate().toString().padStart(2, '00')}`;
+  return date === nowDateYyyymmdd;
+};
+
 export const validateTime = (time: string) => {
   if (time === '') {
     return true;

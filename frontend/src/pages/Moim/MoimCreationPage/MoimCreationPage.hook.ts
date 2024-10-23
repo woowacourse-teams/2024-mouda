@@ -1,6 +1,8 @@
 import useStatePersist from '@_hooks/useStatePersist';
 import { MoimInputInfo } from '@_types/index';
 import {
+  isApprochedByUrl,
+  isToday,
   validateDate,
   validateMaxPeople,
   validatePlace,
@@ -80,7 +82,7 @@ const useMoimCreationForm = (currentStep: MoimCreationStep) => {
       title: validateTitle(title),
       place: validatePlace(place),
       date: date === '' || validateDate(date),
-      time: time === '' || validateTime(time),
+      time: time === '' || (isToday(date) ? validateTime(time) : true),
       maxPeople: validateMaxPeople(maxPeople),
     });
   }, [formData]);

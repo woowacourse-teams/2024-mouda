@@ -1,5 +1,6 @@
 import FunnelButton from '@_components/Funnel/FunnelButton/FunnelButton';
 import FunnelInput from '@_components/Funnel/FunnelInput/FunnelInput';
+import FunnelInputErrorMessage from '@_components/Funnel/FunnelInputErrorMessage/FunnelInputErrorMessage';
 import FunnelQuestion from '@_components/Funnel/FunnelQuestion/FunnelQuestion';
 import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
 
@@ -48,23 +49,28 @@ export default function DateAndTimeStep(props: DateAndTimeStepProps) {
       </FunnelLayout.Main>
 
       <FunnelLayout.Footer>
+        {isValidDate && isValidTime ? null : (
+          <FunnelInputErrorMessage>
+            {!isValidDate && !isValidTime
+              ? '날짜와 시간을 다시 확인해주세요'
+              : !isValidDate
+                ? '날짜를 다시 확인해주세요'
+                : !isValidTime
+                  ? '시간을 다시 확인해주세요'
+                  : null}
+          </FunnelInputErrorMessage>
+        )}
         <FunnelButton
           disabled={!isValidDate || !isValidTime}
           onClick={onButtonClick}
         >
-          {!isValidDate && !isValidTime
-            ? '날짜와 시간을 다시 확인해주세요'
-            : !isValidDate
-              ? '날짜를 다시 확인해주세요'
-              : !isValidTime
-                ? '시간을 다시 확인해주세요'
-                : date === '' && time === ''
-                  ? '스킵하고 채팅에서 정할게요!'
-                  : date === ''
-                    ? '날짜는 채팅에서 정할게요!'
-                    : time === ''
-                      ? '시간은 채팅에서 정할게요!'
-                      : '다음으로'}
+          {date === '' && time === ''
+            ? '스킵하고 채팅에서 정할게요!'
+            : date === ''
+              ? '날짜는 채팅에서 정할게요!'
+              : time === ''
+                ? '시간은 채팅에서 정할게요!'
+                : '다음으로'}
         </FunnelButton>
       </FunnelLayout.Footer>
     </>
