@@ -22,7 +22,7 @@ public class KakaoAuthService {
 	public void convert(Member alternation, KakaoConvertRequest kakaoConvertRequest) {
 		String identifier = userInfoProvider.getIdentifier(kakaoConvertRequest.code());
 		Member kakao = memberFinder.findActiveOrDeletedByIdentifier(identifier);
-		memberWriter.updateLoginDetail(kakao.getId(), alternation.getLoginDetail());
+		memberWriter.updateLoginDetail(kakao, alternation.getLoginDetail());
 		kakao.convert();
 		memberWriter.deprecate(alternation);
 	}

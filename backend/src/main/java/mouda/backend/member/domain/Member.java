@@ -81,6 +81,10 @@ public class Member {
 		this.memberStatus = MemberStatus.DEPRECATED;
 	}
 
+	public void updateLoginDetail(LoginDetail loginDetail) {
+		this.loginDetail = loginDetail;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

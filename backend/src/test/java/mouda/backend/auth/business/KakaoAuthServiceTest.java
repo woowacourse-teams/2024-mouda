@@ -49,8 +49,13 @@ class KakaoAuthServiceTest {
 
 		// then
 		Optional<Member> kakaoMember = memberRepository.findActiveOrDeletedByIdentifier(kakaoIdentifier);
-		assertThat(kakaoMember.isPresent()).isTrue();
-		assertThat(kakaoMember.get().getMemberStatus()).isEqualTo(MemberStatus.ACTIVE);
+		assertThat(kakaoMember.isEmpty()).isTrue();
+
+		Optional<Member> convertedMember = memberRepository.findActiveOrDeletedByIdentifier(googleIdentifier);
+		assertThat(convertedMember.isPresent()).isTrue();
+		assertThat(convertedMember.get().getMemberStatus()).isEqualTo(MemberStatus.ACTIVE);
+		assertThat(convertedMember.get().isConverted()).isTrue();
+
 		Optional<Member> googleMember = memberRepository.findDeprecatedByIdentifier(googleIdentifier);
 		assertThat(googleMember.isPresent()).isTrue();
 		assertThat(googleMember.get().getMemberStatus()).isEqualTo(MemberStatus.DEPRECATED);
