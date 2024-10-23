@@ -53,7 +53,7 @@ export default function OAuthMigrationResultPage() {
               }
             }}
           >
-            다락방으로 이동하기
+            다락방 선택 페이지로 이동하기
           </Button>
         </LoginLayout.Footer>
       </LoginLayout>

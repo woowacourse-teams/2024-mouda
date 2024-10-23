@@ -84,7 +84,7 @@ export default function ChatPage() {
               />
             ))
           ) : (
-            <MissingFallback text="아직 열린 채팅방이 없습니다" />
+            <MissingFallback text="아직 만들어진 채팅방이 없어요" />
           )}
         </ChattingPreviewLayout.ContentContainer>
       </ChattingPreviewLayout>
