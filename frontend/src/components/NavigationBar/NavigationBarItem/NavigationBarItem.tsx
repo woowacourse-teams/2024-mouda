@@ -6,7 +6,7 @@ import MyPageIcon from '@_components/Icons/MyPageIcon';
 import { Tab } from '@_components/NavigationBar/NavigationBar';
 import { common } from '@_common/common.style';
 import { useTheme } from '@emotion/react';
-import ScissorsIcon from '@_components/Icons/ScissorsIcon';
+import RouletteItemIcon from '@_components/Icons/RouletteItemIcon';
 
 interface NavigationBarItemProps {
   tab: Tab;
@@ -25,7 +25,7 @@ export default function NavigationBarItem(props: NavigationBarItemProps) {
     ) : tab === '채팅' ? (
       <ChattingIcon isActive={isActive} />
     ) : tab === '룰렛' ? (
-      <ScissorsIcon isActive={isActive} />
+      <RouletteItemIcon isActive={isActive} />
     ) : (
       <MyPageIcon isActive={isActive} />
     );
