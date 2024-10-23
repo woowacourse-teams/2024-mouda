@@ -27,7 +27,7 @@ export default function Roulette(props: RouletteProps) {
     minMs = Infinity,
     startSpeed = 500,
     backgroundColor = '#D2D5DB',
-    font = "500 normal 5rem 'bitbit'",
+    font = "500 normal 50px 'bitbit'",
     fontSize = 32,
     stopSpeed = 3,
     fontColor = '#6D717F',

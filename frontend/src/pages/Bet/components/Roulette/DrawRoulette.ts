@@ -312,7 +312,7 @@ export default function drawRoulette(props: drawRouletteProps) {
     itemPercent,
   );
 
-  const catchingIndexDiff = -1;
+  const catchingIndexDiff = (nameList.length % 2) - 1;
   const slotPhaser = new SlotPhaser(
     minMs / FRAME_SECOND,
     catchingIndexDiff,
