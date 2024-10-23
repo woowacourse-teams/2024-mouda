@@ -40,7 +40,11 @@ public class MoimChatPreviewManager implements ChatPreviewManager {
 		long lastReadChatId = chamyoRepository.findLastReadChatIdByMoimId(targetId);
 		List<Participant> participants = chamyoRepository.findAllByMoimId(targetId)
 			.stream()
-			.map(chamyo -> new Participant(chamyo.getDarakbangMember().getNickname(), chamyo.getDarakbangMember().getProfile(), chamyo.getDarakbangMember().getRole().toString()))
+			.map(chamyo -> new Participant(
+				moim.getDarakbangId(),
+				chamyo.getDarakbangMember().getNickname(),
+				chamyo.getDarakbangMember().getProfile(),
+				chamyo.getDarakbangMember().getRole().toString()))
 			.toList();
 
 		return ChatPreview.builder()

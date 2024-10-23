@@ -84,8 +84,9 @@ class ChatRoomDetailsFinderTest extends DarakbangSetUp {
 		assertThat(chatRoomDetails.getChatRoomType()).isEqualTo(ChatRoomType.MOIM);
 		assertThat(chatRoomDetails.getTitle()).isEqualTo("커피 마실 사람?");
 		assertThat(chatRoomDetails.getId()).isEqualTo(chatRoom.getId());
-		assertThat(chatRoomDetails.getParticipants()).containsExactly(new Participant("anna", "profile", "MOIMER"),
-			new Participant("hogee", "profile", "MOIMEE"));
+		assertThat(chatRoomDetails.getParticipants()).containsExactly(
+			new Participant(darakbangAnna.getId(), "anna", "profile", "MOIMER"),
+			new Participant(darakbangHogee.getId(), "hogee", "profile", "MOIMEE"));
 		assertThat(chatRoomDetails.getAttributes())
 			.containsExactlyInAnyOrderEntriesOf(getExpectedMoimAttributes(savedMoim));
 	}
@@ -129,8 +130,9 @@ class ChatRoomDetailsFinderTest extends DarakbangSetUp {
 		assertThat(chatRoomDetails.getChatRoomType()).isEqualTo(ChatRoomType.BET);
 		assertThat(chatRoomDetails.getTitle()).isEqualTo("테바바보");
 		assertThat(chatRoomDetails.getId()).isEqualTo(chatRoom.getId());
-		assertThat(chatRoomDetails.getParticipants()).containsExactly(new Participant("anna", "profile", "MOIMER"),
-			new Participant("hogee", "profile", "MOIMEE"));
+		assertThat(chatRoomDetails.getParticipants()).containsExactly(
+			new Participant(darakbangAnna.getId(), "anna", "profile", "MOIMER"),
+			new Participant(darakbangHogee.getId(), "hogee", "profile", "MOIMEE"));
 		assertThat(chatRoomDetails.getAttributes())
 			.containsExactlyInAnyOrderEntriesOf(getExpectedBetAttributes(savedBetEntity));
 	}
@@ -141,6 +143,7 @@ class ChatRoomDetailsFinderTest extends DarakbangSetUp {
 		attributes.put("isLoser", true);
 		attributes.put("betId", bet.getId());
 		attributes.put("loser", new Participant(
+			darakbangAnna.getId(),
 			"anna",
 			"profile",
 			"MOIMER"

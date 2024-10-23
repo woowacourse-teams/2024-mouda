@@ -43,7 +43,9 @@ public class BetAttributeManager implements AttributeManager {
 			.orElseThrow(() -> new ChatException(HttpStatus.NOT_FOUND, ChatErrorMessage.BET_DARAKBANG_MEMBER_NOT_FOUND))
 			.getDarakbangMember();
 		BetRole betRole = getBetRole(requestDarakbangMemberId, bet.getMoimerId());
-		return new Participant(darakbangMember.getNickname(), darakbangMember.getProfile(), betRole.toString());
+		return new Participant(
+			darakbangMember.getId(), darakbangMember.getNickname(), darakbangMember.getProfile(), betRole.toString()
+		);
 	}
 
 	private BetRole getBetRole(long requestDarakbangMemberId, long moimerId) {

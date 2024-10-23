@@ -29,7 +29,11 @@ public class MoimParticipantResolver implements ParticipantsResolver {
 		return chamyoRepository.findAllByMoimId(chatRoom.getTargetId()).stream()
 			.map(chamyo -> {
 				DarakbangMember darakbangMember = chamyo.getDarakbangMember();
-				return new Participant(darakbangMember.getNickname(), darakbangMember.getProfile(), chamyo.getMoimRole().toString());
+				return new Participant(
+					darakbangMember.getId(),
+					darakbangMember.getNickname(),
+					darakbangMember.getProfile(),
+					chamyo.getMoimRole().toString());
 			}).toList();
 	}
 }

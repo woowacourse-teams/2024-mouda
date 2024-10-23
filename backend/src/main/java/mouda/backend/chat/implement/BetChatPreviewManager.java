@@ -41,7 +41,9 @@ public class BetChatPreviewManager implements ChatPreviewManager {
 		ChatRoom chatRoom = chatRoomFinder.readChatRoomByTargetId(bet.getId(), ChatRoomType.BET);
 		long lastReadChatId = betDarakbangMemberRepository.findLastReadChatIdByBetId(targetId);
 		List<Participant> participants = betDarakbangMemberRepository.findAllByBetId(targetId).stream()
-			.map(betDarakbangMember -> new Participant(betDarakbangMember.getDarakbangMember().getNickname(),
+			.map(betDarakbangMember -> new Participant(
+				betDarakbangMember.getId(),
+				betDarakbangMember.getDarakbangMember().getNickname(),
 				betDarakbangMember.getDarakbangMember().getProfile(),
 				betDarakbangMember.getRole(bet.getMoimerId())))
 			.toList();
