@@ -24,7 +24,7 @@ export default function ProfileBottomSheet(props: ProfileBottomSheetProps) {
           <CloseButton />
         </BottomSheet.Header>
       }
-      // cta={<Button shape="bar">butt123on</Button>}
+      // TODO: 바텀시트 사이즈에 대한 논의 필요
       size="medium"
       onDimmerClick={close}
     >
