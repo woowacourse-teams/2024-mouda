@@ -13,7 +13,11 @@ import mouda.backend.member.domain.OauthType;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-	Optional<Member> findByLoginDetail_Identifier(String identifier);
+	@Query("""
+			SELECT m FROM Member m
+			WHERE m.loginDetail.identifier = :identifier AND m.memberStatus = 'ACTIVE'
+		""")
+	Optional<Member> findActiveMemberByIdentifier(@Param("identifier") String identifier);
 
 	@Query("""
 		UPDATE Member m

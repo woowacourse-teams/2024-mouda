@@ -47,9 +47,9 @@ class KakaoAuthServiceTest {
 		kakaoAuthService.convert(alternation, new KakaoConvertRequest("code"));
 
 		// then
-		Optional<Member> kakaoMember = memberRepository.findByLoginDetail_Identifier(kakaoIdentifier);
+		Optional<Member> kakaoMember = memberRepository.findActiveMemberByIdentifier(kakaoIdentifier);
 		assertThat(kakaoMember.isEmpty()).isTrue();
-		Optional<Member> appleMember = memberRepository.findByLoginDetail_Identifier(appleIdentifier);
+		Optional<Member> appleMember = memberRepository.findActiveMemberByIdentifier(appleIdentifier);
 		assertThat(appleMember.isPresent()).isTrue();
 		assertThat(appleMember.get().getName()).isEqualTo(anna.getName());
 		assertThat(appleMember.get().getLoginDetail()).isEqualTo(alternation.getLoginDetail());
