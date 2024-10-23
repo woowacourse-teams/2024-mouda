@@ -16,6 +16,7 @@ export default function ProfileBottomSheet(props: ProfileBottomSheetProps) {
 
   const theme = useTheme();
 
+  console.log(profile);
   return (
     <BottomSheet
       isOpen={isOpen}
@@ -25,7 +26,7 @@ export default function ProfileBottomSheet(props: ProfileBottomSheetProps) {
         </BottomSheet.Header>
       }
       // TODO: 바텀시트 사이즈에 대한 논의 필요
-      size="medium"
+      size="small"
       onDimmerClick={close}
     >
       <BottomSheet.Content>
