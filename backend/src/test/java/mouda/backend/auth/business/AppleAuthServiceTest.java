@@ -86,4 +86,22 @@ class AppleAuthServiceTest {
 		assertThat(member.isPresent()).isTrue();
 		assertThat(member.get().getMemberStatus()).isEqualTo(MemberStatus.ACTIVE);
 	}
+
+	@DisplayName("최초 애플 로그인인 경우에 DB에 이미 로그인 이력이 있다면 바로 로그인한다.")
+	@Test
+	void loginIfExistsMember() {
+		// given
+		Member anna = MemberFixture.getAnna(identifier);
+		memberRepository.save(anna);
+
+		// when
+		LoginResponse response = appleAuthService.login("idToken", "user");
+
+		// then
+		assertThat(response.accessToken()).isNotNull();
+		Optional<Member> member = memberRepository.findByLoginDetail_Identifier(identifier);
+		assertThat(member.isPresent()).isTrue();
+		assertThat(member.get().getMemberStatus()).isEqualTo(MemberStatus.ACTIVE);
+		assertThat(member.get().getIdentifier()).isEqualTo(identifier);
+	}
 }

@@ -1,5 +1,7 @@
 package mouda.backend.member.implement;
 
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +16,10 @@ import mouda.backend.member.infrastructure.MemberRepository;
 public class MemberFinder {
 
 	private final MemberRepository memberRepository;
+
+	public Optional<Member> getByIdentifier(String identifier) {
+		return memberRepository.findByLoginDetail_Identifier(identifier);
+	}
 
 	public Member findActiveOrDeletedByIdentifier(String identifier) {
 		return memberRepository.findActiveOrDeletedByIdentifier(identifier)
