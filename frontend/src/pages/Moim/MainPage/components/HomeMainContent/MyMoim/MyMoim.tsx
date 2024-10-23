@@ -5,7 +5,7 @@ import MyMoimListFilters, {
   Filter,
 } from '@_pages/Moim/MainPage/components/HomeMainContent/MyMoim/MyMoimListFilters/MyMoimListFilters';
 
-import MissingFallback from '@_components/MissingFallback/MissingFallback';
+import MissingFallback from '@_components/Fallback/MissingFallback/MissingFallback';
 import useMyMoims from '@_hooks/queries/useMyMoims';
 import MoimCardList from '../MoimCardList/MoimCardList';
 

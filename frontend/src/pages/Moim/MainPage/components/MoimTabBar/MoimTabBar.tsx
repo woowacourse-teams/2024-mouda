@@ -1,5 +1,4 @@
 import * as S from './MoimTabBar.style';
-
 import { common } from '@_common/common.style';
 import { useTheme } from '@emotion/react';
 
@@ -14,14 +13,16 @@ interface MoimTabBarProps {
 
 export default function MoimTabBar(props: MoimTabBarProps) {
   const { currentTab, onTabClick } = props;
-
   const theme = useTheme();
 
   return (
-    <nav css={S.tabStyle}>
+    <nav css={S.tabStyle} role="tablist" aria-label="Moim tabs">
       {tabs.map((tab, index) => (
-        <p
+        <button
           key={index}
+          role="tab"
+          aria-selected={currentTab === tab}
+          tabIndex={0}
           css={[
             S.tabItemStyle({ theme, isTurnedOn: currentTab === tab }),
             common.nonDrag,
@@ -29,7 +30,7 @@ export default function MoimTabBar(props: MoimTabBarProps) {
           onClick={() => onTabClick(tab)}
         >
           {tab}
-        </p>
+        </button>
       ))}
     </nav>
   );

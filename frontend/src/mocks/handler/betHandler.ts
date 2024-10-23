@@ -1,29 +1,34 @@
-import { API_URL } from '@_apis/endPoints';
+import { GetBet, GetBetDetail, PostBet } from '@_apis/responseTypes';
 import { HttpResponse, http } from 'msw';
 
+import { API_URL } from '@_apis/endPoints';
+import { BetDetail } from '@_types/index';
+
+const BET_ID = 10;
 // 더미 데이터 생성
 const dummyBets = [
   {
-    id: 1,
+    id: BET_ID,
     title: '첫 번째 배팅',
     currentParticipants: 10,
-    deadline: '2024-09-26 12:30',
+    deadline: '2024-09-26T12:30',
     isAnnounced: false,
   },
   {
-    id: 2,
+    id: BET_ID,
     title: '두 번째 배팅',
     currentParticipants: 5,
-    deadline: '2024-09-26 13:00',
-    isAnnounced: true,
+    deadline: '2024-10-26T13:00',
+    isAnnounced: false,
   },
 ];
 
-const dummyBetDetail = {
+const deadLine = '2024-10-21T21:14:00';
+const dummyBetDetail: BetDetail = {
   title: '상세 배팅',
   currentParticipants: 10,
-  deadline: '2024-09-26 12:30',
-  isAnnounced: false,
+  deadline: deadLine,
+  isAnnounced: true,
   participants: [
     {
       nickname: '사용자1',
@@ -33,6 +38,16 @@ const dummyBetDetail = {
     {
       nickname: '사용자2',
       id: 102,
+      profileUrl: 'https://example.com/profile2.jpg',
+    },
+    {
+      nickname: '사용자2',
+      id: 103,
+      profileUrl: 'https://example.com/profile2.jpg',
+    },
+    {
+      nickname: '사용자2',
+      id: 104,
       profileUrl: 'https://example.com/profile2.jpg',
     },
   ],
@@ -49,16 +64,19 @@ export const betHandler = [
   }),
 
   // 2. 배팅 상세 조회 API
-  http.get(API_URL.bet.detail(1), () => {
-    return HttpResponse.json(dummyBetDetail);
+  http.get(API_URL.bet.detail(BET_ID), () => {
+    return HttpResponse.json<GetBet>({
+      data: { ...dummyBetDetail, isAnnounced: new Date(deadLine) < new Date() },
+    });
   }),
 
   // 3. 배팅 생성 API
   http.post(API_URL.bet.create, async ({ request }) => {
     await request.json();
-    return HttpResponse.json({
-      betId: 3,
-      message: '배팅이 생성되었습니다.',
+    return HttpResponse.json<PostBet>({
+      data: {
+        betId: BET_ID,
+      },
     });
   }),
 
@@ -71,9 +89,9 @@ export const betHandler = [
   }),
 
   // 5. 배팅 결과 조회 API
-  http.get(API_URL.bet.result(1), () => {
-    return HttpResponse.json({
-      nickname: '우승자 닉네임',
+  http.get(API_URL.bet.result(10), () => {
+    return HttpResponse.json<GetBetDetail>({
+      data: { nickname: '사용자1' },
     });
   }),
 ];

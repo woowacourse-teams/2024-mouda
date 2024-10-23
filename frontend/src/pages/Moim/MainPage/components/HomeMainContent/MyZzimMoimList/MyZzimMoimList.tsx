@@ -1,4 +1,4 @@
-import MissingFallback from '@_components/MissingFallback/MissingFallback';
+import MissingFallback from '@_components/Fallback/MissingFallback/MissingFallback';
 import useMyZzimMoims from '@_hooks/queries/useMyZzimMoim';
 import MoimCardList from '../MoimCardList/MoimCardList';
 

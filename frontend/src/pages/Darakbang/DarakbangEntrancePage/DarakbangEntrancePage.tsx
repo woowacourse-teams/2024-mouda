@@ -5,9 +5,9 @@ import ErrorControlledInput from '@_components/ErrorControlledInput/ErrorControl
 import POLICES from '@_constants/poclies';
 import ROUTES from '@_constants/routes';
 import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
-import SolidArrow from '@_components/Icons/SolidArrow';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
+import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
 
 export default function DarakbangEntrancePage() {
   const theme = useTheme();
@@ -17,8 +17,7 @@ export default function DarakbangEntrancePage() {
     <SelectLayout>
       <SelectLayout.Header>
         <SelectLayout.Header.Left>
-          <SolidArrow
-            direction="left"
+          <BackArrowButton
             onClick={() => {
               navigate(-1);
             }}

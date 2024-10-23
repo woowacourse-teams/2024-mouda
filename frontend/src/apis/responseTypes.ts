@@ -125,6 +125,12 @@ export interface GetBet {
   data: BetDetail;
 }
 
+export interface GetBetDetail {
+  data: {
+    nickname: string;
+  };
+}
+
 export interface PostBet {
   data: {
     betId: number;

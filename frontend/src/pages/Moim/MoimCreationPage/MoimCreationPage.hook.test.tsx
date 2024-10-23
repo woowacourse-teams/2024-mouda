@@ -2,7 +2,7 @@ import { act, renderHook } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import useMoimCreationForm from './MoimCreationPage.hook';
 import { ReactNode } from 'react';
-import * as utils from './MoimCreationPage.util';
+import * as utils from '@_utils/isApproachedByUrl';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 // 세션 스토리지 모킹
@@ -39,7 +39,7 @@ describe('useMoimCreationForm', () => {
   });
 
   it('URL로 페이지 접근 시, 새로운 모임 생성으로 판단해 초기 상태로 시작한다', () => {
-    jest.spyOn(utils, 'isApprochedByUrl').mockReturnValue(true);
+    jest.spyOn(utils, 'isApproachedByUrl').mockReturnValue(true);
 
     const { result } = renderHook(() => useMoimCreationForm('이름입력'), {
       wrapper,

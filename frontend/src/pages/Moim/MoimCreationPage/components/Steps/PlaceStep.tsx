@@ -1,5 +1,6 @@
 import FunnelButton from '@_components/Funnel/FunnelButton/FunnelButton';
 import FunnelInput from '@_components/Funnel/FunnelInput/FunnelInput';
+import FunnelInputErrorMessage from '@_components/Funnel/FunnelInputErrorMessage/FunnelInputErrorMessage';
 import FunnelQuestion from '@_components/Funnel/FunnelQuestion/FunnelQuestion';
 import POLICES from '@_constants/poclies';
 import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
@@ -20,19 +21,22 @@ export default function PlaceStep(props: PlaceStepProps) {
 
   useEffect(() => {
     if (inputRef.current) {
-      // inputRef.current.focus();
+      inputRef.current.focus();
     }
   }, []);
   return (
     <>
       <FunnelLayout.Main>
-        <FunnelQuestion>
+        <FunnelQuestion id="moimPlaceLabel" htmlFor="moimPlaceInput">
           <FunnelQuestion.Highlight>장소명</FunnelQuestion.Highlight>
           <FunnelQuestion.Text>을</FunnelQuestion.Text>
           <br />
           <FunnelQuestion.Text>작성해주세요!</FunnelQuestion.Text>
         </FunnelQuestion>
         <FunnelInput
+          id="moimPlaceInput"
+          aria-labelledby="moimPlaceLabel"
+          aria-describedby="moimPlaceDescription"
           ref={inputRef}
           value={place}
           onKeyUp={(e) => e.key === 'Enter' && isValid && onButtonClick()}
@@ -42,12 +46,14 @@ export default function PlaceStep(props: PlaceStepProps) {
       </FunnelLayout.Main>
 
       <FunnelLayout.Footer>
+        {!isValid && (
+          <FunnelInputErrorMessage id="moimPlaceDescription">
+            {POLICES.minimumPlaceLength} ~ {POLICES.maximumPlaceLength}글자
+            이내로 입력해주세요 가능해요
+          </FunnelInputErrorMessage>
+        )}
         <FunnelButton disabled={!isValid} onClick={onButtonClick}>
-          {place === ''
-            ? '스킵하고 채팅에서 정할게요!'
-            : !isValid
-              ? `${POLICES.minimumPlaceLength} ~ ${POLICES.maximumPlaceLength}글자만 가능해요`
-              : '다음으로'}
+          {place === '' ? '스킵하고 채팅에서 정할게요!' : '다음으로'}
         </FunnelButton>
       </FunnelLayout.Footer>
     </>

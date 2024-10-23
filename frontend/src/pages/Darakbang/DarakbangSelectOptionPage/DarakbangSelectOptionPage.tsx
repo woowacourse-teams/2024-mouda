@@ -16,7 +16,7 @@ export default function DarakbangSelectOptionPage() {
         </SelectLayout.Header.Center>
       </SelectLayout.Header>
       <SelectLayout.ContentContainer>
-        <HighlightSpan>
+        <HighlightSpan ariaLabel="다락방에 참여해보세요">
           <HighlightSpan.Highlight>다락방</HighlightSpan.Highlight>에
           참여해보세요
         </HighlightSpan>

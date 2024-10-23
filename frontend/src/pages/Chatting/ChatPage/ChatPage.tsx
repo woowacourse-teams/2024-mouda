@@ -9,7 +9,7 @@ import ChattingPreview from './components/ChattingPreview/ChattingPreview';
 import ChattingPreviewLayout from '@_layouts/ChattingPreviewLayout/ChattingPreviewLayout';
 import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
 import GET_ROUTES from '@_common/getRoutes';
-import MissingFallback from '@_components/MissingFallback/MissingFallback';
+import MissingFallback from '@_components/Fallback/MissingFallback/MissingFallback';
 import NavigationBar from '@_components/NavigationBar/NavigationBar';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
 import { common } from '@_common/common.style';
@@ -43,7 +43,7 @@ export default function ChatPage() {
               onClick={() => setNowChatRoomType('MOIM')}
             />
             <ChatFilterTag
-              value={'안내면진다'}
+              value={'룰렛'}
               isChecked={nowChatRoomType === 'BET'}
               onClick={() => setNowChatRoomType('BET')}
             />

@@ -1,4 +1,4 @@
-import { css, Theme } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 
 export const explanationSection = ({ theme }: { theme: Theme }) => css`
   margin: 0 5rem;

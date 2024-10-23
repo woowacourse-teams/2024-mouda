@@ -40,6 +40,7 @@ export interface Typography {
   small: SerializedStyles;
   Tiny: SerializedStyles;
   tag: SerializedStyles;
+  partialSansKR: SerializedStyles;
 }
 
 export interface ColoredTypography {
@@ -66,6 +67,7 @@ export interface ColoredTypography {
   small: (fontColor: string | SerializedStyles) => SerializedStyles;
   Tiny: (fontColor: string | SerializedStyles) => SerializedStyles;
   tag: (fontColor: string | SerializedStyles) => SerializedStyles;
+  partialSansKR: (fontColor: string | SerializedStyles) => SerializedStyles;
 }
 export interface Layout {
   default: SerializedStyles;

@@ -1,7 +1,7 @@
 import useStatePersist from '@_hooks/useStatePersist';
 import { MoimInputInfo } from '@_types/index';
 import {
-  isApprochedByUrl,
+  isToday,
   validateDate,
   validateMaxPeople,
   validatePlace,
@@ -13,6 +13,7 @@ import useAddMoim from '@_hooks/mutaions/useAddMoim';
 import { useNavigate, useNavigationType } from 'react-router-dom';
 import { MoimCreationStep } from './MoimCreationPage';
 import GET_ROUTES from '@_common/getRoutes';
+import { isApproachedByUrl } from '@_utils/isApproachedByUrl';
 
 const inputKeyMapper = {
   title: '이름입력',
@@ -35,7 +36,7 @@ const useMoimCreationForm = (currentStep: MoimCreationStep) => {
 
   const isNewMoimCreation =
     currentStep === '이름입력' &&
-    (navigationType === 'PUSH' || isApprochedByUrl());
+    (navigationType === 'PUSH' || isApproachedByUrl());
 
   if (isNewMoimCreation) {
     sessionStorage.removeItem('moimCreationInfo');
@@ -80,7 +81,7 @@ const useMoimCreationForm = (currentStep: MoimCreationStep) => {
       title: validateTitle(title),
       place: validatePlace(place),
       date: date === '' || validateDate(date),
-      time: time === '' || validateTime(time),
+      time: time === '' || (isToday(date) ? validateTime(time) : true),
       maxPeople: validateMaxPeople(maxPeople),
     });
   }, [formData]);
