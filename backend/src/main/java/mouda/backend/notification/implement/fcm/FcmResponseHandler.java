@@ -18,22 +18,18 @@ import lombok.extern.slf4j.Slf4j;
 import mouda.backend.notification.domain.CommonNotification;
 import mouda.backend.notification.domain.FcmFailedResponse;
 import mouda.backend.notification.domain.FcmToken;
-import mouda.backend.notification.implement.fcm.token.FcmTokenFinder;
-import mouda.backend.notification.implement.fcm.token.FcmTokenWriter;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class FcmResponseHandler {
 
-	private static final int MAX_ATTEMPT = 3;
 	private static final int BACKOFF_DELAY_FOR_SECONDS = 10;
 	private static final int BACKOFF_MULTIPLIER = 1;
 
 	private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(5);
+	private final FcmRetryableChecker fcmRetryableChecker;
 	private final FcmMessageFactory fcmMessageFactory;
-	private final FcmTokenFinder fcmTokenFinder;
-	private final FcmTokenWriter fcmTokenWriter;
 
 	@PreDestroy
 	public void destroy() {
@@ -41,10 +37,9 @@ public class FcmResponseHandler {
 	}
 
 	public void handleBatchResponse(
-		BatchResponse batchResponse, CommonNotification notification, List<String> initialTokens
+		BatchResponse batchResponse, CommonNotification notification, List<FcmToken> initialTokens
 	) {
-		List<FcmToken> tokens = fcmTokenFinder.readAllByTokensIn(initialTokens);
-		FcmFailedResponse failedResponse = FcmFailedResponse.from(batchResponse, tokens);
+		FcmFailedResponse failedResponse = FcmFailedResponse.from(batchResponse, initialTokens);
 
 		int attempt = 1;
 		retryAsync(notification, failedResponse, attempt, BACKOFF_DELAY_FOR_SECONDS);
@@ -53,30 +48,12 @@ public class FcmResponseHandler {
 	private void retryAsync(
 		CommonNotification notification, FcmFailedResponse failedResponse, int attempt, int backoffDelayForSeconds
 	) {
-		if (attempt > MAX_ATTEMPT) {
-			log.info("Max attempt reached for title: {}, body: {}, failed: {}", notification.getTitle(),
-				notification.getBody(), failedResponse.getFinallyFailedTokens());
-			removeAllUnregisteredTokens(failedResponse.getFailedWith404Tokens());
-			return;
-		}
-		if (failedResponse.hasNoRetryableTokens()) {
-			log.info("No Retryable tokens for title: {}, body: {}, failed: {}.", notification.getTitle(),
-				notification.getBody(), failedResponse.getNonRetryableFailedTokens());
-			removeAllUnregisteredTokens(failedResponse.getFailedWith404Tokens());
-			return;
-		}
-		retryUsingRetryAfter(notification, failedResponse, attempt, backoffDelayForSeconds);
-		retryUsingBackoff(notification, failedResponse, attempt, backoffDelayForSeconds);
-	}
+		boolean canRetry = fcmRetryableChecker.check(notification, failedResponse, attempt);
 
-	private void removeAllUnregisteredTokens(List<FcmToken> failedWith404Tokens) {
-		if (failedWith404Tokens.isEmpty()) {
-			return;
+		if (canRetry) {
+			retryUsingRetryAfter(notification, failedResponse, attempt, backoffDelayForSeconds);
+			retryUsingBackoff(notification, failedResponse, attempt, backoffDelayForSeconds);
 		}
-		log.info("Removing all unregistered tokens: {}", failedWith404Tokens);
-		List<String> tokens = failedWith404Tokens.stream().map(FcmToken::getToken).toList();
-
-		fcmTokenWriter.deleteAll(tokens);
 	}
 
 	private void retryUsingRetryAfter(
