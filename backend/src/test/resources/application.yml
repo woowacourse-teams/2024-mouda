@@ -1,0 +1,48 @@
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+#  sql:
+#    init:
+#      data-locations: classpath:test-data.sql
+
+security:
+  jwt:
+    token:
+      secret-key: kksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabo
+      expire-length: 3600000
+
+app:
+  firebase-config-file: serviceAccountKey.json
+
+url:
+  base: http://localhost:8080
+  moim: /darakbang/%d/moim/%d
+  chat: /darakbang/%d/chat/%d
+  chatroom: /darakbang/%d/chatting-room/%d
+
+oauth:
+  kakao:
+    redirect-uri: http://localhost:8081/kakao-o-auth\
+  google:
+    client-secret: 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
+    redirect-uri: http://localhost:8081/oauth/google
+  apple:
+    redirect-uri: https://dev.mouda.site/oauth/apple
+    redirection: https://dev.mouda.site/oauth/apple?token=%s&isConverted=%s
+
+bet:
+  schedule: "* * * * * *" # 테스트 스케줄러는 매초마다 동작
+
+aws:
+  region:
+    static: ap-northeast-2
+  s3:
+    bucket: techcourse-project-2024
+    key-prefix: mouda/dev/asset/profile/
+    prefix: https://dev.mouda.site/profile/

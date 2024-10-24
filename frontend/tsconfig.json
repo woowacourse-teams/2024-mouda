@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "sourceMap": true,
+    "removeComments": true,
+    "noEmitOnError": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+
+    "jsxImportSource": "@emotion/react",
+
+    "baseUrl": "./",
+    "paths": {
+      "@_apis/*": ["src/apis/*"],
+      "@_constants/*": ["src/constants/*"],
+      "@_common/*": ["src/common/*"],
+      "@_components/*": ["src/components/*"],
+      "@_hooks/*": ["src/hooks/*"],
+      "@_layouts/*": ["src/layouts/*"],
+      "@_pages/*": ["src/pages/*"],
+      "@_types/*": ["src/types/*"],
+      "@_utils/*": ["src/utils/*"],
+      "@_routes/*": ["src/routes/*"],
+      "@_mocks/*": ["src/mocks/*"],
+      "@_service/*": ["src/service/*"]
+    }
+  },
+  "ts-node": {
+    "files": true
+  },
+
+  "exclude": ["node_modules"],
+  "include": ["./src/**/*.tsx", "./src/**/*.ts"]
+}

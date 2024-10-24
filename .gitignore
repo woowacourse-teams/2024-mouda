@@ -1,0 +1,7 @@
+/.idea
+/.github/.idea
+/backend/out
+/frontend/.idea
+/backend/htmlReport
+*.pem
+backend/src/main/resources/auth/AuthKey.p8
