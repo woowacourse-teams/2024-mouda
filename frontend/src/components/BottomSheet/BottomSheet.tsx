@@ -1,5 +1,8 @@
-import { css, useTheme } from '@emotion/react';
+import Dimmer from '@_components/Dimmer/Dimmer';
 import { PropsWithChildren, useEffect, useState } from 'react';
+import BottomSheetContainer from './BottomSheetContainer/BottomSheetContainer';
+import BottomSheetBody from './BottomSheetBody/BottomSheetBody';
+import BottomSheetHandle from './BottomSheetHandle/BottomSheetHandle';
 
 interface BottomSheetProps {
   isOpen: boolean;
@@ -15,8 +18,6 @@ export default function BottomSheet(
   props: PropsWithChildren<BottomSheetProps>,
 ) {
   const { isOpen, onDimmerClick, header, cta, children, size } = props;
-
-  const theme = useTheme();
 
   const [startY, setStartY] = useState(0); // 터치 시작 Y좌표
   const [currentY, setCurrentY] = useState(window.innerHeight); // 초기에는 화면 아래에 위치
@@ -102,114 +103,27 @@ export default function BottomSheet(
   return (
     <BottomSheetContainer>
       <Dimmer onClick={handleDimmerClick} />
-      <div
-        css={css`
-          z-index: 2;
-
-          /* 터치 드래그에 따른 Y축 이동 */
-          transform: translateY(${currentY}px);
-
-          display: flex;
-          flex-direction: column;
-          gap: 24px;
-
-          width: 100%;
-          max-width: 600px;
-          height: ${size === 'medium'
-            ? '50vh'
-            : size === 'large'
-              ? '80vh'
-              : size === 'full'
-                ? '100vh'
-                : 'auto'};
-          padding-bottom: 32px;
-
-          background-color: ${theme.colorPalette.white[100]};
-          border-radius: 28px 28px 0 0;
-
-          /* 터치 드래그에 따른 Y축 이동 */
-          transition: ${isDragging ? 'none' : 'transform 0.3s ease'};
-        `}
-      >
-        <div
-          css={css`
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 32px;
-          `}
+      <BottomSheetBody currentY={currentY} size={size} isDragging={isDragging}>
+        <BottomSheetHandle
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
-        >
-          <div
-            css={css`
-              width: 50px;
-              height: 6px;
-              background-color: black;
-              border-radius: 12px;
-            `}
-          />
-        </div>
+        />
         {header}
         {children}
         {cta}
-      </div>
+      </BottomSheetBody>
     </BottomSheetContainer>
-  );
-}
-
-function BottomSheetContainer({ children }: { children: React.ReactNode }) {
-  return (
-    <div
-      css={css`
-        position: fixed;
-        z-index: 1;
-        inset: 0;
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-end;
-
-        width: 100%;
-        height: 100%;
-      `}
-    >
-      {children}
-    </div>
-  );
-}
-
-function Dimmer({ onClick }: { onClick: () => void }) {
-  return (
-    <div
-      onClick={onClick}
-      css={css`
-        position: fixed;
-        inset: 0;
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-end;
-
-        width: 100%;
-        height: 100%;
-
-        background-color: rgb(0 0 0 / 20%);
-      `}
-    />
   );
 }
 
 BottomSheet.Header = function BottomSheetHeader(props: PropsWithChildren) {
   const { children } = props;
 
-  return <div css={{ padding: '32px 24px 0' }}>{children}</div>;
+  return <div css={{ padding: '0 24px' }}>{children}</div>;
 };
 
-BottomSheet.Content = function BottomSheetContent(props: PropsWithChildren) {
+BottomSheet.Main = function BottomSheetMain(props: PropsWithChildren) {
   const { children } = props;
 
   return <div css={{ padding: '0px 24px' }}>{children}</div>;
@@ -218,5 +132,5 @@ BottomSheet.Content = function BottomSheetContent(props: PropsWithChildren) {
 BottomSheet.CTA = function BottomSheetCTA(props: PropsWithChildren) {
   const { children } = props;
 
-  return <div css={{ padding: '0px 24px 16px' }}>{children}</div>;
+  return <div css={{ padding: '0px 24px' }}>{children}</div>;
 };

@@ -15,7 +15,6 @@ export default function ProfileBottomSheet(props: ProfileBottomSheetProps) {
 
   const theme = useTheme();
 
-  console.log(profile);
   return (
     <BottomSheet
       isOpen={isOpen}
@@ -23,7 +22,7 @@ export default function ProfileBottomSheet(props: ProfileBottomSheetProps) {
       size="small"
       onDimmerClick={close}
     >
-      <BottomSheet.Content>
+      <BottomSheet.Main>
         <div
           css={css`
             display: flex;
@@ -92,7 +91,7 @@ export default function ProfileBottomSheet(props: ProfileBottomSheetProps) {
             </div>
           </div>
         </div>
-      </BottomSheet.Content>
+      </BottomSheet.Main>
     </BottomSheet>
   );
 }

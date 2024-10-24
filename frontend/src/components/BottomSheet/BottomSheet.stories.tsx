@@ -24,7 +24,7 @@ export const Default: Story = {
   },
   render: (args) => (
     <BottomSheet {...args}>
-      <BottomSheet.Content>Content</BottomSheet.Content>
+      <BottomSheet.Main>Content</BottomSheet.Main>
     </BottomSheet>
   ),
 };
