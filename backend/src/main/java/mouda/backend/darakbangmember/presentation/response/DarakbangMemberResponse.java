@@ -5,16 +5,16 @@ import mouda.backend.darakbangmember.domain.DarakbangMember;
 
 @Builder
 public record DarakbangMemberResponse(
-	long memberId,
+	long darakbangMemberId,
 	String nickname,
 	String profile
 ) {
 
 	public static DarakbangMemberResponse toResponse(DarakbangMember darakbangMember) {
 		return DarakbangMemberResponse.builder()
-			.memberId(darakbangMember.getMemberId())
+			.darakbangMemberId(darakbangMember.getId())
 			.nickname(darakbangMember.getNickname())
-			.profile("")
+			.profile(darakbangMember.getProfile())
 			.build();
 	}
 }

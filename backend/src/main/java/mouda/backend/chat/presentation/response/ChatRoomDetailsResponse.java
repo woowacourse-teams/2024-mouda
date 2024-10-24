@@ -25,7 +25,11 @@ public record ChatRoomDetailsResponse(
 
 	private static List<ParticipantResponse> getParticipants(ChatRoomDetails chatRoomDetails) {
 		return chatRoomDetails.getParticipants().stream()
-			.map(participant -> new ParticipantResponse(participant.getNickname(), participant.getProfile(), participant.getRole()))
+			.map(participant -> new ParticipantResponse(
+				participant.getDarakbangMemberId(),
+				participant.getNickname(),
+				participant.getProfile(),
+				participant.getRole()))
 			.toList();
 	}
 }

@@ -18,6 +18,7 @@ import mouda.backend.common.response.RestResponse;
 import mouda.backend.darakbangmember.business.DarakbangMemberService;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.darakbangmember.presentation.controller.swagger.DarakbangMemberSwagger;
+import mouda.backend.darakbangmember.presentation.response.DarakbangMemberProfileResponse;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberResponses;
 import mouda.backend.darakbangmember.presentation.response.DarakbangMemberRoleResponse;
 import mouda.backend.member.domain.Member;
@@ -78,5 +79,16 @@ public class DarakbangMemberController implements DarakbangMemberSwagger {
 		darakbangMemberService.updateMyInfo(darakbangMember, isReset, file, nickname, description);
 
 		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping("/{darakbangId}/members/{darakbangMemberId}/profile")
+	public ResponseEntity<RestResponse<DarakbangMemberProfileResponse>> findProfile(
+		@PathVariable Long darakbangId,
+		@PathVariable Long darakbangMemberId,
+		@LoginDarakbangMember DarakbangMember darakbangMember
+	) {
+		DarakbangMemberProfileResponse response = darakbangMemberService.findProfile(darakbangMemberId);
+
+		return ResponseEntity.ok().body(new RestResponse<>(response));
 	}
 }
