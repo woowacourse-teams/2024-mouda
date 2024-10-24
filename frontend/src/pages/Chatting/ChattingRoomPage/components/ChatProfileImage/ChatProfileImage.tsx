@@ -19,7 +19,7 @@ export default function ChatProfileImage(props: UserPreviewProps) {
     name: member?.name || '',
     nickname: member?.nickname || '',
     description: member?.description || '',
-    url: member?.url || '',
+    url: member?.profile || '',
   });
 
   return (

@@ -27,7 +27,7 @@ export default function MemberCard(props: MemberCard) {
     name: member?.name || '',
     nickname: member?.nickname || '',
     description: member?.description || '',
-    url: member?.url || '',
+    url: member?.profile || '',
   });
 
   return (

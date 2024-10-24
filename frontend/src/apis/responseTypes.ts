@@ -142,7 +142,7 @@ export interface GetDarakbangMemberProfile {
     darakbangMemberId: number;
     name: string;
     nickname: string;
-    url: string;
+    profile: string;
     description: string;
   };
 }
