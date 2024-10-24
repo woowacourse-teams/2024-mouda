@@ -55,11 +55,14 @@ export default function HomePage() {
           css={css`
             display: flex;
             flex-direction: column;
-            margin-top: 30%;
             gap: 2rem;
             align-items: center;
             justify-content: center;
+
+            margin-top: 30%;
           `}
+          aria-label="어색한 공동체 속 우리만의 작은 공간. 모여봐요 우리의 다락방"
+          tabIndex={1}
         >
           <MainLogoIcon />
         </div>
@@ -67,12 +70,13 @@ export default function HomePage() {
       <LoginLayout.Footer>
         <section
           css={css`
-            margin-bottom: 10rem;
             display: flex;
             flex-direction: column;
             gap: 3rem;
             align-items: center;
             justify-content: center;
+
+            margin-bottom: 10rem;
           `}
         >
           <span css={theme.typography.b3}>3초만에 모우다를 시작해보세요!</span>
@@ -89,29 +93,40 @@ export default function HomePage() {
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
               onClick={appleAuthLogin}
+              aria-label="애플 계정으로 로그인"
             >
               <AppleOAuthIcon type={'circle'} />
             </button>
             <GoogleLoginButton type={'circle'} />
             <div css={S.boundary({ theme })}></div>
             <button
-              css={S.kakaoButton}
+              css={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyCsontent: 'center',
+                background: 'none',
+                border: 'none',
+              }}
               onClick={() => {
                 alert(
                   '카카오톡 로그인은 더 이상 지원하지 않아요! 다른 로그인을 이용하여 계정을 옮겨 보세요!',
                 );
               }}
+              aria-label="카카오 로그인 기능은 더 이상 지원하지 않아요. 애플 로그인 또는 구글 로그인 기능을 이용해주세요."
             >
               <KakaoOAuthLoginIcon type="circle" />
             </button>
           </div>
-          <span css={S.explain({ theme })}>
+          <div css={S.explain({ theme })}>
             카카오톡 로그인은 더 이상 지원하지 않아요!
             <br />
             다른 로그인을 이용해주세요
-          </span>
+          </div>
         </section>
       </LoginLayout.Footer>
     </LoginLayout>
