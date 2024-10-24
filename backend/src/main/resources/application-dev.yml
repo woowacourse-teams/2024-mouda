@@ -1,6 +1,8 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 20
   jpa:
     hibernate:
       ddl-auto: update
@@ -11,4 +13,40 @@ url:
 
 oauth:
   kakao:
-    redirect-uri: https://dev.mouda.site/kakao-o-auth
+    redirect-uri: https://dev.mouda.site/oauth/kakao
+  google:
+    client-secret: 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
+    redirect-uri: https://dev.mouda.site/oauth/google
+  apple:
+    redirect-uri: https://api.dev.mouda.site/v1/auth/apple
+    redirection: https://dev.mouda.site/oauth/apple?token=%s&isConverted=%s
+
+aws:
+  region:
+    static: ap-northeast-2
+  s3:
+    bucket: techcourse-project-2024
+    key-prefix: mouda/dev/asset/profile/
+    prefix: https://dev.mouda.site/profile/
+
+management:
+  metrics:
+    enable:
+      tomcat: true
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+    health:
+      show-details: always
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true
+    threads:
+      max: 100

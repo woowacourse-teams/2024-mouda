@@ -7,13 +7,13 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ChatErrorMessage {
 
-	MOIM_NOT_FOUND("모임이 존재하지 않습니다."),
-	INVALID_RECENT_CHAT_ID("최근 조회된 채팅 아이디를 잘 못 입력하였습니다."),
-	NOT_PARTICIPANT_TO_SEND("모임에 참여한 회원만 채팅을 보낼 수 있습니다."),
-	NOT_PARTICIPANT_TO_FIND("모임에 참여한 회원만 채팅을 조회할 수 있습니다."),
-	MOIMER_CAN_CONFIRM_PLACE("모이머만 모임 장소를 확정할 수 있습니다."),
-	MOIMER_CAN_CONFIRM_DATETIME("모이머만 날짜와 시간을 확정할 수 있습니다."),
-	NO_PERMISSION_OPEN_CHAT("채팅은 모이머만 열 수 있습니다");
+	CHATROOM_NOT_FOUND("존재하지 않는 채팅방입니다."),
+	BET_DARAKBANG_MEMBER_NOT_FOUND("참여하지 않은 안내면진다입니다."),
+	INVALID_CHATROOM_TYPE("잘못된 채팅 방 타입입니다."),
+	UNAUTHORIZED("권한이 없습니다."),
+
+	INVALID_DATE_TIME_FORMAT("날짜와 시간 형식이 올바르지 않습니다."),
+	;
 
 	private final String message;
 }

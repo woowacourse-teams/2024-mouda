@@ -4,44 +4,85 @@ import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import mouda.backend.moim.exception.MoimErrorMessage;
-import mouda.backend.moim.exception.MoimException;
+import mouda.backend.member.exception.MemberErrorMessage;
+import mouda.backend.member.exception.MemberException;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@Table(name = "member")
 public class Member {
-
-	private static final int NICKNAME_MAX_LENGTH = 10;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String nickname;
+	private String name;
 
-	private Long kakaoId;
+	@Embedded
+	private LoginDetail loginDetail;
+
+	@Enumerated(EnumType.STRING)
+	private MemberStatus memberStatus;
+
+	private boolean isConverted;
 
 	@Builder
-	public Member(String nickname, Long kakaoId) {
-		this.kakaoId = kakaoId;
-		this.nickname = nickname;
+	public Member(String name, LoginDetail loginDetail) {
+		this.loginDetail = loginDetail;
+		validateName(name);
+		this.name = name;
+		this.memberStatus = MemberStatus.ACTIVE;
+		this.isConverted = false;
 	}
 
-	private void validateNickname(String nickname) {
-		if (nickname.isBlank()) {
-			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MEMBER_NICKNAME_NOT_EXISTS);
+	private void validateName(String name) {
+		if (name.isBlank()) {
+			throw new MemberException(HttpStatus.BAD_REQUEST, MemberErrorMessage.MEMBER_NAME_NOT_EXISTS);
 		}
-		if (nickname.length() >= NICKNAME_MAX_LENGTH) {
-			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MEMBER_NICKNAME_TOO_LONG);
-		}
+	}
+
+	public String getIdentifier() {
+		return loginDetail.getIdentifier();
+	}
+
+	public OauthType getOauthType() {
+		return loginDetail.getOauthType();
+	}
+
+	public void withdraw() {
+		this.memberStatus = MemberStatus.DELETED;
+	}
+
+	public boolean isDeleted() {
+		return MemberStatus.DELETED.equals(this.memberStatus);
+	}
+
+	public void rejoin() {
+		this.memberStatus = MemberStatus.ACTIVE;
+	}
+
+	public void convert() {
+		this.isConverted = true;
+	}
+
+	public void deprecate() {
+		this.memberStatus = MemberStatus.DEPRECATED;
+	}
+
+	public void updateLoginDetail(LoginDetail loginDetail) {
+		this.loginDetail = loginDetail;
 	}
 
 	@Override
