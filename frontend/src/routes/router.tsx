@@ -175,7 +175,7 @@ const routesConfig = [
   {
     path: ROUTES.darakbangInvitationRoute,
     element: <DarakbangInvitationRoute />,
-    requiresAuth: true,
+    requiresAuth: false,
   },
   {
     path: ROUTES.darakbangLanding,

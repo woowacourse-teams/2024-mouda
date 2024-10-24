@@ -4,10 +4,19 @@ import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
 import SelectBar from '../components/SelectBar/SelectBar';
+import { getInviteCode } from '@_common/inviteCodeManager';
+import { useEffect } from 'react';
 
 export default function DarakbangSelectOptionPage() {
   const navigate = useNavigate();
   const theme = useTheme();
+
+  useEffect(() => {
+    if (getInviteCode() !== null) {
+      navigate(ROUTES.darakbangInvitationRoute);
+    }
+  }, [navigate]);
+
   return (
     <SelectLayout>
       <SelectLayout.Header>
