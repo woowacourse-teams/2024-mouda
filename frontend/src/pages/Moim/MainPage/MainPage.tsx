@@ -55,6 +55,10 @@ export default function MainPage() {
       setIsModalOpen(true);
     }
     requestPermission(mutate);
+  }, [mutate]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
   }, []);
 
   const handleModalClose = () => {

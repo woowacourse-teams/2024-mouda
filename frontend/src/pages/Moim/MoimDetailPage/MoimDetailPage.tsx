@@ -46,8 +46,12 @@ const getButtonMessage = (moim: MoimInfo, role: Role) => {
     return '';
   }
   if (role === 'MOIMEE') {
-    if (moim.status === 'MOIMING') return '방장이 채팅방을 만들지 않았습니다';
-    if (moim.status === 'COMPLETED') return '채팅방으로 가기';
+    if (moim.status === 'MOIMING') return '모임을 모으고 있습니다';
+    if (moim.status === 'COMPLETED') {
+      if (moim.chatRoomId === null)
+        return '방장이 채팅방을 아직 열지 않았습니다';
+      return '채팅방으로 가기';
+    }
     return '';
   }
   return '';
@@ -68,7 +72,10 @@ const getButtonDisabled = (moim: MoimInfo, role: Role) => {
   }
   if (role === 'MOIMEE') {
     if (moim.status === 'MOIMING') return true;
-    if (moim.status === 'COMPLETED') return false;
+    if (moim.status === 'COMPLETED') {
+      if (moim.chatRoomId === null) return true;
+      return false;
+    }
     return true;
   }
   return true;
@@ -175,7 +182,11 @@ export default function MoimDetailPage() {
 
     if (role === 'MOIMER') {
       if (moim.status === 'MOIMING') return completeMoim(moimId);
-      if (moim.status === 'COMPLETED') return openChat(moimId);
+      if (moim.status === 'COMPLETED') {
+        if (moim.chatRoomId === null) return openChat(moimId);
+
+        return navigate(GET_ROUTES.nowDarakbang.chattingRoom(moim.chatRoomId));
+      }
       return;
     }
     if (role === 'NON_MOIMEE') {
@@ -185,8 +196,11 @@ export default function MoimDetailPage() {
     }
     if (role === 'MOIMEE') {
       if (moim.status === 'MOIMING') return;
-      if (moim.status === 'COMPLETED')
-        return navigate(GET_ROUTES.nowDarakbang.chattingRoom(moimId));
+      if (moim.status === 'COMPLETED') {
+        if (moim.chatRoomId === null) return;
+
+        return navigate(GET_ROUTES.nowDarakbang.chattingRoom(moim.chatRoomId));
+      }
       return;
     }
     return;

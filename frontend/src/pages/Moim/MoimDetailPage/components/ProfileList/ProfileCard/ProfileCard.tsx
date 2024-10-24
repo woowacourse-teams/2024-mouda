@@ -1,12 +1,12 @@
 import * as S from './ProfileCard.style';
 
+import { Fragment } from 'react';
 import { Participation } from '@_types/index';
 import ProfileFrame from '../../../../../../components/ProfileFrame/ProfileFrame';
-import useNicknameWidthEffect from '@_hooks/useNicknameWidthEffect';
-import { useTheme } from '@emotion/react';
-import { Fragment } from 'react';
 import useDarakbangMember from '@_hooks/queries/useDarakbangMember';
+import useNicknameWidthEffect from '@_hooks/useNicknameWidthEffect';
 import useProfileBottomSheet from '@_hooks/useProfileBottomSheet';
+import { useTheme } from '@emotion/react';
 
 interface ProfileCardProps {
   info: Participation;
@@ -41,7 +41,7 @@ export default function ProfileCard(props: ProfileCardProps) {
       <li
         css={S.profileCard}
         tabIndex={0}
-        aria-label={info.nickname}
+        aria-label={(info.role === 'MOIMER' ? '모임장' : '') + info.nickname}
         onClick={handleCardClick}
       >
         <ProfileFrame

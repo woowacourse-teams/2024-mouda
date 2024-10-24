@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import ChatCardListSkeleton from './ChatListSkeleton/ChatCardListSkeleton';
@@ -24,6 +24,9 @@ export default function ChatPage() {
   );
   const { data: chatPreviews, isLoading } = useChatPreviews(nowChatRoomType);
   const navigate = useNavigate();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <Fragment>
@@ -84,7 +87,7 @@ export default function ChatPage() {
               />
             ))
           ) : (
-            <MissingFallback text="아직 만들어진 채팅방이 없어요" />
+            <MissingFallback text="아직 열린 채팅방이 없습니다" />
           )}
         </ChattingPreviewLayout.ContentContainer>
       </ChattingPreviewLayout>

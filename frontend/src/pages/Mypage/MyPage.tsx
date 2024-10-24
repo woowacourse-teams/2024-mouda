@@ -1,17 +1,19 @@
+import * as S from './MyPage.style';
+
+import { Fragment, useEffect } from 'react';
 import { css, useTheme } from '@emotion/react';
+
+import Edit from '@_common/assets/edit.svg';
+import GET_ROUTES from '@_common/getRoutes';
 import InformationLayout from '@_layouts/InformationLayout/InformationLayout';
 import MineInfoCard from './components/MineInfoCard/MineInfoCard';
+import MyInfoTabBar from './components/MyInfoTabBar/MyInfoTabBar';
 import NavigationBar from '@_components/NavigationBar/NavigationBar';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
-import { common } from '@_common/common.style';
-import * as S from './MyPage.style';
-import MyInfoTabBar from './components/MyInfoTabBar/MyInfoTabBar';
 import Setting from '@_common/assets/setting.svg';
-import Edit from '@_common/assets/edit.svg';
-import { Fragment } from 'react';
-import { useNavigate } from 'react-router-dom';
-import GET_ROUTES from '@_common/getRoutes';
+import { common } from '@_common/common.style';
 import useMyPage from './hook/useMyPage';
+import { useNavigate } from 'react-router-dom';
 
 export default function MyPage() {
   const navigate = useNavigate();
@@ -36,6 +38,9 @@ export default function MyPage() {
     handleCancel,
     handleDefaultProfile,
   } = useMyPage();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <Fragment>

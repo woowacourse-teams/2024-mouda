@@ -16,6 +16,7 @@ export interface MoimInfo {
   status: MoimStatus;
   comments: Comment[];
   isZzimed: boolean;
+  chatRoomId: number | null;
 }
 
 export interface Participation {
@@ -46,6 +47,7 @@ export type MoimInputInfo = Omit<
   | 'comments'
   | 'authorNickname'
   | 'isZzimed'
+  | 'chatRoomId'
 >;
 
 export interface ChattingPreview {
