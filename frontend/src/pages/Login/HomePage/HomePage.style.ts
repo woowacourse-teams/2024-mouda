@@ -1,6 +1,10 @@
 import { css, Theme } from '@emotion/react';
 
 export const kakaoButton = () => css`
+  display: 'flex';
+  align-items: 'center';
+  justify-content: 'center';
+
   background: none;
   border: none;
 `;
