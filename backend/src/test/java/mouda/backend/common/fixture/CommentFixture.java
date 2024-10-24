@@ -8,7 +8,7 @@ import mouda.backend.moim.domain.Moim;
 
 public class CommentFixture {
 
-	public static Comment getCommentWithAnnaAtSoccerMoim(DarakbangMember darakbangMember, Moim moim) {
+	public static Comment getCommentWithoutParentId(DarakbangMember darakbangMember, Moim moim) {
 		return Comment.builder()
 			.content("그냥 댓글")
 			.moim(moim)
@@ -18,7 +18,7 @@ public class CommentFixture {
 			.build();
 	}
 
-	public static Comment getChildCommentWithAnnaAtSoccerMoim(DarakbangMember darakbangMember, Moim moim) {
+	public static Comment getCommentWithParentId(DarakbangMember darakbangMember, Moim moim) {
 		return Comment.builder()
 			.content("그냥 자식 댓글")
 			.moim(moim)

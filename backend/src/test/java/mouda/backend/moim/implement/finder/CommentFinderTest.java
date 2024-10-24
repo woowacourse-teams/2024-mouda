@@ -35,9 +35,9 @@ class CommentFinderTest extends DarakbangSetUp {
 	void readAllParentComments() {
 		Moim moim = moimRepository.save(MoimFixture.getCoffeeMoim(darakbang.getId()));
 		Comment parentComment = commentRepository.save(
-			CommentFixture.getCommentWithAnnaAtSoccerMoim(darakbangHogee, moim));
+			CommentFixture.getCommentWithoutParentId(darakbangHogee, moim));
 		Comment childComment = commentRepository.save(
-			CommentFixture.getChildCommentWithAnnaAtSoccerMoim(darakbangAnna, moim));
+			CommentFixture.getCommentWithParentId(darakbangAnna, moim));
 
 		List<ParentComment> parentComments = commentFinder.readAllParentComments(moim);
 
