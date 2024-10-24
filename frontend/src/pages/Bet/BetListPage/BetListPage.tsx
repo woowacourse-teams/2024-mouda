@@ -1,18 +1,22 @@
+import { Fragment, useEffect } from 'react';
+
+import BetList from './components/BetList/BetList';
+import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
+import DefaultPageLayout from '@_layouts/DefaultPageLayout/DefaultPageLayout';
 import GET_ROUTES from '@_common/getRoutes';
 import NavigationBar from '@_components/NavigationBar/NavigationBar';
-import PlusButton from '@_components/PlusButton/PlusButton';
 import NavigationBarWrapper from '@_layouts/components/NavigationBarWrapper/NavigationBarWrapper';
-import { useTheme } from '@emotion/react';
-import { Fragment } from 'react';
-import { useNavigate } from 'react-router-dom';
-import BetList from './components/BetList/BetList';
-import DefaultPageLayout from '@_layouts/DefaultPageLayout/DefaultPageLayout';
+import PlusButton from '@_components/PlusButton/PlusButton';
 import RefreshButton from '@_components/RefreshButton/RefreshButton';
-import DarakbangNameWrapper from '@_components/DarakbangNameWrapper/DarakbangNameWrapper';
 import { common } from '@_common/common.style';
+import { useNavigate } from 'react-router-dom';
+import { useTheme } from '@emotion/react';
 
 export default function BetListPage() {
   const navigate = useNavigate();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const theme = useTheme();
 
