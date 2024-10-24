@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.chat.domain.Chat;
-import mouda.backend.chat.domain.ChatNotificationEvent;
 import mouda.backend.chat.domain.ChatRoom;
 
 @Component
