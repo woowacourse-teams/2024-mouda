@@ -1,41 +1,35 @@
 /* eslint-disable compat/compat */
 
 import { getMessaging, getToken } from 'firebase/messaging';
+import { initializeFirebaseApp } from './initFirebase'; // 비동기적으로 초기화된 Firebase 앱 가져오기
 
-import { app } from './initFirebase';
-import checkCanUseFirebase from '@_utils/checkCanUseFirebase';
+export async function requestPermission(
+  mutationFn: (currentToken: string) => void,
+) {
+  const app = await initializeFirebaseApp(); // Firebase 앱 초기화가 완료되면 실행
+  if (!app) return; // Firebase를 사용할 수 없는 경우 종료
 
-const messaging = checkCanUseFirebase() ? getMessaging(app) : null;
+  const messaging = getMessaging(app);
 
-export function requestPermission(mutationFn: (currentToken: string) => void) {
-  if (!checkCanUseFirebase()) return;
-  // console.log('권한 요청 중...');
   Notification.requestPermission().then((permission) => {
     if (permission === 'granted') {
-      // console.log('알림 권한이 허용됨');
-      //@ts-expect-error 파이어베이스가 사용되면 messaging이 존재
       getToken(messaging, {
         vapidKey: process.env.VAPID_KEY,
       })
         .then((currentToken) => {
           if (currentToken) {
-            // console.log(currentToken);
             mutationFn(currentToken);
           } else {
-            // Show permission request UI
-            // console.log(
-            //   'No registration token available. Request permission to generate one.',
-            // );
-            // ...
+            console.warn(
+              'No registration token available. Request permission to generate one.',
+            );
           }
         })
-        .catch(() => {
-          // console.log('An error occurred while retrieving token. ', err);
-          // ...
+        .catch((err) => {
+          console.error('An error occurred while retrieving token: ', err);
         });
-      // FCM 메세지 처리
     } else {
-      // console.log('알림 권한 허용 안됨');
+      console.warn('알림 권한이 허용되지 않았습니다.');
     }
   });
 }
