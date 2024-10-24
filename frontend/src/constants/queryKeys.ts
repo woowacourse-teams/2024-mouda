@@ -25,6 +25,7 @@ const QUERY_KEYS = {
   bets: 'bets',
   bet: 'bet',
   betResult: 'betResult',
+  darakbangMember: 'darakbangMember',
 };
 
 export default QUERY_KEYS;

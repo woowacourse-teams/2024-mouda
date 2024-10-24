@@ -19,6 +19,7 @@ import {
   GetChatRoomDetail,
   GetChattingPreview,
   GetDarakbangInviteCode,
+  GetDarakbangMemberProfile,
   GetDarakbangMembers,
   GetDarakbangMine,
   GetDarakbangNameByCode,
@@ -236,4 +237,13 @@ export const getBetResult = async (betId: number) => {
 
   const json: GetBetDetail = await response.json();
   return json.data.nickname;
+};
+
+export const getDarakbangMemberProfile = async (darakbangMemberId: number) => {
+  const response = await ApiClient.getWithLastDarakbangId(
+    `/members/${darakbangMemberId}/profile`,
+  );
+
+  const json: GetDarakbangMemberProfile = await response.json();
+  return json.data;
 };

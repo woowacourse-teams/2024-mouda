@@ -98,7 +98,7 @@ export interface GetMyRoleInDarakbang {
 export interface GetDarakbangMembers {
   data: {
     responses: {
-      memberId: number;
+      darakbangMemberId: number;
       nickname: string;
       profile: string;
     }[];
@@ -134,5 +134,15 @@ export interface GetBetDetail {
 export interface PostBet {
   data: {
     betId: number;
+  };
+}
+
+export interface GetDarakbangMemberProfile {
+  data: {
+    darakbangMemberId: number;
+    name: string;
+    nickname: string;
+    url: string;
+    description: string;
   };
 }

@@ -21,6 +21,8 @@ const chatRoomDetail: (BetChatRoomDetail | MoimChatRoomDetail)[] = [
       isLoser: false,
       betId: 22,
       loser: {
+        darakbangMemberId: 1,
+
         nickname: '패배자',
         profile: '',
         role: 'MOIMER',
@@ -30,6 +32,8 @@ const chatRoomDetail: (BetChatRoomDetail | MoimChatRoomDetail)[] = [
     title: '내가 안 걸린 모임',
     participations: [
       {
+        darakbangMemberId: 1,
+
         nickname: '1',
         profile: '나',
         role: 'MOIMER',
@@ -49,7 +53,14 @@ const chatRoomDetail: (BetChatRoomDetail | MoimChatRoomDetail)[] = [
     },
     type: 'MOIM',
     title: '위와 같은 가격',
-    participations: [{ nickname: '111', role: 'MOIMEE', profile: '' }],
+    participations: [
+      {
+        darakbangMemberId: 1,
+        nickname: '111',
+        role: 'MOIMEE',
+        profile: '',
+      },
+    ],
   },
   {
     chatRoomId: 2,
@@ -66,6 +77,8 @@ const chatRoomDetail: (BetChatRoomDetail | MoimChatRoomDetail)[] = [
     title: '위와 같은 모임',
     participations: [
       {
+        darakbangMemberId: 1,
+
         nickname: '',
         profile: '',
         role: 'MOIMER',
@@ -78,6 +91,7 @@ const chatRoomDetail: (BetChatRoomDetail | MoimChatRoomDetail)[] = [
       isLoser: true,
       betId: 22,
       loser: {
+        darakbangMemberId: 1,
         nickname: '',
         profile: '',
         role: 'MOIMER',
@@ -87,6 +101,7 @@ const chatRoomDetail: (BetChatRoomDetail | MoimChatRoomDetail)[] = [
     title: '내가 걸린 모임',
     participations: [
       {
+        darakbangMemberId: 1,
         nickname: '1',
         profile: '',
         role: 'MOIMER',
@@ -121,7 +136,12 @@ export const chatHandler = [
         chatId: (nowChatServerData[chatRoomId].at(-1)?.chatId || 0) + 1,
         content: json.content,
         isMyMessage: true,
-        participation: { nickname: '내 닉네임', profile: '', role: 'MOIMEE' },
+        participation: {
+          darakbangMemberId: 1,
+          nickname: '내 닉네임',
+          profile: '',
+          role: 'MOIMEE',
+        },
         date: new Date().toISOString().split('T')[0],
         time: new Date().toISOString().split('T')[1].slice(0, 8),
         chatType: 'BASIC',
@@ -157,7 +177,12 @@ export const chatHandler = [
                 chatRoomId: 0,
                 title: '내가 안 걸린 모임',
                 participations: [
-                  { nickname: '111', role: 'MOIMEE', profile: '' },
+                  {
+                    darakbangMemberId: 1,
+                    nickname: '111',
+                    role: 'MOIMEE',
+                    profile: '',
+                  },
                 ],
                 isStarted: true,
                 unreadChatCount: 1,
@@ -167,7 +192,12 @@ export const chatHandler = [
                 chatRoomId: 3,
                 title: '내가 걸린 모임',
                 participations: [
-                  { nickname: '111', role: 'MOIMEE', profile: '' },
+                  {
+                    darakbangMemberId: 1,
+                    nickname: '111',
+                    role: 'MOIMEE',
+                    profile: '',
+                  },
                 ],
                 isStarted: true,
                 unreadChatCount: 1,
@@ -188,7 +218,13 @@ export const chatHandler = [
                 chatRoomId: 1,
                 title: '모임',
                 participations: [
-                  { nickname: '111', role: 'MOIMEE', profile: '' },
+                  {
+                    darakbangMemberId: 1,
+
+                    nickname: '111',
+                    role: 'MOIMEE',
+                    profile: '',
+                  },
                 ],
                 isStarted: true,
                 unreadChatCount: 0,
@@ -198,7 +234,12 @@ export const chatHandler = [
                 chatRoomId: 2,
                 title: '위와 같은 모임',
                 participations: [
-                  { nickname: '111', role: 'MOIMEE', profile: '' },
+                  {
+                    darakbangMemberId: 1,
+                    nickname: '111',
+                    role: 'MOIMEE',
+                    profile: '',
+                  },
                 ],
                 isStarted: false,
                 unreadChatCount: 0,

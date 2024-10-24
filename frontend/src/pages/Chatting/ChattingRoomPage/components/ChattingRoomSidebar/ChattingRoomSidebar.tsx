@@ -39,10 +39,14 @@ export default function ChattingRoomSidebar(props: ChattingRoomSidebarProps) {
             </span>
           </header>
           <div css={S.members}>
-            {members.map(({ nickname, profile }) => {
+            {members.map(({ darakbangMemberId, nickname, profile }) => {
               return (
-                <div css={S.memberWrapper} key={nickname}>
-                  <MemberCard name={nickname} imageUrl={profile} />
+                <div css={S.memberWrapper} key={darakbangMemberId}>
+                  <MemberCard
+                    memberId={darakbangMemberId}
+                    name={nickname}
+                    imageUrl={profile}
+                  />
                 </div>
               );
             })}

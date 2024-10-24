@@ -11,6 +11,12 @@ export default function DarakbangMembersPage() {
   const navigate = useNavigate();
 
   const { members, isLoading } = useDarakbangMembers();
+
+  console.log(members);
+  console.log(members);
+  console.log(members);
+  console.log(members);
+  console.log(members);
   return (
     <>
       <StickyTriSectionHeader>
@@ -21,8 +27,13 @@ export default function DarakbangMembersPage() {
       </StickyTriSectionHeader>
       {isLoading && <>loading...</>}
       <div css={S.members}>
-        {members?.map(({ nickname, memberId, profile }) => (
-          <MemberCard key={memberId} name={nickname} imageUrl={profile} />
+        {members?.map(({ nickname, darakbangMemberId, profile }) => (
+          <MemberCard
+            key={darakbangMemberId}
+            memberId={darakbangMemberId}
+            name={nickname}
+            imageUrl={profile}
+          />
         ))}
       </div>
     </>
