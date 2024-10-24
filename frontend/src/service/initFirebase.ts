@@ -10,6 +10,13 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
-export const app = checkCanUseFirebase()
-  ? initializeApp(firebaseConfig)
-  : undefined;
+
+export const initializeFirebaseApp = async () => {
+  const canUseFirebase = await checkCanUseFirebase();
+  if (canUseFirebase) {
+    return initializeApp(firebaseConfig);
+  } else {
+    console.warn('Firebase는 이 환경에서 지원되지 않습니다.');
+    return undefined;
+  }
+};
