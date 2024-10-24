@@ -23,41 +23,40 @@ public class FcmRetryableChecker {
 
 	@Transactional
 	public boolean check(CommonNotification notification, FcmFailedResponse failedResponse, int attempt) {
-		handleNonRetryableTokens(notification, failedResponse);
 		if (failedResponse.hasNoFailedTokens()) {
 			log.info("No failed tokens for title: {}, body: {}.", notification.getTitle(), notification.getBody());
 			return false;
 		}
+		return checkWhenFailedTokensExist(notification, failedResponse, attempt);
+	}
+
+	private boolean checkWhenFailedTokensExist(
+		CommonNotification notification, FcmFailedResponse failedResponse, int attempt
+	) {
+		removeAllUnregisteredTokens(failedResponse);
 		if (attempt > MAX_ATTEMPT) {
-			log.info("Max attempt reached for title: {}, body: {}, failed: {}", notification.getTitle(),
-				notification.getBody(), failedResponse.getFinallyFailedTokens());
+			log.info("Max attempt reached for title: {}, body: {}, tokens: {}", notification.getTitle(),
+				notification.getBody(), failedResponse.getFailedTokens());
 			return false;
 		}
 		if (failedResponse.hasNoRetryableTokens()) {
-			log.info("No retryable tokens for title: {}, body: {}.", notification.getTitle(), notification.getBody());
+			log.info("No retryable tokens for title: {}, body: {}, tokens: {}", notification.getTitle(), notification.getBody(),
+				failedResponse.getNonRetryableFailedTokens());
 			return false;
 		}
 		return true;
 	}
 
-	private void handleNonRetryableTokens(CommonNotification notification, FcmFailedResponse failedResponse) {
-		List<FcmToken> nonRetryableFailedTokens = failedResponse.getNonRetryableFailedTokens();
-		if (nonRetryableFailedTokens.isEmpty()) {
-			return;
-		}
-
-		log.info("Cannot Retry for title: {}, body: {}, failed: {}.", notification.getTitle(),
-			notification.getBody(), nonRetryableFailedTokens);
-		removeAllUnregisteredTokens(failedResponse.getFailedWith404Tokens());
-	}
-
-	private void removeAllUnregisteredTokens(List<FcmToken> failedWith404Tokens) {
+	private void removeAllUnregisteredTokens(FcmFailedResponse failedResponse) {
+		List<FcmToken> failedWith404Tokens = failedResponse.getFailedWith404Tokens();
 		if (failedWith404Tokens.isEmpty()) {
 			return;
 		}
+
 		log.info("Removing all unregistered tokens: {}", failedWith404Tokens);
 		List<String> tokens = failedWith404Tokens.stream().map(FcmToken::getToken).toList();
 
 		fcmTokenWriter.deleteAll(tokens);
+		failedResponse.removeFailedWith404Tokens();
 	}
 }

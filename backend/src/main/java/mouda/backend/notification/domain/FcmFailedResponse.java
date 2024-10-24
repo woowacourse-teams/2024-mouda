@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.google.firebase.messaging.BatchResponse;
@@ -53,14 +54,10 @@ public class FcmFailedResponse {
 		return getTokens(this::isFailedWith5xx);
 	}
 
-	public List<FcmToken> getNonRetryableFailedTokens() {
-		return getTokens(errorCode -> !isFailedWith429(errorCode) && !isFailedWith5xx(errorCode));
-	}
-
-	public List<FcmToken> getFinallyFailedTokens() {
-		return failedTokens.values().stream()
-			.flatMap(List::stream)
-			.toList();
+	public Map<MessagingErrorCode, List<FcmToken>> getNonRetryableFailedTokens() {
+		return failedTokens.keySet().stream()
+			.filter(errorCode -> !isFailedWith429(errorCode) && !isFailedWith5xx(errorCode))
+			.collect(Collectors.toMap(errorCode -> errorCode, failedTokens::get));
 	}
 
 	public int getRetryAfterSeconds() {
@@ -100,5 +97,9 @@ public class FcmFailedResponse {
 
 	public boolean hasNoFailedTokens() {
 		return failedTokens.isEmpty();
+	}
+
+	public void removeFailedWith404Tokens() {
+		failedTokens.remove(MessagingErrorCode.UNREGISTERED);
 	}
 }
