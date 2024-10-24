@@ -1,6 +1,8 @@
 import { css } from '@emotion/react';
 
 export const plusButton = css`
+  pointer-events: auto;
+
   width: 68px;
   height: 68px;
   padding: 0;

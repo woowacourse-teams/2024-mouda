@@ -2,6 +2,8 @@ import { DISPLAY_MAX_WIDTH, NAVIGATION_BAR_HEIGHT } from '@_constants/styles';
 import { css } from '@emotion/react';
 
 export const fixedWrapperStyle = css`
+  pointer-events: none;
+
   position: fixed;
   bottom: 18px;
 
