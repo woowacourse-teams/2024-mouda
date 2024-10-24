@@ -14,6 +14,7 @@ import mouda.backend.common.fixture.MoimFixture;
 import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimRole;
+import mouda.backend.moim.implement.notificiation.MoimRecipientFinder;
 import mouda.backend.moim.infrastructure.ChamyoRepository;
 import mouda.backend.moim.infrastructure.MoimRepository;
 import mouda.backend.notification.domain.Recipient;

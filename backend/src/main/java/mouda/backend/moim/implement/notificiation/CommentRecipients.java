@@ -1,4 +1,4 @@
-package mouda.backend.moim.domain;
+package mouda.backend.moim.implement.notificiation;
 
 import java.util.ArrayList;
 import java.util.List;

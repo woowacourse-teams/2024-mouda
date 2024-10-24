@@ -12,7 +12,7 @@ import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimRole;
 import mouda.backend.moim.implement.finder.ChamyoFinder;
 import mouda.backend.moim.implement.finder.MoimFinder;
-import mouda.backend.moim.implement.sender.ChamyoNotificationSender;
+import mouda.backend.moim.implement.notificiation.MoimRelatedNotificationSender;
 import mouda.backend.moim.implement.writer.ChamyoWriter;
 import mouda.backend.moim.implement.writer.MoimWriter;
 import mouda.backend.moim.presentation.response.chamyo.ChamyoFindAllResponses;
@@ -28,7 +28,7 @@ public class ChamyoService {
 	private final MoimWriter moimWriter;
 	private final ChamyoFinder chamyoFinder;
 	private final ChamyoWriter chamyoWriter;
-	private final ChamyoNotificationSender chamyoNotificationSender;
+	private final MoimRelatedNotificationSender notificationSender;
 
 	@Transactional(readOnly = true)
 	public MoimRoleFindResponse findMoimRole(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
@@ -51,7 +51,7 @@ public class ChamyoService {
 		Chamyo chamyo = chamyoWriter.saveAsMoimee(moim, darakbangMember);
 		moimWriter.updateMoimStatusIfFull(moim);
 
-		chamyoNotificationSender.sendChamyoNotification(moimId, darakbangMember, NotificationType.NEW_MOIMEE_JOINED);
+		notificationSender.sendChamyoNotification(chamyo, NotificationType.NEW_MOIMEE_JOINED);
 	}
 
 	public void cancelChamyo(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
@@ -59,6 +59,6 @@ public class ChamyoService {
 		Chamyo chamyo = chamyoFinder.read(moim, darakbangMember);
 		chamyoWriter.delete(chamyo);
 
-		chamyoNotificationSender.sendChamyoNotification(moimId, darakbangMember, NotificationType.MOIMEE_LEFT);
+		notificationSender.sendChamyoNotification(chamyo, NotificationType.MOIMEE_LEFT);
 	}
 }

@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class NotificationEvent {
+public class NotificationPayload {
 
 	private final NotificationType notificationType;
 	private final String title;
@@ -18,19 +18,19 @@ public class NotificationEvent {
 	private final Long darakbangId;
 	private final Long chatRoomId;
 
-	public static NotificationEvent nonChatEvent(
+	public static NotificationPayload createNonChatPayload(
 		NotificationType notificationType,
 		String title,
 		String body,
 		String redirectUrl,
 		List<Recipient> recipients
 	) {
-		return new NotificationEvent(
+		return new NotificationPayload(
 			notificationType, title, body, redirectUrl, recipients, null, null
 		);
 	}
 
-	public static NotificationEvent chatEvent(
+	public static NotificationPayload createChatPayload(
 		NotificationType notificationType,
 		String title,
 		String body,
@@ -39,7 +39,7 @@ public class NotificationEvent {
 		Long darakbangId,
 		Long chatRoomId
 	) {
-		return new NotificationEvent(
+		return new NotificationPayload(
 			notificationType, title, body, redirectUrl, recipients, darakbangId, chatRoomId
 		);
 	}

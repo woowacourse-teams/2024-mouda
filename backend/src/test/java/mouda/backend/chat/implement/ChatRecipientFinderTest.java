@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import mouda.backend.chat.implement.sender.ChatRecipientFinder;
+import mouda.backend.chat.domain.Author;
+import mouda.backend.chat.implement.notification.ChatRecipientFinder;
 import mouda.backend.common.fixture.DarakbangSetUp;
 import mouda.backend.common.fixture.MoimFixture;
 import mouda.backend.moim.domain.Moim;
@@ -37,8 +38,9 @@ class ChatRecipientFinderTest extends DarakbangSetUp {
 		chamyoWriter.saveAsMoimee(moim, darakbangHogee);
 
 		// when
-		List<Recipient> result = chatRecipientFinder.getMoimChatNotificationRecipients(moim.getId(),
-			darakbangAnna);
+		Author author = Author.builder().memberId(darakbangAnna.getMemberId()).darakbangMemberId(darakbangAnna.getId())
+			.profile("").nickname("안나").build();
+		List<Recipient> result = chatRecipientFinder.getMoimChatNotificationRecipients(moim.getId(), author);
 
 		// then
 		assertThat(result).hasSize(1);

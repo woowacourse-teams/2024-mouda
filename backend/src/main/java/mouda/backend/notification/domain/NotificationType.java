@@ -23,4 +23,8 @@ public enum NotificationType {
 	public boolean isConfirmedType() {
 		return this == MOIM_PLACE_CONFIRMED || this == MOIM_TIME_CONFIRMED;
 	}
+
+	public boolean isChatType() {
+		return this == NEW_CHAT || isConfirmedType();
+	}
 }

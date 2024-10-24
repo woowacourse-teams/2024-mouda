@@ -15,7 +15,7 @@ import mouda.backend.moim.domain.MoimOverview;
 import mouda.backend.moim.domain.ParentComment;
 import mouda.backend.moim.implement.finder.CommentFinder;
 import mouda.backend.moim.implement.finder.MoimFinder;
-import mouda.backend.moim.implement.sender.MoimNotificationSender;
+import mouda.backend.moim.implement.notificiation.MoimRelatedNotificationSender;
 import mouda.backend.moim.implement.writer.MoimWriter;
 import mouda.backend.moim.presentation.request.moim.MoimCreateRequest;
 import mouda.backend.moim.presentation.request.moim.MoimEditRequest;
@@ -32,8 +32,8 @@ public class MoimService {
 	private final MoimWriter moimWriter;
 	private final MoimFinder moimFinder;
 	private final CommentFinder commentFinder;
-	private final MoimNotificationSender moimNotificationSender;
 	private final ChatRoomFinder chatRoomFinder;
+	private final MoimRelatedNotificationSender notificationSender;
 
 	@Transactional(readOnly = true)
 	public MoimDetailsFindResponse findMoimDetails(long darakbangId, long moimId) {
@@ -76,7 +76,7 @@ public class MoimService {
 	public Moim createMoim(Long darakbangId, DarakbangMember darakbangMember, MoimCreateRequest moimCreateRequest) {
 		Moim moim = moimWriter.save(moimCreateRequest.toEntity(darakbangId), darakbangMember);
 
-		moimNotificationSender.sendMoimCreatedNotification(moim, darakbangMember, NotificationType.MOIM_CREATED);
+		notificationSender.sendMoimCreatedNotification(moim, darakbangMember, NotificationType.MOIM_CREATED);
 		return moim;
 	}
 
@@ -84,21 +84,21 @@ public class MoimService {
 		Moim moim = moimFinder.read(moimId, darakbangId);
 		moimWriter.completeMoim(moim, darakbangMember);
 
-		moimNotificationSender.sendMoimStatusChangedNotification(moim, NotificationType.MOIMING_COMPLETED);
+		notificationSender.sendMoimStatusChangeNotification(moim, NotificationType.MOIMING_COMPLETED);
 	}
 
 	public void cancelMoim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimFinder.read(moimId, darakbangId);
 		moimWriter.cancelMoim(moim, darakbangMember);
 
-		moimNotificationSender.sendMoimStatusChangedNotification(moim, NotificationType.MOIM_CANCELLED);
+		notificationSender.sendMoimStatusChangeNotification(moim, NotificationType.MOIM_CANCELLED);
 	}
 
 	public void reopenMoim(Long darakbangId, Long moimId, DarakbangMember darakbangMember) {
 		Moim moim = moimFinder.read(moimId, darakbangId);
 		moimWriter.reopenMoim(moim, darakbangMember);
 
-		moimNotificationSender.sendMoimStatusChangedNotification(moim, NotificationType.MOINING_REOPENED);
+		notificationSender.sendMoimStatusChangeNotification(moim, NotificationType.MOINING_REOPENED);
 	}
 
 	public void editMoim(Long darakbangId, MoimEditRequest request, DarakbangMember darakbangMember) {
@@ -107,6 +107,6 @@ public class MoimService {
 		moimWriter.updateMoim(moim, darakbangMember, request.title(), request.date(), request.time(), request.place(),
 			request.maxPeople(), request.description());
 
-		moimNotificationSender.sendMoimInfoModifiedNotification(moim, oldTitle, NotificationType.MOIM_MODIFIED);
+		notificationSender.sendMoimEditedNotification(moim, oldTitle, NotificationType.MOIM_MODIFIED);
 	}
 }

@@ -97,4 +97,8 @@ public class FcmFailedResponse {
 			.map(failedTokens::get)
 			.allMatch(tokens -> tokens == null || tokens.isEmpty());
 	}
+
+	public boolean hasNoFailedTokens() {
+		return failedTokens.isEmpty();
+	}
 }

@@ -1,4 +1,4 @@
-package mouda.backend.moim.implement.finder;
+package mouda.backend.moim.implement.notificiation;
 
 import java.util.List;
 
