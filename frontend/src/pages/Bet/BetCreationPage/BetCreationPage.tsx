@@ -5,6 +5,7 @@ import TitleStep from './components/Steps/TitleStep';
 import WaitingMinutesStep from './components/Steps/WaitingMinutesStep';
 import useBetCreationForm from './hooks/useBetCreationForm';
 import useFunnel from '@_hooks/useFunnel';
+import { useRef } from 'react';
 
 export type BetCreationStep = '제목' | '추첨시간';
 
@@ -25,6 +26,8 @@ export default function BetCreationPage() {
     finalValidate,
     createBet,
   } = useBetCreationForm(currentStep);
+
+  const isSubmitted = useRef(false);
 
   return (
     <FunnelLayout>
@@ -63,6 +66,7 @@ export default function BetCreationPage() {
                 updateWaitingMinutes(waitingMinutes);
               }}
               onButtonClick={async () => {
+                if (isSubmitted.current) return;
                 const isValid = finalValidate(form);
 
                 if (!isValid) {
@@ -70,6 +74,7 @@ export default function BetCreationPage() {
                   return;
                 }
 
+                isSubmitted.current = true;
                 await createBet(form);
               }}
             />

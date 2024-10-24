@@ -63,6 +63,9 @@ export default function BetDetailPage() {
   const [mainDescription, setMainDescription] = useState(' ');
   const leftSecond = useRef<number>(Infinity);
 
+  const isJoined = useRef(false);
+  const isCompleted = useRef(false);
+
   if (bet?.isAnnounced) {
     navigate(GET_ROUTES.nowDarakbang.betResult(betId), { replace: true });
   }
@@ -102,11 +105,15 @@ export default function BetDetailPage() {
       return navigate(GET_ROUTES.nowDarakbang.chattingRoom(bet.chatroomId));
     }
     if (bet.myRole === 'MOIMER') {
+      if (isCompleted.current) return;
+      isCompleted.current = true;
       completeBet(betId);
       return;
     }
     if (bet.myRole === 'MOIMEE') return;
     if (bet.myRole === 'NON_MOIMEE') {
+      if (isJoined.current) return;
+      isJoined.current = true;
       await joinBet(betId);
     }
   };

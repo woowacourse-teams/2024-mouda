@@ -1,15 +1,15 @@
-import { MoimInfo } from '@_types/index';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Button from '@_components/Button/Button';
 import FormLayout from '@_layouts/FormLayout/FormLayout';
 import GET_ROUTES from '@_common/getRoutes';
 import LabeledInput from '@_components/Input/MoimInput';
+import LabeledTextArea from '@_components/TextArea/LabeledTextArea';
 import MOIM_INPUT_INFOS from './MoimModifyPage.constant';
+import { MoimInfo } from '@_types/index';
 import useModifyMoim from '@_hooks/mutaions/useModifyMoim';
 import useMoimInfoInput from './MoimModifyPage.hook';
-import { useState } from 'react';
-import LabeledTextArea from '@_components/TextArea/LabeledTextArea';
+import { useRef } from 'react';
 
 export default function MoimModifyPage() {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ export default function MoimModifyPage() {
   const { mutate: modifyMoim } = useModifyMoim((moimId: number) => {
     navigate(GET_ROUTES.nowDarakbang.moimDetail(moimId));
   });
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const isModified = useRef(false);
 
   const {
     inputData,
@@ -31,8 +31,8 @@ export default function MoimModifyPage() {
     if (!isValidMoimInfoInput) {
       return;
     }
-    if (isSubmitted) return;
-    setIsSubmitted(true);
+    if (isModified.current) return;
+    isModified.current = true;
     modifyMoim({ moimId: state.moimId, state: inputData });
   };
 

@@ -1,4 +1,5 @@
 import { MoimInfo, Role } from '@_types/index';
+import { useMemo, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import BackLogo from '@_common/assets/back.svg';
@@ -25,7 +26,6 @@ import useChamyoMine from '@_hooks/queries/useChamyoMine';
 import useChangeZzim from '@_hooks/mutaions/useChangeZzim';
 import useCompleteMoin from '@_hooks/mutaions/useCompleteMoin';
 import useJoinMoim from '@_hooks/mutaions/useJoinMoim';
-import { useMemo } from 'react';
 import useMoim from '@_hooks/queries/useMoim';
 import useOpenChat from '@_hooks/mutaions/useOpenChat';
 import useReopenMoim from '@_hooks/mutaions/useReopenMoim';
@@ -109,6 +109,13 @@ export default function MoimDetailPage() {
     navigate(GET_ROUTES.nowDarakbang.chattingRoom(chatRoomId)),
   );
 
+  const isMoimCanceled = useRef(false);
+  const isReopened = useRef(false);
+  const isCompleted = useRef(false);
+  const isChamyoCanceled = useRef(false);
+  const isJoined = useRef(false);
+  const isOpened = useRef(false);
+
   const kebabMenu = useMemo(() => {
     if (role === 'MOIMER') {
       return (
@@ -128,12 +135,20 @@ export default function MoimDetailPage() {
             {
               name: '모임 취소하기',
               disabled: isPendingCancelMoim,
-              onClick: () => cancelMoim(moimId),
+              onClick: () => {
+                if (isMoimCanceled.current) return;
+                isMoimCanceled.current = true;
+                cancelMoim(moimId);
+              },
             },
             {
               name: '모임 다시 열기',
               disabled: isPendingReopenMoim,
-              onClick: () => ReopenMoim(moimId),
+              onClick: () => {
+                if (isReopened.current) return;
+                isReopened.current = true;
+                ReopenMoim(moimId);
+              },
             },
           ]}
         />
@@ -146,24 +161,18 @@ export default function MoimDetailPage() {
             {
               name: '참여 취소하기',
               disabled: isPendingCancelChamyo,
-              onClick: () => cancelChamyo(moimId),
+              onClick: () => {
+                if (isChamyoCanceled.current) return;
+                isChamyoCanceled.current = true;
+                cancelChamyo(moimId);
+              },
             },
           ]}
         />
       );
     }
 
-    return (
-      <KebabMenu
-        options={[
-          {
-            name: '사용할 수 있는 메뉴가 없습니다',
-            disabled: isPendingCancelChamyo,
-            onClick: () => {},
-          },
-        ]}
-      />
-    );
+    return null;
   }, [
     ReopenMoim,
     cancelChamyo,
@@ -181,16 +190,28 @@ export default function MoimDetailPage() {
     if (moim.status === 'CANCELED') return;
 
     if (role === 'MOIMER') {
-      if (moim.status === 'MOIMING') return completeMoim(moimId);
+      if (moim.status === 'MOIMING') {
+        if (isCompleted.current) return;
+        isCompleted.current = true;
+        return completeMoim(moimId);
+      }
       if (moim.status === 'COMPLETED') {
-        if (moim.chatRoomId === null) return openChat(moimId);
+        if (moim.chatRoomId === null) {
+          if (isOpened.current) return;
+          isOpened.current = true;
+          return openChat(moimId);
+        }
 
         return navigate(GET_ROUTES.nowDarakbang.chattingRoom(moim.chatRoomId));
       }
       return;
     }
     if (role === 'NON_MOIMEE') {
-      if (moim.status === 'MOIMING') return joinMoim(moimId);
+      if (moim.status === 'MOIMING') {
+        if (isJoined.current) return;
+        isJoined.current = true;
+        return joinMoim(moimId);
+      }
       if (moim.status === 'COMPLETED') return;
       return;
     }

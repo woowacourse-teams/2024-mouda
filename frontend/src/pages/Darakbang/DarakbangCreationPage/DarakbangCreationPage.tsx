@@ -1,7 +1,8 @@
 import * as S from './DarakbangCreationPage.style';
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 
+import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
 import Button from '@_components/Button/Button';
 import DarakbangCreationModalContent from './DarakbangCreationModalContent/DarakbangCreationModalContent';
 import ErrorControlledInput from '@_components/ErrorControlledInput/ErrorControlledInput';
@@ -14,7 +15,6 @@ import { setLastDarakbangId } from '@_common/lastDarakbangManager';
 import useCreateDarakbang from '@_hooks/mutaions/useCreateDarakbang';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
-import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
 
 export default function DarakbangCreationPage() {
   const theme = useTheme();
@@ -29,6 +29,7 @@ export default function DarakbangCreationPage() {
   const [darakbangName, setDarakbangName] = useState('');
   const [nickname, setNickname] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const isSubmitted = useRef(false);
 
   return (
     <SelectLayout>
@@ -94,6 +95,8 @@ export default function DarakbangCreationPage() {
             nickname={nickname}
             onCancel={() => setIsModalOpen(false)}
             onConfirm={() => {
+              if (isSubmitted.current) return;
+              isSubmitted.current = true;
               createDarakbang({ nickname, name: darakbangName });
             }}
           />
