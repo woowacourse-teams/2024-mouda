@@ -14,6 +14,8 @@ export default function DarakbangInvitationRoute() {
   const navigate = useNavigate();
 
   const code = searchParam.get('code');
+  if (code) setInviteCode(code);
+
   const { darakbangName } = useDarakbangNameByCode(code || '');
   const { myDarakbangs } = useMyDarakbangs();
   const isRightCode = darakbangName && darakbangName !== '';
