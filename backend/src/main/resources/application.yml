@@ -2,6 +2,10 @@ server:
   forward-headers-strategy: native
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   profiles:
     active:
       - local
