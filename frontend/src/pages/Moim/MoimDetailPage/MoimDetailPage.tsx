@@ -128,12 +128,16 @@ export default function MoimDetailPage() {
             {
               name: '모임 취소하기',
               disabled: isPendingCancelMoim,
-              onClick: () => cancelMoim(moimId),
+              onClick: () => {
+                cancelMoim(moimId);
+              },
             },
             {
               name: '모임 다시 열기',
               disabled: isPendingReopenMoim,
-              onClick: () => ReopenMoim(moimId),
+              onClick: () => {
+                ReopenMoim(moimId);
+              },
             },
           ]}
         />
@@ -146,24 +150,16 @@ export default function MoimDetailPage() {
             {
               name: '참여 취소하기',
               disabled: isPendingCancelChamyo,
-              onClick: () => cancelChamyo(moimId),
+              onClick: () => {
+                cancelChamyo(moimId);
+              },
             },
           ]}
         />
       );
     }
 
-    return (
-      <KebabMenu
-        options={[
-          {
-            name: '사용할 수 있는 메뉴가 없습니다',
-            disabled: isPendingCancelChamyo,
-            onClick: () => {},
-          },
-        ]}
-      />
-    );
+    return null;
   }, [
     ReopenMoim,
     cancelChamyo,
@@ -181,16 +177,22 @@ export default function MoimDetailPage() {
     if (moim.status === 'CANCELED') return;
 
     if (role === 'MOIMER') {
-      if (moim.status === 'MOIMING') return completeMoim(moimId);
+      if (moim.status === 'MOIMING') {
+        return completeMoim(moimId);
+      }
       if (moim.status === 'COMPLETED') {
-        if (moim.chatRoomId === null) return openChat(moimId);
+        if (moim.chatRoomId === null) {
+          return openChat(moimId);
+        }
 
         return navigate(GET_ROUTES.nowDarakbang.chattingRoom(moim.chatRoomId));
       }
       return;
     }
     if (role === 'NON_MOIMEE') {
-      if (moim.status === 'MOIMING') return joinMoim(moimId);
+      if (moim.status === 'MOIMING') {
+        return joinMoim(moimId);
+      }
       if (moim.status === 'COMPLETED') return;
       return;
     }

@@ -1,13 +1,14 @@
-import FunnelStepIndicator from '@_components/Funnel/FunnelStepIndicator/FunnelStepIndicator';
-import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
-import TitleStep from './components/Steps/TitleStep';
-import PlaceStep from './components/Steps/PlaceStep';
+import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
 import DateAndTimeStep from './components/Steps/DateAndTimeStep';
-import MaxPeopleStep from './components/Steps/MaxPeopleStep';
 import DescriptionStep from './components/Steps/DescriptionStep';
+import FunnelLayout from '@_layouts/FunnelLayout/FunnelLayout';
+import FunnelStepIndicator from '@_components/Funnel/FunnelStepIndicator/FunnelStepIndicator';
+import MaxPeopleStep from './components/Steps/MaxPeopleStep';
+import PlaceStep from './components/Steps/PlaceStep';
+import TitleStep from './components/Steps/TitleStep';
 import useFunnel from '@_hooks/useFunnel';
 import useMoimCreationForm from './MoimCreationPage.hook';
-import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
+import { useRef } from 'react';
 
 export type MoimCreationStep =
   | '이름입력'
@@ -43,6 +44,8 @@ export default function MoimCreationPage() {
     createMoim,
     isPending,
   } = useMoimCreationForm(currentStep);
+
+  const isSubmitted = useRef(false);
 
   return (
     <FunnelLayout>
@@ -98,11 +101,13 @@ export default function MoimCreationPage() {
               onDescriptionChange={updateDescription}
               isValid={!isPending}
               onButtonClick={() => {
+                if (isSubmitted.current) return;
                 const { isValid, errorMessage } = finalValidate();
                 if (!isValid) {
                   alert(errorMessage);
                   return;
                 }
+                isSubmitted.current = true;
                 createMoim(formData);
               }}
             />
