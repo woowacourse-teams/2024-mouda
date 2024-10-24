@@ -30,7 +30,7 @@ export default function OAuthMigrationResultPage() {
         <LoginLayout.Main>
           <div css={S.titleWrapper}>
             <span css={S.title({ theme })}>
-              모우다를 사용할 준비가 되었어요
+              모우다를 사용할 <br /> 준비가 되었어요
             </span>
             <br />
             <span css={S.subtitle({ theme })}>
@@ -65,7 +65,9 @@ export default function OAuthMigrationResultPage() {
         <LoginLayout.Header></LoginLayout.Header>
         <LoginLayout.Main>
           <div css={S.titleWrapper}>
-            <span css={S.title({ theme })}>기록을 이전하는데 실패했어요!</span>
+            <span css={S.title({ theme })}>
+              기록을 이전하는데 <br /> 실패했어요!
+            </span>
             <br />
             <span css={S.subtitle({ theme })}>
               혹시 이전 카카오 계정 가입자가 아닌가요?

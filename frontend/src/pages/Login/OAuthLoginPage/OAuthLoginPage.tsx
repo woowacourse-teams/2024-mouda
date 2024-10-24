@@ -44,7 +44,7 @@ export default function OAuthLoginPage() {
           apple: async () => {
             setAccessToken(codeOrToken);
             const isConverted = urlParams.get('isConverted');
-            if (isConverted === 'true') {
+            if (isConverted === 'false') {
               navigate(ROUTES.kakaoSelection);
             } else {
               navigate(ROUTES.darakbangSelectOption);
@@ -53,10 +53,11 @@ export default function OAuthLoginPage() {
           google: async () => {
             const response = await googleOAuth(codeOrToken);
             setAccessToken(response.data.accessToken);
-            if (response.data.isConverted) {
+            if (!response.data.isConverted) {
               navigate(ROUTES.kakaoSelection);
+            } else {
+              navigate(ROUTES.darakbangSelectOption);
             }
-            navigate(ROUTES.darakbangSelectOption);
           },
           kakao: async () => {
             kakaoMigration(codeOrToken);
