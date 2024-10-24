@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import mouda.backend.bet.domain.Bet;
 import mouda.backend.bet.implement.BetFinder;
 import mouda.backend.chat.domain.Chat;
+import mouda.backend.chat.domain.ChatNotificationEvent;
 import mouda.backend.chat.domain.ChatRoom;
 import mouda.backend.chat.domain.ChatRoomType;
 import mouda.backend.chat.entity.ChatType;
