@@ -1,17 +1,66 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${MYSQL_URL}
-    username: ${MYSQL_USERNAME}
-    password: ${MYSQL_PASSWORD}
+    master:
+      hikari:
+        username: ${MASTER_MYSQL_USERNAME}
+        password: ${MASTER_MYSQL_PASSWORD}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: ${MASTER_MYSQL_URL}
+    slave:
+      hikari:
+        username: ${SLAVE_MYSQL_USERNAME}
+        password: ${SLAVE_MYSQL_PASSWORD}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: ${SLAVE_MYSQL_URL}
+
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: false
+
+security:
+  jwt:
+    token:
+      secret-key: ${JWT_SECRET_KEY}
+      expire-length: ${JWT_EXPIRE_LENGTH}
 
 url:
   base: https://mouda.site
 
 oauth:
   kakao:
-    redirect-uri: https://mouda.site/kakao-o-auth
+    redirect-uri: https://mouda.site/oauth/kakao
+  google:
+    client-secret: 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
+    redirect-uri: https://mouda.site/oauth/google
+  apple:
+    redirect-uri: https://mouda.site/v1/auth/apple
+    redirection: https://test.mouda.site/oauth/apple?token=%s&isConverted=%s
+
+aws:
+  region:
+    static: ap-northeast-2
+  s3:
+    bucket: techcourse-project-2024
+    key-prefix: mouda/dev/asset/profile/
+    prefix: https://dev.mouda.site/profile/
+
+management:
+  metrics:
+    enable:
+      tomcat: true
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+    health:
+      show-details: always
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true

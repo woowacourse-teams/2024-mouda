@@ -5,13 +5,19 @@ spring:
   profiles:
     active:
       - local
+  jpa:
+    open-in-view: false
 
 security:
   jwt:
     token:
       secret-key: kksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabokksangdolbabo
       expire-length: 3600000
+
 url:
   moim: /darakbang/%d/moim/%d
   chat: /darakbang/%d/chat/%d
   chatroom: /darakbang/%d/chatting-room/%d
+
+bet:
+  schedule: "0 * * * * *" # 매분마다

@@ -12,19 +12,20 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import mouda.backend.chamyo.exception.ChamyoException;
+import mouda.backend.common.fixture.DarakbangFixture;
+import mouda.backend.common.fixture.DarakbangMemberFixture;
+import mouda.backend.common.fixture.MemberFixture;
+import mouda.backend.common.fixture.MoimFixture;
 import mouda.backend.darakbang.domain.Darakbang;
-import mouda.backend.darakbang.repository.DarakbangRepository;
+import mouda.backend.darakbang.infrastructure.DarakbangRepository;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
-import mouda.backend.darakbangmember.repository.repository.DarakbangMemberRepository;
-import mouda.backend.fixture.DarakbangFixture;
-import mouda.backend.fixture.DarakbangMemberFixture;
-import mouda.backend.fixture.MemberFixture;
-import mouda.backend.fixture.MoimFixture;
+import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
 import mouda.backend.member.domain.Member;
-import mouda.backend.member.repository.MemberRepository;
+import mouda.backend.member.infrastructure.MemberRepository;
+import mouda.backend.moim.business.ChamyoService;
 import mouda.backend.moim.domain.Moim;
-import mouda.backend.moim.repository.MoimRepository;
+import mouda.backend.moim.exception.ChamyoException;
+import mouda.backend.moim.infrastructure.MoimRepository;
 
 @SpringBootTest
 class ChamyoServiceTest {

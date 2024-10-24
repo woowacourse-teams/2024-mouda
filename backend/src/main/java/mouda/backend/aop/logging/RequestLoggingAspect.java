@@ -46,20 +46,30 @@ public class RequestLoggingAspect {
 
 		String memberInfo = getMemberInfo(joinPoint);
 
-		log.info("Request Logging: {} {} member - {} body - {} parameters - {}", httpMethod, uri, memberInfo, body,
-			queryParameters);
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(String.format("Request : %s %s", httpMethod, uri));
+		if (memberInfo != null) {
+			stringBuilder.append(String.format(", member : %s", memberInfo));
+		}
+		if (body != null) {
+			stringBuilder.append(String.format(", body : %s", body));
+		}
+		if (queryParameters != null) {
+			stringBuilder.append(String.format(", parameters : %s", queryParameters));
+		}
+		log.info(stringBuilder.toString());
 	}
 
 	private String getMemberInfo(JoinPoint joinPoint) {
 		for (Object arg : joinPoint.getArgs()) {
 			if (arg instanceof Member) {
-				return "Member ID: " + ((Member)arg).getId();
+				return "Member ID = " + ((Member)arg).getId();
 			}
 			if (arg instanceof DarakbangMember) {
-				return "DarakbangMember ID: " + ((DarakbangMember)arg).getId();
+				return "DarakbangMember ID = " + ((DarakbangMember)arg).getId();
 			}
 		}
-		return "No member";
+		return null;
 	}
 
 	private HttpServletRequest getHttpServletRequest() {

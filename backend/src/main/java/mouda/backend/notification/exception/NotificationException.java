@@ -2,7 +2,7 @@ package mouda.backend.notification.exception;
 
 import org.springframework.http.HttpStatus;
 
-import mouda.backend.exception.MoudaException;
+import mouda.backend.common.exception.MoudaException;
 
 public class NotificationException extends MoudaException {
 
