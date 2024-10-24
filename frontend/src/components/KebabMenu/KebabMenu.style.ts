@@ -12,9 +12,18 @@ export const kebabContainer = (props: { theme: Theme }) => css`
     border-bottom: 1px;
   }
 `;
+
+export const kebabItem = (props: { theme: Theme }) => css`
+  white-space: nowrap;
+  background: ${props.theme.colorPalette.white[100]};
+  ${props.theme.typography.ButtonFont}
+  border: none;
+  border-bottom: 1px;
+`;
+
 export const optionBox = (props: { theme: Theme }) => css`
   position: absolute;
-  top: 100%;
+  top: 5rem;
   right: 0;
 
   display: flex;
