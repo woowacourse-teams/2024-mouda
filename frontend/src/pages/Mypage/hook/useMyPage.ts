@@ -128,7 +128,7 @@ export default function useMyPage() {
       reader.onerror = () => {
         console.error('이미지 파일을 읽는 중 오류가 발생했습니다.');
         alert('이미지 파일을 읽는 중 오류가 발생했습니다.');
-        setIsImageLoading(false); // 오류 발생 시 로딩 상태를 false로 설정
+        setIsImageLoading(false);
       };
       reader.readAsDataURL(file);
     } else {

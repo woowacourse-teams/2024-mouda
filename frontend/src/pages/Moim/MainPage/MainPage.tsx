@@ -39,7 +39,6 @@ export default function MainPage() {
   const navigate = useNavigate();
   const { mutate } = useServeToken();
 
-  requestPermission(mutate);
   const theme = useTheme();
   const [currentTab, setCurrentTab] = useState<MainPageTab>('모임목록');
   const [isDarakbangMenuOpened, setIsDarakbangMenuOpened] = useState(false);
@@ -55,6 +54,7 @@ export default function MainPage() {
     if (window.Notification && window.Notification.permission === 'default') {
       setIsModalOpen(true);
     }
+    requestPermission(mutate);
   }, []);
 
   const handleModalClose = () => {
