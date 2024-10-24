@@ -49,23 +49,32 @@ export default function CommentCard(props: CommentCardProps) {
         />
 
         <div css={S.commnetBox()}>
-          <div css={S.commentLeft}>
+          <div
+            css={S.commentLeft}
+            aria-label={
+              (isChild ? '답글 ' : '') +
+              '작성자 ' +
+              nickname +
+              ' 작성시간 ' +
+              getDateTimeAriaLabel(dateTime) +
+              ' 내용 ' +
+              content
+            }
+            tabIndex={0}
+          >
             <div css={S.commentLeftHeader}>
               <div
                 ref={nicknameRef}
                 css={[S.commentNickname, theme.typography.small]}
-                aria-label={nickname}
+                aria-hidden
               >
                 {formattedNickname}
               </div>
-              <div
-                css={S.timestamp({ theme })}
-                aria-label={getDateTimeAriaLabel(dateTime)}
-              >
+              <div css={S.timestamp({ theme })} aria-hidden>
                 {dateTime}
               </div>
             </div>
-            <div css={S.contentBox({ theme })} aria-label={content}>
+            <div css={S.contentBox({ theme })} aria-hidden>
               {content}
             </div>
           </div>
