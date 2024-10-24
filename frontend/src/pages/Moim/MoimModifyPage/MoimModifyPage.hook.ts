@@ -36,7 +36,7 @@ const useMoimInfoInput = (state: MoimInputInfo) => {
   const isValidMoimInfoInput =
     validateTitle(inputData.title) &&
     (inputData.date === '' || validateDate(inputData.date)) &&
-    (inputData.time === '' || validateTime(inputData.time)) &&
+    (inputData.time === '' || validateTime(inputData.time, inputData.date)) &&
     (inputData.place === '' || validatePlace(inputData.place)) &&
     validateMaxPeople(inputData.maxPeople);
 
