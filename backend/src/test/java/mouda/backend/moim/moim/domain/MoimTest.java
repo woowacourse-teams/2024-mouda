@@ -3,6 +3,7 @@ package mouda.backend.moim.moim.domain;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.junit.jupiter.api.Assertions;
@@ -73,10 +74,12 @@ class MoimTest extends DarakbangSetUp {
 	@DisplayName("날짜는 같고, 시간이 현재보다 과거이면 모임 객체 생성에 실패한다.")
 	@Test
 	void failToCreateMoimWhenTimeIsPast() {
+		LocalDateTime oneHourBefore = LocalDateTime.of(LocalDate.of(2024, 10, 24), LocalTime.of(0, 50)).minusHours(1);
+
 		assertThrows(MoimException.class, () -> Moim.builder()
 			.title(TITLE)
-			.date(LocalDate.now())
-			.time(LocalTime.now().minusHours(1))
+			.date(oneHourBefore.toLocalDate())
+			.time(oneHourBefore.toLocalTime())
 			.place(PLACE)
 			.maxPeople(MAX_PEOPLE)
 			.description(DESCRIPTION)
@@ -209,8 +212,11 @@ class MoimTest extends DarakbangSetUp {
 		@DisplayName("날짜는 같고, 시간이 현재보다 과거이면 수정할 수 없다.")
 		@Test
 		void fail_whenTimeIsPast() {
+			LocalDateTime oneHourBefore = LocalDateTime.of(LocalDate.of(2024, 10, 24), LocalTime.of(0, 50))
+				.minusHours(1);
+
 			assertThrows(MoimException.class,
-				() -> moim.update(TITLE, LocalDate.now(), LocalTime.now().minusHours(1), PLACE, MAX_PEOPLE,
+				() -> moim.update(TITLE, oneHourBefore.toLocalDate(), oneHourBefore.toLocalTime(), PLACE, MAX_PEOPLE,
 					DESCRIPTION, MAX_PEOPLE + 1));
 		}
 
