@@ -5,7 +5,7 @@ export const layoutStyle = ({ theme }: { theme: Theme }) => css`
   display: flex;
   flex-direction: column;
 
-  height: 100vh;
+  min-height: calc(100vh - 9rem);
 
   background-color: ${theme.colorPalette.grey[100]};
 
