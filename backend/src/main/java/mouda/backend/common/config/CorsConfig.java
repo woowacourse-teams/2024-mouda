@@ -14,7 +14,8 @@ public class CorsConfig implements WebMvcConfigurer {
 				"https://dev.mouda.site",
 				"https://appleid.apple.com",
 				"https://test.mouda.site", "http://test.mouda.site",
-				"https://mouda.site", "http://mouda.site"
+				"https://mouda.site", "http://mouda.site",
+				"https://www.mouda.site", "http://www.mouda.site"
 			)
 			.allowedMethods("GET", "POST", "PATCH", "DELETE", "OPTIONS")
 			.allowedHeaders("Authorization", "Content-Type")
