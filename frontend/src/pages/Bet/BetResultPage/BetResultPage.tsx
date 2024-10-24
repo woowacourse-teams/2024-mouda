@@ -1,6 +1,7 @@
 import * as S from './BetResultPage.style';
 
-import { useMemo, useState } from 'react';
+import { css, useTheme } from '@emotion/react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import BackArrowButton from '@_components/Button/BackArrowButton/BackArrowButton';
@@ -10,7 +11,6 @@ import GET_ROUTES from '@_common/getRoutes';
 import Roulette from '../components/Roulette/Roulette';
 import RouletteWrapper from '../components/RouletteWrapper/RouletteWrapper';
 import SelectLayout from '@_layouts/SelectLayout/SelectLayout';
-import { css } from '@emotion/react';
 import useBet from '@_hooks/queries/useBet';
 import useBetResult from '@_hooks/queries/useBetResult';
 
@@ -32,6 +32,7 @@ const getPercentString = (bet: BetDetail) => {
 
 export default function BetResultPage() {
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const params = useParams();
   const betId = Number(params.betId);
@@ -46,20 +47,20 @@ export default function BetResultPage() {
   const [isRouletteEnd, setIsRouletteEnd] = useState(false);
   const [isButtonShown, setIsButtonShown] = useState(false);
 
-  // useEffect(() => {
-  //   const nowRoot = document.getElementById('root');
-  //   if (nowRoot) {
-  //     nowRoot.style.backgroundColor = theme.colorPalette.orange[200];
-  //     nowRoot.style.transition = '1s all ease-in-out';
-  //   }
+  useEffect(() => {
+    const nowRoot = document.getElementById('root');
+    if (nowRoot) {
+      nowRoot.style.backgroundColor = theme.colorPalette.orange[200];
+      nowRoot.style.transition = '1s all ease-in-out';
+    }
 
-  //   return () => {
-  //     if (nowRoot) {
-  //       nowRoot.style.backgroundColor = '';
-  //       nowRoot.style.transition = '';
-  //     }
-  //   };
-  // }, [theme]);
+    return () => {
+      if (nowRoot) {
+        nowRoot.style.backgroundColor = '';
+        nowRoot.style.transition = '';
+      }
+    };
+  }, [theme]);
 
   const handleAfterRoulette = () => {
     setTimeout(() => {
@@ -113,7 +114,7 @@ export default function BetResultPage() {
           {isButtonShown && bet?.myRole !== 'NON_MOIMEE' && (
             <Button
               shape="bar"
-              primary
+              reversePrimary
               onClick={buttonClickHandler}
               font={css`
                 font: 400 normal 2rem ${bitbit};
