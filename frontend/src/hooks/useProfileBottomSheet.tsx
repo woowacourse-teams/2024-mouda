@@ -1,5 +1,5 @@
-import { useState } from "react";
-import ProfileBottomSheet from "@_components/ProfileBottomSheet/ProfileBottomSheet";
+import { useState } from 'react';
+import ProfileBottomSheet from '@_components/ProfileBottomSheet/ProfileBottomSheet';
 
 export interface Profile {
   name: string;

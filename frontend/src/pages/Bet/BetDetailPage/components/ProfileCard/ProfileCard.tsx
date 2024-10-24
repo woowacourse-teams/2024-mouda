@@ -28,7 +28,7 @@ export default function ProfileCard(props: ProfileCardProps) {
     name: member?.name || '',
     nickname: member?.nickname || '',
     description: member?.description || '',
-    url: member?.url || '',
+    url: member?.profile || '',
   });
 
   return (

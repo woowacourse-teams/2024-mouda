@@ -24,11 +24,12 @@ export default function ProfileCard(props: ProfileCardProps) {
 
   const { member } = useDarakbangMember(info.darakbangMemberId);
 
+  console.log(member);
   const { profileBottomSheet, open } = useProfileBottomSheet({
     name: member?.name || '',
     nickname: member?.nickname || '',
     description: member?.description || '',
-    url: member?.url || '',
+    url: member?.profile || '',
   });
 
   const handleCardClick = () => {
