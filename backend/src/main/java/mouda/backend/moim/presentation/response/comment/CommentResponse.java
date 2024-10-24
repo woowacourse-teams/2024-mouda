@@ -15,6 +15,8 @@ public record CommentResponse(
 
 	String nickname,
 
+	String profile,
+
 	String content,
 
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
@@ -33,6 +35,7 @@ public record CommentResponse(
 		return CommentResponse.builder()
 			.commentId(comment.getId())
 			.nickname(comment.getAuthorNickname())
+			.profile(comment.getDarakbangMember().getProfile())
 			.content(comment.getContent())
 			.dateTime(comment.getCreatedAt())
 			.children(children)
