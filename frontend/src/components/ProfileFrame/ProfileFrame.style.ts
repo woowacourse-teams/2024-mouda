@@ -5,7 +5,6 @@ type Size = number;
 export const profileBox = () => {
   return css`
     position: relative;
-    z-index: -1;
   `;
 };
 
