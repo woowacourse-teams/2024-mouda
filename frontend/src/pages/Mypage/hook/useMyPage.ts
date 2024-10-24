@@ -17,6 +17,7 @@ export default function useMyPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [isReset, setIsReset] = useState('false');
   const [isShownRest, setIsShownRest] = useState(false);
+  const [isImageLoading, setIsImageLoading] = useState(false); // 로딩 상태 추가
 
   useEffect(() => {
     if (myInfo) {
@@ -94,6 +95,7 @@ export default function useMyPage() {
       }
 
       let file = e.target.files[0];
+      setIsImageLoading(true); // 변환 시작 시 로딩 상태를 true로 설정
       setProfile(loadingSpinner);
 
       const isHeif = await isHeifFile(file);
@@ -106,6 +108,7 @@ export default function useMyPage() {
           file = convertedFile;
         } catch (error) {
           alert('이미지 파일을 처리하는 중 오류가 발생했습니다.');
+          setIsImageLoading(false); // 오류 발생 시 로딩 상태를 false로 설정
           return;
         }
       } else {
@@ -119,11 +122,13 @@ export default function useMyPage() {
       reader.onload = () => {
         if (reader.readyState === 2 && typeof reader.result === 'string') {
           setProfile(reader.result);
+          setIsImageLoading(false); // 이미지 로드 완료 시 로딩 상태를 false로 설정
         }
       };
       reader.onerror = () => {
         console.error('이미지 파일을 읽는 중 오류가 발생했습니다.');
         alert('이미지 파일을 읽는 중 오류가 발생했습니다.');
+        setIsImageLoading(false); // 오류 발생 시 로딩 상태를 false로 설정
       };
       reader.readAsDataURL(file);
     } else {
@@ -186,6 +191,7 @@ export default function useMyPage() {
     isReset,
     isShownRest,
     isValidMyInfo,
+    isImageLoading,
     setNickname,
     setDescription,
     setIsEditing,

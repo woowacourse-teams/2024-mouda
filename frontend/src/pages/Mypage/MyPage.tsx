@@ -26,6 +26,7 @@ export default function MyPage() {
     isEditing,
     isShownRest,
     isValidMyInfo,
+    isImageLoading,
     setNickname,
     setDescription,
     handleEditClick,
@@ -74,9 +75,14 @@ export default function MyPage() {
                 {isValidMyInfo && (
                   <button
                     css={S.AccountButton({ theme })}
-                    onClick={() => onUpload()}
+                    onClick={() => {
+                      if (!isImageLoading) {
+                        onUpload();
+                      }
+                    }}
+                    disabled={isImageLoading}
                   >
-                    저장
+                    {isImageLoading ? '저장 중...' : '저장'}
                   </button>
                 )}
                 <button css={S.AccountButton({ theme })} onClick={handleCancel}>
