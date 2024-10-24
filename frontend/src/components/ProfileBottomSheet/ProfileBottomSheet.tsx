@@ -2,7 +2,6 @@ import BottomSheet from '@_components/BottomSheet/BottomSheet';
 import { Profile } from '@_hooks/useProfileBottomSheet';
 import ProfileInfoItem from './ProfileInfoItem';
 import { css, useTheme } from '@emotion/react';
-import CloseButton from '@_components/CloseButton/CloseButton';
 import ProfileFrame from '@_components/ProfileFrame/ProfileFrame';
 
 interface ProfileBottomSheetProps {
@@ -20,11 +19,6 @@ export default function ProfileBottomSheet(props: ProfileBottomSheetProps) {
   return (
     <BottomSheet
       isOpen={isOpen}
-      header={
-        <BottomSheet.Header>
-          <CloseButton onClick={close} />
-        </BottomSheet.Header>
-      }
       // TODO: 바텀시트 사이즈에 대한 논의 필요
       size="small"
       onDimmerClick={close}
