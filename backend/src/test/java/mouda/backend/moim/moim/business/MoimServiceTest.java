@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import mouda.backend.common.fixture.CommentFixture;
 import mouda.backend.common.fixture.DarakbangFixture;
 import mouda.backend.common.fixture.DarakbangMemberFixture;
 import mouda.backend.common.fixture.MemberFixture;
@@ -22,7 +23,9 @@ import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.infrastructure.MemberRepository;
 import mouda.backend.moim.business.MoimService;
+import mouda.backend.moim.domain.Comment;
 import mouda.backend.moim.domain.Moim;
+import mouda.backend.moim.infrastructure.CommentRepository;
 import mouda.backend.moim.infrastructure.MoimRepository;
 import mouda.backend.moim.presentation.request.moim.MoimCreateRequest;
 import mouda.backend.moim.presentation.response.moim.MoimDetailsFindResponse;
@@ -45,6 +48,9 @@ class MoimServiceTest {
 
 	@Autowired
 	private MemberRepository memberRepository;
+
+	@Autowired
+	private CommentRepository commentRepository;
 
 	private Darakbang darakbang;
 	private Darakbang mouda;
@@ -94,15 +100,15 @@ class MoimServiceTest {
 	@DisplayName("모임 상세를 조회한다.")
 	@Test
 	void findMoimDetails() {
-		MoimCreateRequest moimCreateRequest = new MoimCreateRequest(
-			"title", LocalDate.now().plusDays(1), LocalTime.now(), "place",
-			10, "설명"
-		);
-		moimService.createMoim(darakbang.getId(), darakbangHogee, moimCreateRequest);
+		Moim savedMoim = moimRepository.save(MoimFixture.getBasketballMoim(darakbang.getId()));
+		Comment comment = CommentFixture.getCommentWithoutParentId(darakbangHogee, savedMoim);
+		commentRepository.save(comment);
 
-		MoimDetailsFindResponse moimDetails = moimService.findMoimDetails(darakbang.getId(), 1L);
+		MoimDetailsFindResponse moimDetails = moimService.findMoimDetails(darakbang.getId(), savedMoim.getId());
 
-		assertThat(moimDetails.title()).isEqualTo("title");
+		assertThat(moimDetails.title()).isEqualTo("농구할 사람?");
+		assertThat(moimDetails.comments()).hasSize(1);
+		assertThat(moimDetails.comments().get(0).profile()).isNotNull();
 	}
 
 	@DisplayName("다락방별 모임을 조회한다.")

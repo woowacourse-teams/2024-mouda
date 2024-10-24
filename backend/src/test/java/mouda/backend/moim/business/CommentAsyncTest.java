@@ -54,7 +54,7 @@ public class CommentAsyncTest extends DarakbangSetUp {
 			.darakbangMember(darakbangAnna)
 			.moimRole(MoimRole.MOIMER)
 			.build());
-		parentComment = commentRepository.save(CommentFixture.getCommentWithAnnaAtSoccerMoim(darakbangAnna, moim));
+		parentComment = commentRepository.save(CommentFixture.getCommentWithoutParentId(darakbangAnna, moim));
 	}
 
 	@DisplayName("댓글 생성시 알림 전송 과정에서 예외가 발생해도 댓글은 생성된다.")

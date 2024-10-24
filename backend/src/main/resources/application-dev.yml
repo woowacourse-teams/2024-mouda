@@ -2,7 +2,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
-      maximum-pool-size: 20
+      maximum-pool-size: 10
   jpa:
     hibernate:
       ddl-auto: update
@@ -49,4 +49,4 @@ server:
     mbeanregistry:
       enabled: true
     threads:
-      max: 100
+      max: 200

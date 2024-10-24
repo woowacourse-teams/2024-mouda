@@ -41,7 +41,7 @@ class CommentWriterTest extends DarakbangSetUp {
 	@Test
 	void saveReply() {
 		Moim moim = moimRepository.save(MoimFixture.getCoffeeMoim(darakbang.getId()));
-		Comment parentComment = commentRepository.save(CommentFixture.getCommentWithAnnaAtSoccerMoim(darakbangHogee, moim));
+		Comment parentComment = commentRepository.save(CommentFixture.getCommentWithoutParentId(darakbangHogee, moim));
 
 		assertThatCode(() -> commentWriter.saveComment(moim, darakbangHogee, parentComment.getId(), "답글"))
 			.doesNotThrowAnyException();

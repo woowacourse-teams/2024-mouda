@@ -19,7 +19,7 @@ class CommentTest extends DarakbangSetUp {
 	@DisplayName("댓글 객체를 정상적으로 생성한다.")
 	@Test
 	void createMoim() {
-		Assertions.assertDoesNotThrow(() -> CommentFixture.getCommentWithAnnaAtSoccerMoim(
+		Assertions.assertDoesNotThrow(() -> CommentFixture.getCommentWithoutParentId(
 			darakbangAnna, MoimFixture.getSoccerMoim(darakbang.getId()))
 		);
 	}
