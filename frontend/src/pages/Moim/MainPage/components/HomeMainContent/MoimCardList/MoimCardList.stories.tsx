@@ -40,6 +40,7 @@ export const Default: Story = {
           },
         ],
         description: '코딩하면서 놀아요',
+        chatRoomId: 1,
       },
       {
         title: '볼 함 차보까?',
@@ -77,6 +78,7 @@ export const Default: Story = {
             children: [],
           },
         ],
+        chatRoomId: 1,
       },
       {
         title: '볼 함 차보까?',
@@ -114,6 +116,7 @@ export const Default: Story = {
             children: [],
           },
         ],
+        chatRoomId: 1,
       },
     ],
   },

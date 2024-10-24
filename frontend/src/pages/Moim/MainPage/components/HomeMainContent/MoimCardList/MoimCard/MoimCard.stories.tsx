@@ -48,6 +48,7 @@ export const Default: Story = {
           children: [],
         },
       ],
+      chatRoomId: 1,
     },
   },
   render: (args) => <MoimCard {...args} />,

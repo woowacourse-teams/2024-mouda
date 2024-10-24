@@ -1,8 +1,9 @@
 import * as S from './ProfileFrame.style';
 
+import { ImgHTMLAttributes, useState } from 'react';
+
 import Crown from '@_common/assets/crown.svg?url';
 import DefaultProfile from '@_common/assets/default_profile.svg?url';
-import { ImgHTMLAttributes, useState } from 'react';
 import { Role } from '@_types/index';
 import { useTheme } from '@emotion/react';
 
@@ -36,7 +37,11 @@ export default function ProfileFrame(props: ProfileFrameProps) {
 
   return (
     <div css={S.profileBox()}>
-      {role === 'MOIMER' ? <img src={Crown} css={S.profileCrown(width)} /> : ''}
+      {role === 'MOIMER' ? (
+        <img src={Crown} css={S.profileCrown(width)} aria-hidden />
+      ) : (
+        ''
+      )}
       <div css={S.profileFrame({ width, height, borderWidth, theme })}>
         {!isLoaded && (
           <img src={DefaultProfile} css={S.profileImage()} alt="Placeholder" />
