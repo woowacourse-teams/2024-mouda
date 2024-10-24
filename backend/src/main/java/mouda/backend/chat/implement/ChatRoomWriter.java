@@ -12,8 +12,11 @@ import mouda.backend.chat.infrastructure.ChatRoomRepository;
 public class ChatRoomWriter {
 
 	private final ChatRoomRepository chatRoomRepository;
+	private final ChatRoomValidator chatRoomValidator;
 
 	public long append(long targetId, long darakbangId, ChatRoomType chatRoomType) {
+		chatRoomValidator.validateAlreadyExists(targetId, chatRoomType);
+
 		ChatRoomEntity chatRoomEntity = ChatRoomEntity.builder()
 			.targetId(targetId)
 			.darakbangId(darakbangId)

@@ -1,4 +1,4 @@
-package mouda.backend.moim.implement.finder;
+package mouda.backend.moim.implement.notificiation;
 
 import java.util.Optional;
 
@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.Comment;
-import mouda.backend.moim.domain.CommentRecipients;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.exception.ChamyoErrorMessage;
 import mouda.backend.moim.exception.ChamyoException;

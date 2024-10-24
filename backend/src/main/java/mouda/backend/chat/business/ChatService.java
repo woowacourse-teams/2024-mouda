@@ -14,7 +14,7 @@ import mouda.backend.chat.domain.ChatRoom;
 import mouda.backend.chat.domain.Chats;
 import mouda.backend.chat.implement.ChatRoomFinder;
 import mouda.backend.chat.implement.ChatWriter;
-import mouda.backend.chat.implement.sender.ChatNotificationSender;
+import mouda.backend.chat.implement.notification.ChatNotificationSender;
 import mouda.backend.chat.presentation.request.ChatCreateRequest;
 import mouda.backend.chat.presentation.request.DateTimeConfirmRequest;
 import mouda.backend.chat.presentation.request.LastReadChatRequest;

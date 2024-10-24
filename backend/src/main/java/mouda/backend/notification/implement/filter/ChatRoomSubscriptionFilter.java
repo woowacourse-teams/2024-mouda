@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.notification.domain.NotificationEvent;
+import mouda.backend.notification.domain.NotificationSendEvent;
 import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.domain.Recipient;
 import mouda.backend.notification.domain.Subscription;
@@ -24,15 +24,15 @@ public class ChatRoomSubscriptionFilter implements SubscriptionFilter {
 	}
 
 	@Override
-	public List<Recipient> filter(NotificationEvent notificationEvent) {
-		return notificationEvent.getRecipients().stream()
+	public List<Recipient> filter(NotificationSendEvent notificationSendEvent) {
+		return notificationSendEvent.getRecipients().stream()
 			.filter(recipient -> {
-				// todo: 장소(시간) 확정 채팅은 알림이 가야함.
-				if (notificationEvent.getNotificationType().isConfirmedType()) {
+				NotificationType type = notificationSendEvent.getNotification().getType();
+				if (type.isConfirmedType()) {
 					return true;
 				}
 				Subscription subscription = subscriptionFinder.readSubscription(recipient.getMemberId());
-				return subscription.isSubscribedChatRoom(notificationEvent.getDarakbangId(), notificationEvent.getChatRoomId());
+				return subscription.isSubscribedChatRoom(notificationSendEvent.getDarakbangId(), notificationSendEvent.getChatRoomId());
 			})
 			.toList();
 	}

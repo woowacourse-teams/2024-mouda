@@ -1,23 +1,21 @@
-package mouda.backend.moim.implement.sender;
+package mouda.backend.moim.implement.notificiation;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import mouda.backend.common.config.UrlConfig;
+import mouda.backend.notification.implement.NotificationProcessor;
 
 @Component
 @RequiredArgsConstructor
 @EnableConfigurationProperties(UrlConfig.class)
-public abstract class AbstractMoimNotificationSender {
+public abstract class AbstractMoimRelatedNotificationEventHandler {
 
-	private final UrlConfig urlConfig;
+	protected final UrlConfig urlConfig;
+	protected final NotificationProcessor notificationProcessor;
 
 	protected String getMoimUrl(long darakbangId, long moimId) {
 		return urlConfig.getMoimUrl(darakbangId, moimId);
-	}
-
-	protected String getChatRoomUrl(long darakbangId, long moimId) {
-		return urlConfig.getChatRoomUrl(darakbangId, moimId);
 	}
 }

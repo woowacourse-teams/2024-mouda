@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import mouda.backend.notification.domain.NotificationEvent;
+import mouda.backend.notification.domain.NotificationSendEvent;
 import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.domain.Recipient;
 
@@ -19,7 +19,7 @@ public class NonSubscriptionFilter implements SubscriptionFilter {
 	}
 
 	@Override
-	public List<Recipient> filter(NotificationEvent notificationEvent) {
-		return notificationEvent.getRecipients();
+	public List<Recipient> filter(NotificationSendEvent notificationSendEvent) {
+		return notificationSendEvent.getRecipients();
 	}
 }

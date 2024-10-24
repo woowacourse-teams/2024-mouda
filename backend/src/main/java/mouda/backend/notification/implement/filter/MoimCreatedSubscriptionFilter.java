@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import mouda.backend.notification.domain.NotificationEvent;
+import mouda.backend.notification.domain.NotificationSendEvent;
 import mouda.backend.notification.domain.NotificationType;
 import mouda.backend.notification.domain.Recipient;
 import mouda.backend.notification.domain.Subscription;
@@ -23,8 +23,8 @@ public class MoimCreatedSubscriptionFilter implements SubscriptionFilter {
 	}
 
 	@Override
-	public List<Recipient> filter(NotificationEvent notificationEvent) {
-		return notificationEvent.getRecipients().stream()
+	public List<Recipient> filter(NotificationSendEvent notificationSendEvent) {
+		return notificationSendEvent.getRecipients().stream()
 			.filter(recipient -> {
 				Subscription subscription = subscriptionFinder.readSubscription(recipient.getMemberId());
 				return subscription.isSubscribedMoimCreate();
