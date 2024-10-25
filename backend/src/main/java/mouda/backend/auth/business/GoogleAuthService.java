@@ -1,5 +1,7 @@
 package mouda.backend.auth.business;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,9 +30,10 @@ public class GoogleAuthService {
 	public LoginResponse login(GoogleLoginRequest request) {
 		String name = userInfoProvider.getName(request.idToken());
 		String identifier = userInfoProvider.getIdentifier(request.idToken());
-		Member member = memberFinder.findActiveOrDeletedByIdentifier(identifier);
+		Optional<Member> optionalMember = memberFinder.findOptionalActiveOrDeletedByIdentifier(identifier);
 
-		if (member != null) {
+		if (optionalMember.isPresent()) {
+			Member member = optionalMember.get();
 			joinManager.rejoin(member);
 			memberWriter.updateName(member.getId(), name);
 			return new LoginResponse(accessTokenProvider.provide(member), member.isConverted());
