@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import mouda.backend.auth.exception.AuthErrorMessage;
@@ -54,7 +53,7 @@ public class AccessTokenProvider {
 				.parseClaimsJws(token)
 				.getBody();
 
-		} catch (JwtException | IllegalArgumentException e) {
+		} catch (Exception exception) {
 			throw new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.UNAUTHORIZED);
 		}
 	}
@@ -62,10 +61,14 @@ public class AccessTokenProvider {
 	public void validateToken(String token) {
 		Claims claims = getPayload(token);
 
-		if (claims.getExpiration().before(new Date())) {
-			throw new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.UNAUTHORIZED);
-		}
-		if (claims.get(OAUTH_TYPE).equals(OauthType.KAKAO.toString())) {
+		try {
+			if (claims.getExpiration().before(new Date())) {
+				throw new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.UNAUTHORIZED);
+			}
+			if (claims.get(OAUTH_TYPE).equals(OauthType.KAKAO.toString())) {
+				throw new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.UNAUTHORIZED);
+			}
+		} catch (Exception exception) {
 			throw new AuthException(HttpStatus.UNAUTHORIZED, AuthErrorMessage.UNAUTHORIZED);
 		}
 	}

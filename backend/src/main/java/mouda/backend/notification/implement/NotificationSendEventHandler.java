@@ -22,7 +22,7 @@ public class NotificationSendEventHandler {
 	private final NotificationSender notificationSender;
 
 	@Async
-	@Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@TransactionalEventListener(classes = NotificationSendEvent.class, phase = TransactionPhase.AFTER_COMMIT)
 	public void handle(NotificationSendEvent event) {
 		List<Recipient> filteredRecipients = filterRecipientsBySubscription(event);
