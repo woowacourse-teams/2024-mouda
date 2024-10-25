@@ -26,6 +26,10 @@ public class MemberFinder {
 			.orElseThrow(() -> new AuthException(HttpStatus.NOT_FOUND, AuthErrorMessage.MEMBER_NOT_FOUND));
 	}
 
+	public Optional<Member> findOptionalActiveOrDeletedByIdentifier(String identifier) {
+		return memberRepository.findActiveOrDeletedByIdentifier(identifier);
+	}
+
 	public Member findByMemberId(long memberId) {
 		return memberRepository.findById(memberId)
 			.orElseThrow(() -> new AuthException(HttpStatus.NOT_FOUND, AuthErrorMessage.MEMBER_NOT_FOUND));
