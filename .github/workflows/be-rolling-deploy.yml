@@ -14,6 +14,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Prepare Deploy
+        run: |
+          cd ~/deploy && ./prepare-deploy.sh
+
       - name: Run Prod1 instance deploy script
         run: |
           cd ~/deploy && ./deploy.sh
@@ -52,6 +56,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Prepare Deploy
+        run: |
+          cd ~/deploy && ./prepare-deploy.sh
 
       - name: Run Prod2 instance deploy script
         run: |
