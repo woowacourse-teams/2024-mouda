@@ -64,3 +64,4 @@ server:
   tomcat:
     mbeanregistry:
       enabled: true
+  shutdown: graceful
