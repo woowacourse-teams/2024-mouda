@@ -13,7 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestController
 public class HealthCheckController {
 
-	private static final String HOST_IP = "127.0.0.1";
+	private static final String HOST_IPV4 = "127.0.0.1";
+	private static final String HOST_IPV6 = "0:0:0:0:0:0:0:1";
 	private static final String HOST_NAME = "localhost";
 
 	private final AtomicBoolean isTerminating = new AtomicBoolean(false);
@@ -28,12 +29,12 @@ public class HealthCheckController {
 
 	@PostMapping("/termination")
 	public ResponseEntity<Void> terminate(HttpServletRequest request) {
-		isTerminating.set(true);
-		return ResponseEntity.ok().build();
-		// String remoteAddr = request.getRemoteAddr();
-
-		// if (HOST_IP.equals(remoteAddr) || HOST_NAME.equals(remoteAddr)) {
-		// }
-		// return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		String remoteHost = request.getRemoteHost();
+		System.out.println(remoteHost);
+		if (HOST_IPV6.equals(remoteHost) || HOST_IPV4.equals(remoteHost) || HOST_NAME.equals(remoteHost)) {
+			isTerminating.set(true);
+			return ResponseEntity.ok().build();
+		}
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 	}
 }
