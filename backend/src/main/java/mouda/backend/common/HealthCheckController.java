@@ -30,7 +30,6 @@ public class HealthCheckController {
 	@PostMapping("/termination")
 	public ResponseEntity<Void> terminate(HttpServletRequest request) {
 		String remoteHost = request.getRemoteHost();
-		System.out.println(remoteHost);
 		if (HOST_IPV6.equals(remoteHost) || HOST_IPV4.equals(remoteHost) || HOST_NAME.equals(remoteHost)) {
 			isTerminating.set(true);
 			return ResponseEntity.ok().build();
