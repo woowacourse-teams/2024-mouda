@@ -3,7 +3,7 @@ name: Rolling Deployment
 on:
   push:
     branches:
-      - chore/#793
+      - main
 
 jobs:
   deploy-prod1:
