@@ -9,9 +9,9 @@ public class MoimOverview {
 	private final int currentPeople;
 	private final boolean isZzimed;
 
-	public MoimOverview(Moim moim, int currentPeople, boolean isZzimed) {
+	public MoimOverview(Moim moim, long currentPeople, boolean isZzimed) {
 		this.moim = moim;
-		this.currentPeople = currentPeople;
+		this.currentPeople = (int)currentPeople;
 		this.isZzimed = isZzimed;
 	}
 }

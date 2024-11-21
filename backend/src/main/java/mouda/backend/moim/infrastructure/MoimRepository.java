@@ -2,13 +2,13 @@ package mouda.backend.moim.infrastructure;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import mouda.backend.darakbang.domain.Darakbang;
 import mouda.backend.moim.domain.Moim;
 import mouda.backend.moim.domain.MoimStatus;
 
@@ -33,4 +33,11 @@ public interface MoimRepository extends JpaRepository<Moim, Long> {
 
 	boolean existsByIdAndDarakbangId(Long moimId, Long darakbangId);
 
+	@Query("""
+			SELECT m
+			FROM Moim m
+			WHERE m.id IN :moimIds
+			ORDER BY m.id DESC
+		""")
+	List<Moim> findAllByIds(Set<Long> moimIds);
 }
