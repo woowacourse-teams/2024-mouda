@@ -20,7 +20,7 @@ public interface DarakbangRepository extends JpaRepository<Darakbang, Long> {
 
 	@Query("""
 		SELECT d
-		FROM DarakbangMember d
+		FROM Darakbang d
 		WHERE d.id IN :darakbangIds
 		""")
 	List<Darakbang> findAllByIds(List<Long> darakbangIds);
