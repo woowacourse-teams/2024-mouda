@@ -55,9 +55,7 @@ public interface ChamyoRepository extends JpaRepository<Chamyo, Long> {
 	@Query("""
 		SELECT new mouda.backend.moim.infrastructure.dto.ChamyoMoim(
 			c.moim.id,
-			(SELECT COUNT(c2)
-			FROM Chamyo c2
-			WHERE c2.moim = c.moim)
+			COUNT(c)
 		)
 		FROM Chamyo c
 		WHERE c.moim IN :moims
