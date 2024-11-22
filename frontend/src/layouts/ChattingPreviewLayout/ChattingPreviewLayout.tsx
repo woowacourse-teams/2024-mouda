@@ -12,7 +12,14 @@ function ChattingPreviewLayout(props: PropsWithChildren) {
   return <div css={S.layoutStyle({ theme })}>{children}</div>;
 }
 
+function HeaderBottom(props: PropsWithChildren) {
+  const { children } = props;
+
+  return <div css={S.headerBottom}>{children}</div>;
+}
+
 ChattingPreviewLayout.Header = StickyTriSectionHeader;
 ChattingPreviewLayout.ContentContainer = ChattingPreviewContainer;
+ChattingPreviewLayout.HeaderBottom = HeaderBottom;
 
 export default ChattingPreviewLayout;

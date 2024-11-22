@@ -12,6 +12,4 @@ jobs:
     steps:
       - name: deploy
         run: |
-          cd ~/deploy && ./deploy-fe.sh
-
-
+          cd ~/deploy && ./deploy-fe-dev.sh

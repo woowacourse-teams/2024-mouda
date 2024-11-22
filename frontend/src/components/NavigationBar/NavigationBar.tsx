@@ -3,20 +3,21 @@ import * as S from './NavigationBar.style';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import GET_ROUTES from '@_common/getRoutes';
-import NavigationBarItem from '@_components/NavigationBarItem/NavigationBarItem';
+import NavigationBarItem from '@_components/NavigationBar/NavigationBarItem/NavigationBarItem';
 import { useState } from 'react';
 import { useTheme } from '@emotion/react';
 
-export type Tab = '홈' | '채팅' | '해주세요' | '마이페이지';
+export type Tab = '홈' | '채팅' | '룰렛' | '마이페이지';
 
 export default function NavigationBar() {
   const theme = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
+
   const tabRoutes: Record<Tab, string> = {
     홈: GET_ROUTES.nowDarakbang.main(),
     채팅: GET_ROUTES.nowDarakbang.chat(),
-    해주세요: GET_ROUTES.nowDarakbang.please(),
+    룰렛: GET_ROUTES.nowDarakbang.bet(),
     마이페이지: GET_ROUTES.nowDarakbang.myPage(),
   };
 
@@ -32,8 +33,8 @@ export default function NavigationBar() {
   };
 
   return (
-    <nav css={S.navigationBarContainer({ theme })}>
-      <ul css={[S.navigationBarList]}>
+    <nav id="bottom-nav" css={S.navigationBarContainer({ theme })}>
+      <ul css={[S.navigationBarList]} role="menu">
         {Object.keys(tabRoutes).map((tab) => (
           <NavigationBarItem
             key={tab}

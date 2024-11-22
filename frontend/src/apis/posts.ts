@@ -1,5 +1,5 @@
-import { MoimInputInfo, PleaseInfoInput } from '@_types/index';
-import { PostMoim, PostMoimBody } from './responseTypes';
+import { BetInputInfo, MoimInputInfo, PleaseInfoInput } from '@_types/index';
+import { PostBet, PostMoim, PostMoimBody } from './responseTypes';
 
 import ApiClient from './apiClient';
 
@@ -45,9 +45,8 @@ export const postWriteComment = async (
   }
 };
 
-export const postChat = async (moimId: number, content: string) => {
-  await ApiClient.postWithLastDarakbangId('/chat', {
-    moimId,
+export const postChat = async (chatRoomId: number, content: string) => {
+  await ApiClient.postWithLastDarakbangId(`/chatroom/${chatRoomId}`, {
     content,
   });
 };
@@ -69,22 +68,23 @@ export const postLastReadChatId = async (
 };
 
 export const postConfirmDatetime = async (
-  moimId: number,
+  chatRoomId: number,
   date: string,
   time: string,
 ) => {
-  await ApiClient.postWithLastDarakbangId('/chat/datetime', {
-    moimId,
+  await ApiClient.postWithLastDarakbangId(`/chatroom/${chatRoomId}/datetime`, {
     date,
     time,
   });
+  return chatRoomId;
 };
 
-export const postConfirmPlace = async (moimId: number, place: string) => {
-  await ApiClient.postWithLastDarakbangId('/chat/place', {
-    moimId,
+export const postConfirmPlace = async (chatRoomId: number, place: string) => {
+  await ApiClient.postWithLastDarakbangId(`/chatroom/${chatRoomId}/place`, {
     place,
   });
+
+  return chatRoomId;
 };
 
 export const postPlease = async (please: PleaseInfoInput) => {
@@ -131,4 +131,23 @@ export const postDarakbangEntrance = async ({
   const json = await data.json();
 
   return json.data as number;
+};
+
+export const postBet = async (bet: BetInputInfo) => {
+  const data = await ApiClient.postWithLastDarakbangId('/bet', bet);
+
+  const json: PostBet = await data.json();
+  return json.data.betId;
+};
+
+export const postBetResult = async (betId: number) => {
+  await ApiClient.postWithLastDarakbangId(`/bet/${betId}/result`);
+};
+
+export const postJoinBet = async (betId: number) => {
+  await ApiClient.postWithLastDarakbangId(`/bet/${betId}`);
+};
+
+export const patchMyInfo = async (myInfo: FormData) => {
+  await ApiClient.postWithLastDarakbangId(`/member/mine`, myInfo);
 };

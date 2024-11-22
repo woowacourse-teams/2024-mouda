@@ -7,7 +7,8 @@ export const container = (keyboardHeight: number) => css`
 
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
+  align-items: center;
 
   width: 100%;
   max-width: ${DISPLAY_MAX_WIDTH};

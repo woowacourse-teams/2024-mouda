@@ -1,4 +1,4 @@
-import ENDPOINTS from '@_apis/endPoints';
+import { API_URL } from '@_apis/endPoints';
 import { http, HttpResponse } from 'msw';
 import { updatePlease } from './mockPleases';
 
@@ -8,7 +8,7 @@ interface InterestRequestBody {
 }
 
 export const interestHandler = [
-  http.post(`${ENDPOINTS.interest}`, async ({ request }) => {
+  http.post(`${API_URL.interest}`, async ({ request }) => {
     const { pleaseId, isInterested } =
       (await request.json()) as InterestRequestBody;
     updatePlease(pleaseId, isInterested);

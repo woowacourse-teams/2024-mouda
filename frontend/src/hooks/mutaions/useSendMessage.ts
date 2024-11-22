@@ -1,8 +1,8 @@
 import { postChat } from '@_apis/posts';
 import { useMutation } from '@tanstack/react-query';
 
-export default function useSendMessage(moimId: number) {
+export default function useSendMessage(chatRoomId: number) {
   return useMutation({
-    mutationFn: (message: string) => postChat(moimId, message),
+    mutationFn: (message: string) => postChat(chatRoomId, message),
   });
 }

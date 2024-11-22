@@ -3,5 +3,7 @@
 /backend/out
 /frontend/.idea
 /backend/htmlReport
+.DS_Store
 *.pem
 backend/src/main/resources/auth/AuthKey.p8
+

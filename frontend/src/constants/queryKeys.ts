@@ -7,6 +7,7 @@ const QUERY_KEYS = {
   userKey: 'userKey',
   chat: 'chat',
   chatPreview: 'chatPreview',
+  chatRoomDetail: 'chatRoomDetail',
   chamyoMine: 'chamyoMine',
   ZzimMine: 'ZzimMine',
   chamyoAll: 'chamyoAll',
@@ -21,6 +22,10 @@ const QUERY_KEYS = {
   darakbangMembers: 'darakbangMembers',
   darakbangInviteCode: 'darakbangInviteCode',
   darakbangNameByCode: 'darakbangNameByCode',
+  bets: 'bets',
+  bet: 'bet',
+  betResult: 'betResult',
+  darakbangMember: 'darakbangMember',
 };
 
 export default QUERY_KEYS;

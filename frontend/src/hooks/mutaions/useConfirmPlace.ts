@@ -1,9 +1,28 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import QUERY_KEYS from '@_constants/queryKeys';
+import { getLastDarakbangId } from '@_common/lastDarakbangManager';
 import { postConfirmPlace } from '@_apis/posts';
-import { useMutation } from '@tanstack/react-query';
 
 export default function useConfirmPlace() {
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ moimId, place }: { moimId: number; place: string }) =>
-      postConfirmPlace(moimId, place),
+    mutationFn: ({
+      chatRoomId,
+      place,
+    }: {
+      chatRoomId: number;
+      place: string;
+    }) => postConfirmPlace(chatRoomId, place),
+    onSuccess: (chatRoomId: number | string) => {
+      queryClient.invalidateQueries({
+        queryKey: [
+          QUERY_KEYS.darakbang,
+          getLastDarakbangId(),
+          QUERY_KEYS.moim,
+          chatRoomId,
+        ],
+      });
+    },
   });
 }

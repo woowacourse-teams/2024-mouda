@@ -2,8 +2,10 @@ import { css, Theme } from '@emotion/react';
 
 export const getTriSectionHeaderStyle = ({
   borderBottomColor,
+  theme,
 }: {
   borderBottomColor?: string;
+  theme: Theme;
 }) => {
   return css`
     position: relative;
@@ -14,6 +16,8 @@ export const getTriSectionHeaderStyle = ({
 
     height: 5rem;
     margin: 0 2rem;
+
+    background-color: ${theme.colorPalette.white[100]};
 
     ${borderBottomColor && `border-bottom: 1px solid ${borderBottomColor};`}
 

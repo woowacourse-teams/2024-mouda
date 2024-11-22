@@ -1,4 +1,6 @@
+import bitbit from './assets/fonts/DNFBitBitTTF.ttf';
 import { css } from '@emotion/react';
+import partialSansKRRegular from './assets/fonts/PartialSansKR/PartialSansKR-Regular.woff2';
 import pretendardBlackWoff2 from './assets/fonts/woff2-subset/Pretendard-Black.subset.woff2';
 import pretendardBoldWoff2 from './assets/fonts/woff2-subset/Pretendard-Bold.subset.woff2';
 import pretendardExtraBoldWoff2 from './assets/fonts/woff2-subset/Pretendard-ExtraBold.subset.woff2';
@@ -8,7 +10,6 @@ import pretendardMediumWoff2 from './assets/fonts/woff2-subset/Pretendard-Medium
 import pretendardRegularWoff2 from './assets/fonts/woff2-subset/Pretendard-Regular.subset.woff2';
 import pretendardSemiboldWoff2 from './assets/fonts/woff2-subset/Pretendard-SemiBold.subset.woff2';
 import pretendardThinWoff2 from './assets/fonts/woff2-subset/Pretendard-Thin.subset.woff2';
-import pretendardVariableWoff2 from './assets/fonts/woff2/PretendardVariable.woff2';
 
 const fonts = css`
   @font-face {
@@ -78,11 +79,15 @@ const fonts = css`
   }
 
   @font-face {
-    font-family: 'Pretendard Variable';
-    font-weight: 45 920;
-    font-style: normal;
+    font-family: PartialSansKR;
+    font-weight: 400;
     font-display: swap;
-    src: url(${pretendardVariableWoff2}) format('woff2-variations');
+    src: url(${partialSansKRRegular}) format('woff2');
+  }
+
+  @font-face {
+    font-family: bitbit;
+    src: url(${bitbit});
   }
 `;
 

@@ -22,16 +22,17 @@ export default function SolidArrow(props: SolidArrowProps) {
       viewBox="0 0 27 27"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      transform={`rotate(${directionMapper[direction]})`}
       {...otherProps}
     >
-      <path
-        d="M16.8446 23.5825L6.73785 12.8812L16.8446 3.36893"
-        stroke={color || '#767676'}
-        strokeWidth="2.24595"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <g transform={`rotate(${directionMapper[direction]} 13.5 13.5)`}>
+        <path
+          d="M16.8446 23.5825L6.73785 12.8812L16.8446 3.36893"
+          stroke={color || '#767676'}
+          strokeWidth="2.24595"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
     </svg>
   );
 }

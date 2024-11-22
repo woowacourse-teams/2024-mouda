@@ -111,6 +111,7 @@ const reset = css`
 
   body {
     position: relative;
+    overflow-y: scroll;
     ${layout.default}
     margin: 0 auto;
     line-height: 1;

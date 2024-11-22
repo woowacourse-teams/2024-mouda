@@ -1,48 +1,50 @@
 import { ApiError } from '@_utils/customError/ApiError';
-import { getLastDarakbangId } from '@_common/lastDarakbangManager';
-import { getToken } from '@_utils/tokenManager';
+import { getAccessToken } from '@_utils/tokenManager';
+import { addBaseUrl } from './endPoints';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
-const DEFAULT_HEADERS = {
-  'Content-Type': 'application/json',
-};
+// const DEFAULT_HEADERS = {
+//   'Content-Type': 'application/json',
+// };
 
-const BASE_URL = `${process.env.BASE_URL}/v1`;
+function getHeaders(isRequiredAuth: boolean, isFormData: boolean = false) {
+  const headers = new Headers();
 
-function addBaseUrl(endpoint: string, isNeedLastDarakbang: boolean = false) {
-  if (isNeedLastDarakbang)
-    endpoint = '/darakbang/' + (getLastDarakbangId() || 0) + endpoint;
-  return BASE_URL + endpoint;
-}
+  // FormData가 아닌 경우에만 Content-Type 설정
+  if (!isFormData) {
+    headers.append('Content-Type', 'application/json');
+  }
 
-function getHeaders(isRequiredAuth: boolean) {
-  const headers = new Headers(DEFAULT_HEADERS);
+  // 인증이 필요한 경우 Authorization 헤더 추가
   if (isRequiredAuth) {
-    const token = getToken();
+    const token = getAccessToken();
     headers.append('Authorization', `Bearer ${token}`);
   }
+
   return headers;
 }
 
 async function request(
   method: Method,
   endpoint: string,
-  data: object = {},
+  data: object | FormData = {},
   config: RequestInit = {},
   isRequiredAuth: boolean = false,
   isRequiredLastDarakbang: boolean = false,
 ) {
   const url = addBaseUrl(endpoint, isRequiredLastDarakbang);
-
+  // data가 FormData인지 확인하여 헤더 설정
+  const isFormData = data instanceof FormData;
+  const headers = getHeaders(isRequiredAuth, isFormData);
   const options: RequestInit = {
     method,
-    headers: getHeaders(isRequiredAuth),
+    headers: headers,
     ...config,
   };
 
   if (method !== 'GET') {
-    options.body = JSON.stringify(data);
+    options.body = isFormData ? data : JSON.stringify(data);
   }
 
   const response = await fetch(url, options);
@@ -73,7 +75,7 @@ async function get(
 
 async function post(
   endpoint: string,
-  data: object = {},
+  data: object | FormData = {},
   config: RequestInit = {},
   isRequiredAuth: boolean = false,
   isRequiredLastDarakbang: boolean = false,
@@ -169,7 +171,7 @@ const ApiClient = {
   },
   async postWithLastDarakbangId(
     endpoint: string,
-    data: object = {},
+    data: object | FormData = {},
     config: RequestInit = {},
   ) {
     return post(endpoint, data, config, true, true);

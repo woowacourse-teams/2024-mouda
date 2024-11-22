@@ -2,8 +2,15 @@
   "preset": "ts-jest",
   "testEnvironment": "jest-environment-jsdom",
 
+  "transform": {
+    "^.+\\.(ts|tsx)$": [
+      "ts-jest",
+      {
+        "tsconfig": "tsconfig.jest.json"
+      }
+    ]
+  },
 
-  
   "moduleNameMapper": {
     "^@_apis/(.*)$": "<rootDir>/src/apis/$1",
     "^@_constants/(.*)$": "<rootDir>/src/constants/$1",
@@ -17,9 +24,12 @@
     "^@_routes/(.*)$": "<rootDir>/src/routes/$1",
     "^@_mocks/(.*)$": "<rootDir>/src/mocks/$1"
   },
+
   "testEnvironmentOptions": {
     "customExportConditions": [""]
   },
+
   "setupFiles": ["dotenv/config", "./jest.polyfills.js"],
+
   "setupFilesAfterEnv": ["<rootDir>/jest.setup.ts"]
 }

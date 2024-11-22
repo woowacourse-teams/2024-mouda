@@ -27,22 +27,28 @@ if (process.env.NODE_ENV === 'production' && process.env.SENTRY_DSN) {
   });
 }
 
-async function enableMocking() {
-  if (process.env.MSW !== 'true') {
-    return;
+const enableMocking = async () => {
+  if (process.env.NODE_ENV === 'development' && process.env.MSW === 'true') {
+    const { worker } = await import('./mocks/browser');
+    await worker.start();
   }
+};
 
-  const { worker } = await import('./mocks/browser');
-
-  return worker.start();
-}
-
-enableMocking().then(() => {
+const renderApp = () => {
   const rootElement = document.getElementById('root') as HTMLElement;
   const root = createRoot(rootElement);
+
   root.render(
     <React.StrictMode>
       <App />
     </React.StrictMode>,
   );
-});
+};
+
+// MSW가 개발 환경에서만 동작하도록 설정하고, 앱을 렌더링
+const init = async () => {
+  await enableMocking();
+  renderApp();
+};
+
+init();

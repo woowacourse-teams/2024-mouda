@@ -16,9 +16,11 @@ export interface MoimInfo {
   status: MoimStatus;
   comments: Comment[];
   isZzimed: boolean;
+  chatRoomId: number | null;
 }
 
 export interface Participation {
+  darakbangMemberId: number;
   nickname: string;
   profile: string;
   role: Role;
@@ -45,21 +47,22 @@ export type MoimInputInfo = Omit<
   | 'comments'
   | 'authorNickname'
   | 'isZzimed'
+  | 'chatRoomId'
 >;
 
 export interface ChattingPreview {
-  moimId: number;
+  chatRoomId: number;
   title: string;
-  currentPeople: number;
+  participations: Participation[];
   isStarted: boolean;
   lastContent: string;
-  unreadContentCount: number;
+  unreadChatCount: number;
 }
 export interface Chat {
   chatId: number;
   content: string;
   isMyMessage: boolean;
-  nickname: string;
+  participation: Participation;
   date: string;
   time: string;
   chatType: 'BASIC' | 'PLACE' | 'DATETIME';
@@ -104,3 +107,76 @@ export interface Darakbang {
 }
 
 export type DarakbangRole = 'MANAGER' | 'MEMBER' | 'OUTSIDER';
+
+export interface Participant {
+  nickname: string;
+  id: number;
+  profileUrl: string;
+}
+
+export interface BetSummary {
+  id: number;
+  title: string;
+  currentParticipants: number;
+  deadline: `${number}-${number}-${number}T${number}:${number}:${number}`;
+  isAnnounced: boolean;
+}
+
+export interface BetDetail {
+  title: string;
+  currentParticipants: number;
+  deadline: `${number}-${number}-${number}T${number}:${number}:${number}`;
+  isAnnounced: boolean;
+  participants: Participant[];
+  myRole: Role;
+  chatroomId: number | null;
+}
+
+export interface BetInputInfo {
+  title: string;
+  waitingMinutes: number;
+}
+
+export type ChatRoomType = 'BET' | 'MOIM';
+
+export interface ChatRoomDetail {
+  chatRoomId: number;
+  attributes: object;
+  type: ChatRoomType;
+  title: string;
+  participations: Participation[];
+}
+
+export interface MoimChatRoomDetail extends ChatRoomDetail {
+  type: 'MOIM';
+  attributes: {
+    place: string;
+    isMoimer: boolean;
+    isStarted: boolean;
+    description?: string;
+    date: string;
+    time: string;
+    moimId: number;
+  };
+}
+
+export interface BetChatRoomDetail extends ChatRoomDetail {
+  type: 'BET';
+  attributes: {
+    isLoser: boolean;
+    betId: number;
+    loser: Participation;
+  };
+}
+
+export const isBetChatRoomDetail = (
+  detail: ChatRoomDetail,
+): detail is BetChatRoomDetail => {
+  return (detail as BetChatRoomDetail).attributes.betId !== undefined;
+};
+
+export const isMoimChatRoomDetail = (
+  detail: ChatRoomDetail,
+): detail is MoimChatRoomDetail => {
+  return (detail as MoimChatRoomDetail).attributes.moimId !== undefined;
+};

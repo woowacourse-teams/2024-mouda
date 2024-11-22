@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/react';
 import { QueryCache, QueryClient } from '@tanstack/react-query';
 
 import { ApiError } from '@_utils/customError/ApiError';
-import { removeToken } from '@_utils/tokenManager';
+import { removeAccessToken } from '@_utils/tokenManager';
 import ROUTES from '@_constants/routes';
 import GET_ROUTES from '@_common/getRoutes';
 
@@ -32,10 +32,12 @@ const createQueryClient = () => {
 
 const handleApiError = (error: Error) => {
   Sentry.captureException(error);
-  console.log(error);
   if (error instanceof ApiError) {
     if (error.status === 401) {
-      removeToken();
+      removeAccessToken();
+      if (process.env.MSW === 'true') {
+        return false;
+      }
       window.location.href = ROUTES.home;
       return;
     }
@@ -49,6 +51,8 @@ const handleApiError = (error: Error) => {
     if (error.message === '모임이 존재하지 않습니다.') {
       window.location.href = GET_ROUTES.nowDarakbang.main();
       return;
+    } else {
+      alert(error.message);
     }
   } else {
     alert(error instanceof Error ? error.message : 'An error occurred');

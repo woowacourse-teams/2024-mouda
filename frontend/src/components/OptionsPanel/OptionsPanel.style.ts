@@ -22,6 +22,7 @@ export const panel = ({
 
   width: ${width};
 
+  background-color: white;
   border: 0;
   border-radius: 2.4rem;
   box-shadow: 0 0 12.6px 0 rgb(178 178 178 / 33%);

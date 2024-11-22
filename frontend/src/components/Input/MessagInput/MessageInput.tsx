@@ -1,8 +1,8 @@
 import * as S from '@_components/Input/MessagInput/MessageInput.style';
-import { useTheme } from '@emotion/react';
 
-import { useState } from 'react';
 import SubmitButton from '@_common/assets/submit_message_button.svg';
+import { useState } from 'react';
+import { useTheme } from '@emotion/react';
 
 export interface MessageInputProps {
   placeHolder: string;
@@ -36,6 +36,7 @@ export default function MessageInput(props: MessageInputProps) {
         css={S.button({ theme })}
         type="submit"
         disabled={!message.trim() || disabled}
+        aria-label={`댓글쓰기 버튼 ${!message.trim() || disabled ? '댓글을 작성하여 버튼을 활성화하세요' : ''}`}
       >
         <SubmitButton />
       </button>

@@ -6,6 +6,12 @@ export const bottomFixedStyle = css`
   position: fixed;
   bottom: 26px;
 
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+
   width: 100%;
   max-width: ${DISPLAY_MAX_WIDTH};
   padding: 0 16px;

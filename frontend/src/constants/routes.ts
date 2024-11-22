@@ -8,16 +8,24 @@ const beforeUsingDarakbangPrefixRoutes = {
   moimDetail: '/moim/:moimId',
   participationComplete: '/moim/participation-complete',
   modify: '/modify/:moimId',
+
   chat: '/chat',
-  chattingRoom: '/chatting-room/:moimId',
+  chattingRoom: '/chatting-room/:chatRoomId',
+
   please: '/please',
   addPlease: '/please/creation',
+
   myPage: '/my-page',
+  setting: '/my-page/setting',
+
   notification: '/notification',
+
   darakbangManagement: '/darakbang-management',
   darakbangMembers: '/darakbang-members',
   darakbangInvitation: '/darakbang-invitation',
   darakbangLanding: '/darakbang-landing',
+
+  bet: '/bet',
 };
 
 const usingDarakbangPrefixRoutes = Object.entries(
@@ -35,7 +43,11 @@ const ROUTES = {
   notFound: '/*',
   main: '/',
   home: '/home',
-  kakaoOAuth: '/kakao-o-auth',
+  kakaoSelection: '/oauth-migration',
+  oAuthSelection: '/oauth-select/:type',
+  resultMigration: '/oauth-migration/:result',
+  oAuthGoogle: '/oauth',
+  oAuth: '/oauth/:provider',
   darakbangInvitationRoute: '/darakbang-invitation-route',
 
   darakbangSelectOption: '/darakbang-select-option',

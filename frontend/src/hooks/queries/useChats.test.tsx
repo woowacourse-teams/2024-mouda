@@ -21,7 +21,7 @@ describe('useChats', () => {
     setLastDarakbangId(1);
   });
   afterEach(() => {
-    nowChatServerData.length = 0;
+    nowChatServerData[1].length = 0;
     initChatIndex();
   });
   it('초기의 chats은 빈 배열이다', () => {
@@ -38,7 +38,7 @@ describe('useChats', () => {
         await new Promise((res) => setInterval(res, 110));
         rerender();
       });
-      expect(result.current.chats).toEqual(nowChatServerData);
+      expect(result.current.chats).toEqual(nowChatServerData[1]);
     }
   });
 });

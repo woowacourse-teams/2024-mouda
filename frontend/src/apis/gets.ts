@@ -1,16 +1,25 @@
 import {
+  BetChatRoomDetail,
   Chat,
+  ChatRoomDetail,
+  ChatRoomType,
   ChattingPreview,
+  MoimChatRoomDetail,
   MoimInfo,
   Participation,
   Role,
 } from '@_types/index';
 import {
+  GetBet,
+  GetBetDetail,
+  GetBets,
   GetChamyoAll,
   GetChamyoMine,
   GetChat,
+  GetChatRoomDetail,
   GetChattingPreview,
   GetDarakbangInviteCode,
+  GetDarakbangMemberProfile,
   GetDarakbangMembers,
   GetDarakbangMine,
   GetDarakbangNameByCode,
@@ -24,8 +33,8 @@ import {
 } from './responseTypes';
 
 import ApiClient from './apiClient';
-import { Filter } from '@_components/MyMoimListFilters/MyMoimListFilters';
 import { ApiError } from '@_utils/customError/ApiError';
+import { Filter } from '@_pages/Moim/MainPage/components/HomeMainContent/MyMoim/MyMoimListFilters/MyMoimListFilters';
 
 export const getMoims = async (): Promise<MoimInfo[]> => {
   const response = await ApiClient.getWithLastDarakbangId('/moim');
@@ -59,19 +68,38 @@ export const getMoim = async (moimId: number): Promise<MoimInfo> => {
   return json.data;
 };
 
-export const getChatPreview = async (): Promise<ChattingPreview[]> => {
-  const response = await ApiClient.getWithLastDarakbangId(`/chat/preview`);
+export const getChatPreview = async (
+  chatRoomType: ChatRoomType,
+): Promise<ChattingPreview[]> => {
+  const response = await ApiClient.getWithLastDarakbangId(
+    `/chatroom/preview?chatRoomType=${chatRoomType}`,
+  );
 
   const json: GetChattingPreview = await response.json();
-  return json.data.chatPreviewResponses;
+  return json.data.previews;
+};
+
+export const getChatRoomDetail = async (
+  chatRoomId: number,
+): Promise<BetChatRoomDetail | MoimChatRoomDetail | ChatRoomDetail> => {
+  const response = await ApiClient.getWithLastDarakbangId(
+    `/chatroom/${chatRoomId}/details`,
+  );
+
+  const json: GetChatRoomDetail = await response.json();
+  const chatRoomDetail = json.data;
+  if (chatRoomDetail.type === 'BET') return chatRoomDetail as BetChatRoomDetail;
+  if (chatRoomDetail.type === 'MOIM')
+    return chatRoomDetail as MoimChatRoomDetail;
+  return chatRoomDetail;
 };
 
 export const getChat = async (
-  moimId: number,
+  chatRoomId: number,
   recentChatId?: number,
 ): Promise<Chat[]> => {
   const response = await ApiClient.getWithLastDarakbangId(
-    `/chat?moimId=${moimId}&recentChatId=${recentChatId || 0}`,
+    `/chatroom/${chatRoomId}?recentChatId=${recentChatId || 0}`,
   );
 
   const json: GetChat = await response.json();
@@ -153,7 +181,7 @@ export const getDarakbangMembers = async () => {
   const response = await ApiClient.getWithLastDarakbangId('/members');
 
   const json: GetDarakbangMembers = await response.json();
-  return json.data.darakbangMemberResponses;
+  return json.data.responses;
 };
 
 export const getDarakbangInviteCode = async () => {
@@ -186,4 +214,36 @@ export const getDarakbangNameById = async () => {
 
   const json: GetDarakbangNameByCode = await response.json();
   return json.data.name;
+};
+
+export const getBets = async () => {
+  const response = await ApiClient.getWithLastDarakbangId('/bet');
+
+  const json: GetBets = await response.json();
+  return json.data.bets;
+};
+
+export const getBet = async (betId: number) => {
+  const response = await ApiClient.getWithLastDarakbangId(`/bet/${betId}`);
+
+  const json: GetBet = await response.json();
+  return json.data;
+};
+
+export const getBetResult = async (betId: number) => {
+  const response = await ApiClient.getWithLastDarakbangId(
+    `/bet/${betId}/result`,
+  );
+
+  const json: GetBetDetail = await response.json();
+  return json.data.nickname;
+};
+
+export const getDarakbangMemberProfile = async (darakbangMemberId: number) => {
+  const response = await ApiClient.getWithLastDarakbangId(
+    `/members/${darakbangMemberId}/profile`,
+  );
+
+  const json: GetDarakbangMemberProfile = await response.json();
+  return json.data;
 };

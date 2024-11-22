@@ -1,7 +1,8 @@
 import * as S from '@_components/KebabMenu/KebabMenu.style';
-import { useRef, useState, FocusEvent } from 'react';
+import { FocusEvent, useRef, useState } from 'react';
 import KebabButton from '@_common/assets/kebab_menu.svg';
 import { useTheme } from '@emotion/react';
+import { createPortal } from 'react-dom'; // createPortal 추가
 
 type Option = { name: string; disabled: boolean; onClick: () => void };
 export interface KebabMenuProps {
@@ -33,26 +34,33 @@ export default function KebabMenu(props: KebabMenuProps) {
     onClick();
   };
 
+  const kebabMenu = isKebabOpen ? (
+    <div ref={optionsRef} css={S.optionBox({ theme })}>
+      {options.map((option) => (
+        <button
+          css={S.kebabItem({ theme })}
+          aria-label={option.name}
+          key={option.name}
+          onClick={() => handleOptionClick(option.onClick)}
+          disabled={option.disabled}
+        >
+          {option.name}
+        </button>
+      ))}
+    </div>
+  ) : null;
+
   return (
     <div css={S.kebabContainer({ theme })}>
-      <button onClick={handleKebabToggle} onBlur={handleKebabClose}>
+      <button
+        onClick={handleKebabToggle}
+        onBlur={handleKebabClose}
+        aria-label="케밥 메뉴 활성화 버튼"
+        aria-checked={isKebabOpen}
+      >
         <KebabButton />
       </button>
-      {isKebabOpen && (
-        <div ref={optionsRef} css={S.optionBox({ theme })}>
-          {options.map((option) => {
-            return (
-              <button
-                key={option.name}
-                onClick={() => handleOptionClick(option.onClick)}
-                disabled={option.disabled}
-              >
-                {option.name}
-              </button>
-            );
-          })}
-        </div>
-      )}
+      {createPortal(kebabMenu, document.body)} {/* createPortal 사용 */}
     </div>
   );
 }

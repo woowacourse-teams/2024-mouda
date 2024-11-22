@@ -4,7 +4,7 @@ import SelectionIcon from '@_components/Icons/SelectionIcon';
 
 interface FunnelRadioCardGroupOptionProps {
   title: string;
-  description: string;
+  description?: string;
   isSelected: boolean;
   onSelect: () => void;
 }
@@ -17,10 +17,13 @@ export default function FunnelRadioCardGroupOption(
   const theme = useTheme();
 
   return (
-    <div css={S.container({ theme, isSelected })} onClick={onSelect}>
+    <div
+      css={S.container({ theme, isSelected, description })}
+      onClick={onSelect}
+    >
       <div css={S.contentContainer()}>
         <h2 css={theme.typography.s1}>{title}</h2>
-        <p>{description}</p>
+        {description && <p css={theme.typography.s2}>{description}</p>}
       </div>
       <div css={S.selectionContainer}>
         <SelectionIcon isSelected={isSelected} />

@@ -1,5 +1,8 @@
 import {
+  BetDetail,
+  BetSummary,
   Chat,
+  ChatRoomDetail,
   ChattingPreview,
   Darakbang,
   DarakbangRole,
@@ -31,7 +34,11 @@ export interface PostMoim {
 }
 
 export interface GetChattingPreview {
-  data: { chatPreviewResponses: ChattingPreview[] };
+  data: { previews: ChattingPreview[] };
+}
+
+export interface GetChatRoomDetail {
+  data: ChatRoomDetail;
 }
 export interface GetChat {
   data: { chats: Chat[] };
@@ -63,8 +70,10 @@ export interface GetPleases {
 
 export interface GetMyInfo {
   data: {
+    name: string;
     nickname: string;
     profile: string;
+    description: string;
   };
 }
 
@@ -88,8 +97,8 @@ export interface GetMyRoleInDarakbang {
 
 export interface GetDarakbangMembers {
   data: {
-    darakbangMemberResponses: {
-      memberId: number;
+    responses: {
+      darakbangMemberId: number;
       nickname: string;
       profile: string;
     }[];
@@ -105,5 +114,35 @@ export interface GetDarakbangInviteCode {
 export interface GetDarakbangNameByCode {
   data: {
     name: string;
+  };
+}
+
+export interface GetBets {
+  data: { bets: BetSummary[] };
+}
+
+export interface GetBet {
+  data: BetDetail;
+}
+
+export interface GetBetDetail {
+  data: {
+    nickname: string;
+  };
+}
+
+export interface PostBet {
+  data: {
+    betId: number;
+  };
+}
+
+export interface GetDarakbangMemberProfile {
+  data: {
+    darakbangMemberId: number;
+    name: string;
+    nickname: string;
+    profile: string;
+    description: string;
   };
 }

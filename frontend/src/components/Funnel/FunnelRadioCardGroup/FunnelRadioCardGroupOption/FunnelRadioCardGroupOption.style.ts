@@ -3,14 +3,16 @@ import { css, Theme } from '@emotion/react';
 export const container = ({
   theme,
   isSelected,
+  description,
 }: {
   theme: Theme;
   isSelected: boolean;
+  description?: string;
 }) => css`
   display: flex;
   justify-content: space-between;
 
-  padding: 30px 20px 22px;
+  padding: ${description ? `30px 20px 22px` : `12px`};
 
   color: ${isSelected
     ? theme.colorPalette.white[100]
@@ -19,7 +21,7 @@ export const container = ({
   background-color: ${isSelected
     ? theme.semantic.primary
     : theme.colorPalette.orange[50]};
-  border-radius: 24px;
+  border-radius: ${description ? `24px` : `8px`};
 `;
 
 export const contentContainer = () => css`

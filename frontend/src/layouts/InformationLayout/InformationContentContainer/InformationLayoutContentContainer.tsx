@@ -5,5 +5,5 @@ import { PropsWithChildren } from 'react';
 export default function InformationContentContainer(props: PropsWithChildren) {
   const { children } = props;
 
-  return <div css={S.contentStyle}>{children}</div>;
+  return <main css={S.contentStyle}>{children}</main>;
 }

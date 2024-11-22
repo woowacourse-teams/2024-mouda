@@ -1,9 +1,9 @@
 import { HttpResponse, http } from 'msw';
 
-import ENDPOINTS from '@_apis/endPoints';
+import { API_URL } from '@_apis/endPoints';
 
 export const moimHandler = [
-  http.get(`${ENDPOINTS.moims}`, () => {
+  http.get(API_URL.moim, () => {
     return HttpResponse.json({
       data: {
         moims: [
@@ -146,7 +146,7 @@ export const moimHandler = [
       },
     });
   }),
-  http.get(`${ENDPOINTS.moims}/1`, () => {
+  http.get(`${API_URL.moims}/0`, () => {
     return HttpResponse.json({
       data: {
         moimId: 1,
@@ -215,7 +215,76 @@ export const moimHandler = [
       },
     });
   }),
-  http.get(`${ENDPOINTS.chamyo}/all`, () => {
+  http.get(`${API_URL.moims}/1`, () => {
+    return HttpResponse.json({
+      data: {
+        moimId: 1,
+        title: 'msw',
+        date: '2222-02-02',
+        time: '14:02:00',
+        place: '2',
+        currentPeople: 0,
+        maxPeople: 2,
+        authorNickname: '2',
+        participants: [
+          {
+            nickname: '치코',
+            src: '',
+            role: 'moimer',
+          },
+          {
+            nickname: '치코',
+            src: '',
+            role: 'moimee',
+          },
+          {
+            nickname: '치코',
+            src: '',
+            role: 'moimer',
+          },
+        ],
+        description: 'sdfsdfsd',
+        status: 'MOIMING',
+        comments: [
+          {
+            id: 0,
+            nickname: 'nickname',
+            content: 'content',
+            dateTime: '2023-04-04 14:00',
+            src: '',
+            child: [
+              {
+                id: 0,
+                nickname: 'nickname',
+                content: 'content',
+                dateTime: '2023-04-04 14:00',
+                src: '',
+                child: [],
+              },
+            ],
+          },
+          {
+            id: 3,
+            nickname: 'nickname',
+            content: 'content',
+            dateTime: '2023-04-04 14:00',
+            src: '',
+            child: [
+              {
+                id: 4,
+                nickname: 'nickname',
+                content: 'content',
+                dateTime: '2023-04-04 14:00',
+                src: '',
+                child: [],
+              },
+            ],
+          },
+        ],
+      },
+    });
+  }),
+  http.get(`${API_URL.chamyo}/all`, () => {
     return HttpResponse.json({
       data: {
         chamyos: [
@@ -238,17 +307,55 @@ export const moimHandler = [
       },
     });
   }),
-  http.get(`${ENDPOINTS.zzim}/mine`, () => {
+  http.get(`${API_URL.zzim}/mine`, () => {
     return HttpResponse.json({
       data: {
         isZzimed: false,
       },
     });
   }),
-  http.get(`${ENDPOINTS.chamyo}/mine`, () => {
+  http.get(`${API_URL.chamyo}/mine`, () => {
     return HttpResponse.json({
       data: {
         role: 'MOIMER',
+      },
+    });
+  }),
+  http.get(API_URL.darakbang.role, () => {
+    return HttpResponse.json({
+      data: {
+        role: 'MANAGE',
+      },
+    });
+  }),
+  http.get(API_URL.darakbang.name, () => {
+    return HttpResponse.json({
+      data: {
+        name: 'sdfada',
+      },
+    });
+  }),
+
+  http.get(API_URL.darakbang.mine, () => {
+    return HttpResponse.json({
+      data: {
+        darakbangResponses: [
+          {
+            darakbandId: 0,
+            name: '우아한테크코스',
+          },
+          {
+            darakbandId: 1,
+            name: 'Leets',
+          },
+        ],
+      },
+    });
+  }),
+  http.get(API_URL.kakaoOAuth, () => {
+    return HttpResponse.json({
+      data: {
+        accessToken: 1,
       },
     });
   }),

@@ -83,6 +83,7 @@
     "typescript": "^5.5.3",
     "undici": "^6.19.5",
     "webpack": "^5.92.1",
+    "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4"
   },
@@ -93,6 +94,7 @@
     "@sentry/react": "^8.24.0",
     "@sentry/webpack-plugin": "^2.22.0",
     "firebase": "^10.12.5",
+    "heic2any": "^0.0.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-ga4": "^2.1.0",

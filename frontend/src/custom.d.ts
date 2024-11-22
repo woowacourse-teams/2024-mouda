@@ -2,7 +2,13 @@ declare module '*.png';
 declare module '*.jpg';
 declare module '*.jpeg';
 declare module '*.gif';
+declare module '*.webp';
 declare module '*.woff2' {
+  const src: string;
+  export default src;
+}
+
+declare module '*.ttf' {
   const src: string;
   export default src;
 }

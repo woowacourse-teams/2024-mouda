@@ -1,11 +1,13 @@
-import { PropsWithChildren } from 'react';
+import { LabelHTMLAttributes, PropsWithChildren } from 'react';
 import FunnelQuestionHighlight from './FunnelQuestionHighlight/FunnelQuestionHighlight';
 import FunnelTextQuestionText from './FunnelQuestionText/FunnelQuestionText';
 
-function FunnelQuestion(props: PropsWithChildren) {
-  const { children } = props;
+interface FunnelQuestionProps extends LabelHTMLAttributes<HTMLLabelElement> {}
 
-  return <h5>{children}</h5>;
+function FunnelQuestion(props: PropsWithChildren<FunnelQuestionProps>) {
+  const { children, ...rest } = props;
+
+  return <label {...rest}>{children}</label>;
 }
 
 FunnelQuestion.Text = FunnelTextQuestionText;
