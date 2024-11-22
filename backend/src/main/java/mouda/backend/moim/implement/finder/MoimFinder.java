@@ -16,13 +16,13 @@ import mouda.backend.darakbangmember.domain.DarakbangMember;
 import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.FilterType;
 import mouda.backend.moim.domain.Moim;
+import mouda.backend.moim.domain.MoimCurrentPeople;
 import mouda.backend.moim.domain.MoimOverview;
 import mouda.backend.moim.exception.MoimErrorMessage;
 import mouda.backend.moim.exception.MoimException;
 import mouda.backend.moim.infrastructure.ChamyoRepository;
 import mouda.backend.moim.infrastructure.MoimRepository;
 import mouda.backend.moim.infrastructure.ZzimRepository;
-import mouda.backend.moim.infrastructure.dto.ChamyoMoim;
 
 @Component
 @RequiredArgsConstructor
@@ -43,16 +43,17 @@ public class MoimFinder {
 
 	public List<MoimOverview> readAll(long darakbangId, DarakbangMember darakbangMember) {
 		List<Moim> moims = moimRepository.findAllByDarakbangIdOrderByIdDesc(darakbangId);
-		List<ChamyoMoim> chamyoMoims = chamyoRepository.findAllByMoims(moims);
+		List<MoimCurrentPeople> moimCurrentPeople = chamyoRepository.findAllByMoims(moims);
 		Set<Long> zzimedMoimIds = zzimRepository.findAllByDarakbangMemberId(darakbangMember.getId());
 
-		return createMoimOverview(moims, chamyoMoims, zzimedMoimIds);
+		return createMoimOverview(moims, moimCurrentPeople, zzimedMoimIds);
 	}
 
 	public List<MoimOverview> readAllMyMoim(DarakbangMember darakbangMember, FilterType filterType) {
-		List<ChamyoMoim> chamyoMoims = chamyoRepository.findAllByDarakbangMemberId(darakbangMember.getId());
-		Set<Long> moimIds = chamyoMoims.stream()
-			.map(ChamyoMoim::getMoimId)
+		List<MoimCurrentPeople> moimCurrentPeople = chamyoRepository.findAllByDarakbangMemberId(
+			darakbangMember.getId());
+		Set<Long> moimIds = moimCurrentPeople.stream()
+			.map(MoimCurrentPeople::getMoimId)
 			.collect(Collectors.toSet());
 		List<Moim> moims = moimRepository.findAllByIds(moimIds)
 			.stream()
@@ -60,7 +61,7 @@ public class MoimFinder {
 			.toList();
 		Set<Long> zzimedMoimIds = zzimRepository.findAllByDarakbangMemberId(darakbangMember.getId());
 
-		return createMoimOverview(moims, chamyoMoims, zzimedMoimIds);
+		return createMoimOverview(moims, moimCurrentPeople, zzimedMoimIds);
 	}
 
 	private Predicate<Moim> getFilter(FilterType filterType) {
@@ -76,20 +77,20 @@ public class MoimFinder {
 	public List<MoimOverview> readAllZzimedMoim(DarakbangMember darakbangMember) {
 		Set<Long> zzimMoimIds = zzimRepository.findAllByDarakbangMemberId(darakbangMember.getId());
 		List<Moim> moims = moimRepository.findAllByIds(zzimMoimIds);
-		List<ChamyoMoim> chamyoMoims = chamyoRepository.findAllByMoims(moims);
+		List<MoimCurrentPeople> moimCurrentPeople = chamyoRepository.findAllByMoims(moims);
 
-		return createMoimOverview(moims, chamyoMoims, zzimMoimIds);
+		return createMoimOverview(moims, moimCurrentPeople, zzimMoimIds);
 	}
 
-	private List<MoimOverview> createMoimOverview(List<Moim> moims, List<ChamyoMoim> chamyoMoims,
+	private List<MoimOverview> createMoimOverview(List<Moim> moims, List<MoimCurrentPeople> moimCurrentPeople,
 		Set<Long> zzimedMoimIds) {
-		Map<Long, Long> chamyoMap = chamyoMoims.stream()
-			.collect(Collectors.toMap(ChamyoMoim::getMoimId, ChamyoMoim::getChamyoCount));
+		Map<Long, Long> currentPeople = moimCurrentPeople.stream()
+			.collect(Collectors.toMap(MoimCurrentPeople::getMoimId, MoimCurrentPeople::getCurrentPeople));
 
 		return moims.stream()
 			.map(moim -> new MoimOverview(
 				moim,
-				chamyoMap.getOrDefault(moim.getId(), 0L),
+				currentPeople.getOrDefault(moim.getId(), 0L),
 				zzimedMoimIds.contains(moim.getId())
 			))
 			.toList();

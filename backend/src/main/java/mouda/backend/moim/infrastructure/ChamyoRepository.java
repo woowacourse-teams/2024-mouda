@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.Moim;
-import mouda.backend.moim.infrastructure.dto.ChamyoMoim;
+import mouda.backend.moim.domain.MoimCurrentPeople;
 
 public interface ChamyoRepository extends JpaRepository<Chamyo, Long> {
 
@@ -39,7 +39,7 @@ public interface ChamyoRepository extends JpaRepository<Chamyo, Long> {
 	Optional<Chamyo> findMoimerByMoimId(@Param("moimId") Long moimId);
 
 	@Query("""
-		SELECT new mouda.backend.moim.infrastructure.dto.ChamyoMoim(
+		SELECT new mouda.backend.moim.domain.MoimCurrentPeople(
 			c.moim.id,
 			(SELECT COUNT(c2)
 			FROM Chamyo c2
@@ -50,10 +50,10 @@ public interface ChamyoRepository extends JpaRepository<Chamyo, Long> {
 		GROUP BY c.moim
 		ORDER BY c.moim.id DESC
 		""")
-	List<ChamyoMoim> findAllByDarakbangMemberId(long darakbangMemberId);
+	List<MoimCurrentPeople> findAllByDarakbangMemberId(long darakbangMemberId);
 
 	@Query("""
-		SELECT new mouda.backend.moim.infrastructure.dto.ChamyoMoim(
+		SELECT new mouda.backend.moim.domain.MoimCurrentPeople(
 			c.moim.id,
 			COUNT(c)
 		)
@@ -62,5 +62,5 @@ public interface ChamyoRepository extends JpaRepository<Chamyo, Long> {
 		GROUP BY c.moim
 		ORDER BY c.moim.id DESC
 		""")
-	List<ChamyoMoim> findAllByMoims(List<Moim> moims);
+	List<MoimCurrentPeople> findAllByMoims(List<Moim> moims);
 }
