@@ -88,9 +88,10 @@ public class MoimFinder {
 			.collect(Collectors.toMap(MoimCurrentPeople::getMoimId, MoimCurrentPeople::getCurrentPeople));
 
 		return moims.stream()
+			.filter(moim -> currentPeople.get(moim.getId()) != null)
 			.map(moim -> new MoimOverview(
 				moim,
-				currentPeople.getOrDefault(moim.getId(), 0L),
+				currentPeople.get(moim.getId()),
 				zzimedMoimIds.contains(moim.getId())
 			))
 			.toList();
