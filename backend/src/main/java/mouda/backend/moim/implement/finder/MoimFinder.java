@@ -44,7 +44,7 @@ public class MoimFinder {
 	public List<MoimOverview> readAll(long darakbangId, DarakbangMember darakbangMember) {
 		List<Moim> moims = moimRepository.findAllByDarakbangIdOrderByIdDesc(darakbangId);
 		List<MoimCurrentPeople> moimCurrentPeople = chamyoRepository.findAllByMoims(moims);
-		Set<Long> zzimedMoimIds = zzimRepository.findAllByDarakbangMemberId(darakbangMember.getId());
+		Set<Long> zzimedMoimIds = zzimRepository.findMoimIdsByDarakbangMemberId(darakbangMember.getId());
 
 		return createMoimOverview(moims, moimCurrentPeople, zzimedMoimIds);
 	}
@@ -59,7 +59,7 @@ public class MoimFinder {
 			.stream()
 			.filter(getFilter(filterType))
 			.toList();
-		Set<Long> zzimedMoimIds = zzimRepository.findAllByDarakbangMemberId(darakbangMember.getId());
+		Set<Long> zzimedMoimIds = zzimRepository.findMoimIdsByDarakbangMemberId(darakbangMember.getId());
 
 		return createMoimOverview(moims, moimCurrentPeople, zzimedMoimIds);
 	}
@@ -75,7 +75,7 @@ public class MoimFinder {
 	}
 
 	public List<MoimOverview> readAllZzimedMoim(DarakbangMember darakbangMember) {
-		Set<Long> zzimMoimIds = zzimRepository.findAllByDarakbangMemberId(darakbangMember.getId());
+		Set<Long> zzimMoimIds = zzimRepository.findMoimIdsByDarakbangMemberId(darakbangMember.getId());
 		List<Moim> moims = moimRepository.findAllByIds(zzimMoimIds);
 		List<MoimCurrentPeople> moimCurrentPeople = chamyoRepository.findAllByMoims(moims);
 

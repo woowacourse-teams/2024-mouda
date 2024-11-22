@@ -24,5 +24,5 @@ public interface ZzimRepository extends JpaRepository<Zzim, Long> {
 		WHERE z.darakbangMember.id = :darakbangMemberId
 		ORDER BY z.id DESC
 		""")
-	Set<Long> findAllByDarakbangMemberId(long darakbangMemberId);
+	Set<Long> findMoimIdsByDarakbangMemberId(long darakbangMemberId);
 }
