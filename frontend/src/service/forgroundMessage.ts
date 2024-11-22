@@ -1,10 +1,10 @@
 import { getMessaging, onMessage } from 'firebase/messaging';
+import { initializeFirebaseApp } from './initFirebase';
 
-import { app } from './initFirebase';
-import checkCanUseFirebase from '@_utils/checkCanUseFirebase';
+async function initializeForegroundMessageHandling() {
+  const app = await initializeFirebaseApp(); // Firebase 앱 초기화가 완료되면 실행
+  if (!app) return; // Firebase를 사용할 수 없는 경우 종료
 
-function initializeForegroundMessageHandling() {
-  if (!checkCanUseFirebase()) return;
   const messaging = getMessaging(app);
 
   onMessage(messaging, (payload) => {

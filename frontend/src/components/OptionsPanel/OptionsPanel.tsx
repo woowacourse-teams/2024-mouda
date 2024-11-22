@@ -14,6 +14,7 @@ interface OptionsPanelProps {
   maxHeight?: string;
 }
 
+import { Fragment } from 'react';
 import * as S from './OptionsPanel.style';
 
 import { useTheme } from '@emotion/react';
@@ -31,7 +32,7 @@ export default function OptionsPanel(props: OptionsPanelProps) {
   const theme = useTheme();
 
   return (
-    <>
+    <Fragment>
       <div onClick={onClose} css={S.dimmer} />
       <div
         css={S.panel({
@@ -57,6 +58,6 @@ export default function OptionsPanel(props: OptionsPanelProps) {
           );
         })}
       </div>
-    </>
+    </Fragment>
   );
 }
