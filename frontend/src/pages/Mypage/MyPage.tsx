@@ -53,7 +53,7 @@ export default function MyPage() {
           </InformationLayout.Header.Left>
           <InformationLayout.Header.Right>
             {!isEditing ? (
-              <>
+              <Fragment>
                 <button
                   css={S.AccountButton({ theme })}
                   onClick={handleEditClick}
@@ -66,9 +66,9 @@ export default function MyPage() {
                 >
                   <Setting />
                 </button>
-              </>
+              </Fragment>
             ) : (
-              <>
+              <Fragment>
                 {isShownRest && (
                   <button
                     css={S.AccountButton({ theme })}
@@ -93,7 +93,7 @@ export default function MyPage() {
                 <button css={S.AccountButton({ theme })} onClick={handleCancel}>
                   취소
                 </button>
-              </>
+              </Fragment>
             )}
           </InformationLayout.Header.Right>
         </InformationLayout.Header>
