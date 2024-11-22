@@ -1,7 +1,7 @@
 <configuration>
     <timestamp key="NOW" datePattern="yyyy-MM-dd"/>
     <property name="logPath" value="./logs"/>
-    <property name="logPattern" value="[%-5level] %d{yyyy-MM-dd HH:mm:ss} [%t] %c{1} - %msg%n"/>
+    <property name="logPattern" value="[%-5level] %d{yyyy-MM-dd HH:mm:ss} - %msg%n"/>
     <property name="serviceName" value="mouda"/>
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">

@@ -14,6 +14,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ import mouda.backend.moim.exception.MoimErrorMessage;
 import mouda.backend.moim.exception.MoimException;
 
 @Entity
+@Table(name = "moim")
 @Getter
 @NoArgsConstructor
 public class Moim {
@@ -130,12 +132,6 @@ public class Moim {
 		}
 	}
 
-	public void validateAlreadyFullMoim(int currentPeople) {
-		if (currentPeople > maxPeople) {
-			throw new MoimException(HttpStatus.BAD_REQUEST, MoimErrorMessage.MAX_PEOPLE);
-		}
-	}
-
 	public void update(String title, LocalDate date, LocalTime time, String place, int maxPeople,
 		String description, int currentPeople) {
 		if (!Objects.equals(this.title, title)) {
@@ -205,5 +201,34 @@ public class Moim {
 
 	public boolean isNotInDarakbang(long darakbangId) {
 		return this.darakbangId != darakbangId;
+	}
+
+	public boolean isFull(int currentPeople) {
+		return currentPeople >= maxPeople;
+	}
+
+	public boolean isCanceled() {
+		return moimStatus == MoimStatus.CANCELED;
+	}
+
+	public boolean isCompleted() {
+		return moimStatus == MoimStatus.COMPLETED;
+	}
+
+
+	public boolean isMoiming() {
+		return moimStatus == MoimStatus.MOIMING;
+	}
+
+	public void complete() {
+		this.moimStatus = MoimStatus.COMPLETED;
+	}
+
+	public void cancel() {
+		this.moimStatus = MoimStatus.CANCELED;
+	}
+
+	public void reopen() {
+		this.moimStatus = MoimStatus.MOIMING;
 	}
 }

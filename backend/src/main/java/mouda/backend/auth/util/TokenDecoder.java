@@ -11,12 +11,12 @@ import mouda.backend.auth.exception.AuthErrorMessage;
 import mouda.backend.auth.exception.AuthException;
 
 public class TokenDecoder {
-	
-	public static Map<String, String> parseKakaoToken(String kakaoIdToken) {
+
+	public static Map<String, String> parseIdToken(String idToken) {
 		try {
-			String[] parts = kakaoIdToken.split("\\.");
+			String[] parts = idToken.split("\\.");
 			if (parts.length != 3) {
-				throw new AuthException(HttpStatus.INTERNAL_SERVER_ERROR, AuthErrorMessage.INVALID_KAKAO_TOKEN);
+				throw new AuthException(HttpStatus.INTERNAL_SERVER_ERROR, AuthErrorMessage.INVALID_TOKEN);
 			}
 			String payload = parts[1];
 			byte[] decodedBytes = Base64.getUrlDecoder().decode(payload);

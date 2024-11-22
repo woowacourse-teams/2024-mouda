@@ -2,7 +2,7 @@ package mouda.backend.please.exception;
 
 import org.springframework.http.HttpStatus;
 
-import mouda.backend.exception.MoudaException;
+import mouda.backend.common.exception.MoudaException;
 
 public class PleaseException extends MoudaException {
 

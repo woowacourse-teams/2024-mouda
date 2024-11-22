@@ -1,7 +1,16 @@
+server:
+  forward-headers-strategy: native
+
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   profiles:
     active:
       - local
+  jpa:
+    open-in-view: false
 
 security:
   jwt:
@@ -12,4 +21,7 @@ security:
 url:
   moim: /darakbang/%d/moim/%d
   chat: /darakbang/%d/chat/%d
-  chatroom: /chatting-room/%d
+  chatroom: /darakbang/%d/chatting-room/%d
+
+bet:
+  schedule: "0 * * * * *" # 매분마다
