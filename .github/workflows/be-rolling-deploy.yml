@@ -14,6 +14,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Prepare Deploy
+        run: |
+          cd ~/deploy && ./prepare-deploy.sh
+
       - name: Run Prod1 instance deploy script
         run: |
           cd ~/deploy && ./deploy.sh
@@ -25,16 +29,24 @@ jobs:
 
     steps:
       - name: Wait for Prod1 instance to be ready
-        run: sleep 30
+        run: sleep 25
 
       - name: Health check for Prod1 instance
         run: |
-          RESPONSE=$(curl --write-out '%{http_code}' --silent --output /dev/null http://localhost:8080/health)
-          if [ $RESPONSE -ne 200 ]; then
-            echo "Prod1 instance deployment failed."
-            exit 1
-          fi
-          echo "Prod1 instance is healthy."
+          ATTEMPTS=0
+          MAX_ATTEMPTS=3
+          until [ $ATTEMPTS -ge $MAX_ATTEMPTS ]; do
+            RESPONSE=$(curl --write-out '%{http_code}' --silent --output /dev/null http://localhost:8080/health)
+            if [ $RESPONSE -eq 200 ]; then
+              echo "Prod1 instance is healthy."
+              exit 0
+            fi
+            echo "Health check failed, attempt $((ATTEMPTS+1))/$MAX_ATTEMPTS. Retrying in 5 seconds..."
+            ATTEMPTS=$((ATTEMPTS+1))
+            sleep 5
+          done
+          echo "Prod1 instance deployment failed after $MAX_ATTEMPTS attempts."
+          exit 1
 
   deploy-prod2:
     name: Deploy to Prod2 Instance
@@ -44,6 +56,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Prepare Deploy
+        run: |
+          cd ~/deploy && ./prepare-deploy.sh
 
       - name: Run Prod2 instance deploy script
         run: |
@@ -56,13 +72,21 @@ jobs:
 
     steps:
       - name: Wait for Prod2 instance to be ready
-        run: sleep 30
+        run: sleep 25
 
       - name: Health check for Prod2 instance
         run: |
-          RESPONSE=$(curl --write-out '%{http_code}' --silent --output /dev/null http://localhost:8080/health)
-          if [ $RESPONSE -ne 200 ]; then
-            echo "Prod2 instance deployment failed."
-            exit 1
-          fi
-          echo "Prod2 instance is healthy."
+          ATTEMPTS=0
+          MAX_ATTEMPTS=3
+          until [ $ATTEMPTS -ge $MAX_ATTEMPTS ]; do
+            RESPONSE=$(curl --write-out '%{http_code}' --silent --output /dev/null http://localhost:8080/health)
+            if [ $RESPONSE -eq 200 ]; then
+              echo "Prod2 instance is healthy."
+              exit 0
+            fi
+            echo "Health check failed, attempt $((ATTEMPTS+1))/$MAX_ATTEMPTS. Retrying in 5 seconds..."
+            ATTEMPTS=$((ATTEMPTS+1))
+            sleep 5
+          done
+          echo "Prod2 instance deployment failed after $MAX_ATTEMPTS attempts."
+          exit 1
