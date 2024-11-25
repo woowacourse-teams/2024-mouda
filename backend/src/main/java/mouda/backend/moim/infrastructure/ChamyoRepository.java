@@ -1,16 +1,15 @@
 package mouda.backend.moim.infrastructure;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import mouda.backend.moim.infrastructure.dto.ChamyoCountResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.Moim;
+import mouda.backend.moim.domain.MoimCurrentPeople;
 
 public interface ChamyoRepository extends JpaRepository<Chamyo, Long> {
 
@@ -39,7 +38,29 @@ public interface ChamyoRepository extends JpaRepository<Chamyo, Long> {
 	@Query("SELECT c FROM Chamyo c WHERE c.moim.id = :moimId AND c.moimRole = 'MOIMER'")
 	Optional<Chamyo> findMoimerByMoimId(@Param("moimId") Long moimId);
 
-	@Query("SELECT new mouda.backend.moim.infrastructure.dto.ChamyoCountResponse(c.moim.id, COUNT(c))  FROM Chamyo c WHERE c.moim.id IN :moimIds GROUP BY c.moim.id")
-	List<ChamyoCountResponse> countByMoimIds(@Param("moimIds") List<Long> moimIds);
+	@Query("""
+		SELECT new mouda.backend.moim.domain.MoimCurrentPeople(
+			c.moim.id,
+			(SELECT COUNT(c2)
+			FROM Chamyo c2
+			WHERE c2.moim = c.moim)
+		)
+		FROM Chamyo c
+		WHERE c.darakbangMember.id = :darakbangMemberId
+		GROUP BY c.moim
+		ORDER BY c.moim.id DESC
+		""")
+	List<MoimCurrentPeople> findAllByDarakbangMemberId(long darakbangMemberId);
 
+	@Query("""
+		SELECT new mouda.backend.moim.domain.MoimCurrentPeople(
+			c.moim.id,
+			COUNT(c)
+		)
+		FROM Chamyo c
+		WHERE c.moim IN :moims
+		GROUP BY c.moim
+		ORDER BY c.moim.id DESC
+		""")
+	List<MoimCurrentPeople> findAllByMoims(List<Moim> moims);
 }

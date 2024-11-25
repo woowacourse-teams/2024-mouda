@@ -23,8 +23,11 @@ import mouda.backend.darakbangmember.infrastructure.DarakbangMemberRepository;
 import mouda.backend.member.domain.Member;
 import mouda.backend.member.infrastructure.MemberRepository;
 import mouda.backend.moim.business.MoimService;
+import mouda.backend.moim.domain.Chamyo;
 import mouda.backend.moim.domain.Comment;
 import mouda.backend.moim.domain.Moim;
+import mouda.backend.moim.domain.MoimRole;
+import mouda.backend.moim.infrastructure.ChamyoRepository;
 import mouda.backend.moim.infrastructure.CommentRepository;
 import mouda.backend.moim.infrastructure.MoimRepository;
 import mouda.backend.moim.presentation.request.moim.MoimCreateRequest;
@@ -56,6 +59,8 @@ class MoimServiceTest {
 	private Darakbang mouda;
 	private DarakbangMember darakbangHogee;
 	private DarakbangMember moudaHogee;
+	@Autowired
+	private ChamyoRepository chamyoRepository;
 
 	@BeforeEach
 	void setUp() {
@@ -114,7 +119,8 @@ class MoimServiceTest {
 	@DisplayName("다락방별 모임을 조회한다.")
 	@Test
 	void success() {
-		moimRepository.save(MoimFixture.getBasketballMoim(darakbang.getId()));
+		Moim basketballMoim = moimRepository.save(MoimFixture.getBasketballMoim(darakbang.getId()));
+		chamyoRepository.save(new Chamyo(basketballMoim, darakbangHogee, MoimRole.MOIMER));
 
 		assertThat(moimService.findAllMoim(darakbang.getId(), darakbangHogee).moims()).hasSize(1);
 		assertThat(moimService.findAllMoim(mouda.getId(), moudaHogee).moims()).hasSize(0);

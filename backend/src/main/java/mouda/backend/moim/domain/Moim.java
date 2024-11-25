@@ -16,6 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mouda.backend.moim.exception.MoimErrorMessage;
@@ -25,6 +26,7 @@ import mouda.backend.moim.exception.MoimException;
 @Table(name = "moim")
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Moim {
 
 	private static final int TITLE_MAX_LENGTH = 30;
@@ -214,7 +216,6 @@ public class Moim {
 	public boolean isCompleted() {
 		return moimStatus == MoimStatus.COMPLETED;
 	}
-
 
 	public boolean isMoiming() {
 		return moimStatus == MoimStatus.MOIMING;

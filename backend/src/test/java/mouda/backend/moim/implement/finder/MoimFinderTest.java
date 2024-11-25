@@ -65,7 +65,9 @@ class MoimFinderTest extends DarakbangSetUp {
 	@Test
 	void readAll() {
 		Moim coffeeMoim = moimRepository.save(MoimFixture.getCoffeeMoim(darakbang.getId()));
+		chamyoRepository.save(new Chamyo(coffeeMoim, darakbangAnna, MoimRole.MOIMER));
 		Moim soccerMoim = moimRepository.save(MoimFixture.getSoccerMoim(darakbang.getId()));
+		chamyoRepository.save(new Chamyo(soccerMoim, darakbangAnna, MoimRole.MOIMER));
 
 		zzimRepository.save(Zzim.builder().moim(coffeeMoim).darakbangMember(darakbangHogee).build());
 
@@ -130,12 +132,13 @@ class MoimFinderTest extends DarakbangSetUp {
 		}
 	}
 
-
 	@DisplayName("내가 찜한 모임을 조회한다.")
 	@Test
 	void readAllZzimedMoim() {
 		Moim coffeeMoim = moimRepository.save(MoimFixture.getCoffeeMoim(darakbang.getId()));
+		chamyoRepository.save(new Chamyo(coffeeMoim, darakbangAnna, MoimRole.MOIMER));
 		Moim soccerMoim = moimRepository.save(MoimFixture.getSoccerMoim(darakbang.getId()));
+		chamyoRepository.save(new Chamyo(soccerMoim, darakbangAnna, MoimRole.MOIMER));
 
 		zzimRepository.save(Zzim.builder()
 			.moim(coffeeMoim)
