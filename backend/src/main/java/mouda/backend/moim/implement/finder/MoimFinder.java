@@ -1,8 +1,12 @@
 package mouda.backend.moim.implement.finder;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
+import mouda.backend.moim.infrastructure.dto.ChamyoCountResponse;
+import mouda.backend.moim.presentation.response.moim.MoimFindAllResponse;
+import mouda.backend.moim.presentation.response.moim.MoimFindAllResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +24,8 @@ import mouda.backend.moim.infrastructure.ChamyoRepository;
 import mouda.backend.moim.infrastructure.MoimRepository;
 import mouda.backend.moim.infrastructure.ZzimRepository;
 
+import static java.util.stream.Collectors.toMap;
+
 @Component
 @RequiredArgsConstructor
 public class MoimFinder {
@@ -28,9 +34,6 @@ public class MoimFinder {
 	private final ChamyoRepository chamyoRepository;
 	private final ZzimFinder zzimFinder;
 	private final ZzimRepository zzimRepository;
-	private final ChatRoomRepository chatRoomRepository;
-	private final ChatRoomFinder chatRoomFinder;
-	private final ChamyoFinder chamyoFinder;
 
 	public Moim read(long moimId, long currentDarakbangId) {
 		return moimRepository.findByIdAndDarakbangId(moimId, currentDarakbangId)
@@ -38,9 +41,22 @@ public class MoimFinder {
 	}
 
 	public List<MoimOverview> readAll(long darakbangId, DarakbangMember darakbangMember) {
-		return moimRepository.findAllByDarakbangIdOrderByIdDesc(darakbangId).stream()
-			.map(moim -> createMoimOverview(moim, darakbangMember))
-			.toList();
+		List<Moim> moims = moimRepository.findAllByDarakbangIdOrderByIdDesc(darakbangId);
+		List<Long> moimIds = moims.stream()
+				.map(Moim::getId)
+				.toList();
+		Map<Long, Integer> counts = chamyoRepository.countByMoimIds(moimIds)
+				.stream()
+				.collect(toMap(ChamyoCountResponse::getMoimId, ChamyoCountResponse::getCount));
+		List<Long> zzims = zzimRepository.findZzimedMoimByMoimIdsAndDarakbangMemberId(moimIds, darakbangMember.getId());
+
+		return moims.stream()
+				.map(moim -> {
+					int currentPeople = counts.getOrDefault(moim.getId(), 0);
+					boolean isZzimed = zzims.contains(moim.getId());
+					return new MoimOverview(moim, currentPeople, isZzimed);
+				})
+				.toList();
 	}
 
 	public List<MoimOverview> readAllMyMoim(DarakbangMember darakbangMember, FilterType filterType) {

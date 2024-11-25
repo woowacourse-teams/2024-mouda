@@ -1,8 +1,10 @@
 package mouda.backend.moim.infrastructure;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import mouda.backend.moim.infrastructure.dto.ChamyoCountResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -36,4 +38,8 @@ public interface ChamyoRepository extends JpaRepository<Chamyo, Long> {
 
 	@Query("SELECT c FROM Chamyo c WHERE c.moim.id = :moimId AND c.moimRole = 'MOIMER'")
 	Optional<Chamyo> findMoimerByMoimId(@Param("moimId") Long moimId);
+
+	@Query("SELECT new mouda.backend.moim.infrastructure.dto.ChamyoCountResponse(c.moim.id, COUNT(c))  FROM Chamyo c WHERE c.moim.id IN :moimIds GROUP BY c.moim.id")
+	List<ChamyoCountResponse> countByMoimIds(@Param("moimIds") List<Long> moimIds);
+
 }
